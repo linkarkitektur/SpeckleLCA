@@ -9,6 +9,8 @@ import {
   getStreamCommits,
 } from "@/speckleUtils";
 import router from "@/router";
+import { isEmpty } from "lodash";
+import { groupBy } from "./helper";
 
 Vue.use(Vuex);
 
@@ -19,12 +21,16 @@ export default new Vuex.Store({
     streamDetails: null,
     selectedCommit: null,
     allCommits: null,
+    allBranches: null,
+    branchAndCommits: null,
   },
   getters: {
     isAuthenticated: (state) => state.user != null,
     streamDetails: (state) => state.streamDetails,
     selectedCommit: (state) => state.selectedCommit,
     allCommits: (state) => state.allCommits,
+    allBranches: (state) => state.allBranches,
+    branchAndCommits: (state) => state.branchAndCommits,
   },
   mutations: {
     setUser(state, user) {
@@ -41,6 +47,12 @@ export default new Vuex.Store({
     },
     setAllCommits(state, data) {
       state.allCommits = data;
+    },
+    setAllBranches(state, data) {
+      state.allBranches = data;
+    },
+    setBranchAndCommits(state, data) {
+      state.branchAndCommits = data;
     },
   },
   actions: {
@@ -73,8 +85,34 @@ export default new Vuex.Store({
           data.limit,
           data.cursor
         );
+        const arr = res.data.stream?.commits?.items?.map((el) => {
+          return { id: el.id, text: el.message };
+        });
+        let groupedArr = {};
+        let branchArr = [];
+        let commitsArr = [];
+        if (
+          res.data.stream?.commits?.items &&
+          !isEmpty(res.data.stream?.commits?.items)
+        ) {
+          groupedArr = groupBy(res.data.stream?.commits?.items, "branchName");
+          branchArr = res.data.stream?.commits?.items?.map(function(el) {
+            return el?.branchName;
+          });
+        }
+        console.log(
+          "### arr",
+          [...new Set(branchArr)],
+          [...new Set(commitsArr)],
+          groupedArr,
+          arr,
+          res.data.stream?.commits
+        );
         context.commit("setStreamDetails", res.data.stream);
         context.commit("setCommit", res.data.stream.commits.items?.[0]);
+        context.commit("setAllCommits", arr);
+        context.commit("setAllBranches", [...new Set(branchArr)]);
+        context.commit("setBranchAndCommits", groupedArr);
       } catch (err) {
         console.error(err);
       }
