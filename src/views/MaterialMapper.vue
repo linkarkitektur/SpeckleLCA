@@ -1,8 +1,23 @@
 <template>
-  <v-row class="px-10 py-10">
-    <v-col lg="5" sm="12" xs="12">
+  <v-row class="justify-center py-5">
+    <v-col lg="8" sm="12" xs="12">
       <v-card max-height="800px" min-height="400px" outlined>
         <v-card-title>Material mapper</v-card-title>
+        <v-row>
+          <v-col lg="6" sm="12" xs="12"> </v-col>
+          <v-col lg="6" sm="12" xs="12" class="px-8">
+            <v-select
+              v-model="selectedMapper"
+              :items="savedMapperList"
+              item-text="text"
+              label="Select"
+              return-object
+              single-line
+              onchange="onMapperChange"
+            ></v-select>
+          </v-col>
+        </v-row>
+
         <div class="overflow-y-auto px-5 py-4">
           <v-container
             v-if="loading"
@@ -22,101 +37,147 @@
             </v-col>
             <v-col lg="5" sm="12" xs="12">
               <v-text-field
+                v-model="mapperData[name]['material']"
                 label="No Material Assigned"
                 solo
                 dense
               ></v-text-field>
             </v-col>
             <v-col lg="3" sm="12" xs="12">
-              <v-btn outlined text> Assign</v-btn>
+              <v-dialog v-model="dialog" width="900px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="primary" v-bind="attrs" v-on="on">
+                    Assign
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Assign Material</span>
+                  </v-card-title>
+                  <v-card
+                    max-height="800px"
+                    min-height="400px"
+                    outlined
+                    class="px-10 py-5"
+                  >
+                    <v-row>
+                      <v-col lg="12"
+                        ><v-text-field
+                          label="Search by keyword"
+                          solo
+                          dense
+                        ></v-text-field
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col lg="6"
+                        ><v-combobox
+                          label="Main material dropdown"
+                          hide-selected
+                          solo
+                        ></v-combobox
+                      ></v-col>
+                      <v-col lg="6"
+                        ><v-combobox
+                          label="Location dropdown"
+                          hide-selected
+                          solo
+                        ></v-combobox
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col lg="6"
+                        ><v-text-field
+                          label="Optional Filter 1"
+                          solo
+                          dense
+                        ></v-text-field
+                      ></v-col>
+                      <v-col lg="6"
+                        ><v-text-field
+                          label="Optional Filter 2"
+                          solo
+                          dense
+                        ></v-text-field
+                      ></v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col lg="8"></v-col>
+                      <v-col lg="4"
+                        ><v-btn outlined text class="float-right">
+                          Search</v-btn
+                        ></v-col
+                      >
+                    </v-row>
+
+                    <v-simple-table class="px-5">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th class="text-left">
+                              Project
+                            </th>
+                            <th class="text-left">
+                              Stream
+                            </th>
+                            <th class="text-left">
+                              Objects
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="item in categories" :key="item.stream">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.stream }}</td>
+                            <td>{{ item.calories }}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                    <v-row class="mt-5">
+                      <v-col lg="12"
+                        >Double click the row to assign the material to the
+                        group or click the assign button</v-col
+                      >
+                      <!-- <v-col lg="4"
+                        ><v-btn outlined text class="float-right"
+                          >Assign</v-btn
+                        ></v-col
+                      > -->
+                    </v-row>
+                  </v-card>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="dialog = false">
+                      Cancel
+                    </v-btn>
+
+                    <v-btn color="primary" @click="dialog = false">
+                      Assign
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-col>
           </v-row>
         </div>
         <v-card-actions class="mt-5">
           <v-row>
-            <v-col lg="8"
-              ><v-text-field label="Text" solo dense></v-text-field
+            <v-col lg="10"
+              ><v-text-field
+                label="Text"
+                solo
+                dense
+                v-model="mapperName"
+              ></v-text-field
             ></v-col>
-            <v-col lg="4"
-              ><v-btn color="primary" outlined text>
-                Save & Continue</v-btn
+            <v-col class="justify-end"
+              ><v-btn color="primary" outlined text @click="onSave">
+                Save</v-btn
               ></v-col
             >
           </v-row>
         </v-card-actions>
-      </v-card>
-    </v-col>
-    <v-col lg="7" sm="12" xs="12">
-      <v-card max-height="800px" min-height="400px" outlined class="px-5 py-5">
-        <v-row>
-          <v-col lg="12"
-            ><v-text-field label="Search by keyword" solo dense></v-text-field
-          ></v-col>
-        </v-row>
-        <v-row>
-          <v-col lg="6"
-            ><v-combobox
-              label="Main material dropdown"
-              hide-selected
-              solo
-            ></v-combobox
-          ></v-col>
-          <v-col lg="6"
-            ><v-combobox
-              label="Location dropdown"
-              hide-selected
-              solo
-            ></v-combobox
-          ></v-col>
-        </v-row>
-        <v-row>
-          <v-col lg="6"
-            ><v-text-field label="Optional Filter 1" solo dense></v-text-field
-          ></v-col>
-          <v-col lg="6"
-            ><v-text-field label="Optional Filter 2" solo dense></v-text-field
-          ></v-col>
-        </v-row>
-        <v-row>
-          <v-col lg="8"></v-col>
-          <v-col lg="4"
-            ><v-btn outlined text class="float-right"> Search</v-btn></v-col
-          >
-        </v-row>
-
-        <v-simple-table class="px-5">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">
-                  Project
-                </th>
-                <th class="text-left">
-                  Stream
-                </th>
-                <th class="text-left">
-                  Objects
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in categories" :key="item.stream">
-                <td>{{ item.name }}</td>
-                <td>{{ item.stream }}</td>
-                <td>{{ item.calories }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-        <v-row class="mt-5">
-          <v-col lg="8"
-            >Double click the row to assign the material to the group or click
-            the assign button</v-col
-          >
-          <v-col lg="4"
-            ><v-btn outlined text class="float-right">Assign</v-btn></v-col
-          >
-        </v-row>
       </v-card>
     </v-col>
   </v-row>
@@ -124,7 +185,7 @@
 
 <script>
 import ObjectLoader from "@speckle/objectloader";
-import { TOKEN } from "@/speckleUtils";
+import { TOKEN, getStreamObject } from "@/speckleUtils";
 
 export default {
   name: "MaterialMapper",
@@ -132,6 +193,8 @@ export default {
   props: ["info"],
   data() {
     return {
+      dialog: false,
+      selectedMapper: {},
       categoryList: {},
       loader: null,
       stream: null,
@@ -143,34 +206,12 @@ export default {
         families: 0,
         types: 0,
       },
-      loading: true,
-      categories: [
-        {
-          name: "Main",
-          stream: "Stream 1",
-          calories: 159,
-        },
-        {
-          name: "Project LCA",
-          stream: "Stream 2",
-          calories: 237,
-        },
-        {
-          name: "Main",
-          stream: "Stream 3",
-          calories: 262,
-        },
-        {
-          name: "Main",
-          stream: "Stream 4",
-          calories: 237,
-        },
-        {
-          name: "Main",
-          stream: "Stream 5",
-          calories: 262,
-        },
-      ],
+      loading: false,
+      categories: [],
+      mapperData: {},
+      defaultMapper: {},
+      savedMapperList: [],
+      mapperName: "",
     };
   },
   computed: {
@@ -182,6 +223,7 @@ export default {
     },
   },
   async mounted() {
+    console.log("### mounted", this.$route);
     if (this.streamId) {
       this.getStream();
     }
@@ -202,8 +244,30 @@ export default {
         this.processStreamObjects();
       },
     },
+    selectedMapper: {
+      handler: function(val) {
+        this.onMapperChange(val);
+      },
+    },
   },
   methods: {
+    onMapperChange(event) {
+      console.log("### event", event, this.mapperData);
+      this.mapperData = event.data;
+    },
+    onSave() {
+      this.savedMapperList.push({
+        text: this.mapperName,
+        data: { ...this.mapperData },
+      });
+      console.log("### mapperData", this.mapperData, this.savedMapperList);
+      setTimeout(() => {
+        for (let key in this.mapperData) {
+          this.mapperData[key] = {};
+        }
+        this.mapperName = "";
+      });
+    },
     async getStream() {
       this.$store.dispatch("getStreamAction", {
         streamId: this.streamId,
@@ -213,13 +277,18 @@ export default {
     },
 
     async processStreamObjects() {
+      this.loading = true;
       this.loader = new ObjectLoader({
         serverUrl: process.env.VUE_APP_SERVER_URL,
         streamId: this.$route.params.id,
-        objectId: this.selectedCommit.referencedObject,
+        objectId: this.$route.params.objectId,
         token: localStorage.getItem(TOKEN),
       });
-      console.log("### this.loader", this.loader);
+      var res = await getStreamObject(
+        this.$route.params.id,
+        this.selectedCommit.referencedObject
+      );
+      console.log("### this.loader", res, this.loader);
 
       // Initialize placeholders
       const newCategoryMap = {};
@@ -228,11 +297,13 @@ export default {
         // Get all types in the document
         if (obj.speckle_type.endsWith("FamilyInstance")) {
           newCategoryMap[obj.category] = obj; // Map type to category
+          this.mapperData[obj.category] = {};
         }
       }
 
       console.log("### catsPerLevel", newCategoryMap);
       this.categoryList = newCategoryMap;
+      this.defaultMapper = this.mapperData;
       this.loading = false;
     },
   },

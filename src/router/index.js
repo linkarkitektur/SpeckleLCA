@@ -40,7 +40,7 @@ const routes = [
     },
   },
   {
-    path: "/material/:id",
+    path: "/material/:id/:objectId",
     name: "MaterialMapper",
     component: MaterialMapper,
     meta: {

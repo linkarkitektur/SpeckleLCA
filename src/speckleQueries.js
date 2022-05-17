@@ -69,6 +69,37 @@ export const streamSearchQuery = `
     }
   }`;
 
+export const actReportBranchInfo = (id) => {
+  return `query {
+    stream(id: "${id}") {
+      name
+      branch(name: "actcarbonreport") {
+      commits {
+        items {
+          authorName
+          createdAt
+          referencedObject
+        }
+      }
+    }
+    }
+  }`;
+};
+
+export const streamsDataQuery = (streamId, objId) => `query {
+  stream(id: "${streamId}") {
+    object(id: "${objId}") {
+      data,
+      createdAt,
+        children {
+          objects {
+            data
+          }
+        }
+      }
+    }
+  }`;
+
 export const streamObjectQuery = `query($streamId: String!, $objectId: String!) {
     stream(id: $streamId){
         object(id: $objectId){

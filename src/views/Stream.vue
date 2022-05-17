@@ -54,6 +54,9 @@ export default {
     selectedCommit() {
       return this.$store.getters.selectedCommit;
     },
+    allCommits() {
+      return this.$store.getters.allCommits;
+    },
   },
   methods: {
     async getStream() {
