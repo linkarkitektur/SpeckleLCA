@@ -85,8 +85,8 @@ export default new Vuex.Store({
           data.limit,
           data.cursor
         );
-        const arr = res.data.stream?.commits?.items?.map((el) => {
-          return { id: el.id, text: el.message };
+        const arr = res.data.stream?.commits?.items?.map((el, key) => {
+          return { id: el.id, text: el?.message ?? "Commit " + key };
         });
         let groupedArr = {};
         let branchArr = [];
