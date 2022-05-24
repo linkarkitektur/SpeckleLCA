@@ -50,9 +50,6 @@
                     Category
                   </th>
                   <th id="2" class="text-left">
-                    Family
-                  </th>
-                  <th id="3" class="text-left">
                     Children Count
                   </th>
                 </tr>
@@ -60,7 +57,6 @@
               <tbody>
                 <tr v-for="item in categories" :key="item.id">
                   <td>{{ item.category }}</td>
-                  <td>{{ item.family }}</td>
                   <td>{{ item.children }}</td>
                 </tr>
               </tbody>
@@ -70,9 +66,43 @@
         </v-card>
       </v-col>
       <v-col lg="6" sm="12" xs="12">
-        <v-card max-height="500px" min-height="400px" outlined>
+        <v-data-table
+          :headers="headers"
+          :items="categories"
+          :expanded.sync="expanded"
+          show-expand
+          item-key="name"
+        >
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length" class="pl-0 pr-0 rounded-0">
+              <v-simple-table class="flex-1">
+                <template v-slot:default>
+                  <!-- <thead>
+                    <tr>
+                      <th id="0" class="text-left"></th>
+                      <th id="1" class="text-left">
+                        Category
+                      </th>
+                      <th id="3" class="text-left">
+                        Children Count
+                      </th>
+                    </tr>
+                  </thead> -->
+                  <tbody>
+                    <tr v-for="data in item.child" :key="data.name">
+                      <td style="width:55px"></td>
+                      <td style="width:58.5%">{{ data.name }}</td>
+                      <td>{{ data.calories }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </td>
+          </template>
+        </v-data-table>
+        <!-- <v-card max-height="500px" min-height="400px" outlined>
           <v-card-title>Graph</v-card-title>
-        </v-card>
+        </v-card> -->
       </v-col>
       <v-col cols="12">
         <v-card max-height="400px" min-height="400px" outlined>
@@ -85,8 +115,7 @@
 
 <script>
 import { isEmpty } from "lodash";
-import ObjectLoader from "@speckle/objectloader";
-import { TOKEN, getStreamObject } from "@/speckleUtils";
+import { getStreamObject } from "@/speckleUtils";
 
 export default {
   name: "Dashboard",
@@ -101,6 +130,16 @@ export default {
       commits: [],
       categories: [],
       commitDetails: {},
+      expanded: [],
+      headers: [
+        {
+          text: "Categories",
+          align: "left",
+          filterable: false,
+          value: "category",
+        },
+        { text: "Children Count", value: "children" },
+      ],
     };
   },
   computed: {
@@ -139,16 +178,12 @@ export default {
             // this.categories.push(el);
           }
         });
+        this.commitDetails = this.branchAndCommits[this.selectedBranch][0];
         // console.log("###this.categories", this.categories);
       }
     },
     changeCommits: function(event) {
       this.selectedCommit = event;
-      console.log(
-        "### this.branchAndCommits[event]",
-        this.branchAndCommits[this.selectedBranch],
-        event
-      );
       this.commitDetails = this.branchAndCommits[this.selectedBranch].find(
         (el) => el.message === event
       );
@@ -158,39 +193,23 @@ export default {
     },
     async processStreamObjects(objectId) {
       this.loading = true;
-      this.loader = new ObjectLoader({
-        serverUrl: process.env.VUE_APP_SERVER_URL,
-        streamId: this.$route.params.id,
-        objectId: objectId,
-        token: localStorage.getItem(TOKEN),
-      });
-      console.log(
-        "###  this.loader",
-        this.loader,
-        this.loader.getObjectIterator()
-      );
-      // Initialize placeholders
-      const newCategoryMap = {};
+
+      let res = await getStreamObject(this.$route.params.id, objectId);
+      console.log("### getStreamObject", res);
       this.categories = [];
-      for await (let obj of this.loader.getObjectIterator()) {
-        // Get all types in the document
-        if (
-          obj.speckle_type.endsWith("FamilyInstance") &&
-          !newCategoryMap[obj.category]
-        ) {
-          // console.log("### obj 1244", obj);
-          newCategoryMap[obj.category] = obj; // Map type to category
+      let i = 1;
+      for (let category in res) {
+        if (category?.includes("@")) {
           this.categories.push({
-            id: obj.id,
-            category: obj.category,
-            family: obj.family,
-            children: obj.totalChildrenCount,
+            id: i,
+            category: category?.replace("@", ""),
+            children: res[category].length,
           });
+          i++;
         }
       }
 
-      console.log("### catsPerLevel", newCategoryMap);
-      this.categoryList = newCategoryMap;
+      console.log("### catsPerLevel", this.categories);
       this.loading = false;
     },
   },

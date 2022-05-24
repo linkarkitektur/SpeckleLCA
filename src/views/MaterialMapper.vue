@@ -17,7 +17,21 @@
             ></v-select>
           </v-col>
         </v-row>
-
+        <v-row>
+          <v-col lg="10" class="pl-10"
+            ><v-text-field
+              label="Text"
+              solo
+              dense
+              v-model="mapperName"
+            ></v-text-field
+          ></v-col>
+          <v-col lg="2" class="d-flex flex-1" style="width:90%"
+            ><v-btn color="primary" outlined text @click="onSave">
+              Save</v-btn
+            ></v-col
+          >
+        </v-row>
         <div class="overflow-y-auto px-5 py-4">
           <v-container
             v-if="loading"
@@ -31,8 +45,13 @@
             ></v-progress-circular>
             <p class="body-2 mt-2 primary--text">Loading...</p>
           </v-container>
-          <v-row v-for="(value, name, index) in categoryList" :key="index">
-            <v-col lg="4" sm="12" xs="12">
+          <v-row
+            v-for="(value, name, index) in categoryList"
+            :key="index"
+            class="d-flex justify-center"
+          >
+            <v-col lg="1" sm="12" xs="12"> </v-col>
+            <v-col lg="2" sm="12" xs="12">
               {{ name }}
             </v-col>
             <v-col lg="5" sm="12" xs="12">
@@ -44,7 +63,15 @@
               ></v-text-field>
             </v-col>
             <v-col lg="3" sm="12" xs="12">
-              <v-dialog v-model="dialog" width="900px">
+              <v-dialog
+                v-model="dialog"
+                overlay-opacity="4"
+                :retain-focus="false"
+                overlay-color="black"
+                hide-overlay
+                light
+                width="900px"
+              >
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn color="primary" v-bind="attrs" v-on="on">
                     Assign
@@ -161,23 +188,6 @@
             </v-col>
           </v-row>
         </div>
-        <v-card-actions class="mt-5">
-          <v-row>
-            <v-col lg="10"
-              ><v-text-field
-                label="Text"
-                solo
-                dense
-                v-model="mapperName"
-              ></v-text-field
-            ></v-col>
-            <v-col class="justify-end"
-              ><v-btn color="primary" outlined text @click="onSave">
-                Save</v-btn
-              ></v-col
-            >
-          </v-row>
-        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
@@ -262,13 +272,14 @@ export default {
       });
       console.log("### mapperData", this.mapperData, this.savedMapperList);
       setTimeout(() => {
-        for (let key in this.mapperData) {
-          this.mapperData[key] = {};
-        }
+        // for (let key in this.mapperData) {
+        //   this.mapperData[key] = {};
+        // }
         this.mapperName = "";
       });
     },
     async getStream() {
+      console.log("### Mapper getStream", this.streamId);
       this.$store.dispatch("getStreamAction", {
         streamId: this.streamId,
         limit: 1,
