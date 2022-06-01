@@ -66,7 +66,7 @@
         </v-card>
       </v-col>
       <v-col lg="6" sm="12" xs="12">
-        <v-data-table
+        <!-- <v-data-table
           :headers="headers"
           :items="categories"
           :expanded.sync="expanded"
@@ -77,17 +77,6 @@
             <td :colspan="headers.length" class="pl-0 pr-0 rounded-0">
               <v-simple-table class="flex-1">
                 <template v-slot:default>
-                  <!-- <thead>
-                    <tr>
-                      <th id="0" class="text-left"></th>
-                      <th id="1" class="text-left">
-                        Category
-                      </th>
-                      <th id="3" class="text-left">
-                        Children Count
-                      </th>
-                    </tr>
-                  </thead> -->
                   <tbody>
                     <tr v-for="data in item.child" :key="data.name">
                       <td style="width:55px"></td>
@@ -99,10 +88,10 @@
               </v-simple-table>
             </td>
           </template>
-        </v-data-table>
-        <!-- <v-card max-height="500px" min-height="400px" outlined>
+        </v-data-table> -->
+        <v-card max-height="500px" min-height="400px" outlined>
           <v-card-title>Graph</v-card-title>
-        </v-card> -->
+        </v-card>
       </v-col>
       <v-col cols="12">
         <v-card max-height="400px" min-height="400px" outlined>
@@ -144,7 +133,7 @@ export default {
   },
   computed: {
     branches() {
-      return this.$store.getters.allBranches;
+      return this.$store.getters.allBranches ?? [];
     },
     branchAndCommits() {
       return this.$store.getters.branchAndCommits;
@@ -173,13 +162,12 @@ export default {
         !isEmpty(this.branchAndCommits[event])
       ) {
         this.branchAndCommits[event]?.forEach((el) => {
-          if (!el?.message?.toLowerCase().includes("objects")) {
+          if (!el?.message?.toLowerCase().includes("objects") && el?.message) {
             this.commits.push(el?.message);
-            // this.categories.push(el);
           }
         });
         this.commitDetails = this.branchAndCommits[this.selectedBranch][0];
-        // console.log("###this.categories", this.categories);
+        console.log("### this.commits", this.commits);
       }
     },
     changeCommits: function(event) {
