@@ -60,25 +60,12 @@ export default {
   },
   methods: {
     async getStream() {
-      console.log("### Stream getStream", this.streamId);
+      console.log("### Stream getStream", this.streamId, this.resourceList);
       this.$store.dispatch("getStreamAction", {
         streamId: this.streamId,
         limit: 1,
         cursor: null,
       });
-      // var res = await fetch(
-      //   `https://www.oneclicklcaapp.com/app/api/getResourceLibrary?dataCategory=fullResourceList&securityToken=Vs2cmN10eZq6iMGcXlre`,
-      //   {
-      //     method: "GET",
-      //     mode: "cors",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "Access-Control-Allow-Origin": "*",
-      //       "Access-Control-Allow-Methods": "GET,POST,PATCH,OPTIONS",
-      //     },
-      //   }
-      // );
-      // console.log("### res", res);
     },
   },
   watch: {

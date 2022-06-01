@@ -1,37 +1,69 @@
 <template>
   <v-row class="justify-center py-5">
     <v-col lg="8" sm="12" xs="12">
-      <v-card max-height="800px" min-height="400px" outlined>
+      <v-card max-height="90vh" min-height="400px" outlined>
         <v-card-title>Material mapper</v-card-title>
         <v-row>
-          <v-col lg="6" sm="12" xs="12"> </v-col>
-          <v-col lg="6" sm="12" xs="12" class="px-8">
+          <v-col lg="6" sm="12" xs="12" class="px-10">
             <v-select
               v-model="selectedMapper"
               :items="savedMapperList"
               item-text="text"
-              label="Select"
+              label="Select Saved Mapper"
               return-object
               single-line
               onchange="onMapperChange"
             ></v-select>
           </v-col>
+          <v-col lg="6" sm="12" xs="12" class="px-8 ">
+            <v-dialog v-model="dialogMapper" persistent max-width="600px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  class="float-right mt-2"
+                  outlined
+                  text
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  Save Current Mapping</v-btn
+                >
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">Mapper Name</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="Mapper name"
+                          required
+                          v-model="mapperName"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="dialogMapper = false"
+                  >
+                    Close
+                  </v-btn>
+                  <v-btn color="blue darken-1" text @click="onSave">
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
         </v-row>
-        <v-row>
-          <v-col lg="10" class="pl-10"
-            ><v-text-field
-              label="Text"
-              solo
-              dense
-              v-model="mapperName"
-            ></v-text-field
-          ></v-col>
-          <v-col lg="2" class="d-flex flex-1" style="width:90%"
-            ><v-btn color="primary" outlined text @click="onSave">
-              Save</v-btn
-            ></v-col
-          >
-        </v-row>
+
         <div class="overflow-y-auto px-5 py-4">
           <v-container
             v-if="loading"
@@ -46,23 +78,38 @@
             <p class="body-2 mt-2 primary--text">Loading...</p>
           </v-container>
           <v-row
-            v-for="(value, name, index) in categoryList"
-            :key="index"
+            v-for="item in categories"
+            :key="item.id"
             class="d-flex justify-center"
           >
             <v-col lg="1" sm="12" xs="12"> </v-col>
             <v-col lg="2" sm="12" xs="12">
-              {{ name }}
+              {{ item.category }}
             </v-col>
             <v-col lg="5" sm="12" xs="12">
-              <v-text-field
-                v-model="mapperData[name]['material']"
-                label="No Material Assigned"
-                solo
-                dense
-              ></v-text-field>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-bind="attrs"
+                    v-on="on"
+                    v-model="
+                      currentCategoryMapper[item.category]['staticFullName']
+                    "
+                    label="No Material Assigned"
+                    readonly
+                    solo
+                    dense
+                  ></v-text-field>
+                </template>
+                <span class="tooltip">{{
+                  currentCategoryMapper[item.category]["staticFullName"]
+                }}</span>
+              </v-tooltip>
             </v-col>
             <v-col lg="3" sm="12" xs="12">
+              <v-btn color="primary" @click="openAssignMaterial(item.category)">
+                Assign
+              </v-btn>
               <v-dialog
                 v-model="dialog"
                 overlay-opacity="4"
@@ -70,13 +117,8 @@
                 overlay-color="black"
                 hide-overlay
                 light
-                width="900px"
+                width="80vw"
               >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary" v-bind="attrs" v-on="on">
-                    Assign
-                  </v-btn>
-                </template>
                 <v-card>
                   <v-card-title>
                     <span class="text-h5">Assign Material</span>
@@ -93,93 +135,100 @@
                           label="Search by keyword"
                           solo
                           dense
+                          v-model="filterData.keyword"
                         ></v-text-field
                       ></v-col>
                     </v-row>
                     <v-row>
                       <v-col lg="6"
                         ><v-combobox
-                          label="Main material dropdown"
+                          label="Resource SubType"
+                          :items="subTypes"
                           hide-selected
                           solo
+                          dense
+                          v-model="filterData.subType"
+                          clearable
                         ></v-combobox
                       ></v-col>
                       <v-col lg="6"
                         ><v-combobox
-                          label="Location dropdown"
+                          label="Areas"
+                          :items="areasObj[filterData.subType]"
                           hide-selected
                           solo
+                          dense
+                          v-model="filterData.area"
                         ></v-combobox
                       ></v-col>
                     </v-row>
                     <v-row>
                       <v-col lg="6"
-                        ><v-text-field
-                          label="Optional Filter 1"
+                        ><v-combobox
+                          label="Is Multipart"
+                          :items="multiPart"
+                          hide-selected
                           solo
                           dense
-                        ></v-text-field
+                          v-model="filterData.multipart"
+                        ></v-combobox
                       ></v-col>
                       <v-col lg="6"
-                        ><v-text-field
-                          label="Optional Filter 2"
-                          solo
+                        ><v-btn
+                          outlined
+                          text
                           dense
-                        ></v-text-field
-                      ></v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col lg="8"></v-col>
-                      <v-col lg="4"
-                        ><v-btn outlined text class="float-right">
+                          class="float-right"
+                          @click="onSearch"
+                        >
                           Search</v-btn
                         ></v-col
                       >
                     </v-row>
 
-                    <v-simple-table class="px-5">
-                      <template v-slot:default>
-                        <thead>
-                          <tr>
-                            <th class="text-left">
-                              Project
-                            </th>
-                            <th class="text-left">
-                              Stream
-                            </th>
-                            <th class="text-left">
-                              Objects
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="item in categories" :key="item.stream">
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.stream }}</td>
-                            <td>{{ item.calories }}</td>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                    <v-row class="mt-5">
-                      <v-col lg="12"
-                        >Double click the row to assign the material to the
-                        group or click the assign button</v-col
-                      >
-                      <!-- <v-col lg="4"
-                        ><v-btn outlined text class="float-right"
-                          >Assign</v-btn
-                        ></v-col
-                      > -->
+                    <v-row>
+                      <v-col lg="12">
+                        <v-data-table
+                          height="38vh"
+                          v-model="selected"
+                          show-select
+                          :single-select="singleSelect"
+                          :headers="headers"
+                          :items="filteredList"
+                          item-key="_id"
+                        >
+                          <template #item.searchString="{ item }">
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <div
+                                  class="text-truncate"
+                                  style="max-width: 130px;"
+                                  v-bind="attrs"
+                                  v-on="on"
+                                >
+                                  {{ item.searchString }}
+                                </div>
+                              </template>
+                              <span class="tooltip">{{
+                                item.searchString
+                              }}</span>
+                            </v-tooltip>
+                          </template>
+                        </v-data-table>
+                      </v-col>
                     </v-row>
                   </v-card>
                   <v-card-actions>
+                    <span
+                      >Double click the row to assign the material to the group
+                      or click the assign button</span
+                    >
                     <v-spacer></v-spacer>
                     <v-btn @click="dialog = false">
                       Cancel
                     </v-btn>
 
-                    <v-btn color="primary" @click="dialog = false">
+                    <v-btn color="primary" @click="materialAssign">
                       Assign
                     </v-btn>
                   </v-card-actions>
@@ -194,8 +243,8 @@
 </template>
 
 <script>
-import ObjectLoader from "@speckle/objectloader";
-import { TOKEN, getStreamObject } from "@/speckleUtils";
+import { getStreamObject } from "@/speckleUtils";
+import json from "../../resource_dump.json";
 
 export default {
   name: "MaterialMapper",
@@ -204,24 +253,46 @@ export default {
   data() {
     return {
       dialog: false,
+      dialogMapper: false,
       selectedMapper: {},
       categoryList: {},
       loader: null,
       stream: null,
       objectId: null,
-      totals: {
-        levels: 0,
-        elements: 0,
-        views: 0,
-        families: 0,
-        types: 0,
-      },
       loading: false,
       categories: [],
-      mapperData: {},
-      defaultMapper: {},
       savedMapperList: [],
       mapperName: "",
+      resourceList: json,
+      areas: [],
+      areasObj: {},
+      subTypes: [],
+      multiPart: ["True", "False", "Both"],
+      filteredList: [],
+      filterData: {
+        keyword: "",
+        subType: "",
+        area: "",
+        multipart: "",
+      },
+      selected: [],
+      singleSelect: true,
+      headers: [
+        {
+          text: "ID",
+          align: "left",
+          filterable: false,
+          value: "_id",
+        },
+        { text: "Search String", value: "searchString" },
+        { text: "Resource SubType", value: "resourceSubType" },
+        { text: "Is Multipart", value: "isMultiPart" },
+        { text: "Area", value: "area" },
+        { text: "Epd Program", value: "epdProgram" },
+      ],
+      categoryMapper: {},
+      currentCategoryMapper: {},
+      selectedcategory: "",
     };
   },
   computed: {
@@ -233,9 +304,25 @@ export default {
     },
   },
   async mounted() {
-    console.log("### mounted", this.$route);
     if (this.streamId) {
       this.getStream();
+    }
+    if (this.resourceList && this.resourceList?.resources) {
+      this.resourceList?.resources?.forEach((el) => {
+        if (!this.subTypes.includes(el.resourceSubType) && el.resourceSubType) {
+          this.subTypes.push(el.resourceSubType);
+        }
+        if (!this.areasObj[el.resourceSubType]) {
+          this.areasObj[el.resourceSubType] = [];
+        }
+        if (
+          this.areasObj[el.resourceSubType] &&
+          !this.areasObj[el.resourceSubType].includes(el.area) &&
+          el.area
+        ) {
+          this.areasObj[el.resourceSubType].push(el.area);
+        }
+      });
     }
   },
   watch: {
@@ -261,25 +348,65 @@ export default {
     },
   },
   methods: {
+    openAssignMaterial(category) {
+      this.dialog = true;
+      this.categoryMapper[category] = { staticFullName: "" };
+      this.selectedcategory = category;
+    },
+    materialAssign() {
+      this.categoryMapper[this.selectedcategory] = { ...this.selected?.[0] };
+      this.currentCategoryMapper[this.selectedcategory] = {
+        ...this.selected?.[0],
+      };
+      this.dialog = false;
+    },
+    onSearch() {
+      const multipart =
+        this.filterData?.multipart === "True"
+          ? true
+          : this.filterData?.multipart === "False"
+          ? false
+          : "Both";
+
+      this.filteredList = this.resourceList?.resources?.filter(
+        (el) =>
+          el.area === this.filterData?.area &&
+          (el?.searchString?.includes(this.filterData?.keyword) ||
+            el?.resourceSubType?.includes(this.filterData?.keyword) ||
+            el?._id?.includes(this.filterData?.keyword)) &&
+          el.resourceSubType === this.filterData?.subType &&
+          ((multipart === "Both" &&
+            (el.isMultiPart === true || el.isMultiPart === false)) ||
+            (multipart !== "Both" && el.isMultiPart === multipart))
+      );
+    },
     onMapperChange(event) {
-      console.log("### event", event, this.mapperData);
-      this.mapperData = event.data;
+      this.mapperName = event.text;
+      console.log("### event", event, this.categoryMapper);
+      const i = this.savedMapperList.findIndex(
+        (_element) => _element.text === this.mapperName
+      );
+      if (i > -1) {
+        this.currentCategoryMapper = this.savedMapperList[i]?.data;
+      } else {
+        this.currentCategoryMapper = { ...this.categoryMapper };
+      }
+      console.log("### this.savedMapperList", this.savedMapperList);
     },
     onSave() {
-      this.savedMapperList.push({
-        text: this.mapperName,
-        data: { ...this.mapperData },
-      });
-      console.log("### mapperData", this.mapperData, this.savedMapperList);
-      setTimeout(() => {
-        // for (let key in this.mapperData) {
-        //   this.mapperData[key] = {};
-        // }
-        this.mapperName = "";
-      });
+      const i = this.savedMapperList.findIndex(
+        (_element) => _element.text === this.mapperName
+      );
+      if (i > -1) this.savedMapperList[i] = { ...this.categoryMapper };
+      else
+        this.savedMapperList.push({
+          text: this.mapperName,
+          data: { ...this.categoryMapper },
+        });
+      console.log("### this.savedMapperList", this.savedMapperList);
+      this.dialogMapper = false;
     },
     async getStream() {
-      console.log("### Mapper getStream", this.streamId);
       this.$store.dispatch("getStreamAction", {
         streamId: this.streamId,
         limit: 1,
@@ -289,39 +416,38 @@ export default {
 
     async processStreamObjects() {
       this.loading = true;
-      this.loader = new ObjectLoader({
-        serverUrl: process.env.VUE_APP_SERVER_URL,
-        streamId: this.$route.params.id,
-        objectId: this.$route.params.objectId,
-        token: localStorage.getItem(TOKEN),
-      });
-      var res = await getStreamObject(
+
+      let res = await getStreamObject(
         this.$route.params.id,
-        this.selectedCommit.referencedObject
+        this.$route.params.objectId
       );
-      console.log("### this.loader", res, this.loader);
-
-      // Initialize placeholders
-      const newCategoryMap = {};
-
-      for await (let obj of this.loader.getObjectIterator()) {
-        // Get all types in the document
-        if (obj.speckle_type.endsWith("FamilyInstance")) {
-          newCategoryMap[obj.category] = obj; // Map type to category
-          this.mapperData[obj.category] = {};
+      this.categories = [];
+      let i = 1;
+      for (let category in res) {
+        if (category?.includes("@")) {
+          const cat = category?.replace("@", "");
+          this.categories.push({
+            id: i,
+            category: cat,
+            children: res[category].length,
+          });
+          this.categoryMapper[cat] = { staticFullName: "" };
+          this.currentCategoryMapper[cat] = { staticFullName: "" };
+          i++;
         }
       }
 
-      console.log("### catsPerLevel", newCategoryMap);
-      this.categoryList = newCategoryMap;
-      this.defaultMapper = this.mapperData;
       this.loading = false;
     },
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.tooltip {
+  width: 100px;
+  word-wrap: break-word;
+}
 .scroll-box {
   overflow: scroll;
   padding: 1em;
