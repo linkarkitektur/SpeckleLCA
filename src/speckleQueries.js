@@ -107,6 +107,14 @@ export const streamObjectQuery = `query($streamId: String!, $objectId: String!) 
             id
             speckleType
             data
+            children(select:["speckle_type","type", "family", "category", "level.name", "level.elevation", "level.id"] limit:1000000){
+              totalCount
+              cursor
+              objects{
+                id
+                data
+              }
+            }
         }
     }
 }`;
