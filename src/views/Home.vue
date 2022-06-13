@@ -49,6 +49,8 @@ export default {
   },
   async mounted() {
     this.streams = await getStreams();
+    localStorage.setItem("branch", "");
+    localStorage.setItem("commit", "");
   },
   methods: {},
 };

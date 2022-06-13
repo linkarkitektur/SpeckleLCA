@@ -6,6 +6,7 @@
           :items="branches"
           label="Branch"
           v-on:change="changeBranch"
+          v-model="selectedBranch"
         ></v-select>
       </v-col>
       <v-col cols="6"
@@ -13,6 +14,7 @@
           :items="commits"
           label="Commit"
           v-on:change="changeCommits"
+          v-model="selectedCommit"
         ></v-select
       ></v-col>
     </v-row>
@@ -110,8 +112,6 @@ export default {
   name: "Dashboard",
   components: {},
   props: ["streamId", "objectId", "info", "stream"],
-  selectedBranch: "",
-  selectedCommit: "",
   data() {
     return {
       loader: null,
@@ -120,6 +120,8 @@ export default {
       categories: [],
       commitDetails: {},
       expanded: [],
+      selectedBranch: "",
+      selectedCommit: "",
       headers: [
         {
           text: "Categories",
@@ -141,8 +143,19 @@ export default {
   },
   async mounted() {
     this.$emit("loaded", true);
+    console.log("### branches val", this.branches);
+    if (this.branches?.includes(localStorage.getItem("branch"))) {
+      this.selectedBranch = localStorage.getItem("branch");
+      this.changeBranch(localStorage.getItem("branch"));
+    }
   },
-  watch: {},
+  watch: {
+    branchAndCommits: function(val) {
+      if (val && localStorage.getItem("branch")) {
+        this.changeBranch(localStorage.getItem("branch"));
+      }
+    },
+  },
   methods: {
     navigateToMapper: function() {
       if (this.stream.id && this.commitDetails?.referencedObject) {
@@ -152,6 +165,7 @@ export default {
       }
     },
     changeBranch: function(event) {
+      localStorage.setItem("branch", event);
       this.selectedBranch = event;
       console.log(
         "#### this.branchAndCommits[event]",
@@ -167,10 +181,15 @@ export default {
           }
         });
         this.commitDetails = this.branchAndCommits[this.selectedBranch][0];
+        if (this.commits?.includes(localStorage.getItem("commit"))) {
+          this.selectedCommit = localStorage.getItem("commit");
+          this.changeCommits(localStorage.getItem("commit"));
+        }
         console.log("### this.commits", this.commits);
       }
     },
     changeCommits: function(event) {
+      localStorage.setItem("commit", event);
       this.selectedCommit = event;
       this.commitDetails = this.branchAndCommits[this.selectedBranch].find(
         (el) => el.message === event
