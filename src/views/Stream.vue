@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     async getStream() {
-      console.log("### Stream getStream", this.streamId, this.resourceList);
       this.$store.dispatch("getStreamAction", {
         streamId: this.streamId,
         limit: 1,
