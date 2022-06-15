@@ -143,7 +143,6 @@ export default {
   },
   async mounted() {
     this.$emit("loaded", true);
-    console.log("### branches val", this.branches);
     if (this.branches?.includes(localStorage.getItem("branch"))) {
       this.selectedBranch = localStorage.getItem("branch");
       this.changeBranch(localStorage.getItem("branch"));
@@ -167,10 +166,7 @@ export default {
     changeBranch: function(event) {
       localStorage.setItem("branch", event);
       this.selectedBranch = event;
-      console.log(
-        "#### this.branchAndCommits[event]",
-        this.branchAndCommits[event]
-      );
+      this.commits = [];
       if (
         this.branchAndCommits[event] &&
         !isEmpty(this.branchAndCommits[event])
@@ -185,7 +181,6 @@ export default {
           this.selectedCommit = localStorage.getItem("commit");
           this.changeCommits(localStorage.getItem("commit"));
         }
-        console.log("### this.commits", this.commits);
       }
     },
     changeCommits: function(event) {
@@ -202,7 +197,6 @@ export default {
       this.loading = true;
 
       let res = await getStreamObject(this.$route.params.id, objectId);
-      console.log("### getStreamObject", res);
       this.categories = [];
       let i = 1;
       for (let category in res) {
@@ -216,7 +210,6 @@ export default {
         }
       }
 
-      console.log("### catsPerLevel", this.categories);
       this.loading = false;
     },
   },

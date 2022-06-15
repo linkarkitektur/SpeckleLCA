@@ -1,97 +1,88 @@
 <template>
-  <v-row class="justify-center py-5">
+  <v-row class="justify-center py-5 px-5">
     <v-col lg="5" sm="12" xs="12">
-      <v-card max-height="87vh" min-height="400px" outlined>
+      <v-card max-height="87vh" min-height="87vh" outlined>
         <v-card-title>Material mapper</v-card-title>
-        <v-row>
-          <v-col lg="6" sm="12" xs="12" class="px-10">
-            <v-combobox
-              v-model="model"
-              :items="items"
-              hide-selected
-              label="Select Mapper"
-            >
-              <template v-slot:item="{ item }">
-                {{ item.text }}
-                <v-spacer></v-spacer>
-                <v-list-item-action @click.stop>
-                  <v-btn icon @click.stop.prevent="edit(item)">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-icon :color="item.color" v-on="on" v-bind="attrs"
-                          >mdi-check</v-icon
-                        >
-                      </template>
-                      <span class="tooltip">{{
-                        item.isDefault
-                          ? "Make it as default"
-                          : "Selected as default"
-                      }}</span>
-                    </v-tooltip>
-                  </v-btn>
-                </v-list-item-action>
-              </template>
-            </v-combobox>
-            <v-select
-              v-model="selectedMapper"
-              :items="savedMapperList"
-              item-text="text"
-              label="Select Saved Mapper"
-              return-object
-              single-line
-              onchange="onMapperChange"
-            ></v-select>
-          </v-col>
-          <v-col lg="6" sm="12" xs="12" class="px-8 ">
-            <v-btn
-              color="primary"
-              class="float-right mt-2"
-              outlined
-              text
-              @click="createNew"
-            >
-              Create New Mapping</v-btn
-            >
-            <v-dialog v-model="dialogMapper" persistent max-width="600px">
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5">Mapper Name</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12">
-                        <v-text-field
-                          label="Mapper name"
-                          required
-                          v-model="mapperName"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialogMapper = false"
-                  >
-                    Close
-                  </v-btn>
-                  <v-btn color="blue darken-1" text @click="onSave">
-                    Save
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-col>
-        </v-row>
 
-        <div class="overflow-y-auto px-5 py-4">
+        <div style="height:100px">
+          <v-row>
+            <v-col lg="6" sm="12" xs="12" class="px-10">
+              <v-combobox
+                v-model="selectedMapper"
+                :items="savedMapperList"
+                item-text="text"
+                label="Select Saved Mapper"
+                @change="onMapperChange"
+              >
+                <template v-slot:item="{ item }">
+                  {{ item.text }}
+                  <v-spacer></v-spacer>
+                  <v-list-item-action @click.stop>
+                    <v-btn icon @click.stop.prevent="setAsDefault(item)">
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon :color="item.color" v-on="on" v-bind="attrs"
+                            >mdi-check</v-icon
+                          >
+                        </template>
+                        <span class="tooltip">{{ item.tooltip }}</span>
+                      </v-tooltip>
+                    </v-btn>
+                  </v-list-item-action>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col lg="6" sm="12" xs="12" class="px-8 ">
+              <v-btn
+                color="primary"
+                class="float-right mt-2"
+                outlined
+                text
+                @click="createNew"
+              >
+                Create New Mapping</v-btn
+              >
+              <v-dialog v-model="dialogMapper" persistent max-width="600px">
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Mapper Name</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12">
+                          <v-text-field
+                            label="Mapper name"
+                            required
+                            v-model="mapperName"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="dialogMapper = false"
+                    >
+                      Close
+                    </v-btn>
+                    <v-btn color="blue darken-1" text @click="onSave">
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div class="overflow-y-auto px-5 py-4 ">
           <v-container
             v-if="loading"
-            class="d-flex flex-column justify-center align-center"
+            class="d-flex flex-column justify-center align-start"
           >
             <v-progress-circular
               :size="50"
@@ -104,12 +95,12 @@
           <v-row
             v-for="item in categories"
             :key="item.id"
-            class="d-flex justify-center"
+            class="d-flex flex-1 align-start pl-3"
           >
             <v-col lg="4" sm="12" xs="12">
               {{ item.category }}
             </v-col>
-            <v-col lg="4" sm="12" xs="12">
+            <v-col lg="6" sm="12" xs="12">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -141,33 +132,22 @@
               >
                 Assign
               </v-btn>
-              <!-- <v-dialog
-                v-model="dialog"
-                overlay-opacity="4"
-                :retain-focus="false"
-                overlay-color="black"
-                hide-overlay
-                light
-                width="70vw"
-              >
-                
-              </v-dialog> -->
             </v-col>
           </v-row>
         </div>
       </v-card>
     </v-col>
     <v-col lg="7" sm="12" xs="12">
-      <v-card>
+      <v-card
+        v-if="selectedcategory"
+        max-height="87vh"
+        min-height="87vh"
+        outlined
+      >
         <v-card-title>
           <span class="text-h5">Assign Material</span>
         </v-card-title>
-        <v-card
-          max-height="800px"
-          min-height="400px"
-          outlined
-          class="px-10 py-5"
-        >
+        <div max-height="80vh" min-height="80vh" outlined class="px-5 py-5">
           <v-row class="py-0 mx-0 my-0">
             <v-col lg="12" class="py-0 mx-0 my-0">
               <v-text-field
@@ -222,7 +202,7 @@
 
           <v-row>
             <v-col lg="12">
-              <v-simple-table class="px-5" height="300">
+              <v-simple-table class="px-5" height="44vh">
                 <template v-slot:default>
                   <thead>
                     <tr>
@@ -240,7 +220,7 @@
                     <tr
                       v-for="item in filteredList"
                       :key="item._id"
-                      @click="onRowClick(item)"
+                      @dblclick="onRowClick(item)"
                     >
                       <td>{{ item._id }}</td>
                       <td>
@@ -268,11 +248,10 @@
               </v-simple-table>
             </v-col>
           </v-row>
-        </v-card>
+        </div>
         <v-card-actions>
           <span
-            >* double click the row to assign the material to the group or click
-            the assign button</span
+            >* double click the row to assign the material to the group</span
           >
           <v-spacer></v-spacer>
           <!-- <v-btn @click="dialog = false">
@@ -298,23 +277,9 @@ export default {
   props: ["info"],
   data() {
     return {
-      items: [
-        {
-          text: "Foo",
-          color: "grey",
-          isDefault: true,
-        },
-        {
-          text: "Bar",
-          color: "grey",
-          isDefault: false,
-        },
-      ],
-      model: null,
-
       dialog: false,
       dialogMapper: false,
-      selectedMapper: {},
+      selectedMapper: null,
       categoryList: {},
       loader: null,
       stream: null,
@@ -369,7 +334,6 @@ export default {
         { text: "Area", value: "area" },
         { text: "Epd Program", value: "epdProgram" },
       ],
-      categoryMapper: {},
       currentCategoryMapper: {},
       selectedcategory: "",
     };
@@ -383,16 +347,15 @@ export default {
     },
   },
   async mounted() {
-    this.savedMapperList =
-      JSON.parse(localStorage.getItem("savedMapper")) ?? [];
-    console.log("### this.savedMapperList", this.savedMapperList);
-    this.items.forEach((el, index) => {
+    const localData = await localStorage.getItem("savedMapper");
+    this.savedMapperList = JSON.parse(localData || []);
+    JSON.parse(localData).forEach((el) => {
       if (el.isDefault) {
-        this.items[index].color = "green";
-      } else {
-        this.items[index].color = "grey";
+        this.selectedMapper = { ...el };
+        this.currentCategoryMapper = { ...el.data };
       }
     });
+
     if (this.streamId) {
       this.getStream();
     }
@@ -438,38 +401,36 @@ export default {
         this.processStreamObjects();
       },
     },
-    selectedMapper: {
-      handler: function(val) {
-        this.onMapperChange(val);
-      },
-    },
   },
   methods: {
-    edit(item) {
-      console.log("### edit", item);
-      this.items.forEach((el, index) => {
+    setAsDefault(item) {
+      this.savedMapperList.forEach((el, index) => {
         if (el.text === item.text) {
-          this.items[index].isDefault = true;
-          this.items[index].color = "green";
-          this.$forceUpdate();
+          this.savedMapperList[index].isDefault = true;
+          this.savedMapperList[index].color = "green";
+          this.savedMapperList[index].tooltip = "Selected as default";
         } else {
-          this.items[index].isDefault = false;
-          this.items[index].color = "grey";
+          this.savedMapperList[index].isDefault = false;
+          this.savedMapperList[index].color = "grey";
+          this.savedMapperList[index].tooltip = "Make it as default";
         }
       });
-
-      console.log("### this.items", this.items);
+      localStorage.setItem("savedMapper", JSON.stringify(this.savedMapperList));
     },
     subTypeChange(val) {
       this.filterData.area = "";
     },
     onRowClick(item) {
       this.selected = item;
-      this.categoryMapper[this.selectedcategory] = { ...item };
       this.currentCategoryMapper[this.selectedcategory] = {
         ...item,
       };
-      // this.dialog = false;
+      const i = this.savedMapperList.findIndex(
+        (_element) => _element.text === this.selectedMapper.text
+      );
+      if (i > -1)
+        this.savedMapperList[i]["data"] = { ...this.currentCategoryMapper };
+
       this.filterData = {
         keyword: "",
         subType: "",
@@ -477,13 +438,13 @@ export default {
         multipart: "",
       };
       this.filteredList = [];
+      localStorage.setItem("savedMapper", JSON.stringify(this.savedMapperList));
     },
     createNew() {
       this.dialogMapper = true;
     },
     openAssignMaterial(category) {
       this.dialog = true;
-      this.categoryMapper[category] = { staticFullName: "" };
       this.selectedcategory = category;
       this.filteredList = [];
       this.filterData = {
@@ -493,29 +454,30 @@ export default {
         multipart: "",
       };
     },
-    materialAssign() {
-      this.categoryMapper[this.selectedcategory] = { ...this.selected };
-      this.currentCategoryMapper[this.selectedcategory] = {
-        ...this.selected,
-      };
-      this.dialog = false;
-    },
+    // materialAssign() {
+    //   this.categoryMapper[this.selectedcategory] = { ...this.selected };
+    //   this.currentCategoryMapper[this.selectedcategory] = {
+    //     ...this.selected,
+    //   };
+    //   this.dialog = false;
+    // },
     onSearch() {
       this.filteredList = this.resourceList?.filter((el) => this.getFilter(el));
     },
     getFilter(el) {
-      const resourceFilter = el.resourceSubType
+      const resourceFilter = this.filterData?.subType
         ? el.resourceSubType === this.filterData?.subType
-        : false;
-      let filter = resourceFilter;
+        : true;
+      let filter = true;
       const areaFilter = this.filterData?.area
         ? el.area === this.filterData?.area
         : true;
-      const searchFilter = this.filterData?.keyword
-        ? el?.searchString?.includes(this.filterData?.keyword) ||
-          el?.resourceSubType?.includes(this.filterData?.keyword) ||
-          el?.area?.includes(this.filterData?.keyword) ||
-          el?._id?.includes(this.filterData?.keyword)
+      const keyword = this.filterData?.keyword?.toLowerCase();
+      const searchFilter = keyword
+        ? el?.searchString?.toLowerCase()?.includes(keyword) ||
+          el?.resourceSubType?.toLowerCase()?.includes(keyword) ||
+          el?.area?.toLowerCase()?.includes(keyword) ||
+          el?._id?.toLowerCase()?.includes(keyword)
         : true;
 
       const multipart =
@@ -545,34 +507,30 @@ export default {
     onMapperChange(event) {
       this.mapperName = event.text;
       const i = this.savedMapperList.findIndex(
-        (_element) => _element.text === this.mapperName
+        (_element) => _element.text === event.text
       );
       if (i > -1) {
         this.currentCategoryMapper = this.savedMapperList[i]?.data;
-      } else {
-        this.currentCategoryMapper = { ...this.categoryMapper };
       }
     },
     onSave() {
       const i = this.savedMapperList.findIndex(
         (_element) => _element.text === this.mapperName
       );
-      if (i > -1) this.savedMapperList[i] = { ...this.categoryMapper };
+      if (i > -1)
+        this.savedMapperList[i]["data"] = { ...this.currentCategoryMapper };
       else
         this.savedMapperList.push({
           text: this.mapperName,
-          data: { ...this.categoryMapper },
+          data: { ...this.currentCategoryMapper },
+          color: "grey",
+          isDefault: false,
+          tooltip: "Make it as default",
         });
-      console.log(
-        "### this.savedMapperList this.mapperName",
-        this.mapperName,
-        this.savedMapperList,
-        this.categoryMapper,
-        this.currentCategoryMapper
-      );
+
       this.selectedMapper = {
         text: this.mapperName,
-        data: { ...this.categoryMapper },
+        data: { ...this.currentCategoryMapper },
       };
       this.dialogMapper = false;
       localStorage.setItem("savedMapper", JSON.stringify(this.savedMapperList));
@@ -607,8 +565,9 @@ export default {
             category: cat,
             children: res[category].length,
           });
-          this.categoryMapper[cat] = { staticFullName: "" };
-          this.currentCategoryMapper[cat] = { staticFullName: "" };
+          if (!this.currentCategoryMapper[cat]) {
+            this.currentCategoryMapper[cat] = { staticFullName: "" };
+          }
           i++;
         }
       }

@@ -15,6 +15,7 @@
     "colorjs.io": "^0.0.3",
     "core-js": "^3.6.5",
     "debounce": "^1.2.1",
+    "firebase": "^9.8.3",
     "lodash": "^4.17.21",
     "lodash.throttle": "^4.1.1",
     "register-service-worker": "^1.7.1",

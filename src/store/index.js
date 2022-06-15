@@ -100,14 +100,7 @@ export default new Vuex.Store({
             return el?.branchName;
           });
         }
-        console.log(
-          "### arr",
-          [...new Set(branchArr)],
-          [...new Set(commitsArr)],
-          groupedArr,
-          arr,
-          res.data.stream?.commits
-        );
+
         context.commit("setStreamDetails", res.data.stream);
         context.commit("setCommit", res.data.stream.commits.items?.[0]);
         context.commit("setAllCommits", arr);
