@@ -119,9 +119,13 @@
                     dense
                   ></v-text-field>
                 </template>
-                <span class="tooltip">{{
-                  currentCategoryMapper[item.category]["staticFullName"]
-                }}</span>
+                <span
+                  class="tooltip"
+                  v-if="currentCategoryMapper[item.category]['staticFullName']"
+                  >{{
+                    currentCategoryMapper[item.category]["staticFullName"]
+                  }}</span
+                >
               </v-tooltip>
             </v-col>
             <v-col lg="1" sm="12" xs="12">
@@ -335,6 +339,7 @@ export default {
         { text: "Epd Program", value: "epdProgram" },
       ],
       currentCategoryMapper: {},
+      defaultCategoryMapper: {},
       selectedcategory: "",
     };
   },
@@ -348,8 +353,9 @@ export default {
   },
   async mounted() {
     const localData = await localStorage.getItem("savedMapper");
-    this.savedMapperList = JSON.parse(localData || []);
-    JSON.parse(localData).forEach((el) => {
+    const newArr = JSON.parse(localData || "[]");
+    this.savedMapperList = newArr[this.streamId] ?? [];
+    this.savedMapperList?.forEach((el) => {
       if (el.isDefault) {
         this.selectedMapper = { ...el };
         this.currentCategoryMapper = { ...el.data };
@@ -404,7 +410,7 @@ export default {
   },
   methods: {
     setAsDefault(item) {
-      this.savedMapperList.forEach((el, index) => {
+      this.savedMapperList?.forEach((el, index) => {
         if (el.text === item.text) {
           this.savedMapperList[index].isDefault = true;
           this.savedMapperList[index].color = "green";
@@ -415,7 +421,7 @@ export default {
           this.savedMapperList[index].tooltip = "Make it as default";
         }
       });
-      localStorage.setItem("savedMapper", JSON.stringify(this.savedMapperList));
+      this.saveMapper(this.savedMapperList);
     },
     subTypeChange(val) {
       this.filterData.area = "";
@@ -425,7 +431,7 @@ export default {
       this.currentCategoryMapper[this.selectedcategory] = {
         ...item,
       };
-      const i = this.savedMapperList.findIndex(
+      const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === this.selectedMapper.text
       );
       if (i > -1)
@@ -438,7 +444,7 @@ export default {
         multipart: "",
       };
       this.filteredList = [];
-      localStorage.setItem("savedMapper", JSON.stringify(this.savedMapperList));
+      this.saveMapper(this.savedMapperList);
     },
     createNew() {
       this.dialogMapper = true;
@@ -454,13 +460,6 @@ export default {
         multipart: "",
       };
     },
-    // materialAssign() {
-    //   this.categoryMapper[this.selectedcategory] = { ...this.selected };
-    //   this.currentCategoryMapper[this.selectedcategory] = {
-    //     ...this.selected,
-    //   };
-    //   this.dialog = false;
-    // },
     onSearch() {
       this.filteredList = this.resourceList?.filter((el) => this.getFilter(el));
     },
@@ -506,19 +505,10 @@ export default {
     },
     onMapperChange(event) {
       this.mapperName = event.text;
-      const i = this.savedMapperList.findIndex(
+      const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === event.text
       );
-      if (i > -1) {
-        this.currentCategoryMapper = this.savedMapperList[i]?.data;
-      }
-    },
-    onSave() {
-      const i = this.savedMapperList.findIndex(
-        (_element) => _element.text === this.mapperName
-      );
-      if (i > -1)
-        this.savedMapperList[i]["data"] = { ...this.currentCategoryMapper };
+      if (i > -1) this.currentCategoryMapper = this.savedMapperList[i]?.data;
       else
         this.savedMapperList.push({
           text: this.mapperName,
@@ -527,18 +517,47 @@ export default {
           isDefault: false,
           tooltip: "Make it as default",
         });
+    },
+    onSave() {
+      console.log("### this.savedMapperList", this.savedMapperList);
+      const i = this.savedMapperList?.findIndex(
+        (_element) => _element.text === this.mapperName
+      );
+      if (i > -1) {
+        this.savedMapperList[i]["data"] = { ...this.currentCategoryMapper };
+        this.selectedMapper = {
+          text: this.mapperName,
+          data: { ...this.currentCategoryMapper },
+        };
+      } else {
+        this.savedMapperList.push({
+          text: this.mapperName,
+          data: { ...this.defaultCategoryMapper },
+          color: "grey",
+          isDefault: false,
+          tooltip: "Make it as default",
+        });
+        this.selectedMapper = {
+          text: this.mapperName,
+          data: { ...this.defaultCategoryMapper },
+        };
+      }
 
-      this.selectedMapper = {
-        text: this.mapperName,
-        data: { ...this.currentCategoryMapper },
-      };
       this.dialogMapper = false;
-      localStorage.setItem("savedMapper", JSON.stringify(this.savedMapperList));
+      this.saveMapper(this.savedMapperList);
       setTimeout(() => {
         this.categories?.forEach((el) => {
           this.currentCategoryMapper[el.category] = { staticFullName: "" };
         });
       });
+    },
+    saveMapper(items) {
+      if (this.streamId) {
+        localStorage.setItem(
+          "savedMapper",
+          JSON.stringify({ [this.streamId]: items })
+        );
+      }
     },
     async getStream() {
       this.$store.dispatch("getStreamAction", {
@@ -567,6 +586,7 @@ export default {
           });
           if (!this.currentCategoryMapper[cat]) {
             this.currentCategoryMapper[cat] = { staticFullName: "" };
+            this.defaultCategoryMapper[cat] = { staticFullName: "" };
           }
           i++;
         }
