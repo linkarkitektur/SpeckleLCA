@@ -17,7 +17,7 @@
                 <template v-slot:item="{ item }">
                   {{ item.text }}
                   <v-spacer></v-spacer>
-                  <v-list-item-action @click.stop>
+                  <v-list-item-action @click.stop class="flex-row">
                     <v-btn icon @click.stop.prevent="setAsDefault(item)">
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
@@ -26,6 +26,20 @@
                           >
                         </template>
                         <span class="tooltip">{{ item.tooltip }}</span>
+                      </v-tooltip>
+                    </v-btn>
+                    <v-btn
+                      icon
+                      @click.stop.prevent="deleteMapper(item)"
+                      v-if="item.color === 'grey'"
+                    >
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon color="red" v-on="on" v-bind="attrs"
+                            >mdi-delete</v-icon
+                          >
+                        </template>
+                        <span class="tooltip">Delete Mapper</span>
                       </v-tooltip>
                     </v-btn>
                   </v-list-item-action>
@@ -82,7 +96,7 @@
         <div class="overflow-y-auto px-5 py-4 ">
           <v-container
             v-if="loading"
-            class="d-flex flex-column justify-center align-start"
+            class="d-flex flex-1 flex-column justify-center align-center"
           >
             <v-progress-circular
               :size="50"
@@ -131,7 +145,9 @@
             <v-col lg="1" sm="12" xs="12">
               <v-btn
                 :key="item.id"
-                color="primary"
+                :color="
+                  selectedcategory === item.category ? 'primary' : 'secondary'
+                "
                 @click="openAssignMaterial(item.category)"
               >
                 Assign
@@ -226,7 +242,6 @@
                       :key="item._id"
                       @dblclick="onRowClick(item)"
                     >
-                      <td>{{ item._id }}</td>
                       <td>
                         <v-tooltip bottom>
                           <template v-slot:activator="{ on, attrs }">
@@ -234,18 +249,24 @@
                               class="text-truncate"
                               style="max-width: 130px;"
                               v-bind="attrs"
-                              v-on="item.searchString ? on : null"
+                              v-on="item.staticFullName ? on : null"
                             >
-                              {{ item.searchString }}
+                              {{ item.staticFullName }}
                             </div>
                           </template>
-                          <span class="tooltip">{{ item.searchString }}</span>
+                          <span class="tooltip">{{ item.staticFullName }}</span>
                         </v-tooltip>
                       </td>
                       <td>{{ item.resourceSubType }}</td>
+                      <td>
+                        {{
+                          item.combinedUnits.length > 0
+                            ? item.combinedUnits.join(",")
+                            : ""
+                        }}
+                      </td>
                       <td>{{ item.isMultiPart }}</td>
                       <td>{{ item.area }}</td>
-                      <td>{{ item.epdProgram }}</td>
                     </tr>
                   </tbody>
                 </template>
@@ -258,13 +279,6 @@
             >* double click the row to assign the material to the group</span
           >
           <v-spacer></v-spacer>
-          <!-- <v-btn @click="dialog = false">
-            Cancel
-          </v-btn>
-
-          <v-btn color="primary" @click="materialAssign">
-            Assign
-          </v-btn> -->
         </v-card-actions>
       </v-card>
     </v-col>
@@ -272,8 +286,14 @@
 </template>
 
 <script>
-import { getStreamObject } from "@/speckleUtils";
-import json from "../../resource_dump.json";
+import { getStreamObject } from "@/utils/speckleUtils";
+import {
+  FILTER_COUNTRIES,
+  COMBINED_UNIT_LIST,
+  MULTIPART,
+  HEADERS,
+} from "./../shared/constants";
+import { filterDataFromList, getDefaultData } from "./../shared/helper";
 
 export default {
   name: "MaterialMapper",
@@ -292,31 +312,12 @@ export default {
       categories: [],
       savedMapperList: [],
       mapperName: "",
-      resourceList: json?.resources?.filter((el) =>
-        [
-          "sweden",
-          "denmark",
-          "norway",
-          "finland",
-          "germany",
-          "netherlands",
-          "europe",
-        ].includes(el.area)
-      ),
+      resourceList: [],
       areas: [],
       areasObj: {},
       subTypes: [],
-      multiPart: ["True", "False", "Both"],
+      multiPart: MULTIPART,
       filteredList: [],
-      countryToFilter: [
-        "sweden",
-        "denmark",
-        "norway",
-        "finland",
-        "germany",
-        "netherlands",
-        "europe",
-      ],
       filterData: {
         keyword: "",
         subType: "",
@@ -325,19 +326,7 @@ export default {
       },
       selected: {},
       singleSelect: true,
-      headers: [
-        {
-          text: "ID",
-          align: "left",
-          filterable: false,
-          value: "_id",
-        },
-        { text: "Search String", value: "searchString" },
-        { text: "Resource SubType", value: "resourceSubType" },
-        { text: "Is Multipart", value: "isMultiPart" },
-        { text: "Area", value: "area" },
-        { text: "Epd Program", value: "epdProgram" },
-      ],
+      headers: HEADERS,
       currentCategoryMapper: {},
       defaultCategoryMapper: {},
       selectedcategory: "",
@@ -352,6 +341,7 @@ export default {
     },
   },
   async mounted() {
+    this.getResourceList();
     const localData = await localStorage.getItem("savedMapper");
     const newArr = JSON.parse(localData || "[]");
     this.savedMapperList = newArr[this.streamId] ?? [];
@@ -366,29 +356,8 @@ export default {
       this.getStream();
     }
     if (!this.savedMapperList?.[0]) {
+      this.mapperName = "Default";
       this.dialogMapper = true;
-    }
-    if (this.resourceList) {
-      this.resourceList?.forEach((el) => {
-        if (this.countryToFilter.includes(el.area)) {
-          if (
-            !this.subTypes.includes(el.resourceSubType) &&
-            el.resourceSubType
-          ) {
-            this.subTypes.push(el.resourceSubType);
-          }
-          if (!this.areasObj[el.resourceSubType]) {
-            this.areasObj[el.resourceSubType] = [];
-          }
-          if (
-            this.areasObj[el.resourceSubType] &&
-            !this.areasObj[el.resourceSubType].includes(el.area) &&
-            el.area
-          ) {
-            this.areasObj[el.resourceSubType].push(el.area);
-          }
-        }
-      });
     }
   },
   watch: {
@@ -409,18 +378,74 @@ export default {
     },
   },
   methods: {
-    setAsDefault(item) {
-      this.savedMapperList?.forEach((el, index) => {
-        if (el.text === item.text) {
-          this.savedMapperList[index].isDefault = true;
-          this.savedMapperList[index].color = "green";
-          this.savedMapperList[index].tooltip = "Selected as default";
-        } else {
-          this.savedMapperList[index].isDefault = false;
-          this.savedMapperList[index].color = "grey";
-          this.savedMapperList[index].tooltip = "Make it as default";
+    getResourceList() {
+      const ACCEESS_TOKEN = `${process.env.VUE_APP_SPECKLE_NAME}.OCAccessToken`;
+      const SERVER_URL = process.env.VUE_APP_ONE_CLICK_SERVER_URL;
+      let access_token = localStorage.getItem(ACCEESS_TOKEN);
+      var bearer = "Bearer " + access_token;
+      const fetchPromise = fetch(
+        `${SERVER_URL}/getResourceLibrary?dataCategory=fullResourceList`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: bearer,
+            "Content-Type": "application/json",
+          },
         }
-      });
+      );
+      fetchPromise
+        .then((response) => {
+          return response.json();
+        })
+        .then((result) => {
+          console.log(result);
+          this.resourceList = result?.resources?.filter((el) => {
+            let canAdd = false;
+            el.combinedUnits.forEach((el2) => {
+              if (COMBINED_UNIT_LIST.includes(el2)) {
+                canAdd = true;
+              } else {
+                el.combinedUnits = el.combinedUnits.filter(
+                  (el3) => el3 !== el2
+                );
+              }
+            });
+
+            return canAdd && FILTER_COUNTRIES.includes(el.area) ? el : null;
+          });
+
+          if (this.resourceList) {
+            this.resourceList?.forEach((el) => {
+              if (FILTER_COUNTRIES.includes(el.area)) {
+                if (
+                  !this.subTypes.includes(el.resourceSubType) &&
+                  el.resourceSubType
+                ) {
+                  this.subTypes.push(el.resourceSubType);
+                }
+                if (!this.areasObj[el.resourceSubType]) {
+                  this.areasObj[el.resourceSubType] = [];
+                }
+                if (
+                  this.areasObj[el.resourceSubType] &&
+                  !this.areasObj[el.resourceSubType].includes(el.area) &&
+                  el.area
+                ) {
+                  this.areasObj[el.resourceSubType].push(el.area);
+                }
+              }
+            });
+          }
+        });
+    },
+    setAsDefault(item) {
+      const data = getDefaultData(item, this.savedMapperList);
+      this.saveMapper(data);
+    },
+    deleteMapper(item) {
+      this.savedMapperList = this.savedMapperList.filter(
+        (el) => el.text !== item.text
+      );
       this.saveMapper(this.savedMapperList);
     },
     subTypeChange(val) {
@@ -461,47 +486,9 @@ export default {
       };
     },
     onSearch() {
-      this.filteredList = this.resourceList?.filter((el) => this.getFilter(el));
-    },
-    getFilter(el) {
-      const resourceFilter = this.filterData?.subType
-        ? el.resourceSubType === this.filterData?.subType
-        : true;
-      let filter = true;
-      const areaFilter = this.filterData?.area
-        ? el.area === this.filterData?.area
-        : true;
-      const keyword = this.filterData?.keyword?.toLowerCase();
-      const searchFilter = keyword
-        ? el?.searchString?.toLowerCase()?.includes(keyword) ||
-          el?.resourceSubType?.toLowerCase()?.includes(keyword) ||
-          el?.area?.toLowerCase()?.includes(keyword) ||
-          el?._id?.toLowerCase()?.includes(keyword)
-        : true;
-
-      const multipart =
-        this.filterData?.multipart === "True"
-          ? true
-          : this.filterData?.multipart === "False"
-          ? false
-          : "Both";
-      const multiPartFilter =
-        (multipart === "Both" &&
-          (el.isMultiPart === true || el.isMultiPart === false)) ||
-        (multipart !== "Both" && el.isMultiPart === multipart);
-
-      filter = resourceFilter && areaFilter && searchFilter && multiPartFilter;
-      if (
-        this.filterData?.subType === "" &&
-        this.filterData?.keyword === "" &&
-        this.filterData?.subType === "" &&
-        this.filterData?.area === "" &&
-        this.filterData?.multipart === ""
-      ) {
-        return true;
-      } else {
-        return filter;
-      }
+      this.filteredList = this.resourceList?.filter((el) =>
+        filterDataFromList(el, this.filterData)
+      );
     },
     onMapperChange(event) {
       this.mapperName = event.text;
@@ -519,7 +506,6 @@ export default {
         });
     },
     onSave() {
-      console.log("### this.savedMapperList", this.savedMapperList);
       const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === this.mapperName
       );
@@ -533,9 +519,12 @@ export default {
         this.savedMapperList.push({
           text: this.mapperName,
           data: { ...this.defaultCategoryMapper },
-          color: "grey",
-          isDefault: false,
-          tooltip: "Make it as default",
+          color: this.savedMapperList.length === 0 ? "green" : "grey",
+          isDefault: this.savedMapperList.length === 0 ? true : false,
+          tooltip:
+            this.savedMapperList.length === 0
+              ? "Selected as default"
+              : "Make it as default",
         });
         this.selectedMapper = {
           text: this.mapperName,

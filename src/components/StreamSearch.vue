@@ -39,7 +39,7 @@
 
 <script>
 import {debounce} from "debounce"
-import {searchStreams} from "@/speckleUtils";
+import {searchStreams} from "@/utils/speckleUtils";
 
 export default {
   name: "StreamSearch",

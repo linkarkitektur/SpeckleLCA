@@ -20,23 +20,20 @@
         small
         outlined
         v-if="!isAuthenticated"
-        @click="$store.dispatch('redirectToAuth')"
+        @click="$store.dispatch('login')"
       >
         <span>Login/Register</span>
       </v-btn>
       <v-menu v-else offset-y open-on-hover>
         <template v-slot:activator="{ on, attrs }">
           <v-avatar v-bind="attrs" v-on="on" size="32" color="grey lighten-3">
-            <v-img
-              v-if="$store.state.user.avatar"
-              :src="$store.state.user.avatar"
-            />
+            <v-img v-if="user.avatar" :src="user.avatar" />
           </v-avatar>
         </template>
         <v-list dense nav subheader id="login-menu">
           <v-divider class="ma-1"></v-divider>
           <v-list-item link :href="`${serverUrl}/profile`" target="_blank">
-            <v-list-item-title>{{ $store.state.user.name }}</v-list-item-title>
+            <v-list-item-title>{{ user.name }}</v-list-item-title>
             <v-list-item-icon>
               <v-icon small>mdi-account</v-icon>
             </v-list-item-icon>
@@ -70,13 +67,15 @@ export default {
       serverUrl: process.env.VUE_APP_SERVER_URL,
     };
   },
-  mounted() {},
   computed: {
     streamId() {
       return this.$route.params.id;
     },
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
+    },
+    user() {
+      return this.$store.getters.getUserInfo;
     },
     stream() {
       return this.$store.getters.streamDetails;
