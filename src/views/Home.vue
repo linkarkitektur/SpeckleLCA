@@ -4,7 +4,7 @@
     fill-height
     class="home flex-column justify-center align-center primary--text"
   >
-    <h1>Hi {{ $store.state.user.name }}!!</h1>
+    <h1>Hi {{ user.name }}!!</h1>
     <p>
       Search for a stream in the navigation bar, or pick from one of your latest
       👇🏼
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getStreams } from "@/speckleUtils";
+import { getStreams } from "@/utils/speckleUtils";
 
 export default {
   name: "Home",
@@ -53,6 +53,11 @@ export default {
     localStorage.setItem("commit", "");
   },
   methods: {},
+  computed: {
+    user() {
+      return this.$store.getters.getUserInfo;
+    },
+  },
 };
 </script>
 

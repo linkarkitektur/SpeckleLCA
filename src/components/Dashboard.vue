@@ -68,29 +68,6 @@
         </v-card>
       </v-col>
       <v-col lg="6" sm="12" xs="12">
-        <!-- <v-data-table
-          :headers="headers"
-          :items="categories"
-          :expanded.sync="expanded"
-          show-expand
-          item-key="name"
-        >
-          <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length" class="pl-0 pr-0 rounded-0">
-              <v-simple-table class="flex-1">
-                <template v-slot:default>
-                  <tbody>
-                    <tr v-for="data in item.child" :key="data.name">
-                      <td style="width:55px"></td>
-                      <td style="width:58.5%">{{ data.name }}</td>
-                      <td>{{ data.calories }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-            </td>
-          </template>
-        </v-data-table> -->
         <v-card max-height="500px" min-height="400px" outlined>
           <v-card-title>Graph</v-card-title>
         </v-card>
@@ -106,7 +83,7 @@
 
 <script>
 import { isEmpty } from "lodash";
-import { getStreamObject } from "@/speckleUtils";
+import { getStreamObject } from "@/utils/speckleUtils";
 
 export default {
   name: "Dashboard",

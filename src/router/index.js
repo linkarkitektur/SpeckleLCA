@@ -64,7 +64,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.query.access_code) {
     // If the route contains an access code, exchange it
     try {
-      await store.dispatch("exchangeAccessCode", to.query.access_code);
+      await store.dispatch("exchangeAccessCodes", to.query.access_code);
     } catch (err) {
       console.warn("exchange failed", err);
     }

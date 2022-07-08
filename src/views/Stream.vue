@@ -28,6 +28,7 @@
 
 <script>
 import Dashboard from "@/components/Dashboard";
+import { lcaLogin } from "@/utils/linkLcaUtils";
 
 export default {
   name: "Stream",
@@ -65,6 +66,7 @@ export default {
         limit: 1,
         cursor: null,
       });
+      await lcaLogin();
     },
   },
   watch: {
