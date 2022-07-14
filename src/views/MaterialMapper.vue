@@ -155,6 +155,25 @@
             </v-col>
           </v-row>
         </div>
+        <v-row class="pt-8">
+          <v-col cols="6" align="center">
+            <v-btn
+              depressed
+              @click="downloadExcel"
+              color="primary"
+            >
+              Generate Excel
+            </v-btn>
+          </v-col>
+          <v-col cols="5">
+            <v-file-input
+              label="Upload Excel"
+              outlined
+              dense
+            ></v-file-input>
+          </v-col>
+        </v-row>
+        
       </v-card>
     </v-col>
     <v-col lg="7" sm="12" xs="12">
@@ -294,6 +313,9 @@ import {
   HEADERS,
 } from "./../shared/constants";
 import { filterDataFromList, getDefaultData } from "./../shared/helper";
+import {utils , writeFile} from "xlsx";
+import { getParameters } from "@/utils/speckleUtils";
+import parameters from '../../mock/parameters.json'
 
 export default {
   name: "MaterialMapper",
@@ -565,13 +587,22 @@ export default {
       );
       this.categories = [];
       let i = 1;
-      for (let category in res) {
+      for (let category in res.data) {
         if (category?.includes("@")) {
           const cat = category?.replace("@", "");
+          const parameters = []
+          res.data[category].forEach(e1=>{
+            res.children.objects.forEach((e2)=>{
+              if(e1.referencedId === e2.id){
+                parameters.push({...e2.data.parameters,... e2.data.height})
+              }
+            })
+          })
           this.categories.push({
             id: i,
             category: cat,
-            children: res[category].length,
+            children: res.data[category].length,
+            parameters:parameters
           });
           if (!this.currentCategoryMapper[cat]) {
             this.currentCategoryMapper[cat] = { staticFullName: "" };
@@ -583,6 +614,66 @@ export default {
 
       this.loading = false;
     },
+    downloadExcel(){
+      const rows = []
+      for(const category  in this.selectedMapper.data){
+        let item = {
+          CLASS:category,
+          MATERIAL:this.selectedMapper.data[category].staticFullName,
+          QUANTITY: this.calculateMaterialQuantity(category,this.selectedMapper.data[category].isMultiPart,this.selectedMapper.data[category].combinedUnits),
+          QTY_TYPE: this.selectedMapper.data[category].isMultiPart ? 'M2' : !this.selectedMapper.data[category].isMultiPart && (this.selectedMapper.data[category].combinedUnits.includes("m3") || this.selectedMapper.data[category].combinedUnits.includes("m")) ? 'M3' : 'M',
+          THICKNESS_MM:'',
+          TALO2000:'',
+          COMMENT:''
+        }
+        rows.push(item)
+      }
+      const worksheet = utils.json_to_sheet(rows);
+      const workbook = utils.book_new();
+      utils.book_append_sheet(workbook, worksheet, "DATA");
+      writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
+    },
+
+    calculateMaterialQuantity(category,isMultiPart, combinedUnits){
+    //If the user selected material's multipart is true then  take the area.
+    // Area = Parameter => Host Area Computed => Value
+    let sum = 0
+    if(isMultiPart){
+      this.categories.forEach(e1=>{
+        if(e1.category === category){
+          e1.parameters.forEach(e2=>{
+            sum = sum + e2.HOST_AREA_COMPUTED.value
+          })
+        }
+      })
+      return sum;
+
+    // If the user selected material's multipart is false and the combined unit is M3 then take the volume.
+    // if the multipart is false and combined unit contains both M and M3 then consider M3 (volume)
+    // Volume = Parameter => Host Volume Computed => Value
+    }else if(!isMultiPart && (combinedUnits.includes("m3") || combinedUnits.includes("m"))){
+      this.categories.forEach(e1=>{
+        if(e1.category === category){
+          e1.parameters.forEach(e2=>{
+            sum = sum + e2.HOST_VOLUME_COMPUTED.value
+          });
+        }
+      })
+      return sum
+  
+    // If the user selected material's multipart is false and the combined unit is M then take the height.
+    // Height (convert the value to m  if the unit is not in m) if the unit is in mm then divide it by 1000
+    }else if(!isMultiPart && combinedUnits.includes("m")){
+      this.categories.forEach(e1=>{
+        if(e1.category === category){
+          e1.parameters.forEach(e2=>{
+            sum = sum + e2.height/1000
+          });
+        }
+      })
+    }
+
+    }
   },
 };
 </script>

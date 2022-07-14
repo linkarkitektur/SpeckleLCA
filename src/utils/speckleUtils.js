@@ -4,6 +4,7 @@ import {
   streamObjectQuery,
   streamSearchQuery,
   userInfoQuery,
+  parametersQuery
 } from "@/graphql/speckleQueries";
 
 export const APP_NAME = process.env.VUE_APP_SPECKLE_NAME;
@@ -99,7 +100,7 @@ export const getStreamCommits = (streamId, itemsPerPage, cursor) =>
 
 export const getStreamObject = (streamId, objectId) =>
   speckleFetch(streamObjectQuery, { streamId, objectId }).then(
-    (res) => res.data?.stream?.object?.data
+    (res) => res.data?.stream?.object
   );
 
 export const getObject = (streamId, objectId) =>
@@ -107,3 +108,6 @@ export const getObject = (streamId, objectId) =>
 
 export const getStreams = () =>
   speckleFetch(latestStreamsQuery).then((res) => res.data?.streams);
+
+export const getParameters = (streamId, objectId) => 
+  speckleFetch(parametersQuery, { streamId, objectId }).then((res) => res)

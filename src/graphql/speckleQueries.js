@@ -107,7 +107,7 @@ export const streamObjectQuery = `query($streamId: String!, $objectId: String!) 
             id
             speckleType
             data
-            children(select:["speckle_type","type", "family", "category", "level.name", "level.elevation", "level.id"] limit:1000000){
+            children(select:["speckle_type","type", "family", "category", "level.name", "level.elevation", "level.id", "parameters.HOST_AREA_COMPUTED.value", "parameters.HOST_VOLUME_COMPUTED.value","height"] limit:1000000){
               totalCount
               cursor
               objects{
@@ -132,3 +132,16 @@ export const latestStreamsQuery = `query {
         }
     }
 }`;
+
+export const parametersQuery = `query($streamId: String!, $objectId: String!) {
+  stream(id: $streamId){
+    object(id: $objectId){
+      children(select:["parameters.HOST_AREA_COMPUTED.value", "parameters.HOST_VOLUME_COMPUTED.value","height"] limit:1000000){
+        objects{
+          data 
+        }
+      }
+    }
+  }
+}
+`
