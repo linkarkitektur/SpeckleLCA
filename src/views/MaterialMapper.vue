@@ -161,6 +161,7 @@
               depressed
               @click="downloadExcel"
               color="primary"
+              :disabled="loading"
             >
               Generate Excel
             </v-btn>
@@ -170,6 +171,7 @@
               label="Upload Excel"
               outlined
               dense
+              :disabled="loading"
             ></v-file-input>
           </v-col>
         </v-row>
@@ -578,7 +580,6 @@ export default {
     },
 
     async processStreamObjects() {
-      console.log('inside 123')
       this.loading = true;
 
       let res = await getStreamObject(
