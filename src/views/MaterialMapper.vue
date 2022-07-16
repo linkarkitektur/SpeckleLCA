@@ -315,7 +315,6 @@ import {
 import { filterDataFromList, getDefaultData } from "./../shared/helper";
 import {utils , writeFile} from "xlsx";
 import { getParameters } from "@/utils/speckleUtils";
-import parameters from '../../mock/parameters.json'
 
 export default {
   name: "MaterialMapper",
@@ -579,6 +578,7 @@ export default {
     },
 
     async processStreamObjects() {
+      console.log('inside 123')
       this.loading = true;
 
       let res = await getStreamObject(
@@ -617,11 +617,14 @@ export default {
     downloadExcel(){
       const rows = []
       for(const category  in this.selectedMapper.data){
+        const staticFullName = this.selectedMapper.data[category].staticFullName;
+        const isMultiPart = this.selectedMapper.data[category].isMultiPart;
+        const combinedUnits = this.selectedMapper.data[category].combinedUnits;
         let item = {
           CLASS:category,
-          MATERIAL:this.selectedMapper.data[category].staticFullName,
-          QUANTITY: this.calculateMaterialQuantity(category,this.selectedMapper.data[category].isMultiPart,this.selectedMapper.data[category].combinedUnits),
-          QTY_TYPE: this.selectedMapper.data[category].isMultiPart ? 'M2' : !this.selectedMapper.data[category].isMultiPart && (this.selectedMapper.data[category].combinedUnits.includes("m3") || this.selectedMapper.data[category].combinedUnits.includes("m")) ? 'M3' : 'M',
+          MATERIAL:staticFullName,
+          QUANTITY: this.getMaterialQuantity(category,isMultiPart,combinedUnits),
+          QTY_TYPE: isMultiPart ? 'M2' : !isMultiPart && (combinedUnits.includes("m3") || combinedUnits.includes("m")) ? 'M3' : 'M',
           THICKNESS_MM:'',
           TALO2000:'',
           COMMENT:''
@@ -634,45 +637,38 @@ export default {
       writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
     },
 
-    calculateMaterialQuantity(category,isMultiPart, combinedUnits){
-    //If the user selected material's multipart is true then  take the area.
-    // Area = Parameter => Host Area Computed => Value
-    let sum = 0
-    if(isMultiPart){
+    getMaterialQuantity(category,isMultiPart, combinedUnits){
+      /**
+       * If the user selected material's multipart is true then  take the area.
+       */
+      if(isMultiPart){
+        return this.calculateMaterialQuantity(category,'HOST_AREA_COMPUTED');
+
+      /**
+       * If the user selected material's multipart is false and the combined unit is M3 then take the volume.
+       * if the multipart is false and combined unit contains both M and M3 then consider M3 (volume)
+       */
+      }else if(!isMultiPart && (combinedUnits.includes("m3") || combinedUnits.includes("m"))){
+        return this.calculateMaterialQuantity(category,'HOST_VOLUME_COMPUTED');
+
+      /**
+       * If the user selected material's multipart is false and the combined unit is M then take the height.
+       * Height (convert the value to m  if the unit is not in m) if the unit is in mm then divide it by 1000
+       */ 
+      }else if(!isMultiPart && combinedUnits.includes("m")){
+        return this.calculateMaterialQuantity(category,'height',1000);
+      }
+    },
+    calculateMaterialQuantity(category,parameter,divideBy=1){
+      let sum = 0
       this.categories.forEach(e1=>{
         if(e1.category === category){
           e1.parameters.forEach(e2=>{
-            sum = sum + e2.HOST_AREA_COMPUTED.value
+            sum = sum + e2[`${parameter}`].value/divideBy
           })
         }
       })
-      return sum;
-
-    // If the user selected material's multipart is false and the combined unit is M3 then take the volume.
-    // if the multipart is false and combined unit contains both M and M3 then consider M3 (volume)
-    // Volume = Parameter => Host Volume Computed => Value
-    }else if(!isMultiPart && (combinedUnits.includes("m3") || combinedUnits.includes("m"))){
-      this.categories.forEach(e1=>{
-        if(e1.category === category){
-          e1.parameters.forEach(e2=>{
-            sum = sum + e2.HOST_VOLUME_COMPUTED.value
-          });
-        }
-      })
-      return sum
-  
-    // If the user selected material's multipart is false and the combined unit is M then take the height.
-    // Height (convert the value to m  if the unit is not in m) if the unit is in mm then divide it by 1000
-    }else if(!isMultiPart && combinedUnits.includes("m")){
-      this.categories.forEach(e1=>{
-        if(e1.category === category){
-          e1.parameters.forEach(e2=>{
-            sum = sum + e2.height/1000
-          });
-        }
-      })
-    }
-
+        return sum;
     }
   },
 };
