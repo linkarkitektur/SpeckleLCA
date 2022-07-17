@@ -620,7 +620,7 @@ export default {
       for(const category  in this.selectedMapper.data){
         const staticFullName = this.selectedMapper.data[category].staticFullName;
         const isMultiPart = this.selectedMapper.data[category].isMultiPart;
-        const combinedUnits = this.selectedMapper.data[category].combinedUnits;
+        const combinedUnits = this.selectedMapper.data[category].combinedUnits || [];
         let item = {
           CLASS:category,
           MATERIAL:staticFullName,
