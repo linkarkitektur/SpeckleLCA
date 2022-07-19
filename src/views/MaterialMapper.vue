@@ -77,6 +77,7 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
+                      v-if="savedMapperList[0]"
                       color="blue darken-1"
                       text
                       @click="dialogMapper = false"
@@ -146,7 +147,7 @@
               <v-btn
                 :key="item.id"
                 :color="
-                  selectedcategory === item.category ? 'primary' : 'secondary'
+                  selectedcategory === item.category ? 'green' : 'primary'
                 "
                 @click="openAssignMaterial(item.category)"
               >
@@ -167,7 +168,27 @@
         <v-card-title>
           <span class="text-h5">Assign Material</span>
         </v-card-title>
-        <div max-height="80vh" min-height="80vh" outlined class="px-5 py-5">
+        <v-container
+          v-if="!resourceList[0]"
+          class="d-flex flex-1 flex-column justify-center align-center"
+        >
+          <v-progress-circular
+            :size="50"
+            :width="5"
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+          <p class="body-2 mt-2 primary--text">
+            Fetching resouce list please wait...
+          </p>
+        </v-container>
+        <div
+          max-height="80vh"
+          v-if="resourceList[0]"
+          min-height="80vh"
+          outlined
+          class="px-5 py-5"
+        >
           <v-row class="py-0 mx-0 my-0">
             <v-col lg="12" class="py-0 mx-0 my-0">
               <v-text-field
@@ -178,6 +199,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
+
           <v-row class="py-0 mx-0 my-0">
             <v-col lg="6" class="py-0 mx-0 my-0">
               <v-combobox
@@ -273,13 +295,13 @@
               </v-simple-table>
             </v-col>
           </v-row>
+          <v-card-actions>
+            <span
+              >* double click the row to assign the material to the group</span
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
         </div>
-        <v-card-actions>
-          <span
-            >* double click the row to assign the material to the group</span
-          >
-          <v-spacer></v-spacer>
-        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
@@ -287,6 +309,7 @@
 
 <script>
 import { getStreamObject } from "@/utils/speckleUtils";
+import { getDoc, updateDoc } from "@firebase/firestore";
 import {
   FILTER_COUNTRIES,
   COMBINED_UNIT_LIST,
@@ -294,6 +317,8 @@ import {
   HEADERS,
 } from "./../shared/constants";
 import { filterDataFromList, getDefaultData } from "./../shared/helper";
+
+import mapperDB from "./../firebase/firebaseinit";
 
 export default {
   name: "MaterialMapper",
@@ -342,22 +367,10 @@ export default {
   },
   async mounted() {
     this.getResourceList();
-    const localData = await localStorage.getItem("savedMapper");
-    const newArr = JSON.parse(localData || "[]");
-    this.savedMapperList = newArr[this.streamId] ?? [];
-    this.savedMapperList?.forEach((el) => {
-      if (el.isDefault) {
-        this.selectedMapper = { ...el };
-        this.currentCategoryMapper = { ...el.data };
-      }
-    });
+    this.getMappers();
 
     if (this.streamId) {
       this.getStream();
-    }
-    if (!this.savedMapperList?.[0]) {
-      this.mapperName = "Default";
-      this.dialogMapper = true;
     }
   },
   watch: {
@@ -378,6 +391,28 @@ export default {
     },
   },
   methods: {
+    async getMappers() {
+      const docSnap = await getDoc(mapperDB, "data");
+
+      if (docSnap.exists()) {
+        console.log(docSnap.data());
+        const newArr = docSnap.data();
+        this.savedMapperList = newArr?.data?.[this.streamId] ?? [];
+        this.savedMapperList?.forEach((el) => {
+          if (el.isDefault) {
+            this.selectedMapper = { ...el };
+            this.currentCategoryMapper = { ...el.data };
+          }
+        });
+        if (!this.savedMapperList?.[0]) {
+          this.mapperName = "Default";
+          this.dialogMapper = true;
+        }
+      }
+    },
+    async updateMappers(data) {
+      await updateDoc(mapperDB, { data });
+    },
     getResourceList() {
       const ACCEESS_TOKEN = `${process.env.VUE_APP_SPECKLE_NAME}.OCAccessToken`;
       const SERVER_URL = process.env.VUE_APP_ONE_CLICK_SERVER_URL;
@@ -446,6 +481,9 @@ export default {
       this.savedMapperList = this.savedMapperList.filter(
         (el) => el.text !== item.text
       );
+      if (this.selectedMapper.text === item.text) {
+        this.selectedMapper = this.savedMapperList[0];
+      }
       this.saveMapper(this.savedMapperList);
     },
     subTypeChange(val) {
@@ -542,10 +580,7 @@ export default {
     },
     saveMapper(items) {
       if (this.streamId) {
-        localStorage.setItem(
-          "savedMapper",
-          JSON.stringify({ [this.streamId]: items })
-        );
+        this.updateMappers({ [this.streamId]: items });
       }
     },
     async getStream() {
