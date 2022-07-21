@@ -20,8 +20,16 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-card max-height="400px" min-height="400px" outlined>
+        <v-card height="600px" outlined>
           <v-card-title>3D View</v-card-title>
+          <div v-if="selectedBranch && selectedCommit">
+            <iframe :src="getIframeUrl" width="100%" height="540px" frameborder="0"></iframe>
+          </div>
+          <div v-else>
+            <v-alert type="info" color="primary" height="540px" origin="center">
+              Please Select Branch & Commit
+            </v-alert>
+          </div>
         </v-card>
       </v-col>
       <v-col lg="6" sm="12" xs="12">
@@ -117,6 +125,13 @@ export default {
     branchAndCommits() {
       return this.$store.getters.branchAndCommits;
     },
+    getIframeUrl(){
+      if(this.selectedBranch && this.selectedCommit){
+        const streamObject = this.$store.getters.branchAndCommits[`${this.selectedBranch}`].find(e=>e.message === this.selectedCommit);
+        return `${process.env.VUE_APP_SERVER_URL}/embed?stream=${this.$route.params.id}&commit=${streamObject.id}`;
+      }
+      return null
+    }
   },
   async mounted() {
     this.$emit("loaded", true);
