@@ -154,6 +154,60 @@
               </v-btn>
             </v-col>
           </v-row>
+          <div class="text-center" v-if="!loading">
+              <v-dialog
+                v-model="assignMaterialdialog"
+                width="500"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="red lighten-2"
+                    dark
+                    fab
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                   <v-icon dark> mdi-plus</v-icon>
+                  </v-btn>
+                </template>
+
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2">
+                    Add Class
+                  </v-card-title>
+
+                  <div class="pa-4">
+                    <v-text-field
+                      label="Class name"
+                      :rules="rules"
+                      hide-details="auto"
+                      v-model="className"
+                    ></v-text-field>
+                    <v-text-field
+                      class="mt-4"
+                      type="number"
+                      label="Quantity"
+                      :rules="rules"
+                      hide-details="auto"
+                      v-model="quantity"
+                    ></v-text-field>
+                  </div>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="addCategory()"
+                    >
+                      Add
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </div>
         </div>
         <v-row class="pt-8">
           <v-col cols="6" align="center">
@@ -353,6 +407,12 @@ export default {
       currentCategoryMapper: {},
       defaultCategoryMapper: {},
       selectedcategory: "",
+      rules: [
+        value => !!value || 'Required.'
+      ],
+      assignMaterialdialog:false,
+      className:null,
+      quantity:null,
     };
   },
   computed: {
@@ -461,30 +521,37 @@ export default {
           }
         });
     },
+
     setAsDefault(item) {
       const data = getDefaultData(item, this.savedMapperList);
       this.saveMapper(data);
     },
+
     deleteMapper(item) {
       this.savedMapperList = this.savedMapperList.filter(
         (el) => el.text !== item.text
       );
       this.saveMapper(this.savedMapperList);
     },
+
     subTypeChange(val) {
       this.filterData.area = "";
     },
+
     onRowClick(item) {
       this.selected = item;
       this.currentCategoryMapper[this.selectedcategory] = {
+        ...this.currentCategoryMapper[this.selectedcategory],
         ...item,
       };
       const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === this.selectedMapper.text
       );
-      if (i > -1)
+      if (i > -1){
         this.savedMapperList[i]["data"] = { ...this.currentCategoryMapper };
-
+        this.selectedMapper['data'] = {...this.currentCategoryMapper}
+      }
+  
       this.filterData = {
         keyword: "",
         subType: "",
@@ -492,11 +559,15 @@ export default {
         multipart: "",
       };
       this.filteredList = [];
-      this.saveMapper(this.savedMapperList);
+      if(!this.currentCategoryMapper[this.selectedcategory].isTemporary){
+        this.saveMapper(this.savedMapperList);
+      }
     },
+
     createNew() {
       this.dialogMapper = true;
     },
+
     openAssignMaterial(category) {
       this.dialog = true;
       this.selectedcategory = category;
@@ -508,11 +579,13 @@ export default {
         multipart: "",
       };
     },
+
     onSearch() {
       this.filteredList = this.resourceList?.filter((el) =>
         filterDataFromList(el, this.filterData)
       );
     },
+
     onMapperChange(event) {
       this.mapperName = event.text;
       const i = this.savedMapperList?.findIndex(
@@ -528,6 +601,7 @@ export default {
           tooltip: "Make it as default",
         });
     },
+
     onSave() {
       const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === this.mapperName
@@ -563,6 +637,7 @@ export default {
         });
       });
     },
+
     saveMapper(items) {
       if (this.streamId) {
         localStorage.setItem(
@@ -595,7 +670,7 @@ export default {
           res.data[category].forEach(e1=>{
             res.children.objects.forEach((e2)=>{
               if(e1.referencedId === e2.id){
-                parameters.push({...e2.data.parameters,... e2.data.height})
+                parameters.push({...e2.data.parameters,...e2.data.height})
               }
             })
           })
@@ -615,22 +690,32 @@ export default {
 
       this.loading = false;
     },
+
     downloadExcel(){
-      const rows = []
-      for(const category  in this.selectedMapper.data){
-        const staticFullName = this.selectedMapper.data[category].staticFullName;
-        const isMultiPart = this.selectedMapper.data[category].isMultiPart;
-        const combinedUnits = this.selectedMapper.data[category].combinedUnits || [];
-        let item = {
-          CLASS:category,
-          MATERIAL:staticFullName,
-          QUANTITY: this.getMaterialQuantity(category,isMultiPart,combinedUnits),
-          QTY_TYPE: isMultiPart ? 'M2' : !isMultiPart && (combinedUnits.includes("m3") || combinedUnits.includes("m")) ? 'M3' : 'M',
-          THICKNESS_MM:'',
-          TALO2000:'',
-          COMMENT:''
+      const rows = [];
+      const data = this.selectedMapper.data;
+      const isNotPopulated = data && Object.keys(data).length === 0 && Object.getPrototypeOf(data) === Object.prototype;
+      if(isNotPopulated){
+        alert('Please assign at least one class with material!')
+        return
+      }
+      for(const category  in data){
+        const staticFullName = data[category].staticFullName;
+        const isMultiPart = data[category].isMultiPart;
+        const combinedUnits = data[category].combinedUnits || [];
+
+        if(staticFullName){
+          let item = {
+            CLASS:category,
+            MATERIAL:staticFullName,
+            QUANTITY: this.getMaterialQuantity(category,isMultiPart,combinedUnits),
+            QTY_TYPE: isMultiPart ? 'M2' : !isMultiPart && (combinedUnits.includes("m3") || combinedUnits.includes("m")) ? 'M3' : 'M',
+            THICKNESS_MM:'',
+            TALO2000:'',
+            COMMENT:''
+          }
+          rows.push(item)
         }
-        rows.push(item)
       }
       const worksheet = utils.json_to_sheet(rows);
       const workbook = utils.book_new();
@@ -660,6 +745,7 @@ export default {
         return this.calculateMaterialQuantity(category,'height',1000);
       }
     },
+
     calculateMaterialQuantity(category,parameter,divideBy=1){
       let sum = 0
       this.categories.forEach(e1=>{
@@ -670,7 +756,31 @@ export default {
         }
       })
         return sum;
+    },
+
+    addCategory(){
+      if(this.className && this.quantity){
+         this.assignMaterialdialog = false;
+         let category = {
+          id:this.categories.length+1,
+          category:this.className,
+          parameters:[{
+            HOST_AREA_COMPUTED: {
+              value:Number(this.quantity)
+            },
+            HOST_VOLUME_COMPUTED: {
+              value:Number(this.quantity)
+            },
+            height: {
+              value:Number(this.quantity)
+            }
+          }]
+         }
+         this.currentCategoryMapper[this.className]={ staticFullName: "", isTemporary:true };
+         this.categories.push(category);
+      }
     }
+
   },
 };
 </script>
