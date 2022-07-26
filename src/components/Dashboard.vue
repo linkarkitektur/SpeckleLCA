@@ -20,8 +20,7 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-card height="600px" outlined>
-          <v-card-title>3D View</v-card-title>
+        <v-card height="540px" outlined>
           <div v-if="selectedBranch && selectedCommit">
             <iframe :src="getIframeUrl" width="100%" height="540px" frameborder="0"></iframe>
           </div>
@@ -172,6 +171,8 @@ export default {
         if (this.commits?.includes(localStorage.getItem("commit"))) {
           this.selectedCommit = localStorage.getItem("commit");
           this.changeCommits(localStorage.getItem("commit"));
+        }else{
+           this.selectedCommit = this.$store.getters.branchAndCommits[`${this.selectedBranch}`][0].message;
         }
       }
     },
