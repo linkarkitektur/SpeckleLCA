@@ -132,16 +132,3 @@ export const latestStreamsQuery = `query {
         }
     }
 }`;
-
-export const parametersQuery = `query($streamId: String!, $objectId: String!) {
-  stream(id: $streamId){
-    object(id: $objectId){
-      children(select:["parameters.HOST_AREA_COMPUTED.value", "parameters.HOST_VOLUME_COMPUTED.value","height"] limit:1000000){
-        objects{
-          data 
-        }
-      }
-    }
-  }
-}
-`

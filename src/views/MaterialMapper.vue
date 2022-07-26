@@ -370,7 +370,6 @@ import {
 } from "./../shared/constants";
 import { filterDataFromList, getDefaultData } from "./../shared/helper";
 import {utils , writeFile} from "xlsx";
-import { getParameters } from "@/utils/speckleUtils";
 
 export default {
   name: "MaterialMapper",
