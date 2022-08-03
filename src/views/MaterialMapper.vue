@@ -215,7 +215,7 @@
               depressed
               @click="downloadExcel"
               color="primary"
-              :disabled="loading"
+              :disabled="loading || !selectedMapperEmpty"
             >
               Generate Excel
             </v-btn>
@@ -225,7 +225,7 @@
               label="Upload Excel"
               outlined
               dense
-              :disabled="loading"
+              :disabled="loading || !selectedMapperEmpty"
             ></v-file-input>
           </v-col>
         </v-row>
@@ -368,7 +368,7 @@ import {
   MULTIPART,
   HEADERS,
 } from "./../shared/constants";
-import { filterDataFromList, getDefaultData } from "./../shared/helper";
+import { filterDataFromList, getDefaultData, isObjectEmpty } from "./../shared/helper";
 import {utils , writeFile} from "xlsx";
 
 export default {
@@ -412,6 +412,7 @@ export default {
       assignMaterialdialog:false,
       className:null,
       quantity:null,
+      selectedMapperEmpty:false
     };
   },
   computed: {
@@ -458,6 +459,12 @@ export default {
         this.processStreamObjects();
       },
     },
+    selectedMapper:{
+      handler:function(val){
+        this.selectedMapperEmpty = !isObjectEmpty(val.data);
+      },
+      deep: true,
+    }
   },
   methods: {
     getResourceList() {
@@ -693,11 +700,7 @@ export default {
     downloadExcel(){
       const rows = [];
       const data = this.selectedMapper.data;
-      const isNotPopulated = data && Object.keys(data).length === 0 && Object.getPrototypeOf(data) === Object.prototype;
-      if(isNotPopulated){
-        alert('Please assign at least one class with material!')
-        return
-      }
+      
       for(const category  in data){
         const staticFullName = data[category].staticFullName;
         const isMultiPart = data[category].isMultiPart;
