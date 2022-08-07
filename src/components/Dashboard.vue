@@ -172,7 +172,9 @@ export default {
           this.selectedCommit = localStorage.getItem("commit");
           this.changeCommits(localStorage.getItem("commit"));
         }else{
-           this.selectedCommit = this.$store.getters.branchAndCommits[`${this.selectedBranch}`][0].message;
+          const message = this.$store.getters.branchAndCommits[`${this.selectedBranch}`][0].message;
+          this.selectedCommit = message;
+          this.changeCommits(message);
         }
       }
     },
@@ -192,12 +194,12 @@ export default {
       let res = await getStreamObject(this.$route.params.id, objectId);
       this.categories = [];
       let i = 1;
-      for (let category in res) {
+      for (let category in res.data) {
         if (category?.includes("@")) {
           this.categories.push({
             id: i,
             category: category?.replace("@", ""),
-            children: res[category].length,
+            children: res.data[category].length,
           });
           i++;
         }
