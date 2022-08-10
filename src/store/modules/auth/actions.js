@@ -21,8 +21,8 @@ export const logout = ({ commit }) => {
 };
 export const getUser = async ({ commit }) => {
   try {
-    var json = await getUserData();
-    var data = json.data;
+    let json = await getUserData();
+    let data = json.data;
     commit(types.SET_USER, data.user);
     commit(types.SET_SERVER_INFO, data.serverInfo);
   } catch (err) {

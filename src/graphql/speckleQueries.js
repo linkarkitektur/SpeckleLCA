@@ -33,28 +33,6 @@ export const streamCommitsQuery = `
       }
     }
   }`;
-export const sampleQuery = `
-query{
-  user {
-    name,
-    streams {
-      totalCount, 
-      items {
-        id
-        name
-        commits { 
-          cursor, 
-          totalCount, 
-          items  {
-              id, 
-              message,
-              totalChildrenCount,
-              referencedObject
-          }
-      }
-    }
-  }
-}`;
 
 export const streamSearchQuery = `
   query($searchText: String!) {
@@ -65,37 +43,6 @@ export const streamSearchQuery = `
         id
         name
         updatedAt
-      }
-    }
-  }`;
-
-export const actReportBranchInfo = (id) => {
-  return `query {
-    stream(id: "${id}") {
-      name
-      branch(name: "actcarbonreport") {
-      commits {
-        items {
-          authorName
-          createdAt
-          referencedObject
-        }
-      }
-    }
-    }
-  }`;
-};
-
-export const streamsDataQuery = (streamId, objId) => `query {
-  stream(id: "${streamId}") {
-    object(id: "${objId}") {
-      data,
-      createdAt,
-        children {
-          objects {
-            data
-          }
-        }
       }
     }
   }`;
@@ -131,4 +78,18 @@ export const latestStreamsQuery = `query {
             updatedAt
         }
     }
+}`;
+
+export const getCategoryBasedChilds = `query($streamId: String!, $objectId: String!) {
+  stream(id: $streamId){
+    object(id: $objectId){
+      children(select: ["category", "type"], limit: 1000000) {
+        totalCount
+        objects {
+          id
+          data
+        }
+      }
+    }
+  }
 }`;
