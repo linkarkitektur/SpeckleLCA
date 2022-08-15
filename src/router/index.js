@@ -73,7 +73,7 @@ router.beforeEach(async (to, from, next) => {
   }
   // Fetch if user is authenticated
   await store.dispatch("getUser");
-  var isAuth = store.getters.isAuthenticated;
+  let isAuth = store.getters.isAuthenticated;
   if (to.meta.requiresAuth && !isAuth) return next({ name: "Login" });
   else if (to.meta.requiresNoAuth && isAuth) return next("/");
   // Any other page
