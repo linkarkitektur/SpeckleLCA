@@ -240,7 +240,81 @@
               </v-row>
             </table>
           </div>
+          <div class="text-center" v-if="!loading">
+                <v-dialog
+                  v-model="assignMaterialdialog"
+                  width="500"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      color="red lighten-2"
+                      dark
+                      fab
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                     <v-icon dark> mdi-plus</v-icon>
+                    </v-btn>
+                  </template>
+  
+                  <v-card>
+                    <v-card-title class="text-h5 grey lighten-2">
+                      Add Class
+                    </v-card-title>
+  
+                    <div class="pa-4">
+                      <v-text-field
+                        label="Class name"
+                        :rules="rules"
+                        hide-details="auto"
+                        v-model="className"
+                      ></v-text-field>
+                      <v-text-field
+                        class="mt-4"
+                        type="number"
+                        label="Quantity"
+                        :rules="rules"
+                        hide-details="auto"
+                        v-model="quantity"
+                      ></v-text-field>
+                    </div>
+  
+                    <v-divider></v-divider>
+  
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="addCategory()"
+                      >
+                        Add
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+            </div>
         </div>
+        <v-row class="pt-8">
+            <v-col cols="6" align="center">
+              <v-btn
+                depressed
+                @click="downloadExcel"
+                color="primary"
+                :disabled="loading"
+              >
+                Generate Excel
+              </v-btn>
+            </v-col>
+            <v-col cols="5">
+              <v-file-input
+                label="Upload Excel"
+                outlined
+                dense
+                :disabled="loading"
+              ></v-file-input>
+            </v-col>
+          </v-row>
       </v-card>
     </v-col>
     <v-col lg="7" sm="12" xs="12">
@@ -609,8 +683,8 @@ export default {
       }
       
       this.currentCategoryMapper[key] = {
-      	...this.currentCategoryMapper[key],
-      	...item,
+       ...this.currentCategoryMapper[key],
+       ...item,
       };
       const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === this.selectedMapper.text
@@ -751,8 +825,7 @@ export default {
       const catWithType = res1?.data?.stream?.object?.children?.objects;
       this.categories = [];
       let i = 1;
-      let j = 1;
-      for (let category in res) {
+      for (let category in res.data) {
         if (category?.includes("@")) {
           const cat = category?.replace("@", "");
           const parameters = []
