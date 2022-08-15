@@ -31,7 +31,7 @@ export async function lcaLogin() {
 
 export async function getResourceList() {
   let access_token = localStorage.getItem(ACCEESS_TOKEN);
-  var bearer = "Bearer " + access_token;
+  let bearer = "Bearer " + access_token;
   const fetchPromise = fetch(
     `${SERVER_URL}/getResourceLibrary?dataCategory=fullResourceList`,
     {

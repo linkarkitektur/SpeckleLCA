@@ -1,7 +1,7 @@
 <template>
   <v-row class="justify-center py-5 px-5">
     <v-col lg="5" sm="12" xs="12">
-      <v-card max-height="87vh" min-height="87vh" outlined>
+      <v-card max-height="87vh" min-height="87vh" outlined class="bg">
         <v-card-title>Material mapper</v-card-title>
 
         <div style="height:100px">
@@ -94,7 +94,7 @@
           </v-row>
         </div>
 
-        <div class="overflow-y-auto px-5 py-4 ">
+        <div class="overflow-y-auto px-2 ">
           <v-container
             v-if="loading"
             class="d-flex flex-1 flex-column justify-center align-center"
@@ -107,130 +107,140 @@
             ></v-progress-circular>
             <p class="body-2 mt-2 primary--text">Loading...</p>
           </v-container>
-          <v-row
-            v-for="item in categories"
-            :key="item.id"
-            class="d-flex flex-1 align-start pl-3"
-          >
-            <v-col lg="4" sm="12" xs="12">
-              {{ item.category }}
-            </v-col>
-            <v-col lg="6" sm="12" xs="12">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-bind="attrs"
-                    v-on="
-                      currentCategoryMapper[item.category]['staticFullName']
-                        ? on
-                        : null
-                    "
-                    v-model="
-                      currentCategoryMapper[item.category]['staticFullName']
-                    "
-                    label="No Material Assigned"
-                    readonly
-                    solo
-                    dense
-                  ></v-text-field>
-                </template>
-                <span
-                  class="tooltip"
-                  v-if="currentCategoryMapper[item.category]['staticFullName']"
-                  >{{
-                    currentCategoryMapper[item.category]["staticFullName"]
-                  }}</span
+          <div class="d-flex flex-1 align-start px-4 py-4">
+            <table width="100%">
+              <v-row v-for="item in categories" :key="item.id">
+                <tr
+                  @click="toggle(item.id)"
+                  :class="{ opened: opened.includes(item.id) }"
+                  class="pdiv"
                 >
-              </v-tooltip>
-            </v-col>
-            <v-col lg="1" sm="12" xs="12">
-              <v-btn
-                :key="item.id"
-                :color="
-                  selectedcategory === item.category ? 'green' : 'primary'
-                "
-                @click="openAssignMaterial(item.category)"
-              >
-                Assign
-              </v-btn>
-            </v-col>
-          </v-row>
-          <div class="text-center" v-if="!loading">
-              <v-dialog
-                v-model="assignMaterialdialog"
-                width="500"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="red lighten-2"
-                    dark
-                    fab
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                   <v-icon dark> mdi-plus</v-icon>
-                  </v-btn>
-                </template>
-
-                <v-card>
-                  <v-card-title class="text-h5 grey lighten-2">
-                    Add Class
-                  </v-card-title>
-
-                  <div class="pa-4">
-                    <v-text-field
-                      label="Class name"
-                      :rules="rules"
-                      hide-details="auto"
-                      v-model="className"
-                    ></v-text-field>
-                    <v-text-field
-                      class="mt-4"
-                      type="number"
-                      label="Quantity"
-                      :rules="rules"
-                      hide-details="auto"
-                      v-model="quantity"
-                    ></v-text-field>
-                  </div>
-
-                  <v-divider></v-divider>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
+                  <td style="width:30%">
+                    {{ item.category }}
+                  </td>
+                  <td style="width:60%;">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          class="mt-6"
+                          v-bind="attrs"
+                          v-on="
+                            currentCategoryMapper[item.category][
+                              'staticFullName'
+                            ]
+                              ? on
+                              : null
+                          "
+                          v-model="
+                            currentCategoryMapper[item.category][
+                              'staticFullName'
+                            ]
+                          "
+                          label="No Material Assigned"
+                          readonly
+                          solo
+                          dense
+                        ></v-text-field>
+                      </template>
+                      <span
+                        class="tooltip"
+                        v-if="
+                          currentCategoryMapper[item.category]['staticFullName']
+                        "
+                        >{{
+                          currentCategoryMapper[item.category]["staticFullName"]
+                        }}</span
+                      >
+                    </v-tooltip>
+                  </td>
+                  <td style="width:10%;padding-left: 10px;">
                     <v-btn
-                      color="primary"
-                      text
-                      @click="addCategory()"
+                      :key="item.id"
+                      :color="
+                        selectedcategory === item.category && !selectedType
+                          ? 'green'
+                          : 'primary'
+                      "
+                      :class="
+                        selectedcategory === item.category && !selectedType
+                          ? 'white--text'
+                          : ''
+                      "
+                      @click.stop.prevent="openAssignMaterial(item.category)"
                     >
-                      Add
+                      Assign
                     </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </div>
+                  </td>
+                </tr>
+                <div v-if="opened.includes(item.id)" class="cdiv">
+                  <tr v-for="child in item.children" :key="child.id">
+                    <td style="width:30%">
+                      {{ child.type }}
+                    </td>
+                    <td style="width:60%;">
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            class="mt-6"
+                            v-bind="attrs"
+                            v-on="
+                              currentCategoryMapper[
+                                item.category + '#' + child.type
+                              ]['staticFullName']
+                                ? on
+                                : null
+                            "
+                            v-model="
+                              currentCategoryMapper[
+                                item.category + '#' + child.type
+                              ]['staticFullName']
+                            "
+                            label="No Material Assigned"
+                            readonly
+                            solo
+                            dense
+                          ></v-text-field>
+                        </template>
+                        <span
+                          class="tooltip"
+                          v-if="
+                            currentCategoryMapper[
+                              item.category + '#' + child.type
+                            ]['staticFullName']
+                          "
+                          >{{
+                            currentCategoryMapper[
+                              item.category + "#" + child.type
+                            ]["staticFullName"]
+                          }}</span
+                        >
+                      </v-tooltip>
+                    </td>
+                    <td style="width:10%;padding-left: 10px;">
+                      <v-btn
+                        :key="child.id"
+                        :color="
+                          selectedType === child.type ? 'green' : 'primary'
+                        "
+                        :class="
+                          selectedType === child.type ? 'white--text' : ''
+                        "
+                        @click.stop.prevent="
+                          openAssignMaterial(item.category, child.type)
+                        "
+                      >
+                        Assign
+                      </v-btn>
+                    </td>
+                  </tr>
+                  <div class="cdiv2" v-if="item.children.length === 0">
+                    <td colspan="3">No records found.</td>
+                  </div>
+                </div>
+              </v-row>
+            </table>
+          </div>
         </div>
-        <v-row class="pt-8">
-          <v-col cols="6" align="center">
-            <v-btn
-              depressed
-              @click="downloadExcel"
-              color="primary"
-              :disabled="loading || !selectedMapperEmpty"
-            >
-              Generate Excel
-            </v-btn>
-          </v-col>
-          <v-col cols="5">
-            <v-file-input
-              label="Upload Excel"
-              outlined
-              dense
-              :disabled="loading || !selectedMapperEmpty"
-            ></v-file-input>
-          </v-col>
-        </v-row>
-        
       </v-card>
     </v-col>
     <v-col lg="7" sm="12" xs="12">
@@ -383,7 +393,7 @@
 </template>
 
 <script>
-import { getStreamObject } from "@/utils/speckleUtils";
+import { getStreamObject, getCategoryAndChilds } from "@/utils/speckleUtils";
 import { getDoc, updateDoc } from "@firebase/firestore";
 import {
   FILTER_COUNTRIES,
@@ -402,6 +412,7 @@ export default {
   props: ["info"],
   data() {
     return {
+      opened: [],
       dialog: false,
       dialogMapper: false,
       selectedMapper: null,
@@ -437,7 +448,8 @@ export default {
       assignMaterialdialog:false,
       className:null,
       quantity:null,
-      selectedMapperEmpty:false
+      selectedMapperEmpty:false,
+      selectedType: "",
     };
   },
   computed: {
@@ -480,6 +492,14 @@ export default {
     }
   },
   methods: {
+  toggle(id) {
+      const index = this.opened.indexOf(id);
+      if (index > -1) {
+        this.opened.splice(index, 1);
+      } else {
+        this.opened.push(id);
+      }
+    },
     async getMappers() {
       const docSnap = await getDoc(mapperDB, "data");
 
@@ -506,7 +526,7 @@ export default {
       const ACCEESS_TOKEN = `${process.env.VUE_APP_SPECKLE_NAME}.OCAccessToken`;
       const SERVER_URL = process.env.VUE_APP_ONE_CLICK_SERVER_URL;
       let access_token = localStorage.getItem(ACCEESS_TOKEN);
-      var bearer = "Bearer " + access_token;
+      let bearer = "Bearer " + access_token;
       const fetchPromise = fetch(
         `${SERVER_URL}/getResourceLibrary?dataCategory=fullResourceList`,
         {
@@ -522,7 +542,6 @@ export default {
           return response.json();
         })
         .then((result) => {
-          console.log(result);
           this.resourceList = result?.resources?.filter((el) => {
             let canAdd = false;
             el.combinedUnits.forEach((el2) => {
@@ -584,9 +603,14 @@ export default {
 
     onRowClick(item) {
       this.selected = item;
-      this.currentCategoryMapper[this.selectedcategory] = {
-        ...this.currentCategoryMapper[this.selectedcategory],
-        ...item,
+      let key = this.selectedcategory;
+      if (this.selectedType) {
+        key = this.selectedcategory + "#" + this.selectedType;
+      }
+      
+      this.currentCategoryMapper[key] = {
+      	...this.currentCategoryMapper[key],
+      	...item,
       };
       const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === this.selectedMapper.text
@@ -603,7 +627,7 @@ export default {
         multipart: "",
       };
       this.filteredList = [];
-      if(!this.currentCategoryMapper[this.selectedcategory].isTemporary){
+      if(!this.currentCategoryMapper[key].isTemporary){
         this.saveMapper(this.savedMapperList);
       }
     },
@@ -611,9 +635,8 @@ export default {
     createNew() {
       this.dialogMapper = true;
     },
-
-    openAssignMaterial(category) {
-      this.dialog = true;
+    openAssignMaterial(category, type) {
+      // this.dialog = true;
       this.selectedcategory = category;
       this.filteredList = [];
       this.filterData = {
@@ -622,6 +645,12 @@ export default {
         area: "",
         multipart: "",
       };
+      if (type) {
+        console.log("### type", type, category);
+        this.selectedType = type;
+      } else {
+        this.selectedType = "";
+      }
     },
 
     onSearch() {
@@ -677,7 +706,19 @@ export default {
       this.saveMapper(this.savedMapperList);
       setTimeout(() => {
         this.categories?.forEach((el) => {
-          this.currentCategoryMapper[el.category] = { staticFullName: "" };
+          if (el.children?.length > 0) {
+            el.children?.forEach((el) => {
+              this.currentCategoryMapper[el.category + "#" + el.type] = {
+                staticFullName: "",
+                types: {},
+              };
+            });
+          } else {
+            this.currentCategoryMapper[el.category] = {
+              staticFullName: "",
+              types: {},
+            };
+          }
         });
       });
     },
@@ -702,9 +743,16 @@ export default {
         this.$route.params.id,
         this.$route.params.objectId
       );
+      let res1 = await getCategoryAndChilds(
+        this.$route.params.id,
+        this.$route.params.objectId
+      );
+
+      const catWithType = res1?.data?.stream?.object?.children?.objects;
       this.categories = [];
       let i = 1;
-      for (let category in res.data) {
+      let j = 1;
+      for (let category in res) {
         if (category?.includes("@")) {
           const cat = category?.replace("@", "");
           const parameters = []
@@ -718,7 +766,7 @@ export default {
           this.categories.push({
             id: i,
             category: cat,
-            children: res.data[category].length,
+            children: [],
             parameters:parameters
           });
           if (!this.currentCategoryMapper[cat]) {
@@ -728,7 +776,31 @@ export default {
           i++;
         }
       }
-
+      catWithType?.forEach((item) => {
+        const cat = item?.data?.category ?? null;
+        const index = this.categories.findIndex((el) => el.category === cat);
+        if (index >= 0) {
+          let child = {
+            id: item.id,
+            type: item?.data?.type,
+          };
+          const index2 = this.categories[index].children.findIndex(
+            (el) => el.type === item?.data?.type
+          );
+          if (index2 === -1) {
+            this.categories[index].children.push(child);
+            if (!this.currentCategoryMapper[cat + "#" + item?.data?.type]) {
+              this.currentCategoryMapper[cat + "#" + item?.data?.type] = {
+                staticFullName: "",
+              };
+              this.defaultCategoryMapper[cat + "#" + item?.data?.type] = {
+                staticFullName: "",
+              };
+            }
+          }
+        }
+      });
+      console.log("### catObjcatObjcatObj", this.categories);
       this.loading = false;
     },
 
@@ -823,6 +895,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bg {
+  background-color: #f8f8f8;
+}
+.pdiv {
+  width: 100%;
+  background-color: #e6e6e6;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
+}
+.row:first-child > .pdiv {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.row:last-child > .pdiv {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.cdiv {
+  background-color: #f8f8f8;
+  width: 100%;
+  padding: 10px;
+  vertical-align: middle;
+}
+.cdiv2 {
+  background-color: #f8f8f8;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
+}
 .tooltip {
   width: 100px;
   word-wrap: break-word;

@@ -27,5 +27,6 @@ export default new Vuex.Store({
   /**
    * Plugins used in the store.
    */
-  plugins: debug ? [createLogger()] : [],
+  plugins: [],
+  // plugins: debug ? [createLogger()] : [],
 });

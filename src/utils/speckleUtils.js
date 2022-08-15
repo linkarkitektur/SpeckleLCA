@@ -5,6 +5,7 @@ import {
   streamSearchQuery,
   userInfoQuery
 } from "@/graphql/speckleQueries";
+import { getCategoryBasedChilds } from "../graphql/speckleQueries";
 
 export const APP_NAME = process.env.VUE_APP_SPECKLE_NAME;
 export const SERVER_URL = process.env.VUE_APP_SERVER_URL;
@@ -15,7 +16,7 @@ export const CHALLENGE = `${APP_NAME}.Challenge`;
 // Redirects to the Speckle server authentication page, using a randomly generated challenge. Challenge will be stored to compare with when exchanging the access code.
 export function goToSpeckleAuthPage() {
   // Generate random challenge
-  var challenge =
+  let challenge =
     Math.random()
       .toString(36)
       .substring(2, 15) +
@@ -37,7 +38,7 @@ export function speckleLogOut() {
 
 // Exchanges the provided access code with a token/refreshToken pair, and saves them to local storage.
 export async function exchangeAccessCode(accessCode) {
-  var res = await fetch(`${SERVER_URL}/auth/token/`, {
+  let res = await fetch(`${SERVER_URL}/auth/token/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -49,7 +50,7 @@ export async function exchangeAccessCode(accessCode) {
       challenge: localStorage.getItem(CHALLENGE),
     }),
   });
-  var data = await res.json();
+  let data = await res.json();
   if (data.token) {
     // If retrieving the token was successful, remove challenge and set the new token and refresh token
     localStorage.removeItem(CHALLENGE);
@@ -64,7 +65,7 @@ export async function speckleFetch(query, vars) {
   let token = localStorage.getItem(TOKEN);
   if (token)
     try {
-      var res = await fetch(`${SERVER_URL}/graphql`, {
+      let res = await fetch(`${SERVER_URL}/graphql`, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -108,3 +109,5 @@ export const getObject = (streamId, objectId) =>
 export const getStreams = () =>
   speckleFetch(latestStreamsQuery).then((res) => res.data?.streams);
 
+export const getCategoryAndChilds = (streamId, objectId) =>
+  speckleFetch(getCategoryBasedChilds, { streamId, objectId });
