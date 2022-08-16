@@ -111,12 +111,24 @@
             <table width="100%">
               <v-row v-for="item in categories" :key="item.id">
                 <tr
-                  @click="toggle(item.id)"
+                  @click="toggle(item.id , item.children.length)"
                   :class="{ opened: opened.includes(item.id) }"
                   class="pdiv"
                 >
-                  <td style="width:30%">
+                  <td style="width:30%; cursor:pointer;" :style="{'pointer-events': item.children.length > 1 ? 'all' : 'none' }">
                     {{ item.category }}
+                    <v-icon
+                      small
+                      v-if="item.children.length > 1 && !opened.includes(item.id)"
+                    >
+                    mdi-chevron-right
+                    </v-icon>
+                    <v-icon
+                      small
+                      v-if="item.children.length > 1 && opened.includes(item.id)"
+                    >
+                    mdi-chevron-down
+                    </v-icon>
                   </td>
                   <td style="width:60%;">
                     <v-tooltip bottom>
@@ -403,7 +415,7 @@
 
           <v-row>
             <v-col lg="12">
-              <v-simple-table class="px-5" height="44vh">
+              <v-simple-table class="px-5" height="44vh" :fixed-header=true>
                 <template v-slot:default>
                   <thead>
                     <tr>
@@ -523,7 +535,7 @@ export default {
       className:null,
       quantity:null,
       selectedMapperEmpty:false,
-      selectedType: "",
+      selectedType: ""
     };
   },
   computed: {
@@ -566,7 +578,10 @@ export default {
     }
   },
   methods: {
-  toggle(id) {
+    toggle(id , length) {
+      if(length <= 1 ){
+        return
+      }
       const index = this.opened.indexOf(id);
       if (index > -1) {
         this.opened.splice(index, 1);
@@ -680,12 +695,22 @@ export default {
       let key = this.selectedcategory;
       if (this.selectedType) {
         key = this.selectedcategory + "#" + this.selectedType;
+        this.currentCategoryMapper[key] = {
+        ...this.currentCategoryMapper[key],
+        ...item
+        };
+      }else{
+        for(let data in this.currentCategoryMapper){
+          if(data.includes(key)){
+            this.currentCategoryMapper[data] = {
+              ...this.currentCategoryMapper[data],
+              ...item
+            }
+          }
+        }
       }
       
-      this.currentCategoryMapper[key] = {
-       ...this.currentCategoryMapper[key],
-       ...item,
-      };
+      
       const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === this.selectedMapper.text
       );
@@ -881,7 +906,10 @@ export default {
       const rows = [];
       const data = this.selectedMapper.data;
       
-      for(const category  in data){
+      for(const category in data){
+        if(this.selectedType && this.selectedType === category){
+          return
+        }
         const staticFullName = data[category].staticFullName;
         const isMultiPart = data[category].isMultiPart;
         const combinedUnits = data[category].combinedUnits || [];
