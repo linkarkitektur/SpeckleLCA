@@ -252,7 +252,7 @@
               </v-row>
             </table>
           </div>
-          <div class="text-center" v-if="!loading">
+          <div class="text-center ma-2" v-if="!loading">
                 <v-dialog
                   v-model="assignMaterialdialog"
                   width="500"
@@ -313,7 +313,7 @@
                 depressed
                 @click="downloadExcel"
                 color="primary"
-                :disabled="loading"
+                :disabled="loading || !selectedMapperEmpty"
               >
                 Generate Excel
               </v-btn>
@@ -323,7 +323,7 @@
                 label="Upload Excel"
                 outlined
                 dense
-                :disabled="loading"
+                :disabled="loading || selectedMapperEmpty"
               ></v-file-input>
             </v-col>
           </v-row>
@@ -547,6 +547,7 @@ export default {
     },
   },
   async mounted() {
+    this.processStreamObjects();
     this.getResourceList();
     this.getMappers();
 
@@ -800,7 +801,7 @@ export default {
           data: { ...this.defaultCategoryMapper },
         };
       }
-
+      
       this.dialogMapper = false;
       this.saveMapper(this.savedMapperList);
       setTimeout(() => {
@@ -853,21 +854,12 @@ export default {
       for (let category in res.data) {
         if (category?.includes("@")) {
           const cat = category?.replace("@", "");
-          const parameters = []
-          res.data[category].forEach(e1=>{
-            res.children.objects.forEach((e2)=>{
-              if(e1.referencedId === e2.id){
-                parameters.push({...e2.data.parameters,...e2.data.height})
-              }
-            })
-          })
           this.categories.push({
             id: i,
             category: cat,
-            children: [],
-            parameters:parameters
+            children: []
           });
-          if (!this.currentCategoryMapper[cat]) {
+          if (!this.currentCategoryMapper[cat] || !this.defaultCategoryMapper[cat]) {
             this.currentCategoryMapper[cat] = { staticFullName: "" };
             this.defaultCategoryMapper[cat] = { staticFullName: "" };
           }
@@ -881,13 +873,14 @@ export default {
           let child = {
             id: item.id,
             type: item?.data?.type,
+            parameters:{...item?.data?.parameters , height: {value : item?.data?.height}}
           };
           const index2 = this.categories[index].children.findIndex(
             (el) => el.type === item?.data?.type
           );
           if (index2 === -1) {
             this.categories[index].children.push(child);
-            if (!this.currentCategoryMapper[cat + "#" + item?.data?.type]) {
+            if (!this.currentCategoryMapper[cat + "#" + item?.data?.type] || !this.defaultCategoryMapper[cat + "#" + item?.data?.type]) {
               this.currentCategoryMapper[cat + "#" + item?.data?.type] = {
                 staticFullName: "",
               };
@@ -905,11 +898,7 @@ export default {
     downloadExcel(){
       const rows = [];
       const data = this.selectedMapper.data;
-      
       for(const category in data){
-        if(this.selectedType && this.selectedType === category){
-          return
-        }
         const staticFullName = data[category].staticFullName;
         const isMultiPart = data[category].isMultiPart;
         const combinedUnits = data[category].combinedUnits || [];
@@ -956,16 +945,19 @@ export default {
       }
     },
 
-    calculateMaterialQuantity(category,parameter,divideBy=1){
-      let sum = 0
-      this.categories.forEach(e1=>{
-        if(e1.category === category){
-          e1.parameters.forEach(e2=>{
-            sum = sum + e2[`${parameter}`].value/divideBy
+    calculateMaterialQuantity(category,parameter, divisor=1){
+      let quantity = 0
+      this.categories.forEach(e=>{
+        if(e.category === category.split('#')[0]){
+          console.log(e.category, category.split('#')[0])
+          e.children.forEach(e2=>{
+            if(e2.type === category.split('#')[1]){
+              quantity = e2.parameters[parameter].value / divisor ? e2.parameters[parameter].value / divisor : 0
+            }
           })
         }
       })
-        return sum;
+        return quantity;
     },
 
     addCategory(){
@@ -974,6 +966,7 @@ export default {
          let category = {
           id:this.categories.length+1,
           category:this.className,
+          children:[],
           parameters:[{
             HOST_AREA_COMPUTED: {
               value:Number(this.quantity)

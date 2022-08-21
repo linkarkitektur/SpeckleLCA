@@ -83,7 +83,7 @@ export const latestStreamsQuery = `query {
 export const getCategoryBasedChilds = `query($streamId: String!, $objectId: String!) {
   stream(id: $streamId){
     object(id: $objectId){
-      children(select: ["category", "type"], limit: 1000000) {
+      children(select: ["category", "type","parameters.HOST_AREA_COMPUTED.value", "parameters.HOST_VOLUME_COMPUTED.value","height"], limit: 1000000) {
         totalCount
         objects {
           id
