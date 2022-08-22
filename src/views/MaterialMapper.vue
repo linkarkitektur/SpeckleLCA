@@ -854,13 +854,24 @@ export default {
       for (let category in res.data) {
         if (category?.includes("@")) {
           const cat = category?.replace("@", "");
+          const parameters = []
+          res.data[category].forEach(e1=>{
+            res.children.objects.forEach((e2)=>{
+              if(e1.referencedId === e2.id){
+                parameters.push({type:e2.data.type,...e2.data.parameters,height:{value:e2.data.height}})
+              }
+            })
+          })
           this.categories.push({
             id: i,
             category: cat,
-            children: []
+            children: [],
+            parameters: parameters
           });
-          if (!this.currentCategoryMapper[cat] || !this.defaultCategoryMapper[cat]) {
+          if (!this.currentCategoryMapper[cat]) {
             this.currentCategoryMapper[cat] = { staticFullName: "" };
+          }
+          if(!this.defaultCategoryMapper[cat]){
             this.defaultCategoryMapper[cat] = { staticFullName: "" };
           }
           i++;
@@ -872,18 +883,19 @@ export default {
         if (index >= 0) {
           let child = {
             id: item.id,
-            type: item?.data?.type,
-            parameters:{...item?.data?.parameters , height: {value : item?.data?.height}}
+            type: item?.data?.type
           };
           const index2 = this.categories[index].children.findIndex(
             (el) => el.type === item?.data?.type
           );
           if (index2 === -1) {
             this.categories[index].children.push(child);
-            if (!this.currentCategoryMapper[cat + "#" + item?.data?.type] || !this.defaultCategoryMapper[cat + "#" + item?.data?.type]) {
+            if (!this.currentCategoryMapper[cat + "#" + item?.data?.type]) {
               this.currentCategoryMapper[cat + "#" + item?.data?.type] = {
                 staticFullName: "",
               };
+            }
+            if(!this.defaultCategoryMapper[cat + "#" + item?.data?.type]){
               this.defaultCategoryMapper[cat + "#" + item?.data?.type] = {
                 staticFullName: "",
               };
@@ -891,6 +903,7 @@ export default {
           }
         }
       });
+      this.categories = this.categories.filter(e=> e.children.length > 0)
       console.log("### catObjcatObjcatObj", this.categories);
       this.loading = false;
     },
@@ -946,18 +959,15 @@ export default {
     },
 
     calculateMaterialQuantity(category,parameter, divisor=1){
-      let quantity = 0
-      this.categories.forEach(e=>{
-        if(e.category === category.split('#')[0]){
-          console.log(e.category, category.split('#')[0])
-          e.children.forEach(e2=>{
-            if(e2.type === category.split('#')[1]){
-              quantity = e2.parameters[parameter].value / divisor ? e2.parameters[parameter].value / divisor : 0
-            }
-          })
-        }
-      })
-        return quantity;
+      let sum = 0;
+      this.categories.forEach(e1=>{
+        e1.parameters.forEach(e2=>{
+          if(e2.type === category.split('#')[1]){
+            sum = sum + e2[parameter].value / divisor;
+          }
+        })
+      });
+      return sum;
     },
 
     addCategory(){
