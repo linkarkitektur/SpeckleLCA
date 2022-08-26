@@ -547,7 +547,7 @@ export default {
     },
   },
   async mounted() {
-    this.processStreamObjects();
+    // this.processStreamObjects();
     this.getResourceList();
     this.getMappers();
 
@@ -854,56 +854,52 @@ export default {
       for (let category in res.data) {
         if (category?.includes("@")) {
           const cat = category?.replace("@", "");
-          const parameters = []
+          const subCategory = []
           res.data[category].forEach(e1=>{
-            res.children.objects.forEach((e2)=>{
-              if(e1.referencedId === e2.id){
-                parameters.push({type:e2.data.type,...e2.data.parameters,height:{value:e2.data.height}})
+            res.children.objects.find(e2=>{
+              if(e1.referencedId === e2.id && e2.data.type !== null){
+                let item = {
+                  id: e2.id,
+                  type: e2.data.type,
+                  parameter: {
+                    height:e2.data.height,
+                    HOST_AREA_COMPUTED: e2.data.parameters.HOST_VOLUME_COMPUTED.value,
+                    HOST_VOLUME_COMPUTED: e2.data.parameters.HOST_VOLUME_COMPUTED.value
+                  }
+                }
+                subCategory.push(item);
+                if (!this.currentCategoryMapper[cat + "#" + e2?.data?.type]) {
+                  this.currentCategoryMapper[cat + "#" + e2?.data?.type] = {
+                    staticFullName: "",
+                  };
+                }
+                if(!this.defaultCategoryMapper[cat + "#" + e2?.data?.type]){
+                  this.defaultCategoryMapper[cat + "#" + e2?.data?.type] = {
+                    staticFullName: "",
+                  };
+                }
               }
             })
-          })
-          this.categories.push({
-            id: i,
-            category: cat,
-            children: [],
-            parameters: parameters
           });
+          
+          if(subCategory.length){
+            this.categories.push({
+              id: i,
+              category: cat,
+              children: subCategory
+            });
+            i++;
+          }
+          
           if (!this.currentCategoryMapper[cat]) {
             this.currentCategoryMapper[cat] = { staticFullName: "" };
           }
           if(!this.defaultCategoryMapper[cat]){
             this.defaultCategoryMapper[cat] = { staticFullName: "" };
           }
-          i++;
         }
       }
-      catWithType?.forEach((item) => {
-        const cat = item?.data?.category ?? null;
-        const index = this.categories.findIndex((el) => el.category === cat);
-        if (index >= 0) {
-          let child = {
-            id: item.id,
-            type: item?.data?.type
-          };
-          const index2 = this.categories[index].children.findIndex(
-            (el) => el.type === item?.data?.type
-          );
-          if (index2 === -1) {
-            this.categories[index].children.push(child);
-            if (!this.currentCategoryMapper[cat + "#" + item?.data?.type]) {
-              this.currentCategoryMapper[cat + "#" + item?.data?.type] = {
-                staticFullName: "",
-              };
-            }
-            if(!this.defaultCategoryMapper[cat + "#" + item?.data?.type]){
-              this.defaultCategoryMapper[cat + "#" + item?.data?.type] = {
-                staticFullName: "",
-              };
-            }
-          }
-        }
-      });
-      this.categories = this.categories.filter(e=> e.children.length > 0)
+      // this.categories = this.categories.filter(e=> e.children.length > 0)
       console.log("### catObjcatObjcatObj", this.categories);
       this.loading = false;
     },
@@ -916,7 +912,7 @@ export default {
         const isMultiPart = data[category].isMultiPart;
         const combinedUnits = data[category].combinedUnits || [];
 
-        if(staticFullName){
+        if(staticFullName && category.includes('#')){
           let item = {
             CLASS:category,
             MATERIAL:staticFullName,
@@ -959,35 +955,38 @@ export default {
     },
 
     calculateMaterialQuantity(category,parameter, divisor=1){
-      let sum = 0;
-      this.categories.forEach(e1=>{
-        e1.parameters.forEach(e2=>{
-          if(e2.type === category.split('#')[1]){
-            sum = sum + e2[parameter].value / divisor;
+      let sum = 0
+      if(category.includes('#')){
+        this.categories.forEach(e1=>{
+          if(e1.category === category.split('#')[0]){
+            e1.children.forEach(e2=>{
+              if(e2.type === category.split('#')[1]){
+                sum = sum + e2.parameter[parameter] / divisor
+              }
+            })
           }
         })
-      });
-      return sum;
+      }
+      return sum
     },
 
     addCategory(){
       if(this.className && this.quantity){
          this.assignMaterialdialog = false;
          let category = {
-          id:this.categories.length+1,
-          category:this.className,
-          children:[],
-          parameters:[{
-            HOST_AREA_COMPUTED: {
-              value:Number(this.quantity)
-            },
-            HOST_VOLUME_COMPUTED: {
-              value:Number(this.quantity)
-            },
-            height: {
-              value:Number(this.quantity)
+          id:this.categories.length + 1,
+          category: this.className,
+          children:[
+            {
+              id:this.categories.length + 1,
+              type: this.className+'#'+this.className,
+              parameter:{
+                HOST_AREA_COMPUTED: Number(this.quantity),
+                HOST_VOLUME_COMPUTED:Number(this.quantity),
+                height:Number(this.quantity)
+              }
             }
-          }]
+          ]
          }
          this.currentCategoryMapper[this.className]={ staticFullName: "", isTemporary:true };
          this.categories.push(category);
