@@ -109,7 +109,7 @@
           </v-container>
           <div class="d-flex flex-1 align-start px-4 py-4">
             <table width="100%">
-              <v-row v-for="item in categories" :key="item.id">
+              <v-row v-for="item in uniqueCategories" :key="item.id">
                 <tr
                   @click="toggle(item.id , item.children.length)"
                   :class="{ opened: opened.includes(item.id) }"
@@ -323,7 +323,7 @@
                 label="Upload Excel"
                 outlined
                 dense
-                :disabled="loading || selectedMapperEmpty"
+                :disabled="loading || !selectedMapperEmpty"
               ></v-file-input>
             </v-col>
           </v-row>
@@ -508,6 +508,7 @@ export default {
       objectId: null,
       loading: false,
       categories: [],
+      uniqueCategories:[],
       savedMapperList: [],
       mapperName: "",
       resourceList: [],
@@ -685,6 +686,7 @@ export default {
         this.selectedMapper = this.savedMapperList[0];
       }
       this.saveMapper(this.savedMapperList);
+      this.onMapperChange(this.selectedMapper)
     },
 
     subTypeChange(val) {
@@ -821,6 +823,7 @@ export default {
           }
         });
       });
+      this.onMapperChange(this.selectedMapper)
     },
 
     saveMapper(items) {
@@ -843,12 +846,6 @@ export default {
         this.$route.params.id,
         this.$route.params.objectId
       );
-      let res1 = await getCategoryAndChilds(
-        this.$route.params.id,
-        this.$route.params.objectId
-      );
-
-      const catWithType = res1?.data?.stream?.object?.children?.objects;
       this.categories = [];
       let i = 1;
       for (let category in res.data) {
@@ -857,13 +854,13 @@ export default {
           const subCategory = []
           res.data[category].forEach(e1=>{
             res.children.objects.find(e2=>{
-              if(e1.referencedId === e2.id && e2.data.type !== null){
+              if(e1.referencedId === e2.id && e2.data.type !== null && (e2.data.height || e2.data.parameters.HOST_AREA_COMPUTED.value || e2.data.parameters.HOST_VOLUME_COMPUTED.value)){
                 let item = {
                   id: e2.id,
                   type: e2.data.type,
                   parameter: {
                     height:e2.data.height,
-                    HOST_AREA_COMPUTED: e2.data.parameters.HOST_VOLUME_COMPUTED.value,
+                    HOST_AREA_COMPUTED: e2.data.parameters.HOST_AREA_COMPUTED.value,
                     HOST_VOLUME_COMPUTED: e2.data.parameters.HOST_VOLUME_COMPUTED.value
                   }
                 }
@@ -901,6 +898,22 @@ export default {
       }
       // this.categories = this.categories.filter(e=> e.children.length > 0)
       console.log("### catObjcatObjcatObj", this.categories);
+      this.categories.forEach(e1=>{
+        const type = []
+        const item = {
+          id:e1.id,
+          category:e1.category,
+          children:[]
+        }
+        e1.children.forEach(e2=>{
+          if(!type.includes(e2.type)){
+            type.push(e2.type)
+            item.children.push(e2)
+          }
+        });
+        this.uniqueCategories.push(item)
+      })
+      console.log(this.uniqueCategories)
       this.loading = false;
     },
 
