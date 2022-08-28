@@ -313,7 +313,7 @@
                 depressed
                 @click="downloadExcel"
                 color="primary"
-                :disabled="loading || !selectedMapperEmpty"
+                :disabled="loading || selectedMapperEmpty"
               >
                 Generate Excel
               </v-btn>
@@ -323,7 +323,7 @@
                 label="Upload Excel"
                 outlined
                 dense
-                :disabled="loading || !selectedMapperEmpty"
+                :disabled="loading || selectedMapperEmpty"
               ></v-file-input>
             </v-col>
           </v-row>
@@ -535,7 +535,7 @@ export default {
       assignMaterialdialog:false,
       className:null,
       quantity:null,
-      selectedMapperEmpty:false,
+      selectedMapperEmpty:true,
       selectedType: ""
     };
   },
@@ -574,7 +574,12 @@ export default {
     },
     selectedMapper:{
       handler:function(val){
-        this.selectedMapperEmpty = !isObjectEmpty(val.data);
+        this.selectedMapperEmpty = true
+        for(let data in val.data){
+          if(val.data[data].staticFullName){
+            this.selectedMapperEmpty = false
+          }
+        }
       },
       deep: true,
     }
