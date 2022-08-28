@@ -536,7 +536,8 @@ export default {
       className:null,
       quantity:null,
       selectedMapperEmpty:true,
-      selectedType: ""
+      selectedType: "",
+      docSnap:null
     };
   },
   computed: {
@@ -597,11 +598,11 @@ export default {
       }
     },
     async getMappers() {
-      const docSnap = await getDoc(mapperDB, "data");
+       this.docSnap = await getDoc(mapperDB, "data");
 
-      if (docSnap.exists()) {
-        console.log(docSnap.data());
-        const newArr = docSnap.data();
+      if (this.docSnap.exists()) {
+        console.log(this.docSnap.data());
+        const newArr = this.docSnap.data();
         this.savedMapperList = newArr?.data?.[this.streamId] ?? [];
         this.savedMapperList?.forEach((el) => {
           if (el.isDefault) {
@@ -615,7 +616,12 @@ export default {
         }
       }
     },
-    async updateMappers(data) {
+    async updateMappers(newData) {
+      const extingData = this.docSnap.data().data
+      const data = {
+        ...extingData,
+        ...newData
+      }
       await updateDoc(mapperDB, { data });
     },
     getResourceList() {
