@@ -762,6 +762,8 @@ export default {
     },
 
     onMapperChange(event) {
+      this.categories = this.categories.filter(e=> !e.isTemporary);
+      this.uniqueCategories = this.uniqueCategories.filter(e=> !e.isTemporary);
       this.mapperName = event.text;
       const i = this.savedMapperList?.findIndex(
         (_element) => _element.text === event.text
@@ -896,8 +898,6 @@ export default {
           }
         }
       }
-      // this.categories = this.categories.filter(e=> e.children.length > 0)
-      console.log("### catObjcatObjcatObj", this.categories);
       this.categories.forEach(e1=>{
         const type = []
         const item = {
@@ -912,8 +912,7 @@ export default {
           }
         });
         this.uniqueCategories.push(item)
-      })
-      console.log(this.uniqueCategories)
+      });
       this.loading = false;
     },
 
@@ -999,7 +998,8 @@ export default {
                 height:Number(this.quantity)
               }
             }
-          ]
+          ],
+          isTemporary:true
          }
          this.currentCategoryMapper[this.className]={ staticFullName: "", isTemporary:true };
          this.currentCategoryMapper[this.className+'#'+this.className]={ staticFullName: "", isTemporary:true };
