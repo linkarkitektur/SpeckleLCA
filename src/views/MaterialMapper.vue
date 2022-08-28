@@ -992,7 +992,7 @@ export default {
           children:[
             {
               id:this.categories.length + 1,
-              type: this.className+'#'+this.className,
+              type: this.className,
               parameter:{
                 HOST_AREA_COMPUTED: Number(this.quantity),
                 HOST_VOLUME_COMPUTED:Number(this.quantity),
@@ -1002,7 +1002,9 @@ export default {
           ]
          }
          this.currentCategoryMapper[this.className]={ staticFullName: "", isTemporary:true };
+         this.currentCategoryMapper[this.className+'#'+this.className]={ staticFullName: "", isTemporary:true };
          this.categories.push(category);
+         this.uniqueCategories.push(category);
       }
     }
 
