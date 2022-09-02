@@ -31,7 +31,7 @@
           </div>
         </v-card>
       </v-col>
-      <v-col lg="6" sm="12" xs="12">
+      <v-col lg="12" sm="12" xs="12">
         <v-card
           max-height="400px"
           min-height="400px"
@@ -74,11 +74,11 @@
           <v-card-actions> </v-card-actions>
         </v-card>
       </v-col>
-      <v-col lg="6" sm="12" xs="12">
+      <!-- <v-col lg="6" sm="12" xs="12">
         <v-card max-height="500px" min-height="400px" outlined>
           <v-card-title>Graph</v-card-title>
         </v-card>
-      </v-col>
+      </v-col> -->
       <v-col cols="12">
         <v-card max-height="400px" min-height="400px" outlined>
           <v-card-title>Bench Marking</v-card-title>
