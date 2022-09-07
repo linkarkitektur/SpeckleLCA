@@ -324,7 +324,20 @@
                 outlined
                 dense
                 :disabled="loading || selectedMapperEmpty"
+                v-model="excelFile"
               ></v-file-input>
+            </v-col>
+          </v-row>
+          <v-row class="pb-8">
+            <v-col cols="12" align="center">
+              <v-btn
+                depressed
+                @click="startCalculation"
+                color="primary"
+                :disabled="loading || selectedMapperEmpty"
+              >
+                Start Calculation
+              </v-btn>
             </v-col>
           </v-row>
       </v-card>
@@ -479,7 +492,7 @@
 </template>
 
 <script>
-import { getStreamObject, getCategoryAndChilds } from "@/utils/speckleUtils";
+import { getStreamObject } from "@/utils/speckleUtils";
 import { getDoc, updateDoc } from "@firebase/firestore";
 import {
   FILTER_COUNTRIES,
@@ -488,7 +501,8 @@ import {
   HEADERS,
 } from "./../shared/constants";
 import { filterDataFromList, getDefaultData, isObjectEmpty } from "./../shared/helper";
-import {utils , writeFile} from "xlsx";
+import {utils , writeFile, read} from "xlsx";
+import axios from 'axios';
 
 import mapperDB from "./../firebase/firebaseinit";
 
@@ -537,7 +551,9 @@ export default {
       quantity:null,
       selectedMapperEmpty:true,
       selectedType: "",
-      docSnap:null
+      docSnap:null,
+      excelFile:null,
+      fileToken:null
     };
   },
   computed: {
@@ -556,6 +572,7 @@ export default {
     if (this.streamId) {
       this.getStream();
     }
+    this.getAccessToken()
   },
   watch: {
     streamId: {
@@ -1016,6 +1033,91 @@ export default {
          this.currentCategoryMapper[this.className+'#'+this.className]={ staticFullName: "", isTemporary:true };
          this.categories.push(category);
          this.uniqueCategories.push(category);
+      }
+    },
+
+    async startCalculation(){
+      this.loading = true
+      if(this.accessToken){
+        const formData = new FormData()
+        this.fileToken = `LINK-LCA-${Date.now()}`
+        formData.append('fileToken',this.fileToken);
+        formData.append('importFile',this.excelFile);
+        formData.append('securityToken','Vs2cmN10eZq6iMGcXIre');
+        formData.append('APICalculation','TRUE');
+        try {
+          const response = await axios.post('https://oneclicklcaapp.com/app/api/startCalculationRequest',formData,{
+            headers:{
+              'Authorization': 'Bearer '+ this.accessToken,
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          if(response.status === 200){
+            setTimeout(()=>{
+              console.log('Getting results...')
+              this.getCalculationResults();
+            },1000) 
+          }
+        } catch (error) {
+          console.log(error)
+        }   
+      }
+    },
+
+    async getCalculationResults(){
+      const body = {
+        'fileToken':this.fileToken,
+        'securityToken':'Vs2cmN10eZq6iMGcXIre',
+        'bearerToken':this.accessToken
+      }
+      try {
+        const response = await axios.get('https://oneclicklcaapp.com/app/api/getCalculationResults',{
+          params:body,
+          responseType: 'arraybuffer'
+        });
+        if(response.status === 200){
+          this.loading = false
+        }
+        const wb = read(response.data);
+        const wsname = wb.SheetNames[0]
+        const ws = wb.Sheets[wsname]
+        const data = utils.sheet_to_json(ws)
+        console.log(data)
+
+      } catch (error) {
+          console.log(error)
+          setTimeout(()=>{
+            console.log('Attempting...')
+            this.getCalculationResults();
+          },5000)
+      }
+    },
+
+    save(blob, fileName) {
+        if (window.navigator.msSaveOrOpenBlob) { // For IE:
+            navigator.msSaveBlob(blob, fileName);
+        } else { // For other browsers:
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+        }
+    },
+    async getAccessToken(){
+      const body = {
+        "username": process.env.VUE_APP_ONE_CLICK_LCA_USERNAME,
+        "password": process.env.VUE_APP_ONE_CLICK_LCA_PASSWORD
+      }
+      try {
+        const response = await axios.post('https://oneclicklcaapp.com/app/api/login', body);
+        if(response.status === 200){
+          this.accessToken = response.data.access_token
+        }else{
+          throw Error('Unable to login')
+        }
+      } catch (error) {
+        console.log(error)
       }
     }
 

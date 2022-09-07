@@ -10,6 +10,7 @@
   "dependencies": {
     "@speckle/objectloader": "^2.1.1",
     "@speckle/viewer": "^2.1.1",
+    "axios": "^0.27.2",
     "chart.js": "^2.9.4",
     "color-interpolate": "^1.0.5",
     "colorjs.io": "^0.0.3",
