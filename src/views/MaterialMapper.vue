@@ -1,193 +1,135 @@
 <template>
-  <v-row class="justify-center py-5 px-5">
-    <v-col lg="5" sm="12" xs="12">
-      <v-card max-height="87vh" min-height="87vh" outlined class="bg">
-        <v-card-title>Material mapper</v-card-title>
+   <div>
+    <v-row class="justify-center py-5 px-5">
+      <v-col lg="5" sm="12" xs="12">
+        <v-card max-height="87vh" min-height="87vh" outlined class="bg">
+          <v-card-title>Material mapper</v-card-title>
 
-        <div style="height:100px">
-          <v-row>
-            <v-col lg="6" sm="12" xs="12" class="px-10">
-              <v-combobox
-                v-model="selectedMapper"
-                :items="savedMapperList"
-                item-text="text"
-                label="Select Saved Mapper"
-                @change="onMapperChange"
-              >
-                <template v-slot:item="{ item }">
-                  {{ item.text }}
-                  <v-spacer></v-spacer>
-                  <v-list-item-action @click.stop class="flex-row">
-                    <v-btn icon @click.stop.prevent="setAsDefault(item)">
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-icon :color="item.color" v-on="on" v-bind="attrs"
-                            >mdi-check</v-icon
-                          >
-                        </template>
-                        <span class="tooltip">{{ item.tooltip }}</span>
-                      </v-tooltip>
-                    </v-btn>
-                    <v-btn
-                      icon
-                      @click.stop.prevent="deleteMapper(item)"
-                      v-if="item.color === 'grey'"
-                    >
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-icon color="red" v-on="on" v-bind="attrs"
-                            >mdi-delete</v-icon
-                          >
-                        </template>
-                        <span class="tooltip">Delete Mapper</span>
-                      </v-tooltip>
-                    </v-btn>
-                  </v-list-item-action>
-                </template>
-              </v-combobox>
-            </v-col>
-            <v-col lg="6" sm="12" xs="12" class="px-8 ">
-              <v-btn
-                color="primary"
-                class="float-right mt-2"
-                outlined
-                text
-                @click="createNew"
-              >
-                Create New Mapping</v-btn
-              >
-              <v-dialog v-model="dialogMapper" persistent max-width="600px">
-                <v-card>
-                  <v-card-title>
-                    <span class="text-h5">Mapper Name</span>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12">
-                          <v-text-field
-                            label="Mapper name"
-                            required
-                            v-model="mapperName"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      v-if="savedMapperList[0]"
-                      color="blue darken-1"
-                      text
-                      @click="dialogMapper = false"
-                    >
-                      Close
-                    </v-btn>
-                    <v-btn color="blue darken-1" text @click="onSave">
-                      Save
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-col>
-          </v-row>
-        </div>
-
-        <div class="overflow-y-auto px-2 ">
-          <v-container
-            v-if="loading"
-            class="d-flex flex-1 flex-column justify-center align-center"
-          >
-            <v-progress-circular
-              :size="50"
-              :width="5"
-              color="primary"
-              indeterminate
-            ></v-progress-circular>
-            <p class="body-2 mt-2 primary--text">Loading...</p>
-          </v-container>
-          <div class="d-flex flex-1 align-start px-4 py-4">
-            <table width="100%">
-              <v-row v-for="item in uniqueCategories" :key="item.id">
-                <tr
-                  @click="toggle(item.id , item.children.length)"
-                  :class="{ opened: opened.includes(item.id) }"
-                  class="pdiv"
+          <div style="height:100px">
+            <v-row>
+              <v-col lg="6" sm="12" xs="12" class="px-10">
+                <v-combobox
+                  v-model="selectedMapper"
+                  :items="savedMapperList"
+                  item-text="text"
+                  label="Select Saved Mapper"
+                  @change="onMapperChange"
                 >
-                  <td style="width:30%; cursor:pointer;" :style="{'pointer-events': item.children.length > 1 ? 'all' : 'none' }">
-                    {{ item.category }}
-                    <v-icon
-                      small
-                      v-if="item.children.length > 1 && !opened.includes(item.id)"
-                    >
-                    mdi-chevron-right
-                    </v-icon>
-                    <v-icon
-                      small
-                      v-if="item.children.length > 1 && opened.includes(item.id)"
-                    >
-                    mdi-chevron-down
-                    </v-icon>
-                  </td>
-                  <td style="width:60%;">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          class="mt-6"
-                          v-bind="attrs"
-                          v-on="
-                            currentCategoryMapper[item.category][
-                              'staticFullName'
-                            ]
-                              ? on
-                              : null
-                          "
-                          v-model="
-                            currentCategoryMapper[item.category][
-                              'staticFullName'
-                            ]
-                          "
-                          label="No Material Assigned"
-                          readonly
-                          solo
-                          dense
-                        ></v-text-field>
-                      </template>
-                      <span
-                        class="tooltip"
-                        v-if="
-                          currentCategoryMapper[item.category]['staticFullName']
-                        "
-                        >{{
-                          currentCategoryMapper[item.category]["staticFullName"]
-                        }}</span
+                  <template v-slot:item="{ item }">
+                    {{ item.text }}
+                    <v-spacer></v-spacer>
+                    <v-list-item-action @click.stop class="flex-row">
+                      <v-btn icon @click.stop.prevent="setAsDefault(item)">
+                        <v-tooltip bottom>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-icon :color="item.color" v-on="on" v-bind="attrs"
+                              >mdi-check</v-icon
+                            >
+                          </template>
+                          <span class="tooltip">{{ item.tooltip }}</span>
+                        </v-tooltip>
+                      </v-btn>
+                      <v-btn
+                        icon
+                        @click.stop.prevent="deleteMapper(item)"
+                        v-if="item.color === 'grey'"
                       >
-                    </v-tooltip>
-                  </td>
-                  <td style="width:10%;padding-left: 10px;">
-                    <v-btn
-                      :key="item.id"
-                      :color="
-                        selectedcategory === item.category && !selectedType
-                          ? 'green'
-                          : 'primary'
-                      "
-                      :class="
-                        selectedcategory === item.category && !selectedType
-                          ? 'white--text'
-                          : ''
-                      "
-                      @click.stop.prevent="openAssignMaterial(item.category)"
-                    >
-                      Assign
-                    </v-btn>
-                  </td>
-                </tr>
-                <div v-if="opened.includes(item.id)" class="cdiv">
-                  <tr v-for="child in item.children" :key="child.id">
-                    <td style="width:30%">
-                      {{ child.type }}
+                        <v-tooltip bottom>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-icon color="red" v-on="on" v-bind="attrs"
+                              >mdi-delete</v-icon
+                            >
+                          </template>
+                          <span class="tooltip">Delete Mapper</span>
+                        </v-tooltip>
+                      </v-btn>
+                    </v-list-item-action>
+                  </template>
+                </v-combobox>
+              </v-col>
+              <v-col lg="6" sm="12" xs="12" class="px-8 ">
+                <v-btn
+                  color="primary"
+                  class="float-right mt-2"
+                  outlined
+                  text
+                  @click="createNew"
+                >
+                  Create New Mapping</v-btn
+                >
+                <v-dialog v-model="dialogMapper" persistent max-width="600px">
+                  <v-card>
+                    <v-card-title>
+                      <span class="text-h5">Mapper Name</span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-text-field
+                              label="Mapper name"
+                              required
+                              v-model="mapperName"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        v-if="savedMapperList[0]"
+                        color="blue darken-1"
+                        text
+                        @click="dialogMapper = false"
+                      >
+                        Close
+                      </v-btn>
+                      <v-btn color="blue darken-1" text @click="onSave">
+                        Save
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div class="overflow-y-auto px-2 ">
+            <v-container
+              v-if="loading"
+              class="d-flex flex-1 flex-column justify-center align-center"
+            >
+              <v-progress-circular
+                :size="50"
+                :width="5"
+                color="primary"
+                indeterminate
+              ></v-progress-circular>
+              <p class="body-2 mt-2 primary--text">Loading...</p>
+            </v-container>
+            <div class="d-flex flex-1 align-start px-4 py-4">
+              <table width="100%">
+                <v-row v-for="item in uniqueCategories" :key="item.id">
+                  <tr
+                    @click="toggle(item.id , item.children.length)"
+                    :class="{ opened: opened.includes(item.id) }"
+                    class="pdiv"
+                  >
+                    <td style="width:30%; cursor:pointer;" :style="{'pointer-events': item.children.length > 1 ? 'all' : 'none' }">
+                      {{ item.category }}
+                      <v-icon
+                        small
+                        v-if="item.children.length > 1 && !opened.includes(item.id)"
+                      >
+                      mdi-chevron-right
+                      </v-icon>
+                      <v-icon
+                        small
+                        v-if="item.children.length > 1 && opened.includes(item.id)"
+                      >
+                      mdi-chevron-down
+                      </v-icon>
                     </td>
                     <td style="width:60%;">
                       <v-tooltip bottom>
@@ -196,16 +138,16 @@
                             class="mt-6"
                             v-bind="attrs"
                             v-on="
-                              currentCategoryMapper[
-                                item.category + '#' + child.type
-                              ]['staticFullName']
+                              currentCategoryMapper[item.category][
+                                'staticFullName'
+                              ]
                                 ? on
                                 : null
                             "
                             v-model="
-                              currentCategoryMapper[
-                                item.category + '#' + child.type
-                              ]['staticFullName']
+                              currentCategoryMapper[item.category][
+                                'staticFullName'
+                              ]
                             "
                             label="No Material Assigned"
                             readonly
@@ -216,279 +158,340 @@
                         <span
                           class="tooltip"
                           v-if="
-                            currentCategoryMapper[
-                              item.category + '#' + child.type
-                            ]['staticFullName']
+                            currentCategoryMapper[item.category]['staticFullName']
                           "
                           >{{
-                            currentCategoryMapper[
-                              item.category + "#" + child.type
-                            ]["staticFullName"]
+                            currentCategoryMapper[item.category]["staticFullName"]
                           }}</span
                         >
                       </v-tooltip>
                     </td>
                     <td style="width:10%;padding-left: 10px;">
                       <v-btn
-                        :key="child.id"
+                        :key="item.id"
                         :color="
-                          selectedType === child.type ? 'green' : 'primary'
+                          selectedcategory === item.category && !selectedType
+                            ? 'green'
+                            : 'primary'
                         "
                         :class="
-                          selectedType === child.type ? 'white--text' : ''
+                          selectedcategory === item.category && !selectedType
+                            ? 'white--text'
+                            : ''
                         "
-                        @click.stop.prevent="
-                          openAssignMaterial(item.category, child.type)
-                        "
+                        @click.stop.prevent="openAssignMaterial(item.category)"
                       >
                         Assign
                       </v-btn>
                     </td>
                   </tr>
-                  <div class="cdiv2" v-if="item.children.length === 0">
-                    <td colspan="3">No records found.</td>
-                  </div>
-                </div>
-              </v-row>
-            </table>
-          </div>
-          <div class="text-center ma-2" v-if="!loading">
-                <v-dialog
-                  v-model="assignMaterialdialog"
-                  width="500"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      color="red lighten-2"
-                      dark
-                      fab
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                     <v-icon dark> mdi-plus</v-icon>
-                    </v-btn>
-                  </template>
-  
-                  <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">
-                      Add Class
-                    </v-card-title>
-  
-                    <div class="pa-4">
-                      <v-text-field
-                        label="Class name"
-                        :rules="rules"
-                        hide-details="auto"
-                        v-model="className"
-                      ></v-text-field>
-                      <v-text-field
-                        class="mt-4"
-                        type="number"
-                        label="Quantity"
-                        :rules="rules"
-                        hide-details="auto"
-                        v-model="quantity"
-                      ></v-text-field>
-                    </div>
-  
-                    <v-divider></v-divider>
-  
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="primary"
-                        text
-                        @click="addCategory()"
-                      >
-                        Add
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-            </div>
-        </div>
-        <v-row class="pt-8">
-            <v-col cols="6" align="center">
-              <v-btn
-                depressed
-                @click="downloadExcel"
-                color="primary"
-                :disabled="loading || selectedMapperEmpty"
-              >
-                Generate Excel
-              </v-btn>
-            </v-col>
-            <v-col cols="5">
-              <v-file-input
-                label="Upload Excel"
-                outlined
-                dense
-                :disabled="loading || selectedMapperEmpty"
-                v-model="excelFile"
-              ></v-file-input>
-            </v-col>
-          </v-row>
-          <v-row class="pb-8">
-            <v-col cols="12" align="center">
-              <v-btn
-                depressed
-                @click="startCalculation"
-                color="primary"
-                :disabled="loading || selectedMapperEmpty"
-              >
-                Start Calculation
-              </v-btn>
-            </v-col>
-          </v-row>
-      </v-card>
-    </v-col>
-    <v-col lg="7" sm="12" xs="12">
-      <v-card
-        v-if="selectedcategory"
-        max-height="87vh"
-        min-height="87vh"
-        outlined
-      >
-        <v-card-title>
-          <span class="text-h5">Assign Material</span>
-        </v-card-title>
-        <v-container
-          v-if="!resourceList[0]"
-          class="d-flex flex-1 flex-column justify-center align-center"
-        >
-          <v-progress-circular
-            :size="50"
-            :width="5"
-            color="primary"
-            indeterminate
-          ></v-progress-circular>
-          <p class="body-2 mt-2 primary--text">
-            Fetching resouce list please wait...
-          </p>
-        </v-container>
-        <div
-          max-height="80vh"
-          v-if="resourceList[0]"
-          min-height="80vh"
-          outlined
-          class="px-5 py-5"
-        >
-          <v-row class="py-0 mx-0 my-0">
-            <v-col lg="12" class="py-0 mx-0 my-0">
-              <v-text-field
-                label="Search by keyword"
-                solo
-                dense
-                v-model="filterData.keyword"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-
-          <v-row class="py-0 mx-0 my-0">
-            <v-col lg="6" class="py-0 mx-0 my-0">
-              <v-combobox
-                label="Resource SubType"
-                :items="subTypes"
-                hide-selected
-                solo
-                dense
-                v-model="filterData.subType"
-                clearables
-                @change="subTypeChange"
-              ></v-combobox>
-            </v-col>
-            <v-col lg="6" class="py-0 mx-0 my-0">
-              <v-combobox
-                label="Areas"
-                :items="areasObj[filterData.subType]"
-                hide-selected
-                solo
-                dense
-                v-model="filterData.area"
-              ></v-combobox>
-            </v-col>
-          </v-row>
-          <v-row class="py-0 mx-0 my-0">
-            <v-col lg="6" class="py-0 mx-0 my-0">
-              <v-combobox
-                label="Is Multipart"
-                :items="multiPart"
-                hide-selected
-                solo
-                dense
-                v-model="filterData.multipart"
-              ></v-combobox>
-            </v-col>
-            <v-col lg="6" class="py-0 mx-0 my-0">
-              <v-btn outlined text dense class="float-right" @click="onSearch">
-                Search</v-btn
-              >
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col lg="12">
-              <v-simple-table class="px-5" height="44vh" :fixed-header=true>
-                <template v-slot:default>
-                  <thead>
-                    <tr>
-                      <th
-                        v-for="item in headers"
-                        :key="item.value"
-                        :id="item.value"
-                        class="text-left"
-                      >
-                        {{ item.text }}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="item in filteredList"
-                      :key="item._id"
-                      @dblclick="onRowClick(item)"
-                    >
-                      <td>
+                  <div v-if="opened.includes(item.id)" class="cdiv">
+                    <tr v-for="child in item.children" :key="child.id">
+                      <td style="width:30%">
+                        {{ child.type }}
+                      </td>
+                      <td style="width:60%;">
                         <v-tooltip bottom>
                           <template v-slot:activator="{ on, attrs }">
-                            <div
-                              class="text-truncate"
-                              style="max-width: 130px;"
+                            <v-text-field
+                              class="mt-6"
                               v-bind="attrs"
-                              v-on="item.staticFullName ? on : null"
-                            >
-                              {{ item.staticFullName }}
-                            </div>
+                              v-on="
+                                currentCategoryMapper[
+                                  item.category + '#' + child.type
+                                ]['staticFullName']
+                                  ? on
+                                  : null
+                              "
+                              v-model="
+                                currentCategoryMapper[
+                                  item.category + '#' + child.type
+                                ]['staticFullName']
+                              "
+                              label="No Material Assigned"
+                              readonly
+                              solo
+                              dense
+                            ></v-text-field>
                           </template>
-                          <span class="tooltip">{{ item.staticFullName }}</span>
+                          <span
+                            class="tooltip"
+                            v-if="
+                              currentCategoryMapper[
+                                item.category + '#' + child.type
+                              ]['staticFullName']
+                            "
+                            >{{
+                              currentCategoryMapper[
+                                item.category + "#" + child.type
+                              ]["staticFullName"]
+                            }}</span
+                          >
                         </v-tooltip>
                       </td>
-                      <td>{{ item.resourceSubType }}</td>
-                      <td>
-                        {{
-                          item.combinedUnits.length > 0
-                            ? item.combinedUnits.join(",")
-                            : ""
-                        }}
+                      <td style="width:10%;padding-left: 10px;">
+                        <v-btn
+                          :key="child.id"
+                          :color="
+                            selectedType === child.type ? 'green' : 'primary'
+                          "
+                          :class="
+                            selectedType === child.type ? 'white--text' : ''
+                          "
+                          @click.stop.prevent="
+                            openAssignMaterial(item.category, child.type)
+                          "
+                        >
+                          Assign
+                        </v-btn>
                       </td>
-                      <td>{{ item.isMultiPart }}</td>
-                      <td>{{ item.area }}</td>
                     </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-            </v-col>
-          </v-row>
-          <v-card-actions>
-            <span
-              >* double click the row to assign the material to the group</span
-            >
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </div>
-      </v-card>
-    </v-col>
-  </v-row>
+                    <div class="cdiv2" v-if="item.children.length === 0">
+                      <td colspan="3">No records found.</td>
+                    </div>
+                  </div>
+                </v-row>
+              </table>
+            </div>
+            <div class="text-center ma-2" v-if="!loading">
+                  <v-dialog
+                    v-model="assignMaterialdialog"
+                    width="500"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        color="red lighten-2"
+                        dark
+                        fab
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                      <v-icon dark> mdi-plus</v-icon>
+                      </v-btn>
+                    </template>
+    
+                    <v-card>
+                      <v-card-title class="text-h5 grey lighten-2">
+                        Add Class
+                      </v-card-title>
+    
+                      <div class="pa-4">
+                        <v-text-field
+                          label="Class name"
+                          :rules="rules"
+                          hide-details="auto"
+                          v-model="className"
+                        ></v-text-field>
+                        <v-text-field
+                          class="mt-4"
+                          type="number"
+                          label="Quantity"
+                          :rules="rules"
+                          hide-details="auto"
+                          v-model="quantity"
+                        ></v-text-field>
+                      </div>
+    
+                      <v-divider></v-divider>
+    
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="primary"
+                          text
+                          @click="addCategory()"
+                        >
+                          Add
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+              </div>
+          </div>
+          <v-row class="p-8">
+              <v-col cols="12" align="center">
+                <v-btn
+                  depressed
+                  @click="downloadExcel"
+                  color="primary"
+                  :disabled="loading || selectedMapperEmpty"
+                >
+                  Start Calculation
+                </v-btn>
+              </v-col>
+              <!-- <v-col cols="5">
+                <v-file-input
+                  label="Upload Excel"
+                  outlined
+                  dense
+                  :disabled="loading || selectedMapperEmpty"
+                  v-model="excelFile"
+                ></v-file-input>
+              </v-col> -->
+            </v-row>
+            <!-- <v-row class="pb-8">
+              <v-col cols="12" align="center">
+                <v-btn
+                  depressed
+                  @click="startCalculation"
+                  color="primary"
+                  :disabled="loading || selectedMapperEmpty"
+                >
+                  Start Calculation
+                </v-btn>
+              </v-col>
+            </v-row> -->
+        </v-card>
+      </v-col>
+      <v-col lg="7" sm="12" xs="12">
+        <v-card
+          v-if="selectedcategory"
+          max-height="87vh"
+          min-height="87vh"
+          outlined
+        >
+          <v-card-title>
+            <span class="text-h5">Assign Material</span>
+          </v-card-title>
+          <v-container
+            v-if="!resourceList[0]"
+            class="d-flex flex-1 flex-column justify-center align-center"
+          >
+            <v-progress-circular
+              :size="50"
+              :width="5"
+              color="primary"
+              indeterminate
+            ></v-progress-circular>
+            <p class="body-2 mt-2 primary--text">
+              Fetching resouce list please wait...
+            </p>
+          </v-container>
+          <div
+            max-height="80vh"
+            v-if="resourceList[0]"
+            min-height="80vh"
+            outlined
+            class="px-5 py-5"
+          >
+            <v-row class="py-0 mx-0 my-0">
+              <v-col lg="12" class="py-0 mx-0 my-0">
+                <v-text-field
+                  label="Search by keyword"
+                  solo
+                  dense
+                  v-model="filterData.keyword"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row class="py-0 mx-0 my-0">
+              <v-col lg="6" class="py-0 mx-0 my-0">
+                <v-combobox
+                  label="Resource SubType"
+                  :items="subTypes"
+                  hide-selected
+                  solo
+                  dense
+                  v-model="filterData.subType"
+                  clearables
+                  @change="subTypeChange"
+                ></v-combobox>
+              </v-col>
+              <v-col lg="6" class="py-0 mx-0 my-0">
+                <v-combobox
+                  label="Areas"
+                  :items="areasObj[filterData.subType]"
+                  hide-selected
+                  solo
+                  dense
+                  v-model="filterData.area"
+                ></v-combobox>
+              </v-col>
+            </v-row>
+            <v-row class="py-0 mx-0 my-0">
+              <v-col lg="6" class="py-0 mx-0 my-0">
+                <v-combobox
+                  label="Is Multipart"
+                  :items="multiPart"
+                  hide-selected
+                  solo
+                  dense
+                  v-model="filterData.multipart"
+                ></v-combobox>
+              </v-col>
+              <v-col lg="6" class="py-0 mx-0 my-0">
+                <v-btn outlined text dense class="float-right" @click="onSearch">
+                  Search</v-btn
+                >
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col lg="12">
+                <v-simple-table class="px-5" height="44vh" :fixed-header=true>
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th
+                          v-for="item in headers"
+                          :key="item.value"
+                          :id="item.value"
+                          class="text-left"
+                        >
+                          {{ item.text }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="item in filteredList"
+                        :key="item._id"
+                        @dblclick="onRowClick(item)"
+                      >
+                        <td>
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <div
+                                class="text-truncate"
+                                style="max-width: 130px;"
+                                v-bind="attrs"
+                                v-on="item.staticFullName ? on : null"
+                              >
+                                {{ item.staticFullName }}
+                              </div>
+                            </template>
+                            <span class="tooltip">{{ item.staticFullName }}</span>
+                          </v-tooltip>
+                        </td>
+                        <td>{{ item.resourceSubType }}</td>
+                        <td>
+                          {{
+                            item.combinedUnits.length > 0
+                              ? item.combinedUnits.join(",")
+                              : ""
+                          }}
+                        </td>
+                        <td>{{ item.isMultiPart }}</td>
+                        <td>{{ item.area }}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </v-col>
+            </v-row>
+            <v-card-actions>
+              <span
+                >* double click the row to assign the material to the group</span
+              >
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+
+  </div>
 </template>
 
 <script>
@@ -501,7 +504,7 @@ import {
   HEADERS,
 } from "./../shared/constants";
 import { filterDataFromList, getDefaultData, isObjectEmpty } from "./../shared/helper";
-import {utils , writeFile, read} from "xlsx";
+import {utils , writeFile, read, write} from "xlsx";
 import axios from 'axios';
 
 import mapperDB from "./../firebase/firebaseinit";
@@ -965,10 +968,17 @@ export default {
           rows.push(item)
         }
       }
+      // const worksheet = utils.json_to_sheet(rows);
+      // const workbook = utils.book_new();
+      // utils.book_append_sheet(workbook, worksheet, "DATA");
+      // writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
       const worksheet = utils.json_to_sheet(rows);
       const workbook = utils.book_new();
-      utils.book_append_sheet(workbook, worksheet, "DATA");
-      writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
+      utils.book_append_sheet(workbook, worksheet, "Dates");
+      const wopts = { bookType:"xlsx", bookSST:false, type:"array" };
+      const wbout = write(workbook,wopts);
+      this.excelFile = new Blob([wbout],{type:"application/octet-stream"});
+      this.startCalculation();
     },
 
     getMaterialQuantity(category,isMultiPart, combinedUnits){
@@ -1093,17 +1103,6 @@ export default {
       }
     },
 
-    save(blob, fileName) {
-        if (window.navigator.msSaveOrOpenBlob) { // For IE:
-            navigator.msSaveBlob(blob, fileName);
-        } else { // For other browsers:
-            var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-            link.click();
-            window.URL.revokeObjectURL(link.href);
-        }
-    },
     async getAccessToken(){
       const body = {
         "username": process.env.VUE_APP_ONE_CLICK_LCA_USERNAME,
