@@ -1,10 +1,9 @@
 <template>
    <div>
-    <v-row class="justify-center py-5 px-5">
+    <v-row class="justify-center py-1 px-1">
       <v-col lg="5" sm="12" xs="12">
         <v-card max-height="87vh" min-height="87vh" outlined class="bg">
           <v-card-title>Material mapper</v-card-title>
-
           <div style="height:100px">
             <v-row>
               <v-col lg="6" sm="12" xs="12" class="px-10">
@@ -108,7 +107,7 @@
               ></v-progress-circular>
               <p class="body-2 mt-2 primary--text">Loading...</p>
             </v-container>
-            <div class="d-flex flex-1 align-start px-4 py-4">
+            <div class="d-flex flex-1 align-start px-1 py-5">
               <table width="100%">
                 <v-row v-for="item in uniqueCategories" :key="item.id">
                   <tr
@@ -318,29 +317,8 @@
                 >
                   Start Calculation
                 </v-btn>
-              </v-col>
-              <!-- <v-col cols="5">
-                <v-file-input
-                  label="Upload Excel"
-                  outlined
-                  dense
-                  :disabled="loading || selectedMapperEmpty"
-                  v-model="excelFile"
-                ></v-file-input>
-              </v-col> -->
+              </v-col>            
             </v-row>
-            <!-- <v-row class="pb-8">
-              <v-col cols="12" align="center">
-                <v-btn
-                  depressed
-                  @click="startCalculation"
-                  color="primary"
-                  :disabled="loading || selectedMapperEmpty"
-                >
-                  Start Calculation
-                </v-btn>
-              </v-col>
-            </v-row> -->
         </v-card>
       </v-col>
       <v-col lg="7" sm="12" xs="12">
@@ -350,9 +328,7 @@
           min-height="87vh"
           outlined
         >
-          <v-card-title>
-            <span class="text-h5">Assign Material</span>
-          </v-card-title>
+        <v-card-title class="px-8">Assign material</v-card-title>
           <v-container
             v-if="!resourceList[0]"
             class="d-flex flex-1 flex-column justify-center align-center"
@@ -372,7 +348,7 @@
             v-if="resourceList[0]"
             min-height="80vh"
             outlined
-            class="px-5 py-5"
+            class="px-3 py-1"
           >
             <v-row class="py-0 mx-0 my-0">
               <v-col lg="12" class="py-0 mx-0 my-0">
@@ -384,7 +360,6 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-
             <v-row class="py-0 mx-0 my-0">
               <v-col lg="6" class="py-0 mx-0 my-0">
                 <v-combobox
@@ -421,15 +396,14 @@
                 ></v-combobox>
               </v-col>
               <v-col lg="6" class="py-0 mx-0 my-0">
-                <v-btn outlined text dense class="float-right" @click="onSearch">
+                <v-btn outlined text dense class="float-right grey" @click="onSearch">
                   Search</v-btn
                 >
               </v-col>
             </v-row>
-
             <v-row>
               <v-col lg="12">
-                <v-simple-table class="px-5" height="44vh" :fixed-header=true>
+                <v-simple-table class="px-0" height="44vh" :fixed-header=true>
                   <template v-slot:default>
                     <thead>
                       <tr>
@@ -481,7 +455,7 @@
               </v-col>
             </v-row>
             <v-card-actions>
-              <span class="white px-5" 
+              <span class="white px-5 py-5" 
                 >* double click the row to assign the material to the group</span
               >
               <v-spacer></v-spacer>
@@ -490,7 +464,6 @@
         </v-card>
       </v-col>
     </v-row>
-
   </div>
 </template>
 
