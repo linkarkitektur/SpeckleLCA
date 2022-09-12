@@ -308,7 +308,7 @@
                   </v-dialog>
               </div>
           </div>
-          <v-row class="p-8">
+          <v-row class="pa-8">
               <v-col cols="12" align="center">
                 <v-btn
                   depressed
@@ -490,7 +490,9 @@
         </v-card>
       </v-col>
     </v-row>
-
+    <div id="charts" v-if="chartData.length">
+      <Chart :chartData="chartData"/>
+    </div>
   </div>
 </template>
 
@@ -508,10 +510,11 @@ import {utils , writeFile, read, write} from "xlsx";
 import axios from 'axios';
 
 import mapperDB from "./../firebase/firebaseinit";
+import Chart from "../components/chart.vue";
 
 export default {
   name: "MaterialMapper",
-  components: {},
+  components: { Chart },
   props: ["info"],
   data() {
     return {
@@ -556,7 +559,8 @@ export default {
       selectedType: "",
       docSnap:null,
       excelFile:null,
-      fileToken:null
+      fileToken:null,
+      chartData:[]
     };
   },
   computed: {
@@ -945,6 +949,7 @@ export default {
         this.uniqueCategories.push(item)
       });
       this.loading = false;
+      console.log(this.categories)
     },
 
     downloadExcel(){
@@ -974,7 +979,7 @@ export default {
       // writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
       const worksheet = utils.json_to_sheet(rows);
       const workbook = utils.book_new();
-      utils.book_append_sheet(workbook, worksheet, "Dates");
+      utils.book_append_sheet(workbook, worksheet, `${this.selectedMapper.text}.xlsx`);
       const wopts = { bookType:"xlsx", bookSST:false, type:"array" };
       const wbout = write(workbook,wopts);
       this.excelFile = new Blob([wbout],{type:"application/octet-stream"});
@@ -1092,14 +1097,20 @@ export default {
         const wsname = wb.SheetNames[0]
         const ws = wb.Sheets[wsname]
         const data = utils.sheet_to_json(ws)
-        console.log(data)
+        this.formulateData(data)
 
       } catch (error) {
           console.log(error)
-          setTimeout(()=>{
-            console.log('Attempting...')
-            this.getCalculationResults();
-          },5000)
+          if(error.response.status === 500){
+            alert('Calculation response failed !');
+            this.loading = false
+          }else{
+            setTimeout(()=>{
+              console.log('Attempting...')
+              this.getCalculationResults();
+            },5000)
+          }
+          
       }
     },
 
@@ -1118,6 +1129,44 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+
+    formulateData(data){
+      console.log(data)
+      this.chartData = []
+      console.log(this.selectedMapper.data)
+      this.categories.forEach((e1)=>{
+
+        let totalVolume = 0;
+        let totalGwp = 0;
+        let obj = {
+          "category":e1.category,
+          "total_volume":totalVolume,
+          "total_gwp":totalGwp,
+          "sub_categories":[]
+        }
+
+        data.forEach(e2=>{
+          if(e2.CLASS.split('#')[0] === e1.category && e2.RESULT_STATUS === 'SUCCESS'){
+
+            totalVolume +=  Number(e2.RESULT_BY_VOLUME)
+            totalGwp +=  Number(e2.RESULT_ABSOLUTE)
+
+            obj.total_volume = totalVolume
+            obj.total_gwp = totalGwp
+
+            obj.sub_categories.push({
+              "name":e2.CLASS,
+              "gwp":e2.RESULT_ABSOLUTE,
+              "volume":e2.RESULT_BY_VOLUME,
+              "IFCMATERIAL":e2.IFCMATERIAL,
+              "isMultipart":this.selectedMapper.data[`${e2.CLASS}`].isMultiPart,
+              "resourceSubType":this.selectedMapper.data[`${e2.CLASS}`].resourceSubType
+            })
+          }
+        });
+        this.chartData.push(obj);
+      });
     }
 
   },
