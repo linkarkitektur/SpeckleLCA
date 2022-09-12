@@ -111,7 +111,7 @@
       </v-row>
     </div>
     <v-card-actions>
-      <span class="white">* double click the row to assign the material to the group</span>
+      <span>* double click the row to assign the material to the group</span>
       <v-spacer></v-spacer>
     </v-card-actions>
   </v-card>
