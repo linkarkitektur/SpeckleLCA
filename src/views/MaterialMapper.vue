@@ -171,12 +171,12 @@
                         :key="item.id"
                         :color="
                           selectedcategory === item.category && !selectedType
-                            ? 'green'
+                            ? 'grey'
                             : 'primary'
                         "
                         :class="
                           selectedcategory === item.category && !selectedType
-                            ? 'white--text'
+                            ? 'black--text'
                             : ''
                         "
                         @click.stop.prevent="openAssignMaterial(item.category)"
@@ -308,7 +308,7 @@
                   </v-dialog>
               </div>
           </div>
-          <v-row class="p-8">
+          <v-row class="p-8 ma-1">
               <v-col cols="12" align="center">
                 <v-btn
                   depressed
@@ -481,7 +481,7 @@
               </v-col>
             </v-row>
             <v-card-actions>
-              <span
+              <span class="white px-5" 
                 >* double click the row to assign the material to the group</span
               >
               <v-spacer></v-spacer>
