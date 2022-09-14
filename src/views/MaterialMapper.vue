@@ -179,6 +179,7 @@
                             : ''
                         "
                         @click.stop.prevent="openAssignMaterial(item.category)"
+                        :disabled="buttonLoader"
                       >
                         Assign
                       </v-btn>
@@ -240,6 +241,7 @@
                           @click.stop.prevent="
                             openAssignMaterial(item.category, child.type)
                           "
+                          :disabled="buttonLoader"
                         >
                           Assign
                         </v-btn>
@@ -310,10 +312,11 @@
           <v-row class="p-8 ma-1">
               <v-col cols="12" align="center">
                 <v-btn
-                  depressed
-                  @click="downloadExcel"
+                  class="ma-2"
+                  :loading="buttonLoader"
+                  :disabled="loading || selectedMapperEmpty || buttonLoader"
                   color="primary"
-                  :disabled="loading || selectedMapperEmpty"
+                  @click="downloadExcel"
                 >
                   Start Calculation
                 </v-btn>
@@ -464,8 +467,10 @@
         </v-card>
       </v-col>
     </v-row>
-    <div id="charts" v-if="chartData.length">
-      <Chart :chartData="chartData"/>
+    <div id="charts" ref="charts">
+      <div v-if="chartData.length">
+        <ChartsContainer :chart-data="chartData"/>
+      </div>
     </div>
   </div>
 </template>
@@ -484,11 +489,11 @@ import {utils , writeFile, read, write} from "xlsx";
 import axios from 'axios';
 
 import mapperDB from "./../firebase/firebaseinit";
-import Chart from "../components/chart.vue";
+import ChartsContainer from "../components/ChartsContainer.vue";
 
 export default {
   name: "MaterialMapper",
-  components: { Chart },
+  components: { ChartsContainer },
   props: ["info"],
   data() {
     return {
@@ -534,7 +539,8 @@ export default {
       docSnap:null,
       excelFile:null,
       fileToken:null,
-      chartData:[]
+      chartData:[],
+      buttonLoader: false,
     };
   },
   computed: {
@@ -927,6 +933,8 @@ export default {
     },
 
     downloadExcel(){
+      this.loader = 'buttonLoader';
+      this.buttonLoader = true
       const rows = [];
       const data = this.selectedMapper.data;
       for(const category in data){
@@ -1026,7 +1034,7 @@ export default {
     },
 
     async startCalculation(){
-      this.loading = true
+      this.chartData = [];
       if(this.accessToken){
         const formData = new FormData()
         this.fileToken = `LINK-LCA-${Date.now()}`
@@ -1106,41 +1114,51 @@ export default {
     },
 
     formulateData(data){
-      console.log(data)
-      this.chartData = []
-      console.log(this.selectedMapper.data)
       this.categories.forEach((e1)=>{
-
         let totalVolume = 0;
         let totalGwp = 0;
-        let obj = {
-          "category":e1.category,
-          "total_volume":totalVolume,
-          "total_gwp":totalGwp,
-          "sub_categories":[]
-        }
-
-        data.forEach(e2=>{
-          if(e2.CLASS.split('#')[0] === e1.category && e2.RESULT_STATUS === 'SUCCESS'){
-
-            totalVolume +=  Number(e2.RESULT_BY_VOLUME)
-            totalGwp +=  Number(e2.RESULT_ABSOLUTE)
-
-            obj.total_volume = totalVolume
-            obj.total_gwp = totalGwp
-
-            obj.sub_categories.push({
-              "name":e2.CLASS,
-              "gwp":e2.RESULT_ABSOLUTE,
-              "volume":e2.RESULT_BY_VOLUME,
-              "IFCMATERIAL":e2.IFCMATERIAL,
-              "isMultipart":this.selectedMapper.data[`${e2.CLASS}`].isMultiPart,
-              "resourceSubType":this.selectedMapper.data[`${e2.CLASS}`].resourceSubType
-            })
+        if(this.selectedMapper.data[e1.category].staticFullName !== ""){
+          let obj = {
+            "category":e1.category,
+            "total_volume":totalVolume,
+            "total_gwp":totalGwp,
+            "sub_categories":[]
           }
-        });
-        this.chartData.push(obj);
+
+          data.forEach(e2=>{
+            if(e2.CLASS.split('#')[0] === e1.category){
+
+              if(e2.RESULT_STATUS === 'SUCCESS'){
+                totalVolume +=  Number(e2.RESULT_BY_VOLUME)
+                totalGwp +=  Number(e2.RESULT_ABSOLUTE)
+              }
+              
+              obj.total_volume = totalVolume
+              obj.total_gwp = totalGwp
+
+              obj.sub_categories.push({
+                "name":e2.CLASS,
+                "gwp":e2.RESULT_ABSOLUTE,
+                "volume":e2.RESULT_BY_VOLUME,
+                "IFCMATERIAL":e2.IFCMATERIAL,
+                "isMultipart":this.selectedMapper.data[`${e2.CLASS}`].isMultiPart,
+                "resourceSubType":this.selectedMapper.data[`${e2.CLASS}`].resourceSubType
+              })
+            }
+          });
+          this.chartData.push(obj);
+        }
       });
+
+      this.loader = null;
+      this.buttonLoader = false;
+      var target = document.getElementById("charts");
+      setTimeout(()=>{
+        window.scrollTo({
+          top: target.offsetTop,
+          behavior: 'smooth',
+        })
+      },100)
     }
 
   },
