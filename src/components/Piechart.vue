@@ -1,5 +1,6 @@
 <template>
   <v-card class="pa-4">
+    <h2>{{title}}</h2>
     <Pie
     :chart-options="chartOptions"
     :chart-data="chartData"
@@ -10,6 +11,7 @@
     :styles="styles"
     :width="width"
     :height="height"
+    @click="clicked()"
   />
   </v-card>
 </template>
@@ -68,7 +70,17 @@ export default {
       type: Array,
       required:true,
       default:null
-    }
+    },
+    title:{
+      default: '',
+      type: String,
+      required:true,
+    },
+    totalEmission:{
+      default: 0,
+      type: Number,
+      required:true,
+    },
   },
   data() {
     return {
@@ -83,24 +95,22 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
+        onClick: this.clicked,
         plugins: {
           autocolors: {
             mode: 'data'
           },
           legend:{
-            position:'bottom'
+            position:'right'
           },
           title:{
             align:'start',
             display:true,
             position:'top',
-            text:'This is title'
-          },
-          subtitle: {
-            display: true,
-            text: 'Custom Chart Subtitle',
-            position:'top',
-            align:'start'
+            text: this.totalEmission.toFixed(2) + ' Tons C02e',
+            font: {
+              size: 18
+            }
           }
         }
       },
@@ -117,7 +127,11 @@ export default {
       this.chartData.labels = [...this.labels]
       this.chartData.datasets[0].data = [...this.chartDataSet]
       console.log(this.chartData)
+    },
+    clicked(e,item){
+      console.log(e,item)
     }
-  }
+  },
+  
 }
 </script>
