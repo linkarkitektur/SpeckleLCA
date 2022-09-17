@@ -12,6 +12,7 @@
                   :items="savedMapperList"
                   item-text="text"
                   label="Select Saved Mapper"
+                  :disabled="loading || selectedMapperEmpty || buttonLoader"
                   @change="onMapperChange"
                 >
                   <template v-slot:item="{ item }">
@@ -52,6 +53,7 @@
                   class="float-right mt-2"
                   outlined
                   text
+                  :disabled="loading || selectedMapperEmpty || buttonLoader"
                   @click="createNew"
                 >
                   Create New Mapping</v-btn
@@ -1114,42 +1116,45 @@ export default {
     },
 
     formulateData(data){
-      this.categories.forEach((e1)=>{
+      const categories = []
+      data.forEach(e=>{
+        categories.push(e.CLASS.split('#')[0])
+      })
+      const uniqueCategories = [...new Set(categories)]
+     
+      uniqueCategories.forEach(e1=>{
         let totalVolume = 0;
         let totalGwp = 0;
-        if(this.selectedMapper.data[e1.category].staticFullName !== ""){
-          let obj = {
-            "category":e1.category,
-            "total_volume":totalVolume,
-            "total_gwp":totalGwp,
-            "sub_categories":[]
-          }
-
-          data.forEach(e2=>{
-            if(e2.CLASS.split('#')[0] === e1.category){
-
-              if(e2.RESULT_STATUS === 'SUCCESS'){
-                totalVolume +=  Number(e2.RESULT_BY_VOLUME)
-                totalGwp +=  Number(e2.RESULT_ABSOLUTE)
-              }
-              
-              obj.total_volume = totalVolume
-              obj.total_gwp = totalGwp
-
-              obj.sub_categories.push({
-                "name":e2.CLASS,
-                "gwp":e2.RESULT_ABSOLUTE,
-                "volume":e2.RESULT_BY_VOLUME,
-                "IFCMATERIAL":e2.IFCMATERIAL,
-                "isMultipart":this.selectedMapper.data[`${e2.CLASS}`].isMultiPart,
-                "resourceSubType":this.selectedMapper.data[`${e2.CLASS}`].resourceSubType
-              })
-            }
-          });
-          this.chartData.push(obj);
+        let obj = {
+          "category":e1,
+          "total_volume":totalVolume,
+          "total_gwp":totalGwp,
+          "sub_categories":[]
         }
-      });
+        data.forEach(e2=>{
+          if(e2.CLASS.split('#')[0] === e1){
+            console.log('inside')
+            if(e2.RESULT_STATUS === 'SUCCESS'){
+              totalVolume +=  Number(e2.RESULT_BY_VOLUME)
+              totalGwp +=  Number(e2.RESULT_ABSOLUTE)
+            }
+            
+            obj.total_volume = totalVolume
+            obj.total_gwp = totalGwp
 
+            obj.sub_categories.push({
+              "name":e2.CLASS,
+              "gwp":e2.RESULT_ABSOLUTE,
+              "volume":e2.RESULT_BY_VOLUME,
+              "IFCMATERIAL":e2.IFCMATERIAL,
+              "isMultipart":this.selectedMapper.data[`${e2.CLASS}`].isMultiPart,
+              "resourceSubType":this.selectedMapper.data[`${e2.CLASS}`].resourceSubType
+            })
+          }
+        });
+        this.chartData.push(obj);
+      });
+    
       this.loader = null;
       this.buttonLoader = false;
       var target = document.getElementById("charts");

@@ -71,7 +71,7 @@ export default {
         labels.push(e.category);
         gwpDataSet.push(e.total_gwp);
         volumeDataSet.push(e.total_volume);
-        totalEmission += totalEmission + e.total_gwp;
+        totalEmission += e.total_gwp;
 
         e.sub_categories.forEach(sub=>{
           subCatlabels.push(sub.name);
@@ -147,13 +147,10 @@ export default {
         if(assemblyCategory.length){
           assemblyCatLabels.push(e1);
           assemblyCategory.forEach(e2=>{
-            if(e2.gwp){
-              totalEmissionForAssembly += e2.gwp;
-            }
-          
-            if(e1 === e2.IFCMATERIAL){
+            if(e1 === e2.IFCMATERIAL && e2.gwp){
               assemblyGwp += e2.gwp;
               assemblyVol += e2.volume;
+              totalEmissionForAssembly += e2.gwp;
             }
           });
           assemblyCatGwpDataSet.push(assemblyGwp);
@@ -163,13 +160,10 @@ export default {
         if(materialCategory.length){
           matCatLabels.push(e1);
           materialCategory.forEach(e2=>{
-            if(e2.gwp){
-              totalEmissionForMaterial += e2.gwp
-            }
-            
-            if(e1 === e2.IFCMATERIAL){
+            if(e1 === e2.IFCMATERIAL && e2.gwp){
               matGwp += e2.gwp;
               matVol += e2.volume;
+              totalEmissionForMaterial += e2.gwp
             }
           });
           matCatGwpDataSet.push(matGwp);
