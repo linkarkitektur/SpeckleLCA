@@ -469,7 +469,6 @@
     </v-row>
     <div id="charts" ref="charts">
       <div v-if="chartData.length">
-        <h1 class="ma-4">Calculation Results</h1>
         <ChartsContainer :chart-data="chartData"/>
       </div>
     </div>
