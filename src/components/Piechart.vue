@@ -126,10 +126,9 @@ export default {
     initializeChart(){
       this.chartData.labels = [...this.labels]
       this.chartData.datasets[0].data = [...this.chartDataSet]
-      console.log(this.chartData)
     },
     clicked(e,item){
-      console.log(e,item)
+      
     }
   },
   
