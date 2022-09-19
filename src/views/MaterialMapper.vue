@@ -12,7 +12,7 @@
                   :items="savedMapperList"
                   item-text="text"
                   label="Select Saved Mapper"
-                  :disabled="loading || selectedMapperEmpty || buttonLoader"
+                  :disabled="loading || buttonLoader"
                   @change="onMapperChange"
                 >
                   <template v-slot:item="{ item }">
@@ -53,7 +53,7 @@
                   class="float-right mt-2"
                   outlined
                   text
-                  :disabled="loading || selectedMapperEmpty || buttonLoader"
+                  :disabled="loading || buttonLoader"
                   @click="createNew"
                 >
                   Create New Mapping</v-btn
@@ -471,7 +471,7 @@
     </v-row>
     <div id="charts" ref="charts">
       <div v-if="chartData.length">
-        <ChartsContainer :chart-data="chartData"/>
+        <ChartsContainer :chart-data="chartData" :mapper-name="mapperName" :db-data="this.docSnap.data()"/>
       </div>
     </div>
   </div>
