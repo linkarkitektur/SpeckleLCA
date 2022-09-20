@@ -1116,9 +1116,11 @@ export default {
     },
 
     formulateData(data){
-      const categories = []
+      const categories = [];
       data.forEach(e=>{
-        categories.push(e.CLASS.split('#')[0])
+        if(e.RESULT_STATUS === 'SUCCESS'){
+          categories.push(e.CLASS.split('#')[0])
+        }
       })
       const uniqueCategories = [...new Set(categories)]
      
@@ -1133,7 +1135,6 @@ export default {
         }
         data.forEach(e2=>{
           if(e2.CLASS.split('#')[0] === e1){
-            console.log('inside')
             if(e2.RESULT_STATUS === 'SUCCESS'){
               totalVolume +=  Number(e2.RESULT_BY_VOLUME)
               totalGwp +=  Number(e2.RESULT_ABSOLUTE)

@@ -1,6 +1,17 @@
 <template>
   <v-card class="pa-4">
-    <h2>{{title}}</h2>
+    <v-row>
+      <v-col cols="6"><h2>{{title}}</h2></v-col>
+      <v-col cols="6" align="right" v-if="showBackButton">
+        <v-btn class="ma-2" color="primary" @click="onBackButtonClicked">
+          <v-icon dark left>
+            mdi-arrow-left
+          </v-icon>
+          Back
+        </v-btn>
+      </v-col>
+    </v-row>
+    
     <Pie
     :chart-options="chartOptions"
     :chart-data="chartData"
@@ -11,7 +22,7 @@
     :styles="styles"
     :width="width"
     :height="height"
-    @click="clicked()"
+    :ref="`chart`"
   />
   </v-card>
 </template>
@@ -82,17 +93,19 @@ export default {
       required:true,
     },
   },
-  data() {
-    return {
-      chartData: {
-        labels: [],
+  computed:{
+    chartData(){
+      return{
+        labels: [...this.labels],
         datasets: [
           {
-            data: []
+            data: [...this.chartDataSet]
           }
         ]
-      },
-      chartOptions: {
+      }
+    },
+    chartOptions(){
+      return {
         responsive: true,
         maintainAspectRatio: false,
         onClick: this.clicked,
@@ -113,22 +126,29 @@ export default {
             }
           }
         }
-      },
-      plugins:[
-        autocolors
-      ]
+      }
     }
   },
-  created(){
-    this.initializeChart()
+  data() {
+    return {
+      showBackButton:false
+    }
   },
   methods:{
-    initializeChart(){
-      this.chartData.labels = [...this.labels]
-      this.chartData.datasets[0].data = [...this.chartDataSet]
-    },
     clicked(e,item){
-      
+      if(this.title === 'GWP By Main Category'){
+        this.$emit('onArclicked',item[0].index,'gwp');
+        this.showBackButton = true
+      }else if(this.title === 'Volume By Main Category'){
+        this.$emit('onArclicked',item[0].index,'volume');
+        this.showBackButton = true
+      }
+    },
+    onBackButtonClicked(){
+      if(this.title.includes('GWP')){
+        this.$emit('onBackClicked','gwp');
+        this.showBackButton = false
+      }
     }
   },
   

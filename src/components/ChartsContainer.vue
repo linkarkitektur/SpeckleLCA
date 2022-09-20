@@ -26,6 +26,8 @@
         :chartDataSet="index % 2 === 0 ? chart.gwpDataSet : chart.volumeDataSet" 
         :title="chart.title"
         :totalEmission="chart.totalEmission"
+        @onArclicked="onArclicked"
+        @onBackClicked="onBackClicked"
       />
     </v-col>
   </v-row>
@@ -37,7 +39,9 @@ export default {
   data(){
     return{
       chartResults:null,
-      result:null
+      result:null,
+      previousMainCatGwpData:null,
+      previousMainCatVolumeData:null
     }
   },
   components: { Piechart },
@@ -246,6 +250,39 @@ export default {
       }
 
       console.log(this.chartResults);
+    },
+    onArclicked(index,category){
+      if(category === 'gwp'){
+        this.previousMainCatGwpData = this.chartResults.mainCatGwpData;
+        const mainCat = this.chartResults.mainCatGwpData.labels[index];
+        let labels=[];
+        let gwpDataSet = [];
+        let title = `GWP By Sub Categories of ${mainCat}`
+        let totalEmission = 0
+        this.chartData.forEach(e1=>{
+          if(e1.category === mainCat){
+            e1.sub_categories.forEach(e2=>{
+              labels.push(e2.name);
+              gwpDataSet.push(e2.gwp);
+            });
+            totalEmission = e1.total_gwp
+          }
+        });
+        this.chartResults.mainCatGwpData = {
+          labels,
+          gwpDataSet,
+          title,
+          totalEmission:totalEmission/1000
+        }
+        // ref.updateChart();
+      }
+    },
+    onBackClicked(category){
+      if(category === 'gwp'){
+        this.chartResults.mainCatGwpData = {
+          ...this.previousMainCatGwpData
+        }
+      }
     },
     saveResult(){
       
