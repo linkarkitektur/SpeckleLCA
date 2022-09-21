@@ -17,7 +17,6 @@
     :chart-data="chartData"
     :chart-id="chartId"
     :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
     :css-classes="cssClasses"
     :styles="styles"
     :width="width"
@@ -28,8 +27,7 @@
 </template>
 
 <script>
-import { Pie } from 'vue-chartjs/legacy'
-import autocolors from 'chartjs-plugin-autocolors';
+import { Pie } from 'vue-chartjs/legacy';
 
 import {
   Chart as ChartJS,
@@ -40,7 +38,7 @@ import {
   CategoryScale
 } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, autocolors)
+ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 
 export default {
   name: 'PieChart',
@@ -99,6 +97,7 @@ export default {
         labels: [...this.labels],
         datasets: [
           {
+            backgroundColor:this.labels.map(e=> this.getRandomColor()),
             data: [...this.chartDataSet]
           }
         ]
@@ -110,9 +109,6 @@ export default {
         maintainAspectRatio: false,
         onClick: this.clicked,
         plugins: {
-          autocolors: {
-            mode: 'data'
-          },
           legend:{
             position:'right'
           },
@@ -121,6 +117,7 @@ export default {
             display:true,
             position:'top',
             text: this.totalEmission.toFixed(2) + ' Tons C02e',
+            color:'red',
             font: {
               size: 18
             }
@@ -138,7 +135,7 @@ export default {
     clicked(e,item){
       if(this.title === 'GWP By Main Category'){
         this.$emit('onArclicked',item[0].index,'gwp');
-        this.showBackButton = true
+        this.showBackButton = true;
       }else if(this.title === 'Volume By Main Category'){
         this.$emit('onArclicked',item[0].index,'volume');
         this.showBackButton = true
@@ -149,6 +146,14 @@ export default {
         this.$emit('onBackClicked','gwp');
         this.showBackButton = false
       }
+    },
+    getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 8; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
     }
   },
   
