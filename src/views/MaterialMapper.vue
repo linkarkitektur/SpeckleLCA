@@ -1117,11 +1117,14 @@ export default {
 
     formulateData(data){
       const categories = [];
+      const ignoredResults = []
       data.forEach(e=>{
         if(e.RESULT_STATUS === 'SUCCESS'){
           categories.push(e.CLASS.split('#')[0])
+        }else if(!ignoredResults.includes(e.CLASS.split('#')[0])){
+          ignoredResults.push(e.CLASS.split('#')[0]);
         }
-      })
+      });
       const uniqueCategories = [...new Set(categories)]
      
       uniqueCategories.forEach(e1=>{
@@ -1163,7 +1166,10 @@ export default {
         window.scrollTo({
           top: target.offsetTop,
           behavior: 'smooth',
-        })
+        });
+        if(ignoredResults.length){
+          alert(`Result ignored for: ${ignoredResults.join(',')}`);
+        }
       },100)
     }
 

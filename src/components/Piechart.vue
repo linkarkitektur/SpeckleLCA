@@ -134,16 +134,19 @@ export default {
   methods:{
     clicked(e,item){
       if(this.title === 'GWP By Main Category'){
-        this.$emit('onArclicked',item[0].index,'gwp');
+        this.$emit('onArclicked',item[0].index,'GWP');
         this.showBackButton = true;
       }else if(this.title === 'Volume By Main Category'){
-        this.$emit('onArclicked',item[0].index,'volume');
+        this.$emit('onArclicked',item[0].index,'Volume');
         this.showBackButton = true
       }
     },
     onBackButtonClicked(){
       if(this.title.includes('GWP')){
         this.$emit('onBackClicked','gwp');
+        this.showBackButton = false
+      }else{
+        this.$emit('onBackClicked','volume');
         this.showBackButton = false
       }
     },
