@@ -252,35 +252,48 @@ export default {
       console.log(this.chartResults);
     },
     onArclicked(index,category){
-      if(category === 'gwp'){
+      let data = ''
+      let labels=[];
+      let gwpDataSet = [];
+      let volumeDataSet = [];
+      if(category === 'GWP'){
         this.previousMainCatGwpData = this.chartResults.mainCatGwpData;
-        const mainCat = this.chartResults.mainCatGwpData.labels[index];
-        let labels=[];
-        let gwpDataSet = [];
-        let title = `GWP By Sub Categories of ${mainCat}`
-        let totalEmission = 0
-        this.chartData.forEach(e1=>{
-          if(e1.category === mainCat){
-            e1.sub_categories.forEach(e2=>{
-              labels.push(e2.name);
-              gwpDataSet.push(e2.gwp);
-            });
-            totalEmission = e1.total_gwp
-          }
-        });
-        this.chartResults.mainCatGwpData = {
-          labels,
-          gwpDataSet,
-          title,
-          totalEmission:totalEmission/1000
+        data = 'mainCatGwpData'
+      }else{
+        this.previousMainCatVolumeData = this.chartResults.mainCatVolumeData;
+        data = 'mainCatVolumeData'
+      }
+
+      const mainCat = this.chartResults[data].labels[index];
+      console.log(mainCat)
+      let title = `${category} By Sub Categories of ${mainCat}`
+      let totalEmission = 0
+      this.chartData.forEach(e1=>{
+        if(e1.category === mainCat){
+          e1.sub_categories.forEach(e2=>{
+            labels.push(e2.name);
+            gwpDataSet.push(e2.gwp);
+            volumeDataSet.push(e2.volume);
+          });
+          totalEmission = e1.total_gwp;
         }
-        // ref.updateChart();
+      });
+      this.chartResults[data] = {
+        labels,
+        gwpDataSet,
+        volumeDataSet,
+        title,
+        totalEmission:totalEmission/1000
       }
     },
     onBackClicked(category){
       if(category === 'gwp'){
         this.chartResults.mainCatGwpData = {
           ...this.previousMainCatGwpData
+        }
+      }else{
+        this.chartResults.mainCatVolumeData = {
+          ...this.previousMainCatVolumeData
         }
       }
     },
