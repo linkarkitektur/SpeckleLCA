@@ -28,6 +28,7 @@
 
 <script>
 import { Pie } from 'vue-chartjs/legacy';
+import colors from '../utils/colorPalette';
 
 import {
   Chart as ChartJS,
@@ -97,7 +98,7 @@ export default {
         labels: [...this.labels],
         datasets: [
           {
-            backgroundColor:this.labels.map(e=> this.getRandomColor()),
+            backgroundColor:colors,
             data: [...this.chartDataSet]
           }
         ]
@@ -149,14 +150,6 @@ export default {
         this.$emit('onBackClicked','volume');
         this.showBackButton = false
       }
-    },
-    getRandomColor() {
-      var letters = '0123456789ABCDEF';
-      var color = '#';
-      for (var i = 0; i < 8; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
     }
   },
   

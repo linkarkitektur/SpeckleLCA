@@ -30,11 +30,18 @@
         @onBackClicked="onBackClicked"
       />
     </v-col>
+    <v-col cols="12" class="mt-10"><hr/></v-col>
+    <v-col cols="12" class="mt-10" v-if="getResults">
+      <BarChart :items="getResults"></BarChart>
+    </v-col>
   </v-row>
 </template>
 
 <script>
+import { collection, doc, setDoc, updateDoc } from '@firebase/firestore';
+import db from '../firebase/firebaseinit';
 import Piechart from './Piechart.vue';
+import BarChart from './BarChart.vue';
 export default {
   data(){
     return{
@@ -44,15 +51,29 @@ export default {
       previousMainCatVolumeData:null
     }
   },
-  components: { Piechart },
+  components: { Piechart, BarChart },
   props:{
     chartData:{
       type:Array,
       required:true
+    },
+    results:{
+      type:Object,
+      required:false
     }
   },
   mounted(){
     this.initMainCategoryChartData()
+  },
+  computed:{
+    getResults:{
+      get(){
+        return this.results;
+      },
+      set(val){
+        return val
+      }
+    }
   },
   methods:{
     initMainCategoryChartData(){
@@ -69,6 +90,7 @@ export default {
       let ifcMaterial =[]
 
       let totalEmission = 0;
+      let totalVolume = 0;
       let resourceSubTypeCat = [];
 
       this.chartData.forEach(e=>{
@@ -76,6 +98,7 @@ export default {
         gwpDataSet.push(e.total_gwp);
         volumeDataSet.push(e.total_volume);
         totalEmission += e.total_gwp;
+        totalVolume += e.total_volume;
 
         e.sub_categories.forEach(sub=>{
           subCatlabels.push(sub.name);
@@ -101,7 +124,8 @@ export default {
         labels,
         volumeDataSet,
         title:'Volume By Main Category',
-        totalEmission:totalEmission/1000
+        totalEmission:totalEmission/1000,
+        totalVolume:totalVolume
       } 
 
       const subCategoryGWPData = {

@@ -13,5 +13,5 @@ const config = {
 const firebaseApp = initializeApp(config);
 const db = getFirestore(firebaseApp);
 
-const mapperDB = doc(db, "mapperList/linkLca");
-export default mapperDB;
+// const mapperDB = doc(db, "mapperList/linkLca");
+export default db;
