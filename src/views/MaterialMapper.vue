@@ -471,7 +471,7 @@
     </v-row>
     <div id="charts" ref="charts">
       <div v-if="chartData.length">
-        <ChartsContainer :chart-data="chartData" :mapper-name="mapperName" :db-data="this.docSnap.data()"/>
+        <ChartsContainer :chart-data="chartData" :mapper-name="mapperName" :results="chartResults"/>
       </div>
     </div>
   </div>
@@ -479,7 +479,7 @@
 
 <script>
 import { getStreamObject } from "@/utils/speckleUtils";
-import { getDoc, updateDoc } from "@firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, setDoc, updateDoc } from "@firebase/firestore";
 import {
   FILTER_COUNTRIES,
   COMBINED_UNIT_LIST,
@@ -490,7 +490,7 @@ import { filterDataFromList, getDefaultData, isObjectEmpty } from "./../shared/h
 import {utils , writeFile, read, write} from "xlsx";
 import axios from 'axios';
 
-import mapperDB from "./../firebase/firebaseinit";
+import db from "./../firebase/firebaseinit";
 import ChartsContainer from "../components/ChartsContainer.vue";
 
 export default {
@@ -543,6 +543,7 @@ export default {
       fileToken:null,
       chartData:[],
       buttonLoader: false,
+      chartResults:null
     };
   },
   computed: {
@@ -604,31 +605,26 @@ export default {
       }
     },
     async getMappers() {
-       this.docSnap = await getDoc(mapperDB, "data");
-
-      if (this.docSnap.exists()) {
-        console.log(this.docSnap.data());
-        const newArr = this.docSnap.data();
-        this.savedMapperList = newArr?.data?.[this.streamId] ?? [];
+      const colRef = collection(db, 'mappers');
+      const docRef = doc(colRef,this.streamId);
+      const snap = await getDoc(docRef);
+      if(snap.exists()){
+        this.savedMapperList = Object.values(snap.data());
         this.savedMapperList?.forEach((el) => {
           if (el.isDefault) {
             this.selectedMapper = { ...el };
             this.currentCategoryMapper = { ...el.data };
           }
         });
-        if (!this.savedMapperList?.[0]) {
-          this.mapperName = "Default";
-          this.dialogMapper = true;
-        }
+      }else{
+        this.mapperName = "Default";
+        this.dialogMapper = true;
       }
     },
     async updateMappers(newData) {
-      const extingData = this.docSnap.data().data
-      const data = {
-        ...extingData,
-        ...newData
-      }
-      await updateDoc(mapperDB, { data });
+      const colRef = collection(db, 'mappers');
+      const docRef = doc(colRef,this.streamId)
+      setDoc(docRef,{...newData});
     },
     getResourceList() {
       const ACCEESS_TOKEN = `${process.env.VUE_APP_SPECKLE_NAME}.OCAccessToken`;
@@ -847,7 +843,7 @@ export default {
 
     saveMapper(items) {
       if (this.streamId) {
-        this.updateMappers({ [this.streamId]: items });
+        this.updateMappers(items);
       }
     },
     async getStream() {
@@ -939,6 +935,7 @@ export default {
       this.buttonLoader = true
       const rows = [];
       const data = this.selectedMapper.data;
+      console.log(data)
       for(const category in data){
         const staticFullName = data[category].staticFullName;
         const isMultiPart = data[category].isMultiPart;
@@ -1162,7 +1159,7 @@ export default {
       this.loader = null;
       this.buttonLoader = false;
       var target = document.getElementById("charts");
-      setTimeout(()=>{
+      this.$nextTick(()=>{
         window.scrollTo({
           top: target.offsetTop,
           behavior: 'smooth',
@@ -1170,7 +1167,7 @@ export default {
         if(ignoredResults.length){
           alert(`Result ignored for: ${ignoredResults.join(',')}`);
         }
-      },100)
+      })
     }
 
   },
