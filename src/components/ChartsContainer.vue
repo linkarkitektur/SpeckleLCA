@@ -31,14 +31,14 @@
       />
     </v-col>
     <v-col cols="12" class="mt-10"><hr/></v-col>
-    <v-col cols="12" class="mt-10" v-if="getResults">
-      <BarChart :items="getResults"></BarChart>
+    <v-col cols="12" class="mt-10" v-if="barChartData">
+      <BarChart :items="barChartData"></BarChart>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { collection, doc, setDoc, updateDoc } from '@firebase/firestore';
+import { collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from '@firebase/firestore';
 import db from '../firebase/firebaseinit';
 import Piechart from './Piechart.vue';
 import BarChart from './BarChart.vue';
@@ -48,7 +48,8 @@ export default {
       chartResults:null,
       result:null,
       previousMainCatGwpData:null,
-      previousMainCatVolumeData:null
+      previousMainCatVolumeData:null,
+      barChartData:null
     }
   },
   components: { Piechart, BarChart },
@@ -62,18 +63,14 @@ export default {
       required:false
     }
   },
-  mounted(){
-    this.initMainCategoryChartData()
-  },
-  computed:{
-    getResults:{
-      get(){
-        return this.results;
-      },
-      set(val){
-        return val
-      }
-    }
+  async mounted(){
+    this.initMainCategoryChartData();
+    const colRef = collection(db, 'results');
+    const docRef = doc(colRef,this.$route.params.id);
+    await onSnapshot(docRef,(doc)=>{
+      console.log(doc.data())
+      this.barChartData = doc.data();
+    })
   },
   methods:{
     initMainCategoryChartData(){
@@ -118,7 +115,8 @@ export default {
         labels,
         gwpDataSet,
         title:'GWP By Main Category',
-        totalEmission:totalEmission/1000
+        totalEmission:totalEmission/1000,
+        totalVolume:totalVolume
       }  
       const mainCatVolumeData = {
         labels,
@@ -321,8 +319,16 @@ export default {
         }
       }
     },
-    saveResult(){
-      
+    async saveResult(){
+      const colRef = collection(db, 'results');
+      const docRef = doc(colRef,this.$route.params.id);
+      const snap = await getDoc(docRef);
+      if(snap.exists()){
+        await updateDoc(docRef,{[this.result]:this.chartResults});
+      }else{
+        await setDoc(docRef,{[this.result]:this.chartResults});
+      }
+      this.result = null;
     }
   }
 }
