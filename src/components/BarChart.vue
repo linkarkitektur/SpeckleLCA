@@ -10,7 +10,6 @@
             :items="dropDownValues"
             label="Select Result 1"
             outlined
-            @change="onDropdownChange"
             v-model="result_1"
           ></v-select>
         </v-col>
@@ -19,7 +18,6 @@
             :items="dropDownValues"
             label="Select Result 2"
             outlined
-            @change="onDropdownChange"
             v-model="result_2"
           ></v-select>
         </v-col>

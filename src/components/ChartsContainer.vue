@@ -11,6 +11,7 @@
         <v-col cols="4" align="left">
           <v-btn
             color="primary"
+            :loading="buttonLoader"
             @click="saveResult"
             :disabled="!result"
           >
@@ -49,7 +50,8 @@ export default {
       result:null,
       previousMainCatGwpData:null,
       previousMainCatVolumeData:null,
-      barChartData:null
+      barChartData:null,
+      buttonLoader:false
     }
   },
   components: { Piechart, BarChart },
@@ -320,6 +322,7 @@ export default {
       }
     },
     async saveResult(){
+      this.buttonLoader = true;
       const colRef = collection(db, 'results');
       const docRef = doc(colRef,this.$route.params.id);
       const snap = await getDoc(docRef);
@@ -329,6 +332,7 @@ export default {
         await setDoc(docRef,{[this.result]:this.chartResults});
       }
       this.result = null;
+      this.buttonLoader = false;
     }
   }
 }

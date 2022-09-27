@@ -1085,6 +1085,7 @@ export default {
           if(error.response.status === 500){
             alert('Calculation response failed !');
             this.loading = false
+            this.buttonLoader = false
           }else{
             setTimeout(()=>{
               console.log('Attempting...')
