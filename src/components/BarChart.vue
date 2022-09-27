@@ -29,7 +29,22 @@
       <v-card class="pa-4">
         <Bar
         :chart-options="chartOptions"
-        :chart-data="chartData"
+        :chart-data="chartDataForGWP"
+        :chart-id="chartId"
+        :dataset-id-key="datasetIdKey"
+        :plugins="plugins"
+        :css-classes="cssClasses"
+        :styles="styles"
+        :width="width"
+        :height="height"
+      />
+      </v-card>
+    </v-col>
+    <v-col cols="6" v-if="result_1 && result_2">
+      <v-card class="pa-4">
+        <Bar
+        :chart-options="chartOptions"
+        :chart-data="chatDataForVolume"
         :chart-id="chartId"
         :dataset-id-key="datasetIdKey"
         :plugins="plugins"
@@ -102,10 +117,41 @@ export default {
     dropDownValues(){
       return Object.keys(this.items)
     },
-    chartData(){
+    chartDataForGWP(){
+      return this.getCalculations('totalEmission')
+    },
+    chatDataForVolume(){
+      return this.getCalculations('totalVolume')
+    }
+  },
+  created(){
+    console.log(this.items)
+  },
+  data() {
+    return {
+      result_1:null,
+      result_2:null,
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins:{
+          legend:{
+            display:false
+          },
+          title:{
+            display:true,
+            text:'Total GWP Comparison',
+            fontSize:18
+          }
+        }
+      }
+    }
+  },
+  methods:{
+    getCalculations(key){
       if(this.result_1 && this.result_2){
         const labels = [this.result_1,this.result_2];
-        let data = [this.items[this.result_1].mainCatGwpData.totalEmission,this.items[this.result_2].mainCatGwpData.totalEmission];
+        let data = [this.items[this.result_1].mainCatGwpData[key],this.items[this.result_2].mainCatGwpData[key]];
         this.$nextTick(()=>{
           window.scrollTo({
             top: this.$refs['bar-chart'].offsetTop,
@@ -124,36 +170,13 @@ export default {
         }
       }
       return {
-          labels: [],
-          datasets: [
-            {
-              data: []
-            }
-          ]
-        }
-    }
-  },
-  created(){
-    console.log(this.items)
-  },
-  data() {
-    return {
-      result_1:null,
-      result_2:null,
-      chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins:{
-          legend:{
-            display:false
+        labels: [],
+        datasets: [
+          {
+            data: []
           }
-        }
+        ]
       }
-    }
-  },
-  methods:{
-    onDropdownChange(){
-      
     }
   }
 }
