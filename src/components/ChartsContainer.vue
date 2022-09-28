@@ -13,7 +13,7 @@
             color="primary"
             :loading="buttonLoader"
             @click="saveResult"
-            :disabled="!result"
+            :disabled="!result || buttonLoader"
           >
             Save Result
           </v-btn>

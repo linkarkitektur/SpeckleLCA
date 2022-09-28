@@ -7,7 +7,7 @@
       <v-row>
         <v-col cols="6">
           <v-select
-            :items="dropDownValues"
+            :items="dropDownValues.filter(e=>e !== result_2)"
             label="Select Result 1"
             outlined
             v-model="result_1"
@@ -15,7 +15,7 @@
         </v-col>
         <v-col cols="6">
           <v-select
-            :items="dropDownValues"
+            :items="dropDownValues.filter(e=>e !== result_1)"
             label="Select Result 2"
             outlined
             v-model="result_2"
@@ -43,6 +43,21 @@
         <Bar
         :chart-options="chartOptions"
         :chart-data="chatDataForVolume"
+        :chart-id="chartId"
+        :dataset-id-key="datasetIdKey"
+        :plugins="plugins"
+        :css-classes="cssClasses"
+        :styles="styles"
+        :width="width"
+        :height="height"
+      />
+      </v-card>
+    </v-col>
+    <v-col cols="6" v-if="result_1 && result_2">
+      <v-card class="pa-4">
+        <Bar
+        :chart-options="chartOptions"
+        :chart-data="chartDataForMainCategoryComparision"
         :chart-id="chartId"
         :dataset-id-key="datasetIdKey"
         :plugins="plugins"
@@ -120,6 +135,9 @@ export default {
     },
     chatDataForVolume(){
       return this.getCalculations('totalVolume')
+    },
+    chartDataForMainCategoryComparision(){
+      return this.getMainCategoryComparision('mainCatGwpData','gwpDataSet');
     }
   },
   created(){
@@ -175,6 +193,47 @@ export default {
           }
         ]
       }
+    },
+    getMainCategoryComparision(arr,key){
+      let data = [];
+      let labels = [];
+      let datasets = [];
+      this.items[this.result_1][arr].labels.forEach((e1,i) => {
+        this.items[this.result_2][arr].labels.forEach((e2,j)=>{
+          if(e1 === e2){
+            let obj = {
+              x:e1,
+              [this.result_1]:this.items[this.result_1].mainCatGwpData[key][i],
+              [this.result_2]:this.items[this.result_2].mainCatGwpData[key][j]
+            }
+            data.push(obj);
+            labels.push(e1);
+          }
+        });
+      });
+  
+      datasets.push(
+      {
+        label: [this.result_1],
+        data: data,
+        backgroundColor: colors,
+        parsing: {
+          yAxisKey: [this.result_1]
+        }
+      },
+      {
+        label: [this.result_2],
+        data: data,
+        backgroundColor: colors,
+        parsing: {
+          yAxisKey: [this.result_2]
+        }
+      })
+      return {
+        labels: labels,
+        datasets: datasets
+      }
+      
     }
   }
 }
