@@ -790,6 +790,7 @@ export default {
           isDefault: false,
           tooltip: "Make it as default",
         });
+      this.chartData = [];
     },
 
     onSave() {
