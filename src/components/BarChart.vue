@@ -24,6 +24,7 @@
       </v-row>
     </v-col>
     <v-col cols="6" v-if="result_1 && result_2">
+      <v-card-title>{{chartDataForGWP.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
         :chart-options="chartOptions"
@@ -39,6 +40,7 @@
       </v-card>
     </v-col>
     <v-col cols="6" v-if="result_1 && result_2">
+      <v-card-title>{{chatDataForVolume.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
         :chart-options="chartOptions"
@@ -54,10 +56,43 @@
       </v-card>
     </v-col>
     <v-col cols="6" v-if="result_1 && result_2">
+      <v-card-title>{{chartDataForMainCategoryComparision.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
         :chart-options="chartOptions"
         :chart-data="chartDataForMainCategoryComparision"
+        :chart-id="chartId"
+        :dataset-id-key="datasetIdKey"
+        :plugins="plugins"
+        :css-classes="cssClasses"
+        :styles="styles"
+        :width="width"
+        :height="height"
+      />
+      </v-card>
+    </v-col>
+    <v-col cols="6" v-if="result_1 && result_2">
+      <v-card-title>{{chartDataForMainCategoryVolumeComparision.title}}</v-card-title>
+      <v-card class="pa-4">
+        <Bar
+        :chart-options="chartOptions"
+        :chart-data="chartDataForMainCategoryVolumeComparision"
+        :chart-id="chartId"
+        :dataset-id-key="datasetIdKey"
+        :plugins="plugins"
+        :css-classes="cssClasses"
+        :styles="styles"
+        :width="width"
+        :height="height"
+      />
+      </v-card>
+    </v-col>
+    <v-col cols="12" v-if="result_1 && result_2">
+      <v-card-title>Sub Category GWP Comparison</v-card-title>
+      <v-card class="pa-4">
+        <Bar
+        :chart-options="chartOptions"
+        :chart-data="chartDataForSubCategorGWPComparision"
         :chart-id="chartId"
         :dataset-id-key="datasetIdKey"
         :plugins="plugins"
@@ -138,6 +173,12 @@ export default {
     },
     chartDataForMainCategoryComparision(){
       return this.getMainCategoryComparision('mainCatGwpData','gwpDataSet');
+    },
+    chartDataForMainCategoryVolumeComparision(){
+      return this.getMainCategoryComparision('mainCatVolumeData','volumeDataSet');
+    },
+    chartDataForSubCategorGWPComparision(){
+      return this.getMainCategoryComparision('subCategoryGWPData','gwpDataSet');
     }
   },
   created(){
@@ -153,11 +194,6 @@ export default {
         plugins:{
           legend:{
             display:false
-          },
-          title:{
-            display:true,
-            text:'Total GWP Comparison',
-            fontSize:18
           }
         }
       }
@@ -176,6 +212,7 @@ export default {
         })
         
         return {
+          title: key === 'totalEmission' ? 'Total GWP Comparison' : 'Total Volume Comparison',
           labels: labels,
           datasets: [
             {
@@ -184,14 +221,6 @@ export default {
             }
           ]
         }
-      }
-      return {
-        labels: [],
-        datasets: [
-          {
-            data: []
-          }
-        ]
       }
     },
     getMainCategoryComparision(arr,key){
@@ -203,8 +232,8 @@ export default {
           if(e1 === e2){
             let obj = {
               x:e1,
-              [this.result_1]:this.items[this.result_1].mainCatGwpData[key][i],
-              [this.result_2]:this.items[this.result_2].mainCatGwpData[key][j]
+              [this.result_1]:this.items[this.result_1][arr][key][i],
+              [this.result_2]:this.items[this.result_2][arr][key][j]
             }
             data.push(obj);
             labels.push(e1);
@@ -230,6 +259,7 @@ export default {
         }
       })
       return {
+        title: key === 'gwpDataSet' ? 'Main Categoory GWP Comparison' : 'Main Categoory Volume Comparison',
         labels: labels,
         datasets: datasets
       }
