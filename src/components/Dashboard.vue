@@ -74,14 +74,9 @@
           <v-card-actions> </v-card-actions>
         </v-card>
       </v-col>
-      <!-- <v-col lg="6" sm="12" xs="12">
-        <v-card max-height="500px" min-height="400px" outlined>
-          <v-card-title>Graph</v-card-title>
-        </v-card>
-      </v-col> -->
-      <v-col cols="12">
-        <v-card max-height="400px" min-height="400px" outlined>
-          <v-card-title>Bench Marking</v-card-title>
+      <v-col cols="12" class="mt-10" v-if="barChartData">
+        <v-card outlined>
+          <BarChart :items="barChartData"></BarChart>
         </v-card>
       </v-col>
     </v-row>
@@ -91,10 +86,15 @@
 <script>
 import { isEmpty } from "lodash";
 import { getStreamObject } from "@/utils/speckleUtils";
+import BarChart from './BarChart.vue';
+import { collection, doc, onSnapshot } from "@firebase/firestore";
+import db from "../firebase/firebaseinit";
 
 export default {
   name: "Dashboard",
-  components: {},
+  components: {
+    BarChart
+  },
   props: ["streamId", "objectId", "info", "stream"],
   data() {
     return {
@@ -115,6 +115,7 @@ export default {
         },
         { text: "Children Count", value: "children" },
       ],
+      barChartData:null
     };
   },
   computed: {
@@ -138,6 +139,12 @@ export default {
       this.selectedBranch = localStorage.getItem("branch");
       this.changeBranch(localStorage.getItem("branch"));
     }
+    const colRef = collection(db, 'results');
+    const docRef = doc(colRef,this.$route.params.id);
+    await onSnapshot(docRef,(doc)=>{
+      console.log(doc.data())
+      this.barChartData = doc.data();
+    })
   },
   watch: {
     branchAndCommits: function(val) {

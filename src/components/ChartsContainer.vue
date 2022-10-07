@@ -26,14 +26,11 @@
         :labels="chart.labels" 
         :chartDataSet="index % 2 === 0 ? chart.gwpDataSet : chart.volumeDataSet" 
         :title="chart.title"
-        :totalEmission="chart.totalEmission"
+        :totalEmission="index % 2 === 0 ? chart.totalEmission : chart.totalVolume"
+        :index="index"
         @onArclicked="onArclicked"
         @onBackClicked="onBackClicked"
       />
-    </v-col>
-    <v-col cols="12" class="mt-10"><hr/></v-col>
-    <v-col cols="12" class="mt-10" v-if="barChartData">
-      <BarChart :items="barChartData"></BarChart>
     </v-col>
   </v-row>
 </template>
@@ -42,7 +39,6 @@
 import { collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from '@firebase/firestore';
 import db from '../firebase/firebaseinit';
 import Piechart from './Piechart.vue';
-import BarChart from './BarChart.vue';
 export default {
   data(){
     return{
@@ -50,11 +46,11 @@ export default {
       result:null,
       previousMainCatGwpData:null,
       previousMainCatVolumeData:null,
-      barChartData:null,
+      // barChartData:null,
       buttonLoader:false
     }
   },
-  components: { Piechart, BarChart },
+  components: { Piechart },
   props:{
     chartData:{
       type:Array,
@@ -67,12 +63,6 @@ export default {
   },
   async mounted(){
     this.initMainCategoryChartData();
-    const colRef = collection(db, 'results');
-    const docRef = doc(colRef,this.$route.params.id);
-    await onSnapshot(docRef,(doc)=>{
-      console.log(doc.data())
-      this.barChartData = doc.data();
-    })
   },
   methods:{
     initMainCategoryChartData(){
@@ -145,14 +135,14 @@ export default {
       this.chartResults = {
         mainCatGwpData,
         mainCatVolumeData,
-        subCategoryGWPData,
-        subCategoryVolumeData
+        // subCategoryGWPData,
+        // subCategoryVolumeData
       }
       const uniqueIfcMaterial = [...new Set(ifcMaterial)];
       this.initAssemblyMaterialCatChart(uniqueIfcMaterial,assemblyCategory,materialCategory);
 
       const uniqueSubCategory = [...new Set(resourceSubTypeCat)];
-      this.initResourceSubCatChart(uniqueSubCategory, totalEmission);
+      this.initResourceSubCatChart(uniqueSubCategory, totalEmission, totalVolume);
     },
 
     initAssemblyMaterialCatChart(uniqueIfcMaterial,assemblyCategory,materialCategory){
@@ -165,6 +155,8 @@ export default {
       let assemblyCatVolumeDataSet = [];
       let totalEmissionForAssembly = 0;
       let totalEmissionForMaterial = 0;
+      let totalVolumeForAssembly = 0;
+      let totalVolumeForMaterial = 0;
       
       
       uniqueIfcMaterial.forEach(e1=>{
@@ -179,6 +171,7 @@ export default {
               assemblyGwp += e2.gwp;
               assemblyVol += e2.volume;
               totalEmissionForAssembly += e2.gwp;
+              totalVolumeForAssembly += e2.volume
             }
           });
           assemblyCatGwpDataSet.push(assemblyGwp);
@@ -192,6 +185,7 @@ export default {
               matGwp += e2.gwp;
               matVol += e2.volume;
               totalEmissionForMaterial += e2.gwp
+              totalVolumeForMaterial += e2.volume
             }
           });
           matCatGwpDataSet.push(matGwp);
@@ -209,7 +203,7 @@ export default {
         labels:matCatLabels,
         volumeDataSet:matCatVolumeDataSet,
         title:'Volume By Material',
-        totalEmission:totalEmissionForMaterial/1000
+        totalVolume:totalVolumeForMaterial
       }
 
       const assemblyCategoryGWPData = {
@@ -222,7 +216,7 @@ export default {
         labels:assemblyCatLabels,
         volumeDataSet:assemblyCatVolumeDataSet,
         title:'Volume By Assembly',
-        totalEmission:totalEmissionForAssembly/1000
+        totalVolume:totalVolumeForAssembly
       }
 
       this.chartResults = {
@@ -234,7 +228,7 @@ export default {
       }
     },
 
-    initResourceSubCatChart(uniqueSubCategory, totalEmission){
+    initResourceSubCatChart(uniqueSubCategory, totalEmission, totalVolume){
       let resourceCatLabels = [];
       let resourceCatGwpDataSet = [];
       let resourceCatVolumeDataSet = [];
@@ -264,7 +258,7 @@ export default {
         labels:resourceCatLabels,
         volumeDataSet:resourceCatVolumeDataSet,
         title:'Volume By Resource Sub Type',
-        totalEmission:totalEmission/1000
+        totalVolume:totalVolume
       }
 
       this.chartResults = {
@@ -289,9 +283,9 @@ export default {
       }
 
       const mainCat = this.chartResults[data].labels[index];
-      console.log(mainCat)
       let title = `${category} By Sub Categories of ${mainCat}`
       let totalEmission = 0
+      let totalVolume = 0
       this.chartData.forEach(e1=>{
         if(e1.category === mainCat){
           e1.sub_categories.forEach(e2=>{
@@ -300,6 +294,7 @@ export default {
             volumeDataSet.push(e2.volume);
           });
           totalEmission = e1.total_gwp;
+          totalVolume = e1.total_volume
         }
       });
       this.chartResults[data] = {
@@ -307,7 +302,8 @@ export default {
         gwpDataSet,
         volumeDataSet,
         title,
-        totalEmission:totalEmission/1000
+        totalEmission:totalEmission/1000,
+        totalVolume:totalVolume
       }
     },
     onBackClicked(category){

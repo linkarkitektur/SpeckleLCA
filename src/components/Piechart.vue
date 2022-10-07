@@ -91,6 +91,10 @@ export default {
       type: Number,
       required:true,
     },
+    index:{
+      type: Number,
+      required:true,
+    }
   },
   computed:{
     chartData(){
@@ -117,7 +121,7 @@ export default {
             align:'start',
             display:true,
             position:'top',
-            text: this.totalEmission.toFixed(2) + ' Tons C02e',
+            text: this.index % 2 === 0 ? this.totalEmission.toFixed(2) + ' Tons C02e' : this.totalEmission.toFixed(2) + ' m3',
             color:'red',
             font: {
               size: 18
