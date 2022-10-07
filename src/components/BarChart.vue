@@ -1,7 +1,7 @@
 <template>
-  <v-row align="center" ref="bar-chart">
-    <v-col cols="6">
-      <h1 class="ma-4">Benchmarks</h1>
+  <v-row align="center" class="pa-4">
+    <v-col cols="6" ref="bar-chart">
+      <v-card-title>Bench Marking</v-card-title>
     </v-col>
     <v-col cols="6">
       <v-row>
@@ -205,8 +205,9 @@ export default {
         const labels = [this.result_1,this.result_2];
         let data = [this.items[this.result_1].mainCatGwpData[key],this.items[this.result_2].mainCatGwpData[key]];
         this.$nextTick(()=>{
+          console.dir(this.$refs['bar-chart'])
           window.scrollTo({
-            top: this.$refs['bar-chart'].offsetTop,
+            top: this.$refs['bar-chart'].offsetTop + 1100,
             behavior: 'smooth',
           });
         })
@@ -270,5 +271,7 @@ export default {
 </script>
 
 <style>
-
+  .v-text-field__details{
+    display: none;
+  }
 </style>

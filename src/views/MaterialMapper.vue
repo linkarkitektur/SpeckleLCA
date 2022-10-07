@@ -761,7 +761,6 @@ export default {
         multipart: "",
       };
       if (type) {
-        console.log("### type", type, category);
         this.selectedType = type;
       } else {
         this.selectedType = "";
@@ -928,7 +927,6 @@ export default {
         this.uniqueCategories.push(item)
       });
       this.loading = false;
-      console.log(this.categories)
     },
 
     downloadExcel(){
@@ -936,7 +934,6 @@ export default {
       this.buttonLoader = true
       const rows = [];
       const data = this.selectedMapper.data;
-      console.log(data)
       for(const category in data){
         const staticFullName = data[category].staticFullName;
         const isMultiPart = data[category].isMultiPart;

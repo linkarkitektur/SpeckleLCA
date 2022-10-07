@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height>
+  <div class="pa-4">
     <v-container
       v-if="loading"
       class="d-flex flex-column justify-center align-center"
@@ -23,7 +23,7 @@
       >
       </dashboard>
     </v-container>
-  </v-container>
+  </div>
 </template>
 
 <script>
