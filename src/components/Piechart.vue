@@ -15,12 +15,6 @@
     <Pie
     :chart-options="chartOptions"
     :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
     :ref="`chart`"
   />
   </v-card>
@@ -47,30 +41,6 @@ export default {
     Pie
   },
   props: {
-    chartId: {
-      type: String,
-      default: 'pie-chart'
-    },
-    datasetIdKey: {
-      type: String,
-      default: 'label'
-    },
-    width: {
-      type: Number,
-      default: 400
-    },
-    height: {
-      type: Number,
-      default: 400
-    },
-    cssClasses: {
-      default: '',
-      type: String
-    },
-    styles: {
-      type: Object,
-      default: () => {}
-    },
     labels:{
       type: Array,
       required:true,
@@ -121,10 +91,18 @@ export default {
             align:'start',
             display:true,
             position:'top',
-            text: this.index % 2 === 0 ? this.totalEmission.toFixed(2) + ' Tons C02e' : this.totalEmission.toFixed(2) + ' m3',
+            text: this.index % 2 === 0 ? this.totalEmission.toFixed(2) + ' Tons CO2e' : this.totalEmission.toFixed(2) + ' m3',
             color:'red',
             font: {
               size: 18
+            }
+          },
+          tooltip:{
+            callbacks: {
+              label: (tooltipItem)=> {
+                let unit = this.index % 2 === 0 ? ' kg CO2e' : ' m3';
+                return `${tooltipItem.label} : ${tooltipItem.formattedValue} ${unit}`
+              },
             }
           }
         }

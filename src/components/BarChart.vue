@@ -27,15 +27,8 @@
       <v-card-title>{{chartDataForGWP.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartOptions"
+        :chart-options="chartDataForGWP.chartOptions"
         :chart-data="chartDataForGWP"
-        :chart-id="chartId"
-        :dataset-id-key="datasetIdKey"
-        :plugins="plugins"
-        :css-classes="cssClasses"
-        :styles="styles"
-        :width="width"
-        :height="height"
       />
       </v-card>
     </v-col>
@@ -43,15 +36,8 @@
       <v-card-title>{{chatDataForVolume.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartOptions"
+        :chart-options="chartDataForGWP.chartOptions"
         :chart-data="chatDataForVolume"
-        :chart-id="chartId"
-        :dataset-id-key="datasetIdKey"
-        :plugins="plugins"
-        :css-classes="cssClasses"
-        :styles="styles"
-        :width="width"
-        :height="height"
       />
       </v-card>
     </v-col>
@@ -61,13 +47,6 @@
         <Bar
         :chart-options="chartOptions"
         :chart-data="chartDataForMainCategoryComparision"
-        :chart-id="chartId"
-        :dataset-id-key="datasetIdKey"
-        :plugins="plugins"
-        :css-classes="cssClasses"
-        :styles="styles"
-        :width="width"
-        :height="height"
       />
       </v-card>
     </v-col>
@@ -77,13 +56,6 @@
         <Bar
         :chart-options="chartOptions"
         :chart-data="chartDataForMainCategoryVolumeComparision"
-        :chart-id="chartId"
-        :dataset-id-key="datasetIdKey"
-        :plugins="plugins"
-        :css-classes="cssClasses"
-        :styles="styles"
-        :width="width"
-        :height="height"
       />
       </v-card>
     </v-col>
@@ -93,13 +65,6 @@
         <Bar
         :chart-options="chartOptions"
         :chart-data="chartDataForSubCategorGWPComparision"
-        :chart-id="chartId"
-        :dataset-id-key="datasetIdKey"
-        :plugins="plugins"
-        :css-classes="cssClasses"
-        :styles="styles"
-        :width="width"
-        :height="height"
       />
       </v-card>
     </v-col>
@@ -131,34 +96,6 @@ export default {
     items:{
       type:Object,
       required:true
-    },
-    chartId: {
-      type: String,
-      default: 'bar-chart'
-    },
-    datasetIdKey: {
-      type: String,
-      default: 'label'
-    },
-    width: {
-      type: Number,
-      default: 400
-    },
-    height: {
-      type: Number,
-      default: 400
-    },
-    cssClasses: {
-      default: '',
-      type: String
-    },
-    styles: {
-      type: Object,
-      default: () => {}
-    },
-    plugins: {
-      type: Array,
-      default: () => []
     }
   },
   computed:{
@@ -205,7 +142,6 @@ export default {
         const labels = [this.result_1,this.result_2];
         let data = [this.items[this.result_1].mainCatGwpData[key],this.items[this.result_2].mainCatGwpData[key]];
         this.$nextTick(()=>{
-          console.dir(this.$refs['bar-chart'])
           window.scrollTo({
             top: this.$refs['bar-chart'].offsetTop + 1100,
             behavior: 'smooth',
@@ -224,6 +160,7 @@ export default {
         }
       }
     },
+
     getMainCategoryComparision(arr,key){
       let data = [];
       let labels = [];
