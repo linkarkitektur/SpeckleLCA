@@ -238,7 +238,7 @@
                       </td>
                       <td style="width:15%; text-align: center;">
                         <span v-if="child.parameter.HOST_AREA_COMPUTED" class="mt-5 d-block">
-                          {{child.parameter.HOST_AREA_COMPUTED.toFixed(2)}} m2
+                          {{child.area.toFixed(2)}} m2
                         </span>
                       </td>
                       <td style="width:10%;padding-left: 10px;">
@@ -931,11 +931,25 @@ export default {
         }
         e1.children.forEach(e2=>{
           if(!type.includes(e2.type)){
+            e2.area = 0;
             type.push(e2.type)
             item.children.push(e2)
+          }
+          if(e2.parameter?.HOST_AREA_COMPUTED){
             item.area += e2.parameter?.HOST_AREA_COMPUTED
           }
         });
+
+        item.children.forEach(t=>{
+          let sum = 0
+          e1.children.forEach(e2=>{
+            if(t.type === e2.type && e2.parameter?.HOST_AREA_COMPUTED){
+              sum += e2.parameter.HOST_AREA_COMPUTED
+            }
+          })
+          t.area = sum
+        })
+        
         this.uniqueCategories.push(item)
       });
       this.loading = false;
