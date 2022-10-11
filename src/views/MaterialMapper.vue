@@ -132,7 +132,7 @@
                       mdi-chevron-down
                       </v-icon>
                     </td>
-                    <td style="width:60%;">
+                    <td style="width:45%;">
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
@@ -167,6 +167,11 @@
                         >
                       </v-tooltip>
                     </td>
+                    <td style="width:15%; text-align: center;">
+                      <span v-if="item.area" class="mt-5 d-block">
+                        {{item.area.toFixed(2)}} m2
+                      </span>
+                    </td>
                     <td style="width:10%;padding-left: 10px;">
                       <v-btn
                         :key="item.id"
@@ -192,7 +197,7 @@
                       <td style="width:30%">
                         {{ child.type }}
                       </td>
-                      <td style="width:60%;">
+                      <td style="width:45%;">
                         <v-tooltip bottom>
                           <template v-slot:activator="{ on, attrs }">
                             <v-text-field
@@ -230,6 +235,11 @@
                             }}</span
                           >
                         </v-tooltip>
+                      </td>
+                      <td style="width:15%; text-align: center;">
+                        <span v-if="child.parameter.HOST_AREA_COMPUTED" class="mt-5 d-block">
+                          {{child.parameter.HOST_AREA_COMPUTED.toFixed(2)}} m2
+                        </span>
                       </td>
                       <td style="width:10%;padding-left: 10px;">
                         <v-btn
@@ -916,12 +926,14 @@ export default {
         const item = {
           id:e1.id,
           category:e1.category,
-          children:[]
+          children:[],
+          area:0
         }
         e1.children.forEach(e2=>{
           if(!type.includes(e2.type)){
             type.push(e2.type)
             item.children.push(e2)
+            item.area += e2.parameter?.HOST_AREA_COMPUTED
           }
         });
         this.uniqueCategories.push(item)
