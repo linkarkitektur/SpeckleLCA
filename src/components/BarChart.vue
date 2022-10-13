@@ -27,7 +27,7 @@
       <v-card-title>{{chartDataForGWP.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartOptions"
+        :chart-options="chartOptionsForGWP"
         :chart-data="chartDataForGWP"
       />
       </v-card>
@@ -36,7 +36,7 @@
       <v-card-title>{{chatDataForVolume.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartOptions"
+        :chart-options="chartOptionsForVolume"
         :chart-data="chatDataForVolume"
       />
       </v-card>
@@ -45,7 +45,7 @@
       <v-card-title>{{chartDataForMainCategoryComparision.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartOptions"
+        :chart-options="chartOptionsForGWP"
         :chart-data="chartDataForMainCategoryComparision"
       />
       </v-card>
@@ -54,7 +54,7 @@
       <v-card-title>{{chartDataForMainCategoryVolumeComparision.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartOptions"
+        :chart-options="chartOptionsForVolume"
         :chart-data="chartDataForMainCategoryVolumeComparision"
       />
       </v-card>
@@ -63,7 +63,7 @@
       <v-card-title>Sub Category GWP Comparison</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartOptions"
+        :chart-options="chartOptionsForGWP"
         :chart-data="chartDataForSubCategorGWPComparision"
       />
       </v-card>
@@ -116,6 +116,44 @@ export default {
     },
     chartDataForSubCategorGWPComparision(){
       return this.getMainCategoryComparision('subCategoryGWPData','gwpDataSet');
+    },
+    chartOptionsForGWP(){
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins:{
+          legend:{
+            display:false
+          },
+          tooltip:{
+            callbacks: {
+              label: (tooltipItem)=> {
+                let unit = ' kg CO2e'
+                return `${tooltipItem.label} : ${tooltipItem.formattedValue} ${unit}`
+              },
+            }
+          }
+        }
+      }
+    },
+    chartOptionsForVolume(){
+      return{
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins:{
+          legend:{
+            display:false
+          },
+          tooltip:{
+            callbacks: {
+              label: (tooltipItem)=> {
+                let unit = ' m3';
+                return `${tooltipItem.label} : ${tooltipItem.formattedValue} ${unit}`
+              },
+            }
+          }
+        }
+      }
     }
   },
   created(){
@@ -125,15 +163,6 @@ export default {
     return {
       result_1:null,
       result_2:null,
-      chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins:{
-          legend:{
-            display:false
-          }
-        }
-      }
     }
   },
   methods:{
