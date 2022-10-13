@@ -168,7 +168,7 @@
                       </v-tooltip>
                     </td>
                     <td style="width:15%; text-align: center;">
-                      <span v-if="item.area" class="mt-5 d-block">
+                      <span v-if="item.area" class="mt-5 d-block text-caption">
                         {{item.area.toFixed(2)}} m2
                       </span>
                     </td>
@@ -237,7 +237,7 @@
                         </v-tooltip>
                       </td>
                       <td style="width:15%; text-align: center;">
-                        <span v-if="child.parameter.HOST_AREA_COMPUTED" class="mt-5 d-block">
+                        <span v-if="child.parameter.HOST_AREA_COMPUTED" class="mt-5 d-block text-caption">
                           {{child.area.toFixed(2)}} m2
                         </span>
                       </td>
@@ -322,13 +322,23 @@
               </div>
           </div>
           <v-row class="p-8 ma-1">
-              <v-col cols="12" align="center">
+              <v-col cols="6" align="center">
+                <v-btn
+                  class="ma-2"
+                  :disabled="loading || selectedMapperEmpty"
+                  color="primary"
+                  @click="generateExcel"
+                >
+                  Generate Excel
+                </v-btn>
+              </v-col>
+              <v-col cols="6" align="center">
                 <v-btn
                   class="ma-2"
                   :loading="buttonLoader"
                   :disabled="loading || selectedMapperEmpty || buttonLoader"
                   color="primary"
-                  @click="downloadExcel"
+                  @click="onStartCalculation"
                 >
                   Start Calculation
                 </v-btn>
@@ -955,9 +965,7 @@ export default {
       this.loading = false;
     },
 
-    downloadExcel(){
-      this.loader = 'buttonLoader';
-      this.buttonLoader = true
+    getExcelRows(){
       const rows = [];
       const data = this.selectedMapper.data;
       for(const category in data){
@@ -978,10 +986,21 @@ export default {
           rows.push(item)
         }
       }
-      // const worksheet = utils.json_to_sheet(rows);
-      // const workbook = utils.book_new();
-      // utils.book_append_sheet(workbook, worksheet, "DATA");
-      // writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
+      return rows;
+    },
+
+    generateExcel(){
+      const rows = this.getExcelRows();
+      const worksheet = utils.json_to_sheet(rows);
+      const workbook = utils.book_new();
+      utils.book_append_sheet(workbook, worksheet, "DATA");
+      writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
+    },
+
+    onStartCalculation(){
+      this.loader = 'buttonLoader';
+      this.buttonLoader = true
+      const rows = this.getExcelRows();
       const worksheet = utils.json_to_sheet(rows);
       const workbook = utils.book_new();
       utils.book_append_sheet(workbook, worksheet, `${this.selectedMapper.text}.xlsx`);
