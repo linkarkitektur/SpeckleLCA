@@ -323,9 +323,19 @@ export default {
       const docRef = doc(colRef,this.$route.params.id);
       const snap = await getDoc(docRef);
       if(snap.exists()){
-        await updateDoc(docRef,{[this.result]:this.chartResults});
+        try {
+          await updateDoc(docRef,{[this.result]:this.chartResults});
+        } catch (error) {
+          alert('The results contain null values and hence cannot be saved! Please assign correct data.');
+          this.buttonLoader = false;
+        }
       }else{
-        await setDoc(docRef,{[this.result]:this.chartResults});
+        try {
+          await setDoc(docRef,{[this.result]:this.chartResults});
+        } catch (error) {
+          alert('The results contain null values and hence cannot be saved! Please assign correct data.');
+          this.buttonLoader = false;
+        }
       }
       this.result = null;
       this.buttonLoader = false;
