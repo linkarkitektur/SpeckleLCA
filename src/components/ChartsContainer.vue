@@ -135,8 +135,8 @@ export default {
       this.chartResults = {
         mainCatGwpData,
         mainCatVolumeData,
-        // subCategoryGWPData,
-        // subCategoryVolumeData
+        subCategoryGWPData,
+        subCategoryVolumeData
       }
       const uniqueIfcMaterial = [...new Set(ifcMaterial)];
       this.initAssemblyMaterialCatChart(uniqueIfcMaterial,assemblyCategory,materialCategory);

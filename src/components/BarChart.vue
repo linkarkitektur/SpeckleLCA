@@ -27,7 +27,7 @@
       <v-card-title>{{chartDataForGWP.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartDataForGWP.chartOptions"
+        :chart-options="chartOptions"
         :chart-data="chartDataForGWP"
       />
       </v-card>
@@ -36,7 +36,7 @@
       <v-card-title>{{chatDataForVolume.title}}</v-card-title>
       <v-card class="pa-4">
         <Bar
-        :chart-options="chartDataForGWP.chartOptions"
+        :chart-options="chartOptions"
         :chart-data="chatDataForVolume"
       />
       </v-card>
