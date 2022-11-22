@@ -11,7 +11,7 @@
         v-if="isAuthenticated && $route.path == '/'"
         @selected="$router.push(`/streams/${$event.id}`)"
       />
-      <div v-else-if="stream" class="font-weight-bold">{{ stream.name }}</div>
+      <div v-else-if="stream" class="font-weight-bold cursor-pointer" @click="navigateToCommitPage">{{ stream.name }}</div>
 
       <v-spacer></v-spacer>
 
@@ -83,10 +83,13 @@ export default {
   },
   methods: {
     navigateStream: function() {
+      this.$router.push('/');
+    },
+    navigateToCommitPage(){
       if (this.streamId) {
         this.$router.push(`/streams/${this.streamId}`);
       }
-    },
+    }
   },
 };
 </script>
@@ -102,5 +105,8 @@ $heading-font-family: "Space Grotesk";
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+.cursor-pointer{
+  cursor: pointer;
 }
 </style>

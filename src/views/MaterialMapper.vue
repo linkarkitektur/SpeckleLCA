@@ -388,7 +388,7 @@
             <v-row class="py-0 mx-0 my-0">
               <v-col lg="6" class="py-0 mx-0 my-0">
                 <v-combobox
-                  label="Resource SubType"
+                  label="Material Type"
                   :items="subTypes"
                   hide-selected
                   solo
@@ -400,8 +400,9 @@
               </v-col>
               <v-col lg="6" class="py-0 mx-0 my-0">
                 <v-combobox
-                  label="Areas"
+                  label="Region"
                   :items="areasObj[filterData.subType]"
+                  :disabled="!(areasObj[filterData.subType] !== undefined && areasObj[filterData.subType].length !== 0)"
                   hide-selected
                   solo
                   dense
@@ -412,7 +413,7 @@
             <v-row class="py-0 mx-0 my-0">
               <v-col lg="6" class="py-0 mx-0 my-0">
                 <v-combobox
-                  label="Is Multipart"
+                  label="Is Construction"
                   :items="multiPart"
                   hide-selected
                   solo
@@ -442,7 +443,7 @@
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="filteredList && filteredList.length">
                       <tr
                         v-for="item in filteredList"
                         :key="item._id"
@@ -452,8 +453,7 @@
                           <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
                               <div
-                                class="text-truncate"
-                                style="max-width: 130px;"
+                                style="max-width:200px"
                                 v-bind="attrs"
                                 v-on="item.staticFullName ? on : null"
                               >
@@ -464,16 +464,21 @@
                           </v-tooltip>
                         </td>
                         <td>{{ item.resourceSubType }}</td>
-                        <td>
+                        <!-- <td>
                           {{
                             item.combinedUnits.length > 0
                               ? item.combinedUnits.join(",")
                               : ""
                           }}
-                        </td>
+                        </td> -->
                         <td>{{ item.isMultiPart }}</td>
                         <td>{{ item.area }}</td>
                       </tr>
+                    </tbody>
+                    <tbody v-else>
+                      <p class="body-2 mt-2 primary--text pt-5">
+                        No Materials found.
+                      </p>
                     </tbody>
                   </template>
                 </v-simple-table>
@@ -682,6 +687,7 @@ export default {
           });
 
           if (this.resourceList) {
+            console.log(this.areasObj)
             this.resourceList?.forEach((el) => {
               if (FILTER_COUNTRIES.includes(el.area)) {
                 if (
