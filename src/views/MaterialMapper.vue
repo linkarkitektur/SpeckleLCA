@@ -327,7 +327,7 @@
                   class="ma-2"
                   :disabled="loading || selectedMapperEmpty"
                   color="primary"
-                  @click="generateJSON"
+                  @click="downloadJSON"
                 >
                   Generate JSON
                 </v-btn>
@@ -3710,13 +3710,17 @@ if (this.resourceList) {
        
       var mergedJSON = new Array();
 
-
-
       mergedJSON = mergedJSON.concat(buildingJSON);
       mergedJSON = mergedJSON.concat(constructionsJSON);
       mergedJSON = mergedJSON.concat(restJSON);
 
-      
+      return mergedJSON
+
+    },
+
+    downloadJSON(){
+
+      const mergedJSON = this.generateJSON()
 
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(mergedJSON, null, 2)], {
@@ -3726,9 +3730,6 @@ if (this.resourceList) {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-    
-
-
     },
 
     onStartCalculation() {
