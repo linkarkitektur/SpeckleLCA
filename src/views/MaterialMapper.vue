@@ -3829,7 +3829,7 @@ if (this.resourceList) {
           const response = await axios.post('https://api1.lcabyg.dk/v2/jobs', data, {
             headers: {
               'Access-Control-Allow-Origin': '*',
-              'Authorization': 'Bearer '+ "0339f99e-8b2f-4935-afd0-88ec3129c9de" //this.accessToken,
+              'Authorization': 'Bearer '+ this.accessTokenLCAbyg,
             }
           })
           if (response.status === 200) {
