@@ -588,6 +588,7 @@ export default {
     if (this.streamId) {
       this.getStream();
     }
+    this.getAccessTokenLCAbyg()
     //this.getAccessToken()
   },
   watch: {
@@ -3882,6 +3883,23 @@ if (this.resourceList) {
             },5000)
           }
           
+      }
+    },
+
+    async getAccessTokenLCAbyg() {
+      const params = {
+        "username": "pub_test",
+        "password": "b2251884-a806-455c-bd31-f3cbee726686"
+      }
+      try {
+        const response = await axios.post('https://api1.lcabyg.dk/v2/login', params);
+        if (response.status === 200) {
+          this.accessTokenLCAbyg = response.data
+        } else {
+          throw Error('Unable to login to LCA byg')
+        }
+      } catch (error) {
+        console.log(error)
       }
     },
 
