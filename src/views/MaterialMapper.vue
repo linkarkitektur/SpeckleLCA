@@ -3167,8 +3167,9 @@ export default {
   }
 ];
 if (this.resourceList) {
-            console.log(this.resourceList)
+            console.log(this.areasObj)
             this.resourceList?.forEach((el) => {
+              if (FILTER_COUNTRIES.includes(el.area)) {
                 if (
                   !this.subTypes.includes(el.resourceSubType) &&
                   el.resourceSubType
@@ -3178,6 +3179,14 @@ if (this.resourceList) {
                 if (!this.areasObj[el.resourceSubType]) {
                   this.areasObj[el.resourceSubType] = [];
                 }
+                if (
+                  this.areasObj[el.resourceSubType] &&
+                  !this.areasObj[el.resourceSubType].includes(el.area) &&
+                  el.area
+                ) {
+                  this.areasObj[el.resourceSubType].push(el.area);
+                }
+              }
             });
           }
     },
@@ -3267,6 +3276,7 @@ if (this.resourceList) {
       this.filteredList = this.resourceList?.filter((el) =>
         filterDataFromList(el, this.filterData)
       );
+      console.log(this.resourceList);
     },
 
     onMapperChange(event) {
