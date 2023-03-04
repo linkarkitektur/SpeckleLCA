@@ -340,7 +340,7 @@
                   color="primary"
                   @click="onStartCalculation"
                 >
-                  Start Calculation
+                 Start Calculation
                 </v-btn>
               </v-col>            
             </v-row>
@@ -588,7 +588,7 @@ export default {
     if (this.streamId) {
       this.getStream();
     }
-    this.getAccessToken()
+    //this.getAccessToken()
   },
   watch: {
     streamId: {
@@ -632,6 +632,7 @@ export default {
       }
     },
     async getMappers() {
+      // TODO Lokk at
       const colRef = collection(db, 'mappers');
       const docRef = doc(colRef,this.streamId);
       const snap = await getDoc(docRef);
@@ -654,10 +655,6 @@ export default {
       setDoc(docRef,{...newData});
     },
     getResourceList() {
-      //const ACCEESS_TOKEN = `${process.env.VUE_APP_SPECKLE_NAME}.OCAccessToken`;
-      //const SERVER_URL = process.env.VUE_APP_ONE_CLICK_SERVER_URL;
-      //let access_token = localStorage.getItem(ACCEESS_TOKEN);
-      //let bearer = "Bearer " + access_token;
 
       this.resourceList = [
       {
@@ -3553,16 +3550,11 @@ if (this.resourceList) {
       writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
     },
 
-    onStartCalculation(){
+    onStartCalculation() {
+      //TODO
       this.loader = 'buttonLoader';
       this.buttonLoader = true
-      const rows = this.getExcelRows();
-      const worksheet = utils.json_to_sheet(rows);
-      const workbook = utils.book_new();
-      utils.book_append_sheet(workbook, worksheet, `${this.selectedMapper.text}.xlsx`);
-      const wopts = { bookType:"xlsx", bookSST:false, type:"array" };
-      const wbout = write(workbook,wopts);
-      this.excelFile = new Blob([wbout],{type:"application/octet-stream"});
+      this.project_data = {}
       this.startCalculation();
     },
 
@@ -3631,35 +3623,46 @@ if (this.resourceList) {
       }
     },
 
-    async startCalculation(){
-      this.chartData = [];
-      if(this.accessToken){
-        const formData = new FormData()
-        this.fileToken = `LINK-LCA-${Date.now()}`
-        formData.append('fileToken',this.fileToken);
-        formData.append('importFile',this.excelFile);
-        formData.append('securityToken','Vs2cmN10eZq6iMGcXIre');
-        formData.append('APICalculation','TRUE');
+    async startCalculation() {
+      const params = {
+        username: "pub_test",
+        password: "b2251884-a806-455c-bd31-f3cbee726686"
+      }
+
+      const data = {
+        "priority": 0,
+        "job_target": "lcabyg5+br23",
+        "job_target_min_ver": "",
+        "job_target_max_ver": "",
+        "job_arguments": "",
+        "input_blob": ""
+      }
+  
+
+      // this.chartData = [];
+      // if(this.accessToken){
         try {
-          const response = await axios.post('https://oneclicklcaapp.com/app/api/startCalculationRequest',formData,{
-            headers:{
-              'Authorization': 'Bearer '+ this.accessToken,
-              'Content-Type': 'multipart/form-data'
+          const response = await axios.post('https://api1.lcabyg.dk/v2/jobs', data, {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Authorization': 'Bearer '+ "ab83abd4-1215-4f0a-98c3-d818c606f4e9" //this.accessToken,
             }
           })
-          if(response.status === 200){
-            setTimeout(()=>{
-              console.log('Getting results...')
-              this.getCalculationResults();
-            },1000) 
+          if (response.status === 200) {
+            console.log("RESULT HAS BEEN SENT")
+            console.log(response)
+            // setTimeout(()=>{
+            //   console.log('Getting results...')
+            //   this.getCalculationResults();
+            // },1000) 
           }
         } catch (error) {
           console.log(error)
         }   
-      }else{
-        alert('Error in access token')
-        this.buttonLoader = false
-      }
+      // }else{
+      //   alert('Error in access token')
+      //   this.buttonLoader = false
+      // }
     },
 
     async getCalculationResults(){
