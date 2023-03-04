@@ -400,7 +400,7 @@
               </v-col>
               <v-col lg="6" class="py-0 mx-0 my-0">
                 <v-combobox
-                  label="Region"
+                  label="Phases"
                   :items="areasObj[filterData.subType]"
                   :disabled="!(areasObj[filterData.subType] !== undefined && areasObj[filterData.subType].length !== 0)"
                   hide-selected
@@ -464,14 +464,7 @@
                           </v-tooltip>
                         </td>
                         <td>{{ item.resourceSubType }}</td>
-                        <!-- <td>
-                          {{
-                            item.combinedUnits.length > 0
-                              ? item.combinedUnits.join(",")
-                              : ""
-                          }}
-                        </td> -->
-                        <td>{{ item.isMultiPart }}</td>
+                        <td>True</td>
                         <td>{{ item.area }}</td>
                       </tr>
                     </tbody>
@@ -657,7 +650,7 @@ export default {
     getResourceList() {
 
       this.resourceList = [
-      {
+  {
     "staticFullName": "3-lags-rude",
     "_id": "71d53aed-55fe-5b2a-baa5-ffc5aa21a648",
     "resourceSubType": "Window",
@@ -694,28 +687,28 @@ export default {
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Affald kunststof forbrÃ¦ndingfjernvarme",
+    "staticFullName": "Affald kunststof forbrændingfjernvarme",
     "_id": "ba190e44-64cd-5945-94ab-bdd0f4496547",
     "resourceSubType": "Waste",
     "area": "C3"
   },
   {
-    "staticFullName": "Affald kunststof forbrÃ¦ndingfjernvarme",
+    "staticFullName": "Affald kunststof forbrændingfjernvarme",
     "_id": "33884d5e-52d1-5b24-a24b-7919cd9cf813",
     "resourceSubType": "Waste",
     "area": "D"
   },
   {
-    "staticFullName": "Affald stenuldhÃ¸jdensitet eb886e48-672a-5b5e-a35b-fceedff558a5",
-    "_id": "Waste",
-    "resourceSubType": "C4",
-    "area": ""
+    "staticFullName": "Affald stenuldhåjdensitet",
+    "_id": "eb886e48-672a-5b5e-a35b-fceedff558a5",
+    "resourceSubType": "Waste",
+    "area": "C4"
   },
   {
-    "staticFullName": "Affald stenuldhÃ¸jdensitet 78be9e6b-fdce-57f4-ad9d-03322229d78e",
-    "_id": "Waste",
-    "resourceSubType": "D",
-    "area": ""
+    "staticFullName": "Affald stenuldhåjdensitet",
+    "_id": "78be9e6b-fdce-57f4-ad9d-03322229d78e",
+    "resourceSubType": "Waste",
+    "area": "D"
   },
   {
     "staticFullName": "Affald stenuldlavdensitet",
@@ -742,13 +735,13 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Affald trÃ¦ forbrÃ¦ndingfjernvarme",
+    "staticFullName": "Affald træ forbrændingfjernvarme",
     "_id": "b3bee443-7101-5571-8d51-c7e0d6ef24d2",
     "resourceSubType": "Waste",
     "area": "C3"
   },
   {
-    "staticFullName": "Affald trÃ¦ forbrÃ¦ndingfjernvarme",
+    "staticFullName": "Affald træ forbrændingfjernvarme",
     "_id": "48f6cd0e-177b-5ff2-bd32-cca515097e26",
     "resourceSubType": "Waste",
     "area": "D"
@@ -766,13 +759,13 @@ export default {
     "area": "C4"
   },
   {
-    "staticFullName": "Afretningslag hÃ¥rdeplast",
+    "staticFullName": "Afretningslag hårdeplast",
     "_id": "eb612252-b68a-5bb9-a49c-136a4dc59f70",
     "resourceSubType": "Concrete",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Afretningslag hÃ¥rdeplast",
+    "staticFullName": "Afretningslag hårdeplast",
     "_id": "19688c48-2e46-5e8b-810a-aa29296aa636",
     "resourceSubType": "Concrete",
     "area": "C4"
@@ -814,7 +807,7 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Aluminium stÃ¸begods",
+    "staticFullName": "Aluminium ståbegods",
     "_id": "6b711d10-8fb2-533c-af9f-b628ef5923ee",
     "resourceSubType": "Aluminium",
     "area": "A1-A3"
@@ -841,7 +834,7 @@ export default {
     "staticFullName": "Ammoniak",
     "_id": "f16045fb-4927-5469-812d-24f766e542c2",
     "resourceSubType": "Technical",
-    "area": "R717"
+    "area": "A1-A3"
   },
   {
     "staticFullName": "Anhydritmix",
@@ -856,19 +849,19 @@ export default {
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Asfalt bÃ¦relag",
+    "staticFullName": "Asfalt bærelag",
     "_id": "e680b03f-5d9f-520a-8b78-d658b114e76c",
     "resourceSubType": "Asphalt",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Asfalt bÃ¦relag",
+    "staticFullName": "Asfalt bærelag",
     "_id": "6dd90fa6-c7f3-5d30-a124-fff03302a4e9",
     "resourceSubType": "Asphalt",
     "area": "C3"
   },
   {
-    "staticFullName": "Asfalt bÃ¦relag",
+    "staticFullName": "Asfalt bærelag",
     "_id": "06867056-bcca-537f-adb1-9fc988fd2534",
     "resourceSubType": "Asphalt",
     "area": "D"
@@ -910,7 +903,7 @@ export default {
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Beslag stÃ¥lvindue",
+    "staticFullName": "Beslag stålvindue",
     "_id": "804dc2b3-69bc-505b-948d-2b65b1f0a770",
     "resourceSubType": "Window",
     "area": "A1-A3"
@@ -1060,49 +1053,49 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Betonelement dÃ¦k 20cm",
+    "staticFullName": "Betonelement dæk 20cm",
     "_id": "131e0646-a8af-5da0-86ef-633c1ea947d3",
     "resourceSubType": "Concrete",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Betonelement dÃ¦k 20cm",
+    "staticFullName": "Betonelement dæk 20cm",
     "_id": "86575817-8413-5fb1-a4cb-757f16c5d6c3",
     "resourceSubType": "Concrete",
     "area": "C3"
   },
   {
-    "staticFullName": "Betonelement dÃ¦k 20cm",
+    "staticFullName": "Betonelement dæk 20cm",
     "_id": "f4c85013-a00d-51c0-8e30-751b5a837ea7",
     "resourceSubType": "Concrete",
     "area": "D"
   },
   {
-    "staticFullName": "Betonelement etagedÃ¦k",
-    "_id": "40cm",
-    "resourceSubType": "f9bd26c9-90c3-59e5-b811-d073acc09472",
-    "area": "Concrete"
+    "staticFullName": "Betonelement etagedæk 40cm",
+    "_id": "f9bd26c9-90c3-59e5-b811-d073acc09472",
+    "resourceSubType": "Concrete",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Betonelement vÃ¦g 12cm",
+    "staticFullName": "Betonelement væg 12cm",
     "_id": "3b54563e-f98a-5858-9cdd-48387161c112",
     "resourceSubType": "Concrete",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Betonelement vÃ¦g 12cm",
+    "staticFullName": "Betonelement væg 12cm",
     "_id": "82edfc6a-ada7-51c7-a7ff-e05995b30d83",
     "resourceSubType": "Concrete",
     "area": "C3"
   },
   {
-    "staticFullName": "Betonelement vÃ¦g 12cm",
+    "staticFullName": "Betonelement væg 12cm",
     "_id": "2b2ddd15-6bb4-5929-9b58-59f8aad45676",
     "resourceSubType": "Concrete",
     "area": "D"
   },
   {
-    "staticFullName": "Betonelement vÃ¦g 40cm",
+    "staticFullName": "Betonelement væg 40cm",
     "_id": "9739c75a-c16e-5cd8-a76e-4f9ba163900a",
     "resourceSubType": "Concrete",
     "area": "A1-A3"
@@ -1126,55 +1119,55 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "BetonrÃ¸r armeret",
+    "staticFullName": "Betonrår armeret",
     "_id": "be4ae27b-cff6-5ad3-89ce-8fa78d94c30d",
     "resourceSubType": "Concrete",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "BetonrÃ¸r armeret",
+    "staticFullName": "Betonrår armeret",
     "_id": "211b6397-7a29-50e3-a2e0-8e85eebf6714",
     "resourceSubType": "Concrete",
     "area": "C3"
   },
   {
-    "staticFullName": "BetonrÃ¸r armeret",
+    "staticFullName": "Betonrår armeret",
     "_id": "4f302490-bca1-546b-a9fe-0ae3f146193b",
     "resourceSubType": "Concrete",
     "area": "D"
   },
   {
-    "staticFullName": "BetonrÃ¸r u-armeret",
+    "staticFullName": "Betonrår u-armeret",
     "_id": "b84f4d27-dbe7-52b1-b840-31adb607bc58",
     "resourceSubType": "Concrete",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "BetonrÃ¸r u-armeret",
+    "staticFullName": "Betonrår u-armeret",
     "_id": "c82b14cf-6eea-59fc-a077-295f2c37b97c",
     "resourceSubType": "Concrete",
     "area": "C3"
   },
   {
-    "staticFullName": "BetonrÃ¸r u-armeret",
+    "staticFullName": "Betonrår u-armeret",
     "_id": "186373ef-b402-58ee-8646-f5071a81c809",
     "resourceSubType": "Concrete",
     "area": "D"
   },
   {
-    "staticFullName": "Betontrappe etagehÃ¸j",
+    "staticFullName": "Betontrappe etagehåj",
     "_id": "77f1f5aa-82c7-5cc0-ba1d-d48e8811e436",
     "resourceSubType": "Concrete",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Betontrappe etagehÃ¸j",
+    "staticFullName": "Betontrappe etagehåj",
     "_id": "771ba70b-951d-521a-a4a5-67bc8d1aae25",
     "resourceSubType": "Concrete",
     "area": "C3"
   },
   {
-    "staticFullName": "Betontrappe etagehÃ¸j",
+    "staticFullName": "Betontrappe etagehåj",
     "_id": "f9d2b151-db01-5f8c-b1f5-12db0474897d",
     "resourceSubType": "Concrete",
     "area": "D"
@@ -1200,35 +1193,35 @@ export default {
   {
     "staticFullName": "Bitumenemulsion",
     "_id": "8b79def0-b21c-5fe3-aa5b-cf06e514c14c",
-    "resourceSubType": "A1-A3",
-    "area": ""
+    "resourceSubType": "Fabric",
+    "area": "A1-A3"
   },
   {
     "staticFullName": "Bitumenemulsion",
     "_id": "42059162-3727-5bea-9346-6ec107febdf8",
-    "resourceSubType": "C3",
-    "area": ""
+    "resourceSubType": "Fabric",
+    "area": "C3"
   },
   {
     "staticFullName": "Bitumenemulsion",
     "_id": "47da566a-df80-5809-97e8-e1cb36fff560",
-    "resourceSubType": "C4",
-    "area": ""
+    "resourceSubType": "Fabric",
+    "area": "C4"
   },
   {
-    "staticFullName": "BitumenklÃ¦ber",
+    "staticFullName": "Bitumenklæber",
     "_id": "ce8ff4db-c851-5e14-928a-018fd7945239",
     "resourceSubType": "Bindelag",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "BitumenklÃ¦ber",
+    "staticFullName": "Bitumenklæber",
     "_id": "d4bfa5b8-c113-566c-a0e8-a8af91e8ec68",
     "resourceSubType": "Bindelag",
     "area": "C3"
   },
   {
-    "staticFullName": "BitumenklÃ¦ber",
+    "staticFullName": "Bitumenklæber",
     "_id": "273a150f-6cb8-5818-a1e7-e0ae058673a0",
     "resourceSubType": "Bindelag",
     "area": "C4"
@@ -1240,76 +1233,76 @@ export default {
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Boksventilator10.000m2/h",
+    "staticFullName": "Boksventilator 10.000m2/h",
     "_id": "c20378e0-dcd3-5fc0-ad21-86fb356b5766",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Boksventilator10.000m2/h",
+    "staticFullName": "Boksventilator 10.000m2/h",
     "_id": "cef517d4-d90a-535c-9dd2-cc729db5e8f6",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "Boksventilator10.000m2/h",
+    "staticFullName": "Boksventilator 10.000m2/h",
     "_id": "05c9d0e0-3405-5e61-9320-a2f621d2060d",
     "resourceSubType": "Technical",
     "area": "D"
   },
   {
-    "staticFullName": "Boksventilator10.000m2/h",
-    "_id": "EOL",
-    "resourceSubType": "7a809251-dc0b-56bc-bcbd-05acbd53c8f0",
-    "area": "Technical"
+    "staticFullName": "Boksventilator 10.000m2/h EOL",
+    "_id": "7a809251-dc0b-56bc-bcbd-05acbd53c8f0",
+    "resourceSubType": "Technical",
+    "area": "C4"
   },
   {
-    "staticFullName": "Boksventilator30.000m2/h",
+    "staticFullName": "Boksventilator 30.000m2/h",
     "_id": "f07b6f4a-9def-5bb9-8b99-1227aa3d363e",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Boksventilator30.000m2/h",
+    "staticFullName": "Boksventilator 30.000m2/h",
     "_id": "255bd5b3-ad02-5626-9efb-021e9988741c",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "Boksventilator30.000m2/h",
+    "staticFullName": "Boksventilator 30.000m2/h",
     "_id": "7e2cd6e7-8c50-5dc1-b25e-8f729386dfef",
     "resourceSubType": "Technical",
     "area": "D"
   },
   {
-    "staticFullName": "Boksventilator30.000m2/h",
-    "_id": "EOL",
-    "resourceSubType": "72744d6a-b16a-5e97-a627-647075104eef",
-    "area": "Technical"
+    "staticFullName": "Boksventilator 30.000m2/h EOL",
+    "_id": "72744d6a-b16a-5e97-a627-647075104eef",
+    "resourceSubType": "Technical",
+    "area": "C4"
   },
   {
-    "staticFullName": "Boksventilator5.000m2/h",
+    "staticFullName": "Boksventilator 5.000m2/h",
     "_id": "df423942-cd3a-5fb1-a683-dc202dad45dd",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Boksventilator5.000m2/h",
+    "staticFullName": "Boksventilator 5.000m2/h",
     "_id": "52ad08be-ac62-57fe-a10e-753e981f926f",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "Boksventilator5.000m2/h",
+    "staticFullName": "Boksventilator 5.000m2/h",
     "_id": "8183439d-2156-5dcb-b863-bbe97b6bd7ec",
     "resourceSubType": "Technical",
     "area": "D"
   },
   {
-    "staticFullName": "Boksventilator5.000m2/h",
-    "_id": "EOL",
-    "resourceSubType": "d7b7f888-15fb-5d61-b66f-987a90121a50",
-    "area": "Technical"
+    "staticFullName": "Boksventilator 5.000m2/h EOL",
+    "_id": "d7b7f888-15fb-5d61-b66f-987a90121a50",
+    "resourceSubType": "Technical",
+    "area": "C4"
   },
   {
     "staticFullName": "Bomuld",
@@ -1330,22 +1323,22 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Bomuld",
-    "_id": "Ã¸kologisk",
-    "resourceSubType": "5c8c12b3-9f13-51fd-8651-90309162e9d3",
-    "area": "Fabric"
+    "staticFullName": "Bomuld åkologisk",
+    "_id": "5c8c12b3-9f13-51fd-8651-90309162e9d3",
+    "resourceSubType": "Fabric",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Bomuld",
-    "_id": "Ã¸kologisk",
-    "resourceSubType": "2fdce500-fa0c-56c3-9772-413308f8c16f",
-    "area": "Fabric"
+    "staticFullName": "Bomuld åkologisk",
+    "_id": "2fdce500-fa0c-56c3-9772-413308f8c16f",
+    "resourceSubType": "Fabric",
+    "area": "C3"
   },
   {
-    "staticFullName": "Bomuld",
-    "_id": "Ã¸kologisk",
-    "resourceSubType": "20935375-7b91-5eda-b553-3b2169470c9d",
-    "area": "Fabric"
+    "staticFullName": "Bomuld åkologisk",
+    "_id": "20935375-7b91-5eda-b553-3b2169470c9d",
+    "resourceSubType": "Fabric",
+    "area": "D"
   },
   {
     "staticFullName": "Brandsikkertglas",
@@ -1360,97 +1353,97 @@ export default {
     "area": "C4"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r Alu-PEX",
+    "staticFullName": "Brugsvandsrår Alu-PEX",
     "_id": "4449da9a-f1b2-502f-bbe9-69107ed28bbe",
     "resourceSubType": "Window",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r Alu-PEX",
+    "staticFullName": "Brugsvandsrår Alu-PEX",
     "_id": "34a17a52-94b9-5fd4-bbdf-e8130f66eae7",
     "resourceSubType": "Window",
     "area": "C3"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r Alu-PEX",
+    "staticFullName": "Brugsvandsrår Alu-PEX",
     "_id": "113a3882-f9b0-595a-a9c8-87974f292566",
     "resourceSubType": "Window",
     "area": "D"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r PB",
+    "staticFullName": "Brugsvandsrår PB",
     "_id": "3a47c720-93a0-5561-9d70-28f78cb95aea",
     "resourceSubType": "Window",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r PB",
+    "staticFullName": "Brugsvandsrår PB",
     "_id": "5516cc99-9f25-5eab-8e42-1f71aee8fbdf",
     "resourceSubType": "Window",
     "area": "C3"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r PB",
+    "staticFullName": "Brugsvandsrår PB",
     "_id": "84da4cfd-6af4-5207-840f-11da6209552a",
     "resourceSubType": "Window",
     "area": "D"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r PEX-Alu-PEX",
+    "staticFullName": "Brugsvandsrår PEX-Alu-PEX",
     "_id": "b1544eb2-840e-5950-af2c-c4af10e05db3",
     "resourceSubType": "Window",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r PEX-Alu-PEX",
+    "staticFullName": "Brugsvandsrår PEX-Alu-PEX",
     "_id": "1c5b1dc2-ce3a-5b60-872d-87656696420f",
     "resourceSubType": "Window",
     "area": "C3"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r PEX-Alu-PEX",
+    "staticFullName": "Brugsvandsrår PEX-Alu-PEX",
     "_id": "ad539072-3768-5f6f-bc56-164a5671c906",
     "resourceSubType": "Window",
     "area": "D"
   },
   {
-    "staticFullName": "BrugsvandsrÃ¸r rustfaststÃ¥l",
+    "staticFullName": "Brugsvandsrår rustfaststål",
     "_id": "8e7bd60d-f086-50b9-a150-5a563328e686",
     "resourceSubType": "Window",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Buffertank rustfaststÃ¥l",
+    "staticFullName": "Buffertank rustfaststål",
     "_id": "ad104c43-3744-53be-a81f-bccf6ecf1674",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Buffertank rustfaststÃ¥l",
+    "staticFullName": "Buffertank rustfaststål",
     "_id": "704b84b1-1f66-50aa-8cad-559308ee114d",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "Buffertank rustfaststÃ¥l",
+    "staticFullName": "Buffertank rustfaststål",
     "_id": "e995c32e-3f1a-58cf-b732-13a359c9f56b",
     "resourceSubType": "Technical",
     "area": "D"
   },
   {
-    "staticFullName": "Buffertank stÃ¥l",
+    "staticFullName": "Buffertank stål",
     "_id": "2242238c-5f59-57e3-b379-498b015138a8",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Buffertank stÃ¥l",
+    "staticFullName": "Buffertank stål",
     "_id": "97d43434-8d4d-5ae4-ae4b-f9e18c1bd2a4",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "Buffertank stÃ¥l",
+    "staticFullName": "Buffertank stål",
     "_id": "8c843bf9-a063-5b92-bc8f-adc03dbe3dc8",
     "resourceSubType": "Technical",
     "area": "D"
@@ -1474,19 +1467,19 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "BÃ¦re-/slidlag",
+    "staticFullName": "Bære-/slidlag",
     "_id": "48523eb1-ee95-5c04-a044-f8fc94e983fc",
     "resourceSubType": "Slidlag",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "BÃ¦re-/slidlag",
+    "staticFullName": "Bære-/slidlag",
     "_id": "d8174941-2631-562c-b97c-b0267c87615d",
     "resourceSubType": "Slidlag",
     "area": "C3"
   },
   {
-    "staticFullName": "BÃ¦re-/slidlag",
+    "staticFullName": "Bære-/slidlag",
     "_id": "25e45687-0ad8-53f8-b849-6ceae6af7f17",
     "resourceSubType": "Slidlag",
     "area": "D"
@@ -1552,19 +1545,19 @@ export default {
     "area": "A1-A3"
   },
   {
-    "staticFullName": "CementbundetspÃ¥nplade",
+    "staticFullName": "Cementbundetspånplade",
     "_id": "da1b460d-f3e8-5ea7-a978-e895254c6e45",
     "resourceSubType": "Concrete",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "CementbundetspÃ¥nplade",
+    "staticFullName": "Cementbundetspånplade",
     "_id": "4cc1feed-f2a9-51ce-8a7e-e1698755f75d",
     "resourceSubType": "Concrete",
     "area": "C3"
   },
   {
-    "staticFullName": "CementbundetspÃ¥nplade",
+    "staticFullName": "Cementbundetspånplade",
     "_id": "770d5f2e-a81b-5c41-a9b9-ac8238fc6211",
     "resourceSubType": "Concrete",
     "area": "D"
@@ -1588,10 +1581,10 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Cirkulationspumpe250-1000W",
-    "_id": "EOL",
-    "resourceSubType": "609441b9-eb0e-568a-8ae1-fcc9eb15656a",
-    "area": "Technical"
+    "staticFullName": "Cirkulationspumpe250-1000W EOL",
+    "_id": "609441b9-eb0e-568a-8ae1-fcc9eb15656a",
+    "resourceSubType": "Technical",
+    "area": "C4"
   },
   {
     "staticFullName": "Cirkulationspumpe50-250W",
@@ -1612,10 +1605,10 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Cirkulationspumpe50-250W",
-    "_id": "EOL",
-    "resourceSubType": "742a282e-1145-56d4-8b4a-4c2571a8feca",
-    "area": "Technical"
+    "staticFullName": "Cirkulationspumpe50-250W EOL",
+    "_id": "742a282e-1145-56d4-8b4a-4c2571a8feca",
+    "resourceSubType": "Technical",
+    "area": "C4"
   },
   {
     "staticFullName": "Cirkulationspumpe<50W",
@@ -1636,10 +1629,10 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Cirkulationspumpe<50W",
-    "_id": "EOL",
-    "resourceSubType": "862e2c6f-1598-51db-b7fa-b0d912db8c48",
-    "area": "Technical"
+    "staticFullName": "Cirkulationspumpe<50W EOL",
+    "_id": "862e2c6f-1598-51db-b7fa-b0d912db8c48",
+    "resourceSubType": "Technical",
+    "area": "C4"
   },
   {
     "staticFullName": "Curtainwallfacademed3-lagsruder aluminium",
@@ -1666,25 +1659,25 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Curtainwallfacademed3-lagsruder stÃ¥l",
+    "staticFullName": "Curtainwallfacademed3-lagsruder stål",
     "_id": "96a8fe23-ecb9-58a7-bc28-d428e38ac871",
     "resourceSubType": "Window",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Curtainwallfacademed3-lagsruder stÃ¥l",
+    "staticFullName": "Curtainwallfacademed3-lagsruder stål",
     "_id": "76628fce-da8f-56cc-8902-f4ec1b7f319e",
     "resourceSubType": "Window",
     "area": "C3"
   },
   {
-    "staticFullName": "Curtainwallfacademed3-lagsruder stÃ¥l",
+    "staticFullName": "Curtainwallfacademed3-lagsruder stål",
     "_id": "c1d6c8f2-46d1-5eff-94ce-cf47d64f01c6",
     "resourceSubType": "Window",
     "area": "C4"
   },
   {
-    "staticFullName": "Curtainwallfacademed3-lagsruder stÃ¥l",
+    "staticFullName": "Curtainwallfacademed3-lagsruder stål",
     "_id": "d78e9d69-8bbe-5886-8608-27bf684b9346",
     "resourceSubType": "Window",
     "area": "D"
@@ -1708,313 +1701,313 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Curtainwallprofiler stÃ¥l",
+    "staticFullName": "Curtainwallprofiler stål",
     "_id": "50e7eb47-a893-5d72-8be2-2489861a78ed",
     "resourceSubType": "Aluminium",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Curtainwallprofiler stÃ¥l",
+    "staticFullName": "Curtainwallprofiler stål",
     "_id": "5ff6a3dd-b09b-51ec-af73-6c55d253fbfa",
     "resourceSubType": "Aluminium",
     "area": "C3"
   },
   {
-    "staticFullName": "Curtainwallprofiler stÃ¥l",
+    "staticFullName": "Curtainwallprofiler stål",
     "_id": "0be0e919-9215-5484-bee8-b0e8e0e188c6",
     "resourceSubType": "Aluminium",
     "area": "D"
   },
   {
-    "staticFullName": "DampspÃ¦rrePA",
+    "staticFullName": "DampspærrePA",
     "_id": "7eecd5f2-ff5a-5fd0-ae89-6ded01e87fe4",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "DampspÃ¦rrePA",
+    "staticFullName": "DampspærrePA",
     "_id": "51f32cfb-e16d-5699-a884-9b23f3cb1c42",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "DampspÃ¦rrePA",
+    "staticFullName": "DampspærrePA",
     "_id": "43467d77-1e7a-58c6-8c3a-4e1d42924dfa",
     "resourceSubType": "Technical",
     "area": "D"
   },
   {
-    "staticFullName": "DampspÃ¦rre bitumen",
+    "staticFullName": "Dampspærre bitumen",
     "_id": "0949dc07-de7d-5f77-af7d-0ff6dcf3f6b4",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "DampspÃ¦rre bitumen",
+    "staticFullName": "Dampspærre bitumen",
     "_id": "390b4fcb-03fc-5bd4-8ec3-43cfa90149cd",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "DampspÃ¦rre bitumen",
+    "staticFullName": "Dampspærre bitumen",
     "_id": "ad8e7699-1036-5919-9bce-62b47ec84a6d",
     "resourceSubType": "Technical",
     "area": "C4"
   },
   {
-    "staticFullName": "Datakabel NetvÃ¦rkskabel PVC",
+    "staticFullName": "Datakabel Netværkskabel PVC",
     "_id": "84a3a17e-2840-5f89-b4ac-e34caa036c50",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Datakabel NetvÃ¦rkskabel PVC",
+    "staticFullName": "Datakabel Netværkskabel PVC",
     "_id": "6e31afd4-6e30-5f68-a286-08a7f84ed4d6",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "Datakabel NetvÃ¦rkskabel PVC",
+    "staticFullName": "Datakabel Netværkskabel PVC",
     "_id": "5847595a-acf9-5f6f-83e4-97b02b65b2cc",
     "resourceSubType": "Technical",
     "area": "D"
   },
   {
-    "staticFullName": "DÃ¸ralu T30/EI30",
+    "staticFullName": "Dåralu T30/EI30",
     "_id": "b3affa44-1ae1-5694-9433-585b0921209a",
     "resourceSubType": "Door",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "DÃ¸ralu T30/EI30",
+    "staticFullName": "Dåralu T30/EI30",
     "_id": "48794e8f-78d7-525c-844d-10436e878065",
     "resourceSubType": "Door",
     "area": "C3"
   },
   {
-    "staticFullName": "DÃ¸ralu T30/EI30",
+    "staticFullName": "Dåralu T30/EI30",
     "_id": "1cfbcd4a-c57a-54ba-8034-700b33fafcb7",
     "resourceSubType": "Door",
     "area": "C4"
   },
   {
-    "staticFullName": "DÃ¸rlu T30/EI30",
+    "staticFullName": "Dårlu T30/EI30",
     "_id": "8269277a-8086-50b9-ada0-cfa738ecc39a",
     "resourceSubType": "Door",
     "area": "D"
   },
   {
-    "staticFullName": "DÃ¸ralu T90/EI90",
+    "staticFullName": "Dåralu T90/EI90",
     "_id": "c85b744a-113d-5a60-a23f-8fdaab9e7846",
     "resourceSubType": "Door",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "DÃ¸ralu T90/EI90",
+    "staticFullName": "Dåralu T90/EI90",
     "_id": "9244afd1-208c-539a-b084-3b624bb749c9",
     "resourceSubType": "Door",
     "area": "C3"
   },
   {
-    "staticFullName": "DÃ¸ralu T90/EI90",
+    "staticFullName": "Dåralu T90/EI90",
     "_id": "2e2f6b29-56c5-5a99-96e9-01c42cb60711",
     "resourceSubType": "Door",
     "area": "C4"
   },
   {
-    "staticFullName": "DÃ¸ralu T90/EI90",
+    "staticFullName": "Dåralu T90/EI90",
     "_id": "fb7709d1-7d72-5cce-9189-2d9cd0c91b53",
     "resourceSubType": "Door",
     "area": "D"
   },
   {
-    "staticFullName": "DÃ¸raluhoveddÃ¸r",
+    "staticFullName": "Dåraluhoveddår",
     "_id": "c8bc78d3-624d-5bd8-a28b-ca531665a52a",
     "resourceSubType": "Door",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "DÃ¸raluhoveddÃ¸r",
+    "staticFullName": "Dåraluhoveddår",
     "_id": "2b2a6594-efda-5232-844a-07699530cf13",
     "resourceSubType": "Door",
     "area": "C3"
   },
   {
-    "staticFullName": "DÃ¸raluhoveddÃ¸r",
+    "staticFullName": "Dåraluhoveddår",
     "_id": "d9d69aeb-99a0-5ef9-ab79-a37066221e3a",
     "resourceSubType": "Door",
     "area": "C4"
   },
   {
-    "staticFullName": "DÃ¸raluhoveddÃ¸r",
+    "staticFullName": "Dåraluhoveddår",
     "_id": "ecb09973-3a9c-59d6-833f-ceb11d8417ed",
     "resourceSubType": "Door",
     "area": "D"
   },
   {
-    "staticFullName": "DÃ¸ralurÃ¸gdÃ¸r",
+    "staticFullName": "Dåralurågdår",
     "_id": "31a49b9d-6071-5132-8eaa-3dbc95048448",
     "resourceSubType": "Door",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "DÃ¸ralurÃ¸gdÃ¸r",
+    "staticFullName": "Dåralurågdår",
     "_id": "a1ced3ed-cc82-56d9-b309-37d6298028ff",
     "resourceSubType": "Door",
     "area": "C3"
   },
   {
-    "staticFullName": "DÃ¸ralurÃ¸gdÃ¸r",
+    "staticFullName": "Dåralurågdår",
     "_id": "c83c99ce-c9b9-5639-a0e1-dac581b98e9a",
     "resourceSubType": "Door",
     "area": "C4"
   },
   {
-    "staticFullName": "DÃ¸ralurÃ¸gdÃ¸r",
+    "staticFullName": "Dåralurågdår",
     "_id": "21ef17f6-5063-50d1-93a7-c0bbbeddebe6",
     "resourceSubType": "Door",
     "area": "D"
   },
   {
-    "staticFullName": "DÃ¸rindustriport",
+    "staticFullName": "Dårindustriport",
     "_id": "a58a3e87-8f59-51f1-ae15-8f9c831d3e66",
     "resourceSubType": "Door",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "DÃ¸r industriport",
+    "staticFullName": "Dår industriport",
     "_id": "942baac7-d1e8-51bf-9160-524677fdde71",
     "resourceSubType": "Door",
     "area": "C3"
   },
   {
-    "staticFullName": "DÃ¸r industriport",
+    "staticFullName": "Dår industriport",
     "_id": "067ec01d-949b-5ea3-ad78-c8e9ec318b38",
     "resourceSubType": "Door",
     "area": "C4"
   },
   {
-    "staticFullName": "DÃ¸r industriport",
+    "staticFullName": "Dår industriport",
     "_id": "54df749f-73da-5d87-a0cd-c54f2554cbc8",
     "resourceSubType": "Door",
     "area": "D"
   },
   {
-    "staticFullName": "DÃ¸r stÃ¥l indv/udv/brand/rÃ¸gmv",
+    "staticFullName": "Dår stål indv/udv/brand/rågmv",
     "_id": "74c59f36-8943-5817-adbc-fa670512a3af",
     "resourceSubType": "Door",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "DÃ¸r stÃ¥l indv/udv/brand/rÃ¸gmv",
+    "staticFullName": "Dår stål indv/udv/brand/rågmv",
     "_id": "fc9a4cbc-2c16-5241-bff8-23f99541cc42",
     "resourceSubType": "Door",
     "area": "C3"
   },
   {
-    "staticFullName": "DÃ¸r stÃ¥l indv/udv/brand/rÃ¸gmv",
+    "staticFullName": "Dår stål indv/udv/brand/rågmv",
     "_id": "c09ba055-ac8d-5663-9ff1-47f4b6957cc2",
     "resourceSubType": "Door",
     "area": "C4"
   },
   {
-    "staticFullName": "DÃ¸r stÃ¥l indv/udv/brand/rÃ¸gmv",
+    "staticFullName": "Dår stål indv/udv/brand/rågmv",
     "_id": "e38da12a-9a79-506e-ad63-24785a7860b3",
     "resourceSubType": "Door",
     "area": "D"
   },
   {
-    "staticFullName": "EPDM-tÃ¦tningtilaluminiumsprofil",
+    "staticFullName": "EPDM-tætningtilaluminiumsprofil",
     "_id": "5dbc15c2-ba1e-56c6-b6f9-d76de04d17cf",
     "resourceSubType": "Aluminium",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "EPDM-tÃ¦tningtilaluminiumsprofil",
+    "staticFullName": "EPDM-tætningtilaluminiumsprofil",
     "_id": "f3e39ac9-20a8-5cfe-86f1-36780cafaf94",
     "resourceSubType": "Aluminium",
     "area": "C3"
   },
   {
-    "staticFullName": "EPDM-tÃ¦tningtilaluminiumsprofil",
+    "staticFullName": "EPDM-tætningtilaluminiumsprofil",
     "_id": "bcbf85eb-258d-5586-b29e-7055607899fc",
     "resourceSubType": "Aluminium",
     "area": "C4"
   },
   {
-    "staticFullName": "EPDM-tÃ¦tningtilaluminiumsprofil",
+    "staticFullName": "EPDM-tætningtilaluminiumsprofil",
     "_id": "8eb20e72-650c-59d5-9685-20f9aa179ae9",
     "resourceSubType": "Aluminium",
     "area": "D"
   },
   {
-    "staticFullName": "EPSisoleringtillofter/gulveogkÃ¦lderydervÃ¦g/terrÃ¦ndÃ¦k035",
+    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk035",
     "_id": "6c0600bf-40de-56d8-afea-b6d2809ea14b",
     "resourceSubType": "Aluminium",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "EPSisoleringtillofter/gulveogkÃ¦lderydervÃ¦g/terrÃ¦ndÃ¦k035",
+    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk035",
     "_id": "6c6e90c4-5fcd-568a-83a3-808e6983c8c3",
     "resourceSubType": "Aluminium",
     "area": "C4"
   },
   {
-    "staticFullName": "EPSisoleringtillofter/gulveogkÃ¦lderydervÃ¦g/terrÃ¦ndÃ¦k035",
+    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk035",
     "_id": "bc91ca27-7413-5e45-b9b9-f4881f5d3a83",
     "resourceSubType": "Aluminium",
     "area": "D"
   },
   {
-    "staticFullName": "EPSisoleringtillofter/gulveogkÃ¦lderydervÃ¦g/terrÃ¦ndÃ¦k040",
+    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk040",
     "_id": "1b5e19ff-47f0-520b-90e9-6c7ceafa8f9a",
     "resourceSubType": "Aluminium",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "EPSisoleringtillofter/gulveogkÃ¦lderydervÃ¦g/terrÃ¦ndÃ¦k040",
+    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk040",
     "_id": "584c641b-9a74-5532-916f-80e3a1309ab6",
     "resourceSubType": "Aluminium",
     "area": "C4"
   },
   {
-    "staticFullName": "EPSisoleringtillofter/gulveogkÃ¦lderydervÃ¦g/terrÃ¦ndÃ¦k040",
+    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk040",
     "_id": "a5fe89b2-09b1-587b-8e59-f217f977bdc6",
     "resourceSubType": "Aluminium",
     "area": "D"
   },
   {
-    "staticFullName": "EPSisoleringtilvÃ¦ggeogtage035",
+    "staticFullName": "EPSisoleringtilvæggeogtage035",
     "_id": "548fb8f8-44bc-5d6f-8ac2-35da1c5c17b4",
     "resourceSubType": "Insulation",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "EPSisoleringtilvÃ¦ggeogtage035",
+    "staticFullName": "EPSisoleringtilvæggeogtage035",
     "_id": "5fd09186-a02e-5e3d-b334-f2d76a5d1c52",
     "resourceSubType": "Insulation",
     "area": "C4"
   },
   {
-    "staticFullName": "EPSisoleringtilvÃ¦ggeogtage035",
+    "staticFullName": "EPSisoleringtilvæggeogtage035",
     "_id": "037644e8-f1de-515b-92ef-303d2aa90b0c",
     "resourceSubType": "Insulation",
     "area": "D"
   },
   {
-    "staticFullName": "EPSisoleringtilvÃ¦ggeogtage040",
+    "staticFullName": "EPSisoleringtilvæggeogtage040",
     "_id": "30464d3a-8e50-578c-818c-42aa5ac02c06",
     "resourceSubType": "Insulation",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "EPSisoleringtilvÃ¦ggeogtage040",
+    "staticFullName": "EPSisoleringtilvæggeogtage040",
     "_id": "d0c17f50-282c-58da-8ca4-42d5302d4858",
     "resourceSubType": "Insulation",
     "area": "C4"
   },
   {
-    "staticFullName": "EPSisoleringtilvÃ¦ggeogtage040",
+    "staticFullName": "EPSisoleringtilvæggeogtage040",
     "_id": "82988ab3-743c-5782-9a6e-aaa48d057c29",
     "resourceSubType": "Insulation",
     "area": "D"
@@ -2056,31 +2049,31 @@ export default {
     "area": "C4"
   },
   {
-    "staticFullName": "ETICS-limningogbelÃ¦gningafsilikatdispersionspuds",
+    "staticFullName": "ETICS-limningogbelægningafsilikatdispersionspuds",
     "_id": "f68ec43c-c139-5a05-aa9a-112964767abb",
     "resourceSubType": "Stucko",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "ETICS-limningogbelÃ¦gningafsilikatdispersionspuds",
+    "staticFullName": "ETICS-limningogbelægningafsilikatdispersionspuds",
     "_id": "9687f29c-534c-554a-8706-01a6c508eb3c",
     "resourceSubType": "Stucko",
     "area": "C3"
   },
   {
-    "staticFullName": "ETICS-limningogbelÃ¦gningafsyntetiskharpikspuds",
+    "staticFullName": "ETICS-limningogbelægningafsyntetiskharpikspuds",
     "_id": "6d7cb1bf-e257-56df-9d6e-19561de02d5d",
     "resourceSubType": "Stucko",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "ETICS-limningogbelÃ¦gningafsyntetiskharpikspuds",
+    "staticFullName": "ETICS-limningogbelægningafsyntetiskharpikspuds",
     "_id": "06324e41-661e-5637-8a59-2db13a4b4fe1",
     "resourceSubType": "Stucko",
     "area": "C3"
   },
   {
-    "staticFullName": "ETICS-limningogbelÃ¦gningafsyntetiskharpikspuds",
+    "staticFullName": "ETICS-limningogbelægningafsyntetiskharpikspuds",
     "_id": "2c580b79-8856-597a-9ad9-1d3c063c9cf7",
     "resourceSubType": "Stucko",
     "area": "C4"
@@ -2182,13 +2175,13 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "FastgÃ¸relsesmidler/skruerigalvaniseretstÃ¥l",
+    "staticFullName": "Fastgårelsesmidler/skruerigalvaniseretstål",
     "_id": "8f6c631e-9570-51e6-b373-4f8971abaa37",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "FastgÃ¸relsesmidler/skruerirustfritstÃ¥l",
+    "staticFullName": "Fastgårelsesmidler/skruerirustfritstål",
     "_id": "8c903443-6b50-5aab-ae8f-d9962d780e66",
     "resourceSubType": "Technical",
     "area": "A1-A3"
@@ -2206,25 +2199,25 @@ export default {
     "area": "C4"
   },
   {
-    "staticFullName": "FjernvarmeanlÃ¦g",
+    "staticFullName": "Fjernvarmeanlæg",
     "_id": "15ee545d-d19e-59ec-b3a3-e6ad427eb321",
     "resourceSubType": "Technical",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "FjernvarmeanlÃ¦g",
+    "staticFullName": "Fjernvarmeanlæg",
     "_id": "44264c1a-fd89-5f48-8356-d38e261ed227",
     "resourceSubType": "Technical",
     "area": "C3"
   },
   {
-    "staticFullName": "FjernvarmeanlÃ¦g",
+    "staticFullName": "Fjernvarmeanlæg",
     "_id": "b86a4cd2-0919-5704-b213-5498fb7d3fd7",
     "resourceSubType": "Technical",
     "area": "C4"
   },
   {
-    "staticFullName": "FjernvarmeanlÃ¦g",
+    "staticFullName": "Fjernvarmeanlæg",
     "_id": "dc76bdc4-d606-5d07-ab95-3385c13eddf1",
     "resourceSubType": "Technical",
     "area": "D"
@@ -2236,10 +2229,10 @@ export default {
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Gips",
-    "_id": "beta-halvhydrat",
-    "resourceSubType": "1c89a186-7493-5eb0-b0fd-6bee58d90183",
-    "area": "Gypsum"
+    "staticFullName": "Gips beta-halvhydrat",
+    "_id": "1c89a186-7493-5eb0-b0fd-6bee58d90183",
+    "resourceSubType": "Gypsum",
+    "area": "C4"
   },
   {
     "staticFullName": "Gipsfiberplade10mm",
@@ -2326,16 +2319,16 @@ export default {
     "area": "C4"
   },
   {
-    "staticFullName": "Grunder",
-    "_id": "silikatdispersion",
-    "resourceSubType": "15466a42-c79d-5ad9-992a-ed1f8d3d4d12",
-    "area": "Silicone"
+    "staticFullName": "Grunder silikatdispersion",
+    "_id": "15466a42-c79d-5ad9-992a-ed1f8d3d4d12",
+    "resourceSubType": "Silicone",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Grunder",
-    "_id": "silikatdispersion",
-    "resourceSubType": "a90a1a9a-e321-5694-9290-f01c432e6fce",
-    "area": "Silicone"
+    "staticFullName": "Grunder silikatdispersion",
+    "_id": "a90a1a9a-e321-5694-9290-f01c432e6fce",
+    "resourceSubType": "Silicone",
+    "area": "C4"
   },
   {
     "staticFullName": "Grus2-32mm",
@@ -2356,43 +2349,43 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Grus2-32mm tÃ¸rret",
+    "staticFullName": "Grus2-32mm tårret",
     "_id": "775082f4-1342-522d-a584-a205d84faa14",
     "resourceSubType": "Gravel",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Grus2-32mm tÃ¸rret",
+    "staticFullName": "Grus2-32mm tårret",
     "_id": "b8e7181a-0f34-502c-884b-99af5d10c810",
     "resourceSubType": "Gravel",
     "area": "C3"
   },
   {
-    "staticFullName": "Grus2-32mm tÃ¸rret",
+    "staticFullName": "Grus2-32mm tårret",
     "_id": "28d64726-40e7-5b3a-a47d-c5893bcaca4a",
     "resourceSubType": "Gravel",
     "area": "D"
   },
   {
-    "staticFullName": "Grus 2-15mm tÃ¸rret",
+    "staticFullName": "Grus 2-15mm tårret",
     "_id": "49f8bf99-3dbb-5ece-9d90-dd16563067de",
     "resourceSubType": "Gravel",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Grus 2-15mm tÃ¸rret",
+    "staticFullName": "Grus 2-15mm tårret",
     "_id": "297a3598-05d7-5112-ae3d-dfdf5b8ebaf3",
     "resourceSubType": "Gravel",
     "area": "C3"
   },
   {
-    "staticFullName": "Grus 2-15mm tÃ¸rret",
+    "staticFullName": "Grus 2-15mm tårret",
     "_id": "63a3fba3-1706-5c76-91b2-fd8b1f7fa18c",
     "resourceSubType": "Gravel",
     "area": "D"
   },
   {
-    "staticFullName": "GrÃ¥stÃ¸bejern",
+    "staticFullName": "Gråståbejern",
     "_id": "798699e7-303a-56bd-8066-fcd6a33ca54b",
     "resourceSubType": "Gravel",
     "area": "A1-A3"
@@ -2434,19 +2427,19 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "GummitÃ¦tning",
+    "staticFullName": "Gummitætning",
     "_id": "b208de59-461d-5d02-8109-b3566226ab7f",
     "resourceSubType": "Rubber",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "GummitÃ¦tning",
+    "staticFullName": "Gummitætning",
     "_id": "6ceeb2c3-5b35-5731-9781-ec55ced64610",
     "resourceSubType": "Rubber",
     "area": "C3"
   },
   {
-    "staticFullName": "GummitÃ¦tning",
+    "staticFullName": "Gummitætning",
     "_id": "1946c28b-dd6c-5bb2-99ce-5e7313080455",
     "resourceSubType": "Rubber",
     "area": "D"
@@ -2470,22 +2463,22 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Kork",
-    "_id": "expanderet",
-    "resourceSubType": "88aaef32-6572-5700-80ce-df6a307babe1",
-    "area": "Cork"
+    "staticFullName": "Kork expanderet",
+    "_id": "88aaef32-6572-5700-80ce-df6a307babe1",
+    "resourceSubType": "Cork",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Kork",
-    "_id": "expanderet",
-    "resourceSubType": "5433b8da-98ad-5b66-aa81-6dcd05e3cfdb",
-    "area": "Cork"
+    "staticFullName": "Kork expanderet",
+    "_id": "5433b8da-98ad-5b66-aa81-6dcd05e3cfdb",
+    "resourceSubType": "Cork",
+    "area": "C3"
   },
   {
-    "staticFullName": "Kork",
-    "_id": "expanderet",
-    "resourceSubType": "439028db-0e68-5214-b65c-41ffcbf421ce",
-    "area": "Cork"
+    "staticFullName": "Kork expanderet",
+    "_id": "439028db-0e68-5214-b65c-41ffcbf421ce",
+    "resourceSubType": "Cork",
+    "area": "D"
   },
   {
     "staticFullName": "Korkfliser4mm",
@@ -2608,37 +2601,37 @@ export default {
     "area": "A1-A3"
   },
   {
-    "staticFullName": "LimtrÃ¦ nÃ¥letrÃ¦",
+    "staticFullName": "Limtræ nåletræ",
     "_id": "abd65119-71cc-5b22-b90d-49b6310d2df1",
     "resourceSubType": "CLT",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "LimtrÃ¦ nÃ¥letrÃ¦",
+    "staticFullName": "Limtræ nåletræ",
     "_id": "4ac69d4f-d362-56e1-a945-90a1eb2586b7",
     "resourceSubType": "CLT",
     "area": "C3"
   },
   {
-    "staticFullName": "LimtrÃ¦ nÃ¥letrÃ¦",
+    "staticFullName": "Limtræ nåletræ",
     "_id": "e0cc289a-8bb9-56fb-97ee-9194a94db5e2",
     "resourceSubType": "CLT",
     "area": "D"
   },
   {
-    "staticFullName": "LimtrÃ¦ stÃ¥endebrÃ¦dder nÃ¥letrÃ¦",
+    "staticFullName": "Limtræ ståendebrædder nåletræ",
     "_id": "f37d7bfc-5c53-5fdd-8aff-f1308069eadf",
     "resourceSubType": "CLT",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "LimtrÃ¦ stÃ¥endebrÃ¦dder nÃ¥letrÃ¦",
+    "staticFullName": "Limtræ ståendebrædder nåletræ",
     "_id": "0152f4a5-1b2f-50ad-ba90-a1b1f47d2541",
     "resourceSubType": "CLT",
     "area": "C3"
   },
   {
-    "staticFullName": "LimtrÃ¦ stÃ¥endebrÃ¦dder nÃ¥letrÃ¦",
+    "staticFullName": "Limtræ ståendebrædder nåletræ",
     "_id": "99f8c212-b795-53fe-bc4d-2a8e40749317",
     "resourceSubType": "CLT",
     "area": "D"
@@ -2680,79 +2673,79 @@ export default {
     "area": "C4"
   },
   {
-    "staticFullName": "Mineraluld lÃ¸sfyld",
+    "staticFullName": "Mineraluld låsfyld",
     "_id": "8d473c2e-163a-5027-8b0e-9fbaf6e9e552",
     "resourceSubType": "Insulation",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Mineraluld lÃ¸sfyld",
+    "staticFullName": "Mineraluld låsfyld",
     "_id": "fc7574a2-c68d-5998-9072-ae44e5347b2b",
     "resourceSubType": "Insulation",
     "area": "C3"
   },
   {
-    "staticFullName": "Mineraluld lÃ¸sfyld",
+    "staticFullName": "Mineraluld låsfyld",
     "_id": "dcef291f-ac64-5537-85b2-6aeffb44dd30",
     "resourceSubType": "Insulation",
     "area": "C4"
   },
   {
-    "staticFullName": "Mineraluld skrÃ¥tag",
+    "staticFullName": "Mineraluld skråtag",
     "_id": "9cd91e1a-b67a-5f51-a85c-ed46ad4b9ba6",
     "resourceSubType": "Insulation",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Mineraluld skrÃ¥tag",
+    "staticFullName": "Mineraluld skråtag",
     "_id": "806921d2-d583-54dc-bf78-d3f61feb3db2",
     "resourceSubType": "Insulation",
     "area": "C3"
   },
   {
-    "staticFullName": "Mineraluld skrÃ¥tag",
+    "staticFullName": "Mineraluld skråtag",
     "_id": "4e8504d8-e951-521c-9ad6-2a67803cee06",
     "resourceSubType": "Insulation",
     "area": "C4"
   },
   {
-    "staticFullName": "Mineraluld stenuld",
-    "_id": "rÃ¸rskÃ¥l",
-    "resourceSubType": "6202b142-5dac-5f98-8891-51f0c5a895dc",
-    "area": "Insulation"
+    "staticFullName": "Mineraluld stenuld rårskål",
+    "_id": "6202b142-5dac-5f98-8891-51f0c5a895dc",
+    "resourceSubType": "Insulation",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Mineraluld stenuld",
-    "_id": "rÃ¸rskÃ¥l",
-    "resourceSubType": "8ae5c22e-f636-589a-af59-1998cfbbffd5",
-    "area": "Insulation"
+    "staticFullName": "Mineraluld stenuld rårskål",
+    "_id": "8ae5c22e-f636-589a-af59-1998cfbbffd5",
+    "resourceSubType": "Insulation",
+    "area": "C3"
   },
   {
-    "staticFullName": "Mineraluld stenuld",
-    "_id": "tekniskpladeisolering",
-    "resourceSubType": "5375e93b-cf7b-54c4-9ee4-3957ba2f00af",
-    "area": "Insulation"
+    "staticFullName": "Mineraluld stenuld tekniskpladeisolering",
+    "_id": "5375e93b-cf7b-54c4-9ee4-3957ba2f00af",
+    "resourceSubType": "Insulation",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Mineraluld stenuld",
-    "_id": "tekniskpladeisolering",
-    "resourceSubType": "12ec958a-20a8-55fa-80bd-993e1a14dd4a",
-    "area": "Insulation"
+    "staticFullName": "Mineraluld stenuld tekniskpladeisolering",
+    "_id": "12ec958a-20a8-55fa-80bd-993e1a14dd4a",
+    "resourceSubType": "Insulation",
+    "area": "C3"
   },
   {
-    "staticFullName": "Mineraluld terrÃ¦n",
+    "staticFullName": "Mineraluld terræn",
     "_id": "02f9eac3-bb73-5b03-a082-db6e6f0e0200",
     "resourceSubType": "Insulation",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Mineraluld terrÃ¦n",
+    "staticFullName": "Mineraluld terræn",
     "_id": "faac7a10-d41a-5a5f-af08-764d6c22da4a",
     "resourceSubType": "Insulation",
     "area": "C3"
   },
   {
-    "staticFullName": "Mineraluld terrÃ¦n",
+    "staticFullName": "Mineraluld terræn",
     "_id": "f4c67dfa-5749-5e95-9bb0-dfa977afdd8d",
     "resourceSubType": "Insulation",
     "area": "C4"
@@ -2848,40 +2841,40 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Sand0-2mm",
-    "_id": "tÃ¸rret",
-    "resourceSubType": "155745c3-9c58-5c8d-8f4d-a8e938c7f028",
-    "area": "Sand"
+    "staticFullName": "Sand0-2mm tårret",
+    "_id": "155745c3-9c58-5c8d-8f4d-a8e938c7f028",
+    "resourceSubType": "Sand",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Sand0-2mm",
-    "_id": "tÃ¸rret",
-    "resourceSubType": "f182b221-164d-561e-bb49-4f56b4cd77ae",
-    "area": "Sand"
+    "staticFullName": "Sand0-2mm tårret",
+    "_id": "f182b221-164d-561e-bb49-4f56b4cd77ae",
+    "resourceSubType": "Sand",
+    "area": "C3"
   },
   {
-    "staticFullName": "Sand0-2mm",
-    "_id": "tÃ¸rret",
-    "resourceSubType": "3b987816-4e77-5777-9694-423e8c7ded17",
-    "area": "Sand"
+    "staticFullName": "Sand0-2mm tårret",
+    "_id": "3b987816-4e77-5777-9694-423e8c7ded17",
+    "resourceSubType": "Sand",
+    "area": "D"
   },
   {
-    "staticFullName": "Sand",
-    "_id": "knust",
-    "resourceSubType": "tÃ¸rret",
-    "area": "cda4b669-9faf-5e6c-ba1a-3ba2263ed342"
+    "staticFullName": "Sand knust tårret",
+    "_id": "cda4b669-9faf-5e6c-ba1a-3ba2263ed342",
+    "resourceSubType": "Sand",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Sand",
-    "_id": "knust",
-    "resourceSubType": "tÃ¸rret",
-    "area": "c0fc9389-2b67-5acb-8239-9bbd226ac652"
+    "staticFullName": "Sand knust tårret",
+    "_id": "c0fc9389-2b67-5acb-8239-9bbd226ac652",
+    "resourceSubType": "Sand",
+    "area": "C3"
   },
   {
-    "staticFullName": "Sand",
-    "_id": "knust",
-    "resourceSubType": "tÃ¸rret",
-    "area": "2ccd1213-5605-538b-a72f-e0714e97313c"
+    "staticFullName": "Sand knust tårret",
+    "_id": "2ccd1213-5605-538b-a72f-e0714e97313c",
+    "resourceSubType": "Sand",
+    "area": "D"
   },
   {
     "staticFullName": "Sanitetskeramik",
@@ -2896,19 +2889,19 @@ export default {
     "area": "C3"
   },
   {
-    "staticFullName": "SolcelleanlÃ¦g1000kWh/m2*a",
+    "staticFullName": "Solcelleanlæg 1000kWh/m2*a",
     "_id": "f4a51f68-3045-5a99-80b3-7afa43de3c04",
     "resourceSubType": "Solarcell",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "SolcelleanlÃ¦g1000kWh/m2*a",
+    "staticFullName": "Solcelleanlæg 1000kWh/m2*a",
     "_id": "a9c02934-de04-51e9-96cf-c9ac29b27c75",
     "resourceSubType": "Solarcell",
     "area": "C4"
   },
   {
-    "staticFullName": "SolcelleanlÃ¦g1000kWh/m2*a",
+    "staticFullName": "Solcelleanlæg 1000kWh/m2*a",
     "_id": "f3dd64e5-9269-5316-8b04-2faf90632370",
     "resourceSubType": "Solarcell",
     "area": "D"
@@ -2932,235 +2925,235 @@ export default {
     "area": "D"
   },
   {
-    "staticFullName": "Solvarmekollektor vakuumrÃ¸r",
+    "staticFullName": "Solvarmekollektor vakuumrår",
     "_id": "8ddd6b01-094e-50e0-8294-6ccc8a392789",
     "resourceSubType": "Solarcell",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "Solvarmekollektor vakuumrÃ¸r",
+    "staticFullName": "Solvarmekollektor vakuumrår",
     "_id": "15197bbd-34e4-5853-b4b0-ac51d2cee8a3",
     "resourceSubType": "Solarcell",
     "area": "C3"
   },
   {
-    "staticFullName": "Solvarmekollektor vakuumrÃ¸r",
+    "staticFullName": "Solvarmekollektor vakuumrår",
     "_id": "3a71022d-7933-535c-926a-f439f86ceb61",
     "resourceSubType": "Solarcell",
     "area": "D"
   },
   {
-    "staticFullName": "StÃ¥l SmedestÃ¥l",
+    "staticFullName": "Stål Smedestål",
     "_id": "257ab361-8054-567e-bb90-050762741f31",
     "resourceSubType": "Steel",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "StÃ¥l VarmgalvaniseretstÃ¥lplade",
+    "staticFullName": "Stål Varmgalvaniseretstålplade",
     "_id": "f190d06b-b999-5e68-b0c2-66e55c4799ac",
     "resourceSubType": "Steel",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "StÃ¥l valsedeprofilerogplader",
+    "staticFullName": "Stål valsedeprofilerogplader",
     "_id": "b7e422e6-1186-56a1-b9be-d17e524fcbc7",
     "resourceSubType": "Steel",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "StÃ¥l valsedeprofilerogplader",
+    "staticFullName": "Stål valsedeprofilerogplader",
     "_id": "5e5acb2a-a410-5aac-9498-8323e8eeac14",
     "resourceSubType": "Steel",
     "area": "C3"
   },
   {
-    "staticFullName": "StÃ¥l valsedeprofilerogplader",
+    "staticFullName": "Stål valsedeprofilerogplader",
     "_id": "b61b32de-b7ad-5d4f-8a01-1663b2d56aa9",
     "resourceSubType": "Steel",
     "area": "D"
   },
   {
-    "staticFullName": "StÃ¥l varmvalsetplade",
-    "_id": "2-20mm",
-    "resourceSubType": "606b9319-b012-54fb-b964-f9f8fc4e20d3",
-    "area": "Steel"
+    "staticFullName": "Stål varmvalsetplade 2-20mm",
+    "_id": "606b9319-b012-54fb-b964-f9f8fc4e20d3",
+    "resourceSubType": "Steel",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "StÃ¥l varmvalsetplade",
-    "_id": "Genanvendelse",
-    "resourceSubType": "ad19fb2f-d253-5ca1-b164-d6cac0f0e767",
-    "area": "Steel"
+    "staticFullName": "Stål varmvalsetplade Genanvendelse",
+    "_id": "ad19fb2f-d253-5ca1-b164-d6cac0f0e767",
+    "resourceSubType": "Steel",
+    "area": "C4"
   },
   {
-    "staticFullName": "StÃ¥l varmvalsetplade",
-    "_id": "Genanvendelse",
-    "resourceSubType": "44d23632-ebfd-5db3-b72c-c7ddf53cfa4e",
-    "area": "Steel"
+    "staticFullName": "Stål varmvalsetplade Genanvendelse",
+    "_id": "44d23632-ebfd-5db3-b72c-c7ddf53cfa4e",
+    "resourceSubType": "Steel",
+    "area": "D"
   },
   {
-    "staticFullName": "StÃ¸beasfalt",
+    "staticFullName": "Ståbeasfalt",
     "_id": "733a07d5-40ed-590f-b303-5ca02cb08db7",
     "resourceSubType": "Asphalt",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "StÃ¸beasfalt",
+    "staticFullName": "Ståbeasfalt",
     "_id": "47668d90-5cb3-507c-ac48-8d4451f0dca6",
     "resourceSubType": "Asphalt",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "StÃ¸beasfalt",
+    "staticFullName": "Ståbeasfalt",
     "_id": "57100e64-2c28-570b-a5b9-da0a334dce1f",
     "resourceSubType": "Asphalt",
     "area": "C3"
   },
   {
-    "staticFullName": "StÃ¸beasfalt",
+    "staticFullName": "Ståbeasfalt",
     "_id": "5d0b40bd-406e-5105-a3aa-0f4b995795ec",
     "resourceSubType": "Asphalt",
     "area": "C3"
   },
   {
-    "staticFullName": "StÃ¸beasfalt",
+    "staticFullName": "Ståbeasfalt",
     "_id": "c7f6da60-ce86-56b4-afe5-bdcfe3f889bb",
     "resourceSubType": "Asphalt",
     "area": "C4"
   },
   {
-    "staticFullName": "StÃ¸beasfalt",
+    "staticFullName": "Ståbeasfalt",
     "_id": "6f6a142c-eb8e-5695-8411-65ee05bfe6c9",
     "resourceSubType": "Asphalt",
     "area": "D"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag",
-    "_id": "ikkeskiferbestrÃ¸et",
-    "resourceSubType": "004775b3-963e-5864-afeb-d0da97177da1",
-    "area": "Tagpap"
+    "staticFullName": "Tagpap bitumentoplag ikke skiferbestrået",
+    "_id": "004775b3-963e-5864-afeb-d0da97177da1",
+    "resourceSubType": "Tagpap",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag",
-    "_id": "ikkeskiferbestrÃ¸et",
-    "resourceSubType": "7bb42c52-4dd7-546e-bae6-8b9cbce2f41f",
-    "area": "Tagpap"
+    "staticFullName": "Tagpap bitumentoplag ikke skiferbestrået",
+    "_id": "7bb42c52-4dd7-546e-bae6-8b9cbce2f41f",
+    "resourceSubType": "Tagpap",
+    "area": "C3"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag",
-    "_id": "ikkeskiferbestrÃ¸et",
-    "resourceSubType": "fb3dd1bd-a864-5ce7-acf6-40c2c6fd44b9",
-    "area": "Tagpap"
+    "staticFullName": "Tagpap bitumentoplag ikke skiferbestrået",
+    "_id": "fb3dd1bd-a864-5ce7-acf6-40c2c6fd44b9",
+    "resourceSubType": "Tagpap",
+    "area": "C4"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag",
-    "_id": "skiferbestrÃ¸et",
-    "resourceSubType": "021d9404-779a-5661-bf70-92760d461647",
-    "area": "Tagpap"
+    "staticFullName": "Tagpap bitumentoplag skiferbestrået",
+    "_id": "021d9404-779a-5661-bf70-92760d461647",
+    "resourceSubType": "Tagpap",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag",
-    "_id": "skiferbestrÃ¸et",
-    "resourceSubType": "908f36b6-37c1-57c8-91e6-345d83a52260",
-    "area": "Tagpap"
+    "staticFullName": "Tagpap bitumentoplag skiferbestrået",
+    "_id": "908f36b6-37c1-57c8-91e6-345d83a52260",
+    "resourceSubType": "Tagpap",
+    "area": "C3"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag",
-    "_id": "skiferbestrÃ¸et",
-    "resourceSubType": "fb036ec8-c6a7-5e86-8194-e9be0017ed00",
-    "area": "Tagpap"
+    "staticFullName": "Tagpap bitumentoplag skiferbestrået",
+    "_id": "fb036ec8-c6a7-5e86-8194-e9be0017ed00",
+    "resourceSubType": "Tagpap",
+    "area": "C4"
   },
   {
-    "staticFullName": "TrÃ¦",
-    "_id": "lÃ¦rk",
-    "resourceSubType": "ba2ddf89-37b8-584f-a9e8-be32f889527e",
-    "area": "Wood"
+    "staticFullName": "Træ lærk",
+    "_id": "ba2ddf89-37b8-584f-a9e8-be32f889527e",
+    "resourceSubType": "Wood",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "TrÃ¦",
-    "_id": "lÃ¦rk",
-    "resourceSubType": "10ce115d-151a-5a99-ad7c-2229335ae3f4",
-    "area": "Wood"
+    "staticFullName": "Træ lærk",
+    "_id": "10ce115d-151a-5a99-ad7c-2229335ae3f4",
+    "resourceSubType": "Wood",
+    "area": "C3"
   },
   {
-    "staticFullName": "TrÃ¦",
-    "_id": "lÃ¦rk",
-    "resourceSubType": "b0276199-c576-55ae-8963-16121a80c0df",
-    "area": "Wood"
+    "staticFullName": "Træ lærk",
+    "_id": "b0276199-c576-55ae-8963-16121a80c0df",
+    "resourceSubType": "Wood",
+    "area": "D"
   },
   {
-    "staticFullName": "TrÃ¦",
-    "_id": "zeder",
-    "resourceSubType": "3a719657-0e5e-54b6-bb5e-17d603d15527",
-    "area": "Wood"
+    "staticFullName": "Træ zeder",
+    "_id": "3a719657-0e5e-54b6-bb5e-17d603d15527",
+    "resourceSubType": "Wood",
+    "area": "A1-A3"
   },
   {
-    "staticFullName": "TrÃ¦",
-    "_id": "zeder",
-    "resourceSubType": "17a176db-d7b1-55de-a07f-04e0d9e29532",
-    "area": "Wood"
+    "staticFullName": "Træ zeder",
+    "_id": "17a176db-d7b1-55de-a07f-04e0d9e29532",
+    "resourceSubType": "Wood",
+    "area": "C3"
   },
   {
-    "staticFullName": "TrÃ¦",
-    "_id": "zeder",
-    "resourceSubType": "9f6e1388-7da2-55a5-8c89-3b7efca65f9b",
-    "area": "Wood"
+    "staticFullName": "Træ zeder",
+    "_id": "9f6e1388-7da2-55a5-8c89-3b7efca65f9b",
+    "resourceSubType": "Wood",
+    "area": "D"
   },
   {
-    "staticFullName": "TrÃ¦betonplade",
+    "staticFullName": "Træbetonplade",
     "_id": "527825d2-1e41-576b-b5ea-a25fd2abebd9",
     "resourceSubType": "Wood",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "TrÃ¦betonplade",
+    "staticFullName": "Træbetonplade",
     "_id": "319e499b-5fda-5592-a2ff-ed4630909674",
-    "resourceSubType": "",
-    "area": "WoodC3"
+    "resourceSubType": "Wood",
+    "area": "C3"
   },
   {
-    "staticFullName": "TrÃ¦betonplade",
+    "staticFullName": "Træbetonplade",
     "_id": "c9f66ba9-97f6-5b08-86b8-8baf81ff182c",
     "resourceSubType": "Wood",
     "area": "D"
   },
   {
-    "staticFullName": "TrÃ¦fiberisolering",
+    "staticFullName": "Træfiberisolering",
     "_id": "f9513679-12fc-588e-8ada-f15a64a246e1",
     "resourceSubType": "Wood",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "TrÃ¦fiberisolering",
+    "staticFullName": "Træfiberisolering",
     "_id": "02690b39-9c7b-51a2-afbd-ce0c14ab058d",
     "resourceSubType": "Wood",
     "area": "C3"
   },
   {
-    "staticFullName": "TrÃ¦fiberisolering",
+    "staticFullName": "Træfiberisolering",
     "_id": "6ce06f87-db91-5e74-9a6e-5f6882bf8666",
     "resourceSubType": "Wood",
     "area": "D"
   },
   {
-    "staticFullName": "TÃ¦ppeflise",
+    "staticFullName": "Tæppeflise",
     "_id": "9953036e-0603-589e-b1bc-cdcd0a9726fc",
     "resourceSubType": "Wood",
     "area": "A1-A3"
   },
   {
-    "staticFullName": "TÃ¦ppeflise",
+    "staticFullName": "Tæppeflise",
     "_id": "054c24a5-7906-5eef-8646-a0c0fbc67962",
     "resourceSubType": "Wood",
     "area": "C4"
   },
   {
-    "staticFullName": "TÃ¦ppeflise",
+    "staticFullName": "Tæppeflise",
     "_id": "451b92dd-7c16-5791-aa9c-85fa80f18728",
     "resourceSubType": "Wood",
     "area": "D"
   },
   {
-    "staticFullName": "TÃ¦ppefliseEoL",
+    "staticFullName": "TæppefliseEoL",
     "_id": "8d3fbe8b-ad43-525f-8c1d-26875629cae5",
     "resourceSubType": "Wood",
     "area": "C3"

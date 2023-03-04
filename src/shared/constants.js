@@ -12,5 +12,5 @@ export const HEADERS = [
   { text: "Material Type", value: "resourceSubType" },
   // { text: "Combined Units", value: "combinedUnits" },
   { text: "Is Construction", value: "isMultiPart" },
-  { text: "Region", value: "area" },
+  { text: "Phases", value: "area" },
 ];
