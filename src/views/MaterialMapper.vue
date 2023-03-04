@@ -532,6 +532,7 @@ export default {
       loader: null,
       stream: null,
       objectId: null,
+      sourceSoftware: null,
       loading: false,
       categories: [],
       uniqueCategories:[],
@@ -597,6 +598,7 @@ export default {
     },
     selectedCommit: {
       handler: async function() {
+        this.sourceSoftware = this.selectedCommit.sourceApplication;
         this.objectId = this.selectedCommit.referencedObject;
       },
     },
@@ -652,64 +654,58 @@ export default {
       setDoc(docRef,{...newData});
     },
     getResourceList() {
-      const ACCEESS_TOKEN = `${process.env.VUE_APP_SPECKLE_NAME}.OCAccessToken`;
-      const SERVER_URL = process.env.VUE_APP_ONE_CLICK_SERVER_URL;
-      let access_token = localStorage.getItem(ACCEESS_TOKEN);
-      let bearer = "Bearer " + access_token;
-      const fetchPromise = fetch(
-        `${SERVER_URL}/getResourceLibrary?dataCategory=fullResourceList`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: bearer,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      fetchPromise
-        .then((response) => {
-          return response.json();
-        })
-        .then((result) => {
-          this.resourceList = result?.resources?.filter((el) => {
-            let canAdd = false;
-            el.combinedUnits.forEach((el2) => {
-              if (COMBINED_UNIT_LIST.includes(el2)) {
-                canAdd = true;
-              } else {
-                el.combinedUnits = el.combinedUnits.filter(
-                  (el3) => el3 !== el2
-                );
-              }
-            });
+      //const ACCEESS_TOKEN = `${process.env.VUE_APP_SPECKLE_NAME}.OCAccessToken`;
+      //const SERVER_URL = process.env.VUE_APP_ONE_CLICK_SERVER_URL;
+      //let access_token = localStorage.getItem(ACCEESS_TOKEN);
+      //let bearer = "Bearer " + access_token;
 
-            return canAdd && FILTER_COUNTRIES.includes(el.area) ? el : null;
-          });
-
-          if (this.resourceList) {
-            console.log(this.areasObj)
-            this.resourceList?.forEach((el) => {
-              if (FILTER_COUNTRIES.includes(el.area)) {
-                if (
-                  !this.subTypes.includes(el.resourceSubType) &&
-                  el.resourceSubType
-                ) {
-                  this.subTypes.push(el.resourceSubType);
-                }
-                if (!this.areasObj[el.resourceSubType]) {
-                  this.areasObj[el.resourceSubType] = [];
-                }
-                if (
-                  this.areasObj[el.resourceSubType] &&
-                  !this.areasObj[el.resourceSubType].includes(el.area) &&
-                  el.area
-                ) {
-                  this.areasObj[el.resourceSubType].push(el.area);
-                }
-              }
-            });
-          }
-        });
+      this.resourceList = [{
+        "_id": "56e143477d1e8c59d1309229",
+        "dataProperties":
+        [
+            "CML",
+            "TRACI"
+        ],
+        "environmentDataSourceType": "generic",
+        "epdProgram": "One Click LCA",
+        "resourceGroup":
+        [
+            "CarbonatingStructures"
+        ],
+        "searchString": "carbonisation of concrete in road structures 50 years per m3betonin karbonatisaatio tien rakennekerroksessa 50v per m3",
+        "staticFullName": "Carbonisation of concrete in road structures 50 years per m3",
+        "defaultThickness_mm": 200.0,
+        "combinedUnits":
+        [
+            "m3",
+            "kg",
+            "ton",
+            "m2"
+        ],
+        "allowVariableThickness": true,
+        "enabledPurposes":
+        [
+            "CML",
+            "TRACI",
+            "planetaryLatinAmerica",
+            "brandedConstructionsCML",
+            "brandedConstructionsTRACI"
+        ],
+        "isoCountryCode": "world",
+        "area": "world",
+        "areas":
+        [
+            "world"
+        ],
+        "allowedUnits":
+        [
+            "m3",
+            "kg",
+            "ton",
+            "m2"
+        ],
+        "isMultiPart": false
+      }];
     },
 
     setAsDefault(item) {
@@ -889,7 +885,83 @@ export default {
       );
       this.categories = [];
       let i = 1;
-      for (let category in res.data) {
+      if(this.sourceSoftware?.includes("Grasshopper")){
+        for(let categoryType in res.data) {
+          if (categoryType?.includes("@")){
+            
+            let res2 = await getStreamObject(
+            this.$route.params.id,
+            res.data[categoryType].referencedId
+            );
+            for (let category in res2.data) {
+              if (category?.includes("@")) {
+                const cat = categoryType?.replace("@", "");
+                const subCategory = []
+                res2.data["@{0}"].forEach(e1=>{
+                  res2.children.objects.find(e2=>{
+                    if(e1.referencedId === e2.id && e2.data.type !== null && (e2.data.height || e2.data.parameters.HOST_AREA_COMPUTED.value || e2.data.parameters.HOST_VOLUME_COMPUTED.value)){
+                      let item = {
+                        id: e2.id,
+                        type: e2.data.type,
+                        parameter: {
+                          height:e2.data.height,
+                          HOST_AREA_COMPUTED: e2.data.parameters.HOST_AREA_COMPUTED.value,
+                          HOST_VOLUME_COMPUTED: e2.data.parameters.HOST_VOLUME_COMPUTED.value
+                        }
+                      }
+                      subCategory.push(item);
+                      if (!this.currentCategoryMapper[cat + "#" + e2?.data?.type]) {
+                        this.currentCategoryMapper[cat + "#" + e2?.data?.type] = {
+                          staticFullName: "",
+                        };
+                      }
+                      if(!this.defaultCategoryMapper[cat + "#" + e2?.data?.type]){
+                        this.defaultCategoryMapper[cat + "#" + e2?.data?.type] = {
+                          staticFullName: "",
+                        };
+                      }
+                    }
+                  })
+                });
+                
+                if(subCategory.length){
+                  this.categories.push({
+                    id: i,
+                    category: cat,
+                    children: subCategory
+                  });
+                  i++;
+                }
+                
+                if (!this.currentCategoryMapper[cat]) {
+                  this.currentCategoryMapper[cat] = { staticFullName: "" };
+                }
+                if(!this.defaultCategoryMapper[cat]){
+                  this.defaultCategoryMapper[cat] = { staticFullName: "" };
+                }
+              }
+            }
+          }
+        }
+        this.categories.forEach(e1=>{
+          const type = []
+          const item = {
+            id:e1.id,
+            category:e1.category,
+            children:[]
+            }
+            e1.children.forEach(e2=>{
+            if(!type.includes(e2.type)){
+              type.push(e2.type)
+              item.children.push(e2)
+            }
+            });
+          this.uniqueCategories.push(item)
+          });
+        console.log(this.categories) 
+      }
+      else{
+        for (let category in res.data) {
         if (category?.includes("@")) {
           const cat = category?.replace("@", "");
           const subCategory = []
@@ -964,11 +1036,12 @@ export default {
             }
           })
           t.area = sum
-        })
+        });
         
         this.uniqueCategories.push(item)
       });
       this.loading = false;
+    }
     },
 
     getExcelRows(){
