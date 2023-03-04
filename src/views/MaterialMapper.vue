@@ -327,9 +327,9 @@
                   class="ma-2"
                   :disabled="loading || selectedMapperEmpty"
                   color="primary"
-                  @click="generateExcel"
+                  @click="generateJSON"
                 >
-                  Generate Excel
+                  Generate JSON
                 </v-btn>
               </v-col>
               <v-col cols="6" align="center">
@@ -512,11 +512,15 @@ import {
   HEADERS,
 } from "./../shared/constants";
 import { filterDataFromList, getDefaultData, isObjectEmpty } from "./../shared/helper";
-import {utils , writeFile, read, write} from "xlsx";
+import {utils , read, write} from "xlsx";
+import { v4 as uuidv4 } from 'uuid';
+const fs = require('fs');
 import axios from 'axios';
 
 import db from "./../firebase/firebaseinit";
 import ChartsContainer from "../components/ChartsContainer.vue";
+
+require("@/assets/merged_rest.json")
 
 export default {
   name: "MaterialMapper",
@@ -578,6 +582,9 @@ export default {
     selectedCommit() {
       return this.$store.getters.selectedCommit;
     },
+    filePath() {
+      return require("@/assets/merged_rest.json")
+    }
   },
   async mounted() {
     // this.processStreamObjects();
@@ -971,42 +978,213 @@ export default {
       this.loading = false;
     },
 
-    getExcelRows(){
-      const rows = [];
+    getConstructionsJSON(){
+      var nodes = new Array();
+      //const nodes = [];
       const data = this.selectedMapper.data;
+      const elementUUID = uuidv4();
+      const element_properties = {'id': elementUUID,  "name": { "Danish": "Constructions","English": "Constructions","German": "Constructions" }, "source": "User", "comment": "comment", "enabled": true, "active": true}
+      const element_set = {'Element': element_properties}
+      const element_node = {'Node': element_set}
+
       for(const category in data){
         const staticFullName = data[category].staticFullName;
-        const isMultiPart = data[category].isMultiPart;
-        const combinedUnits = data[category].combinedUnits || [];
+        //const isMultiPart = data[category].isMultiPart;
+        //const combinedUnits = data[category].combinedUnits || [];
+        
+        //if(staticFullName && category.includes('#')){
+        const unique_const_UUID = uuidv4();
 
-        if(staticFullName && category.includes('#')){
-          let item = {
-            CLASS:category,
-            MATERIAL:staticFullName,
-            QUANTITY: this.getMaterialQuantity(category,isMultiPart,combinedUnits),
-            QTY_TYPE: isMultiPart ? 'M2' : !isMultiPart && (combinedUnits.includes("m3") || combinedUnits.includes("m")) ? 'M3' : 'M',
-            THICKNESS_MM:'',
-            TALO2000:'',
-            COMMENT:''
-          }
-          rows.push(item)
-        }
+        const element_edge_details = {'id': uuidv4(),'amount': 999, 'enabled': true}
+        const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUID, unique_const_UUID]
+        const element_edge = {'Edge': element_edge_data}
+
+
+        const construction_properties = {'id': unique_const_UUID,  'name': {'Danish': staticFullName, 'English': staticFullName},'unit': "M2", 'source': 'User',"comment": "comment",'layer': 1,'locked': true};
+        
+        const construction_set = {'Construction': construction_properties};
+
+        const construction_node = {'Node': construction_set};
+        //    CLASS:category,
+        //    MATERIAL:staticFullName,
+        //    QUANTITY: this.getMaterialQuantity(category,isMultiPart,combinedUnits),
+        //    QTY_TYPE: isMultiPart ? 'M2' : !isMultiPart && (combinedUnits.includes("m3") || combinedUnits.includes("m")) ? 'M3' : 'M',
+        //    THICKNESS_MM:'',
+        //    TALO2000:'',
+        //    COMMENT:''
+        //  }
+        
+
+        const beton_uuid = "11c8727c-e603-52e6-882d-ce650729a8a0"
+
+
+
+        ////////CONSTRUCTION EDGES
+
+        const construction_edge_id = uuidv4();
+        const construction_edge_details = {'id': construction_edge_id,'amount': 100, 'unit': "M2", 'lifespan': 50,     'demolition': false,     'enabled': true,     'delayed_start': 0}
+        const construction_edge_data = [{'ConstructionToProduct': construction_edge_details}, unique_const_UUID, beton_uuid]
+        const construction_edge = {'Edge': construction_edge_data}
+
+
+
+        nodes = nodes.concat(element_edge)
+        nodes = nodes.concat(construction_node)
+        nodes = nodes.concat(construction_edge)
+
+        //nodes.push(element_edge)
+        //nodes.push(construction_node)
+        //nodes.push(construction_edge)
+        //}
       }
-      return rows;
+
+      //CATEGORY EDGES
+
+
+
+      const category_edge_id = uuidv4();
+      const category_edge_details = {'id': category_edge_id, 'enabled': true}
+      const category_edge_data = [{'CategoryToElement': category_edge_details}, "069983d0-d08b-405b-b816-d28ca9648956", elementUUID]
+      const category_edge = {'Edge': category_edge_data}
+
+
+      var constructionsJSON = new Array();
+      constructionsJSON = constructionsJSON.concat(element_node);
+      constructionsJSON = constructionsJSON.concat(nodes);
+      constructionsJSON = constructionsJSON.concat(category_edge);
+
+      //const constructionsJSON = [];
+      //constructionsJSON.push(element_node);
+      //constructionsJSON.push(nodes);
+      //constructionsJSON.push(category_edge);
+
+      console.log(constructionsJSON);
+
+      return constructionsJSON;
     },
 
-    generateExcel(){
-      const rows = this.getExcelRows();
-      const worksheet = utils.json_to_sheet(rows);
-      const workbook = utils.book_new();
-      utils.book_append_sheet(workbook, worksheet, "DATA");
-      writeFile(workbook,`${this.selectedMapper.text}.xlsx`);
+
+    loadJSONtemplate(){
+      //var path = "@/assets/merged_rest.json"
+      var obj = this.filePath;
+
+      //console.log(path)
+      
+      
+
+      //var loaded = require(path);
+      //var obj = JSON.parse(loaded);
+
+      return obj;
+    },
+
+    generateBuildingJSON(){
+
+
+
+      const buildingJSON = [
+        
+          {
+              "Node": {
+                  "Building": {
+                      "id": "6d766aa5-50aa-4005-ab35-29f2fb82ddad",
+                      "name": {
+                          "Danish": "Building file created via JsonLCABygExporter",
+                          "English": "Building file created via JsonLCABygExporter"
+                      },
+                      "address": "XXX",
+                      "owner": "",
+                      "description": "Import from Excel",
+                      "building_type": "Other",
+                      "heated_floor_area": 10108,
+                      "gross_area": 9239,
+                      "gross_area_above_ground": 9239,
+                      "storeys_above_ground": 1,
+                      "storeys_below_ground": 0,
+                      "storey_height": 3,
+                      "initial_year": 2022,
+                      "calculation_timespan": 50,
+                      "calculation_mode": "SC",
+                      "lca_advisor": "Bjerg Arkitektur",
+                      "building_regulation_version": "BR2018",
+                      "plot_area": 1000,
+                      "outside_area": 0,
+                      "energy_class": "LowEnergy"
+                  }
+              }
+          },
+          {
+            "Edge": [
+                {
+                    "MainBuilding": "15867192-86b7-40a8-9936-83d9e998516d"
+                },
+                "e9e6e798-390e-4419-a1fa-3b46a8ba5b8d",
+                "6d766aa5-50aa-4005-ab35-29f2fb82ddad"
+            ]
+          },
+          {
+              "Edge": [
+                  {
+                      "BuildingToRoot": "bc35b94d-b8c0-4b8c-9bf3-3f63acc94063"
+                  },
+                  "6d766aa5-50aa-4005-ab35-29f2fb82ddad",
+                  "216cf5d6-3e9d-43ec-b0d8-5aee02240c28"
+              ]
+          },
+          {
+              "Edge": [
+                  {
+                      "BuildingToOperation": "0c35b94d-b8a0-4bec-92f3-3463acc94064"
+                  },
+                  "6d766aa5-50aa-4005-ab35-29f2fb82ddad",
+                  "0338d31e-3876-440d-a88c-2daa2dd81942"
+              ]
+          }
+        
+        ];
+
+           
+      return buildingJSON;
+    },
+
+
+
+    generateJSON(){
+      const constructionsJSON = this.getConstructionsJSON();
+      //const worksheet = utils.json_to_sheet(rows);
+      const buildingJSON = this.generateBuildingJSON();
+      //writeFile(workbook,`${this.selectedMapper.text}.txt`);
+      const restJSON = this.loadJSONtemplate();
+      
+      //JSON_data.append(buildingJSON);
+       
+      var mergedJSON = new Array();
+
+
+
+      mergedJSON = mergedJSON.concat(buildingJSON);
+      mergedJSON = mergedJSON.concat(constructionsJSON);
+      mergedJSON = mergedJSON.concat(restJSON);
+
+      
+
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(mergedJSON, null, 2)], {
+        type: "text/plain"
+      }));
+      a.setAttribute("download", "specklelca.json");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    
+
+
     },
 
     onStartCalculation(){
       this.loader = 'buttonLoader';
       this.buttonLoader = true
-      const rows = this.getExcelRows();
+      const rows = this.getJSONRows();
       const worksheet = utils.json_to_sheet(rows);
       const workbook = utils.book_new();
       utils.book_append_sheet(workbook, worksheet, `${this.selectedMapper.text}.xlsx`);
