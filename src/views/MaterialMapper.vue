@@ -532,6 +532,7 @@ export default {
       loader: null,
       stream: null,
       objectId: null,
+      sourceSoftware: null,
       loading: false,
       categories: [],
       uniqueCategories:[],
@@ -597,6 +598,7 @@ export default {
     },
     selectedCommit: {
       handler: async function() {
+        this.sourceSoftware = this.selectedCommit.sourceApplication;
         this.objectId = this.selectedCommit.referencedObject;
       },
     },
@@ -872,7 +874,83 @@ export default {
       );
       this.categories = [];
       let i = 1;
-      for (let category in res.data) {
+      if(this.sourceSoftware?.includes("Grasshopper")){
+        for(let categoryType in res.data) {
+          if (categoryType?.includes("@")){
+            
+            let res2 = await getStreamObject(
+            this.$route.params.id,
+            res.data[categoryType].referencedId
+            );
+            for (let category in res2.data) {
+              if (category?.includes("@")) {
+                const cat = categoryType?.replace("@", "");
+                const subCategory = []
+                res2.data["@{0}"].forEach(e1=>{
+                  res2.children.objects.find(e2=>{
+                    if(e1.referencedId === e2.id && e2.data.type !== null && (e2.data.height || e2.data.parameters.HOST_AREA_COMPUTED.value || e2.data.parameters.HOST_VOLUME_COMPUTED.value)){
+                      let item = {
+                        id: e2.id,
+                        type: e2.data.type,
+                        parameter: {
+                          height:e2.data.height,
+                          HOST_AREA_COMPUTED: e2.data.parameters.HOST_AREA_COMPUTED.value,
+                          HOST_VOLUME_COMPUTED: e2.data.parameters.HOST_VOLUME_COMPUTED.value
+                        }
+                      }
+                      subCategory.push(item);
+                      if (!this.currentCategoryMapper[cat + "#" + e2?.data?.type]) {
+                        this.currentCategoryMapper[cat + "#" + e2?.data?.type] = {
+                          staticFullName: "",
+                        };
+                      }
+                      if(!this.defaultCategoryMapper[cat + "#" + e2?.data?.type]){
+                        this.defaultCategoryMapper[cat + "#" + e2?.data?.type] = {
+                          staticFullName: "",
+                        };
+                      }
+                    }
+                  })
+                });
+                
+                if(subCategory.length){
+                  this.categories.push({
+                    id: i,
+                    category: cat,
+                    children: subCategory
+                  });
+                  i++;
+                }
+                
+                if (!this.currentCategoryMapper[cat]) {
+                  this.currentCategoryMapper[cat] = { staticFullName: "" };
+                }
+                if(!this.defaultCategoryMapper[cat]){
+                  this.defaultCategoryMapper[cat] = { staticFullName: "" };
+                }
+              }
+            }
+          }
+        }
+        this.categories.forEach(e1=>{
+          const type = []
+          const item = {
+            id:e1.id,
+            category:e1.category,
+            children:[]
+            }
+            e1.children.forEach(e2=>{
+            if(!type.includes(e2.type)){
+              type.push(e2.type)
+              item.children.push(e2)
+            }
+            });
+          this.uniqueCategories.push(item)
+          });
+        console.log(this.categories) 
+      }
+      else{
+        for (let category in res.data) {
         if (category?.includes("@")) {
           const cat = category?.replace("@", "");
           const subCategory = []
@@ -947,11 +1025,12 @@ export default {
             }
           })
           t.area = sum
-        })
+        });
         
         this.uniqueCategories.push(item)
       });
       this.loading = false;
+    }
     },
 
     getExcelRows(){
