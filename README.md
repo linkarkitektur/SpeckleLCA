@@ -1,1 +1,1 @@
-# LINK-LCA
+# Speckle LCA
