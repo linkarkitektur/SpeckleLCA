@@ -3811,13 +3811,14 @@ if (this.resourceList) {
         password: "b2251884-a806-455c-bd31-f3cbee726686"
       }
 
+
       const data = {
         "priority": 0,
         "job_target": "lcabyg5+br23",
         "job_target_min_ver": "",
         "job_target_max_ver": "",
         "job_arguments": "",
-        "input_blob": ""
+        "input_blob": btoa(this.generateJSON())
       }
   
 
@@ -3827,12 +3828,13 @@ if (this.resourceList) {
           const response = await axios.post('https://api1.lcabyg.dk/v2/jobs', data, {
             headers: {
               'Access-Control-Allow-Origin': '*',
-              'Authorization': 'Bearer '+ "ab83abd4-1215-4f0a-98c3-d818c606f4e9" //this.accessToken,
+              'Authorization': 'Bearer '+ "0339f99e-8b2f-4935-afd0-88ec3129c9de" //this.accessToken,
             }
           })
           if (response.status === 200) {
-            console.log("RESULT HAS BEEN SENT")
-            console.log(response)
+            console.log("RESULT HAS BEEN SENT");
+            const id = response.data.id;
+            console.log(id);
             // setTimeout(()=>{
             //   console.log('Getting results...')
             //   this.getCalculationResults();
