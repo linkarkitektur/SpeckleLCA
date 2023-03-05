@@ -3529,7 +3529,8 @@ if (this.resourceList) {
 
     getConstructionsJSON(){
       var constructionsJSON = new Array();
-
+      let countnumber = 0;
+      console.log(this.uniqueCategories);
       for(const cat in this.uniqueCategories){
         let category = this.uniqueCategories[cat].category;
         
@@ -3562,7 +3563,7 @@ if (this.resourceList) {
           let staticFullName = this.currentCategoryMapper[concatName].staticFullName;
         
           const element_edge_details = {'id': uuidv4(),'amount': area, 'enabled': true}
-          const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUID, lcabygId]
+          const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUID, "52abdc1a-0502-50d0-93cf-f37125f18be6"]
           const element_edge = {'Edge': element_edge_data}
 
           nodes = nodes.concat(element_edge)
