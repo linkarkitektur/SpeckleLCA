@@ -3707,14 +3707,15 @@ export default {
 
 
       const data = {
-        "priority": 0,
+        "priority": 10,
         "job_target": "lcabyg5+br23",
         "job_target_min_ver": "",
         "job_target_max_ver": "",
         "job_arguments": "",
-        "input_blob": btoa(this.generateJSON())
+        "input_blob": btoa(JSON.stringify(this.generateJSON()))
       }
-  
+
+      //console.log(btoa(JSON.stringify(this.generateJSON())))
 
       // this.chartData = [];
       // if(this.accessToken){
@@ -3791,12 +3792,15 @@ export default {
 
       switch (status)
       {
-        case "Finished":
+        case "Ready":
           try {
             const response = await axios.get('https:/api1.lcabyg.dk/v2/jobs/' + job_id + '/output', data);
             if (response.status === 200) {
               console.log("RESULTS DATA")
-              console.log(response)
+              //console.log(response.data)
+              const data = response.data
+              this.results = JSON.parse(atob(data))
+              //console.log(this.results)
               this.loading = false
             }
             // const wb = read(response.data);
