@@ -15,6 +15,7 @@
     "color-interpolate": "^1.0.5",
     "colorjs.io": "^0.0.3",
     "core-js": "^3.6.5",
+    "d3": "^7.8.2",
     "debounce": "^1.2.1",
     "firebase": "^9.8.3",
     "lodash": "^4.17.21",

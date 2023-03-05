@@ -1,5 +1,6 @@
 <template>
    <div>
+    
     <v-row class="justify-center py-1 px-1">
       <v-col lg="5" sm="12" xs="12">
         <v-card max-height="87vh" min-height="87vh" outlined class="bg">
@@ -497,12 +498,18 @@
     <div id="charts" ref="charts">
       <div v-if="chartData.length">
         <ChartsContainer :chart-data="chartData" :mapper-name="mapperName" :results="chartResults"/>
+        <MyChart/>
+        
       </div>
     </div>
+    
   </div>
+  
 </template>
 
 <script>
+//importing sunburst chart 
+import MyChart from '../components/chart.vue'
 import { getStreamObject } from "@/utils/speckleUtils";
 import { addDoc, collection, doc, getDoc, getDocs, setDoc, updateDoc } from "@firebase/firestore";
 import {
