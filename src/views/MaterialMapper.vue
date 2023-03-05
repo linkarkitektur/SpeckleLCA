@@ -3530,13 +3530,30 @@ if (this.resourceList) {
     },
 
     getConstructionsJSON(){
+      var constructionsJSON = new Array();
+
       var nodes = new Array();
       //const nodes = [];
       const data = this.selectedMapper.data;
-      const elementUUID = uuidv4();
-      const element_properties = {'id': elementUUID,  "name": { "Danish": "Constructions","English": "Constructions","German": "Constructions" }, "source": "User", "comment": "comment", "enabled": true, "active": true}
-      const element_set = {'Element': element_properties}
-      const element_node = {'Node': element_set}
+      const elementUUIDsingle = uuidv4();
+      const element_propertiessingle = {'id': elementUUIDsingle,  "name": { "Danish": "Constructions","English": "Constructions","German": "Constructions" }, "source": "User", "comment": "comment", "enabled": true, "active": true}
+      const element_setsingle = {'Element': element_propertiessingle}
+      const element_nodesingle = {'Node': element_setsingle}
+
+      
+      constructionsJSON = constructionsJSON.concat(element_nodesingle);
+
+      for (const cat in this.uniqueCategories){
+        let category = this.uniqueCategories[cat].category;
+        //this.uniqueCategories[cat].id
+        const elementUUID = uuidv4();
+        const element_properties = {'id': elementUUID,  "name": { "Danish": category, "English": category,"German": category}, "source": "User", "comment": "comment", "enabled": true, "active": true}
+        const element_set = {'Element': element_properties};
+        const element_node = {'Node': element_set};
+
+        constructionsJSON = constructionsJSON.concat(element_node);
+
+      }
 
       for(const category in data){
         const staticFullName = data[category].staticFullName;
@@ -3546,9 +3563,9 @@ if (this.resourceList) {
         //if(staticFullName && category.includes('#')){
         const unique_const_UUID = uuidv4();
 
-        const element_edge_details = {'id': uuidv4(),'amount': 999, 'enabled': true}
-        const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUID, unique_const_UUID]
-        const element_edge = {'Edge': element_edge_data}
+        const element_edge_details = {'id': uuidv4(),'amount': 999, 'enabled': true};
+        const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUIDsingle, unique_const_UUID];
+        const element_edge = {'Edge': element_edge_data};
 
 
         const construction_properties = {'id': unique_const_UUID,  'name': {'Danish': staticFullName, 'English': staticFullName},'unit': "M2", 'source': 'User',"comment": "comment",'layer': 1,'locked': true};
@@ -3595,12 +3612,11 @@ if (this.resourceList) {
 
       const category_edge_id = uuidv4();
       const category_edge_details = {'id': category_edge_id, 'enabled': true}
-      const category_edge_data = [{'CategoryToElement': category_edge_details}, "069983d0-d08b-405b-b816-d28ca9648956", elementUUID]
+      const category_edge_data = [{'CategoryToElement': category_edge_details}, "069983d0-d08b-405b-b816-d28ca9648956", elementUUIDsingle]
       const category_edge = {'Edge': category_edge_data}
 
 
-      var constructionsJSON = new Array();
-      constructionsJSON = constructionsJSON.concat(element_node);
+      
       constructionsJSON = constructionsJSON.concat(nodes);
       constructionsJSON = constructionsJSON.concat(category_edge);
 
