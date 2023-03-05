@@ -400,7 +400,7 @@
               </v-col>
               <v-col lg="6" class="py-0 mx-0 my-0">
                 <v-combobox
-                  label="Phases"
+                  label="Region"
                   :items="areasObj[filterData.subType]"
                   :disabled="!(areasObj[filterData.subType] !== undefined && areasObj[filterData.subType].length !== 0)"
                   hide-selected
@@ -659,2516 +659,2385 @@ export default {
 
       this.resourceList = [
   {
-    "staticFullName": "3-lags-rude",
-    "_id": "71d53aed-55fe-5b2a-baa5-ffc5aa21a648",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "3-lags-rude",
-    "_id": "28fc1f5c-c247-5866-8b87-4441c830735b",
-    "resourceSubType": "Window",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "3-lags-rude",
-    "_id": "b2cbcd76-9498-5716-8371-8b3113d8c82f",
-    "resourceSubType": "Window",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "3-lags-rude",
-    "_id": "30d2438b-f121-5452-aec6-616a3f28725a",
-    "resourceSubType": "Window",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Affald bygge deponering",
-    "_id": "3a5f4653-5575-529c-a2b7-25876c7639ec",
-    "resourceSubType": "Waste",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Affald inert deponering",
-    "_id": "417613a4-210e-5363-a5b9-6925cad1e742",
-    "resourceSubType": "Waste",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Affald kunststof forbrændingfjernvarme",
-    "_id": "ba190e44-64cd-5945-94ab-bdd0f4496547",
-    "resourceSubType": "Waste",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Affald kunststof forbrændingfjernvarme",
-    "_id": "33884d5e-52d1-5b24-a24b-7919cd9cf813",
-    "resourceSubType": "Waste",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Affald stenuldhåjdensitet",
-    "_id": "eb886e48-672a-5b5e-a35b-fceedff558a5",
-    "resourceSubType": "Waste",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Affald stenuldhåjdensitet",
-    "_id": "78be9e6b-fdce-57f4-ad9d-03322229d78e",
-    "resourceSubType": "Waste",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Affald stenuldlavdensitet",
-    "_id": "6563a7dc-14c7-50db-8177-44b588bd977f",
-    "resourceSubType": "Waste",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Affald stenuldlavdensitet",
-    "_id": "835e0978-0405-5246-81a6-e792bab7ffde",
-    "resourceSubType": "Waste",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Affald stenuldmiddeldensitet",
-    "_id": "949d7dd9-00d1-55fb-9375-cddf309c5e12",
-    "resourceSubType": "Waste",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Affald stenuldmiddeldensitet",
-    "_id": "905c77c6-3fa1-5bb6-a763-f8d8161c308f",
-    "resourceSubType": "Waste",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Affald træ forbrændingfjernvarme",
-    "_id": "b3bee443-7101-5571-8d51-c7e0d6ef24d2",
-    "resourceSubType": "Waste",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Affald træ forbrændingfjernvarme",
-    "_id": "48f6cd0e-177b-5ff2-bd32-cca515097e26",
-    "resourceSubType": "Waste",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Afretningslag cementbaseret",
-    "_id": "0e97e926-9e13-5d51-a414-171d0c9fd633",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Afretningslag cementbaseret",
-    "_id": "b40dcdc3-7a10-5af1-9c33-3a1eecf108d1",
-    "resourceSubType": "Concrete",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Afretningslag hårdeplast",
-    "_id": "eb612252-b68a-5bb9-a49c-136a4dc59f70",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Afretningslag hårdeplast",
-    "_id": "19688c48-2e46-5e8b-810a-aa29296aa636",
-    "resourceSubType": "Concrete",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Aircondition",
-    "_id": "ff463249-fae1-5763-87f7-cf5d38848c14",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Aircondition",
-    "_id": "93f93656-72e1-50ee-8712-c161bf7b950d",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Aircondition",
-    "_id": "7e9933a9-3b5b-57b7-b81a-9209832002a0",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Aircondition EOL",
-    "_id": "dec72792-96a8-596b-abe4-958871bfbc93",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Aluminium pladeogprofil Genanvendelse",
-    "_id": "ce6c4800-640c-5cb0-a1aa-cb78e61784c8",
-    "resourceSubType": "Aluminium",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Aluminium pladeogprofil Genanvendelse",
-    "_id": "5194ce5e-a01a-50e5-8ff8-06c44e2d5a5e",
-    "resourceSubType": "Aluminium",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Aluminium ståbegods",
-    "_id": "6b711d10-8fb2-533c-af9f-b628ef5923ee",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Aluminiumsfolie",
-    "_id": "3de1d7d6-51e7-5a95-8fcc-1c2e93c66634",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Aluminiumsplade",
-    "_id": "e852100d-902f-5fe4-8b8d-f2f8915ee1d4",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Aluminiumsprofil",
-    "_id": "8df16aaf-d837-5d2a-8f51-a47cc760743f",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Ammoniak",
-    "_id": "f16045fb-4927-5469-812d-24f766e542c2",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Anhydritmix",
-    "_id": "96bd2b9a-6883-5084-bbf4-30a14b67089a",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Armeringsnet",
-    "_id": "9a097a9e-a3d8-5959-b42c-9ae5e38a0707",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Asfalt bærelag",
-    "_id": "e680b03f-5d9f-520a-8b78-d658b114e76c",
-    "resourceSubType": "Asphalt",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Asfalt bærelag",
-    "_id": "6dd90fa6-c7f3-5d30-a124-fff03302a4e9",
-    "resourceSubType": "Asphalt",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Asfalt bærelag",
-    "_id": "06867056-bcca-537f-adb1-9fc988fd2534",
-    "resourceSubType": "Asphalt",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Badekar bruserbakke akryl",
-    "_id": "9c6b31a4-1e9b-59ee-bff1-f2abb3232505",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Badekar bruserbakke akryl",
-    "_id": "651f838b-ddb3-50cd-b57b-57492be823b7",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Badekar bruserbakke akryl",
-    "_id": "a3ec0e50-c057-5df5-922d-a7490c3055eb",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Beslagtildreje-kipvinduer",
-    "_id": "60b94513-2ae5-50b9-8bd7-e7c049468fff",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Beslagtillodretteskydevinduer",
-    "_id": "981e5e2d-9453-5b2c-a9fc-d375f239dde5",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Beslagtilvandretteskydevinduer",
-    "_id": "1fa4b786-3a1c-58e6-b191-34302551f403",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Beslag stålvindue",
-    "_id": "804dc2b3-69bc-505b-948d-2b65b1f0a770",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC20/25 Fabriksbeton",
-    "_id": "35932b61-3c90-544c-a3c2-ea777a3f8255",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC20/25 Fabriksbeton",
-    "_id": "73811ed5-804d-5751-a84d-40ae39efa3c8",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "BetonC20/25 Fabriksbeton",
-    "_id": "4fc00e83-f075-5708-a044-70fd71ad830b",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "BetonC20/25 fabriksbetonogbetonelementer",
-    "_id": "546de050-b358-5328-b2bf-033167b11c67",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC20/25 fabriksbetonogbetonelementer",
-    "_id": "ba8d46ab-8451-5c17-8363-8fd47b456a37",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "BetonC20/25 fabriksbetonogbetonelementer",
-    "_id": "fc5d9803-b83b-51f6-9646-481bf7ebf3e3",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "BetonC25/30 fabriksbetonogbetonelementer",
-    "_id": "f47c0b01-cab2-5521-ad41-24ca177d9a22",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC25/30 fabriksbetonogbetonelementer",
-    "_id": "dd4def72-d33a-5871-a35f-f4f3f86904e8",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "BetonC25/30 fabriksbetonogbetonelementer",
-    "_id": "761b62c3-7889-5b48-8371-fd0bd5de7ad9",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "BetonC30/37 Fabriksbeton",
-    "_id": "9ffbe246-bbad-5cfe-86d8-448ac420fdcb",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC30/37 Fabriksbeton",
-    "_id": "29daa4ab-d1cd-5268-a3ed-691ea2b537f2",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "BetonC30/37 Fabriksbeton",
-    "_id": "f94becda-57b5-5eea-8c76-eb8979a596e1",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "BetonC30/37 fabriksbetonogbetonelementer",
-    "_id": "9da4067b-9142-5838-a2c0-9985e21a46e4",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC30/37 fabriksbetonogbetonelementer",
-    "_id": "7085296f-077c-5f4f-8265-b5cd6c91a5cc",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "BetonC30/37 fabriksbetonogbetonelementer",
-    "_id": "37e9ee68-7608-5ae7-a1c1-2fc82824686f",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "BetonC35/45 fabriksbetonogbetonelementer",
-    "_id": "a1e7ccd0-2a14-5599-9b5c-98ad97a64b32",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC35/45 fabriksbetonogbetonelementer",
-    "_id": "6cb0d1d1-017c-5c05-9e9e-7e25ca59806c",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "BetonC35/45 fabriksbetonogbetonelementer",
-    "_id": "166443cd-f849-586c-b562-1fa671bec76d",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "BetonC45/55 fabriksbetonogbetonelementer",
-    "_id": "b1bbf294-a82a-5c61-b811-2e6b1d384d23",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC45/55 fabriksbetonogbetonelementer",
-    "_id": "4d5f514e-2b5c-5915-99b8-783119ed1115",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "BetonC45/55 fabriksbetonogbetonelementer",
-    "_id": "da930559-26d2-5c0e-83e4-8fb5e5cfbf09",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "BetonC50/60 fabriksbetonogbetonelementer",
-    "_id": "45ee3d72-6501-51cd-b10b-2127e2360b5e",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BetonC50/60 fabriksbetonogbetonelementer",
-    "_id": "fc589ddd-9120-5d09-b9ee-6499e698bc97",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "BetonC50/60 fabriksbetonogbetonelementer",
-    "_id": "3dbc344c-4fa3-549d-b96e-f84078b31c83",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Betonelement dæk 20cm",
-    "_id": "131e0646-a8af-5da0-86ef-633c1ea947d3",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Betonelement dæk 20cm",
-    "_id": "86575817-8413-5fb1-a4cb-757f16c5d6c3",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Betonelement dæk 20cm",
-    "_id": "f4c85013-a00d-51c0-8e30-751b5a837ea7",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Betonelement etagedæk 40cm",
-    "_id": "f9bd26c9-90c3-59e5-b811-d073acc09472",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Betonelement væg 12cm",
-    "_id": "3b54563e-f98a-5858-9cdd-48387161c112",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Betonelement væg 12cm",
-    "_id": "82edfc6a-ada7-51c7-a7ff-e05995b30d83",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Betonelement væg 12cm",
-    "_id": "2b2ddd15-6bb4-5929-9b58-59f8aad45676",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Betonelement væg 40cm",
-    "_id": "9739c75a-c16e-5cd8-a76e-4f9ba163900a",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Betonmursten",
-    "_id": "7bbc6957-35bb-5f79-9fc3-134aff51085b",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Betonmursten",
-    "_id": "6e97510a-6d46-5f23-8a00-bf3a40aa96f2",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Betonmursten",
-    "_id": "968716d2-dc8e-5a64-9a87-185cf86bd0d1",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Betonrår armeret",
-    "_id": "be4ae27b-cff6-5ad3-89ce-8fa78d94c30d",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Betonrår armeret",
-    "_id": "211b6397-7a29-50e3-a2e0-8e85eebf6714",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Betonrår armeret",
-    "_id": "4f302490-bca1-546b-a9fe-0ae3f146193b",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Betonrår u-armeret",
-    "_id": "b84f4d27-dbe7-52b1-b840-31adb607bc58",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Betonrår u-armeret",
-    "_id": "c82b14cf-6eea-59fc-a077-295f2c37b97c",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Betonrår u-armeret",
-    "_id": "186373ef-b402-58ee-8646-f5071a81c809",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Betontrappe etagehåj",
-    "_id": "77f1f5aa-82c7-5cc0-ba1d-d48e8811e436",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Betontrappe etagehåj",
-    "_id": "771ba70b-951d-521a-a4a5-67bc8d1aae25",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Betontrappe etagehåj",
-    "_id": "f9d2b151-db01-5f8c-b1f5-12db0474897d",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Bindelag",
-    "_id": "9215103a-a1ef-5791-b5fd-8c0aee4b9846",
-    "resourceSubType": "Bindelag",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Bindelag",
-    "_id": "709c75e8-88cb-5330-9e46-4cd7b74d2b29",
-    "resourceSubType": "Bindelag",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Bindelag",
-    "_id": "d8671a04-cc66-5bf0-a22b-8d5ebd549c83",
-    "resourceSubType": "Bindelag",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Bitumenemulsion",
-    "_id": "8b79def0-b21c-5fe3-aa5b-cf06e514c14c",
-    "resourceSubType": "Fabric",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Bitumenemulsion",
-    "_id": "42059162-3727-5bea-9346-6ec107febdf8",
-    "resourceSubType": "Fabric",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Bitumenemulsion",
-    "_id": "47da566a-df80-5809-97e8-e1cb36fff560",
-    "resourceSubType": "Fabric",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Bitumenklæber",
-    "_id": "ce8ff4db-c851-5e14-928a-018fd7945239",
-    "resourceSubType": "Bindelag",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Bitumenklæber",
-    "_id": "d4bfa5b8-c113-566c-a0e8-a8af91e8ec68",
-    "resourceSubType": "Bindelag",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Bitumenklæber",
-    "_id": "273a150f-6cb8-5818-a1e7-e0ae058673a0",
-    "resourceSubType": "Bindelag",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Blyplader",
-    "_id": "13183c97-1c55-5c5f-8849-3b9de0ed4244",
-    "resourceSubType": "Metal",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Boksventilator 10.000m2/h",
-    "_id": "c20378e0-dcd3-5fc0-ad21-86fb356b5766",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Boksventilator 10.000m2/h",
-    "_id": "cef517d4-d90a-535c-9dd2-cc729db5e8f6",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Boksventilator 10.000m2/h",
-    "_id": "05c9d0e0-3405-5e61-9320-a2f621d2060d",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Boksventilator 10.000m2/h EOL",
-    "_id": "7a809251-dc0b-56bc-bcbd-05acbd53c8f0",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Boksventilator 30.000m2/h",
-    "_id": "f07b6f4a-9def-5bb9-8b99-1227aa3d363e",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Boksventilator 30.000m2/h",
-    "_id": "255bd5b3-ad02-5626-9efb-021e9988741c",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Boksventilator 30.000m2/h",
-    "_id": "7e2cd6e7-8c50-5dc1-b25e-8f729386dfef",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Boksventilator 30.000m2/h EOL",
-    "_id": "72744d6a-b16a-5e97-a627-647075104eef",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Boksventilator 5.000m2/h",
-    "_id": "df423942-cd3a-5fb1-a683-dc202dad45dd",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Boksventilator 5.000m2/h",
-    "_id": "52ad08be-ac62-57fe-a10e-753e981f926f",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Boksventilator 5.000m2/h",
-    "_id": "8183439d-2156-5dcb-b863-bbe97b6bd7ec",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Boksventilator 5.000m2/h EOL",
-    "_id": "d7b7f888-15fb-5d61-b66f-987a90121a50",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Bomuld",
-    "_id": "517b6905-3f3d-567e-903d-a0331b5d1395",
-    "resourceSubType": "Fabric",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Bomuld",
-    "_id": "82e8c4eb-d7d5-5bb9-9929-1c164e65e8bb",
-    "resourceSubType": "Fabric",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Bomuld",
-    "_id": "28894e5a-a94a-590d-b8f1-976c85f8fb42",
-    "resourceSubType": "Fabric",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Bomuld åkologisk",
-    "_id": "5c8c12b3-9f13-51fd-8651-90309162e9d3",
-    "resourceSubType": "Fabric",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Bomuld åkologisk",
-    "_id": "2fdce500-fa0c-56c3-9772-413308f8c16f",
-    "resourceSubType": "Fabric",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Bomuld åkologisk",
-    "_id": "20935375-7b91-5eda-b553-3b2169470c9d",
-    "resourceSubType": "Fabric",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Brandsikkertglas",
-    "_id": "b678993e-beb8-54b5-bbb3-60404cada6c5",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "BrandsikkertglasPyrobel",
-    "_id": "f7067cb5-a1a7-5870-aec3-91396928c540",
-    "resourceSubType": "Window",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Brugsvandsrår Alu-PEX",
-    "_id": "4449da9a-f1b2-502f-bbe9-69107ed28bbe",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Brugsvandsrår Alu-PEX",
-    "_id": "34a17a52-94b9-5fd4-bbdf-e8130f66eae7",
-    "resourceSubType": "Window",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Brugsvandsrår Alu-PEX",
-    "_id": "113a3882-f9b0-595a-a9c8-87974f292566",
-    "resourceSubType": "Window",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Brugsvandsrår PB",
-    "_id": "3a47c720-93a0-5561-9d70-28f78cb95aea",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Brugsvandsrår PB",
-    "_id": "5516cc99-9f25-5eab-8e42-1f71aee8fbdf",
-    "resourceSubType": "Window",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Brugsvandsrår PB",
-    "_id": "84da4cfd-6af4-5207-840f-11da6209552a",
-    "resourceSubType": "Window",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Brugsvandsrår PEX-Alu-PEX",
-    "_id": "b1544eb2-840e-5950-af2c-c4af10e05db3",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Brugsvandsrår PEX-Alu-PEX",
-    "_id": "1c5b1dc2-ce3a-5b60-872d-87656696420f",
-    "resourceSubType": "Window",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Brugsvandsrår PEX-Alu-PEX",
-    "_id": "ad539072-3768-5f6f-bc56-164a5671c906",
-    "resourceSubType": "Window",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Brugsvandsrår rustfaststål",
-    "_id": "8e7bd60d-f086-50b9-a150-5a563328e686",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Buffertank rustfaststål",
-    "_id": "ad104c43-3744-53be-a81f-bccf6ecf1674",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Buffertank rustfaststål",
-    "_id": "704b84b1-1f66-50aa-8cad-559308ee114d",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Buffertank rustfaststål",
-    "_id": "e995c32e-3f1a-58cf-b732-13a359c9f56b",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Buffertank stål",
-    "_id": "2242238c-5f59-57e3-b379-498b015138a8",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Buffertank stål",
-    "_id": "97d43434-8d4d-5ae4-ae4b-f9e18c1bd2a4",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Buffertank stål",
-    "_id": "8c843bf9-a063-5b92-bc8f-adc03dbe3dc8",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Byggepap",
-    "_id": "9ce84f5-8d5c-5644-a85b-dc61abdcfd8c",
-    "resourceSubType": "Bindelag",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Byggepap",
-    "_id": "ad096a64-73e7-5750-a3b5-d4ea8a3dd5b7",
-    "resourceSubType": "Bindelag",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Byggepap",
-    "_id": "a1b60df1-d42f-5bb5-90b1-3c63c22ce7a5",
-    "resourceSubType": "Bindelag",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Bære-/slidlag",
-    "_id": "48523eb1-ee95-5c04-a044-f8fc94e983fc",
-    "resourceSubType": "Slidlag",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Bære-/slidlag",
-    "_id": "d8174941-2631-562c-b97c-b0267c87615d",
-    "resourceSubType": "Slidlag",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Bære-/slidlag",
-    "_id": "25e45687-0ad8-53f8-b849-6ceae6af7f17",
-    "resourceSubType": "Slidlag",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Celleglas-isolering115kg/m2",
-    "_id": "c2c403f7-70f3-59ac-9973-ff7fef457fc2",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementII325",
-    "_id": "bfbd0965-2054-5340-9363-c60fc9eede59",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementII425",
-    "_id": "f83abc6c-beaf-5406-8000-eb7b66910cd9",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementII525",
-    "_id": "8bcf4f1c-0c3c-5858-b40f-ad02459a3d84",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementIIA",
-    "_id": "a988af65-ae86-5e1e-b1a9-7f9528df587b",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementIIB",
-    "_id": "1a7d782e-6766-59a5-893d-cbb5e163db06",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementIII425",
-    "_id": "196f9896-b991-57c0-989c-1636e40c5172",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementIII525",
-    "_id": "3f26b87a-b980-5728-9c02-3deb1fd99467",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementIV325",
-    "_id": "d315cd2a-140f-5333-a304-9a85435f375a",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "CementIV425",
-    "_id": "77af5e51-db40-5eb4-8095-b4cfcc4147b9",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Cementbundetspånplade",
-    "_id": "da1b460d-f3e8-5ea7-a978-e895254c6e45",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Cementbundetspånplade",
-    "_id": "4cc1feed-f2a9-51ce-8a7e-e1698755f75d",
-    "resourceSubType": "Concrete",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Cementbundetspånplade",
-    "_id": "770d5f2e-a81b-5c41-a9b9-ac8238fc6211",
-    "resourceSubType": "Concrete",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe250-1000W",
-    "_id": "8b543e5f-b7fd-552a-97f1-45d805ac5152",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe250-1000W",
-    "_id": "4bde4d28-a788-5ea8-85f0-3255b9185531",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe250-1000W",
-    "_id": "8bfcb848-3b49-5521-a2f7-4758c1954161",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe250-1000W EOL",
-    "_id": "609441b9-eb0e-568a-8ae1-fcc9eb15656a",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe50-250W",
-    "_id": "198c9c2c-2aa1-5112-b891-749d69666d38",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe50-250W",
-    "_id": "58916a9e-e8eb-51fe-91ac-7bea5005084e",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe50-250W",
-    "_id": "0f6264a1-8ebe-5a78-88a4-f8c9b4129b75",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe50-250W EOL",
-    "_id": "742a282e-1145-56d4-8b4a-4c2571a8feca",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe<50W",
-    "_id": "ebdb1e5d-67ca-5b0b-9132-8dd773b22731",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe<50W",
-    "_id": "f165b7c6-790a-5e46-9d20-e0f5d0141ca9",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe<50W",
-    "_id": "4ec7f606-1519-5951-a1e1-09ded6e2df2d",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Cirkulationspumpe<50W EOL",
-    "_id": "862e2c6f-1598-51db-b7fa-b0d912db8c48",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Curtainwallfacademed3-lagsruder aluminium",
-    "_id": "036b0314-1f3c-5616-9157-7f88d923eda9",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Curtainwallfacademed3-lagsruder aluminium",
-    "_id": "381cfd31-c91c-5cb3-b98a-c9b5f6951fb3",
-    "resourceSubType": "Window",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Curtainwallfacademed3-lagsruder aluminium",
-    "_id": "407201ac-c324-55d0-8b62-8ba16137a7fe",
-    "resourceSubType": "Window",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Curtainwallfacademed3-lagsruder aluminium",
-    "_id": "9a61ae18-c8b6-57d6-bdd8-971796800de9",
-    "resourceSubType": "Window",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Curtainwallfacademed3-lagsruder stål",
-    "_id": "96a8fe23-ecb9-58a7-bc28-d428e38ac871",
-    "resourceSubType": "Window",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Curtainwallfacademed3-lagsruder stål",
-    "_id": "76628fce-da8f-56cc-8902-f4ec1b7f319e",
-    "resourceSubType": "Window",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Curtainwallfacademed3-lagsruder stål",
-    "_id": "c1d6c8f2-46d1-5eff-94ce-cf47d64f01c6",
-    "resourceSubType": "Window",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Curtainwallfacademed3-lagsruder stål",
-    "_id": "d78e9d69-8bbe-5886-8608-27bf684b9346",
-    "resourceSubType": "Window",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Curtainwallprofiler aluminium",
-    "_id": "485f5ae6-20c6-5ceb-b065-8b93154f2e94",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Curtainwallprofiler aluminium",
-    "_id": "54f85513-2228-51d8-98d3-9adfed55c3ef",
-    "resourceSubType": "Aluminium",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Curtainwallprofiler aluminium",
-    "_id": "c88a3fff-8cb7-5938-9d20-4df5f4f09754",
-    "resourceSubType": "Aluminium",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Curtainwallprofiler stål",
-    "_id": "50e7eb47-a893-5d72-8be2-2489861a78ed",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Curtainwallprofiler stål",
-    "_id": "5ff6a3dd-b09b-51ec-af73-6c55d253fbfa",
-    "resourceSubType": "Aluminium",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Curtainwallprofiler stål",
-    "_id": "0be0e919-9215-5484-bee8-b0e8e0e188c6",
-    "resourceSubType": "Aluminium",
-    "area": "D"
-  },
-  {
-    "staticFullName": "DampspærrePA",
-    "_id": "7eecd5f2-ff5a-5fd0-ae89-6ded01e87fe4",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "DampspærrePA",
-    "_id": "51f32cfb-e16d-5699-a884-9b23f3cb1c42",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "DampspærrePA",
-    "_id": "43467d77-1e7a-58c6-8c3a-4e1d42924dfa",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Dampspærre bitumen",
-    "_id": "0949dc07-de7d-5f77-af7d-0ff6dcf3f6b4",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Dampspærre bitumen",
-    "_id": "390b4fcb-03fc-5bd4-8ec3-43cfa90149cd",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Dampspærre bitumen",
-    "_id": "ad8e7699-1036-5919-9bce-62b47ec84a6d",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Datakabel Netværkskabel PVC",
-    "_id": "84a3a17e-2840-5f89-b4ac-e34caa036c50",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Datakabel Netværkskabel PVC",
-    "_id": "6e31afd4-6e30-5f68-a286-08a7f84ed4d6",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Datakabel Netværkskabel PVC",
-    "_id": "5847595a-acf9-5f6f-83e4-97b02b65b2cc",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Dåralu T30/EI30",
-    "_id": "b3affa44-1ae1-5694-9433-585b0921209a",
-    "resourceSubType": "Door",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Dåralu T30/EI30",
-    "_id": "48794e8f-78d7-525c-844d-10436e878065",
-    "resourceSubType": "Door",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Dåralu T30/EI30",
-    "_id": "1cfbcd4a-c57a-54ba-8034-700b33fafcb7",
-    "resourceSubType": "Door",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Dårlu T30/EI30",
-    "_id": "8269277a-8086-50b9-ada0-cfa738ecc39a",
-    "resourceSubType": "Door",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Dåralu T90/EI90",
-    "_id": "c85b744a-113d-5a60-a23f-8fdaab9e7846",
-    "resourceSubType": "Door",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Dåralu T90/EI90",
-    "_id": "9244afd1-208c-539a-b084-3b624bb749c9",
-    "resourceSubType": "Door",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Dåralu T90/EI90",
-    "_id": "2e2f6b29-56c5-5a99-96e9-01c42cb60711",
-    "resourceSubType": "Door",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Dåralu T90/EI90",
-    "_id": "fb7709d1-7d72-5cce-9189-2d9cd0c91b53",
-    "resourceSubType": "Door",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Dåraluhoveddår",
-    "_id": "c8bc78d3-624d-5bd8-a28b-ca531665a52a",
-    "resourceSubType": "Door",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Dåraluhoveddår",
-    "_id": "2b2a6594-efda-5232-844a-07699530cf13",
-    "resourceSubType": "Door",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Dåraluhoveddår",
-    "_id": "d9d69aeb-99a0-5ef9-ab79-a37066221e3a",
-    "resourceSubType": "Door",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Dåraluhoveddår",
-    "_id": "ecb09973-3a9c-59d6-833f-ceb11d8417ed",
-    "resourceSubType": "Door",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Dåralurågdår",
-    "_id": "31a49b9d-6071-5132-8eaa-3dbc95048448",
-    "resourceSubType": "Door",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Dåralurågdår",
-    "_id": "a1ced3ed-cc82-56d9-b309-37d6298028ff",
-    "resourceSubType": "Door",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Dåralurågdår",
-    "_id": "c83c99ce-c9b9-5639-a0e1-dac581b98e9a",
-    "resourceSubType": "Door",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Dåralurågdår",
-    "_id": "21ef17f6-5063-50d1-93a7-c0bbbeddebe6",
-    "resourceSubType": "Door",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Dårindustriport",
-    "_id": "a58a3e87-8f59-51f1-ae15-8f9c831d3e66",
-    "resourceSubType": "Door",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Dår industriport",
-    "_id": "942baac7-d1e8-51bf-9160-524677fdde71",
-    "resourceSubType": "Door",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Dår industriport",
-    "_id": "067ec01d-949b-5ea3-ad78-c8e9ec318b38",
-    "resourceSubType": "Door",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Dår industriport",
-    "_id": "54df749f-73da-5d87-a0cd-c54f2554cbc8",
-    "resourceSubType": "Door",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Dår stål indv/udv/brand/rågmv",
-    "_id": "74c59f36-8943-5817-adbc-fa670512a3af",
-    "resourceSubType": "Door",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Dår stål indv/udv/brand/rågmv",
-    "_id": "fc9a4cbc-2c16-5241-bff8-23f99541cc42",
-    "resourceSubType": "Door",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Dår stål indv/udv/brand/rågmv",
-    "_id": "c09ba055-ac8d-5663-9ff1-47f4b6957cc2",
-    "resourceSubType": "Door",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Dår stål indv/udv/brand/rågmv",
-    "_id": "e38da12a-9a79-506e-ad63-24785a7860b3",
-    "resourceSubType": "Door",
-    "area": "D"
-  },
-  {
-    "staticFullName": "EPDM-tætningtilaluminiumsprofil",
-    "_id": "5dbc15c2-ba1e-56c6-b6f9-d76de04d17cf",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "EPDM-tætningtilaluminiumsprofil",
-    "_id": "f3e39ac9-20a8-5cfe-86f1-36780cafaf94",
-    "resourceSubType": "Aluminium",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "EPDM-tætningtilaluminiumsprofil",
-    "_id": "bcbf85eb-258d-5586-b29e-7055607899fc",
-    "resourceSubType": "Aluminium",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "EPDM-tætningtilaluminiumsprofil",
-    "_id": "8eb20e72-650c-59d5-9685-20f9aa179ae9",
-    "resourceSubType": "Aluminium",
-    "area": "D"
-  },
-  {
-    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk035",
-    "_id": "6c0600bf-40de-56d8-afea-b6d2809ea14b",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk035",
-    "_id": "6c6e90c4-5fcd-568a-83a3-808e6983c8c3",
-    "resourceSubType": "Aluminium",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk035",
-    "_id": "bc91ca27-7413-5e45-b9b9-f4881f5d3a83",
-    "resourceSubType": "Aluminium",
-    "area": "D"
-  },
-  {
-    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk040",
-    "_id": "1b5e19ff-47f0-520b-90e9-6c7ceafa8f9a",
-    "resourceSubType": "Aluminium",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk040",
-    "_id": "584c641b-9a74-5532-916f-80e3a1309ab6",
-    "resourceSubType": "Aluminium",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "EPSisoleringtillofter/gulveogkælderydervæg/terrændæk040",
-    "_id": "a5fe89b2-09b1-587b-8e59-f217f977bdc6",
-    "resourceSubType": "Aluminium",
-    "area": "D"
-  },
-  {
-    "staticFullName": "EPSisoleringtilvæggeogtage035",
-    "_id": "548fb8f8-44bc-5d6f-8ac2-35da1c5c17b4",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "EPSisoleringtilvæggeogtage035",
-    "_id": "5fd09186-a02e-5e3d-b334-f2d76a5d1c52",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "EPSisoleringtilvæggeogtage035",
-    "_id": "037644e8-f1de-515b-92ef-303d2aa90b0c",
-    "resourceSubType": "Insulation",
-    "area": "D"
-  },
-  {
-    "staticFullName": "EPSisoleringtilvæggeogtage040",
-    "_id": "30464d3a-8e50-578c-818c-42aa5ac02c06",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "EPSisoleringtilvæggeogtage040",
-    "_id": "d0c17f50-282c-58da-8ca4-42d5302d4858",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "EPSisoleringtilvæggeogtage040",
-    "_id": "82988ab3-743c-5782-9a6e-aaa48d057c29",
-    "resourceSubType": "Insulation",
-    "area": "D"
-  },
-  {
-    "staticFullName": "ETICSlimningogmineralskletpuds",
-    "_id": "2a1339ca-6808-5c86-82d5-581c5b30bfab",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "ETICSlimningogmineralskletpuds",
-    "_id": "d771129b-a294-545f-9d40-891ebc741aaa",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "ETICSlimningogmineralskletpuds",
-    "_id": "6a9e6a69-d1e2-5ce1-a21b-f5f843d3ea5a",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "ETICSlimningogsilikonepuds",
-    "_id": "8e0c8d53-a754-5edb-bc6b-44730752c935",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "ETICSlimningogsilikonepuds",
-    "_id": "b357162a-6f2a-50a0-a076-b49e0a71f8b9",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "ETICSlimningogsilikonepuds",
-    "_id": "96417bd1-a1d5-5cd9-ba02-f4a722d3dc39",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "ETICS-limningogbelægningafsilikatdispersionspuds",
-    "_id": "f68ec43c-c139-5a05-aa9a-112964767abb",
-    "resourceSubType": "Stucko",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "ETICS-limningogbelægningafsilikatdispersionspuds",
-    "_id": "9687f29c-534c-554a-8706-01a6c508eb3c",
-    "resourceSubType": "Stucko",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "ETICS-limningogbelægningafsyntetiskharpikspuds",
-    "_id": "6d7cb1bf-e257-56df-9d6e-19561de02d5d",
-    "resourceSubType": "Stucko",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "ETICS-limningogbelægningafsyntetiskharpikspuds",
-    "_id": "06324e41-661e-5637-8a59-2db13a4b4fe1",
-    "resourceSubType": "Stucko",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "ETICS-limningogbelægningafsyntetiskharpikspuds",
-    "_id": "2c580b79-8856-597a-9ad9-1d3c063c9cf7",
-    "resourceSubType": "Stucko",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "EVA-tagmembran",
-    "_id": "1a1e31fa-594e-516e-833e-91f459ab0f6a",
-    "resourceSubType": "Fabric",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "EVA-tagmembran",
-    "_id": "81b7220f-2046-59e4-8fcf-c1d0a136d178",
-    "resourceSubType": "Fabric",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "EVA-tagmembran",
-    "_id": "2f0dc6f7-b8c3-533a-a3f1-1c5d6c3579e0",
-    "resourceSubType": "Fabric",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Ekspanderetglasgranulat",
-    "_id": "d50fcd96-a55b-54bd-b405-4406646a66b8",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Ekspanderetskifer",
-    "_id": "c3826fb1-dcbb-568a-bd46-01af87905557",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Elektromagnetiskforkobling",
-    "_id": "7ecf0439-c792-5c22-8d7e-d9a086496e6a",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Elektromagnetiskforkobling",
-    "_id": "c0331080-1276-5871-9122-eeaef30bed0c",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Elektromagnetiskforkobling",
-    "_id": "d653e0af-984e-50d1-b877-6a29ced64ec7",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Elektromagnetiskforkobling",
-    "_id": "4964b3f0-a101-5b5f-a3fe-3a88023be671",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Elektroniskforkobling",
-    "_id": "ad2e709d-decf-5868-beb9-ced1cf5fc0bc",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Elektroniskforkobling",
-    "_id": "785c0c7b-0fe1-5804-82bb-a0af86c689f8",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Elektroniskforkobling",
-    "_id": "03a93e80-e448-51f5-9fcb-98977efd5a01",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Elektroniskforkobling",
-    "_id": "7fbac9b9-7bfd-583d-b323-a970d817d45f",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Facadeklinker",
-    "_id": "eed63732-8143-5af0-929c-612d814176aa",
-    "resourceSubType": "Klinker",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Facadeklinker",
-    "_id": "5a7d34d6-083b-57e3-a748-95e0fda8df1b",
-    "resourceSubType": "Klinker",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Facadeklinker",
-    "_id": "33b505a5-acc2-5123-b141-7b69aa640c87",
-    "resourceSubType": "Klinker",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Fastgårelsesmidler/skruerigalvaniseretstål",
-    "_id": "8f6c631e-9570-51e6-b373-4f8971abaa37",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Fastgårelsesmidler/skruerirustfritstål",
-    "_id": "8c903443-6b50-5aab-ae8f-d9962d780e66",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Fibercementplade",
-    "_id": "09655103-ffd4-5960-bc13-76033160f1bb",
-    "resourceSubType": "Concrete",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Fibercementplade",
-    "_id": "deacee60-760a-56e2-b0e2-2ddf2c257811",
-    "resourceSubType": "Concrete",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Fjernvarmeanlæg",
-    "_id": "15ee545d-d19e-59ec-b3a3-e6ad427eb321",
-    "resourceSubType": "Technical",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Fjernvarmeanlæg",
-    "_id": "44264c1a-fd89-5f48-8356-d38e261ed227",
-    "resourceSubType": "Technical",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Fjernvarmeanlæg",
-    "_id": "b86a4cd2-0919-5704-b213-5498fb7d3fd7",
-    "resourceSubType": "Technical",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Fjernvarmeanlæg",
-    "_id": "dc76bdc4-d606-5d07-ab95-3385c13eddf1",
-    "resourceSubType": "Technical",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Gips beta-halvhydrat",
-    "_id": "c22bf5a1-fc18-5e40-a1bb-850d28a6e00d",
+    "staticFullName": "Beklædning, brandgips 15 mm",
+    "_id": "28185835-607b-5336-bb15-b10f3eb840e5",
     "resourceSubType": "Gypsum",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Gips beta-halvhydrat",
-    "_id": "1c89a186-7493-5eb0-b0fd-6bee58d90183",
+    "staticFullName": "Beklædning, brandgips 20 mm",
+    "_id": "30e482eb-3d82-5157-9835-05d8be72daec",
     "resourceSubType": "Gypsum",
-    "area": "C4"
+    "area": "DK"
   },
   {
-    "staticFullName": "Gipsfiberplade10mm",
-    "_id": "b3499273-cd9c-5747-88a3-10f19f95dd97",
+    "staticFullName": "Beklædning, brandgips 25 mm",
+    "_id": "52abdc1a-0502-50d0-93cf-f37125f18be6",
     "resourceSubType": "Gypsum",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Gipsfiberplade10mm",
-    "_id": "ed364b7a-8f38-58e3-a362-2148a647013a",
+    "staticFullName": "Beklædning, brandgips 30 mm",
+    "_id": "04427dd1-4748-5000-9ad5-a7a9f4e65d58",
     "resourceSubType": "Gypsum",
-    "area": "C3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Gipsfiberplade10mm",
-    "_id": "bfb0eef1-6ce5-5653-b989-d58e52ef8690",
-    "resourceSubType": "Gypsum",
-    "area": "C4"
+    "staticFullName": "Betonbjælke, KB 580/180 (til 180 mm huldæk)",
+    "_id": "8c46b61a-51fb-568f-b1bd-07dbf5b4d359",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Gipssten",
-    "_id": "48caa360-96d4-546a-aa6a-7a2e4687fdb8",
-    "resourceSubType": "Gypsum",
-    "area": "A1-A3"
+    "staticFullName": "Betonbjælke, KB 620/220 (til 220 mm huldæk)",
+    "_id": "6f1e747b-3f76-4c56-9a00-f4eec0a6a846",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Gipssten",
-    "_id": "de2e68c7-707b-5340-b174-1c10be5b1b5e",
-    "resourceSubType": "Gypsum",
-    "area": "C4"
+    "staticFullName": "Betonbjælke, KB 820/220 (til 220 mm huldæk)",
+    "_id": "46b81d6f-3fb4-41fb-9699-7bb37ea578b5",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Glas3mm",
-    "_id": "a36cabf1-aae5-5757-8dc6-125fa749f28e",
-    "resourceSubType": "Glas",
-    "area": "A1-A3"
+    "staticFullName": "Betonbjælke, KB 820/320 (til 320 mm huldæk)",
+    "_id": "8f865d3f-9469-5185-a5a2-e254010b499b",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Glas3mm",
-    "_id": "3d52bf8b-d707-5bc5-ad7a-1810f301b229",
-    "resourceSubType": "Glas",
-    "area": "C4"
+    "staticFullName": "Betonbjælke, KBE 580/180 (til 180 mm huldæk)",
+    "_id": "8f0fb09c-2a2b-5e37-8c85-a5ca31fa7284",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Glasbyggesten",
-    "_id": "db148866-562e-576a-ba8c-4781c3ddeff2",
-    "resourceSubType": "Glas",
-    "area": "A1-A3"
+    "staticFullName": "Betonbjælke, KBE 620/220 (til 220 mm huldæk)",
+    "_id": "8a999f3e-1a76-418f-9b36-1675862c1bc8",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Glasbyggesten",
-    "_id": "0fedfbfc-1b2f-590a-bdaa-e158e47d195e",
-    "resourceSubType": "Glas",
-    "area": "C4"
+    "staticFullName": "Betonbjælke, KBE 820/220 (til 220 mm huldæk)",
+    "_id": "ab2f7793-4f55-4552-8ce7-dee2df63facf",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Glasfiberdug",
-    "_id": "02a03c93-23fb-52e2-8e4b-5e53caebda9e",
-    "resourceSubType": "Glas",
-    "area": "A1-A3"
+    "staticFullName": "Betonbjælke, KBE 820/320 (til 320 mm huldæk)",
+    "_id": "1d367c91-b301-564e-9411-c98ef8353b30",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Glasfiberdug",
-    "_id": "45d04eb8-0d27-528b-b11c-462ccc763518",
-    "resourceSubType": "Glas",
-    "area": "C3"
+    "staticFullName": "Betonbjælke, RB 180/480 mm",
+    "_id": "b28b75e6-d7b2-4f33-a555-7888be1e5147",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Glasfiberdug",
-    "_id": "3dcd5b0f-c862-5abf-9a58-b963206b6569",
-    "resourceSubType": "Glas",
-    "area": "C4"
+    "staticFullName": "Betonbjælke, RB 240/540 mm",
+    "_id": "3cae26e6-d0c3-42e1-9dd8-43adc28c04f0",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grundertilsilikonespuds",
-    "_id": "d9994e77-d817-5421-bb43-9ab40496b60e",
-    "resourceSubType": "Silicone",
-    "area": "A1-A3"
+    "staticFullName": "Betonbjælke, RB 300/600 mm",
+    "_id": "3d298293-2968-44a1-b4aa-4f5ac2b7cbe0",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grundertilsilikonespuds",
-    "_id": "34992984-4ade-598f-80d7-ce06e3ad8e8c",
-    "resourceSubType": "Silicone",
-    "area": "C4"
+    "staticFullName": "Betonbjælke, RB 360/660 mm",
+    "_id": "51282f58-4871-4a02-b945-2c41be393fda",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grunder silikatdispersion",
-    "_id": "15466a42-c79d-5ad9-992a-ed1f8d3d4d12",
-    "resourceSubType": "Silicone",
-    "area": "A1-A3"
+    "staticFullName": "Betonbjælke, RB 420/720 mm",
+    "_id": "7cd85c93-b8f6-4482-af18-8b6b015387d3",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grunder silikatdispersion",
-    "_id": "a90a1a9a-e321-5694-9290-f01c432e6fce",
-    "resourceSubType": "Silicone",
-    "area": "C4"
+    "staticFullName": "Betonbjælke, RB 500/840 mm",
+    "_id": "642fb3fb-9bb0-4b17-b569-8119971457cc",
+    "resourceSubType": "Concrete",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus2-32mm",
-    "_id": "dda735c5-e572-5da7-a210-f37da7721e50",
-    "resourceSubType": "Gravel",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker, konstruktionstræ 100/150",
+    "_id": "5295bb55-43be-4afa-987b-8a30a4c08e75",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus2-32mm",
-    "_id": "2c3714c4-4d0b-539e-9b22-22659acc2c9a",
-    "resourceSubType": "Gravel",
-    "area": "C3"
+    "staticFullName": "Bjælker, konstruktionstræ 100/200",
+    "_id": "2856465b-af79-49bb-894e-ac9a31664849",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus2-32mm",
-    "_id": "ab956412-9894-525d-a7a0-6f9cef443d21",
-    "resourceSubType": "Gravel",
-    "area": "D"
+    "staticFullName": "Bjælker, konstruktionstræ 150/150",
+    "_id": "94b69a9b-0f53-4fa3-a91e-8bf9375c1915",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus2-32mm tårret",
-    "_id": "775082f4-1342-522d-a584-a205d84faa14",
-    "resourceSubType": "Gravel",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker, konstruktionstræ 200/200",
+    "_id": "61bae858-70dd-4f35-b4fc-56b9d9d8503a",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus2-32mm tårret",
-    "_id": "b8e7181a-0f34-502c-884b-99af5d10c810",
-    "resourceSubType": "Gravel",
-    "area": "C3"
+    "staticFullName": "Bjælker, konstruktionstræ 45/145",
+    "_id": "724eb60b-59d7-5131-a107-26bfa65b6461",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus2-32mm tårret",
-    "_id": "28d64726-40e7-5b3a-a47d-c5893bcaca4a",
-    "resourceSubType": "Gravel",
-    "area": "D"
+    "staticFullName": "Bjælker, konstruktionstræ 45/195",
+    "_id": "9ce15404-56eb-5471-a4ea-9e9f19f64b4f",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus 2-15mm tårret",
-    "_id": "49f8bf99-3dbb-5ece-9d90-dd16563067de",
-    "resourceSubType": "Gravel",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker, konstruktionstræ 45/220",
+    "_id": "dc57e04f-c393-5a1a-9b7b-41d6928d2c3b",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus 2-15mm tårret",
-    "_id": "297a3598-05d7-5112-ae3d-dfdf5b8ebaf3",
-    "resourceSubType": "Gravel",
-    "area": "C3"
+    "staticFullName": "Bjælker, konstruktionstræ 45/245",
+    "_id": "f87fab12-c783-43fb-8344-7907d51b77e6",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Grus 2-15mm tårret",
-    "_id": "63a3fba3-1706-5c76-91b2-fd8b1f7fa18c",
-    "resourceSubType": "Gravel",
-    "area": "D"
+    "staticFullName": "Bjælker, konstruktionstræ 45/295",
+    "_id": "1ff3f53a-ef78-474c-b96c-8da9c381c067",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "Gråståbejern",
-    "_id": "798699e7-303a-56bd-8066-fcd6a33ca54b",
-    "resourceSubType": "Gravel",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker, konstruktionstræ 45/340",
+    "_id": "4647a407-e6af-49f1-a491-3e2c57e224d8",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "GummigulvemedskumbagsideEN1816",
-    "_id": "b852c620-8a12-5177-a101-d32737feec53",
-    "resourceSubType": "Rubber",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker, konstruktionstræ 45/95",
+    "_id": "9e4f1215-e96c-5954-904f-dbf654573867",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "GummigulvemedskumbagsideEN1816",
-    "_id": "21e92af1-72e4-5f4f-a348-ecc512a4166c",
-    "resourceSubType": "Rubber",
-    "area": "C3"
+    "staticFullName": "Bjælker, konstruktionstræ 75/150",
+    "_id": "9458f55a-17de-4384-9a84-c1ec3601a7c0",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "GummigulvemedskumbagsideEN1816",
-    "_id": "17c893dc-8d06-5bd4-801d-b848e73d748a",
-    "resourceSubType": "Rubber",
-    "area": "D"
+    "staticFullName": "Bjælker, konstruktionstræ 75/200",
+    "_id": "21398c9f-45b7-4ce9-8d64-2203f8731b03",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "GummigulveprofileretEN12199",
-    "_id": "06d39967-0666-503d-8854-3707875a1596",
-    "resourceSubType": "Rubber",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker, konstruktionstræ 75/225",
+    "_id": "d5947f9e-8195-4f74-aff7-e8dd69e441e2",
+    "resourceSubType": "Wood",
+    "area": "DK"
   },
   {
-    "staticFullName": "GummigulveprofileretEN12199",
-    "_id": "0413326e-989f-5c56-9960-9185062ffacc",
-    "resourceSubType": "Rubber",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "GummigulveprofileretEN12199",
-    "_id": "e83a7849-7511-5e79-bf66-c01397602ff8",
-    "resourceSubType": "Rubber",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Gummitætning",
-    "_id": "b208de59-461d-5d02-8109-b3566226ab7f",
-    "resourceSubType": "Rubber",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Gummitætning",
-    "_id": "6ceeb2c3-5b35-5731-9781-ec55ced64610",
-    "resourceSubType": "Rubber",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Gummitætning",
-    "_id": "1946c28b-dd6c-5bb2-99ce-5e7313080455",
-    "resourceSubType": "Rubber",
-    "area": "D"
-  },
-  {
-    "staticFullName": "HPL-plade",
-    "_id": "003843ad-3fb7-5fec-b960-3676a302fd7b",
+    "staticFullName": "Bjælker, stäl IPE 100",
+    "_id": "cf2d8b27-f663-5238-a3a5-bb8cc32e6c76",
     "resourceSubType": "Steel",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "HPL-plade",
-    "_id": "c09df2c1-6e0e-5087-98c7-b0987f2d5aea",
+    "staticFullName": "Bjælker, stäl IPE 140",
+    "_id": "c7b30da5-1b51-55e8-996e-3f07cf693a40",
     "resourceSubType": "Steel",
-    "area": "C3"
+    "area": "DK"
   },
   {
-    "staticFullName": "HPL-plade",
-    "_id": "ed865c31-aa85-5862-b0c8-29574fc6728e",
+    "staticFullName": "Bjælker, stäl IPE 180",
+    "_id": "1d164c9b-bb44-5882-ab82-5726a85b9a2c",
     "resourceSubType": "Steel",
-    "area": "D"
+    "area": "DK"
   },
   {
-    "staticFullName": "Kork expanderet",
-    "_id": "88aaef32-6572-5700-80ce-df6a307babe1",
-    "resourceSubType": "Cork",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Kork expanderet",
-    "_id": "5433b8da-98ad-5b66-aa81-6dcd05e3cfdb",
-    "resourceSubType": "Cork",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Kork expanderet",
-    "_id": "439028db-0e68-5214-b65c-41ffcbf421ce",
-    "resourceSubType": "Cork",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Korkfliser4mm",
-    "_id": "1f4e228e-fe80-59c0-8ab5-36a080f0e34e",
-    "resourceSubType": "Cork",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Korkfliser4mm",
-    "_id": "988b0214-9be3-5f78-8cd8-389e4455e90a",
-    "resourceSubType": "Cork",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Korkfliser4mm",
-    "_id": "d2b36a1d-4f7a-5d50-b06f-d8fd8512c097",
-    "resourceSubType": "Cork",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Korkfliser6mm",
-    "_id": "8a649749-5a4a-58fb-87de-bfd343de7581",
-    "resourceSubType": "Cork",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Korkfliser6mm",
-    "_id": "f2cbac82-6761-5d23-8062-c20f51b65680",
-    "resourceSubType": "Cork",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Korkfliser6mm",
-    "_id": "6d54eb74-3c84-5f81-b978-6e0c5205b3b4",
-    "resourceSubType": "Cork",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Korkfliser8mm",
-    "_id": "c00ec5a1-3fd8-5a2a-8192-ac08a3eb7b73",
-    "resourceSubType": "Cork",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Korkfliser8mm",
-    "_id": "64631c20-9075-5934-8899-94316109c2bb",
-    "resourceSubType": "Cork",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Korkfliser8mm",
-    "_id": "5a85b3cd-1fe0-592b-8875-6e50bf816725",
-    "resourceSubType": "Cork",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Krydsfinerplade",
-    "_id": "5aef45a5-3d12-5cd6-b35b-ffe6250c3069",
-    "resourceSubType": "Cork",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Krydsfinerplade",
-    "_id": "fad82b0f-3b0e-54eb-a950-49ec40dc6368",
-    "resourceSubType": "Cork",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Krydsfinerplade",
-    "_id": "18c06d25-622d-5360-8d18-aa3572a4a6d9",
-    "resourceSubType": "Cork",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Krydslimetplade 3lag",
-    "_id": "25739948-515d-55c3-8fd1-3e70d55a7311",
-    "resourceSubType": "CLT",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Krydslimetplade 3lag",
-    "_id": "06d20f42-b5ad-5bde-8969-314b075f254f",
-    "resourceSubType": "CLT",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Krydslimetplade 3lag",
-    "_id": "b6c0db27-db5a-59d6-987a-6191e9ee6b2b",
-    "resourceSubType": "CLT",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Krydslimetplade 3-og5-lag",
-    "_id": "e943ceb9-a080-50c7-8654-aa0ae5cf4e5a",
-    "resourceSubType": "CLT",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Krydslimetplade 5lag",
-    "_id": "eec71c4f-e955-5074-8c26-3012a6981bb3",
-    "resourceSubType": "CLT",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Krydslimetplade 5lag",
-    "_id": "6cbae7d2-524d-577b-9909-615ce5109ccb",
-    "resourceSubType": "",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Krydslimetplade 5lag",
-    "_id": "af0ac441-66d8-5de4-bacf-179c2a5f1383",
-    "resourceSubType": "",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Kuldioxid",
-    "_id": "54ffc32a-d967-59c0-9aec-f821fcffece4",
-    "resourceSubType": "CLT",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Limtræ nåletræ",
-    "_id": "abd65119-71cc-5b22-b90d-49b6310d2df1",
-    "resourceSubType": "CLT",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Limtræ nåletræ",
-    "_id": "4ac69d4f-d362-56e1-a945-90a1eb2586b7",
-    "resourceSubType": "CLT",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Limtræ nåletræ",
-    "_id": "e0cc289a-8bb9-56fb-97ee-9194a94db5e2",
-    "resourceSubType": "CLT",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Limtræ ståendebrædder nåletræ",
-    "_id": "f37d7bfc-5c53-5fdd-8aff-f1308069eadf",
-    "resourceSubType": "CLT",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Limtræ ståendebrædder nåletræ",
-    "_id": "0152f4a5-1b2f-50ad-ba90-a1b1f47d2541",
-    "resourceSubType": "CLT",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Limtræ ståendebrædder nåletræ",
-    "_id": "99f8c212-b795-53fe-bc4d-2a8e40749317",
-    "resourceSubType": "CLT",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Mineraluld alm.",
-    "_id": "8bd37a93-160d-541d-9e48-85ef492eda6d",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Mineraluld alm.",
-    "_id": "8d9cb2f2-f5a6-501c-a309-3217e8b21fc0",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Mineraluld alm.",
-    "_id": "d6fa7582-7ce8-5100-b067-934fbdde5d91",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Mineraluld facadesystem",
-    "_id": "352ffa4c-e49e-502a-875f-0f52097d829b",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Mineraluld facadesystem",
-    "_id": "1a4f2437-97bd-5135-b2ea-25a50de8729d",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Mineraluld facadesystem",
-    "_id": "5be1abed-e4f4-559a-9bd5-398274d27f02",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Mineraluld låsfyld",
-    "_id": "8d473c2e-163a-5027-8b0e-9fbaf6e9e552",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Mineraluld låsfyld",
-    "_id": "fc7574a2-c68d-5998-9072-ae44e5347b2b",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Mineraluld låsfyld",
-    "_id": "dcef291f-ac64-5537-85b2-6aeffb44dd30",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Mineraluld skråtag",
-    "_id": "9cd91e1a-b67a-5f51-a85c-ed46ad4b9ba6",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Mineraluld skråtag",
-    "_id": "806921d2-d583-54dc-bf78-d3f61feb3db2",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Mineraluld skråtag",
-    "_id": "4e8504d8-e951-521c-9ad6-2a67803cee06",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Mineraluld stenuld rårskål",
-    "_id": "6202b142-5dac-5f98-8891-51f0c5a895dc",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Mineraluld stenuld rårskål",
-    "_id": "8ae5c22e-f636-589a-af59-1998cfbbffd5",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Mineraluld stenuld tekniskpladeisolering",
-    "_id": "5375e93b-cf7b-54c4-9ee4-3957ba2f00af",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Mineraluld stenuld tekniskpladeisolering",
-    "_id": "12ec958a-20a8-55fa-80bd-993e1a14dd4a",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Mineraluld terræn",
-    "_id": "02f9eac3-bb73-5b03-a082-db6e6f0e0200",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Mineraluld terræn",
-    "_id": "faac7a10-d41a-5a5f-af08-764d6c22da4a",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Mineraluld terræn",
-    "_id": "f4c67dfa-5749-5e95-9bb0-dfa977afdd8d",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Mineraluld trykfasttiltagsystem",
-    "_id": "a45b0b77-4a5c-5355-b6a6-283af876f11c",
-    "resourceSubType": "Insulation",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Mineraluld trykfasttiltagsystem",
-    "_id": "fd9d1ceb-2cc4-5def-a84c-ea1fd4562a7b",
-    "resourceSubType": "Insulation",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Mineraluld trykfasttiltagsystem",
-    "_id": "f1290ae1-22b7-5208-a10d-1f3df4b8416a",
-    "resourceSubType": "Insulation",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "PlastprofilSBR",
-    "_id": "337bee89-6727-507d-81c1-d12ea29b4831",
-    "resourceSubType": "Plastic",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "PlastprofilSBR",
-    "_id": "ada913df-bf56-5e69-9493-ced4cd34347b",
-    "resourceSubType": "Plastic",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "PlastprofilSBR",
-    "_id": "91489090-e0f6-5531-84e9-9ea09cc775ea",
-    "resourceSubType": "Plastic",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Polycarbonatplade",
-    "_id": "a97808a3-2a42-554b-808a-0460873d5a70",
-    "resourceSubType": "Plastic",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Polycarbonatplade",
-    "_id": "799bd963-be95-5b8a-b2df-cff220ebcf74",
-    "resourceSubType": "Plastic",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Polycarbonatplade",
-    "_id": "8bb5d12c-13fc-5fc5-affa-ecc2531e5c04",
-    "resourceSubType": "Plastic",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Polyethylen-skum",
-    "_id": "27aedad2-a53d-56ba-bd0f-d72c34d24a49",
-    "resourceSubType": "Plastic",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Polyethylen-skum",
-    "_id": "e928362b-a797-5797-9b93-bc162e2c67b6",
-    "resourceSubType": "Plastic",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Polyethylen-skum",
-    "_id": "f7520768-79e2-55be-9361-04b4c8badb8c",
-    "resourceSubType": "Plastic",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Sand0-2mm",
-    "_id": "af430771-abec-5fad-afb7-fae0b908b161",
-    "resourceSubType": "Sand",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Sand0-2mm",
-    "_id": "94bc9da9-02e4-5c3b-af06-b3aa2ea17f38",
-    "resourceSubType": "Sand",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Sand0-2mm",
-    "_id": "aa8273b6-2182-5786-a016-269b5b03d3e0",
-    "resourceSubType": "Sand",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Sand0-2mm tårret",
-    "_id": "155745c3-9c58-5c8d-8f4d-a8e938c7f028",
-    "resourceSubType": "Sand",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Sand0-2mm tårret",
-    "_id": "f182b221-164d-561e-bb49-4f56b4cd77ae",
-    "resourceSubType": "Sand",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Sand0-2mm tårret",
-    "_id": "3b987816-4e77-5777-9694-423e8c7ded17",
-    "resourceSubType": "Sand",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Sand knust tårret",
-    "_id": "cda4b669-9faf-5e6c-ba1a-3ba2263ed342",
-    "resourceSubType": "Sand",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Sand knust tårret",
-    "_id": "c0fc9389-2b67-5acb-8239-9bbd226ac652",
-    "resourceSubType": "Sand",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Sand knust tårret",
-    "_id": "2ccd1213-5605-538b-a72f-e0714e97313c",
-    "resourceSubType": "Sand",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Sanitetskeramik",
-    "_id": "2ded1752-5f4c-50d7-bb81-bce75fa32069",
-    "resourceSubType": "Sand",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Sanitetskeramik",
-    "_id": "10fdba57-52ab-5aaf-a5e6-f24fa0654e72",
-    "resourceSubType": "Sand",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Solcelleanlæg 1000kWh/m2*a",
-    "_id": "f4a51f68-3045-5a99-80b3-7afa43de3c04",
-    "resourceSubType": "Solarcell",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Solcelleanlæg 1000kWh/m2*a",
-    "_id": "a9c02934-de04-51e9-96cf-c9ac29b27c75",
-    "resourceSubType": "Solarcell",
-    "area": "C4"
-  },
-  {
-    "staticFullName": "Solcelleanlæg 1000kWh/m2*a",
-    "_id": "f3dd64e5-9269-5316-8b04-2faf90632370",
-    "resourceSubType": "Solarcell",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Solvarmekollektor plan",
-    "_id": "c8ebdc01-831b-59f9-b666-c8d7518238d3",
-    "resourceSubType": "Solarcell",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Solvarmekollektor plan",
-    "_id": "ce1340f8-1343-5cbe-9209-2ae0628c3ee0",
-    "resourceSubType": "Solarcell",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Solvarmekollektor plan",
-    "_id": "113ceb5e-6280-5f5a-aaab-63e3e072b18b",
-    "resourceSubType": "Solarcell",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Solvarmekollektor vakuumrår",
-    "_id": "8ddd6b01-094e-50e0-8294-6ccc8a392789",
-    "resourceSubType": "Solarcell",
-    "area": "A1-A3"
-  },
-  {
-    "staticFullName": "Solvarmekollektor vakuumrår",
-    "_id": "15197bbd-34e4-5853-b4b0-ac51d2cee8a3",
-    "resourceSubType": "Solarcell",
-    "area": "C3"
-  },
-  {
-    "staticFullName": "Solvarmekollektor vakuumrår",
-    "_id": "3a71022d-7933-535c-926a-f439f86ceb61",
-    "resourceSubType": "Solarcell",
-    "area": "D"
-  },
-  {
-    "staticFullName": "Stål Smedestål",
-    "_id": "257ab361-8054-567e-bb90-050762741f31",
+    "staticFullName": "Bjælker, stäl IPE 220",
+    "_id": "657f4d32-b694-5a6d-a0e6-7a45698e1bc4",
     "resourceSubType": "Steel",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Stål Varmgalvaniseretstålplade",
-    "_id": "f190d06b-b999-5e68-b0c2-66e55c4799ac",
+    "staticFullName": "Bjælker, stäl IPE 270",
+    "_id": "56e6aa96-72fd-58bd-a859-b49f65ed43bc",
     "resourceSubType": "Steel",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Stål valsedeprofilerogplader",
-    "_id": "b7e422e6-1186-56a1-b9be-d17e524fcbc7",
+    "staticFullName": "Bjælker, stäl IPE 300",
+    "_id": "0f2ddf4c-2314-551b-a662-2c2b9a0edbfb",
     "resourceSubType": "Steel",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Stål valsedeprofilerogplader",
-    "_id": "5e5acb2a-a410-5aac-9498-8323e8eeac14",
+    "staticFullName": "Bjælker, stäl IPE 330",
+    "_id": "3b57fcb3-6747-598b-900e-bfdb3492f201",
     "resourceSubType": "Steel",
-    "area": "C3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Stål valsedeprofilerogplader",
-    "_id": "b61b32de-b7ad-5d4f-8a01-1663b2d56aa9",
+    "staticFullName": "Bjælker, stäl IPE 360",
+    "_id": "6a99d55d-e60a-5487-a671-de9529b21294",
     "resourceSubType": "Steel",
-    "area": "D"
+    "area": "DK"
   },
   {
-    "staticFullName": "Stål varmvalsetplade 2-20mm",
-    "_id": "606b9319-b012-54fb-b964-f9f8fc4e20d3",
+    "staticFullName": "Bjælker, stäl IPE 400",
+    "_id": "8a694c26-ed48-5d07-991c-d4ade8df7a6c",
     "resourceSubType": "Steel",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Stål varmvalsetplade Genanvendelse",
-    "_id": "ad19fb2f-d253-5ca1-b164-d6cac0f0e767",
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 100",
+    "_id": "4355ad71-0dd0-58a3-b155-ca1954be5c98",
     "resourceSubType": "Steel",
-    "area": "C4"
+    "area": "DK"
   },
   {
-    "staticFullName": "Stål varmvalsetplade Genanvendelse",
-    "_id": "44d23632-ebfd-5db3-b72c-c7ddf53cfa4e",
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 120",
+    "_id": "47cd4308-d24d-52e8-be24-617e2efc18c3",
     "resourceSubType": "Steel",
-    "area": "D"
+    "area": "DK"
   },
   {
-    "staticFullName": "Ståbeasfalt",
-    "_id": "733a07d5-40ed-590f-b303-5ca02cb08db7",
-    "resourceSubType": "Asphalt",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 140",
+    "_id": "a7aa9301-3c7d-56af-8c3a-e624e4430444",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Ståbeasfalt",
-    "_id": "47668d90-5cb3-507c-ac48-8d4451f0dca6",
-    "resourceSubType": "Asphalt",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 160",
+    "_id": "de84d35f-8387-54d3-96be-4b755d90f971",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Ståbeasfalt",
-    "_id": "57100e64-2c28-570b-a5b9-da0a334dce1f",
-    "resourceSubType": "Asphalt",
-    "area": "C3"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 180",
+    "_id": "4b7c5180-a746-55d0-970b-76a91e22274c",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Ståbeasfalt",
-    "_id": "5d0b40bd-406e-5105-a3aa-0f4b995795ec",
-    "resourceSubType": "Asphalt",
-    "area": "C3"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 200",
+    "_id": "4bfa31d6-2b93-56ac-883a-7aa34b46fd45",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Ståbeasfalt",
-    "_id": "c7f6da60-ce86-56b4-afe5-bdcfe3f889bb",
-    "resourceSubType": "Asphalt",
-    "area": "C4"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 220",
+    "_id": "1ae2f65f-ec2e-5d36-920e-b9d3e16fa4e2",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Ståbeasfalt",
-    "_id": "6f6a142c-eb8e-5695-8411-65ee05bfe6c9",
-    "resourceSubType": "Asphalt",
-    "area": "D"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 240",
+    "_id": "53473977-b33e-58c6-8b57-1949a170f179",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag ikke skiferbestrået",
-    "_id": "004775b3-963e-5864-afeb-d0da97177da1",
-    "resourceSubType": "Tagpap",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 260",
+    "_id": "e9c1d434-0a19-5b5c-8f20-69d007235099",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag ikke skiferbestrået",
-    "_id": "7bb42c52-4dd7-546e-bae6-8b9cbce2f41f",
-    "resourceSubType": "Tagpap",
-    "area": "C3"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 280",
+    "_id": "c2cd05dc-2f21-5c84-ae8d-d1dc3e6c343f",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag ikke skiferbestrået",
-    "_id": "fb3dd1bd-a864-5ce7-acf6-40c2c6fd44b9",
-    "resourceSubType": "Tagpap",
-    "area": "C4"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 300",
+    "_id": "0e9e0ec1-07d8-5947-a52d-4d74f1d3a2df",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag skiferbestrået",
-    "_id": "021d9404-779a-5661-bf70-92760d461647",
-    "resourceSubType": "Tagpap",
-    "area": "A1-A3"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 320",
+    "_id": "4fa27647-3e14-5180-b664-1c9bbebd34a4",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag skiferbestrået",
-    "_id": "908f36b6-37c1-57c8-91e6-345d83a52260",
-    "resourceSubType": "Tagpap",
-    "area": "C3"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 340",
+    "_id": "03a1dee8-ad1e-50df-bdb5-3541e243a10a",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Tagpap bitumentoplag skiferbestrået",
-    "_id": "fb036ec8-c6a7-5e86-8194-e9be0017ed00",
-    "resourceSubType": "Tagpap",
-    "area": "C4"
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 360",
+    "_id": "4ce5cafa-a074-5920-98c9-23f22bc7f63b",
+    "resourceSubType": "Steel",
+    "area": "DK"
   },
   {
-    "staticFullName": "Træ lærk",
-    "_id": "ba2ddf89-37b8-584f-a9e8-be32f889527e",
+    "staticFullName": "Bjælker/sä¸jler, stäl HEA 400",
+    "_id": "ec25c105-3ba9-53ca-ab26-2b42bb43ce5c",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 100",
+    "_id": "b04ab771-f30e-534c-8b92-ace4a942674e",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 1000",
+    "_id": "34155ff4-62b0-496e-9bcc-44be1d3c84e7",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 120",
+    "_id": "08d199a8-fe31-5f8e-a54c-45085a7dc790",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 140",
+    "_id": "7c1c9373-39bd-54cb-954b-90ad2d1eeadd",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 160",
+    "_id": "f2a184f5-288d-55f8-b8fe-0b9ce13282fa",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 180",
+    "_id": "c120c4fc-ad63-5474-a799-7f2e072d51ea",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 200",
+    "_id": "76223e83-4748-5a32-9326-a253895a11b7",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 220",
+    "_id": "9c8b0532-65b3-5365-9ae4-c0dcb7439b8d",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 240",
+    "_id": "5593dcf2-018b-5f80-a092-f4111c4e522e",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 260",
+    "_id": "3e71814f-bfe1-5307-be73-6198a84b3719",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 280",
+    "_id": "4a53281e-f768-5c96-93d0-35a4ce8e7f5e",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 300",
+    "_id": "1a90b275-2270-59a9-877e-b67471f5c3cb",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 320",
+    "_id": "d6d00f61-a273-5d1e-a1e8-bf6b60221b0c",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 340",
+    "_id": "6cc5bc15-45d9-55ae-9bb6-cc89a6af80e3",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 360",
+    "_id": "90b4b6f9-19f4-5ed4-9e66-740adf67fa6b",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 400",
+    "_id": "082886ac-219c-590e-b96c-b5429bfcba47",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 450",
+    "_id": "44ff125f-1f0e-4f23-9f7c-e3beb97a3e7a",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 500",
+    "_id": "97fda0aa-e89f-4b4b-ba96-f76ab9885861",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 550",
+    "_id": "15ed3048-771d-4af7-ac04-631e2ccb235d",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 600",
+    "_id": "3d5dc2c1-577e-4bd1-a62f-777deb4411f8",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 650",
+    "_id": "9ba0a2a0-06d6-4f7b-8534-301e402d6e9d",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 700",
+    "_id": "bea121e2-a48d-4168-8045-ed20d075a84b",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 800",
+    "_id": "99e88cfc-4492-4aec-9a24-26336949e52c",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bjælker/sä¸jler, stäl HEB 900",
+    "_id": "cc6b740b-efd1-461b-adb9-65b61af8728a",
+    "resourceSubType": "Steel",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bund, aluminiumsbund med gulv i træ",
+    "_id": "413bf3b5-717c-598a-bc69-d44ce921d8ce",
+    "resourceSubType": "Aluminium",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bund, betonbund, armeret",
+    "_id": "fd36cdbd-0938-55b7-be29-4c078906e8a2",
+    "resourceSubType": "Aluminium",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bund, stälramme med gulv i aluminiumsplade",
+    "_id": "60f47516-3f6d-5f50-94fb-f10acb5bac10",
+    "resourceSubType": "Aluminium",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bund, stälramme med gulv i fiberbeton",
+    "_id": "26d9acd2-3dc7-595b-a828-74ac7a024c01",
+    "resourceSubType": "Aluminium",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Bund, stälramme med gulv i træ",
+    "_id": "77f013a7-c8ee-55a8-8443-e2871695ca88",
+    "resourceSubType": "Aluminium",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, beton bundplade",
+    "_id": "4173b675-aa1a-5d95-b71a-2f1247a98266",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, forspændt huldæk 0,18/7,0 m",
+    "_id": "4b150038-75ad-5308-9b8a-71d36c8b0f21",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, forspændt huldæk 0,22/12,0 m",
+    "_id": "1a865038-f98e-426c-b714-56147ff63ff8",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, forspændt huldæk 0,22/7,0 m",
+    "_id": "0680fd0f-06dd-4e8a-8754-06e2183edfbd",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, forspændt huldæk 0,27/12,0 m",
+    "_id": "5cb0aa64-8c45-4866-8de9-5a66e26a13bf",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, forspændt huldæk 0,27/7,0 m",
+    "_id": "73d92f99-e606-4651-86c6-4e37e2bfdfb6",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, forspændt huldæk 0,32/12,0 m",
+    "_id": "a4df4ba5-fc25-57c0-ba0a-07998034cc06",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, letbeton 0,16/5,0 m",
+    "_id": "1c1ac803-0323-5875-b81e-63286831937d",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, letbeton 0,2/7,0 m",
+    "_id": "6b015df5-9096-593a-8c00-071c95aa24bc",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, betonelement, letbeton 0,24/7,0 m",
+    "_id": "766cd342-ff2f-51a0-9918-44043c575dd1",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, let",
+    "_id": "43562efd-316e-5147-9d55-42c963e834c4",
+    "resourceSubType": "Concrete",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, massivtræs- /betonelement 0,28/7,0 m, etagedæk",
+    "_id": "ae42f234-f459-5e23-9140-6c29bf565ecd",
+    "resourceSubType": "Windows",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, pladsstä¸bt 0,2/5,0 m",
+    "_id": "0422a883-5249-568d-a46a-09256060fb37",
+    "resourceSubType": "Windows",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, pladsstä¸bt 0,3/7,0 m",
+    "_id": "0786e64d-88fb-535e-b163-df2bf50745e5",
+    "resourceSubType": "Windows",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, stäl etagedæk",
+    "_id": "c9e91d56-1a3d-586c-975d-1dbed8dfdf90",
+    "resourceSubType": "Windows",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, træ, CLT-element 0,2/5,0 m",
+    "_id": "bdfeb671-c6cb-52e7-8fc3-8e4dde179d1d",
+    "resourceSubType": "Windows",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dæk, træelement 0,38/6,0 m",
+    "_id": "36368c54-c933-54ef-8a1f-c0852ba5a5fc",
+    "resourceSubType": "Windows",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, branddä¸r T30",
+    "_id": "576f3853-56d7-5f30-a6ae-bfe2c49e156d",
+    "resourceSubType": "Windows",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, branddä¸r T60",
+    "_id": "d650cf26-134c-563e-af7f-32c0aebd08f4",
+    "resourceSubType": "Door",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, branddä¸r T90",
+    "_id": "f8989356-01cb-5f15-9f5c-c814a84a37a5",
+    "resourceSubType": "Door",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, hoveddä¸r",
+    "_id": "afd116da-494f-5c40-91c9-5101f96f8964",
+    "resourceSubType": "Door",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, industriel rulleport",
+    "_id": "c95efcbd-7071-5fa2-87fb-cc3d7e1f033c",
+    "resourceSubType": "Door",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, indvendig",
+    "_id": "77c8e9c9-2b33-5a9e-b14a-be459d9f0643",
+    "resourceSubType": "Door",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, indvendig, glasdä¸r",
+    "_id": "92fee8be-a171-4957-a73c-990e120e2d60",
+    "resourceSubType": "Door",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, rullegitter",
+    "_id": "a6b0c1c2-b478-56e5-b8f6-9046087e2962",
+    "resourceSubType": "Door",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Dä¸r, rä¸gdä¸r",
+    "_id": "7e5b18bd-95b6-58b1-9a02-10625da11391",
+    "resourceSubType": "Door",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Efterisolering af loft i tilgængelig tagrum, papiruld",
+    "_id": "ff0c8a5f-eaa9-58d6-a230-dc44fac0b46e",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Efterisolering af skrä loft indefra, mineraluld",
+    "_id": "b554dd77-7b0f-52d6-b5d1-cfd28334980b",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Efterisolering af skrä loft indefra, papiruld",
+    "_id": "e2005272-aed0-5696-8623-84e60fd75bff",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Efterisolering af skrä tag udefra, mineraluld",
+    "_id": "909b00cb-9888-5316-baaa-1ba5a0f08906",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Efterisolering af skrä tag udefra, papiruld",
+    "_id": "62e5fe6d-591d-5d20-85a1-c158ea4ef54a",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fastgä¸relse, galger",
+    "_id": "d42ef2b5-16f9-5209-9391-0ebcf7837972",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fastgä¸relse, indspænding i etagetæk",
+    "_id": "2e1baf07-32a4-5e14-86ba-9534917e7626",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fastgä¸relse, indspænding i murværk",
+    "_id": "d2dcead8-bf9f-5fc7-87b6-f33cc5b138c4",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fastgä¸relse, konsoller",
+    "_id": "b1a3cae5-386f-545b-ab4a-59fe37cf77e6",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fastgä¸relse, kort facadeprofil",
+    "_id": "72ce8092-6eca-50de-9890-69557522504b",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fastgä¸relse, lang facadeprofil (lisen)",
+    "_id": "9ee13207-b5f7-58ba-a40f-3a1505c135e5",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fastgä¸relse, lang trækstang (bardun)",
+    "_id": "cfebd5a3-b5c7-5067-82bf-be99ced64274",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fastgä¸relse, sä¸jler i forkant",
+    "_id": "9c000dea-8a04-5e17-90e0-cd99bc48364f",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fjernvarmeveksler 120-400 kW, kontor, skoler og institutioner og etageboliger",
+    "_id": "55020381-7128-52ef-bf76-4c1b88a0b719",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fjernvarmeveksler 20-120 kW, kontor, skoler og institutioner og etageboliger",
+    "_id": "28421eee-4111-517d-b661-377328522a6f",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fjernvarmeveksler <20 kW, enfamiliehus og smäbyggeri",
+    "_id": "2a3d7fa4-c094-552b-83dc-9b81bed75ff8",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Fladtagsvindue, plast (komplet vindue)",
+    "_id": "f7a91b6c-e002-5401-9f3b-58964ac2d763",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gaskeddel 120-400 kW, kontor, skoler og institutioner og etageboliger",
+    "_id": "9924a69f-2532-5cd8-933a-ed18da80efa2",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gaskeddel 20-120 kW, kontor, skoler og institutioner og etageboliger",
+    "_id": "a8642155-bb71-5337-80d5-241b583638d3",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gaskeddel <20 kW, enfamiliehus og smäbyggeri",
+    "_id": "dd43bcbc-fcc6-593d-91c2-241c931908dc",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Glastag, aluminium (komplet vindue)",
+    "_id": "f747e1e1-d5b1-5f0f-b2aa-e21f015660c9",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Glasvæg (komplet væg)",
+    "_id": "e36b056e-c967-5cdd-8926-cb4a40ef1103",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, beton slidlag",
+    "_id": "30a7d849-f4e3-5f97-9a61-27936710323a",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, gulvklinker",
+    "_id": "0cbf55b0-22da-5ef9-8451-7ad5a8fe097a",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, gulvtæppe",
+    "_id": "23066b32-22ba-5a24-ba30-d993cd7939ac",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, gummi",
+    "_id": "4a0e22cf-79b5-50f0-8412-2f082869fdf9",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, hærdeplastgulv",
+    "_id": "74f2be3d-81ff-5acd-913c-301b1f310b7a",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, laminat",
+    "_id": "c9f28087-7fe0-583c-b045-debcdc9bed40",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, linoleum",
+    "_id": "16d900d2-60d3-574f-848d-285421b22acd",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, naturstensfliser",
+    "_id": "c8b78bcd-9cf4-5913-9a48-f410c39b0365",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, parket pä EPS-beton",
+    "_id": "aa0178e3-3bb1-5272-9b93-ea62bcc1f957",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, parket, limet",
+    "_id": "e147b20c-b07f-5884-ad72-2fe1703da780",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, parket, svä¸mmende",
+    "_id": "c1f43e31-d3ea-567a-8c39-79239dc9395b",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, trægulv pä strä¸er",
+    "_id": "81f8cc96-b7b8-5f26-bec2-c4987f68749c",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, vinyl",
+    "_id": "b290f94a-7454-53aa-9adc-f5b7e6f9b57d",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, vädrumsgulv, keramiske fliser",
+    "_id": "0886cb83-e4ab-55c8-80ed-9c1702f946cb",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulv, vädrumsgulv, skridhæmmende vinyl",
+    "_id": "f91f4c65-a257-5be1-a572-321227480f11",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulvvarmerä¸r, PEX, 100 mm afstand",
+    "_id": "1daa8b47-a366-5bf3-89ab-e8df5720b08f",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Gulvvarmerä¸r, PEX, 200 mm afstand",
+    "_id": "f6d1056a-6d09-5364-a12b-e5c0d37fcf5f",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Inderside, indvendig efterisolering, forsatsvæg, mineraluld",
+    "_id": "d415e186-8b8d-5554-9f5a-9b414006913e",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Inderside, indvending efterisolering, porebetonblokke",
+    "_id": "11c0532b-8b6a-5e24-9153-2106d210afed",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Jordvarmeslanger",
+    "_id": "fbbc687d-9daa-4d66-ba18-0fab37aaa0f2",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Karm, curtain wall facade, aluminium",
+    "_id": "b2ad6476-ee3e-5eff-b631-d7532c26dd56",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Karm, curtain wall facade, stäl",
+    "_id": "49883a4b-037d-5625-b7ef-90ba19802fa0",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Karm, vinduer, aluminium",
+    "_id": "0a9ebeaf-48ff-50b2-b6c8-97bf39b456d2",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Karm, vinduer, plast",
+    "_id": "a2d31892-2115-527d-b1a0-5a55a1688efd",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Karm, vinduer, træ",
+    "_id": "bd9cee0d-d881-5253-a94f-78f1c403c091",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Karm, vinduer, træ-/aluminium",
+    "_id": "828ed54b-cade-553a-8f79-8123e1b42534",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Kompositbjælke, 1-sidet 180/230 mm (til 180 mm dæk)",
+    "_id": "e7178156-399c-525b-ab51-9ad03405ff9c",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Kompositbjælke, 1-sidet, 220/250 (til 220 mm dæk)",
+    "_id": "91a8d38a-2dbf-4ae1-b9f1-e0a9f434dd59",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Kompositbjælke, 1-sidet, 320/310 (til 320 mm dæk)",
+    "_id": "0c3d4d0e-5159-5ed0-9387-a0db9ecae6d0",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Kompositbjælke, 2-sidet, 180/300 (til 180 mm dæk)",
+    "_id": "27f83064-d763-5496-8e0b-166cb95978e0",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Kompositbjælke, 2-sidet, 220/400 (til 220 mm dæk)",
+    "_id": "3e0509d9-e010-4b72-bfde-0bb096700652",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Kompositbjælke, 2-sidet, 320/300 mm (til 320 mm dæk)",
+    "_id": "27f37731-b6dd-5ce7-a2f6-27981345537c",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Linjefundament, 400/200 mm (h/b), 3-5 etager",
+    "_id": "359da70f-6c02-570e-b39a-ca00b2058779",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Linjefundament, 400/400 mm (h/b), 3-5 etager",
+    "_id": "2a0ed60b-b9cd-5f6c-986e-7ca4e558c9bc",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Linjefundament, 900/400 mm (h/b), 3-5 etager",
+    "_id": "09e7508f-7250-5946-b253-2b50ea755df9",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Linjefundament, frostfri 1100/300 mm (h/b), 1-5 etager",
+    "_id": "181321e8-1f13-54d2-a976-111381cafe3e",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Linjefundament, frostfri 1100/300 mm (h/b), 1-5 etager, blokke",
+    "_id": "7165537e-22da-54a5-88f7-4d22932b6cc5",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Linjefundament, frostfri 1100/350 mm (h/b), 1-5 etager",
+    "_id": "4f2090fe-4942-4102-991b-c25c3c4eb39d",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Linjefundament, frostfri 1100/400 mm (h/b), 1-5 etager",
+    "_id": "c5ab6cd4-1137-5612-a423-cd8beb293457",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Linjefundament, frostfri 1100/400 mm (h/b), 1-5 etager, blokke",
+    "_id": "9793121d-7965-50ca-ace8-e8a8ef466583",
+    "resourceSubType": "Insulation",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, akrylmaling",
+    "_id": "007e635c-a219-5437-b97e-b0953fa3fa75",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, brandgips til fx let lejlighedsskel",
+    "_id": "d3a9b671-237d-515c-8d5b-924909b7860e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, fibercementplader, direkte",
+    "_id": "89b68974-e32b-5688-8e9c-42b6805567ec",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, gipsplader pä stälprofiler",
+    "_id": "6ad8059f-5c63-5f8a-81cc-6a0707b7645a",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, gipsplader pä trælægter",
+    "_id": "10aa622f-a6c9-5f76-88cc-eceb7b22526f",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, isoleret, loft over det fri",
+    "_id": "ad8bcadb-2eca-5deb-8426-ef8bc8e4ad31",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, mod uopvarmet rum",
+    "_id": "2af4eb9e-24da-5481-8f87-7abe574acec8",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, nedhængt demonterbart systemloft",
+    "_id": "69e2d01f-ac40-5f36-b3bf-69bbf3dbfe0a",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, perforeret krydsfiner",
+    "_id": "31d70096-e80c-5015-a315-755e1b39e8ef",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, perforeret stäl, nedhængt",
+    "_id": "b4034707-f22c-55dd-8d63-1f2654ef3494",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, træ, bræddeloft",
+    "_id": "830c0cf6-0cda-5199-8473-0a0c82628a0a",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, træbeton, nedhængt",
+    "_id": "979863a7-4b7a-424c-a267-4f6ff34e901d",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Loft, trælameller",
+    "_id": "6ec5aba1-ac6d-58d5-a61c-ec70bc41bedb",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 120 mm",
+    "_id": "79f71148-58a4-528b-a48c-a72b3b4e7dbb",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 120mm, EPS-isolering",
+    "_id": "cbb01464-af35-5576-9eae-ac637583709e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 120mm, mineraluld",
+    "_id": "852bccbf-7481-5b14-b831-21b7120b7bda",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 150 mm",
+    "_id": "19ed35d4-12f8-5f12-930c-77d01b161355",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 150mm, EPS-isolering",
+    "_id": "050f8b03-df35-55a4-9e48-e0c5efdba7b6",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 150mm, mineraluld",
+    "_id": "6a653b7a-7c17-5bfe-a5f6-979686ab5a7d",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 180 mm",
+    "_id": "ed2b0161-0e56-573f-b223-e4c3245eeb00",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 180mm, EPS-isolering",
+    "_id": "5d8a44c4-0e44-5915-a431-d919f62bcdd1",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 180mm, mineraluld",
+    "_id": "f32e5136-105d-566b-a761-8dba8a44f6b9",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 200 mm",
+    "_id": "13284332-c50b-59f6-ad2a-6be0f553f845",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 200mm, EPS-isolering",
+    "_id": "ed4e7363-fb63-5e7c-8717-341b20a0919f",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement 200mm, mineraluld",
+    "_id": "a11aecbe-b8bb-57d8-a6c7-d09df34531f2",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 100 mm",
+    "_id": "af8cac50-0b15-519e-b536-c0886e769a04",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 100mm, EPS-isolering",
+    "_id": "c199c963-87de-5341-8116-c37727c13402",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 100mm, mineraluld",
+    "_id": "cf78bbed-e445-5198-bb63-a559c0c62457",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 120 mm",
+    "_id": "b5d0ecc9-de16-59c5-b990-41393968e60d",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 120mm, EPS-isolering",
+    "_id": "898b4032-a405-52c0-afb0-1028f7d8ea99",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 120mm, mineraluld",
+    "_id": "8069706f-8560-52f3-871e-073e327a6316",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 150 mm",
+    "_id": "4dad650a-8242-5c8d-b917-79706848a104",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 150mm, EPS-isolering",
+    "_id": "9fef4497-276b-5de0-8c1a-9cbce37f912f",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, betonelement, letbeton 150mm, mineraluld",
+    "_id": "2ef8bef3-33b0-56b4-a7d9-d196cb596c94",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, lersten ubrændt, ikke-bærende",
+    "_id": "efc62d29-2fa4-566c-8edd-0923ac054c26",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, porebeton, 100 mm",
+    "_id": "f0e989fa-f0dd-500f-ad01-5a37ef3a361d",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, porebeton, 200 mm",
+    "_id": "86f67290-af94-542f-8b7b-3a12dfe859fd",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, stäl-sandxich-panel, 200 mm",
+    "_id": "d0e20f83-0ebb-5638-9c54-fd1724c698c5",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, stälskelet, mineraluld",
+    "_id": "65888852-7933-5f90-8ce0-79b6ea729bb3",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, stälskelet, mineraluld",
+    "_id": "3f15cb8b-561a-5213-83c0-77fa65b30291",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, teglblokke, bærende",
+    "_id": "f76cdb0a-a327-5158-a8da-bc752ab9ae5e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, teglsten, bærende",
+    "_id": "aaa6ff58-59bd-51d7-98cb-ee59b16be290",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træ, CLT-element 100mm, mineraluld",
+    "_id": "f920690d-64c6-5dbb-9caa-a607490a09cf",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træ, CLT-element 150mm, mineraluld",
+    "_id": "8e576152-f04d-5ee1-a926-90933dfc9ba6",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træ, CLT-element 200mm, mineraluld",
+    "_id": "2f8d0712-0fd3-530f-bf34-0c74ef7057a5",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træ, CLT-element, bærende 100 mm",
+    "_id": "a2f27299-e9f9-5678-92cf-8433f900e08e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træ, CLT-element, bærende 150 mm",
+    "_id": "93ac4477-f99e-5ac2-8ed8-0ac9dc506481",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træ, CLT-element, bærende 200 mm",
+    "_id": "c43f14fd-cee5-5da1-8b10-3274003c26db",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træ, CLT-element, ikke-bærende",
+    "_id": "3f86d918-e71a-542b-955b-4b935acd2c27",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træelement 2-delt, lejlighedsskel",
+    "_id": "779c09c8-bea2-5cdb-8331-41add95cec0e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træelement, lejlighedsskel",
+    "_id": "c2090187-0d15-504c-9bdf-9df67391e3af",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træelement, mineraluld",
+    "_id": "70bd3ca5-7094-5197-a8c1-d0fe91efe27b",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træelement, papiruld",
+    "_id": "03fada9b-be99-5b8d-ae88-58328323a7ad",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træskelet, bærende, mineraluld",
+    "_id": "bad0f27f-f6b6-5d16-9c1e-4a22f524b195",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træskelet, bærende, træfiber",
+    "_id": "5d7e8ac4-0ad6-5cd7-ab5a-b3a50f25f39e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træskelet, ikke-bærende, mineraluld",
+    "_id": "f9bea86d-eac7-5aff-96b4-3f5bef9b4b48",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterdel, træskelet, ikke-bærende, træfiber",
+    "_id": "61296cf0-92b1-5639-bf50-9eefea84b4cc",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, beton, letklinkerbetonblok, isoleret",
+    "_id": "6a35adaa-b164-519a-bbf3-923cd5061055",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, beton, porebetonblok 100mm, mineraluld",
+    "_id": "295e2b38-3bd4-5e0d-8009-ea0be40e7600",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, beton, porebetonblok, isoleret",
+    "_id": "8107e397-dd6b-53e2-9767-86fc5dca5b27",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, betonelement, letbeton 0,16/5,0 m",
+    "_id": "72e6c484-77a8-5b22-b14e-e02b4b1339e4",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, betonelement, letbeton 0,2/7,0 m",
+    "_id": "17d0f5f1-c37b-5dcf-b547-9ebfa6bb9367",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, betonelement, letbeton 0,24/7,0 m",
+    "_id": "a2aa1618-f0e4-5af0-9977-138874301203",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, bjælkespær, uventileret, skrä tage, mineraluld",
+    "_id": "cb2089a9-393d-53f6-a919-f4f49325f451",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, bjælkespær, ventileret, skrä tage, mineraluld",
+    "_id": "80eece07-1247-5598-9e1a-fe61768b0625",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, efterisolering, EPS til puds/ventileret beklædning",
+    "_id": "55b04eea-d3a7-5235-ba31-7253b88e52fc",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, efterisolering, PU til puds/ventileret beklædning",
+    "_id": "b97a0963-0746-5a3a-85b3-81a0dcfae835",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, efterisolering, forsatselement i træ",
+    "_id": "cc053a13-16d4-5e7b-a9b1-2159769ccefb",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, efterisolering, mineraluld til puds/ventileret beklædning",
+    "_id": "f3000113-58ee-5eb2-8ada-2f42539cb26d",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, forspændt huldæk 0,18/7,0 m",
+    "_id": "534da527-963d-53d7-a751-67d07968d56e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, forspændt huldæk 0,32/12,0 m",
+    "_id": "e70dafa3-d3ac-524d-bbf7-e46137a1585b",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, gitterspær, mineraluld og papirisolering",
+    "_id": "e196e6c4-698f-437e-8a95-69e29db357a3",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, halmbaserede vægmoduler",
+    "_id": "07c166d2-523d-56ae-9d80-b12022f11970",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, pladsstä¸bt 0,2/5,0 m, mineraluld",
+    "_id": "58441f69-a42e-519b-aa07-463a43adaf1b",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, pladsstä¸bt 0,3/7,0 m, mineraluld",
+    "_id": "39dfdf12-6823-5af7-86cc-e3363bd1f2f2",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, stäl-sandwich-panel 300 mm",
+    "_id": "a3651a13-4047-5e99-a555-5d0091ccc8ef",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, stäldæk",
+    "_id": "73a3f4a9-ddec-50bf-863e-003051e01c27",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, teglblok, isoleret",
+    "_id": "28f5faab-e43b-57f9-b971-7c333df13630",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, teglsten, mineraluld",
+    "_id": "8e9eadb0-b659-5350-9f0b-926f3d91c55f",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, træ, CLT-element 0,2/5,0 m",
+    "_id": "4f10e67b-6330-594c-af9c-5e8d2a03d936",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, træelement, uventileret, flade tage, 7,2m",
+    "_id": "ce51d7c7-a15c-57ee-8dfb-efc2f5e7debb",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, træelement, uventileret, flade tage, 8m",
+    "_id": "3b54d015-af45-5685-927e-59efe02f78de",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, træelement, uventileret, skrä tage, 8m",
+    "_id": "039a6cfa-0e5f-5613-9751-087562dc2196",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Midterlag, træelement, ventileret, flade/skrä tage, 8m",
+    "_id": "293d8a30-e438-5d52-bc71-050bdb5c35b6",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Nedlä¸bsrä¸r",
+    "_id": "4bb436e4-17f6-5cf2-b07b-a5c1d66a0608",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Nedlä¸bsrä¸r, inde",
+    "_id": "814f444a-128d-5621-a5f4-72554f0fa10f",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Ovenlyskuppel, plast (komplet ovenlys)",
+    "_id": "b2f5c2db-b360-51a8-b94f-2c0880c9dd17",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Press rä¸r",
+    "_id": "196ca238-852b-5a29-ae01-60a70db73f1a",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Punktfundament, 1-2 etager 400/1000/1000 mm (h/b/d)",
+    "_id": "77a48a23-f1a7-50a8-ad48-e00cc32f1ba5",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Punktfundament, 3-5 etager 400/1000/1000 mm (h/b/d)",
+    "_id": "759e4b11-9425-5c84-80a7-0dd141d561a0",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Punktfundament, frostfri, 200/1000/1000 mm (h/b/d)",
+    "_id": "48c81ae2-8baf-5155-bdef-666653cc1a3e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Radiator 500/1000 mm",
+    "_id": "96cfffa3-d9ba-5bfb-9cf9-b7c0ad2382cb",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rammet betonpæl 300/300/12000",
+    "_id": "d15d1d5c-609a-5ead-8449-5079a773f739",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rammet betonpæl, 250/250/10000",
+    "_id": "9be03d27-acb9-4be0-88dd-580a807b1b34",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Renselag, beton C25/30, 50 mm",
+    "_id": "3760e202-133c-46aa-a7c4-b657e1612e53",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rude, 2-lags energirude",
+    "_id": "e5e40667-cd81-51d3-8ffc-32c2f2ef9c72",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rude, 3-lags energirude",
+    "_id": "8d5abc34-b662-503e-b231-b9b3a3953f22",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rustfrit stälrä¸r",
+    "_id": "3c1418b7-83ca-555e-bd2b-fad9b4108804",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rytterlys, plast/aluminium (komplet vindue)",
+    "_id": "ea8782f3-a2a4-5374-8a21-16b05e458f9a",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rækværk, aluminium",
+    "_id": "8ce0f6de-1531-5ab2-b457-b7cbdf6f97a1",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rækværk, glas og rustfri stäl",
+    "_id": "29d0b8ff-23df-51e1-a351-0f7297f751a3",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Rækværk, stäl",
+    "_id": "52f22a0f-dc27-5909-9d4e-f70b76849c3e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Skruet stälpæl",
+    "_id": "c149e5c0-027f-574a-bfc4-887e0391f583",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sorte rä¸r",
+    "_id": "33a59a90-e45a-53bd-8b92-518b3ab403d3",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, beton pendulsä¸jle 200/200",
+    "_id": "7b469a18-60f7-5e0e-8a12-ab68b40414c0",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, beton pendulsä¸jle 300/300",
+    "_id": "80e0a22d-587e-5ad9-b29f-a67228dc2830",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, beton pendulsä¸jle 400/400",
+    "_id": "aa7977e9-e008-54ea-a799-f140750013cc",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, beton rammesä¸jle 200/200",
+    "_id": "0de20324-d85c-5316-88bf-35a4098759a1",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, beton rammesä¸jle 300/300",
+    "_id": "fb7a83a0-ad11-5d46-b5ea-850d87dfb861",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, beton rammesä¸jle 400/400",
+    "_id": "8e4dc9e1-ad5c-513e-90b7-7cfb70eec495",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 100/150",
+    "_id": "7d6e088f-76bc-4d74-87f2-bf1e194c41cb",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 100/200",
+    "_id": "da6a29de-b181-40a2-b897-769f0a22db16",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 150/150",
+    "_id": "a5dd5c61-0a67-4860-9e71-26e5a17050f1",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 200/200",
+    "_id": "3fab4b2e-96c8-4f94-96e1-b3738a0919cb",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 45/145",
+    "_id": "fc2fbd30-137a-4202-b418-b3eef7e30f70",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 45/195",
+    "_id": "96e6db18-99a1-5de6-a32d-7c19b503c619",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 45/220",
+    "_id": "3ca28db0-82db-5bee-9de4-42c82db62856",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 45/245",
+    "_id": "833d2678-df30-539f-b70c-1c79e7d177a3",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 45/295",
+    "_id": "cdab72b2-8bd4-5965-9a22-e4d855432cfa",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 45/340",
+    "_id": "0f2f74d2-bf78-5c37-924b-2d92c38a6d6d",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 45/95",
+    "_id": "de3fb104-a28a-537b-9ed0-84e9e326247a",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 75/150",
+    "_id": "bc9a7bd7-e2e4-404d-8941-1de254eb8d59",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 75/200",
+    "_id": "e7b565fa-8a88-49c0-beac-9e8d30316b9b",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, konstruktionstræ, hä¸vlet 75/225",
+    "_id": "7af24b56-7773-40d9-9b57-8772d6f3bd45",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl kvadratisk rä¸r SHS 100/6",
+    "_id": "18ecd3c5-e013-5eaa-80d6-15377cd8c431",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl kvadratisk rä¸r SHS 140/6",
+    "_id": "69cad22f-2540-5dea-8b5e-910de743a8f2",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl kvadratisk rä¸r SHS 180/8",
+    "_id": "d209c469-3137-52e8-806a-0bc3d38708b2",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl kvadratisk rä¸r SHS 200/10",
+    "_id": "1a46e41a-5177-580f-a62d-68117fc40f2f",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl kvadratisk rä¸r SHS 250/10",
+    "_id": "2c559f01-18c9-5635-bc2b-dd371d1d0db2",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl kvadratisk rä¸r SHS 300/10",
+    "_id": "a7fa53e2-2f1f-5938-a8ff-79311844e9a8",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl kvadratisk rä¸r SHS 400/20",
+    "_id": "77e1574e-0bf7-5525-8e3a-d9cb636f67b3",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl rektangulært rä¸r RHS 100/50/5",
+    "_id": "ef4674e8-7c85-5781-a37b-58646e3cbf78",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl rektangulært rä¸r RHS 140/80/5",
+    "_id": "7579a177-971b-5c5b-888a-6544efb72c3c",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl rektangulært rä¸r RHS 180/100/8",
+    "_id": "d778f09f-6004-5570-b4e9-4d2ed2d30da1",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl rektangulært rä¸r RHS 200/100/10",
+    "_id": "d7537b32-c4d2-5c5c-a9a0-da24555aa586",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl rektangulært rä¸r RHS 250/150/10",
+    "_id": "16180021-d323-5e77-915d-c41dba30b6a2",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl rektangulært rä¸r RHS 300/200/10",
+    "_id": "7e3d06fc-0701-52cb-b182-bb535e483dea",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Sä¸jler, stäl rektangulært rä¸r RHS 400/200/12",
+    "_id": "214ed5ce-6544-5040-af6f-02fc661b0b37",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Tagbelægning, EPDM",
+    "_id": "9d381578-2306-5c3e-904c-22c5ab6a514a",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Tagbelægning, Zink, stäende dobbelfals",
+    "_id": "7e69077c-bb97-5dbf-9644-87f80b301781",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Tagbelægning, fibercement",
+    "_id": "74ce7d9b-2bb8-56c5-a1b9-c1651ff42c9f",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Tagbelægning, skifer",
+    "_id": "3fd88311-265b-5930-b8f4-6971244b2744",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Tagbelægning, stäl, trapezplader",
+    "_id": "73a4dfd7-2ee5-529d-8950-6d8098b12c55",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Tagbelægning, tagpap",
+    "_id": "b4aa08e3-fd38-514e-b32b-fb107e112a23",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Tagbelægning, tegl",
+    "_id": "6fe12a41-b527-50da-9358-0c42539ec684",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Terrændæk, beton, 120 mm",
+    "_id": "ce1f4896-861d-569f-8d21-7e255221e796",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Terrændæk, beton, 150 mm",
+    "_id": "e322e452-3da2-40e0-9b7d-c00145c998fa",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Terrændæk, beton, 200 mm",
+    "_id": "440d296a-1b39-43f5-ac43-af83be3d4006",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Terrændæk, beton, 250 mm",
+    "_id": "00a29cc9-0106-490b-bf45-e59844fa22e2",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke H 47/200",
+    "_id": "47e8c25e-3788-43fd-87df-748ad60a1889",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke H 47/250",
+    "_id": "e1f6bdc6-e464-4f41-b8bf-a07d5bb106bd",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke H 47/300",
+    "_id": "b9e0909d-d006-4eb1-90c1-b4f389bb9289",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke H 47/350",
+    "_id": "229ff5e5-ccdd-43cc-8056-974038d447b2",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke H 47/400",
+    "_id": "4d2badec-db71-48f3-95ce-e24d7992289f",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke H 47/450",
+    "_id": "acee3132-f9e2-494c-909f-fe2ff46e1dca",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke H 47/500",
+    "_id": "ff0bb43e-6ebe-40f3-92a4-fa86786809b9",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HB 97/250",
+    "_id": "2c48d1cc-bd59-44b5-ae81-256f55adb19e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HB 97/300",
+    "_id": "dd16269e-1fa9-41a7-93b3-f144864199e4",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HB 97/350",
+    "_id": "d36a21af-8410-4114-aea7-a7667a59cc77",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HB 97/400",
+    "_id": "f4199701-5e4d-4197-b0d1-2beeda495704",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HB 97/450",
+    "_id": "72025f2b-af7d-490d-801c-b4d35fc33e2e",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HB 97/500",
+    "_id": "b82c5fb8-1e63-4b5b-8f5c-26eb32fec7c6",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HI 70/200",
+    "_id": "b73f8983-fe8e-4cca-9c64-e85abfc45278",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HI 70/220",
+    "_id": "3f98b635-ce84-4da3-a7ce-6b755fee30f8",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HI 70/250",
+    "_id": "e310d101-28b9-4c1c-9db5-b1716ad5b746",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HI 70/300",
+    "_id": "968f939a-9ee7-417d-8a12-97b2d8d65c1d",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HI 70/350",
+    "_id": "03473af2-84ba-43f2-9652-48ad25b768c3",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HI 70/400",
+    "_id": "ae62d5d6-5710-44fa-a7e5-c46b8fb5a9c7",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HI 70/450",
+    "_id": "e815f5ac-16c9-4e11-892a-223c19731655",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Træ, I-bjælke HI 70/500",
+    "_id": "246a6fa6-3514-4d06-bc7b-a974672a4d10",
+    "resourceSubType": "Roofing",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Underlag, isolering EPS 350 mm og singels",
+    "_id": "e510a1e4-c95b-5c6d-9b5f-e291aed58978",
     "resourceSubType": "Wood",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træ lærk",
-    "_id": "10ce115d-151a-5a99-ad7c-2229335ae3f4",
+    "staticFullName": "Underlag, isolering skumglas og stabilgrus",
+    "_id": "75ff8538-6f4c-5d70-9fa4-a6498ec890d5",
     "resourceSubType": "Wood",
-    "area": "C3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træ lærk",
-    "_id": "b0276199-c576-55ae-8963-16121a80c0df",
+    "staticFullName": "Varmepumpe 10 kW, enfamiliehus",
+    "_id": "90751522-ca91-5780-97bb-c5f90b7ac0c1",
     "resourceSubType": "Wood",
-    "area": "D"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træ zeder",
-    "_id": "3a719657-0e5e-54b6-bb5e-17d603d15527",
+    "staticFullName": "Varmtvandsbeholder 110 L, decentral, per badeværelse (stk.)",
+    "_id": "50dc5fee-a095-577e-b5df-b59d41716fc0",
     "resourceSubType": "Wood",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træ zeder",
-    "_id": "17a176db-d7b1-55de-a07f-04e0d9e29532",
+    "staticFullName": "Varmtvandsbeholder 160 L, 1-familiehus",
+    "_id": "5537057b-0f48-5a7a-9f0f-4258902ea50a",
     "resourceSubType": "Wood",
-    "area": "C3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træ zeder",
-    "_id": "9f6e1388-7da2-55a5-8c89-3b7efca65f9b",
+    "staticFullName": "Varmtvandsbeholder 500 L, central, skoler institutioner, u. storkä¸kken el brusere",
+    "_id": "af748ffb-8dba-5f0a-bf61-3a21ed2e3d6d",
     "resourceSubType": "Wood",
-    "area": "D"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træbetonplade",
-    "_id": "527825d2-1e41-576b-b5ea-a25fd2abebd9",
+    "staticFullName": "Varmtvandsbeholder 500 L, kontor, per 5-10 brusere el storkä¸kken, decentral",
+    "_id": "3e73f9d3-4b1a-5bdb-b9ff-64a8436738ef",
     "resourceSubType": "Wood",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træbetonplade",
-    "_id": "319e499b-5fda-5592-a2ff-ed4630909674",
+    "staticFullName": "Varmtvandsbeholder, central, 50 L per badeværelse (stk.)",
+    "_id": "632dd301-2036-5161-bb0a-7937872051ca",
     "resourceSubType": "Wood",
-    "area": "C3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træbetonplade",
-    "_id": "c9f66ba9-97f6-5b08-86b8-8baf81ff182c",
+    "staticFullName": "Varmtvandsbeholder, gennemsträ¸mningsvandvarmer 4 L, decentral, Kontor, til toiletkerne / tekä¸kken",
+    "_id": "d32f1ec6-699c-5445-b5be-0c76366a95f8",
     "resourceSubType": "Wood",
-    "area": "D"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træfiberisolering",
-    "_id": "f9513679-12fc-588e-8ada-f15a64a246e1",
+    "staticFullName": "Ventilationsagregat 10.000 m3/h til kontor",
+    "_id": "f581ad41-d661-5564-bd03-38c64b14431a",
     "resourceSubType": "Wood",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træfiberisolering",
-    "_id": "02690b39-9c7b-51a2-afbd-ce0c14ab058d",
+    "staticFullName": "Ventilationsagregat 120 m3/h, etageboliger, decentral (per lejlighed)",
+    "_id": "d1022bad-bb87-5906-b0af-eed44e15ada5",
     "resourceSubType": "Wood",
-    "area": "C3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Træfiberisolering",
-    "_id": "6ce06f87-db91-5e74-9a6e-5f6882bf8666",
+    "staticFullName": "Ventilationsagregat 150 m3/h, enfamiliehus",
+    "_id": "d76ae856-66df-52f1-881d-8cd21dbd40dc",
     "resourceSubType": "Wood",
-    "area": "D"
+    "area": "DK"
   },
   {
-    "staticFullName": "Tæppeflise",
-    "_id": "9953036e-0603-589e-b1bc-cdcd0a9726fc",
+    "staticFullName": "Ventilationsagregat 20.000 m3/h med Kä¸leanlæg, kontor, skoler og institutioner",
+    "_id": "dba379aa-0dee-546b-a39a-3977d68d7987",
     "resourceSubType": "Wood",
-    "area": "A1-A3"
+    "area": "DK"
   },
   {
-    "staticFullName": "Tæppeflise",
-    "_id": "054c24a5-7906-5eef-8646-a0c0fbc67962",
+    "staticFullName": "Ventilationsagregat 20.000 m3/h, kontor, skoler og institutioner og centralt anlæg for etageboliger",
+    "_id": "d0ae3e88-c0a4-588d-968e-d2cdfd36a7af",
     "resourceSubType": "Wood",
-    "area": "C4"
+    "area": "DK"
   },
   {
-    "staticFullName": "Tæppeflise",
-    "_id": "451b92dd-7c16-5791-aa9c-85fa80f18728",
+    "staticFullName": "Ventilationskanaler 800x1000 og ä500-ä125, kontor m kä¸lebafler",
+    "_id": "001e81c5-ac83-59ac-85a8-c0f7e7def8bb",
     "resourceSubType": "Wood",
-    "area": "D"
+    "area": "DK"
   },
   {
-    "staticFullName": "TæppefliseEoL",
-    "_id": "8d3fbe8b-ad43-525f-8c1d-26875629cae5",
+    "staticFullName": "Ventilationskanaler 800x1000 og ä500-ä125, kontor, skoler og institutioner",
+    "_id": "ff05130b-c26a-599b-91c5-702bd6ac3f67",
     "resourceSubType": "Wood",
-    "area": "C3"
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Ventilationskanaler ä125, enfamiliehuse og etageboliger, central",
+    "_id": "73f21c94-5ebd-5e1a-9eca-c5631220cf2d",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Ventilationskanaler ä125, enfamiliehuse og etageboliger, decentral",
+    "_id": "c1c45102-2a44-4236-8cee-38b591b1ea76",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, Bræddebeklædning",
+    "_id": "7bb53255-0209-53ea-85b4-e786eecc6498",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, brandgipsplade 2 lag, akrylmaling",
+    "_id": "d399682f-bf17-51f1-add8-59cfb409c5db",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, brandgipsplade 3 lag, akrylmaling",
+    "_id": "5cebfe28-ee51-528b-8ba6-f930a2e58a86",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, brandgipsplade, akrylmaling",
+    "_id": "2c2c4d6e-0c5e-521f-87e7-992deba622a0",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, gipskartonplade 2 lag, akrylmaling",
+    "_id": "02fb33ce-fb37-5fe1-a8c6-ec3b283c64ee",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, gipskartonplade, akrylmaling",
+    "_id": "4bba567b-efd9-57e2-98ec-a6a328146465",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, glasvæg",
+    "_id": "0ce739d8-e510-553f-898f-ac272c206dcd",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, krydsfiner / gipsplade",
+    "_id": "23cad6fb-3d15-5189-9056-05e77e876caf",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, ler-/hampplade",
+    "_id": "4dc65426-89b5-5ed9-b1ed-f79b706bd10c",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, malerbehandling, akrylmaling, fuldspartling",
+    "_id": "9f4c228c-3507-5f6e-a993-2dc84ffb5319",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, malerbehandling, alkydmaling, fuldspartling",
+    "_id": "7cee6303-7fad-5f31-8e42-dacd1f971a95",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, malerbehandling, silikatmaling, fuldspartling",
+    "_id": "0c8c64e3-aee1-5b94-b21e-d988fe6b6794",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, puds af kalk, silikatmaling",
+    "_id": "22bdcaf3-d444-5ec5-bd41-99dceff28dce",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, puds af ler",
+    "_id": "10647a4d-8165-5851-893c-f961f9f43993",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, vädrumsvæg, let væg",
+    "_id": "0d7a0095-4c8b-5e29-8d9a-f38b8900d445",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Vægside, vädrumsvæg, tung væg",
+    "_id": "d3ce2862-32f2-5ce9-8465-ab3dd16c60b3",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, Teglsten, formur",
+    "_id": "f2ce8b16-7c8e-56e0-8a85-136a20d3bb26",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, Teglsten, genbrugte",
+    "_id": "0d070ae0-ad0c-559d-9baa-384f844f73f3",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, aluminiumspaneler, underkonstruktion i aluminium",
+    "_id": "0f387ab3-833a-5234-a7d0-cf8c34f983db",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, betonelement, forplade til sandwichelement",
+    "_id": "a57dcc4b-c83e-56fe-b08b-594f083ed0c3",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, bræddebeklædning, näletræ",
+    "_id": "af9b15bb-25d0-590c-aac4-ffbfc36ba883",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, fibercementplade, underkonstruktion i træ",
+    "_id": "616a37f0-24fe-52f9-ad0d-a3da31fa3540",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, kalksandsten, formur",
+    "_id": "358a16b8-cf4e-5eaf-a124-8b4678c2adcb",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, kældervæg, fugtsikring",
+    "_id": "8a652e6e-cc4a-5191-b2e5-2b800f77324f",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, natursten, ventileret facade",
+    "_id": "679526ce-8dfd-590a-8d0b-524df2a2e823",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, plast-/trækomposit, underkonstruktion i træ",
+    "_id": "3af8883d-d368-50ef-bc89-c20e4eb5e4e5",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, puds, kalk",
+    "_id": "681810bd-87ad-5e04-812d-f5a509862f21",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, puds, kalk-/cementbaseret",
+    "_id": "1417e819-27d2-5449-9f51-8b7817b5edca",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, puds, mineralsk tyndpuds",
+    "_id": "5f03e4cf-8940-5cc8-b0bf-508dfba48149",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, skifer, underkonstruktion i aluminium",
+    "_id": "cbe061f3-4424-5036-b0d2-eff2b2cd998d",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, skifer, underkonstruktion i træ",
+    "_id": "bf574af8-fa7c-5bf6-8c60-9de9ac42758d",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, skærmtegl, underkonstruktion i aluminium",
+    "_id": "693e9548-334b-5309-9b9b-99bed2e3bfc0",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, skærmtegl, underkonstruktion i træ",
+    "_id": "b6906bf5-c3fd-51eb-a842-8ddcf6d08ffe",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, zink, stäende vinkelfals",
+    "_id": "8d0c4836-c4ff-5f5f-9a69-d04cb7d2fbc7",
+    "resourceSubType": "Wood",
+    "area": "DK"
+  },
+  {
+    "staticFullName": "Yderside, zinkplader, underkonstruktion i aluminium",
+    "_id": "32151040-6603-58e7-ba14-0865e972d564",
+    "resourceSubType": "Wood",
+    "area": "DK"
   }
 ];
-if (this.resourceList) {
-            console.log(this.areasObj)
+  console.log(this.resourceList);
+  if (this.resourceList) {
+            console.log("Running this far");
             this.resourceList?.forEach((el) => {
               if (FILTER_COUNTRIES.includes(el.area)) {
                 if (
