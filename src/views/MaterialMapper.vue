@@ -3277,7 +3277,6 @@ if (this.resourceList) {
       this.filteredList = this.resourceList?.filter((el) =>
         filterDataFromList(el, this.filterData)
       );
-      console.log(this.resourceList);
     },
 
     onMapperChange(event) {
@@ -3443,7 +3442,6 @@ if (this.resourceList) {
             });
           this.uniqueCategories.push(item)
           });
-        console.log(this.categories) 
       }
       else{
         for (let category in res.data) {
@@ -3532,47 +3530,70 @@ if (this.resourceList) {
     getConstructionsJSON(){
       var constructionsJSON = new Array();
 
-      var nodes = new Array();
-      //const nodes = [];
-      const data = this.selectedMapper.data;
-      const elementUUIDsingle = uuidv4();
-      const element_propertiessingle = {'id': elementUUIDsingle,  "name": { "Danish": "Constructions","English": "Constructions","German": "Constructions" }, "source": "User", "comment": "comment", "enabled": true, "active": true}
-      const element_setsingle = {'Element': element_propertiessingle}
-      const element_nodesingle = {'Node': element_setsingle}
-
-      
-      constructionsJSON = constructionsJSON.concat(element_nodesingle);
-
-      for (const cat in this.uniqueCategories){
+      for(const cat in this.uniqueCategories){
         let category = this.uniqueCategories[cat].category;
-        //this.uniqueCategories[cat].id
+        
+        //Create array with children in them
+
+        const elementName = category;
+
+        const data = this.selectedMapper.data;
         const elementUUID = uuidv4();
-        const element_properties = {'id': elementUUID,  "name": { "Danish": category, "English": category,"German": category}, "source": "User", "comment": "comment", "enabled": true, "active": true}
-        const element_set = {'Element': element_properties};
-        const element_node = {'Node': element_set};
+        const element_properties = {'id': elementUUID,  "name": { "Danish": elementName,"English": elementName,"German": elementName }, "source": "User", "comment": "comment", "enabled": true, "active": true}
+        const element_set = {'Element': element_properties}
+        const element_node = {'Node': element_set}
+
+        const category_edge_id = uuidv4();
+        const category_edge_details = {'id': category_edge_id, 'enabled': true}
+        const category_edge_data = [{'CategoryToElement': category_edge_details}, "069983d0-d08b-405b-b816-d28ca9648956", elementUUID]
+        const category_edge = {'Edge': category_edge_data}
+
 
         constructionsJSON = constructionsJSON.concat(element_node);
+        constructionsJSON = constructionsJSON.concat(category_edge);
 
-      }
+        var nodes = new Array();
 
-      for(const category in data){
-        const staticFullName = data[category].staticFullName;
+        for(const child in this.uniqueCategories[cat].children){
+          let type = this.uniqueCategories[cat].children[child].type;
+          let concatName = category + "#" + type;
+          let area = this.uniqueCategories[cat].children[child].area;
+          let lcabygId = this.currentCategoryMapper[concatName]._id;
+          let staticFullName = this.currentCategoryMapper[concatName].staticFullName;
+        
+          const element_edge_details = {'id': uuidv4(),'amount': area, 'enabled': true}
+          const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUID, lcabygId]
+          const element_edge = {'Edge': element_edge_data}
+
+          nodes = nodes.concat(element_edge)
+          
+          /*
+          const construction_properties = {'id': lcabygId,  'name': {'Danish': staticFullName, 'English': staticFullName},'unit': "M2", 'source': 'User',"comment": "comment",'layer': 1,'locked': true};
+        
+          const construction_set = {'Construction': construction_properties};
+
+          const construction_node = {'Node': construction_set};
+          const beton_uuid = "11c8727c-e603-52e6-882d-ce650729a8a0"
+
+          ////////CONSTRUCTION EDGES
+
+          const construction_edge_id = uuidv4();
+          const construction_edge_details = {'id': construction_edge_id,'amount': area / 100, 'unit': "M2", 'lifespan': 50,     'demolition': false,     'enabled': true,     'delayed_start': 0}
+          const construction_edge_data = [{'ConstructionToProduct': construction_edge_details}, unique_const_UUID, beton_uuid]
+          const construction_edge = {'Edge': construction_edge_data}
+          
+          nodes = nodes.concat(construction_node)
+          nodes = nodes.concat(construction_edge)
+          */
+        }
+
+        constructionsJSON = constructionsJSON.concat(nodes);
         //const isMultiPart = data[category].isMultiPart;
         //const combinedUnits = data[category].combinedUnits || [];
         
         //if(staticFullName && category.includes('#')){
-        const unique_const_UUID = uuidv4();
-
-        const element_edge_details = {'id': uuidv4(),'amount': 999, 'enabled': true};
-        const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUIDsingle, unique_const_UUID];
-        const element_edge = {'Edge': element_edge_data};
-
-
-        const construction_properties = {'id': unique_const_UUID,  'name': {'Danish': staticFullName, 'English': staticFullName},'unit': "M2", 'source': 'User',"comment": "comment",'layer': 1,'locked': true};
         
-        const construction_set = {'Construction': construction_properties};
 
-        const construction_node = {'Node': construction_set};
         //    CLASS:category,
         //    MATERIAL:staticFullName,
         //    QUANTITY: this.getMaterialQuantity(category,isMultiPart,combinedUnits),
@@ -3583,22 +3604,11 @@ if (this.resourceList) {
         //  }
         
 
-        const beton_uuid = "11c8727c-e603-52e6-882d-ce650729a8a0"
 
 
 
-        ////////CONSTRUCTION EDGES
-
-        const construction_edge_id = uuidv4();
-        const construction_edge_details = {'id': construction_edge_id,'amount': 100, 'unit': "M2", 'lifespan': 50,     'demolition': false,     'enabled': true,     'delayed_start': 0}
-        const construction_edge_data = [{'ConstructionToProduct': construction_edge_details}, unique_const_UUID, beton_uuid]
-        const construction_edge = {'Edge': construction_edge_data}
 
 
-
-        nodes = nodes.concat(element_edge)
-        nodes = nodes.concat(construction_node)
-        nodes = nodes.concat(construction_edge)
 
         //nodes.push(element_edge)
         //nodes.push(construction_node)
@@ -3608,24 +3618,11 @@ if (this.resourceList) {
 
       //CATEGORY EDGES
 
-
-
-      const category_edge_id = uuidv4();
-      const category_edge_details = {'id': category_edge_id, 'enabled': true}
-      const category_edge_data = [{'CategoryToElement': category_edge_details}, "069983d0-d08b-405b-b816-d28ca9648956", elementUUIDsingle]
-      const category_edge = {'Edge': category_edge_data}
-
-
-      
-      constructionsJSON = constructionsJSON.concat(nodes);
-      constructionsJSON = constructionsJSON.concat(category_edge);
-
       //const constructionsJSON = [];
       //constructionsJSON.push(element_node);
       //constructionsJSON.push(nodes);
       //constructionsJSON.push(category_edge);
 
-      console.log(constructionsJSON);
 
       return constructionsJSON;
     },
@@ -3738,6 +3735,8 @@ if (this.resourceList) {
     downloadJSON(){
 
       const mergedJSON = this.generateJSON()
+      
+      console.log(this.subcategories);
 
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(mergedJSON, null, 2)], {
