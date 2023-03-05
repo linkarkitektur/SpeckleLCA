@@ -1,0 +1,204 @@
+{
+  "name": "Model",
+  "children": [
+    {
+      "name": "Building envelope",
+      "children": [
+        {
+          "name": "External walls",
+          "children": [
+            {
+              "name": "A1-A3",
+              "value": 44.63691160360261
+            },
+            {
+              "name": "C3",
+              "value": 16.68466480316229
+            },
+            {
+              "name": "C4",
+              "value": 38.20199632243906
+            },
+            {
+              "name": "D",
+              "value": 29.765798292279634
+            }
+          ]
+        },
+        {
+          "name": "Windows",
+          "children": [
+            {
+              "name": "A1-A3",
+              "value": 15.685980461142032
+            },
+            {
+              "name": "C3",
+              "value": 26.84952746333317
+            },
+            {
+              "name": "C4",
+              "value": 24.11546327396036
+            },
+            {
+              "name": "D",
+              "value": 9.123275642805048
+            }
+          ]
+        },
+        {
+          "name": "Doors",
+          "children": [
+            {
+              "name": "A1-A3",
+              "value": 10.674856695677907
+            },
+            {
+              "name": "C3",
+              "value": 43.23003810968604
+            },
+            {
+              "name": "C4",
+              "value": 96.34323956386115
+            },
+            {
+              "name": "D",
+              "value": 58.84890729262966
+            }
+          ]
+        },
+        {
+          "name": "Roof",
+          "children": [
+            {
+              "name": "A1-A3",
+              "value": 35.71375272269635
+            },
+            {
+              "name": "C3",
+              "value": 74.57104092275063
+            },
+            {
+              "name": "C4",
+              "value": 8.394893706083563
+            },
+            {
+              "name": "D",
+              "value": 48.408111048763566
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Internal finishes",
+      "children": [
+        {
+          "name": "Flooring",
+          "children": [
+            {
+              "name": "A1-A3",
+              "value": 72.33228816882246
+            },
+            {
+              "name": "C3",
+              "value": 33.85225069396485
+            },
+            {
+              "name": "C4",
+              "value": 30.383243081681506
+            },
+            {
+              "name": "D",
+              "value": 65.74840096861539
+            }
+          ]
+        },
+        {
+          "name": "Wall finishes",
+          "children": [
+            {
+              "name": "A1-A3",
+              "value": 80.92642268661852
+            },
+            {
+              "name": "C3",
+              "value": 77.54552617818375
+            },
+            {
+              "name": "C4",
+              "value": 90.16669469234174
+            },
+            {
+              "name": "D",
+              "value": 27.502838209078356
+            }
+          ]
+        },
+        {
+          "name": "Lighting",
+          "modules": [
+            {
+              "name": "A1-A3",
+              "value": 27.78725999263285
+            },
+            {
+              "name": "C3",
+              "value": 38.83219010218159
+            },
+            {
+              "name": "C4",
+              "value": 46.79119063942487
+            },
+            {
+              "name": "D",
+              "value": 13.752462101126065
+            }
+          ]
+        },
+        {
+          "name": "Data and communication networks",
+          "modules": [
+            {
+              "name": "A1-A3",
+              "value": 25.84318908645187
+            },
+            {
+              "name": "C3",
+              "value": 35.87717622356954
+            },
+            {
+              "name": "C4",
+              "value": 76.5357198723695
+            },
+            {
+              "name": "D",
+              "value": 18.745244508210137
+            }
+          ]
+        },
+        {
+          "name": "Renewable energy systems",
+          "modules": [
+            {
+              "name": "A1-A3",
+              "value": 8.46334837882105
+            },
+            {
+              "name": "C3",
+              "value": 32.720102295215766
+            },
+            {
+              "name": "C4",
+              "value": 25.712503047132105
+            },
+            {
+              "name": "D",
+              "value": 7.553337997826058
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
