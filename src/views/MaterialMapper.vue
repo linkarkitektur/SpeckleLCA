@@ -489,10 +489,8 @@
       </v-col>
     </v-row>
     <div id="charts" ref="charts">
-      <div v-if="chartData.length">
-        <ChartsContainer :chart-data="chartData" :mapper-name="mapperName" :results="chartResults"/>
-        <MyChart/>
-        
+      <div v-if="results">
+        <MyChart :data="results" /> 
       </div>
     </div>
     
@@ -518,13 +516,12 @@ const fs = require('fs');
 import axios from 'axios';
 
 import db from "./../firebase/firebaseinit";
-import ChartsContainer from "../components/ChartsContainer.vue";
 
 require("@/assets/merged_rest.json")
 
 export default {
   name: "MaterialMapper",
-  components: { ChartsContainer },
+  components: { MyChart },
   props: ["info"],
   data() {
     return {
@@ -573,7 +570,8 @@ export default {
       fileToken:null,
       chartData:[],
       buttonLoader: false,
-      chartResults:null
+      results:null,
+      chartResults:[]
     };
   },
   computed: {
@@ -3171,7 +3169,7 @@ export default {
           isDefault: false,
           tooltip: "Make it as default",
         });
-      this.chartData = [];
+      this.chartData = null;
     },
 
     onSave() {
@@ -3809,6 +3807,7 @@ export default {
               this.results = JSON.parse(atob(data))
               //console.log(this.results)
               this.loading = false
+              this.buttonLoader = false
             }
             // const wb = read(response.data);
             // const wsname = wb.SheetNames[0]
