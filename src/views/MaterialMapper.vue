@@ -3398,44 +3398,54 @@ export default {
 
     getConstructionsJSON(){
       var constructionsJSON = new Array();
-      let countnumber = 0;
+
       console.log(this.uniqueCategories);
+
       for(const cat in this.uniqueCategories){
+      
         let category = this.uniqueCategories[cat].category;
+        
+        if(category == "Walls" || category == "Roofs" || category == "Floors"){
+          
+          const elementName = category;
+
+          const data = this.selectedMapper.data;
+          const elementUUID = uuidv4();
+          const element_properties = {'id': elementUUID,  "name": { "Danish": elementName,"English": elementName,"German": elementName }, "source": "User", "comment": "comment", "enabled": true, "active": true}
+          const element_set = {'Element': element_properties}
+          const element_node = {'Node': element_set}
+
+          const category_edge_id = uuidv4();
+          const category_edge_details = {'id': category_edge_id, 'enabled': true}
+          const category_edge_data = [{'CategoryToElement': category_edge_details}, "069983d0-d08b-405b-b816-d28ca9648956", elementUUID]
+          const category_edge = {'Edge': category_edge_data}
+
+          constructionsJSON = constructionsJSON.concat(element_node);
+          constructionsJSON = constructionsJSON.concat(category_edge);
+
+
+          for(const child in this.uniqueCategories[cat].children){
+            var nodes = new Array();
+            let type = this.uniqueCategories[cat].children[child].type;
+            let concatName = category + "#" + type;
+            let area = this.uniqueCategories[cat].children[child].area;
+            let lcabygId = this.currentCategoryMapper[concatName]._id;
+            let staticFullName = this.currentCategoryMapper[concatName].staticFullName;
+          
+            const element_edge_details = {'id': uuidv4(),'amount': area, 'enabled': true}
+            const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUID, lcabygId]
+            const element_edge = {'Edge': element_edge_data}
+
+            nodes = nodes.concat(element_edge)
+            constructionsJSON = constructionsJSON.concat(nodes);
+          }
+        }
+        
+        
         
         //Create array with children in them
 
-        const elementName = category;
-
-        const data = this.selectedMapper.data;
-        const elementUUID = uuidv4();
-        const element_properties = {'id': elementUUID,  "name": { "Danish": elementName,"English": elementName,"German": elementName }, "source": "User", "comment": "comment", "enabled": true, "active": true}
-        const element_set = {'Element': element_properties}
-        const element_node = {'Node': element_set}
-
-        const category_edge_id = uuidv4();
-        const category_edge_details = {'id': category_edge_id, 'enabled': true}
-        const category_edge_data = [{'CategoryToElement': category_edge_details}, "069983d0-d08b-405b-b816-d28ca9648956", elementUUID]
-        const category_edge = {'Edge': category_edge_data}
-
-
-        constructionsJSON = constructionsJSON.concat(element_node);
-        constructionsJSON = constructionsJSON.concat(category_edge);
-
-        var nodes = new Array();
-
-        for(const child in this.uniqueCategories[cat].children){
-          let type = this.uniqueCategories[cat].children[child].type;
-          let concatName = category + "#" + type;
-          let area = this.uniqueCategories[cat].children[child].area;
-          let lcabygId = this.currentCategoryMapper[concatName]._id;
-          let staticFullName = this.currentCategoryMapper[concatName].staticFullName;
         
-          const element_edge_details = {'id': uuidv4(),'amount': area, 'enabled': true}
-          const element_edge_data = [{'ElementToConstruction': element_edge_details}, elementUUID, "52abdc1a-0502-50d0-93cf-f37125f18be6"]
-          const element_edge = {'Edge': element_edge_data}
-
-          nodes = nodes.concat(element_edge)
           
           /*
           const construction_properties = {'id': lcabygId,  'name': {'Danish': staticFullName, 'English': staticFullName},'unit': "M2", 'source': 'User',"comment": "comment",'layer': 1,'locked': true};
@@ -3455,9 +3465,7 @@ export default {
           nodes = nodes.concat(construction_node)
           nodes = nodes.concat(construction_edge)
           */
-        }
 
-        constructionsJSON = constructionsJSON.concat(nodes);
         //const isMultiPart = data[category].isMultiPart;
         //const combinedUnits = data[category].combinedUnits || [];
         
