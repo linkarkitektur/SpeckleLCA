@@ -1,8 +1,5 @@
 export const FILTER_COUNTRIES = [
-  "A1-A3",
-  "C3",
-  "C4",
-  "D",
+  "DK",
 ];
 
 export const COMBINED_UNIT_LIST = ["m", "m2", "m3"];
@@ -12,5 +9,5 @@ export const HEADERS = [
   { text: "Material Type", value: "resourceSubType" },
   // { text: "Combined Units", value: "combinedUnits" },
   { text: "Is Construction", value: "isMultiPart" },
-  { text: "Phases", value: "area" },
+  { text: "Region", value: "area" },
 ];
