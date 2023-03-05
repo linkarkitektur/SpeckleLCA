@@ -156,6 +156,11 @@ export default {
 };
 </script>
 <style scoped>
+
+#chart {
+  max-width: 500px;
+}
+
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
