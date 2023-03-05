@@ -1,6 +1,6 @@
 {
     "name": "model",
-    "modelchildren": [
+    "children": [
         {
             "name": "Building envelope",
             "children": [
