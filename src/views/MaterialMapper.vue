@@ -3836,10 +3836,10 @@ if (this.resourceList) {
             console.log("RESULT HAS BEEN SENT");
             const id = response.data.id;
             console.log(id);
-            // setTimeout(()=>{
-            //   console.log('Getting results...')
-            //   this.getCalculationResults();
-            // },1000) 
+            setTimeout(()=>{
+              console.log('Getting results...')
+              this.getCalculationResults(id);
+            },1000) 
           }
         } catch (error) {
           console.log(error)
@@ -3850,40 +3850,88 @@ if (this.resourceList) {
       // }
     },
 
-    async getCalculationResults(){
-      const body = {
-        'fileToken':this.fileToken,
-        'securityToken':'Vs2cmN10eZq6iMGcXIre',
-        'bearerToken':this.accessToken
-      }
-      try {
-        const response = await axios.get('https://oneclicklcaapp.com/app/api/getCalculationResults',{
-          params:body,
-          responseType: 'arraybuffer'
-        });
-        if(response.status === 200){
-          this.loading = false
-        }
-        const wb = read(response.data);
-        const wsname = wb.SheetNames[0]
-        const ws = wb.Sheets[wsname]
-        const data = utils.sheet_to_json(ws)
-        this.formulateData(data)
+    async getCalculationResults(job_id) {
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-      } catch (error) {
-          console.log(error)
-          if(error.response.status === 500){
-            alert('Calculation response failed !');
-            this.loading = false
-            this.buttonLoader = false
-          }else{
-            setTimeout(()=>{
-              console.log('Attempting...')
-              this.getCalculationResults();
-            },5000)
-          }
-          
+     
+     console.log("Job ID" , job_id) 
+
+      const data = {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': 'Bearer ' + this.accessTokenLCAbyg,
+        }
       }
+
+      const get_status = async () => { 
+        try {
+          const response = await axios.get('https:/api1.lcabyg.dk/v2/jobs/' + job_id, data);
+          if (response.status === 200) {
+            return response.data.status
+          }
+        }
+        catch (error) { console.log(error); return "" }      
+      }
+
+      const get_job = async () => {
+        try {
+          const response = await axios.get('https:/api1.lcabyg.dk/v2/jobs/' + job_id, data);
+          if (response.status === 200) {
+            return response.data
+          }
+        }
+        catch (error) { console.log(error); return "" }
+      }
+
+      var status = await get_status()
+
+      console.log("Status", status)
+
+      while (status == "New" | status == "Started")
+      { 
+        // This is a delay timer
+        await sleep(1000)
+        status = await get_status()
+        console.log("Sleeping")
+        console.log("After wait", status)
+      }
+
+      switch (status)
+      {
+        case "Finished":
+          try {
+            const response = await axios.get('https:/api1.lcabyg.dk/v2/jobs/' + job_id + '/output', data);
+            if (response.status === 200) {
+              console.log("RESULTS DATA")
+              console.log(response)
+              this.loading = false
+            }
+            // const wb = read(response.data);
+            // const wsname = wb.SheetNames[0]
+            // const ws = wb.Sheets[wsname]
+            // const data = utils.sheet_to_json(ws)
+            // this.formulateData(data)
+
+          } catch (error) {
+            console.log(error)
+            // if (error.response.status === 500) {
+            //   alert('Calculation response failed !');
+            //   this.loading = false
+            //   this.buttonLoader = false
+            // } else {
+            //   setTimeout(() => {
+            //     console.log('Attempting...')
+            //     this.getCalculationResults();
+            //   }, 5000)
+            // }
+          }
+          break;
+        case "Failed":
+          this.loading = false
+          console.log("REQUEST failed", await get_job() )
+          break;
+      }
+
     },
 
     async getAccessTokenLCAbyg() {
