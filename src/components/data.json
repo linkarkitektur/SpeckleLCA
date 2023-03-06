@@ -1,0 +1,565 @@
+{
+    "name": "model",
+    "children": [
+        {
+            "name": "Building envelope",
+            "children": [
+                {
+                    "name": "External walls",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 13.69880184058827
+                        },
+                        {
+                            "name": "C3",
+                            "value": 3.072286141671034
+                        },
+                        {
+                            "name": "C4",
+                            "value": 5.344479870412305
+                        },
+                        {
+                            "name": "D",
+                            "value": 1.9767814937813064
+                        }
+                    ]
+                },
+                {
+                    "name": "Windows",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 36.26939870586156
+                        },
+                        {
+                            "name": "C3",
+                            "value": 9.521036763937751
+                        },
+                        {
+                            "name": "C4",
+                            "value": 10.39190541041201
+                        },
+                        {
+                            "name": "D",
+                            "value": 2.5690560472242403
+                        }
+                    ]
+                },
+                {
+                    "name": "Doors",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 32.441658859218464
+                        },
+                        {
+                            "name": "C3",
+                            "value": 4.319396012972161
+                        },
+                        {
+                            "name": "C4",
+                            "value": 12.743076469789282
+                        },
+                        {
+                            "name": "D",
+                            "value": 3.671789931547932
+                        }
+                    ]
+                },
+                {
+                    "name": "Roof",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 48.504675129928046
+                        },
+                        {
+                            "name": "C3",
+                            "value": 15.86007095939659
+                        },
+                        {
+                            "name": "C4",
+                            "value": 8.328710659688246
+                        },
+                        {
+                            "name": "D",
+                            "value": 7.122398713898473
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Internal finishes",
+            "children": [
+                {
+                    "name": "Flooring",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 13.059285993353445
+                        },
+                        {
+                            "name": "C3",
+                            "value": 1.991221469816621
+                        },
+                        {
+                            "name": "C4",
+                            "value": 4.461653325334035
+                        },
+                        {
+                            "name": "D",
+                            "value": 1.7650472237685157
+                        }
+                    ]
+                },
+                {
+                    "name": "Wall finishes",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 37.6658361188174
+                        },
+                        {
+                            "name": "C3",
+                            "value": 4.117913203155334
+                        },
+                        {
+                            "name": "C4",
+                            "value": 10.671829415453038
+                        },
+                        {
+                            "name": "D",
+                            "value": 3.758108777131465
+                        }
+                    ]
+                },
+                {
+                    "name": "Ceilings",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 47.272438774299346
+                        },
+                        {
+                            "name": "C3",
+                            "value": 14.869047290307325
+                        },
+                        {
+                            "name": "C4",
+                            "value": 7.629156112538816
+                        },
+                        {
+                            "name": "D",
+                            "value": 5.202319921003237
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Building services",
+            "children": [
+                {
+                    "name": "Heating",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 14.037679745324212
+                        },
+                        {
+                            "name": "C3",
+                            "value": 1.6194597729123852
+                        },
+                        {
+                            "name": "C4",
+                            "value": 1.9129648758392745
+                        },
+                        {
+                            "name": "D",
+                            "value": 1.5154916335881201
+                        }
+                    ]
+                },
+                {
+                    "name": "Ventilation",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 28.95605870176678
+                        },
+                        {
+                            "name": "C3",
+                            "value": 9.70097132910449
+                        },
+                        {
+                            "name": "C4",
+                            "value": 8.740400092373996
+                        },
+                        {
+                            "name": "D",
+                            "value": 3.935562127390498
+                        }
+                    ]
+                },
+                {
+                    "name": "Air conditioning",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 53.19199738978299
+                        },
+                        {
+                            "name": "C3",
+                            "value": 4.193353613725147
+                        },
+                        {
+                            "name": "C4",
+                            "value": 7.212594988675409
+                        },
+                        {
+                            "name": "D",
+                            "value": 4.819231122938942
+                        }
+                    ]
+                },
+                {
+                    "name": "Lighting",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 68.75137962083959
+                        },
+                        {
+                            "name": "C3",
+                            "value": 11.968102574591516
+                        },
+                        {
+                            "name": "C4",
+                            "value": 11.305321034546013
+                        },
+                        {
+                            "name": "D",
+                            "value": 5.115670511983035
+                        }
+                    ]
+                },
+                {
+                    "name": "Electrical systems",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 54.98233079265296
+                        },
+                        {
+                            "name": "C3",
+                            "value": 23.052456738884576
+                        },
+                        {
+                            "name": "C4",
+                            "value": 28.66605784851857
+                        },
+                        {
+                            "name": "D",
+                            "value": 5.346366862382382
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Substructure",
+            "children": [
+                {
+                    "name": "Foundations",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 10.608703219493758
+                        },
+                        {
+                            "name": "C3",
+                            "value": 2.8345818360179544
+                        },
+                        {
+                            "name": "C4",
+                            "value": 5.57993929685243
+                        },
+                        {
+                            "name": "D",
+                            "value": 1.159617389484389
+                        }
+                    ]
+                },
+                {
+                    "name": "Basements",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 29.9428068787825
+                        },
+                        {
+                            "name": "C3",
+                            "value": 3.19376848603548
+                        },
+                        {
+                            "name": "C4",
+                            "value": 9.125900773843966
+                        },
+                        {
+                            "name": "D",
+                            "value": 2.73775707820618
+                        }
+                    ]
+                },
+                {
+                    "name": "Retaining walls",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 53.488415451090994
+                        },
+                        {
+                            "name": "C3",
+                            "value": 10.023646234052286
+                        },
+                        {
+                            "name": "C4",
+                            "value": 15.487689894026829
+                        },
+                        {
+                            "name": "D",
+                            "value": 4.345795488765674
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Superstructure",
+            "children": [
+                {
+                    "name": "Columns",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 14.150582156014178
+                        },
+                        {
+                            "name": "C3",
+                            "value": 1.272925887334512
+                        },
+                        {
+                            "name": "C4",
+                            "value": 5.65576334176528
+                        },
+                        {
+                            "name": "D",
+                            "value": 1.8863525258443714
+                        }
+                    ]
+                },
+                {
+                    "name": "Beams",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 32.91397346415342
+                        },
+                        {
+                            "name": "C3",
+                            "value": 6.117798821417252
+                        },
+                        {
+                            "name": "C4",
+                            "value": 4.17531919503127
+                        },
+                        {
+                            "name": "D",
+                            "value": 2.918839086997348
+                        }
+                    ]
+                },
+                {
+                    "name": "Floor slabs",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 38.07498467551104
+                        },
+                        {
+                            "name": "C3",
+                            "value": 11.327547583490473
+                        },
+                        {
+                            "name": "C4",
+                            "value": 11.696081949888146
+                        },
+                        {
+                            "name": "D",
+                            "value": 4.526897053406076
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "External works",
+            "children": [
+                {
+                    "name": "Paving",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 11.880240295319217
+                        },
+                        {
+                            "name": "C3",
+                            "value": 2.0377089865107383
+                        },
+                        {
+                            "name": "C4",
+                            "value": 2.411804903044722
+                        },
+                        {
+                            "name": "D",
+                            "value": 1.76942373885714
+                        }
+                    ]
+                },
+                {
+                    "name": "Landscaping",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 34.63496107350302
+                        },
+                        {
+                            "name": "C3",
+                            "value": 6.287017966941451
+                        },
+                        {
+                            "name": "C4",
+                            "value": 3.2534487533433625
+                        },
+                        {
+                            "name": "D",
+                            "value": 2.4648896309871917
+                        }
+                    ]
+                },
+                {
+                    "name": "Boundary walls",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 50.532824523411264
+                        },
+                        {
+                            "name": "C3",
+                            "value": 3.476529426042829
+                        },
+                        {
+                            "name": "C4",
+                            "value": 7.886455336977986
+                        },
+                        {
+                            "name": "D",
+                            "value": 4.152516600121658
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Furniture, fittings and equipment (FF&E)",
+            "children": [
+                {
+                    "name": "Loose furniture",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 10.41302708063887
+                        },
+                        {
+                            "name": "C3",
+                            "value": 3.322180457387535
+                        },
+                        {
+                            "name": "C4",
+                            "value": 5.781161075880187
+                        },
+                        {
+                            "name": "D",
+                            "value": 1.1600613137015126
+                        }
+                    ]
+                },
+                {
+                    "name": "Fixed furniture",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 31.94034221737614
+                        },
+                        {
+                            "name": "C3",
+                            "value": 7.592712654838707
+                        },
+                        {
+                            "name": "C4",
+                            "value": 2.540150561366526
+                        },
+                        {
+                            "name": "D",
+                            "value": 2.3195476463833566
+                        }
+                    ]
+                },
+                {
+                    "name": "Kitchen equipment",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 32.99527026865246
+                        },
+                        {
+                            "name": "C3",
+                            "value": 8.033306382205755
+                        },
+                        {
+                            "name": "C4",
+                            "value": 14.90886182273589
+                        },
+                        {
+                            "name": "D",
+                            "value": 5.81893946202371
+                        }
+                    ]
+                },
+                {
+                    "name": "Audio-visual equipment",
+                    "children": [
+                        {
+                            "name": "A1-A3",
+                            "value": 73.30164546655163
+                        },
+                        {
+                            "name": "C3",
+                            "value": 12.147475234559375
+                        },
+                        {
+                            "name": "C4",
+                            "value": 8.950826015538723
+                        },
+                        {
+                            "name": "D",
+                            "value": 5.683924084782364
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
