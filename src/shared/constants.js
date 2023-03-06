@@ -1,11 +1,5 @@
 export const FILTER_COUNTRIES = [
-  "sweden",
-  "denmark",
-  "norway",
-  "finland",
-  "germany",
-  "netherlands",
-  "europe",
+  "DK",
 ];
 
 export const COMBINED_UNIT_LIST = ["m", "m2", "m3"];

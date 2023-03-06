@@ -12,24 +12,12 @@ export function filterDataFromList(el, filterData) {
       el?._id?.toLowerCase()?.includes(keyword)
     : true;
 
-  const multipart =
-    filterData?.multipart === "True"
-      ? true
-      : filterData?.multipart === "False"
-      ? false
-      : "Both";
-  const multiPartFilter =
-    (multipart === "Both" &&
-      (el.isMultiPart === true || el.isMultiPart === false)) ||
-    (multipart !== "Both" && el.isMultiPart === multipart);
-
-  filter = resourceFilter && areaFilter && searchFilter && multiPartFilter;
+  filter = resourceFilter && areaFilter && searchFilter;
   if (
     filterData?.subType === "" &&
     filterData?.keyword === "" &&
     filterData?.subType === "" &&
-    filterData?.area === "" &&
-    filterData?.multipart === ""
+    filterData?.area === ""
   ) {
     return true;
   } else {
