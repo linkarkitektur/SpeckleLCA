@@ -3,7 +3,7 @@
     fill-height
     class="home flex-column justify-center align-center primary--text"
   >
-    <h1>Welcome to Link LCA</h1>
+    <h1>Welcome to SpeckLCA</h1>
   </v-container>
 </template>
 <script>
