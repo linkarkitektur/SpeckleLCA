@@ -1,8 +1,0 @@
-query {
-    user {
-        avatar
-        id
-        name
-        email
-    }
-}
