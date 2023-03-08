@@ -158,7 +158,10 @@ export default {
 <style scoped>
 
 #chart {
-  max-width: 500px;
+  max-width: 800px;
+  margin: auto;
+  width: 50%;
+
 }
 
 h1 {
