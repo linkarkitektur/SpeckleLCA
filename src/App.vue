@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app color="primary" dark dense>
       <v-btn text @click="navigateStream" small>
-        <h3 class="text--white">Link LCA</h3>
+        <h3 class="text--white">SpeckLCA</h3>
       </v-btn>
 
       <v-spacer></v-spacer>
