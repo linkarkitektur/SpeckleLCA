@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: '/SpeckleLCA/',
   transpileDependencies: [
     "vuetify",
     "vuex-persist",
