@@ -33,3 +33,11 @@ Login to speckle and add app under your account a new application you will get a
 Run web app locally through `npm run serve`
 
 Should be able to login now at localhost:8080
+
+## Troubleshooting
+
+If the build or run fails with `ERR_OSSL_EVP_UNSUPPORTED`\
+The enviroment variable NODE_OPTIONS needs to be set to `--openssl-legacy-provider` like so:
+```
+export  NODE_OPTIONS=--openssl-legacy-provider 
+```
