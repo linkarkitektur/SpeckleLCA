@@ -1328,10 +1328,6 @@ export default {
     },
 
     async startCalculation() {
-      const params = {
-        username: "pub_test",
-        password: process.env.VUE_APP_LCABYG_PASSWORD,
-      };
 
       const data = {
         priority: 10,
@@ -1345,10 +1341,11 @@ export default {
       //console.log(btoa(JSON.stringify(this.generateJSON())))
 
       // this.chartData = [];
-      // if(this.accessToken){
-      try {
-        const response = await axios.post(
-          "https://api1.lcabyg.dk/v2/jobs",
+      if(this.accessTokenLCAbyg){
+        try {
+        
+          const response = await axios.post(
+          "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/jobs",
           data,
           {
             headers: {
@@ -1369,10 +1366,10 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      // }else{
-      //   alert('Error in access token')
-      //   this.buttonLoader = false
-      // }
+      }else{
+        alert('Error No access token for LCAbyg')
+        this.buttonLoader = false
+      }
     },
 
     async getCalculationResults(job_id) {
@@ -1390,7 +1387,7 @@ export default {
       const get_status = async () => {
         try {
           const response = await axios.get(
-            "https:/api1.lcabyg.dk/v2/jobs/" + job_id,
+            "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/jobs/" + job_id,
             data
           );
           if (response.status === 200) {
@@ -1405,7 +1402,7 @@ export default {
       const get_job = async () => {
         try {
           const response = await axios.get(
-            "https:/api1.lcabyg.dk/v2/jobs/" + job_id,
+            "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/jobs/" + job_id,
             data
           );
           if (response.status === 200) {
@@ -1433,7 +1430,7 @@ export default {
         case "Ready":
           try {
             const response = await axios.get(
-              "https:/api1.lcabyg.dk/v2/jobs/" + job_id + "/output",
+              "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/jobs/" + job_id + "/output",
               data
             );
             if (response.status === 200) {
@@ -1478,7 +1475,7 @@ export default {
       };
       try {
         const response = await axios.post(
-          "https://api1.lcabyg.dk/v2/login",
+          "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/login",
           params
         );
         if (response.status === 200) {
