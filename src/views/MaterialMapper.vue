@@ -1470,8 +1470,8 @@ export default {
 
     async getAccessTokenLCAbyg() {
       const params = {
-        username: "pub_test",
-        password: "b2251884-a806-455c-bd31-f3cbee726686",
+        username: process.env.VUE_APP_LCABYG_USER,
+        password: process.env.VUE_APP_LCABYG_PASSWORD,
       };
       try {
         const response = await axios.post(
