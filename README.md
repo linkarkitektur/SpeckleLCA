@@ -17,6 +17,8 @@ VUE_APP_SPECKLE_ID=CHANGE
 VUE_APP_SPECKLE_SECRET=CHANGE
 VUE_APP_SERVER_URL=https://speckle.xyz
 VUE_APP_SPECKLE_NAME="Speckle LCA"
+VUE_APP_LCABYG_USER=CHANGE
+VUE_APP_LCABYG_PASSWORD=CHANGE
 ```
 
 - Then run `npm ci` in VSCode or a different terminal\
@@ -24,6 +26,8 @@ VUE_APP_SPECKLE_NAME="Speckle LCA"
 - `npm run serve` Finally launches the app.
 
 The `VUE_APP_SPECKLE_ID` & `VUE_APP_SPECKLE_SECRET` values can be genereated by to Prifile -> Developer Settings -> Aæælications on Speckle and creating a new entry.
+
+`VUE_APP_LCABYG_USER` & `VUE_APP_LCABYG_PASSWORD` are the credentials to the LCAbyg API.
 
 ## Usage
 

@@ -1470,7 +1470,7 @@ export default {
 
     async getAccessTokenLCAbyg() {
       const params = {
-        username: "pub_test",
+        username: process.env.VUE_APP_LCABYG_USER,
         password: process.env.VUE_APP_LCABYG_PASSWORD,
       };
       try {
