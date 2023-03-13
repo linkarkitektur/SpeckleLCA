@@ -5,7 +5,8 @@ export const FILTER_COUNTRIES = [
 export const COMBINED_UNIT_LIST = ["m", "m2", "m3"];
 export const MULTIPART = ["True", "False", "Both"];
 export const HEADERS = [
-  { text: "Name", value: "staticFullName" },
+  { text: "English Name", value: "staticFullName" },
+  { text: "Original Name", value: "staticFullName_DK" },
   { text: "Material Type", value: "resourceSubType" },
   // { text: "Combined Units", value: "combinedUnits" },
   { text: "Is Construction", value: "isMultiPart" },
