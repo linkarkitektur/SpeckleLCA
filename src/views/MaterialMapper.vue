@@ -1485,6 +1485,9 @@ export default {
         }
       } catch (error) {
         console.log(error);
+        alert()
+        if (window.prompt('The was an error obtaining the LCAbyg auth toke\nThis most likely has to do with missing access to the development proxy.\nTry requesting demo access on the follownig website.', 'https://cors-anywhere.herokuapp.com/corsdemo'))
+          location.href = 'https://cors-anywhere.herokuapp.com/corsdemo';
       }
     },
 
