@@ -945,7 +945,6 @@ export default {
                     }
                   });
                 });
-
                 if (subCategory.length) {
                   this.categories.push({
                     id: i,
@@ -971,15 +970,32 @@ export default {
             id: e1.id,
             category: e1.category,
             children: [],
+            area: 0,
           };
           e1.children.forEach((e2) => {
             if (!type.includes(e2.type)) {
+              e2.area = 0;
               type.push(e2.type);
               item.children.push(e2);
             }
+            if (e2.parameter?.HOST_AREA_COMPUTED) {
+              item.area += e2.parameter?.HOST_AREA_COMPUTED;
+            }
           });
+
+          item.children.forEach((t) => {
+            let sum = 0;
+            e1.children.forEach((e2) => {
+              if (t.type === e2.type && e2.parameter?.HOST_AREA_COMPUTED) {
+                sum += e2.parameter.HOST_AREA_COMPUTED;
+              }
+            });
+            t.area = sum;
+          });
+
           this.uniqueCategories.push(item);
         });
+        this.loading = false;
       } else {
         for (let category in res.data) {
           if (category?.includes("@")) {
