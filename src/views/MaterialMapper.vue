@@ -486,6 +486,22 @@
                             }}</span>
                           </v-tooltip>
                         </td>
+                        <td>
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <div
+                                style="max-width: 200px"
+                                v-bind="attrs"
+                                v-on="item.staticFullName ? on : null"
+                              >
+                                {{ item.staticFullName_DK }}
+                              </div>
+                            </template>
+                            <span class="tooltip">{{
+                              item.staticFullName
+                            }}</span>
+                          </v-tooltip>
+                        </td>
                         <td>{{ item.resourceSubType }}</td>
                         <td>True</td>
                         <td>{{ item.area }}</td>
@@ -549,6 +565,7 @@ const fs = require("fs");
 import axios from "axios";
 
 import db from "./../firebase/firebaseinit";
+
 
 export default {
   name: "MaterialMapper",
@@ -691,6 +708,7 @@ export default {
       this.resourceList = require("@/assets/LCA_byg/LCAbyg_constructions.json");
       if (this.resourceList) {
         console.log("resourceList loaded correctly");
+        console.log(this.resourceList);
         this.resourceList?.forEach((el) => {
           if (FILTER_COUNTRIES.includes(el.area)) {
             if (
@@ -1490,17 +1508,22 @@ export default {
         password: process.env.VUE_APP_LCABYG_PASSWORD,
       };
       try {
+        console.log(params);
         const response = await axios.post(
           "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/login",
           params
         );
         if (response.status === 200) {
           this.accessTokenLCAbyg = response.data;
+          console.log(response);
         } else {
           throw Error("Unable to login to LCA byg");
         }
       } catch (error) {
         console.log(error);
+        alert()
+        if (window.prompt('The was an error obtaining the LCAbyg auth toke\nThis most likely has to do with missing access to the development proxy.\nTry requesting demo access on the follownig website.', 'https://cors-anywhere.herokuapp.com/corsdemo'))
+          location.href = 'https://cors-anywhere.herokuapp.com/corsdemo';
       }
     },
 
