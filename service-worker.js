@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/SpeckleLCA/precache-manifest.287b5d8f2a3861a156d9d24c32eca5eb.js"
+  "/SpeckleLCA/precache-manifest.53ce76806166b95c5e0c7fd6758d193b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "link-lca-app"});
