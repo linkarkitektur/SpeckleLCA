@@ -48,6 +48,7 @@ export default {
     };
   },
   async mounted() {
+    this.$store.dispatch('startLoading');
     this.streams = await getStreams();
     localStorage.setItem("branch", "");
     localStorage.setItem("commit", "");

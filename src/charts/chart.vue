@@ -1,14 +1,27 @@
 <template>
-  <div id="chart"></div>
+  <div>
+    <div id="chart"></div>
+    <v-btn
+      class="ma-2"
+      color="primary"
+      @click="createData"
+      >
+      loadData
+    </v-btn>
+  </div>
+
 </template>
 <script>
 import * as d3 from "d3";
+import Vue from 'vue';
+
+//const testData = this.createData();
 import newData from './data.json';
 const data = newData;
-console.log(data)
+
 export default {
   name: "App",
-  mounted: () =>{
+  mounted: () => {
     const partition = data => {
       const root = d3
         .hierarchy(data)
@@ -96,7 +109,6 @@ export default {
 
     function clicked(event, p) {
       parent.datum(p.parent || root);
-
       root.each(
         d =>
           (d.target = {
@@ -150,8 +162,80 @@ export default {
       const y = ((d.y0 + d.y1) / 2) * radius;
       return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
     }
+    //var testData = this.createData();
+    console.log("testData")
 
     document.getElementById('chart').appendChild(svg.node())
+  },
+  methods: {
+    createData () {
+      var ref = this
+      var resourceEmissions = ref.$store.getters.getResourceEmissions;
+      var currentMapper = ref.$store.getters.getCurrentMapper;
+      
+      var catResult = Object.keys(currentMapper).filter((item) => !item.includes("#"));
+      var catArray = [];
+      for(let resIndex in catResult){
+
+        var resName = catResult[resIndex];
+        var subArray = [];
+        var typeResult = Object.keys(currentMapper).filter(item => item.includes("#") && item.includes(resName));
+        for(let typeIndex in typeResult){
+
+          var typeName = typeResult[typeIndex];
+          var childArray = [];
+          if(currentMapper[typeName].id != ""){
+            var childResult = Object.keys(resourceEmissions).filter(item => item.includes(currentMapper[typeName].id));
+
+            for(let resourceIndex in childResult){
+              
+              var resourceId = childResult[resourceIndex];
+              for(let childIndex in resourceEmissions[resourceId].children){
+
+                var gwpArray = [];
+                for(let gwp in resourceEmissions[resourceId].children[childIndex].GWP){
+                  
+                  var gwpObject = {
+                    "name": gwp,
+                    "values": resourceEmissions[resourceId].children[childIndex].GWP[gwp] * currentMapper[typeName].area,
+                  }
+                  gwpArray.push(gwpObject);
+
+                }
+
+                var childObject = {
+                  "name": resourceEmissions[resourceId].children[childIndex].childName,
+                  "children": gwpArray,
+                }
+                childArray.push(childObject);
+              }
+            }
+          }
+          
+          var typeObject = {
+            "name": typeName,
+            "children": childArray
+          }
+          if(childArray.length > 0)
+            subArray.push(typeObject);
+        }
+
+        var catObject = {
+          "name": resName,
+          "children": subArray
+        }
+        if(subArray.length > 0)
+          catArray.push(catObject);
+      }
+
+      var modelObject = {
+        "name": "model",
+        "children": catArray
+      }
+
+      console.log(modelObject);
+      return modelObject;
+    }
   }
 };
 </script>

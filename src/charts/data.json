@@ -1,0 +1,3618 @@
+{
+    "name": "model",
+    "children":
+    [
+        {
+            "name": "Mass",
+            "children":
+            [
+                {
+                    "name": "Mass#water",
+                    "children":
+                    [
+                        {
+                            "name": "Gypsum plaster board (impregnated, moisture resistant) (thickness 0.0125 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 78.47179566710729
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 7.255895749294618
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -1290.616326797463
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1381.7186557478722
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Zink, patinated",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 843.6459809017692
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.27532326037974625
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Site",
+            "children":
+            [
+                {
+                    "name": "Site#9 Meters High",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 549.6858406868973
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.03511512797202511
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Gypsum plaster board (impregnated, moisture resistant) (thickness 0.0125 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 11.529684448083227
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1.0660924433595194
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Roof slate (thickness 0.011 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 154.8469698183755
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2.0775931594784685
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Doors",
+            "children":
+            [
+                {
+                    "name": "Doors#Entrance door",
+                    "children":
+                    [
+                        {
+                            "name": "Damp insulation PA",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2.7097705152
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.8423968895999999
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -122.41958399999999
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 131.06096639999996
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Spruce plywood, uncoated (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -27.532915199999994
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 34.1518464
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mineral wool (partition walls insulation)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 60.210613007999996
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1.0774137628800002
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.5969134866240001
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Roofs",
+            "children":
+            [
+                {
+                    "name": "Roofs#SG Metal Panels roof",
+                    "children":
+                    [
+                        {
+                            "name": "Clay plaster",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 80.63888180003985
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2.4295367923464544
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Adobe",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1751.0148781112925
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 75.80148559009987
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Roofs#Warm Roof - Timber",
+                    "children":
+                    [
+                        {
+                            "name": "Clay plaster",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 32.96869693800072
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.9933007554000217
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Adobe",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 715.8913611120157
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 30.990958084800678
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Walls",
+            "children":
+            [
+                {
+                    "name": "Walls#SIP 202mm Wall - conc clad",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 7952.968155208425
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.5185085588023944
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1216.7645315067452
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1188.5434263478937
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1187.8533106025643
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 234.20516196468694
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.3838882832558958
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Walls#Wall - Timber Clad",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 11289.128110293548
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.7360157154370629
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1727.1803945606232
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1687.12092678271
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1686.1413170435646
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 332.4509825655287
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.5449240994229645
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Walls#SH_Curtain wall",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 11047.444781002885
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.720258721028001
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1690.2040484721813
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1651.0021939171484
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1650.043556155719
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 325.333704817646
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.5332580903855461
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Walls#Interior - 165 Partition (1-hr)",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1195.730399592813
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.07795786857301108
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 182.94079783484221
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 178.6977488636924
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 178.5939898192924
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 35.2127943224985
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.05771768242727755
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Walls#Interior - Partition",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 12926.836747936431
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.8427891777306749
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1977.7416622957471
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1931.8707858990012
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1930.7490646242577
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 380.67949414065976
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.6239759886181125
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Walls#CL_W1",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 15835.591794109407
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1.0324308759578464
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2422.76670224975
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2366.5741094274667
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 2365.1999820550886
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 466.33876416532246
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.7643810498852042
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Walls#Foundation - 300mm Concrete",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2141.4728470628743
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.13961730739709366
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 327.6346836349915
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 320.0356678672485
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 319.8498423866088
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 63.06374993603828
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.10336849322849298
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Walls#Retaining - 300mm Concrete",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 13567.704650861273
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.8845717532726944
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2075.791260689948
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2027.646264728228
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 2026.4689323883008
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 399.55226818844517
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.6549105622573271
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Walls#Cavity wall_sliders",
+                    "children":
+                    [
+                        {
+                            "name": "Aluminium sheet",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 649.2349907049555
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.04232808340041571
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPDM sealing for aluminium section",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 99.32972116649933
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 97.02591099299934
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 96.96957387699933
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Structural Steel: Sections and Plates",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 19.11917452499987
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.031338451399199795
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Floors",
+            "children":
+            [
+                {
+                    "name": "Floors#Generic 150mm",
+                    "children":
+                    [
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -1771.5269730000596
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1896.5759358000635
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -834.1553880000281
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 893.03694480003
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Floors#Generic 300",
+                    "children":
+                    [
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -1565.4220163586083
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1675.9223939839214
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -737.1071563353257
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 789.1382497237015
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Floors#Concrete-Domestic 425mm",
+                    "children":
+                    [
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -549.862619999998
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 588.6764519999978
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -258.91271999999907
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 277.18891199999894
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Floors#Timber Suspended Floor",
+                    "children":
+                    [
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -1061.1315321810237
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1136.0349344526253
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -499.65289743601124
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 534.9225137256119
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Floors#Insitu Concrete 225mm",
+                    "children":
+                    [
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -1376.0659067288257
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1473.1999707332131
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -647.9454210042985
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 693.6827448398959
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Stairs",
+            "children":
+            [
+                {
+                    "name": "Stairs#Precast Stair",
+                    "children":
+                    [
+                        {
+                            "name": "Cement screed",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPS insulation for ceilings / floors as edge insulation B / P-040",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Rubber floor covering profiled EN 12199 (thickness 0.00355 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Stairs#190mm max riser 250mm going",
+                    "children":
+                    [
+                        {
+                            "name": "Cement screed",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPS insulation for ceilings / floors as edge insulation B / P-040",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Rubber floor covering profiled EN 12199 (thickness 0.00355 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ceilings",
+            "children":
+            [
+                {
+                    "name": "Ceilings#3000 x 3000mm Grid",
+                    "children":
+                    [
+                        {
+                            "name": "Damp insulation PE (thickness 0.0002 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 61.62781353376301
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 85.78292796744418
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -2549.6439465601243
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2729.6188133761334
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Spruce plywood, uncoated (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -1109.1043747200542
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1375.7338070400672
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mineral wool (partition walls insulation)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2425.4552707789185
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 43.40130019337013
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 24.045378214947583
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mineral wool (blowable)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 444.54417016286175
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 8.655110772948422
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 4.795135922981034
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Bitumen sheets G 200 S4 (thickness 0.004 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 381.87568405601866
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 61.20102128272299
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Furniture",
+            "children":
+            [
+                {
+                    "name": "Furniture#Seating - Artemis - Lounge chair",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 50.16200936529666
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 63.39803536588755
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 130.84275384023599
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1.0791154955895754
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.8025921498447467
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 4.681095108318019
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.2208099616019084
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#Model with Island",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 251.39035574314784
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 317.72360927537346
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 655.727448930026
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 5.408061434474442
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 4.022245691890366
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 23.45962969660668
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1.1066042907989533
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#W600XD600",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 66.87919115672346
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 84.52630546194294
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 174.4479070172014
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1.4387456248841355
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1.0700670585075758
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 6.24113464618489
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.2943979281958229
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#W600XD600 2",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 26.75167646268939
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 33.81052218477718
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 69.77916280688056
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.5754982499536543
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.42802682340303033
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2.496453858473956
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.11775917127832916
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#W1500XD400XH530",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 66.32097930138258
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 83.8208007304869
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 172.99186533738785
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1.4267370337104155
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1.0611356688221214
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 6.18904257853241
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.29194071525911736
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#0810mm",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 19.705701730685213
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 24.905357481471057
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 51.40041863197218
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.4239209784080181
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.31529122769096346
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1.8389268122361415
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.08674324050307167
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#Side Table 2 (2)",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 20.08475910109986
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 25.384435031978313
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 52.389153151104175
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.4320754899060139
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.32135614561759784
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1.8743002676632974
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.08841182683893094
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#Bar Chair",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 19.428138132463953
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 24.55455441279478
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 50.676420809384965
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.4179498623454431
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.31085021011942326
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1.8130247078682973
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.08552142327045249
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#1800 x 900 mm",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 101.08745079048789
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 127.76094620915445
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 263.6768464316592
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2.1746544035600763
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1.6173992126478067
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 9.433433337203253
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.44498050237446723
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture#Dining Chair (3)",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 38.02567902809933
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 48.05934559517765
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 99.1863089943028
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.8180314143860028
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.6084108644495895
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 3.5485384724650406
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.16738661055093185
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture Systems#wardrobe",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 25.704
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 32.4864
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 67.0464
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.5529600000000001
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.4112640000000001
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2.398685184
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.11314736640000002
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture Systems#hood enclosure",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1.045295999999989
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1.3211135999999861
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2.726553599999971
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.022487039999999767
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.016724735999999824
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 0.09754653081599897
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.004601326233599951
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Furniture Systems",
+            "children":
+            [
+                {
+                    "name": "Furniture Systems#wardrobe",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 25.704
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 32.4864
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 67.0464
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.5529600000000001
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.4112640000000001
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2.398685184
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.11314736640000002
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Furniture Systems#hood enclosure",
+                    "children":
+                    [
+                        {
+                            "name": "EPS insulation for walls and roofs W / D 035",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1.045295999999989
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 1.3211135999999861
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lightweight concrete block",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 2.726553599999971
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.022487039999999767
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.016724735999999824
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Tile adhesive",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 0.09754653081599897
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.004601326233599951
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Plumbing Fixtures",
+            "children":
+            [
+                {
+                    "name": "Plumbing Fixtures#01 Cotton",
+                    "children":
+                    [
+                        {
+                            "name": "Reinforcement steel wire",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 16.61096142116943
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.016579725701190498
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Ready mixed concrete C30/37",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 114.2473804676871
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2.7224907685916926
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 2.0135087976042727
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mineral wool (blowable)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 51.87584619785016
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1.0100035618920329
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.5595658436983181
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Plumbing Fixtures#Standard",
+                    "children":
+                    [
+                        {
+                            "name": "Reinforcement steel wire",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 8.234119113630662
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.008218635443999188
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Ready mixed concrete C30/37",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 56.63287725130293
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1.3495494153501975
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.9981042551027501
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mineral wool (blowable)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 25.71506163208045
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0.5006627505143376
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.2773789964414241
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Plumbing Fixtures#5000L 3500x900x1860",
+                    "children":
+                    [
+                        {
+                            "name": "Reinforcement steel wire",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 146.25348853173892
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.14597846935025452
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Ready mixed concrete C30/37",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 1005.9067338340583
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 23.970543444556284
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 17.728214422536418
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mineral wool (blowable)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 456.74800420055374
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 8.892714913414837
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 4.926774232332378
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Electrical Equipment",
+            "children":
+            [
+                {
+                    "name": "Electrical Equipment#SunModule SW 245 Silver Mono - 10 Deg. Angle",
+                    "children":
+                    [
+                        {
+                            "name": "Damp insulation PE (thickness 0.0002 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 9.964994240890881
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 13.870788758293672
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -412.2681916968305
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 441.36947581660684
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Spruce plywood, uncoated (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -179.33816036775707
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 222.45117387853676
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mineral wool (partition walls insulation)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 392.1873326174217
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 7.017833047689846
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 3.888050568283157
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mineral wool (blowable)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 71.88118223710157
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 1.3995000643573428
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0.7753561114190206
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Bitumen sheets G 200 S4 (thickness 0.004 m)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": 61.74791501031747
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 9.895983479680918
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Structural Foundations",
+            "children":
+            [
+                {
+                    "name": "Structural Foundations#600 x 600 x 900mm",
+                    "children":
+                    [
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -11.896790399999999
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 12.736563839999997
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Oriented Strand Board, OSB",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -8.005742632799999
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 15.112452722399995
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Structural Foundations#600mm Diameter",
+                    "children":
+                    [
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -2.3355082590160707
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2.500367665534852
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Oriented Strand Board, OSB",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -1.5716405357920287
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 2.9667882647705635
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Structural Foundations#150mm Foundation Slab",
+                    "children":
+                    [
+                        {
+                            "name": "Construction wood, pine and spruce, wet and sawn (Incineration EoL)",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -370.70269075433697
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 396.86993951346665
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Oriented Strand Board, OSB",
+                            "children":
+                            [
+                                {
+                                    "name": "A1A3",
+                                    "value": -249.4580668972423
+                                },
+                                {
+                                    "name": "A4",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "A5",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "C3",
+                                    "value": 470.90237784565693
+                                },
+                                {
+                                    "name": "C4",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

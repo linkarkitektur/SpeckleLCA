@@ -1,0 +1,58 @@
+[
+  {
+    "Node": {
+      "Building": {
+        "id": "6d766aa5-50aa-4005-ab35-29f2fb82ddad",
+        "name": {
+          "Danish": "Building file created via JsonLCABygExporter",
+          "English": "Building file created via JsonLCABygExporter"
+        },
+        "address": "XXX",
+        "owner": "",
+        "description": "Import from Excel",
+        "building_type": "Other",
+        "heated_floor_area": 10108,
+        "gross_area": 9239,
+        "gross_area_above_ground": 9239,
+        "storeys_above_ground": 1,
+        "storeys_below_ground": 0,
+        "storey_height": 3,
+        "initial_year": 2022,
+        "calculation_timespan": 50,
+        "calculation_mode": "SC",
+        "lca_advisor": "Bjerg Arkitektur",
+        "building_regulation_version": "BR2018",
+        "plot_area": 1000,
+        "outside_area": 0,
+        "energy_class": "LowEnergy"
+      }
+    }
+  },
+  {
+    "Edge": [
+      {
+        "MainBuilding": "15867192-86b7-40a8-9936-83d9e998516d"
+      },
+      "e9e6e798-390e-4419-a1fa-3b46a8ba5b8d",
+      "6d766aa5-50aa-4005-ab35-29f2fb82ddad"
+    ]
+  },
+  {
+    "Edge": [
+      {
+        "BuildingToRoot": "bc35b94d-b8c0-4b8c-9bf3-3f63acc94063"
+      },
+      "6d766aa5-50aa-4005-ab35-29f2fb82ddad",
+      "216cf5d6-3e9d-43ec-b0d8-5aee02240c28"
+    ]
+  },
+  {
+    "Edge": [
+      {
+        "BuildingToOperation": "0c35b94d-b8a0-4bec-92f3-3463acc94064"
+      },
+      "6d766aa5-50aa-4005-ab35-29f2fb82ddad",
+      "0338d31e-3876-440d-a88c-2daa2dd81942"
+    ]
+  }
+]

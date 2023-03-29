@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Dashboard from "@/components/Dashboard";
+import Dashboard from "@/charts/Dashboard";
 import { lcaLogin } from "@/utils/linkLcaUtils";
 
 export default {
