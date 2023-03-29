@@ -14,7 +14,7 @@ Please drop in the the community. Either on GitHub Issues, Discussions and/or re
 * Own the responsibility for your commits and work - if you introduce a big feature, you're probably going to get some questions from time to time.
 
 ### Stability
-Our aim is that the `main` branch is always a stable, working version that our app that is hosted on gh-pages is build from.
+Our aim is that the `main` branch is always a stable, working version that our app that is hosted on gh-pages is build from. Please try to keep it that way - talk to a member of the team if you aren't sure. 🧑‍💻
 
 ## Useful Tools to Get Started.
 - [VSCode](https://code.visualstudio.com/)
