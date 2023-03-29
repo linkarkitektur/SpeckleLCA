@@ -13,6 +13,15 @@ Our aim in stat the `main` branch always is a stable working version that our ap
 ## Useful tools to get started.
 - [VSCode](https://code.visualstudio.com/)
 
+## App structure
+
+The app is built with vue and uses a common framework for connecting with APIs and vueX with shared store with 3 primary modules for speckle, material mapper and results. This structure is not set in stone and if someone is more profficient in structuring these kinds of webbapps please contribute and help design it so it makes more sense for everyone.
+
+![VueAppStructure](https://user-images.githubusercontent.com/81305859/228532437-2e16ef8e-0baa-42de-91c6-2161d815035f.jpg)
+
+Each page is defined within its views and some uses components that populate each of the different parts of the page, below is a diagram showing the structure of the material mapper page which uses this structure. So if you want to change or add any functionallity its within these specified component below that you should make the changes in.
+
+![MaterialMapper structure](https://user-images.githubusercontent.com/81305859/228532742-2c5221d5-f413-4f2b-adb4-3b6fed1e0fca.jpg)
 
 ## Useful commands if you prefer working on the command line
  
