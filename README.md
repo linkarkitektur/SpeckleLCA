@@ -7,10 +7,11 @@ The app is still in development and support [One Click LCA](https://www.oneclick
 
 To run the app you will need:
 
-- [Node.js](https://nodejs.org/en/)
-- [VSCode](https://code.visualstudio.com/) or a similar text editor ([Neovim](https://neovim.io/) :wink:)
-- Set the following enviroment variables\
-  The easiest way is to put them in a `.env.local` file in the root folder off the project.
+ - [Node.js](https://nodejs.org/en/) _has been tested with vesion 16.14.0_
+ - [VSCode](https://code.visualstudio.com/) or a similar text editor ([Neovim](https://neovim.io/) :wink:)
+ - Set the following enviroment variables\
+The easiest way is to put them in a `.env.local` file in the root folder off the project.
+
 
 ```
 VUE_APP_SPECKLE_ID=CHANGE
