@@ -9,6 +9,11 @@ Please drop in the the community. Either on GitHub Issues, Discussions and/or re
 * From there you create your own feature branch if you are working in our repo and if you are in your own fork. Well you are the king of your own domain 👑.
 * As soon as a feature feels ready to be share with everyone developing, just make a pull request to the development branch.
 
+### Community
+* Be nice to each other in the comment's and discussions.
+* Own the responsibility for your commits and work - if you introduce a big feature, you're probably going to get some questions from time to time.
+
+### Stability
 Our aim is that the `main` branch is always a stable, working version that our app that is hosted on gh-pages is build from.
 
 ## Useful Tools to Get Started.
