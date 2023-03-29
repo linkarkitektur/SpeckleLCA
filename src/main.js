@@ -10,7 +10,6 @@ Vue.use(VueTimeago, { locale: 'en' })
 
 Vue.config.productionTip = false
 
-
 new Vue({
   router,
   store,

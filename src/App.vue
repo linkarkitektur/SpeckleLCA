@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import StreamSearch from "@/components/StreamSearch";
+import StreamSearch from "@/charts/StreamSearch";
 
 export default {
   name: "App",

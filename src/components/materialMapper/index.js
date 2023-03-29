@@ -1,11 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import createLogger from "vuex/dist/logger";
 
 // Modules
 import speckle from "./modules/speckle";
 import auth from "./modules/auth";
-import materialMapper from "./modules/materialMapper";
 
 const debug = process.env.NODE_ENV !== "production";
 
@@ -18,7 +16,6 @@ export default new Vuex.Store({
   modules: {
     auth,
     speckle,
-    materialMapper,
   },
 
   /**
