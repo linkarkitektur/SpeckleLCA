@@ -9,13 +9,13 @@
                 
                 <objectList />
                 
-                <calculateLCAByg> </calculateLCAByg>
+                <calculateOneClick> </calculateOneClick>
 
             </v-card>
         </v-col>
             <v-col lg="7" sm="12" xs="12">
 
-                <materialListLCAByg> </materialListLCAByg>
+                <materialListOneClick> </materialListOneClick>
 
             </v-col>
         </v-row>
@@ -32,9 +32,11 @@ import mapper from "@/components/materialMapper/shared/mapper.vue";
 
 import objectList from "@/components/materialMapper/shared/objectList.vue";
 
-import calculateLCAByg from '@/components/materialMapper/lcaByg/calculateLCAByg.vue';
+//import calculateLCAByg from '@/components/materialMapper/lcaByg/calculateLCAByg.vue';
+import calculateOneClick from "@/components/materialMapper/oneClickLCA/calculateOneClick.vue";
 
-import materialListLCAByg from "@/components/materialMapper/lcaByg/materialListLCAByg.vue";
+//import materialListLCAByg from "@/components/materialMapper/lcaByg/materialListLCAByg.vue";
+import materialListOneClick from "@/components/materialMapper/oneClickLCA/materialListOneClick.vue";
 
 import sunburst from "@/components/charts/sunburst.vue";
 
@@ -43,8 +45,10 @@ export default {
     components: {
       mapper,
       objectList,
-      calculateLCAByg,
-      materialListLCAByg,
+      //calculateLCAByg,
+      calculateOneClick,
+      //materialListLCAByg,
+      materialListOneClick,
       sunburst,
     },
     props: ["info"],

@@ -197,7 +197,7 @@ import {
 import { filterDataFromList } from "@/components/materialMapper/shared/utils/helpers";
 
 export default {
-  name: "materialListLCAByg",
+  name: "materialListOneClick",
   components: {},
   props: ["info"],
   data() {
@@ -250,10 +250,23 @@ export default {
   },
   methods: {
     getResourceList() {
-      if(this.currResourceList.length == undefined){
-        var tempList = require("@/assets/lcaByg/LCAbyg_constructions.json");
-        this.$store.dispatch('setResourceList', tempList);
-      }
+      console.log("current ResourceList");
+      console.log(this.currResourceList)
+      var result = require("@/assets/OneclickDatabase.json");
+      console.log(result);
+      const tempList = result.resources.filter((el) => {
+        let canAdd = false;
+        el.combinedUnits.forEach((el2) => {
+          if (COMBINED_UNIT_LIST.includes(el2)) {
+            canAdd = true;
+          }
+        });
+        return canAdd && FILTER_COUNTRIES.includes(el.area) ? el : null;
+      });
+      console.log("Templist for resources");
+      console.log(tempList);
+      this.$store.dispatch('setResourceList', tempList);
+
       if (this.currResourceList) {
         console.log("ResourceList loaded correctly");
         this.currResourceList?.forEach((el) => {
@@ -277,8 +290,72 @@ export default {
           }
         });
       }
-    },
+      /* This is the correct way, getting faulty json objects back need to clean it
+      // Also need to add accessToken saving so we can read it
+      const ACCEESS_TOKEN = `${process.env.VUE_APP_SPECKLE_NAME}.OCAccessToken`;
+      const SERVER_URL = process.env.VUE_APP_ONE_CLICK_SERVER_URL;
+      let access_token = localStorage.getItem(ACCEESS_TOKEN);
+      let bearer = "Bearer " + access_token;
+      const fetchPromise = fetch(
+        `https://cors-anywhere.herokuapp.com/${SERVER_URL}/getResourceLibrary?dataCategory=fullResourceList`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: bearer,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      //Fetch from API server
+      fetchPromise
+        .then((response) => {
+          return response.json();
+        })
+        .then((result) => {
+          const tempList = result?.resources?.filter((el) => {
+            let canAdd = false;
+            el.combinedUnits.forEach((el2) => {
+              if (COMBINED_UNIT_LIST.includes(el2)) {
+                canAdd = true;
+              } else {
+                el.combinedUnits = el.combinedUnits.filter(
+                  (el3) => el3 !== el2
+                );
+              }
+            });
+            return canAdd && FILTER_COUNTRIES.includes(el.area) ? el : null;
+          });
+          //Add the resource list to the store
+          console.log(tempList);
+          this.$store.dispatch('setResourceList', tempList);
+          if (this.currResourceList) {
+            console.log("ResourceList loaded correctly");
+            this.currResourceList?.forEach((el) => {
+              if (FILTER_COUNTRIES.includes(el.area)) {
+                if (
+                  !this.subTypes.includes(el.resourceSubType) &&
+                  el.resourceSubType
+                ) {
+                  this.subTypes.push(el.resourceSubType);
+                }
+                if (!this.areasObj[el.resourceSubType]) {
+                  this.areasObj[el.resourceSubType] = [];
+                }
+                if (
+                  this.areasObj[el.resourceSubType] &&
+                  !this.areasObj[el.resourceSubType].includes(el.area) &&
+                  el.area
+                ) {
+                  this.areasObj[el.resourceSubType].push(el.area);
+                }
+              }
+            });
+          }
+        });
+        */
 
+    },
+    
     //Saving the material mapping towards the object chosen from objectList
     onRowClick(item) {
       var staticFullName = item.staticFullName;
