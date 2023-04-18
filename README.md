@@ -3,7 +3,7 @@
 SpeckleLCA is a web app that connects to [Speckle](https://speckle.systems/) and allows for a simple forkflow to calculate LCA results for early phase design projects.
 The app is still in development and support [One Click LCA](https://www.oneclicklca.com/) as well as [LCAbyg](https://lcabyg.dk/en/) for now.
 
-There is a devoted [Slack](iospecklelcaapp.slack.com) workspace for this project where you can chat with all collaborators. 
+There is a devoted [Slack](iospecklelcaapp.slack.com) workspace for this project where you can chat with all collaborators. _([invite link](https://join.slack.com/t/iospecklelcaapp/shared_invite/zt-1te1gxzsl-SftRv_czhTjAYbcFM83~Hg))_ 
 Discussion regarding direct functionality, bug reports etc should be done in the discussions here on github.
 
 ## How to run it
