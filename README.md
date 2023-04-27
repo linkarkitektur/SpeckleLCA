@@ -42,6 +42,8 @@ The `VUE_APP_SPECKLE_ID` & `VUE_APP_SPECKLE_SECRET` values can be genereated by 
 
 ## Usage
 
+[![Step by step video](https://user-images.githubusercontent.com/81305859/234849470-c59684ad-e22c-4455-b3f7-3ee51d9b8a99.png)](https://vimeo.com/806379632)
+
 Login to speckle and add app under your account a new application you will get a application ID and a secret ID add thiese to `.env.local`.
 
 Run web app locally through `npm run serve`
