@@ -304,23 +304,18 @@ export default {
             username: process.env.VUE_APP_LCABYG_USER,
             password: process.env.VUE_APP_LCABYG_PASSWORD,
             };
-            try {
-                const response = await axios.post(
-                "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/login",
-                params
-                );
-                if (response.status === 200) {
-                    this.accessTokenLCAbyg = response.data;
-                    console.log(response);
-                } else {
-                    throw Error("Unable to login to LCA byg");
-                }
-            } catch (error) {
-                console.log(error);
-                alert()
-                    if (window.prompt('The was an error obtaining the LCAbyg auth toke\nThis most likely has to do with missing access to the development proxy.\nTry requesting demo access on the follownig website.', 'https://cors-anywhere.herokuapp.com/corsdemo'))
-                        location.href = 'https://cors-anywhere.herokuapp.com/corsdemo';
+
+            const response = await axios.post(
+            "https://api1.lcabyg.dk/v2/login",
+            params
+            );
+            if (response.status === 200) {
+                this.accessTokenLCAbyg = response.data;
+                console.log(response);
+            } else {
+                throw Error("Unable to login to LCA byg");
             }
+
         },
 
         async startCalculation() {
@@ -341,7 +336,7 @@ export default {
                 try {
                 
                     const response = await axios.post(
-                    "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/jobs",
+                    "https://api1.lcabyg.dk/v2/jobs",
                     data,
                     {
                         headers: {
@@ -539,7 +534,7 @@ export default {
             const get_status = async () => {
                 try {
                     const response = await axios.get(
-                        "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/jobs/" + job_id,
+                        "https://api1.lcabyg.dk/v2/jobs/" + job_id,
                         data
                     );
                     if (response.status === 200) {
@@ -554,7 +549,7 @@ export default {
             const get_job = async () => {
                 try {
                     const response = await axios.get(
-                        "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/jobs/" + job_id,
+                        "https://api1.lcabyg.dk/v2/jobs/" + job_id,
                         data
                     );
                     if (response.status === 200) {
@@ -582,7 +577,7 @@ export default {
                 case "Ready":
                 try {
                     const response = await axios.get(
-                    "https://cors-anywhere.herokuapp.com/https://api1.lcabyg.dk/v2/jobs/" + job_id + "/output",
+                    "https://api1.lcabyg.dk/v2/jobs/" + job_id + "/output",
                     data
                     );
                     if (response.status === 200) {
