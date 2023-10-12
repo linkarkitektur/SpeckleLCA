@@ -48,14 +48,13 @@ export const useProjectStore = defineStore({
     },
 
     updateResults(payload: Results, id: string) {
-      if (!id || !payload || this.currProject === null) return;
+      if (!id || !payload || this.currProject === undefined) return;
 
       const index = this.findResultIndexById(id);
 
-      if (index !== -1 && index != undefined && this.currProject.results != null)
+      if (index !== -1 && index != undefined)
         this.currProject.results[index] = payload;
-      else if (this.currProject != null)
-        this.currProject.results[index] = payload;
+
     },
 
     findGeometryIndexById(id: string) {
