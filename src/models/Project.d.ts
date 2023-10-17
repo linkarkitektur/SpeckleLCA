@@ -1,3 +1,5 @@
+import { ImpactCategoryKey } from "lcax";
+
 interface Project {
         name: string;
         description: string;

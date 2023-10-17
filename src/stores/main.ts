@@ -52,9 +52,8 @@ export const useProjectStore = defineStore({
 
       const index = this.findResultIndexById(id);
 
-      if (index !== -1 && index != undefined)
+      if (index !== -1 && index != undefined && this.currProject?.results != null)
         this.currProject.results[index] = payload;
-
     },
 
     findGeometryIndexById(id: string) {
@@ -67,4 +66,20 @@ export const useProjectStore = defineStore({
 
 
   },
+});
+
+export const useMaterialStore = defineStore({
+  id: "materialStore",
+  state: () =>
+    {
+      return {
+        currProject: null as Project | null,
+      }
+    },
+
+  actions: {
+    createNewProject(project: Project) {
+      this.currProject = project;
+    },
+  }
 });
