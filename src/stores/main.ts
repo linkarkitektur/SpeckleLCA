@@ -1,4 +1,7 @@
 import { defineStore } from "pinia";
+import type { GeometryObject } from "@/models/GeometryObject";
+import type { Results } from "@/models/Material";
+import type { Project } from "@/models/Project";
 
 export const useProjectStore = defineStore({
   id: "projectStore",
