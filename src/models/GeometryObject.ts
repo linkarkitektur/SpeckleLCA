@@ -3,7 +3,7 @@ import type { Material, BuildUp, Results } from "./Material";
 
 export interface GeometryObject {
     id: string; // uuid 
-    Name: string;
+    name: string;
     URI?: string; // Link to geometry
     quantity: Map<Unit, number>; // Quantities with unit
     material?: Material | BuildUp;
