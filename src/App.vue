@@ -1,6 +1,31 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import type { Unit } from "lcax";
+import { FilterRegistry, createStandardFilters } from './models/Filters';
+import type { Group } from './models/Filters';
+import type { GeometryObject } from "./models/GeometryObject";
+
+const exampleRegistry = new FilterRegistry();
+
+let geoObject: GeometryObject = {
+  Name: "Wall1",
+  quantity: new Map<Unit, number>([["M2", 23]]),
+  id: crypto.randomUUID(),
+  parameters: new Map<string, string>([["test", "test"]]),
+};
+
+let group: Group = {
+  id: crypto.randomUUID(),
+  name: "",
+  path: "",
+  elements: [geoObject],
+};
+
+createStandardFilters(exampleRegistry);
+
+let test = exampleRegistry.callFilter("equalsFilter", [group], "test", "test");
+
 </script>
 
 <template>
