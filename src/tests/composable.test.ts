@@ -1,36 +1,36 @@
-import type { Unit } from "lcax";
-import crypto from 'node:crypto';
 import { FilterRegistry, createStandardFilters } from '@/models/Filters';
+import { useProjectStore } from "@/stores/main";
+
 import type { Group } from '@/models/Filters';
 import type { GeometryObject } from "@/models/GeometryObject";
-import { expect, test } from "vitest";
+import type { Project } from "@/models/Project";
+import type { Unit } from "lcax";
 
+import crypto from 'node:crypto';
+import { expect, test } from "vitest";
+import { createTestingPinia } from '@pinia/testing'
+import { createPinia, setActivePinia } from 'pinia';
+
+import jsonData from "@/tests/objects/testObjects.json";
+
+/**
+ * Test equalityfilter and return a filtered list
+ * TODO: Expand the geometry object creation from a dummy json file which we can import
+ */
 test("useEqualityFilter", () => {
     const exampleRegistry = new FilterRegistry();
 
-    let geoObject: GeometryObject = {
-    name: "Wall1",
-    quantity: new Map<Unit, number>([["M2", 23]]),
-    id: crypto.randomUUID(),
-    parameters: new Map<string, string>([["testField", "testValue"]]),
-    };
-
+    let geoObject: GeometryObject = jsonData.GeoObjects[0];
+    let geoObject2: GeometryObject = jsonData.GeoObjects[1];
+    
     expect(geoObject.name).toBe("Wall1");
-
-    let geoObject2: GeometryObject = {
-    name: "Wall1",
-    quantity: new Map<Unit, number>([["M2", 23]]),
-    id: crypto.randomUUID(),
-    parameters: new Map<string, string>([["testField", "notTestValue"]]),
-    };
-
     expect(geoObject2.name).toBe("Wall1");
-
+    
     let group: Group = {
-    id: crypto.randomUUID(),
-    name: "",
-    path: "",
-    elements: [geoObject, geoObject2],
+        id: crypto.randomUUID(),
+        name: "",
+        path: "",
+        elements: [geoObject, geoObject2],
     };
 
     expect(group.elements.length).toBe(2);
@@ -42,4 +42,25 @@ test("useEqualityFilter", () => {
 
     expect(testGroup.length).toBe(2);
     expect(testGroup[0].elements.length).toBe(1);
+})
+
+test("createProjectStore", () => {
+    // creates a fresh pinia and makes it active
+    // so it's automatically picked up by any useStore() call
+    // without having to pass it to it: `useStore(pinia)`
+    setActivePinia(createPinia())
+
+    let project: Project = jsonData.ProjectObjects[0];
+    const projectStore = useProjectStore();
+    projectStore.createNewProject(project);
+
+    expect(projectStore.$state.currProject?.geometry.length).toBe(2);
+
+    let geoObject: GeometryObject = jsonData.GeoObjects[2];
+    projectStore.addGeometry(geoObject);
+
+    expect(projectStore.$state.currProject?.geometry.length).toBe(3);
+
+    projectStore.removeGeometry(geoObject.id);
+    expect(projectStore.$state.currProject?.geometry.length).toBe(2);
 })

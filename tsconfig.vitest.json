@@ -5,5 +5,8 @@
     "composite": true,
     "lib": [],
     "types": ["node", "jsdom"]
-  }
+  },
+  "files": [
+    "src/tests/objects/testObjects.json"  // Add your JSON file here
+  ]
 }
