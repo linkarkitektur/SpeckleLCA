@@ -93,9 +93,9 @@ export function createStandardFilters(registry: FilterRegistry) {
                 // Find the parameter field
                 if (obj.parameters?.has(field)) {
                     // Check if the value is equal to the parameter
-                    if (obj.parameters?.get(field) == value){
+                    if (obj.parameters?.get(field) == value) {
                         // Add to groupMap
-                        if (value != undefined && groupMap.has(value)){
+                        if (groupMap.has(value)){
                             let temp = groupMap.get(value);
                             temp!.elements.push(obj);
     
@@ -112,20 +112,21 @@ export function createStandardFilters(registry: FilterRegistry) {
                         }
                     } else {
                         // Add to groupMap
-                        if (groupMap.has(value)){
+                        let nonValue = `!${value}`;
+                        if (groupMap.has(nonValue)){
                             let temp = groupMap.get(value);
                             temp!.elements.push(obj);
                             
-                            groupMap.set(value, temp!);
+                            groupMap.set(nonValue, temp!);
                         } else {
                             let temp: Group = {
                                 id: crypto.randomUUID(),
-                                name: `!${value}`,
-                                path: `${grp.path}/!${value}`,
+                                name: nonValue,
+                                path: `${grp.path}/${nonValue}`,
                                 elements: [obj],
                             };
     
-                            groupMap.set(value, temp);
+                            groupMap.set(nonValue, temp);
                         }
                     }
                 } else {
