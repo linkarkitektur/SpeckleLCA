@@ -35,7 +35,9 @@ export interface Group {
  * Filter registry to store all filter functions
  */
 export class FilterRegistry {
-    private filters: Map<string, Function> = new Map();
+    private filters: {
+        [filterName: string]: Function;
+    } = {};
 
     /**
      * Add functions to registry by providing a name and the function with 3 set parameters
@@ -48,7 +50,7 @@ export class FilterRegistry {
         name: string, 
         filter: (inGroup: Group[], field: string, value?: string) => Group[]
     ){
-        this.filters.set(name, filter);
+        this.filters[name] = filter;
     }
 
     /**
@@ -65,7 +67,7 @@ export class FilterRegistry {
         field: string,
         value?: string
     ){
-        const filter = this.filters.get(name);
+        const filter = this.filters[name];
         if (typeof filter === 'function') {
             return filter(inGroup, field, value);
         } else {
@@ -87,19 +89,21 @@ export function createStandardFilters(registry: FilterRegistry) {
     registry.addFilter('equalsFilter', (inGroup, field, value) => {
         if (value == undefined)
             throw new Error(`No value provided for equalsFilter.`); 
-        const groupMap = new Map<string, Group>();
+        const groupObj: { [value: string]: Group } = {};
         for (const grp of inGroup) {
             for (const obj of grp.elements) {
                 // Find the parameter field
-                if (obj.parameters?.has(field)) {
+                if (obj.parameters == undefined)
+                    throw new Error(`No parameters found for '${obj.id}'.`);
+                if (field in obj.parameters) {
                     // Check if the value is equal to the parameter
-                    if (obj.parameters?.get(field) == value) {
-                        // Add to groupMap
-                        if (groupMap.has(value)){
-                            let temp = groupMap.get(value);
+                    if (obj.parameters[field] == value) {
+                        // Add to groupObj
+                        if (value in groupObj) {
+                            let temp = groupObj[value];
                             temp!.elements.push(obj);
     
-                            groupMap.set(value, temp!);
+                            groupObj[value] = temp!;
                         } else {
                             let temp: Group = {
                                 id: crypto.randomUUID(),
@@ -108,25 +112,25 @@ export function createStandardFilters(registry: FilterRegistry) {
                                 elements: [obj],
                             };
 
-                            groupMap.set(value, temp);
+                            groupObj[value] = temp!;
                         }
                     } else {
-                        // Add to groupMap
+                        // Add to groupObj
                         let nonValue = `!${value}`;
-                        if (groupMap.has(nonValue)){
-                            let temp = groupMap.get(value);
+                        if (nonValue in groupObj){
+                            let temp = groupObj[nonValue];
                             temp!.elements.push(obj);
-                            
-                            groupMap.set(nonValue, temp!);
+    
+                            groupObj[nonValue] = temp!;
                         } else {
                             let temp: Group = {
                                 id: crypto.randomUUID(),
-                                name: nonValue,
-                                path: `${grp.path}/${nonValue}`,
+                                name: `${value}`,
+                                path: `${grp.path}/${value}`,
                                 elements: [obj],
                             };
-    
-                            groupMap.set(nonValue, temp);
+
+                            groupObj[nonValue] = temp!;
                         }
                     }
                 } else {
@@ -135,8 +139,10 @@ export function createStandardFilters(registry: FilterRegistry) {
             }
         }
     
-        // Create the output groups from the Map
-        let group: Group[] = Array.from(groupMap.values());
+        // Create the output groups from the object
+        let group: Group[] = []; 
+        for (const key in groupObj)
+            group.push(groupObj[key]);
         return group;
     });
 
@@ -144,17 +150,19 @@ export function createStandardFilters(registry: FilterRegistry) {
      * Groupby filter using only field
      */
     registry.addFilter('groupByFilter', (inGroup, field, value) => {
-        const groupMap = new Map<string, Group>();
+        const groupObj: { [field: string]: Group } = {};
         for (const grp of inGroup) {
             for (const obj of grp.elements) {
                 // Find the parameter field
-                if (obj.parameters?.has(field)) {
+                if (obj.parameters == undefined)
+                    throw new Error(`No parameters found for '${obj.id}'.`);
+                if (field in obj.parameters) {
                     // Group objects based on the field
-                    if (groupMap.has(field)){
-                        let temp = groupMap.get(field);
+                    if (field in groupObj) {
+                        let temp = groupObj[field];
                         temp!.elements.push(obj);
 
-                        groupMap.set(field, temp!);
+                        groupObj[field] = temp!;
                     } else {
                         let temp: Group = {
                             id: crypto.randomUUID(),
@@ -163,7 +171,7 @@ export function createStandardFilters(registry: FilterRegistry) {
                             elements: [obj],
                         };
                        
-                        groupMap.set(field, temp);
+                        groupObj[field] = temp;
                     }
                 } else {
                     throw new Error(`Parameter in '${obj.id}' with the name '${field}' not found.`);
@@ -171,51 +179,10 @@ export function createStandardFilters(registry: FilterRegistry) {
             }
         }
     
-        // Create the output groups from the Map
-        let group: Group[] = Array.from(groupMap.values());
+        // Create the output groups from the object
+        let group: Group[] = []; 
+        for (const key in groupObj)
+            group.push(groupObj[key]);
         return group;
     });
 }
-
-/* Old filter logic, new filter registry instead
-abstract class Filter {
-    private _objects: GeometryObject[];
-    private _field: string;
-    private _value: string;
-
-    // String is what will be shown in the path for the grouping
-    public groups: Map<string, GeometryObject[]>;
-
-    // Should always include getGroups which contains the logic
-    getGroups() {
-        return this.groups;
-    }
-}
-
-// Example of how to extend Filter with an equality Filter
-class Equals implements Filter{
-    constructor(geometryObjects: GeometryObject[], field: string, value: string) {
-        this._objects = geometryObjects;
-        this._field = field;
-        this._value = value;
-    }
-    
-    //Logic of filter
-    getGroups() {
-        this._objects.forEach(element => {
-            if(element.parameters?.has(this._field)) {
-                if(element.parameters?.get(this._field) == value) {
-                    // Set field name for path creation
-                    this.groups.set(this._field, element);
-                }
-                else {
-                    // Set field name for path creation
-                    this.groups.set("!" + this._field, element);
-                }
-            };
-        });
-
-        return this.groups;
-    }
-}
-*/
