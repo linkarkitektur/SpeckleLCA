@@ -13,7 +13,7 @@ export const TOKEN = `${APP_NAME}.AuthToken`;
 export const REFRESH_TOKEN = `${APP_NAME}.RefreshToken`;
 export const CHALLENGE = `${APP_NAME}.Challenge`;
 
-//TODO: Update all these to Project, Model and Version terminology
+// TODO: Update all these to Project, Model and Version terminology
 // Redirects to the Speckle server authentication page, using a randomly generated challenge. Challenge will be stored to compare with when exchanging the access code.
 export function goToSpeckleAuthPage() {
   // Generate random challenge
