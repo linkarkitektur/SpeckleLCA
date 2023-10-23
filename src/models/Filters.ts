@@ -116,7 +116,7 @@ export function createStandardFilters(registry: FilterRegistry) {
                         }
                     } else {
                         // Add to groupObj
-                        let nonValue = `!${value}`;
+                        let nonValue : string = `!${value}`;
                         if (nonValue in groupObj){
                             let temp = groupObj[nonValue];
                             temp!.elements.push(obj);

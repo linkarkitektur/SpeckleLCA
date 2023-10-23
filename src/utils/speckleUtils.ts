@@ -5,6 +5,7 @@ import {
   streamSearchQuery,
   userInfoQuery
 } from "@/graphql/speckleQueries";
+
 import { getCategoryBasedChilds } from "../graphql/speckleQueries";
 
 export const APP_NAME = process.env.VUE_APP_SPECKLE_NAME;
@@ -13,10 +14,12 @@ export const TOKEN = `${APP_NAME}.AuthToken`;
 export const REFRESH_TOKEN = `${APP_NAME}.RefreshToken`;
 export const CHALLENGE = `${APP_NAME}.Challenge`;
 
-// TODO: Update all these to Project, Model and Version terminology
-// Redirects to the Speckle server authentication page, using a randomly generated challenge. Challenge will be stored to compare with when exchanging the access code.
+// TODO: Update all these to Project, Model and Version terminology.
+
+// Redirects to the Speckle server authentication page, using a randomly generated challenge.
+// Challenge will be stored to compare with when exchanging the access code.
 export function goToSpeckleAuthPage() {
-  // Generate random challenge
+  // Generate random challenge.
   let challenge =
     Math.random()
       .toString(36)
@@ -24,9 +27,9 @@ export function goToSpeckleAuthPage() {
     Math.random()
       .toString(36)
       .substring(2, 15);
-  // Save challenge in localStorage
+  // Save challenge in localStorage.
   localStorage.setItem(CHALLENGE, challenge);
-  // Send user to auth page
+  // Send user to auth page.
   window.location.href = `${SERVER_URL}/authn/verify/${process.env.VUE_APP_SPECKLE_ID}/${challenge}`;
 }
 
@@ -93,7 +96,6 @@ export const searchStreams = (variables: string) => {
   speckleFetch(streamSearchQuery, vars);
 }
 
-
 // Get versions related to a specific project, allows for pagination by passing a cursor
 export const getProjectVersions = (projectId: string, itemsPerPage: number, cursor: Date | null) =>
   speckleFetch(projectVersionsQuery, {
@@ -102,16 +104,20 @@ export const getProjectVersions = (projectId: string, itemsPerPage: number, curs
     limit: itemsPerPage,
   });
 
+// Get a specific object from a specific stream
 export const getStreamObject = (streamId: string, objectId: string) =>
   speckleFetch(streamObjectQuery, { streamId, objectId }).then(
     (res) => res.data?.stream?.object
   );
 
+// Get a specific object from a specific stream
 export const getObject = (streamId: string, objectId: string) =>
   speckleFetch(streamObjectQuery, { streamId, objectId });
 
+// Get the latest streams
 export const getStreams = () =>
   speckleFetch(latestStreamsQuery).then((res) => res.data?.streams);
 
+// Get the category of an object and its child objects
 export const getCategoryAndChilds = (streamId: string, objectId: string) =>
   speckleFetch(getCategoryBasedChilds, { streamId, objectId });
