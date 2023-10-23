@@ -1,5 +1,5 @@
 import { FilterRegistry, createStandardFilters } from '@/models/Filters';
-import { useProjectStore } from "@/stores/main";
+import { useProjectStore } from "@/stores/Main";
 
 import type { Group } from '@/models/Filters';
 import type { GeometryObject } from "@/models/GeometryObject";

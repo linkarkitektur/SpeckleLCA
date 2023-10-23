@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo } from "@/models/speckle/Speckle";
-import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/speckleUtils";
+import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/SpeckleUtils";
 import router from "@/router";
+
 export const useSpeckleStore = defineStore({
   id: "speckleStore",
   state: () => {

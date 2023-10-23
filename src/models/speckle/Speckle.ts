@@ -1,41 +1,59 @@
+/**
+ * Represents a version of a Speckle object.
+ */
 export interface Version {
-    authorName: string;
-    modelName: string;
-    createdAt: Date;
-    id: string;
-    message: string;
-    referenceObject: string;
-    sourceApplication: string; //Maybe change to enum
+    authorName: string; // The name of the author who created the version.
+    modelName: string; // The name of the model that the version belongs to.
+    createdAt: Date; // The date and time when the version was created.
+    id: string; // The unique identifier of the version.
+    message: string; // A message describing the changes made in the version.
+    referenceObject: string; // The unique identifier of the object that the version is based on.
+    sourceApplication: string; // The name of the application used to create the version.
 }
 
+/**
+ * Represents the details of a Speckle project.
+ */
 export interface ProjectDetails {
     versions: {
-        items: Version[];
-        cursor: Date;
-        totalCount: number;
+        items: Version[]; // An array of versions of the project.
+        cursor: Date; // The date and time of the last version in the array.
+        totalCount: number; // The total number of versions in the project.
     },
-    id: string;
-    name: string;
-    updatedAt: Date;
-    projectId: string;
+    id: string; // The unique identifier of the project.
+    name: string; // The name of the project.
+    updatedAt: Date; // The date and time when the project was last updated.
+    projectId: string; // The unique identifier of the Speckle project that the project belongs to.
 }
 
+/**
+ * Represents a Speckle version identifier.
+ */
 export interface VersionId {
-    id: string;
-    name: string;
+    id: string; // The unique identifier of the version.
+    name: string; // The name of the version.
 }
 
-export interface ModelsAndVersions { 
-    [modelName: string]: Version[];
+/**
+ * Represents a collection of Speckle models and their versions.
+ */
+export interface ModelsAndVersions {
+    [modelName: string]: Version[]; // An object where the keys are model names and the values are arrays of versions of the model.
 }
 
+/**
+ * Represents a Speckle user.
+ */
 export interface User {
-    name: string;
-    id: string;
-    avatar: string;
+    name: string; // The name of the user.
+    id: string; // The unique identifier of the user.
+    avatar: string; // The URL of the user's avatar.
 }
 
+/**
+ * Represents information about a Speckle server.
+ */
 export interface ServerInfo {
-    name: string;
-    company: string;
+    name: string; // The name of the Speckle server.
+    company: string; // The name of the company that operates the Speckle server.
 }

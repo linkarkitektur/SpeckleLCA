@@ -1,9 +1,8 @@
-//Hold material and emission information
 import type { ImpactCategoryKey, LifeCycleStage } from "lcax";
 import type { GeometryObject } from "./GeometryObject";
 
 /**
- * Project interface, stores all geometry and metadata of the project
+ * Project interface, stores all geometry and metadata of the project.
  */
 export interface Project {
     name: string;
@@ -18,15 +17,15 @@ export interface Project {
 }
 
 /**
- * Results are stored as Impactcategory, Lifecyclestage then emission value
- * id and date is just for documentation
+ * Results are stored as Impact Category, Life Cycle Stage then emission value
+ * ID and date is just for documentation.
  */
 export interface Results {
-    id: string; //run id for results
+    id: string; // Run ID for results.
     date: Date; 
     emission: {
         [impactCategory: string]: {
             [lifeCycleStage: string]: number
         };
-    }; //gwp -> A1A3 -> co2
+    }; // GWP -> A1A3 -> Co2
 }

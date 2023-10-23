@@ -55,4 +55,4 @@ export default {
         };
     },
 };
-</script>
+</script>@/utils/SpeckleUtils
