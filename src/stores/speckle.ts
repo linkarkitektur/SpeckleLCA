@@ -1,27 +1,82 @@
+/**
+ * @file This file defines the `useSpeckleStore` store, which is used to manage the state of the Speckle integration in the application.
+ * It exports a Pinia store object that contains the state, actions, and getters for the Speckle integration.
+ * The store is used to manage the user's authentication status, project details, versions, models, and versions of models.
+ * The store also provides methods to interact with the Speckle API, such as logging in, logging out, exchanging access codes, and getting user data.
+ * The store is defined using the `defineStore` function from the Pinia library.
+ * @see https://pinia.esm.dev/api/define-store.html
+ */
+
 import { defineStore } from "pinia";
 import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo } from "@/models/speckle/Speckle";
 import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/SpeckleUtils";
 import router from "@/router";
 
+/**
+ * The `useSpeckleStore` store object that contains the state, actions, and getters for the Speckle integration.
+ * The store is defined using the `defineStore` function from the Pinia library.
+ * @see https://pinia.esm.dev/api/define-store.html
+ */
 export const useSpeckleStore = defineStore({
   id: "speckleStore",
   state: () => {
     return {
+      /**
+       * The project details for the currently selected project.
+       * @type {ProjectDetails | null}
+       */
       projectDetails: null as ProjectDetails | null,
+
+      /**
+       * The currently selected version of the project.
+       * @type {Version | null}
+       */
       selectedVersion: null as Version | null,
+
+      /**
+       * An array of all the versions of the project.
+       * @type {VersionId[] | null}
+       */
       allVersions: null as VersionId[] | null,
+
+      /**
+       * An array of all the models in the project.
+       * @type {string[] | null}
+       */
       allModels: null as string[] | null,
+
+      /**
+       * An object that maps each model to an array of its versions.
+       * @type {ModelsAndVersions | null}
+       */
       modelsAndVersions: null as ModelsAndVersions | null,
+
+      /**
+       * The user object for the currently authenticated user.
+       * @type {User | null}
+       */
       user: null as User | null,
+
+      /**
+       * The server info object for the Speckle server.
+       * @type {ServerInfo | null}
+       */
       serverInfo: null as ServerInfo | null,
     }
   },
   actions: {
-    // Define your actions here
+    /**
+     * The `login` action redirects the user to the Speckle authentication page.
+     * @returns {void}
+     */
     async login() {
       goToSpeckleAuthPage();
     },
 
+    /**
+     * The `logout` action logs the user out of the Speckle integration and redirects them to the login page.
+     * @returns {void}
+     */
     async logout() {
       this.$patch((state) => {
         state.user = null;
@@ -34,11 +89,20 @@ export const useSpeckleStore = defineStore({
       router.push('/login');
     },
 
+    /**
+     * The `exchangeAccessCodes` action exchanges the access code for an access token and refresh token.
+     * @param {string} accessCode - The access code to exchange for tokens.
+     * @returns {Promise<void>}
+     */
     async exchangeAccessCodes(accessCode: string) {
       // Here, you can save the tokens to the store if necessary.
       return exchangeAccessCode(accessCode);
     },
 
+    /**
+     * The `getUser` action gets the user data for the currently authenticated user.
+     * @returns {Promise<void>}
+     */
     async getUser() {
       try {
         const json = await getUserData();
@@ -53,26 +117,58 @@ export const useSpeckleStore = defineStore({
       }
     },
 
+    /**
+     * The `setProjectDetails` action sets the project details for the currently selected project.
+     * @param {ProjectDetails} project - The project details to set.
+     * @returns {void}
+     */
     setProjectDetails(project: ProjectDetails) {
       this.projectDetails = project;
     },
 
+    /**
+     * The `setVersion` action sets the currently selected version of the project.
+     * @param {Version} version - The version to set.
+     * @returns {void}
+     */
     setVersion(version: Version) {
       this.selectedVersion = version;
     },
 
+    /**
+     * The `setAllVersions` action sets the array of all versions of the project.
+     * @param {VersionId[]} allVer - The array of all versions to set.
+     * @returns {void}
+     */
     setAllVersions(allVer: VersionId[]) {
       this.allVersions = allVer;
     },
 
+    /**
+     * The `setAllModels` action sets the array of all models in the project.
+     * @param {string[]} allModels - The array of all models to set.
+     * @returns {void}
+     */
     setAllModels(allModels: string[]) {
       this.allModels = allModels;
     },
 
+    /**
+     * The `setModelsAndVersions` action sets the object that maps each model to an array of its versions.
+     * @param {ModelsAndVersions} modelVer - The object to set.
+     * @returns {void}
+     */
     setModelsAndVersions(modelVer: ModelsAndVersions) {
       this.modelsAndVersions = modelVer;
     },
 
+    /**
+     * The `getStreamAction` action gets the project versions for the specified stream.
+     * @param {string} streamId - The ID of the stream to get versions for.
+     * @param {number} limit - The maximum number of versions to get.
+     * @param {Date | null} cursor - The cursor to use for pagination.
+     * @returns {Promise<void>}
+     */
     async getStreamAction(streamId: string, limit: number, cursor: Date | null) {
       try {
         const response = await getProjectVersions(streamId, limit, cursor);
@@ -115,12 +211,46 @@ export const useSpeckleStore = defineStore({
     },
   },
   getters: {
+    /**
+     * The `projectDetails` getter returns the project details for the currently selected project.
+     * @returns {ProjectDetails | null}
+     */
     projectDetails: (state) => state.projectDetails,
+
+    /**
+     * The `selectedVersion` getter returns the currently selected version of the project.
+     * @returns {Version | null}
+     */
     selectedVersion: (state) => state.selectedVersion,
+
+    /**
+     * The `allVersions` getter returns an array of all the versions of the project.
+     * @returns {VersionId[] | null}
+     */
     allVersions: (state) => state.allVersions,
+
+    /**
+     * The `allModels` getter returns an array of all the models in the project.
+     * @returns {string[] | null}
+     */
     allModels: (state) => state.allModels,
+
+    /**
+     * The `modelsAndVersions` getter returns an object that maps each model to an array of its versions.
+     * @returns {ModelsAndVersions | null}
+     */
     modelsAndVersions: (state) => state.modelsAndVersions,
+
+    /**
+     * The `isAuthenticated` getter returns a boolean indicating whether the user is authenticated.
+     * @returns {boolean}
+     */
     isAuthenticated: (state) => state.user !== null,
+
+    /**
+     * The `getUserInfo` getter returns the user object for the currently authenticated user.
+     * @returns {User | null}
+     */
     getUserInfo: (state) => state.user,
   },
 })

@@ -1,7 +1,9 @@
 <template>
   <v-container fluid fill-height class="home flex-column justify-center align-center primary--text">
     <h1>Hi {{ user.name }}!!</h1>
+
     <p>Search for a stream in the navigation bar, or pick from one of your latest 👇🏼</p>
+
     <v-list v-if="streams" max-height="900px" class="overflow-y-auto">
       <v-list-item-group>
         <v-list-item
@@ -31,24 +33,26 @@
 <script>
 import { ref, onMounted } from 'vue'
 import { useSpeckleStore } from '@/store/speckle'
-import { getStreams } from '@/utils/SpeckleUtils'
+import { ref, onMounted } from 'vue'
+import { useSpeckleStore } from '@/store/speckle'
 
 export default {
   name: 'Home',
-
   setup() {
     const store = useSpeckleStore()
 
-    // Fetch streams when the component is mounted
+    // Fetch streams when the component is mounted.
     onMounted(async () => {
       store.fetchStreams()
     })
 
+    // Function to navigate to a stream.
     const navigateToStream = (streamId) => {
-      // Use Vue Router to navigate to the stream
+      // Use Vue Router to navigate to the stream.
       router.push(`/streams/${streamId}`)
     }
 
+    // Return the necessary data and functions for the component.
     return {
       user: store.user,
       streams: store.streams,
@@ -56,4 +60,5 @@ export default {
     }
   }
 }
-</script>@/utils/SpeckleUtils.js
+</script>
+@/utils/SpeckleUtils.js
