@@ -1,4 +1,6 @@
-//TODO: Add TypeGraphQL support to this
+/**
+ * @description GraphQL query to fetch user and server information.
+ */
 export const userInfoQuery = `
   query {
     user {
@@ -13,6 +15,10 @@ export const userInfoQuery = `
     }
   }`;
 
+/**
+ * @description GraphQL query to fetch project versions.
+ * @param id - The ID of the stream.
+ */
 export const projectVersionsQuery = `
   query($id: String!) {
     stream(id: $id){
@@ -35,6 +41,10 @@ export const projectVersionsQuery = `
     }
   }`;
 
+/**
+ * @description GraphQL query to search for streams.
+ * @param searchText - The text to search for.
+ */
 export const streamSearchQuery = `
   query($searchText: String!) {
     streams(query: $searchText) {
@@ -48,6 +58,11 @@ export const streamSearchQuery = `
     }
   }`;
 
+/**
+ * @description GraphQL query to fetch a stream object.
+ * @param streamId - The ID of the stream.
+ * @param objectId - The ID of the object.
+ */
 export const streamObjectQuery = `query($streamId: String!, $objectId: String!) {
     stream(id: $streamId){
         object(id: $objectId){
@@ -67,6 +82,9 @@ export const streamObjectQuery = `query($streamId: String!, $objectId: String!) 
     }
 }`;
 
+/**
+ * @description GraphQL query to fetch the latest streams.
+ */
 export const latestStreamsQuery = `query {
     streams(limit: 10){
         cursor
@@ -81,6 +99,11 @@ export const latestStreamsQuery = `query {
     }
 }`;
 
+/**
+ * @description GraphQL query to fetch children objects based on category.
+ * @param streamId - The ID of the stream.
+ * @param objectId - The ID of the object.
+ */
 export const getCategoryBasedChilds = `query($streamId: String!, $objectId: String!) {
   stream(id: $streamId){
     object(id: $objectId){
