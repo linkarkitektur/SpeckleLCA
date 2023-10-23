@@ -50,3 +50,52 @@ npm run test:unit
 ```sh
 npm run lint
 ```
+
+## Firebase Integration Notes
+
+### Firebase CLI
+Recommended to install Firebase CLI globally:
+```sh
+npm install -g firebase-tools
+```
+
+### Firebase Project
+Create a new Firebase project in the Firebase console. Add a web app to the project. Copy the Firebase config object from the Firebase console and paste it into `src/firebase/config.ts`.
+
+### Enabling Firebase Features
+Enable the minimum following Firebase features in the Firebase console:
+- Authentication
+- Cloud Firestore
+- Cloud Storage
+- Hosting
+
+### Initialization
+Run the following commands to initialize Firebase in the project:
+```sh
+firebase login
+```
+
+```sh
+firebase init
+```
+
+Unless you have a specific reason to change the default settings, select the following options:
+- Authentication
+- Firestore
+- Storage
+- Hosting
+- Functions (optional)
+- Emulators (optional)
+
+### Sensitive Files
+Placeholder recommended .gitignore for repo. Remove as needed:
+```
+# Firebase files
+.src/firebase/config.ts
+.firebase.json
+.functions
+.firebaserc
+.firebase
+*-debug.log
+.runtimeconfig.json
+```

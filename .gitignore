@@ -2,8 +2,8 @@
 node_modules
 /dist
 
-
 # local env files
+.env
 .env.local
 .env.*.local
 .env.production
@@ -22,3 +22,11 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Firebase files
+src/firebase/config.ts
+firebase.json
+.firebaserc
+.firebase
+*-debug.log
+.runtimeconfig.json
