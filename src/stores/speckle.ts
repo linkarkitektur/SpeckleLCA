@@ -9,7 +9,7 @@
 
 import { defineStore } from "pinia";
 import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo } from "@/models/speckle/Speckle";
-import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/SpeckleUtils";
+import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/speckleUtils";
 import router from "@/router";
 
 /**

@@ -7,12 +7,11 @@ import type { Project, Results } from "@/models/Project";
  */
 export const useProjectStore = defineStore({
   id: "projectStore",
-  state: () =>
-    {
-      return {
-        currProject: null as Project | null, // The current project being worked on
-      }
-    },
+  state: () => {
+    return {
+      currProject: null as Project | null, // The current project being worked on
+    }
+  },
 
   actions: {
     /**
@@ -45,9 +44,9 @@ export const useProjectStore = defineStore({
      */
     removeGeometry(id: string) {
       const index = this.findGeometryIndexById(id);
-      
-      if(index === -1) return;
-      
+
+      if (index === -1) return;
+
       if (index != undefined)
         this.currProject?.geometry.splice(index, 1);
     },
@@ -71,9 +70,9 @@ export const useProjectStore = defineStore({
      * @param result The results to add.
      */
     addResults(result: Results) {
-      if(this.currProject?.results != null)
+      if (this.currProject?.results != null)
         this.currProject.results.push(result);
-      else if(this.currProject != null)
+      else if (this.currProject != null)
         this.currProject.results = [result];
     },
 
@@ -115,12 +114,11 @@ export const useProjectStore = defineStore({
 
 export const useMaterialStore = defineStore({
   id: "materialStore",
-  state: () =>
-    {
-      return {
-        currProject: null as Project | null,
-      }
-    },
+  state: () => {
+    return {
+      currProject: null as Project | null,
+    }
+  },
 
   actions: {
     createNewProject(project: Project) {
