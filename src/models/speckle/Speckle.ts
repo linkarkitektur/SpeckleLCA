@@ -57,3 +57,11 @@ export interface ServerInfo {
     name: string; // The name of the Speckle server.
     company: string; // The name of the company that operates the Speckle server.
 }
+
+/**
+ * Minimum information needed for project list.
+ */
+export interface ProjectId {
+    name: string; // The name of the project
+    id: string; // The id of the project
+}
