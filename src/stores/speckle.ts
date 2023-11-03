@@ -8,8 +8,8 @@
  */
 
 import { defineStore } from "pinia";
-import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo } from "@/models/speckle/Speckle";
-import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/SpeckleUtils";
+import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo, ProjectId } from "@/models/speckle/Speckle";
+import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData, getProjectsData } from "@/utils/SpeckleUtils";
 import router from "@/router";
 
 /**
@@ -32,6 +32,11 @@ export const useSpeckleStore = defineStore({
        * @type {Version | null}
        */
       selectedVersion: null as Version | null,
+      
+      /**
+       * An array of all the projects available to the application on the server
+       */
+      allProjects: null as ProjectId[] | null,
 
       /**
        * An array of all the versions of the project.
@@ -100,10 +105,10 @@ export const useSpeckleStore = defineStore({
     },
 
     /**
-     * The `getUser` action gets the user data for the currently authenticated user.
+     * The `updateUser` action gets and updates the user data for the currently authenticated user.
      * @returns {Promise<void>}
      */
-    async getUser() {
+    async updateUser() {
       try {
         const json = await getUserData();
         const data = json.data;
@@ -111,6 +116,31 @@ export const useSpeckleStore = defineStore({
         this.$patch((state) => {
           state.user = data.user;
           state.serverInfo = data.serverInfo;
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    },
+
+    /**
+     * The `updateUser` action gets and updates the projectlist available for the application
+     * @returns {Promise<void>}
+     */
+    async updateProjects() {
+      try {
+        const json = await getProjectsData();
+        const data = json.data;
+
+        this.$patch((state) => {
+          //Clear projects before we update so we dont always increase the list
+          state.allProjects = [];
+          data.streams.items.forEach((el: { name: string; id: string; }) => {
+            let proj: ProjectId = {
+              name: el.name,
+              id: el.id,
+            };
+            state.allProjects?.push(proj);
+          });
         });
       } catch (err) {
         console.error(err);
@@ -163,15 +193,15 @@ export const useSpeckleStore = defineStore({
     },
 
     /**
-     * The `getStreamAction` action gets the project versions for the specified stream.
-     * @param {string} streamId - The ID of the stream to get versions for.
+     * The `getStreamAction` action gets the project versions for the specified project.
+     * @param {string} projectId - The ID of the project to get versions for.
      * @param {number} limit - The maximum number of versions to get.
      * @param {Date | null} cursor - The cursor to use for pagination.
      * @returns {Promise<void>}
      */
-    async getStreamAction(streamId: string, limit: number, cursor: Date | null) {
+    async getStreamAction(projectId: string, limit: number, cursor: Date | null) {
       try {
-        const response = await getProjectVersions(streamId, limit, cursor);
+        const response = await getProjectVersions(projectId, limit, cursor);
         const projDet: ProjectDetails = await response.json().data;
         let allVers: VersionId[];
         allVers = (projDet.versions?.items || []).map((el, key) => {
@@ -215,31 +245,31 @@ export const useSpeckleStore = defineStore({
      * The `projectDetails` getter returns the project details for the currently selected project.
      * @returns {ProjectDetails | null}
      */
-    projectDetails: (state) => state.projectDetails,
+    getProjectDetails: (state) => state.projectDetails,
 
     /**
      * The `selectedVersion` getter returns the currently selected version of the project.
      * @returns {Version | null}
      */
-    selectedVersion: (state) => state.selectedVersion,
+    getSelectedVersion: (state) => state.selectedVersion,
 
     /**
      * The `allVersions` getter returns an array of all the versions of the project.
      * @returns {VersionId[] | null}
      */
-    allVersions: (state) => state.allVersions,
+    getAllVersions: (state) => state.allVersions,
 
     /**
      * The `allModels` getter returns an array of all the models in the project.
      * @returns {string[] | null}
      */
-    allModels: (state) => state.allModels,
+    getAllModels: (state) => state.allModels,
 
     /**
      * The `modelsAndVersions` getter returns an object that maps each model to an array of its versions.
      * @returns {ModelsAndVersions | null}
      */
-    modelsAndVersions: (state) => state.modelsAndVersions,
+    getModelsAndVersions: (state) => state.modelsAndVersions,
 
     /**
      * The `isAuthenticated` getter returns a boolean indicating whether the user is authenticated.
@@ -252,5 +282,11 @@ export const useSpeckleStore = defineStore({
      * @returns {User | null}
      */
     getUserInfo: (state) => state.user,
+
+    /**
+     * The `getProjectsInfo` getter returns all projects available to the applications
+     * @returns {ProjectId[] | null}
+     */
+    getProjectsInfo: (state) => state.allProjects,
   },
 })
