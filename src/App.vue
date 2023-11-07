@@ -34,6 +34,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { defineComponent, ref, computed } from 'vue';
 import { useSpeckleStore } from './stores/speckle';
 import router from './router';
+import './index.css'
 
 export default defineComponent({
   name: "App",
@@ -242,6 +243,7 @@ nav a:first-of-type {
   }
 
   nav {
+
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
