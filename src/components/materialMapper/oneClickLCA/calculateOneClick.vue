@@ -18,9 +18,12 @@
 import axios from "axios";
 import { utils, writeFile, read, write } from "xlsx";
 
+// Loading the token once at the head of the file.
+const securityToken = VUE_APP_ONE_CLICK_LCA_SECURITY_TOKEN
+
 const axiosBody = {
     'fileToken': this.fileToken,
-    'securityToken': this.securityToken,
+    'securityToken': securityToken,
     'bearerToken': this.accessToken
 }
 
@@ -146,7 +149,7 @@ export default {
                 this.fileToken = `LINK-LCA-${Date.now()}`
                 formData.append('fileToken', this.fileToken);
                 formData.append('importFile', this.excelFile);
-                formData.append('securityToken', this.securityToken); //TODO: @fabianlinkflink add the token to the .env
+                formData.append('securityToken', securityToken); //TODO: @fabianlinkflink add the token to the .env
                 formData.append('APICalculation', 'TRUE');
                 try {
                     const response = await axios.post('https://cors-anywhere.herokuapp.com/https://oneclicklcaapp.com/app/api/startCalculationRequest', formData, {
@@ -173,7 +176,7 @@ export default {
         async getCalculationResults() {
             const body = {
                 'fileToken': this.fileToken,
-                'securityToken': this.securityToken, //TODO: @fabianlinkflink same as above. The requests could also implement more DRY principles. (Demo just above here.)
+                'securityToken': securityToken, //TODO: @fabianlinkflink same as above. The requests could also implement more DRY principles. (Demo just above here.)
                 'bearerToken': this.accessToken
             }
             try {
