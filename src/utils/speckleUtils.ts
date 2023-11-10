@@ -8,8 +8,8 @@ import {
 
 import { getCategoryBasedChilds } from "../graphql/speckleQueries";
 
-export const APP_NAME = process.env.VUE_APP_SPECKLE_NAME;
-export const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME || "speckleXYZ";
+export const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL || "https://speckle.xyz";
 export const TOKEN = `${APP_NAME}.AuthToken`;
 export const REFRESH_TOKEN = `${APP_NAME}.RefreshToken`;
 export const CHALLENGE = `${APP_NAME}.Challenge`;
@@ -30,7 +30,7 @@ export function goToSpeckleAuthPage() {
   // Save challenge in localStorage.
   localStorage.setItem(CHALLENGE, challenge);
   // Send user to auth page.
-  window.location.href = `${SERVER_URL}/authn/verify/${process.env.VUE_APP_SPECKLE_ID}/${challenge}`;
+  window.location.href = `${SERVER_URL}/authn/verify/${import.meta.env.VITE_APP_SPECKLE_ID}/${challenge}`;
 }
 
 // Log out the current user. This removes the token/refreshToken pair.
@@ -49,8 +49,8 @@ export async function exchangeAccessCode(accessCode: string) {
     },
     body: JSON.stringify({
       accessCode: accessCode,
-      appId: process.env.VUE_APP_SPECKLE_ID,
-      appSecret: process.env.VUE_APP_SPECKLE_SECRET,
+      appId: import.meta.env.VITE_APP_SPECKLE_ID,
+      appSecret: import.meta.env.VITE_APP_SPECKLE_SECRET,
       challenge: localStorage.getItem(CHALLENGE),
     }),
   });
@@ -114,9 +114,8 @@ export const getStreamObject = (streamId: string, objectId: string) =>
 export const getObject = (streamId: string, objectId: string) =>
   speckleFetch(streamObjectQuery, { streamId, objectId });
 
-// Get the latest streams
-export const getStreams = () =>
-  speckleFetch(latestStreamsQuery).then((res) => res.data?.streams);
+// Get the latest projects
+export const getProjectsData = () => speckleFetch(latestStreamsQuery);
 
 // Get the category of an object and its child objects
 export const getCategoryAndChilds = (streamId: string, objectId: string) =>

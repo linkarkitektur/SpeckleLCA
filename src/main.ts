@@ -5,8 +5,7 @@ import * as Sentry from "@sentry/vue";
 
 import App from './App.vue'
 import router from './router'
-
-import './assets/main.css'
+import './index.css'
 
 // Vuetify
 import 'vuetify/styles'
