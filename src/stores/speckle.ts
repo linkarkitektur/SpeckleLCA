@@ -8,8 +8,8 @@
  */
 
 import { defineStore } from "pinia";
-import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo, ProjectId } from "@/models/speckle/Speckle";
-import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData, getProjectsData } from "@/utils/SpeckleUtils";
+import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo } from "@/models/speckle/Speckle";
+import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/speckleUtils"; // TODO: Is this the right import in the wider structure?
 import router from "@/router";
 
 /**
