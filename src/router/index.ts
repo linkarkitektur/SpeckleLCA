@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
 import Home from '../views/Home.vue'
-import Login from '@/components/Login.vue'
+import Login from '@/components/SpeckleLogin.vue'
 
 import { useSpeckleStore } from '@/stores/speckle';
 
