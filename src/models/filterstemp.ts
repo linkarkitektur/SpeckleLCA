@@ -1,5 +1,5 @@
 import type { group } from "console";
-import type { GeometryObject } from "./GeometryObject";
+import type { GeometryObject } from "./geometryObject";
 
 /**
  * Filters done in correct sequencing with arguments to be used for each step

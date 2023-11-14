@@ -65,3 +65,13 @@ export interface ProjectId {
     name: string; // The name of the project
     id: string; // The id of the project
 }
+
+/**
+ * Parameter speckle object information
+ */
+export interface ObjectParameter {
+    id: string; // Unique id of parameter
+    name: string; // The name of the parameter
+    value?: string // Value of the parameter
+    parentId?: string // Unique id of the parameters parent if it has any
+}
