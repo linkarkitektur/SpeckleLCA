@@ -1,9 +1,9 @@
-import { FilterRegistry, createStandardFilters } from '@/models/Filters';
+import { FilterRegistry, createStandardFilters } from '@/models/filters';
 import { useProjectStore } from "@/stores/main";
 
-import type { Group } from '@/models/Filters';
-import type { GeometryObject } from "@/models/GeometryObject";
-import type { Project } from "@/models/Project";
+import type { Group } from '@/models/filters';
+import type { GeometryObject } from "@/models/geometryObject";
+import type { Project } from "@/models/project";
 import type { Unit } from "lcax";
 
 import crypto from 'node:crypto';
