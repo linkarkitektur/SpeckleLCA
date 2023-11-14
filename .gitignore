@@ -32,3 +32,4 @@ firebase.json
 .runtimeconfig.json
 # Sentry Config File
 .env.sentry-build-plugin
+package-lock.json
