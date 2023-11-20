@@ -7,6 +7,7 @@ import {
 } from "@/graphql/speckleQueries";
 
 import { getCategoryBasedChilds } from "../graphql/speckleQueries";
+import { getSpeckleSelection } from "@/graphql/speckleVariables";
 
 export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME || "speckleXYZ";
 export const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL || "https://speckle.xyz";
@@ -65,7 +66,7 @@ export async function exchangeAccessCode(accessCode: string) {
 }
 
 // Calls the GraphQL endpoint of the Speckle server with a specific query.
-export async function speckleFetch(query: string, vars?: {[key: string]: any}) {
+export async function speckleFetch(query: string, vars?: { [key: string]: any }) {
   let token = localStorage.getItem(TOKEN);
   if (token)
     try {
@@ -92,7 +93,7 @@ export const getUserData = () => speckleFetch(userInfoQuery);
 
 // Fetch for streams matching the specified text using the streamSearchQuery
 export const searchStreams = (variables: string) => {
-  let vars = {var: variables};
+  let vars = { var: variables };
   speckleFetch(streamSearchQuery, vars);
 }
 
@@ -117,6 +118,14 @@ export const getObject = (streamId: string, objectId: string) =>
 // Get the latest projects
 export const getProjectsData = () => speckleFetch(latestStreamsQuery);
 
-// Get the category of an object and its child objects
-export const getCategoryAndChilds = (streamId: string, objectId: string) =>
-  speckleFetch(getCategoryBasedChilds, { streamId, objectId });
+/**
+ * Get object parameters for a stream and specific commit object.
+ * The parameters will be dynamic for the sourceapplication that was used when sending to Speckle
+ * @param streamId 
+ * @param objectId 
+ * @param sourceApplication 
+ */
+export const getObjectParameters = (streamId: string, objectId: string, sourceApplication: string) => {
+  const selection = getSpeckleSelection(sourceApplication)
+  speckleFetch(getCategoryBasedChilds, { streamId, objectId, selection });
+}

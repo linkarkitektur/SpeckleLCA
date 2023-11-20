@@ -8,8 +8,8 @@
  */
 
 import { defineStore } from "pinia";
-import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo } from "@/models/speckle/Speckle";
-import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/speckleUtils"; // TODO: Is this the right import in the wider structure?
+import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo, ProjectId, ObjectParameter } from "@/models/speckle";
+import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData, getProjectsData } from "@/utils/speckleUtils"; // TODO: Is this the right import in the wider structure?
 import router from "@/router";
 
 /**
@@ -67,6 +67,13 @@ export const useSpeckleStore = defineStore({
        * @type {ServerInfo | null}
        */
       serverInfo: null as ServerInfo | null,
+
+      /**
+       * Array of specific parameters that are included in the project that the application
+       * will get information for the objects from
+       * @type {ObjectParameter[] | null}
+       */
+      customParameters : null as ObjectParameter[] | null,
     }
   },
   actions: {
@@ -193,6 +200,42 @@ export const useSpeckleStore = defineStore({
     },
 
     /**
+     * Add new parameter to list of parameters to include in fetching of speckle objects
+     * @param parameter 
+     */
+    addCustomParameter(parameter: ObjectParameter) {
+      if (!this.parameterNameCheck(parameter.name)) {
+        if(this.customParameters)
+          this.customParameters.push(parameter);
+        else
+          this.customParameters = [parameter];
+      } else {
+        console.warn('Duplicate name found. Object not added.');
+      }
+    },
+    
+    /**
+     * Checks a if a name already exists within objects in parameters
+     * @param newName name to check
+     * @returns true if its already in parameters, false if not
+     */
+    parameterNameCheck(newName: string): boolean {
+      if(this.customParameters)
+        return this.customParameters.some(obj => obj.name === newName);
+      else
+        return false;
+    },
+
+    /**
+     * Removes a customParameter on its name
+     *  @param name name to remove, will never be duplicate since we check
+     */
+    removeCustomParameter(name: string) {
+      if(this.customParameters)
+        this.customParameters = this.customParameters?.filter(item => item.name !== name);
+    },
+
+    /**
      * The `getStreamAction` action gets the project versions for the specified project.
      * @param {string} projectId - The ID of the project to get versions for.
      * @param {number} limit - The maximum number of versions to get.
@@ -288,5 +331,11 @@ export const useSpeckleStore = defineStore({
      * @returns {ProjectId[] | null}
      */
     getProjectsInfo: (state) => state.allProjects,
+
+    /**
+     * Returns a list of all customParameters for this stream
+     * @returns {ObjectParameter[] | null}
+     */
+    getCustomParameters: (state) => state.customParameters,
   },
 })
