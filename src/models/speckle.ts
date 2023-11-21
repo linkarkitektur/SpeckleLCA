@@ -64,6 +64,7 @@ export interface ServerInfo {
 export interface ProjectId {
     name: string; // The name of the project
     id: string; // The id of the project
+    updatedAt: string; // The last update of the project
 }
 
 /**
