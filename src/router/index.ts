@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
-import Home from '../views/Home.vue'
-import Login from '@/components/SpeckleLogin.vue'
+import Home from '@/views/Home.vue';
+import Dashboard from '@/views/Dashboard.vue';
+import ProjectSelection from '@/views/ProjectSelection.vue';
+import Login from '@/components/SpeckleLogin.vue';
 
 import { useSpeckleStore } from '@/stores/speckle';
 
@@ -10,11 +12,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home,
       meta: {
-        requiresAuth: true,
-        title: "Dashboard",
+        requiresAuth: false,
+        title: "Landing",
         icon: "",
       },
     },
@@ -24,13 +26,34 @@ const router = createRouter({
       component: Login,
       meta: {
         requiresAuth: false,
-        title: "Login | Dashboard",
+        title: "Login",
         icon: "",
       },
-    }
+    },
+    {
+      path: "/projects",
+      name: "Projects",
+      component: ProjectSelection,
+      meta: {
+        requiresAuth: true,
+        title: "Project Selection",
+        icon: "",
+      }
+    },
+    {
+      path: "/dashboard",
+      name: "Dashboard",
+      component: Dashboard,
+      meta: {
+        requiresAuth: true,
+        title: "Dashboard",
+        icon: "",
+      }
+    },
   ]
 })
 
+//TODO: This is causing an infinite authentification loop
 const beforeEachGuard = async (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
