@@ -126,3 +126,31 @@ export const useMaterialStore = defineStore({
     },
   }
 });
+
+/**
+ * Navigation store that is used by the navigation bar in the application view
+ */
+export const useNavigationStore = defineStore({
+  id: 'navigationStore',
+  state: () => {
+    return {
+      activePage: "Projects" as string, // The current page
+    }
+  },
+  actions: {
+    /**
+     * Set the application that is being used in the application view
+     * @param page page that is currently active in the application view
+     */
+    setActivePage(page: string) {
+      this.activePage = page;
+    },
+  },
+  getters: {
+    /**
+     * Returns the current page for the application view
+     * @returns currentPage
+     */
+    getActivePage: (state) => state.activePage,
+  },
+});

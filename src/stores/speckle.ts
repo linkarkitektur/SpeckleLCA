@@ -141,10 +141,11 @@ export const useSpeckleStore = defineStore({
         this.$patch((state) => {
           //Clear projects before we update so we dont always increase the list
           state.allProjects = [];
-          data.streams.items.forEach((el: { name: string; id: string; }) => {
+          data.streams.items.forEach((el: { name: string; id: string; updatedAt: string; }) => {
             let proj: ProjectId = {
               name: el.name,
               id: el.id,
+              updatedAt: el.updatedAt
             };
             state.allProjects?.push(proj);
           });
