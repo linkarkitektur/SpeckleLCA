@@ -12,7 +12,6 @@ import './index.css'
 export default defineComponent({
   name: "App",
   components: {
-    Footer,
   },
   setup() {
     const route = useRoute();
