@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import ProjectGrid from '@/components/ProjectGrid.vue';
+import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue';
 import Navbar from '@/components/Navbar.vue';
 
 export default {
@@ -12,8 +12,7 @@ export default {
   components: {
     Navbar,
     ProjectGrid
-},
-  setup() {
   },
+  setup() {},
 }
 </script>
