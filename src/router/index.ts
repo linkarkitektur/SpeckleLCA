@@ -57,7 +57,6 @@ const router = createRouter({
 const beforeEachGuard = async (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext
 ) => {
   const speckleStore = useSpeckleStore();
   if (to.query.access_code) {
@@ -71,11 +70,11 @@ const beforeEachGuard = async (
 
     try {
       await speckleStore.exchangeAccessCodes(accessCode);
+      return { name: "Projects" }
     } catch (err) {
       console.warn('exchange failed', err);
+      return { name: "Home" }
     }
-    // Whatever happens, go home.
-    return next('/');
   }
 
   // Fetch if the user is authenticated
@@ -83,15 +82,8 @@ const beforeEachGuard = async (
   const isAuth = speckleStore.isAuthenticated;
 
   if (to.meta.requiresAuth && !isAuth) {
-    if (from.name !== 'Login') {
-      return next({ name: 'Login' });
-    }
-  } else if(!to.meta.requiresAuth && isAuth) {
-    return next('/');
+    return { name: 'Login' }
   }
-
-  // Any other page
-  next();
 };
 
 router.beforeEach(beforeEachGuard);
