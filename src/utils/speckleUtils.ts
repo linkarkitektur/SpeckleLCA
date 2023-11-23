@@ -6,7 +6,7 @@ import {
   userInfoQuery
 } from "@/graphql/speckleQueries";
 
-import { getCategoryBasedChilds } from "../graphql/speckleQueries";
+import { selectedObjectsQuery } from "@/graphql/speckleQueries";
 import { getSpeckleSelection } from "@/graphql/speckleVariables";
 
 export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME || "speckleXYZ";
@@ -119,7 +119,7 @@ export const getObject = (streamId: string, objectId: string) =>
 export const getProjectsData = () => speckleFetch(latestStreamsQuery);
 
 /**
- * Get object parameters for a stream and specific commit object.
+ * Get object parameters for a stream and specific referenced object.
  * The parameters will be dynamic for the sourceapplication that was used when sending to Speckle
  * @param streamId 
  * @param objectId 
@@ -127,5 +127,5 @@ export const getProjectsData = () => speckleFetch(latestStreamsQuery);
  */
 export const getObjectParameters = (streamId: string, objectId: string, sourceApplication: string) => {
   const selection = getSpeckleSelection(sourceApplication)
-  speckleFetch(getCategoryBasedChilds, { streamId, objectId, selection });
+  speckleFetch(selectedObjectsQuery, { streamId, objectId, selection });
 }

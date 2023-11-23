@@ -59,7 +59,7 @@ export const streamSearchQuery = `
   }`;
 
 /**
- * @description GraphQL query to fetch a stream object.
+ * @description DEPRECATED GraphQL query to fetch a stream object use selectedObjectsQuery instead
  * @param streamId - The ID of the stream.
  * @param objectId - The ID of the object.
  */
@@ -100,11 +100,11 @@ export const latestStreamsQuery = `query {
 }`;
 
 /**
- * @description GraphQL query to fetch children objects based on category.
+ * @description GraphQL query to fetch children objects and their parameters based on selection.
  * @param streamId - The ID of the stream.
  * @param objectId - The ID of the object.
  */
-export const getCategoryBasedChilds = `query Stream($streamId: String!, $objectId: String!, $select: [String]) {
+export const selectedObjectsQuery = `query Stream($streamId: String!, $objectId: String!, $select: [String]) {
   stream(id: $streamId) {
     object(id: $objectId) {
       totalChildrenCount
