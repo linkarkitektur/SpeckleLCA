@@ -7,7 +7,7 @@ import {
 } from "@/graphql/speckleQueries";
 
 import { selectedObjectsQuery } from "@/graphql/speckleQueries";
-import { getSpeckleSelection } from "@/graphql/speckleVariables";
+import { speckleSelection } from "@/graphql/speckleVariables";
 
 export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME || "speckleXYZ";
 export const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL || "https://speckle.xyz";
@@ -81,9 +81,11 @@ export async function speckleFetch(query: string, vars?: { [key: string]: any })
           variables: vars || null,
         }),
       });
-      return await res.json();
+      const data = await res.json();
+      return data;
     } catch (err) {
       console.error("API call failed", err);
+      return Promise.reject("API call failed");
     }
   else return Promise.reject("You are not logged in (token does not exist)");
 }
@@ -106,12 +108,6 @@ export const getProjectVersions = (projectId: string, itemsPerPage: number, curs
   });
 
 // Get a specific object from a specific stream
-export const getStreamObject = (streamId: string, objectId: string) =>
-  speckleFetch(streamObjectQuery, { streamId, objectId }).then(
-    (res) => res.data?.stream?.object
-  );
-
-// Get a specific object from a specific stream
 export const getObject = (streamId: string, objectId: string) =>
   speckleFetch(streamObjectQuery, { streamId, objectId });
 
@@ -125,7 +121,7 @@ export const getProjectsData = () => speckleFetch(latestStreamsQuery);
  * @param objectId 
  * @param sourceApplication 
  */
-export const getObjectParameters = (streamId: string, objectId: string, sourceApplication: string) => {
-  const selection = getSpeckleSelection(sourceApplication)
-  speckleFetch(selectedObjectsQuery, { streamId, objectId, selection });
+export async function getObjectParameters(streamId: string, objectId: string, sourceApplication: string) {
+  const selection = speckleSelection(sourceApplication)
+  return await speckleFetch(selectedObjectsQuery, { "streamId": streamId, "objectId": objectId, "selection": selection });
 }
