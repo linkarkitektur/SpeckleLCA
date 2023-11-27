@@ -3,11 +3,11 @@
  */
 export interface Version {
     authorName: string; // The name of the author who created the version.
-    modelName: string; // The name of the model that the version belongs to.
+    branchName: string; // The name of the model that the version belongs to.
     createdAt: Date; // The date and time when the version was created.
     id: string; // The unique identifier of the version.
     message: string; // A message describing the changes made in the version.
-    referenceObject: string; // The unique identifier of the object that the version is based on.
+    referencedObject: string; // The unique identifier of the object that the version is based on.
     sourceApplication: string; // The name of the application used to create the version.
 }
 
@@ -15,15 +15,16 @@ export interface Version {
  * Represents the details of a Speckle project.
  */
 export interface ProjectDetails {
-    versions: {
-        items: Version[]; // An array of versions of the project.
-        cursor: Date; // The date and time of the last version in the array.
-        totalCount: number; // The total number of versions in the project.
-    },
-    id: string; // The unique identifier of the project.
-    name: string; // The name of the project.
-    updatedAt: Date; // The date and time when the project was last updated.
-    projectId: string; // The unique identifier of the Speckle project that the project belongs to.
+    stream: {
+        commits: {
+            items: Version[]; // An array of versions of the project.
+            cursor: Date; // The date and time of the last version in the array.
+            totalCount: number; // The total number of versions in the project.
+        },
+        id: string; // The unique identifier of the project.
+        name: string; // The name of the project.
+        updatedAt: Date; // The date and time when the project was last updated.    
+    }
 }
 
 /**
@@ -64,7 +65,7 @@ export interface ServerInfo {
 export interface ProjectId {
     name: string; // The name of the project
     id: string; // The id of the project
-    updatedAt: string; // The last update of the project
+    updatedAt: Date; // The last update of the project
 }
 
 /**

@@ -1,13 +1,9 @@
-import { useProjectStore } from "@/stores/main";
-
 /**
  * Combines and gets the selection variable to get proper information from your speckle project
  * @param sourceApplication source application as string
  * @returns array of strings to be set as variables for graphQL queries
  */
-export function getSpeckleSelection(sourceApplication: string) {
-  const store = useProjectStore;
-
+export function speckleSelection(sourceApplication: string) {
   let selection: string[] = [];
   selection.push(...generalParameters);
 
