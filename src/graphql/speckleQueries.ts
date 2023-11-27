@@ -59,30 +59,6 @@ export const streamSearchQuery = `
   }`;
 
 /**
- * @description DEPRECATED GraphQL query to fetch a stream object use selectedObjectsQuery instead
- * @param streamId - The ID of the stream.
- * @param objectId - The ID of the object.
- */
-export const streamObjectQuery = `query($streamId: String!, $objectId: String!) {
-    stream(id: $streamId){
-        object(id: $objectId){
-            totalChildrenCount
-            id
-            speckleType
-            data
-            children(select:["speckle_type","type", "family", "category", "level.name", "level.elevation", "level.id", "parameters.HOST_AREA_COMPUTED.value", "parameters.HOST_VOLUME_COMPUTED.value","height"] limit:1000000){
-              totalCount
-              cursor
-              objects{
-                id
-                data
-              }
-            }
-        }
-    }
-}`;
-
-/**
  * @description GraphQL query to fetch the latest streams.
  */
 export const latestStreamsQuery = `query {
@@ -103,6 +79,7 @@ export const latestStreamsQuery = `query {
  * @description GraphQL query to fetch children objects and their parameters based on selection.
  * @param streamId - The ID of the stream.
  * @param objectId - The ID of the object.
+ * @param select - An array of parameters to include for each object
  */
 export const selectedObjectsQuery = `query Stream($streamId: String!, $objectId: String!, $select: [String]) {
   stream(id: $streamId) {
@@ -115,5 +92,29 @@ export const selectedObjectsQuery = `query Stream($streamId: String!, $objectId:
         }
       }
     }
+  }
+}`;
+
+/**
+ * @description DEPRECATED GraphQL query to fetch a stream object use selectedObjectsQuery instead
+ * @param streamId - The ID of the stream.
+ * @param objectId - The ID of the object.
+ */
+export const streamObjectQuery = `query($streamId: String!, $objectId: String!) {
+  stream(id: $streamId){
+      object(id: $objectId){
+          totalChildrenCount
+          id
+          speckleType
+          data
+          children(select:["speckle_type","type", "family", "category", "level.name", "level.elevation", "level.id", "parameters.HOST_AREA_COMPUTED.value", "parameters.HOST_VOLUME_COMPUTED.value","height"] limit:1000000){
+            totalCount
+            cursor
+            objects{
+              id
+              data
+            }
+          }
+      }
   }
 }`;
