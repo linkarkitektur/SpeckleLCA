@@ -46,8 +46,10 @@ import Dropdown, { type dropdownItem } from '@/components/Dropdown.vue'
 import router from '@/router';
 import { useNavigationStore, useProjectStore } from '@/stores/main';
 import { useSpeckleStore } from '@/stores/speckle';
-import { getProjectVersions } from '@/utils/speckleUtils';
-import type { ProjectDetails, Version } from '@/models/speckle';
+import { convertObjects } from '@/utils/speckleUtils';
+import type { Version } from '@/models/speckle';
+import type { ResponseObjectStream } from '@/models/speckle';
+import type { Project } from '@/models/project';
 
 export default defineComponent ({
   name: "VersionSelectionModal",
@@ -74,6 +76,7 @@ export default defineComponent ({
       required: true,
     }
   },
+  // TODO this should maybe all be in the navigation store instead?
   setup(props) {
     const isOpen = ref(props.show);
     const projectId = ref(props.projectId);
@@ -82,6 +85,7 @@ export default defineComponent ({
     const instance = getCurrentInstance();
     const speckleStore = useSpeckleStore();
     const navigationStore = useNavigationStore();
+    const projectStore = useProjectStore();
 
     /**
      * Close the modal and emitting back that it was closed
@@ -143,8 +147,15 @@ export default defineComponent ({
         }
       }
 
-      const objects = await speckleStore.getObjects()
+      const objects: ResponseObjectStream = await speckleStore.getObjects();
+      const project: Project | null = convertObjects(objects);
 
+      if (project)
+        projectStore.createNewProject(project);
+      else 
+        console.error("Could not create project from speckle");
+
+      console.log(projectStore.currProject);
       navigationStore.setActivePage("Overview");
       
       router.push('/dashboard');
