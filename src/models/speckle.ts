@@ -77,3 +77,34 @@ export interface ObjectParameter {
     value?: string // Value of the parameter
     parentId?: string // Unique id of the parameters parent if it has any
 }
+
+/**
+ * Response from speckle graphql API when getting objects
+ */
+export interface ResponseObjectStream {
+    data: {
+        stream: {
+            object: {
+                totalChildrenCount: number;
+                elements: {
+                    objects: ResponseObject[];
+                };
+            };
+        };    
+    };
+}
+
+/**
+ * Objects that are returned from speckle graphql API
+ */
+export interface ResponseObject {
+    id: string;
+    data: {
+        id: string;
+        data: any[];
+        speckle_type: string;
+        applicationId: string | null;
+        totalChildrenCount: number;
+        [key: string]: any; // Flexible key:strings that you can expand with more
+    }
+}

@@ -8,6 +8,11 @@ import {
 
 import { selectedObjectsQuery } from "@/graphql/speckleQueries";
 import { speckleSelection } from "@/graphql/speckleVariables";
+import type { Project } from "@/models/project";
+import type { ResponseObject, ResponseObjectStream } from "@/models/speckle";
+import type { GeometryObject } from "@/models/geometryObject";
+import type { Unit } from "lcax";
+import { useSpeckleStore } from "@/stores/speckle";
 
 export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME || "speckleXYZ";
 export const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL || "https://speckle.xyz";
@@ -82,6 +87,8 @@ export async function speckleFetch(query: string, vars?: { [key: string]: any })
         }),
       });
       const data = await res.json();
+      console.log(query);
+      console.log(vars);
       return data;
     } catch (err) {
       console.error("API call failed", err);
@@ -124,4 +131,101 @@ export const getProjectsData = () => speckleFetch(latestStreamsQuery);
 export async function getObjectParameters(streamId: string, objectId: string, sourceApplication: string) {
   const selection = speckleSelection(sourceApplication)
   return await speckleFetch(selectedObjectsQuery, { "streamId": streamId, "objectId": objectId, "selection": selection });
+}
+
+export function convertObjects(input: ResponseObjectStream): Project | null {
+  const speckleStore = useSpeckleStore();
+
+  const objects: ResponseObject[] = input.data.stream.object.elements.objects;
+
+  const modelObjects = objects.filter(obj => obj.data.speckle_type !== "Speckle.Core.Models.DataChunk");
+  const projectDetails = speckleStore.getProjectDetails;
+  const version = speckleStore.getSelectedVersion;
+
+  console.log(modelObjects);
+  if (projectDetails && version) {
+    let geoObjects: GeometryObject[] = [];
+
+    modelObjects.forEach(el => {
+      const quantity = calculateQuantity(el);
+
+      let name: string = el.data.name? el.data.name : el.data.speckle_type;
+
+      const obj: GeometryObject = {
+        id: el.id,
+        name: name,
+        quantity: quantity,
+        parameters: el.data
+      }
+
+      geoObjects.push(obj);
+    });
+    
+    const project: Project = {
+      name: projectDetails.stream.name,  
+      id: projectDetails.stream.id,
+      description: version.message,
+      geometry: geoObjects,
+    }
+    return project;
+  }
+  return null;
+}
+
+export const calculateQuantity = (obj: ResponseObject) => {
+  let quantity: { [key in Unit]: number } = {
+    "M": 0,
+    "M2": 0,
+    "M3": 0,
+    "KG": 0,
+    "TONES": 0,
+    "PCS": 0,
+    "L": 0,
+    "M2R1": 0,
+    "UNKNOWN": 0,
+  };
+  // Initial parameters we search for, can be added upon should maybe be moved from here to a model file instead
+  const searchObject = 
+  [
+    {
+      searchValue: 'area',
+      metric: 'M2'
+    },
+    {
+      searchValue: 'volume',
+      metric: 'M3'
+    },
+    {
+      searchValue: 'length',
+      metric: 'M'
+    }
+  ];
+
+  // Recursive search for key values in object properties
+  const searchNested = (data: { [key: string]: any }, sObj: {searchValue: string, metric: string}) => {
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        if (typeof data[key] === 'object' && data[key] !== null) {
+          // If the current property is an object, recursively search
+          searchNested(data[key], sObj);
+        } else if (typeof data[key] === 'string' && data[key].toLowerCase() == sObj.searchValue) {
+          // If the property is a string and matches the search value, set the quantity
+          let value = data[key];
+          if (typeof value === 'string'){
+            value = data["value"];
+          }
+          quantity[sObj.metric as Unit] = value;
+        }
+      }
+    }
+  }
+
+  // Start recursive search on the object
+  // TODO this should probably be optimized, could become slow on large projects or atleast add a loading bar
+  if (obj.data) {
+    searchObject.forEach(sObj => {
+      searchNested(obj.data, sObj);
+    });
+  }
+  return quantity;
 }

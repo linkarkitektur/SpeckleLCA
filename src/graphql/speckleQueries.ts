@@ -85,7 +85,7 @@ export const selectedObjectsQuery = `query Stream($streamId: String!, $objectId:
   stream(id: $streamId) {
     object(id: $objectId) {
       totalChildrenCount
-      elements: children(select: $select){
+      elements: children(select: $select limit:1000000){
         objects {
           id
           data
