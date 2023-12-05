@@ -1,21 +1,18 @@
 <template>
-  <div class="fixed inset-y-0 z-40 flex w-72 flex-col">
+  <div class="fixed inset-y-0 z-40 flex w-96 flex-col">
     <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-20">
       <nav class="flex flex-1 flex-col pt-6">
-        <ul role="list" class="flex flex-1 flex-col gap-y-7">
-          <li>
-            <ul role="list" class="-mx-2 space-y-1">
-              <li v-for="item in testActions" :key="item.name">
-                <button @click='item.action'>
-                  <a :href="item.href" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                    <component :is="item.icon" :class="[item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
-                    {{ item.name }}
-                  </a>
-                </button>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <Draggable
+          item-key="id"
+          :list="testGroups"
+          ghost-class="ghost"
+          :animation="200">
+          <template #item="{ element }">
+            <div class="pt-4 pb-4">
+              <GroupCard class="hover:cursor-move" :group='element' />
+            </div>
+          </template>
+        </Draggable>
       </nav>
     </div>
   </div>
@@ -23,7 +20,8 @@
 
 <script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, onMounted } from 'vue'
+import Draggable from 'vuedraggable'
 
 import {
   Dialog,
@@ -49,9 +47,11 @@ import {
   XMarkIcon,
 } from '@heroicons/vue/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
+import GroupCard from '@/components/Sidebar/GroupCard.vue'
 
 import { useSpeckleStore } from '@/stores/speckle'
 import { useProjectStore } from '@/stores/main'
+import type { Group } from '@/models/filters'
 
 export default defineComponent({
   name: "Sidebar",
@@ -64,6 +64,8 @@ export default defineComponent({
     MenuItems,
     TransitionChild,
     TransitionRoot,
+    GroupCard,
+    Draggable,
     Bars3Icon,
     BellIcon,
     CalendarIcon,
@@ -81,6 +83,39 @@ export default defineComponent({
     const speckleStore = useSpeckleStore();
     const projectstore = useProjectStore(); 
 
+    const testGroups: Group[] = [
+      {
+        id: "testId1",
+        name: "testName1",
+        path: "test1/test1",
+        elements: [],
+      },
+      {
+        id: "testId2",
+        name: "testName2",
+        path: "test1/test2",
+        elements: [],
+      },
+      {
+        id: "testId3",
+        name: "testName3",
+        path: "test2/test1",
+        elements: [],
+      },
+      {
+        id: "testId4",
+        name: "testName4",
+        path: "test2/test2",
+        elements: [],
+      },
+      {
+        id: "testId5",
+        name: "testName5",
+        path: "test3/test1",
+        elements: [],
+      },
+    ];
+
     const speckleLogin = () => {
       speckleStore.login();
     }
@@ -92,7 +127,7 @@ export default defineComponent({
     const speckleLoadProjects = () => {
       speckleStore.updateProjects();
     }
-    
+
     const testActions = [
       { name: 'SpeckleLogin', href: '#', icon: HomeIcon, current: true, action: speckleLogin },
       { name: 'LoadProjects', href: '#', icon: UsersIcon, current: false, action: speckleLoadProjects},
@@ -115,10 +150,17 @@ export default defineComponent({
       speckleStore,
       testActions,
       userNavigation,
-      sidebarOpen
+      sidebarOpen,
+      testGroups
     };
   }
   
 });
 
 </script> 
+
+<style scoped>
+.ghost {
+  opacity: 0.5;
+}
+</style>
