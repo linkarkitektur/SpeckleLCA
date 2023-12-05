@@ -53,7 +53,6 @@ const router = createRouter({
   ]
 })
 
-//TODO: This is causing an infinite authentification loop
 const beforeEachGuard = async (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
