@@ -132,7 +132,6 @@ export default defineComponent ({
      */
     const loadProject = async () => {
       //Do conversion from speckle project to projectStore project here
-      console.log("Loading version");
       let version: Version;
       if (speckleStore.getProjectDetails) {
         const versionFound = speckleStore.getProjectDetails.stream.commits.items.find(obj => obj.id === speckleStore.getSelectedVersion?.id);
@@ -155,7 +154,6 @@ export default defineComponent ({
       else 
         console.error("Could not create project from speckle");
 
-      console.log(projectStore.currProject);
       navigationStore.setActivePage("Overview");
       
       router.push('/dashboard');

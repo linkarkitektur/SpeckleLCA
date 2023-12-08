@@ -87,8 +87,6 @@ export async function speckleFetch(query: string, vars?: { [key: string]: any })
         }),
       });
       const data = await res.json();
-      console.log(query);
-      console.log(vars);
       return data;
     } catch (err) {
       console.error("API call failed", err);
@@ -142,7 +140,6 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
   const projectDetails = speckleStore.getProjectDetails;
   const version = speckleStore.getSelectedVersion;
 
-  console.log(modelObjects);
   if (projectDetails && version) {
     let geoObjects: GeometryObject[] = [];
 

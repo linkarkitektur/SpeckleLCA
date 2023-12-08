@@ -221,17 +221,14 @@ export const useSpeckleStore = defineStore({
      */
     async getObjects(): Promise<any> {
       try {
-        console.log("gettingObjects");
         if (this.selectedProject && this.selectedVersion) {
-          const objs = await getObjectParameters(this.selectedProject.id, this.selectedVersion.referencedObject, this.selectedVersion.sourceApplication);
-          console.log(objs);          
+          const objs = await getObjectParameters(this.selectedProject.id, this.selectedVersion.referencedObject, this.selectedVersion.sourceApplication);         
           return objs;
         } else {
           return null;
         }
       }
       catch (err) {
-        console.log("err");
         console.error(err);
       }
       
