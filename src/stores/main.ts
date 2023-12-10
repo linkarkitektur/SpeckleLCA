@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import type { GeometryObject } from "@/models/geometryObject";
 import type { Project, Results } from "@/models/project";
 import type { Group } from "@/models/filters";
-import type { SubChild } from "@/components/Sidebar/SubGroup.vue";
 import { createNestedObject } from '@/utils/projectUtils'
 
 /**
@@ -106,49 +105,11 @@ export const useProjectStore = defineStore({
      * Returns tree structure of current filter groupings in the project
      */
     getGroupTree() {
-      console.log("Getting Group tree");
-      const testGroups: Group[] = [
-        {
-          id: "testId1",
-          name: "testName1",
-          path: "test1/test1",
-          elements: [{name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}, {name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}],
-        },
-        {
-          id: "testId2",
-          name: "testName2",
-          path: "test1/test2",
-          elements: [{name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}, {name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}],
-        },
-        {
-          id: "testId3",
-          name: "testName3",
-          path: "test2/test1",
-          elements: [{name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}, {name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}],
-        },
-        {
-          id: "testId4",
-          name: "testName4",
-          path: "test2/test2",
-          elements: [{name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}, {name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}],
-        },
-        {
-          id: "testId5",
-          name: "testName5",
-          path: "test3/test1",
-          elements: [{name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}, {name: "test", id: "test", quantity: {M: 0, M2: 0, M3: 0, KG: 0, TONES: 0, PCS: 0, L: 0, M2R1: 0, UNKNOWN: 0}}],
-        },
-      ];
-
-      this.projectGroups = testGroups;
-
       if (this.projectGroups) {
         const data = this.projectGroups;
       
         // Creating the nested object
-        const nestedObject = createNestedObject(testGroups);
-        
-        console.log(JSON.stringify(nestedObject, null, 2));
+        const nestedObject = createNestedObject(data);
 
         return nestedObject;
       } else {
