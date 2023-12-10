@@ -43,7 +43,7 @@ import { useSpeckleStore } from '@/stores/speckle';
 import { defineComponent, onMounted, ref } from 'vue';
 import type { ProjectId } from '@/models/speckle';
 import VersionSelectionModal from '@/components/ProjectSelection/VersionSelectionModal.vue';
-import Slideover from '@/components/ModelViewer/SliderOver.vue';
+import Slideover from '@/components/ModelViewer/Sliderover.vue';
 
 import { useNavigationStore } from '@/stores/main';
 
