@@ -1,7 +1,7 @@
 import type { Group } from "@/models/filters";
 
-export function createNestedObject(data: Group[]): NestedObject {
-  const nestedObject: NestedObject = { name: 'root', objects: 0, children: [] };
+export function createNestedObject(data: Group[]): NestedGroup {
+  const nestedObject: NestedGroup = { name: 'root', objects: 0, children: [] };
 
   data.forEach(entry => {
     const pathArray = entry.path.split('/');
@@ -23,8 +23,8 @@ export function createNestedObject(data: Group[]): NestedObject {
   return nestedObject;
 }
 
-export interface NestedObject {
+export interface NestedGroup {
   name: string;
   objects: number;
-  children: NestedObject[];
+  children: NestedGroup[];
 }
