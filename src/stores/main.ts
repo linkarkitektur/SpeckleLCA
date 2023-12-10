@@ -162,7 +162,7 @@ export const useNavigationStore = defineStore({
   state: () => {
     return {
       activePage: "Projects" as string, // The current page
-      slideoverOpen: true, 
+      slideoverOpen: false, 
     }
   },
   actions: {
