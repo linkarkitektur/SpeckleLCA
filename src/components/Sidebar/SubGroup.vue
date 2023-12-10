@@ -5,13 +5,13 @@
       <button aria-label="Expand"
       class="p-1 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800 w-5"
       @click="expandGroup">
-        <ChevronDownIcon v-if="!expand && subGroup.children" class="h-5 w-5" />
-        <ChevronUpIcon v-if="expand && subGroup.children" class="h-5 w-5" />
+        <ChevronDownIcon v-if="!expand && subGroup.children.length > 0" class="h-5 w-5" />
+        <ChevronUpIcon v-if="expand && subGroup.children.length > 0" class="h-5 w-5" />
       </button>
-      <p class="pl-2">{{ subGroup.label }}</p>
+      <p class="pl-2">{{ subGroup.name }}</p>
     </td>
     <td>
-      <p>{{ subGroup.elements }}</p>
+      <p>{{ subGroup.objects }}</p>
     </td>
   </tr>
 
@@ -23,12 +23,8 @@
 import { defineComponent, ref, watch, computed } from 'vue';
 import type { PropType } from 'vue';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid';
-
-export interface SubChild {
-  label: string,
-  elements: number,
-  children?: SubChild[]
-}
+import type { GeometryObject } from '@/models/geometryObject';
+import type { NestedGroup } from '@/utils/projectUtils';
 
 export default defineComponent ({
   name: "subGroup",
@@ -38,7 +34,7 @@ export default defineComponent ({
   },
   props: {
     subGroup: {
-      type: Object as () => SubChild,
+      type: Object as () => NestedGroup,
       required: true,
     },
     depth: {

@@ -11,7 +11,7 @@
       </div>
       <div class="flex items-center">
         <p class="ml-2 text-gray-700 font-semibold font-sans tracking-wide">
-          {{ inGroup.name }}
+          {{ inGroups.name }}
         </p>
       </div>
       <div class="flex">
@@ -32,7 +32,7 @@
             </tr>
           </thead>
           <tbody>
-            <SubGroup v-if="expand" :subGroup="tree" />
+            <SubGroup v-if="expand && inGroups" :subGroup="inGroups" />
           </tbody>
         </table>
         <!-- div version
@@ -40,7 +40,7 @@
           <SubGroup v-if="tree && expand" :subGroup="tree" />
         </div>
         -->
-        <p class="text-center">{{ tree.elements }}</p>
+        <p class="text-center">{{ 10 }}</p>
       </div>
     </div>
   </div>
@@ -50,8 +50,9 @@
 import { defineComponent, watch, ref } from 'vue';
 import { ChevronDownIcon, ChevronUpIcon, PencilSquareIcon } from '@heroicons/vue/24/solid';
 
-import SubGroup, { type SubChild } from './SubGroup.vue';
-import type { Group } from '@/models/filters';
+import SubGroup from './SubGroup.vue';
+import type { NestedGroup } from '@/utils/projectUtils';
+import { useNavigationStore, useProjectStore } from '@/stores/main';
 
 export default defineComponent ({
   name: "GroupCard",
@@ -65,35 +66,21 @@ export default defineComponent ({
     /**
      * Array of groups to show in the card, they should all share a top level to show
      */
-     group: {
-      type: Object as () => Group,
+     groups: {
+      type: Object as () => NestedGroup,
       required: true,
     },
   },
   setup(props) {
-    const inGroup = ref(props.group);
+    const projectStore = useProjectStore();
+    const navStore = useNavigationStore();
 
+    const inGroups = ref(props.groups);
     const expand = ref(false);
 
-    watch(() => props.group, (newValue) => {
-      inGroup.value = newValue;
+    watch(() => props.groups, (newValue) => {
+      inGroups.value = newValue;
     });
-    
-    const tree: SubChild = {
-      label: "A cool folder",
-      elements: 100,
-      children: [
-        {
-          label: "A cool sub-folder 1",
-          elements: 75,
-          children: [
-            { label: "A cool sub-sub-folder 1", elements: 25 },
-            { label: "A cool sub-sub-folder 2", elements: 50 }
-          ]
-        },
-        { label: "This one is not that cool", elements: 25 }
-      ]
-    }
 
     const expandGroup = () => {
       expand.value = !expand.value;
@@ -102,6 +89,8 @@ export default defineComponent ({
 
     const editGroup =  () => {
       console.log("Editing Group information");
+      navStore.toggleSlideover();
+      console.log(navStore.slideoverOpen);
       // Open editGroup slideout here
     };
 
@@ -109,8 +98,7 @@ export default defineComponent ({
       expandGroup,
       editGroup,
       expand,
-      tree,
-      inGroup,
+      inGroups,
     };
   }
 });
