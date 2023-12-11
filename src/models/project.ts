@@ -1,5 +1,5 @@
 import type { ImpactCategoryKey, LifeCycleStage } from "lcax";
-import type { GeometryObject } from "./GeometryObject";
+import type { GeometryObject } from "./geometryObject";
 
 /**
  * Project interface, stores all geometry and metadata of the project.

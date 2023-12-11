@@ -1,5 +1,5 @@
 import type { Unit, EPD, Assembly } from "lcax";
-import type { Results } from "./Project";
+import type { Results } from "./project";
 
 /*
  * Base geometry object.

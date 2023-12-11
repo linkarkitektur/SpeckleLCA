@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import type { GeometryObject } from "@/models/GeometryObject";
-import type { Project, Results } from "@/models/Project";
+import type { GeometryObject } from "@/models/geometryObject";
+import type { Project, Results } from "@/models/project";
 
 /**
  * Defines the project store, which contains the current project and its geometry and results.
