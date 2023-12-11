@@ -8,8 +8,8 @@
  */
 
 import { defineStore } from "pinia";
-import type { Version, ProjectDetails, VersionId, ModelsAndVersions, User, ServerInfo } from "@/models/speckle/Speckle";
-import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData } from "@/utils/speckleUtils"; // TODO: Is this the right import in the wider structure?
+import type { Version, ProjectDetails, ModelsAndVersions, User, ServerInfo, ProjectId, ObjectParameter } from "@/models/speckle";
+import { getProjectVersions, goToSpeckleAuthPage, speckleLogOut, exchangeAccessCode, getUserData, getProjectsData, getObjectParameters } from "@/utils/speckleUtils"; // TODO: Is this the right import in the wider structure?
 import router from "@/router";
 
 /**
@@ -32,6 +32,11 @@ export const useSpeckleStore = defineStore({
        * @type {Version | null}
        */
       selectedVersion: null as Version | null,
+
+      /**
+       * The currently loaded project in the speckle store
+       */
+      selectedProject: null as ProjectId | null,
       
       /**
        * An array of all the projects available to the application on the server
@@ -40,9 +45,9 @@ export const useSpeckleStore = defineStore({
 
       /**
        * An array of all the versions of the project.
-       * @type {VersionId[] | null}
+       * @type {Version[] | null}
        */
-      allVersions: null as VersionId[] | null,
+      allVersions: null as Version[] | null,
 
       /**
        * An array of all the models in the project.
@@ -67,6 +72,13 @@ export const useSpeckleStore = defineStore({
        * @type {ServerInfo | null}
        */
       serverInfo: null as ServerInfo | null,
+
+      /**
+       * Array of specific parameters that are included in the project that the application
+       * will get information for the objects from
+       * @type {ObjectParameter[] | null}
+       */
+      customParameters : null as ObjectParameter[] | null,
     }
   },
   actions: {
@@ -134,10 +146,11 @@ export const useSpeckleStore = defineStore({
         this.$patch((state) => {
           //Clear projects before we update so we dont always increase the list
           state.allProjects = [];
-          data.streams.items.forEach((el: { name: string; id: string; }) => {
+          data.streams.items.forEach((el: { name: string; id: string; updatedAt: Date; }) => {
             let proj: ProjectId = {
               name: el.name,
               id: el.id,
+              updatedAt: el.updatedAt
             };
             state.allProjects?.push(proj);
           });
@@ -145,6 +158,80 @@ export const useSpeckleStore = defineStore({
       } catch (err) {
         console.error(err);
       }
+    },
+    
+    /**
+     * The `updateProjectVersions` action updates the project versions for the specified project.
+     * @param {string} projectId - The ID of the project to get versions for.
+     * @param {number} limit - The maximum number of versions to get.
+     * @param {Date | null} cursor - The cursor to use for pagination.
+     * @returns {Promise<void>}
+     */
+    async updateProjectVersions(projectId: string, limit: number, cursor: Date | null) {
+      try {
+        const response = await getProjectVersions(projectId, limit, cursor);
+        const data = response.data;
+        const projDet: ProjectDetails = data;
+
+        const selectedProj: ProjectId = {
+          name: projDet.stream.name,
+          id: projDet.stream.id,
+          updatedAt: projDet.stream.updatedAt,
+        }
+
+        let allVers: Version[] = [];
+        let allModels: string[];
+        let modelVers: ModelsAndVersions = {};
+
+        if (
+          projDet.stream.commits?.items &&
+          projDet.stream.commits?.items.length > 0) {
+          projDet.stream.commits?.items?.forEach(version => {            
+            allVers.push(version);
+
+            const { branchName } = version;
+            if (!modelVers[branchName]) {
+              modelVers[branchName] = [];
+            }
+            modelVers[branchName].push(version);
+          });
+
+          allModels = projDet.stream.commits?.items?.map(function (version) {
+            return version?.branchName;
+          });
+        }
+        
+        // Use this.$patch instead of commit to update state
+        this.$patch((state) => {
+          state.selectedProject = selectedProj;
+          state.projectDetails = projDet;
+          state.allVersions = allVers;
+          state.allModels = allModels;
+          state.modelsAndVersions = modelVers;
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    },
+
+    /**
+     * Get all objects for the currently loaded project and the selected version
+     * @param projectId projectId to get objects for
+     * @returns 
+     */
+    async getObjects(): Promise<any> {
+      try {
+        if (this.selectedProject && this.selectedVersion) {
+          const objs = await getObjectParameters(this.selectedProject.id, this.selectedVersion.referencedObject, this.selectedVersion.sourceApplication);         
+          return objs;
+        } else {
+          return null;
+        }
+      }
+      catch (err) {
+        console.error(err);
+      }
+      
     },
 
     /**
@@ -157,20 +244,11 @@ export const useSpeckleStore = defineStore({
     },
 
     /**
-     * The `setVersion` action sets the currently selected version of the project.
-     * @param {Version} version - The version to set.
-     * @returns {void}
-     */
-    setVersion(version: Version) {
-      this.selectedVersion = version;
-    },
-
-    /**
      * The `setAllVersions` action sets the array of all versions of the project.
-     * @param {VersionId[]} allVer - The array of all versions to set.
+     * @param {Version[]} allVer - The array of all versions to set.
      * @returns {void}
      */
-    setAllVersions(allVer: VersionId[]) {
+    setAllVersions(allVer: Version[]) {
       this.allVersions = allVer;
     },
 
@@ -193,51 +271,47 @@ export const useSpeckleStore = defineStore({
     },
 
     /**
-     * The `getStreamAction` action gets the project versions for the specified project.
-     * @param {string} projectId - The ID of the project to get versions for.
-     * @param {number} limit - The maximum number of versions to get.
-     * @param {Date | null} cursor - The cursor to use for pagination.
-     * @returns {Promise<void>}
+     * Sets the currently selected version in the store
+     * @param version 
      */
-    async getStreamAction(projectId: string, limit: number, cursor: Date | null) {
-      try {
-        const response = await getProjectVersions(projectId, limit, cursor);
-        const projDet: ProjectDetails = await response.json().data;
-        let allVers: VersionId[];
-        allVers = (projDet.versions?.items || []).map((el, key) => {
-          return { id: el.id, name: el?.message ?? "Version " + key };
-        });
+    setSelectedVersion(version: Version) {
+      this.selectedVersion = version;
+    },
 
-        let allModels: string[];
-        let modelVers: ModelsAndVersions = {};
-
-        if (
-          projDet.versions?.items &&
-          projDet.versions?.items.length > 0) {
-          projDet.versions?.items?.forEach((version) => {
-            const { modelName } = version;
-            if (!modelVers[modelName]) {
-              modelVers[modelName] = [];
-            }
-            modelVers[modelName].push(version);
-          });
-
-          allModels = projDet.versions?.items?.map(function (version) {
-            return version?.modelName;
-          });
-        }
-
-        // Use this.$patch instead of commit to update state
-        this.$patch((state) => {
-          state.projectDetails = projDet;
-          state.selectedVersion = projDet.versions?.items?.[0];
-          state.allVersions = allVers;
-          state.allModels = allModels;
-          state.modelsAndVersions = modelVers;
-        });
-      } catch (err) {
-        console.error(err);
+    /**
+     * Add new parameter to list of parameters to include in fetching of speckle objects
+     * @param parameter 
+     */
+    addCustomParameter(parameter: ObjectParameter) {
+      if (!this.parameterNameCheck(parameter.name)) {
+        if(this.customParameters)
+          this.customParameters.push(parameter);
+        else
+          this.customParameters = [parameter];
+      } else {
+        console.warn('Duplicate name found. Object not added.');
       }
+    },
+    
+    /**
+     * Checks a if a name already exists within objects in parameters
+     * @param newName name to check
+     * @returns true if its already in parameters, false if not
+     */
+    parameterNameCheck(newName: string): boolean {
+      if(this.customParameters)
+        return this.customParameters.some(obj => obj.name === newName);
+      else
+        return false;
+    },
+
+    /**
+     * Removes a customParameter on its name
+     *  @param name name to remove, will never be duplicate since we check
+     */
+    removeCustomParameter(name: string) {
+      if(this.customParameters)
+        this.customParameters = this.customParameters?.filter(item => item.name !== name);
     },
   },
   getters: {
@@ -255,7 +329,7 @@ export const useSpeckleStore = defineStore({
 
     /**
      * The `allVersions` getter returns an array of all the versions of the project.
-     * @returns {VersionId[] | null}
+     * @returns {Version[] | null}
      */
     getAllVersions: (state) => state.allVersions,
 
@@ -288,5 +362,11 @@ export const useSpeckleStore = defineStore({
      * @returns {ProjectId[] | null}
      */
     getProjectsInfo: (state) => state.allProjects,
+
+    /**
+     * Returns a list of all customParameters for this stream
+     * @returns {ObjectParameter[] | null}
+     */
+    getCustomParameters: (state) => state.customParameters,
   },
 })

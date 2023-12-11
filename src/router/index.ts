@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
-import Home from '../views/Home.vue'
-import Login from '@/components/SpeckleLogin.vue'
+import Home from '@/views/Home.vue';
+import Dashboard from '@/views/Dashboard.vue';
+import ProjectSelection from '@/views/ProjectSelection.vue';
+import Login from '@/components/SpeckleLogin.vue';
 
 import { useSpeckleStore } from '@/stores/speckle';
 
@@ -10,11 +12,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home,
       meta: {
-        requiresAuth: true,
-        title: "Dashboard",
+        requiresAuth: false,
+        title: "Landing",
         icon: "",
       },
     },
@@ -24,17 +26,36 @@ const router = createRouter({
       component: Login,
       meta: {
         requiresAuth: false,
-        title: "Login | Dashboard",
+        title: "Login",
         icon: "",
       },
-    }
+    },
+    {
+      path: "/projects",
+      name: "Projects",
+      component: ProjectSelection,
+      meta: {
+        requiresAuth: true,
+        title: "Project Selection",
+        icon: "",
+      }
+    },
+    {
+      path: "/dashboard",
+      name: "Dashboard",
+      component: Dashboard,
+      meta: {
+        requiresAuth: true,
+        title: "Dashboard",
+        icon: "",
+      }
+    },
   ]
 })
 
 const beforeEachGuard = async (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext
 ) => {
   const speckleStore = useSpeckleStore();
   if (to.query.access_code) {
@@ -48,11 +69,11 @@ const beforeEachGuard = async (
 
     try {
       await speckleStore.exchangeAccessCodes(accessCode);
+      return { name: "Projects" }
     } catch (err) {
       console.warn('exchange failed', err);
+      return { name: "Home" }
     }
-    // Whatever happens, go home.
-    return next('/');
   }
 
   // Fetch if the user is authenticated
@@ -60,15 +81,8 @@ const beforeEachGuard = async (
   const isAuth = speckleStore.isAuthenticated;
 
   if (to.meta.requiresAuth && !isAuth) {
-    if (from.name !== 'Login') {
-      return next({ name: 'Login' });
-    }
-  } else if(!to.meta.requiresAuth && isAuth) {
-    return next('/');
+    return { name: 'Login' }
   }
-
-  // Any other page
-  next();
 };
 
 router.beforeEach(beforeEachGuard);

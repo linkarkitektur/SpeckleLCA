@@ -1,4 +1,3 @@
-import type { group } from "console";
 import type { GeometryObject } from "./geometryObject";
 
 /**

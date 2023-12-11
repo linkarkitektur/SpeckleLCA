@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
 import type { GeometryObject } from "@/models/geometryObject";
 import type { Project, Results } from "@/models/project";
+import type { Group } from "@/models/filters";
+import { createNestedObject } from '@/utils/projectUtils'
+
 
 /**
  * Defines the project store, which contains the current project and its geometry and results.
@@ -10,6 +13,7 @@ export const useProjectStore = defineStore({
   state: () => {
     return {
       currProject: null as Project | null, // The current project being worked on
+      projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
     }
   },
 
@@ -20,6 +24,14 @@ export const useProjectStore = defineStore({
      */
     createNewProject(project: Project) {
       this.currProject = project;
+    },
+
+    /**
+     * Creates or updated the current groups set on the project
+     * @param groups 
+     */
+    updateProjectGroups(groups: Group[]) {
+      this.projectGroups = groups;
     },
 
     /**
@@ -91,6 +103,22 @@ export const useProjectStore = defineStore({
     },
 
     /**
+     * Returns tree structure of current filter groupings in the project
+     */
+    getGroupTree() {
+      if (this.projectGroups) {
+        const data = this.projectGroups;
+      
+        // Creating the nested object
+        const nestedObject = createNestedObject(data);
+
+        return nestedObject;
+      } else {
+        console.log("No groups found to create tree structure in current project");
+      }
+    },
+
+    /**
      * Finds the index of a geometry object in the current project by its ID.
      * @param id The ID of the geometry object to find.
      * @returns The index of the geometry object, or -1 if not found.
@@ -126,3 +154,48 @@ export const useMaterialStore = defineStore({
     },
   }
 });
+
+/**
+ * Navigation store that is used by the navigation bar in the application view
+ */
+export const useNavigationStore = defineStore({
+  id: 'navigationStore',
+  state: () => {
+    return {
+      activePage: "Projects" as string, // The current page
+      slideoverOpen: false, 
+    }
+  },
+  actions: {
+    /**
+     * Set the application that is being used in the application view
+     * @param page page that is currently active in the application view
+     */
+    setActivePage(page: string) {
+      this.activePage = page;
+    },
+    
+    toggleSlideover() {
+      this.slideoverOpen = !this.slideoverOpen;
+    },
+
+    getSlideoverOpenTest() {
+      return this.slideoverOpen;
+    }
+  },
+  getters: {
+    /**
+     * Returns the current page for the application view
+     * @returns currentPage
+     */
+    getActivePage: (state) => state.activePage,
+    
+    getSlideoverOpen: (state) => state.slideoverOpen,
+  },
+});
+
+interface NestedObject {
+  name: string;
+  objects: number;
+  children: { [key: string]: NestedObject };
+}
