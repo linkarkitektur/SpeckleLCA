@@ -4,6 +4,7 @@ import type { Project, Results } from "@/models/project";
 import type { Group } from "@/models/filters";
 import { createNestedObject } from '@/utils/projectUtils'
 
+
 /**
  * Defines the project store, which contains the current project and its geometry and results.
  */
