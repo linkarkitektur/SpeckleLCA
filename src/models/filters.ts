@@ -124,8 +124,8 @@ export function createStandardFilters(registry: FilterRegistry) {
                         } else {
                             let temp: Group = {
                                 id: crypto.randomUUID(),
-                                name: `${value}`,
-                                path: `${grp.path}/${value}`,
+                                name: `!${value}`,
+                                path: `${grp.path}/!${value}`,
                                 elements: [obj],
                             };
 
@@ -157,20 +157,20 @@ export function createStandardFilters(registry: FilterRegistry) {
                     throw new Error(`No parameters found for '${obj.id}'.`);
                 if (field in obj.parameters) {
                     // Group objects based on the field
-                    if (field in groupObj) {
-                        let temp = groupObj[field];
+                    if (obj.parameters[field] in groupObj) {
+                        let temp = groupObj[obj.parameters[field]];
                         temp!.elements.push(obj);
 
-                        groupObj[field] = temp!;
+                        groupObj[obj.parameters[field]] = temp!;
                     } else {
                         let temp: Group = {
                             id: crypto.randomUUID(),
-                            name: field,
-                            path: `${grp.path}/${field}`,
+                            name: obj.parameters[field],
+                            path: `${grp.path}/${obj.parameters[field]}`,
                             elements: [obj],
                         };
                        
-                        groupObj[field] = temp;
+                        groupObj[obj.parameters[field]] = temp;
                     }
                 } else {
                     throw new Error(`Parameter in '${obj.id}' with the name '${field}' not found.`);

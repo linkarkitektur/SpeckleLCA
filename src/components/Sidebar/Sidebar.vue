@@ -1,21 +1,8 @@
 <template>
   <div class="fixed inset-y-0 z-40 flex w-96 flex-col">
     <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-20">
-      <nav class="flex flex-1 flex-col pt-4">
-        <Draggable
-          v-if="refTree"
-          :list="refTree"
-          :group="refTree"
-          item-key="id"
-          ghost-class="ghost"
-          :animation="200">
-          <template #item="{ element }">
-            <div class="pt-4 pb-4">
-              <GroupCard class="hover:cursor-move" :groups='element' />
-            </div>
-          </template>
-        </Draggable>
-      </nav>
+      <!-- This should be in its own component and switch dynamically -->
+      <component :is="currentList" />
     </div>
   </div>
 </template>
@@ -24,66 +11,33 @@
 import { defineComponent, ref, computed, onMounted } from 'vue'
 import Draggable from 'vuedraggable'
 
-import GroupCard from '@/components/Sidebar/GroupCard.vue'
+import FilterList from '@/components/Sidebar/FilterList.vue'
 
-import { useProjectStore } from '@/stores/main'
-import type { Group } from '@/models/filters'
-import type { NestedGroup } from '@/utils/projectUtils'
+import { useNavigationStore, useProjectStore } from '@/stores/main'
 
 export default defineComponent({
   name: "Sidebar",
   components: {
     Draggable,
-    GroupCard,
+    FilterList,
   },
   setup() {
-    const projectstore = useProjectStore(); 
+    const navStore = useNavigationStore();
 
-    const testGroups: Group[] = [
-      {
-        id: "testId1",
-        name: "testName1",
-        path: "parent1/child1",
-        elements: [],
-      },
-      {
-        id: "testId2",
-        name: "testName2",
-        path: "parent1/child2",
-        elements: [],
-      },
-      {
-        id: "testId3",
-        name: "testName3",
-        path: "parent2/child3",
-        elements: [],
-      },
-      {
-        id: "testId4",
-        name: "testName4",
-        path: "parent2/child3",
-        elements: [],
-      },
-      {
-        id: "testId5",
-        name: "testName5",
-        path: "parent3/child4",
-        elements: [],
-      },
-    ];
-    
-    projectstore.updateProjectGroups(testGroups);
-
-    const tree: NestedGroup[] | undefined = projectstore.getGroupTree()?.children;
-    const refTree = ref(tree);
-
-    const LogTree = () => {
-      console.log(tree);
-    }
-
+    const currentList = computed(() => {
+      if (navStore.activePage === "Overview")
+        return FilterList;
+      else if (navStore.activePage === "Mapping")
+        return null;
+      else if (navStore.activePage === "Results")
+        return null;
+      else if (navStore.activePage === "Benchmark")
+        return null;
+      else
+        return null;
+    });
     return {
-      LogTree,
-      refTree,
+      currentList
     };
   }
   

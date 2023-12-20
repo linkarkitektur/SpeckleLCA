@@ -10,14 +10,18 @@
         </button>
       </div>
       <div class="flex items-center">
-        <p class="ml-2 text-gray-700 font-semibold font-sans tracking-wide">
+        <input v-if="editName" 
+          v-model="inGroups.name" placeholder="edit me"
+          @blur= "saveEdit"
+          @keyup.enter = "saveEdit"/>
+        <label v-else class="ml-2 text-gray-700 font-semibold font-sans tracking-wide">
           {{ inGroups.name }}
-        </p>
+        </label>
       </div>
       <div class="flex">
         <button aria-label="Expand"
           class="p-1 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
-          @click="editGroup">
+          @click="editName = !editName">
             <PencilSquareIcon class="h-5 w-5" />
         </button>
       </div>
@@ -35,12 +39,7 @@
             <SubGroup v-if="expand && inGroups" :subGroup="inGroups" />
           </tbody>
         </table>
-        <!-- div version
-        <div v-if="expand" class="px-2 py-2 rounded-lg outline outline-gray-400">
-          <SubGroup v-if="tree && expand" :subGroup="tree" />
-        </div>
-        -->
-        <p class="text-center">{{ 10 }}</p>
+        <p class="text-center">{{ groups.objects }}</p>
       </div>
     </div>
   </div>
@@ -77,6 +76,7 @@ export default defineComponent ({
 
     const inGroups = ref(props.groups);
     const expand = ref(false);
+    const editName = ref(false);
 
     watch(() => props.groups, (newValue) => {
       inGroups.value = newValue;
@@ -86,17 +86,17 @@ export default defineComponent ({
       expand.value = !expand.value;
       // Expand group logic here
     };
-
-    const editGroup =  () => {
-      console.log("Editing Group information");
-      navStore.toggleSlideover();
-      console.log(navStore.slideoverOpen);
-      // Open editGroup slideout here
+    
+    const saveEdit =  () => {
+      console.log("Editing name");
+      editName.value = false;
+      projectStore.updateProjectGroupName(inGroups.value.name);
     };
 
     return {
       expandGroup,
-      editGroup,
+      saveEdit,
+      editName,
       expand,
       inGroups,
     };
