@@ -1,9 +1,6 @@
 <template>
   <div class="flex-1 p-6">
-    <button @click="openSlideOver()"> Open Slideover</button>
     <div class="bg-white p-4 shadow-md rounded-md">
-      <!--FOR ABHINAV-->
-      <Slideover />
       <VersionSelectionModal :show="versionModalOpen" :projectId="selectedProjectId" :projectName="selectedProjectName" @closeVersionModal="closeVersionModal" />
       <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         <li v-for="project in speckleStore.allProjects" 
@@ -43,15 +40,13 @@ import { useSpeckleStore } from '@/stores/speckle';
 import { defineComponent, onMounted, ref } from 'vue';
 import type { ProjectId } from '@/models/speckle';
 import VersionSelectionModal from '@/components/ProjectSelection/VersionSelectionModal.vue';
-import Slideover from '@/components/ModelViewer/Sliderover.vue';
 
 import { useNavigationStore } from '@/stores/main';
 
 export default defineComponent ({
   name: "ProjectGrid",
   components: {
-    VersionSelectionModal,
-    Slideover,
+    VersionSelectionModal
   },
   methods: {
     getEmbeddedUrl(project: ProjectId) {
