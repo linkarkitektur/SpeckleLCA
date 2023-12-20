@@ -145,6 +145,8 @@ export default defineComponent ({
           console.error("Couldnt find the selected versions");
         }
       }
+      
+      navigationStore.toggleLoading();
 
       const objects: ResponseObjectStream = await speckleStore.getObjects();
       const project: Project | null = convertObjects(objects);
@@ -155,6 +157,8 @@ export default defineComponent ({
         console.error("Could not create project from speckle");
 
       navigationStore.setActivePage("Overview");
+      
+      navigationStore.toggleLoading();
       
       router.push('/dashboard');
     };
@@ -179,6 +183,7 @@ export default defineComponent ({
       projectName,
       speckleStore,
       extractNames,
+      navigationStore,
       handleSelectedItem,
       loadProject,
       closeModal,
