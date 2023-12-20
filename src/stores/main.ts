@@ -35,6 +35,15 @@ export const useProjectStore = defineStore({
     },
 
     /**
+     * Update a specific group with a new name
+     * TODO: Split path into array of strings and ids so we can find one and rename it
+     * @param name 
+     */
+    updateProjectGroupName(name: string) {
+      
+    },
+
+    /**
      * Updates the current project.
      * @param project The project to update.
      */
@@ -164,6 +173,7 @@ export const useNavigationStore = defineStore({
     return {
       activePage: "Projects" as string, // The current page
       slideoverOpen: false, 
+      loading: false,
     }
   },
   actions: {
@@ -175,13 +185,19 @@ export const useNavigationStore = defineStore({
       this.activePage = page;
     },
     
+    /**
+     * Toggle slideover where its present on the app
+     */
     toggleSlideover() {
       this.slideoverOpen = !this.slideoverOpen;
     },
 
-    getSlideoverOpenTest() {
-      return this.slideoverOpen;
-    }
+    /**
+     * Toggle loading state on the app
+     */
+    toggleLoading() {
+      this.loading = !this.loading;
+    },
   },
   getters: {
     /**
