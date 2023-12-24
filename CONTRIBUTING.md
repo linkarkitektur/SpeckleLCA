@@ -10,10 +10,10 @@ Let's make this project awesome together!
 
 Before you dive in, make sure you're familiar with:
 
-- JavaScript and Vue3 (essential for frontend tweaks)
-- Firebase and Google Cloud Platform (for backend magic)
-- Vite for build optimization (so everything runs smooth)
-- Git & GitHub (for all the version control shenanigans)
+- JavaScript and Vue3 (essential for frontend tweaks).
+- Firebase and Google Cloud Platform (for backend magic).
+- Vite for build optimization (so everything runs smooth).
+- Git & GitHub (for all the version control shenanigans).
 
 ## Setting Up the Project Locally 🏠
 
