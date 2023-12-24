@@ -27,7 +27,6 @@ import {
   getUserData,
   speckleLogOut,
 } from "@/utils/speckleUtils"; // TODO Is this the right import in the wider structure?
-import { log } from "console";
 import { logMessageToSentry } from "@/utils/monitoring";
 
 /**
