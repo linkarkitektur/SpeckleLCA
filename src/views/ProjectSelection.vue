@@ -4,15 +4,15 @@
 </template>
 
 <script>
-import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue';
-import Navbar from '@/components/Navbar.vue';
+import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue'
+import Navbar from '@/components/Navbar.vue'
 
 export default {
-  name: 'ProjectSelection',
-  components: {
-    Navbar,
-    ProjectGrid
-  },
-  setup() {},
+    name: 'ProjectSelectionView',
+    components: {
+        Navbar,
+        ProjectGrid,
+    },
+    setup() {},
 }
 </script>

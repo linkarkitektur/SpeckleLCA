@@ -5,20 +5,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
 import './index.css'
 
 export default defineComponent({
-  name: "App",
-  components: {
-  },
+  name: 'SpeckLCA',
+  components: {},
   setup() {
-    const route = useRoute();
+    const route = useRoute()
 
     return {
       route,
-    };
+    }
   },
-});
+})
 </script>

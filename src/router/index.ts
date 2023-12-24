@@ -1,12 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
+import type { RouteLocationNormalized } from 'vue-router';
+
 import Home from '@/views/Home.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import ProjectSelection from '@/views/ProjectSelection.vue';
-import Login from '@/components/SpeckleLogin.vue';
+
+import LoginComponent from '@/components/SpeckleLogin.vue';
 
 import { useSpeckleStore } from '@/stores/speckle';
 
+/**
+ * The router instance for the application.
+ */
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -23,7 +28,7 @@ const router = createRouter({
     {
       path: "/login",
       name: "Login",
-      component: Login,
+      component: LoginComponent,
       meta: {
         requiresAuth: false,
         title: "Login",
@@ -55,13 +60,12 @@ const router = createRouter({
 
 const beforeEachGuard = async (
   to: RouteLocationNormalized,
-  from: RouteLocationNormalized,
 ) => {
   const speckleStore = useSpeckleStore();
   if (to.query.access_code) {
     // If the route contains an access code, exchange it
     let accessCode: string;
-    if(Array.isArray(to.query.access_code) && to.query.access_code[0] != null){
+    if (Array.isArray(to.query.access_code) && to.query.access_code[0] != null) {
       accessCode = to.query.access_code[0].toString();
     } else {
       accessCode = to.query.access_code.toString();

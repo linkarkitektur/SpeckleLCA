@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineStore } from "pinia";
 import type { GeometryObject } from "@/models/geometryObject";
 import type { Project, Results } from "@/models/project";
 import type { Group } from "@/models/filters";
 import { createNestedObject } from '@/utils/projectUtils'
-
+import { logMessageToSentry } from "@/utils/monitoring";
 
 /**
  * Defines the project store, which contains the current project and its geometry and results.
@@ -28,7 +29,7 @@ export const useProjectStore = defineStore({
 
     /**
      * Creates or updated the current groups set on the project
-     * @param groups 
+     * @param groups
      */
     updateProjectGroups(groups: Group[]) {
       this.projectGroups = groups;
@@ -108,13 +109,15 @@ export const useProjectStore = defineStore({
     getGroupTree() {
       if (this.projectGroups) {
         const data = this.projectGroups;
-      
+
         // Creating the nested object
         const nestedObject = createNestedObject(data);
-
         return nestedObject;
-      } else {
-        console.log("No groups found to create tree structure in current project");
+      }
+      else {
+        const msg = "No groups found to create tree structure in current project.";
+        logMessageToSentry(msg, "info");
+        console.log(msg);
       }
     },
 
@@ -140,6 +143,9 @@ export const useProjectStore = defineStore({
   },
 });
 
+/**
+ * A store for managing material-related data.
+ */
 export const useMaterialStore = defineStore({
   id: "materialStore",
   state: () => {
@@ -149,6 +155,10 @@ export const useMaterialStore = defineStore({
   },
 
   actions: {
+    /**
+     * Creates a new project and sets it as the current project.
+     * @param project The project to be created.
+     */
     createNewProject(project: Project) {
       this.currProject = project;
     },
@@ -158,12 +168,15 @@ export const useMaterialStore = defineStore({
 /**
  * Navigation store that is used by the navigation bar in the application view
  */
+/**
+ * Defines a store for managing navigation state.
+ */
 export const useNavigationStore = defineStore({
   id: 'navigationStore',
   state: () => {
     return {
       activePage: "Projects" as string, // The current page
-      slideoverOpen: false, 
+      slideoverOpen: false,
     }
   },
   actions: {
@@ -174,7 +187,7 @@ export const useNavigationStore = defineStore({
     setActivePage(page: string) {
       this.activePage = page;
     },
-    
+
     toggleSlideover() {
       this.slideoverOpen = !this.slideoverOpen;
     },
@@ -184,16 +197,14 @@ export const useNavigationStore = defineStore({
     }
   },
   getters: {
-    /**
-     * Returns the current page for the application view
-     * @returns currentPage
-     */
     getActivePage: (state) => state.activePage,
-    
     getSlideoverOpen: (state) => state.slideoverOpen,
   },
 });
 
+/**
+ * Represents a nested object with names and numbers of objects.
+ */
 interface NestedObject {
   name: string;
   objects: number;

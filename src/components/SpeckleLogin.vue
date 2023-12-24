@@ -1,43 +1,75 @@
 <template>
-<v-container
-    fill-height
-    class="home flex-column justify-center align-center primary--text"
-    v-if="!isAuthenticated"
->
-    <h1>Welcome to SpeckLCA</h1> 
-    <button class="outlined-button" @click="login">Please Login</button>
-</v-container>
-<v-container
-    fill-height
-    class="home flex-column justify-center align-center primary--text"
-    v-else
+  <div
+    class="flex min-h-full flex-1 flex-col justify-center py-60 sm:px-6 lg:px-8"
+  >
+    <v-container
+      fill-height
+      class="home flex-column justify-center align-center primary--text"
+      v-if="!isAuthenticated"
     >
-    <h1>Welcome to SpeckleLCA {{ store.user?.name }}</h1>
-</v-container>
+      <div
+        class="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8"
+      >
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+          <img
+            class="mx-auto h-10 w-auto"
+            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            alt="SpecklLCA"
+          />
+          <h2
+            class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-700"
+          >
+            Welcome to SpecklLCA {{ store.user?.name }}
+          </h2>
+        </div>
+
+        <div
+          class="flex-column justify-center align-center mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]"
+        >
+          <div class="bg-white px-6 py-12 shadow-md sm:rounded-xl sm:px-12">
+            <button
+              type="button"
+              @click="login"
+              class="rounded-full bg-indigo-600 px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500"
+            >
+              Please Login
+            </button>
+          </div>
+
+          <p class="mt-10 text-center text-md text-gray-500">
+            Not a member?
+            {{ ' ' }}
+            <a
+              href="#"
+              class="font-medium leading-6 text-indigo-600 hover:text-indigo-500"
+              >Sign up here.</a
+            >
+          </p>
+        </div>
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
-import { useSpeckleStore } from '@/stores/speckle';
-import { useRouter, useRoute } from 'vue-router';
+import { defineComponent, computed } from 'vue'
+import { useSpeckleStore } from '@/stores/speckle'
 
 export default defineComponent({
-    name: "Login",
-    setup() {
-        const router = useRouter();
-        const route = useRoute();
-        const store = useSpeckleStore();
+  name: 'LoginComponent',
+  setup() {
+    const store = useSpeckleStore()
 
-        const isAuthenticated = computed(() => store.isAuthenticated);
-        const login = () => {
-          store.login();
-        };
+    const isAuthenticated = computed(() => store.isAuthenticated)
+    const login = () => {
+      store.login()
+    }
 
-        return {
-            isAuthenticated,
-            login,
-            store,
-        };
-    },
-});
+    return {
+      isAuthenticated,
+      login,
+      store,
+    }
+  },
+})
 </script>

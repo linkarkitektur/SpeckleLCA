@@ -1,25 +1,24 @@
 <template>
-  <Hero />
-  <Features />
-  <Contribute />
-  <Footer />
+    <HeroComponent />
+    <FeaturesComponent />
+    <ContributeComponent />
+    <FooterComponent />
 </template>
 
 <script lang="ts">
-import Hero from '@/components/Landing/Hero.vue'
-import Features from '@/components/Landing/Features.vue'
-import Contribute from '@/components/Landing/Contribute.vue'
-import Footer from '@/components/Landing/Footer.vue'
+import HeroComponent from '@/components/Landing/Hero.vue'
+import FeaturesComponent from '@/components/Landing/Features.vue'
+import ContributeComponent from '@/components/Landing/Contribute.vue'
+import FooterComponent from '@/components/Landing/Footer.vue'
 
 export default {
-  name: 'Home',
-  components: {
-    Hero,
-    Features,
-    Contribute,
-    Footer,
-  },
-  setup() {
-  },
+    name: 'HomeView',
+    components: {
+        HeroComponent,
+        FeaturesComponent,
+        ContributeComponent,
+        FooterComponent,
+    },
+    setup() {},
 }
 </script>
