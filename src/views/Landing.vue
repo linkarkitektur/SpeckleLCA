@@ -11,8 +11,12 @@ import FeaturesComponent from '@/components/Landing/Features.vue'
 import ContributeComponent from '@/components/Landing/Contribute.vue'
 import FooterComponent from '@/components/Landing/Footer.vue'
 
+/**
+ * The landing view.
+ * This component represents the landing page of the application.
+ */
 export default {
-  name: 'HomeView',
+  name: 'LandingView',
   components: {
     HeroComponent,
     FeaturesComponent,

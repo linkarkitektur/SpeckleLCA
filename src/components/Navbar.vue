@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-reserved-component-names -->
 <template>
   <div id="nav" class="h-16">
     <Disclosure
@@ -13,7 +14,7 @@
               class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
             >
               <span class="absolute -inset-0.5" />
-              <span class="sr-only">Open main menu</span>
+              <span class="sr-only">Open Main Menu</span>
               <Bars3Icon
                 v-if="!open"
                 class="block h-6 w-6"
@@ -22,6 +23,7 @@
               <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
             </DisclosureButton>
           </div>
+
           <!-- Desktop and pad version -->
           <div
             class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
@@ -79,6 +81,7 @@
                 <MenuItems
                   class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
+                  <!-- Profile -->
                   <MenuItem v-slot="{ active }">
                     <a
                       href="#"
@@ -89,6 +92,8 @@
                       >Your Profile</a
                     >
                   </MenuItem>
+
+                  <!-- Settings -->
                   <MenuItem v-slot="{ active }">
                     <a
                       href="#"
@@ -99,6 +104,8 @@
                       >Settings</a
                     >
                   </MenuItem>
+
+                  <!-- Sign Out -->
                   <MenuItem v-slot="{ active }">
                     <a
                       href="#"
@@ -106,7 +113,7 @@
                         active ? 'bg-gray-100' : '',
                         'block px-4 py-2 text-sm text-gray-700',
                       ]"
-                      >Sign out</a
+                      >Sign Out</a
                     >
                   </MenuItem>
                 </MenuItems>
@@ -115,9 +122,10 @@
           </div>
         </div>
       </div>
-      <!-- Mobile version -->
+
+      <!-- Start of Mobile Version -->
       <DisclosurePanel class="sm:hidden">
-        <!--Tab selection-->
+        <!--Tab Selection-->
         <div class="space-y-1 pb-3 pt-2">
           <DisclosureButton
             v-for="step in steps"
@@ -135,17 +143,20 @@
             {{ step.name }}
           </DisclosureButton>
         </div>
-        <!--Profile and settings-->
+
+        <!--Profile & Settings-->
         <div class="border-t border-gray-200 pb-3 pt-4">
           <div class="flex items-center px-4">
             <div class="flex-shrink-0">
-              <!-- Avatar image-->
+              <!-- Avatar Image-->
               <img
                 class="h-10 w-10 rounded-full"
                 :src="speckleStore.user?.avatar"
                 alt=""
               />
             </div>
+
+            <!-- Speckle Username -->
             <div class="ml-3">
               <div class="text-sm font-medium text-gray-500">
                 <span>{{
@@ -154,28 +165,35 @@
               </div>
             </div>
           </div>
+
           <div class="mt-3 space-y-1">
+            <!-- Profile -->
             <DisclosureButton
               as="a"
               href="#"
               class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
               >Your Profile</DisclosureButton
             >
+
+            <!-- Settings -->
             <DisclosureButton
               as="a"
               href="#"
               class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
               >Settings</DisclosureButton
             >
+
+            <!-- Sign Out -->
             <DisclosureButton
               as="a"
               href="#"
               class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-              >Sign out</DisclosureButton
+              >Sign Out</DisclosureButton
             >
           </div>
         </div>
       </DisclosurePanel>
+      <!-- End of Mobile Version -->
     </Disclosure>
   </div>
 </template>
@@ -192,16 +210,17 @@ import {
 } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import type { Step } from '@/models/pageLogic'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useSpeckleStore } from '@/stores/speckle'
 import { useNavigationStore } from '@/stores/main'
 
 export default defineComponent({
-  name: 'Navbar',
+  name: 'NavbarComponent',
   components: {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
+    // eslint-disable-next-line vue/no-reserved-component-names
     Menu,
     MenuButton,
     MenuItem,

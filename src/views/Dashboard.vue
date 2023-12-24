@@ -1,12 +1,12 @@
 <template>
-  <Navbar />
+  <NavbarComponent />
   <Sidebar />
   <Slideover />
 </template>
 
 <script lang="ts">
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
-import Navbar from '@/components/Navbar.vue'
+import NavbarComponent from '@/components/Navbar.vue'
 import Slideover from '@/components/ModelViewer/Sliderover.vue'
 import '@/index.css'
 
@@ -17,7 +17,7 @@ import '@/index.css'
 export default {
   name: 'DashboardView',
   components: {
-    Navbar,
+    NavbarComponent,
     Sidebar,
     Slideover,
   },

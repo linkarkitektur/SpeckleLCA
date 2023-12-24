@@ -1,4 +1,7 @@
-export const plugins = {
-  tailwindcss: {},
-  autoprefixer: {},
+/* eslint-disable no-undef */
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
 }

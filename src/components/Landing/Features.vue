@@ -46,12 +46,12 @@
         </div>
         <div class="flex items-start justify-end lg:order-first">
           <div
-            class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4"
+            class="-m-2 rounded-xl bg-gray-900/10 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4"
           >
             <img
               src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
               alt="Product screenshot"
-              class="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+              class="w-xl max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[1200px]"
               width="2432"
               height="1442"
             />

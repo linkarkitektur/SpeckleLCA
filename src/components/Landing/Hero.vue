@@ -1,7 +1,8 @@
 <template>
   <div class="relative isolate select-none overflow-hidden bg-white">
+    <!-- Transparent Gridded Overlay -->
     <svg
-      class="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+      class="absolute inset-0 -z-10 h-full w-full stroke-indigo-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
       aria-hidden="true"
     >
       <defs>
@@ -37,36 +38,6 @@
           alt="SpeckLCA Logo"
         />
 
-        <!-- Commmits Section -->
-        <div class="mt-24 sm:mt-32 lg:mt-16">
-          <button
-            type="button"
-            class="rounded bg-indigo-50 px-2 py-1 text-sm font-semibold text-indigo-500 shadow-sm"
-          >
-            Latest Commits
-          </button>
-
-          <a
-            href="https://github.com/linkarkitektur/SpeckleLCA"
-            class="ml-1 mt-1 inline-flex mr-6"
-          >
-            <span
-              class="inline-flex items-center mr-6 text-sm font-medium leading-6 text-gray-500"
-            >
-              <span>
-                <span v-if="latestCommit">
-                  {{ latestCommit }}
-                </span>
-                <span v-else>Loading...</span>
-              </span>
-              <ChevronRightIcon
-                class="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </span>
-          </a>
-        </div>
-
         <!-- Main hero section. -->
         <h1
           class="mt-10 text-4xl font-semibold tracking-tight text-indigo-600 sm:text-6xl"
@@ -95,6 +66,38 @@
             class="text-sm font-semibold leading-6 text-gray-900"
             >Learn More <span aria-hidden="true">→</span></a
           >
+        </div>
+
+        <!-- Commmits Section -->
+        <div class="object-bottom h-56 overflow-hidden">
+          <div class="mt-34 sm:mt-24 lg:mt-34">
+            <button
+              type="button"
+              class="rounded bg-indigo-100 px-2 py-1 text-sm font-semibold text-indigo-600 shadow-md"
+            >
+              Latest Commits
+            </button>
+
+            <a
+              href="https://github.com/linkarkitektur/SpeckleLCA"
+              class="ml-1 mt-1 inline-flex mr-6"
+            >
+              <span
+                class="items-center mr-6 text-sm font-medium leading-6 text-gray-400"
+              >
+                <span>
+                  <span v-if="latestCommit">
+                    {{ latestCommit }}
+                  </span>
+                  <span v-else>Loading...</span>
+                </span>
+                <ChevronRightIcon
+                  class="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </span>
+            </a>
+          </div>
         </div>
       </div>
 

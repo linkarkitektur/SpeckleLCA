@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteLocationNormalized } from 'vue-router'
 
-import Home from '@/views/Home.vue'
+import LandingView from '@/views/Landing.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import ProjectSelection from '@/views/ProjectSelection.vue'
 
@@ -17,8 +17,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home,
+      name: 'Landing',
+      component: LandingView,
       meta: {
         requiresAuth: false,
         title: 'Landing',
@@ -36,16 +36,6 @@ const router = createRouter({
       },
     },
     {
-      path: '/projects',
-      name: 'Projects',
-      component: ProjectSelection,
-      meta: {
-        requiresAuth: true,
-        title: 'Project Selection',
-        icon: '',
-      },
-    },
-    {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
@@ -55,20 +45,29 @@ const router = createRouter({
         icon: '',
       },
     },
+    {
+      path: '/projects',
+      name: 'Projects',
+      component: ProjectSelection,
+      meta: {
+        requiresAuth: true,
+        title: 'Project Selection',
+        icon: '',
+      },
+    },
   ],
 })
 
 const beforeEachGuard = async (to: RouteLocationNormalized) => {
   const speckleStore = useSpeckleStore()
   if (to.query.access_code) {
-    // If the route contains an access code, exchange it
+
+    // If the route contains an access code, exchange it.
     let accessCode: string
-    if (
-      Array.isArray(to.query.access_code) &&
-      to.query.access_code[0] != null
-    ) {
+    if (Array.isArray(to.query.access_code) && to.query.access_code[0] != null) {
       accessCode = to.query.access_code[0].toString()
-    } else {
+    }
+    else {
       accessCode = to.query.access_code.toString()
     }
 
@@ -81,7 +80,7 @@ const beforeEachGuard = async (to: RouteLocationNormalized) => {
     }
   }
 
-  // Fetch if the user is authenticated
+  // Fetch if the user is authenticated.
   await speckleStore.updateUser()
   const isAuth = speckleStore.isAuthenticated
 
