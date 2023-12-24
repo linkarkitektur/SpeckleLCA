@@ -1,2 +1,2 @@
-import {randomUUID} from 'node:crypto';
-crypto.randomUUID = randomUUID;
+import { randomUUID } from 'node:crypto'
+crypto.randomUUID = randomUUID

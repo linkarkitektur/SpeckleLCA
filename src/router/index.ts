@@ -1,13 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import type { RouteLocationNormalized } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
+import type { RouteLocationNormalized } from 'vue-router'
 
-import Home from '@/views/Home.vue';
-import Dashboard from '@/views/Dashboard.vue';
-import ProjectSelection from '@/views/ProjectSelection.vue';
+import Home from '@/views/Home.vue'
+import Dashboard from '@/views/Dashboard.vue'
+import ProjectSelection from '@/views/ProjectSelection.vue'
 
-import LoginComponent from '@/components/SpeckleLogin.vue';
+import LoginComponent from '@/components/SpeckleLogin.vue'
 
-import { useSpeckleStore } from '@/stores/speckle';
+import { useSpeckleStore } from '@/stores/speckle'
 
 /**
  * The router instance for the application.
@@ -21,74 +21,75 @@ const router = createRouter({
       component: Home,
       meta: {
         requiresAuth: false,
-        title: "Landing",
-        icon: "",
+        title: 'Landing',
+        icon: '',
       },
     },
     {
-      path: "/login",
-      name: "Login",
+      path: '/login',
+      name: 'Login',
       component: LoginComponent,
       meta: {
         requiresAuth: false,
-        title: "Login",
-        icon: "",
+        title: 'Login',
+        icon: '',
       },
     },
     {
-      path: "/projects",
-      name: "Projects",
+      path: '/projects',
+      name: 'Projects',
       component: ProjectSelection,
       meta: {
         requiresAuth: true,
-        title: "Project Selection",
-        icon: "",
-      }
+        title: 'Project Selection',
+        icon: '',
+      },
     },
     {
-      path: "/dashboard",
-      name: "Dashboard",
+      path: '/dashboard',
+      name: 'Dashboard',
       component: Dashboard,
       meta: {
         requiresAuth: true,
-        title: "Dashboard",
-        icon: "",
-      }
+        title: 'Dashboard',
+        icon: '',
+      },
     },
-  ]
+  ],
 })
 
-const beforeEachGuard = async (
-  to: RouteLocationNormalized,
-) => {
-  const speckleStore = useSpeckleStore();
+const beforeEachGuard = async (to: RouteLocationNormalized) => {
+  const speckleStore = useSpeckleStore()
   if (to.query.access_code) {
     // If the route contains an access code, exchange it
-    let accessCode: string;
-    if (Array.isArray(to.query.access_code) && to.query.access_code[0] != null) {
-      accessCode = to.query.access_code[0].toString();
+    let accessCode: string
+    if (
+      Array.isArray(to.query.access_code) &&
+      to.query.access_code[0] != null
+    ) {
+      accessCode = to.query.access_code[0].toString()
     } else {
-      accessCode = to.query.access_code.toString();
+      accessCode = to.query.access_code.toString()
     }
 
     try {
-      await speckleStore.exchangeAccessCodes(accessCode);
-      return { name: "Projects" }
+      await speckleStore.exchangeAccessCodes(accessCode)
+      return { name: 'Projects' }
     } catch (err) {
-      console.warn('exchange failed', err);
-      return { name: "Home" }
+      console.warn('exchange failed', err)
+      return { name: 'Home' }
     }
   }
 
   // Fetch if the user is authenticated
-  await speckleStore.updateUser();
-  const isAuth = speckleStore.isAuthenticated;
+  await speckleStore.updateUser()
+  const isAuth = speckleStore.isAuthenticated
 
   if (to.meta.requiresAuth && !isAuth) {
     return { name: 'Login' }
   }
-};
+}
 
-router.beforeEach(beforeEachGuard);
+router.beforeEach(beforeEachGuard)
 
-export default router;
+export default router

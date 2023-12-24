@@ -7,8 +7,8 @@
  * @see https://pinia.esm.dev/api/define-store.html
  */
 
-import { defineStore } from "pinia";
-import router from "@/router";
+import { defineStore } from 'pinia'
+import router from '@/router'
 import type {
   ModelsAndVersions,
   ObjectParameter,
@@ -16,8 +16,8 @@ import type {
   ProjectId,
   ServerInfo,
   User,
-  Version
-} from "@/models/speckle";
+  Version,
+} from '@/models/speckle'
 import {
   exchangeAccessCode,
   getProjectVersions,
@@ -26,8 +26,8 @@ import {
   navigateToAuthPage,
   getUserData,
   speckleLogOut,
-} from "@/utils/speckleUtils"; // TODO Is this the right import in the wider structure?
-import { logMessageToSentry } from "@/utils/monitoring";
+} from '@/utils/speckleUtils' // TODO Is this the right import in the wider structure?
+import { logMessageToSentry } from '@/utils/monitoring'
 
 /**
  * The `useSpeckleStore` is a store that manages the state and actions related to the Speckle integration.
@@ -36,7 +36,7 @@ import { logMessageToSentry } from "@/utils/monitoring";
  * updating project versions, getting objects for a project, and managing custom parameters.
  */
 export const useSpeckleStore = defineStore({
-  id: "speckleStore",
+  id: 'speckleStore',
   state: () => {
     return {
       /**
@@ -105,7 +105,7 @@ export const useSpeckleStore = defineStore({
      * @returns {Promise<void>}
      */
     async login(): Promise<void> {
-      navigateToAuthPage();
+      navigateToAuthPage()
     },
 
     /**
@@ -114,14 +114,14 @@ export const useSpeckleStore = defineStore({
      */
     async logout(): Promise<void> {
       this.$patch((state) => {
-        state.user = null;
-        state.serverInfo = null;
-        state.projectDetails = null;
-        state.selectedVersion = null;
-      });
+        state.user = null
+        state.serverInfo = null
+        state.projectDetails = null
+        state.selectedVersion = null
+      })
       // Wipe the tokens
-      speckleLogOut();
-      router.push('/login');
+      speckleLogOut()
+      router.push('/login')
     },
 
     /**
@@ -131,7 +131,7 @@ export const useSpeckleStore = defineStore({
      */
     async exchangeAccessCodes(accessCode: string): Promise<void> {
       // Here, you can save the tokens to the store if necessary.
-      return exchangeAccessCode(accessCode);
+      return exchangeAccessCode(accessCode)
     },
 
     /**
@@ -140,16 +140,15 @@ export const useSpeckleStore = defineStore({
      */
     async updateUser(): Promise<void> {
       try {
-        const json = await getUserData();
-        const data = json.data;
+        const json = await getUserData()
+        const data = json.data
 
         this.$patch((state) => {
-          state.user = data.user;
-          state.serverInfo = data.serverInfo;
-        });
-      }
-      catch (err: any) {
-        logMessageToSentry(err as string, "info");
+          state.user = data.user
+          state.serverInfo = data.serverInfo
+        })
+      } catch (err: any) {
+        logMessageToSentry(err as string, 'info')
       }
     },
 
@@ -160,24 +159,25 @@ export const useSpeckleStore = defineStore({
      */
     async updateProjects(): Promise<void> {
       try {
-        const json = await getProjectsData();
-        const data = json.data;
+        const json = await getProjectsData()
+        const data = json.data
 
         // Ensure enpepotemce criteria is met.
         this.$patch((state) => {
-          state.allProjects = [];
-          data.streams.items.forEach((el: { name: string; id: string; updatedAt: Date; }) => {
-            const proj: ProjectId = {
-              name: el.name,
-              id: el.id,
-              updatedAt: el.updatedAt
-            };
-            state.allProjects?.push(proj);
-          });
-        });
-      }
-      catch (err: any) {
-        logMessageToSentry(err as string, "info");
+          state.allProjects = []
+          data.streams.items.forEach(
+            (el: { name: string; id: string; updatedAt: Date }) => {
+              const proj: ProjectId = {
+                name: el.name,
+                id: el.id,
+                updatedAt: el.updatedAt,
+              }
+              state.allProjects?.push(proj)
+            }
+          )
+        })
+      } catch (err: any) {
+        logMessageToSentry(err as string, 'info')
       }
     },
 
@@ -188,11 +188,15 @@ export const useSpeckleStore = defineStore({
      * @param {Date | null} cursor - The cursor to use for pagination.
      * @returns {Promise<void>}
      */
-    async updateProjectVersions(projectId: string, limit: number, cursor: Date | null): Promise<void> {
+    async updateProjectVersions(
+      projectId: string,
+      limit: number,
+      cursor: Date | null
+    ): Promise<void> {
       try {
-        const response = await getProjectVersions(projectId, limit, cursor);
-        const data = response.data;
-        const projDet: ProjectDetails = data;
+        const response = await getProjectVersions(projectId, limit, cursor)
+        const data = response.data
+        const projDet: ProjectDetails = data
 
         const selectedProj: ProjectId = {
           name: projDet.stream.name,
@@ -200,39 +204,41 @@ export const useSpeckleStore = defineStore({
           updatedAt: projDet.stream.updatedAt,
         }
 
-        let allModels: string[];
-        const allVers: Version[] = [];
-        const modelVers: ModelsAndVersions = {};
+        let allModels: string[]
+        const allVers: Version[] = []
+        const modelVers: ModelsAndVersions = {}
 
         // Get versions for this project, and store them in an array.
-        if (projDet.stream.commits?.items && projDet.stream.commits?.items.length > 0) {
-          projDet.stream.commits?.items?.forEach(version => {
-            allVers.push(version);
+        if (
+          projDet.stream.commits?.items &&
+          projDet.stream.commits?.items.length > 0
+        ) {
+          projDet.stream.commits?.items?.forEach((version) => {
+            allVers.push(version)
 
-            const { branchName } = version;
+            const { branchName } = version
             if (!modelVers[branchName]) {
-              modelVers[branchName] = [];
+              modelVers[branchName] = []
             }
-            modelVers[branchName].push(version);
-          });
+            modelVers[branchName].push(version)
+          })
 
           // Get the list of all models if available, returning the branch name.
           allModels = projDet.stream.commits?.items?.map(function (version) {
-            return version?.branchName;
-          });
+            return version?.branchName
+          })
         }
 
         // Use this.$patch instead of commit to update state
         this.$patch((state) => {
-          state.selectedProject = selectedProj;
-          state.projectDetails = projDet;
-          state.allVersions = allVers;
-          state.allModels = allModels;
-          state.modelsAndVersions = modelVers;
-        });
-      }
-      catch (err: any) {
-        logMessageToSentry(err as string, "info");
+          state.selectedProject = selectedProj
+          state.projectDetails = projDet
+          state.allVersions = allVers
+          state.allModels = allModels
+          state.modelsAndVersions = modelVers
+        })
+      } catch (err: any) {
+        logMessageToSentry(err as string, 'info')
       }
     },
 
@@ -244,14 +250,17 @@ export const useSpeckleStore = defineStore({
     async getObjects(): Promise<any> {
       try {
         if (this.selectedProject && this.selectedVersion) {
-          const objs = await getObjectParameters(this.selectedProject.id, this.selectedVersion.referencedObject, this.selectedVersion.sourceApplication);
-          return objs;
+          const objs = await getObjectParameters(
+            this.selectedProject.id,
+            this.selectedVersion.referencedObject,
+            this.selectedVersion.sourceApplication
+          )
+          return objs
         } else {
-          return null;
+          return null
         }
-      }
-      catch (err: any) {
-        logMessageToSentry(err as string, "info");
+      } catch (err: any) {
+        logMessageToSentry(err as string, 'info')
       }
     },
 
@@ -261,7 +270,7 @@ export const useSpeckleStore = defineStore({
      * @returns {void}
      */
     setProjectDetails(project: ProjectDetails): void {
-      this.projectDetails = project;
+      this.projectDetails = project
     },
 
     /**
@@ -270,7 +279,7 @@ export const useSpeckleStore = defineStore({
      * @returns {void}
      */
     setAllVersions(allVer: Version[]): void {
-      this.allVersions = allVer;
+      this.allVersions = allVer
     },
 
     /**
@@ -279,7 +288,7 @@ export const useSpeckleStore = defineStore({
      * @returns {void}
      */
     setAllModels(allModels: string[]): void {
-      this.allModels = allModels;
+      this.allModels = allModels
     },
 
     /**
@@ -288,7 +297,7 @@ export const useSpeckleStore = defineStore({
      * @returns {void}
      */
     setModelsAndVersions(modelVer: ModelsAndVersions): void {
-      this.modelsAndVersions = modelVer;
+      this.modelsAndVersions = modelVer
     },
 
     /**
@@ -296,7 +305,7 @@ export const useSpeckleStore = defineStore({
      * @param version
      */
     setSelectedVersion(version: Version) {
-      this.selectedVersion = version;
+      this.selectedVersion = version
     },
 
     /**
@@ -305,12 +314,10 @@ export const useSpeckleStore = defineStore({
      */
     addCustomParameter(parameter: ObjectParameter) {
       if (!this.parameterNameCheck(parameter.name)) {
-        if (this.customParameters)
-          this.customParameters.push(parameter);
-        else
-          this.customParameters = [parameter];
+        if (this.customParameters) this.customParameters.push(parameter)
+        else this.customParameters = [parameter]
       } else {
-        console.warn('Duplicate name found. Object not added.');
+        console.warn('Duplicate name found. Object not added.')
       }
     },
 
@@ -321,9 +328,8 @@ export const useSpeckleStore = defineStore({
      */
     parameterNameCheck(newName: string): boolean {
       if (this.customParameters)
-        return this.customParameters.some(obj => obj.name === newName);
-      else
-        return false;
+        return this.customParameters.some((obj) => obj.name === newName)
+      else return false
     },
 
     /**
@@ -332,7 +338,9 @@ export const useSpeckleStore = defineStore({
      */
     removeCustomParameter(name: string) {
       if (this.customParameters)
-        this.customParameters = this.customParameters?.filter(item => item.name !== name);
+        this.customParameters = this.customParameters?.filter(
+          (item) => item.name !== name
+        )
     },
   },
 
@@ -365,7 +373,8 @@ export const useSpeckleStore = defineStore({
      * The `modelsAndVersions` getter returns an object that maps each model to an array of its versions.
      * @returns {ModelsAndVersions | null}
      */
-    getModelsAndVersions: (state): ModelsAndVersions | null => state.modelsAndVersions,
+    getModelsAndVersions: (state): ModelsAndVersions | null =>
+      state.modelsAndVersions,
 
     /**
      * The `isAuthenticated` getter returns a boolean indicating whether the user is authenticated.
@@ -389,6 +398,7 @@ export const useSpeckleStore = defineStore({
      * Returns a list of all customParameters for this stream
      * @returns {ObjectParameter[] | null}
      */
-    getCustomParameters: (state): ObjectParameter[] | null => state.customParameters,
+    getCustomParameters: (state): ObjectParameter[] | null =>
+      state.customParameters,
   },
 })

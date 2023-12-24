@@ -1,8 +1,8 @@
 <template>
-    <HeroComponent />
-    <FeaturesComponent />
-    <ContributeComponent />
-    <FooterComponent />
+  <HeroComponent />
+  <FeaturesComponent />
+  <ContributeComponent />
+  <FooterComponent />
 </template>
 
 <script lang="ts">
@@ -12,13 +12,13 @@ import ContributeComponent from '@/components/Landing/Contribute.vue'
 import FooterComponent from '@/components/Landing/Footer.vue'
 
 export default {
-    name: 'HomeView',
-    components: {
-        HeroComponent,
-        FeaturesComponent,
-        ContributeComponent,
-        FooterComponent,
-    },
-    setup() {},
+  name: 'HomeView',
+  components: {
+    HeroComponent,
+    FeaturesComponent,
+    ContributeComponent,
+    FooterComponent,
+  },
+  setup() {},
 }
 </script>
