@@ -1,4 +1,17 @@
+// https://firebase.google.com/docs/firestore/query-data/indexing
+// Added sample values for basic queries.
 {
-  "indexes": [],
+  "indexes": [
+    // {
+    //   "collectionGroup": "myCollection",
+    //   "queryScope": "COLLECTION",
+    //   "fields": [
+    //     {
+    //       "fieldPath": "myField",
+    //       "order": "ASCENDING"
+    //     }
+    //   ]
+    // }
+  ],
   "fieldOverrides": []
 }

@@ -1,3 +1,4 @@
+
 rules_version = '2';
 
 // Craft rules based on data in your Firestore database
@@ -5,18 +6,13 @@ rules_version = '2';
 //    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
 service firebase.storage {
   match /b/{bucket}/o {
-
-    // This rule allows anyone with your Storage bucket reference to view, edit,
-    // and delete all data in your Storage bucket. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Storage bucket will be denied.
-    //
     // Make sure to write security rules for your app before that time, or else
     // all client requests to your Storage bucket will be denied until you Update
-    // your rules
+    // your rules.
+
+    // Updated until the end of January.
     match /{allPaths=**} {
-      allow read, write: if request.time < timestamp.date(2023, 11, 22);
+      allow read, write: if request.time < timestamp.date(2024, 01, 31); // TODO Revisit in January.
     }
   }
 }

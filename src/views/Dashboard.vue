@@ -1,25 +1,26 @@
 <template>
-    <Navbar />
-    <Sidebar />
-    <Slideover />
+  <NavbarComponent />
+  <Sidebar />
+  <Slideover />
 </template>
 
-
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
-import Sidebar from '@/components/Sidebar/Sidebar.vue';
-import Navbar from '@/components/Navbar.vue';
-import Slideover from '@/components/ModelViewer/Sliderover.vue';
-import '@/index.css';
+import Sidebar from '@/components/Sidebar/Sidebar.vue'
+import NavbarComponent from '@/components/Navbar.vue'
+import Slideover from '@/components/ModelViewer/Sliderover.vue'
+import '@/index.css'
 
-export default defineComponent({
-  name: "Dashboard",
+/**
+ * Dashboard view.
+ * This component represents the main dashboard view of the application.
+ */
+export default {
+  name: 'DashboardView',
   components: {
-    Navbar,
+    NavbarComponent,
     Sidebar,
-    Slideover
+    Slideover,
   },
-  setup() {
-  },
-});
+  setup() {},
+}
 </script>

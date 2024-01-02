@@ -1,69 +1,69 @@
 {
-    "GeoObjects": [
+  "GeoObjects": [
+    {
+      "name": "Wall1",
+      "quantity": {
+        "M2": 23
+      },
+      "id": "3f6e4d9f-e822-4cd6-a374-85e08f4cb212",
+      "parameters": {
+        "testField": "testValue",
+        "testField2": "testValue2"
+      }
+    },
+    {
+      "name": "Wall1",
+      "quantity": {
+        "M2": 32
+      },
+      "id": "a29f1f87-4031-4b8a-bb6d-1c4d9cc0e6bd",
+      "parameters": {
+        "testField": "notTestValue",
+        "testField2": "testValue2"
+      }
+    },
+    {
+      "name": "Wall2",
+      "quantity": {
+        "M2": 15
+      },
+      "id": "b88cf0c2-0569-4174-abfc-f5dd18bf4eca",
+      "parameters": {
+        "testField": "testValue",
+        "testField2": "testValue2"
+      }
+    }
+  ],
+  "ProjectObjects": [
+    {
+      "name": "project",
+      "description": "test project description",
+      "id": "39ac3e73-2d8f-47de-be68-2e9fa82f1121",
+      "geometry": [
         {
-            "name": "Wall1",
-            "quantity": {
-                "M2": 23
-            },
-            "id": "3f6e4d9f-e822-4cd6-a374-85e08f4cb212",
-            "parameters": {
-                "testField": "testValue",
-                "testField2": "testValue2"
-            }
+          "name": "Wall1",
+          "quantity": {
+            "M2": 23
+          },
+          "id": "3f6e4d9f-e822-4cd6-a374-85e08f4cb212",
+          "parameters": {
+            "testField": "testValue",
+            "testField2": "testValue2"
+          }
         },
         {
-            "name": "Wall1",
-            "quantity": {
-                "M2": 32
-            },
-            "id": "a29f1f87-4031-4b8a-bb6d-1c4d9cc0e6bd",
-            "parameters": {
-                "testField": "notTestValue",
-                "testField2": "testValue2"
-            }
-        },
-        {
-            "name": "Wall2",
-            "quantity": {
-                "M2": 15
-            },
-            "id": "b88cf0c2-0569-4174-abfc-f5dd18bf4eca",
-            "parameters": {
-                "testField": "testValue",
-                "testField2": "testValue2"
-            }
+          "name": "Wall1",
+          "quantity": {
+            "M2": 32
+          },
+          "id": "a29f1f87-4031-4b8a-bb6d-1c4d9cc0e6bd",
+          "parameters": {
+            "testField": "notTestValue",
+            "testField2": "testValue2"
+          }
         }
-    ],
-    "ProjectObjects": [
-        {
-            "name": "project",
-            "description": "test project description",
-            "id": "39ac3e73-2d8f-47de-be68-2e9fa82f1121",
-            "geometry": [
-                {
-                    "name": "Wall1",
-                    "quantity": {
-                        "M2": 23
-                    },
-                    "id": "3f6e4d9f-e822-4cd6-a374-85e08f4cb212",
-                    "parameters": {
-                        "testField": "testValue",
-                        "testField2": "testValue2"
-                    }
-                },
-                {
-                    "name": "Wall1",
-                    "quantity": {
-                        "M2": 32
-                    },
-                    "id": "a29f1f87-4031-4b8a-bb6d-1c4d9cc0e6bd",
-                    "parameters": {
-                        "testField": "notTestValue",
-                        "testField2": "testValue2"
-                    }
-                }
-            ],
-            "sqm": 100
-        }
-    ]
+      ],
+      "sqm": 100
+    }
+  ]
 }

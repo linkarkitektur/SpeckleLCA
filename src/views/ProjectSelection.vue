@@ -1,17 +1,21 @@
 <template>
-    <Navbar />
-    <ProjectGrid />
+  <Navbar />
+  <ProjectGrid />
 </template>
 
 <script>
-import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue';
-import Navbar from '@/components/Navbar.vue';
+import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue'
+import Navbar from '@/components/Navbar.vue'
 
+/**
+ * The project selection view.
+ * This component represents the project selection view of the application.
+ */
 export default {
-  name: 'ProjectSelection',
+  name: 'ProjectSelectionView',
   components: {
     Navbar,
-    ProjectGrid
+    ProjectGrid,
   },
   setup() {},
 }

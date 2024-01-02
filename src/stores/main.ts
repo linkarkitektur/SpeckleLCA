@@ -1,15 +1,16 @@
-import { defineStore } from "pinia";
-import type { GeometryObject } from "@/models/geometryObject";
-import type { Project, Results } from "@/models/project";
-import type { Group } from "@/models/filters";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { defineStore } from 'pinia'
+import type { GeometryObject } from '@/models/geometryObject'
+import type { Project, Results } from '@/models/project'
+import type { Group } from '@/models/filters'
 import { createNestedObject } from '@/utils/projectUtils'
-
+import { logMessageToSentry } from '@/utils/monitoring'
 
 /**
  * Defines the project store, which contains the current project and its geometry and results.
  */
 export const useProjectStore = defineStore({
-  id: "projectStore",
+  id: 'projectStore',
   state: () => {
     return {
       currProject: null as Project | null, // The current project being worked on
@@ -23,15 +24,15 @@ export const useProjectStore = defineStore({
      * @param project The project to create.
      */
     createNewProject(project: Project) {
-      this.currProject = project;
+      this.currProject = project
     },
 
     /**
      * Creates or updated the current groups set on the project
-     * @param groups 
+     * @param groups
      */
     updateProjectGroups(groups: Group[]) {
-      this.projectGroups = groups;
+      this.projectGroups = groups
     },
 
     /**
@@ -39,7 +40,7 @@ export const useProjectStore = defineStore({
      * @param project The project to update.
      */
     updateProject(project: Project) {
-      this.currProject = project;
+      this.currProject = project
     },
 
     /**
@@ -47,7 +48,7 @@ export const useProjectStore = defineStore({
      * @param geometryObject The geometry object to add.
      */
     addGeometry(geometryObject: GeometryObject) {
-      this.currProject?.geometry.push(geometryObject);
+      this.currProject?.geometry.push(geometryObject)
     },
 
     /**
@@ -55,12 +56,11 @@ export const useProjectStore = defineStore({
      * @param id The ID of the geometry object to remove.
      */
     removeGeometry(id: string) {
-      const index = this.findGeometryIndexById(id);
+      const index = this.findGeometryIndexById(id)
 
-      if (index === -1) return;
+      if (index === -1) return
 
-      if (index != undefined)
-        this.currProject?.geometry.splice(index, 1);
+      if (index != undefined) this.currProject?.geometry.splice(index, 1)
     },
 
     /**
@@ -69,12 +69,12 @@ export const useProjectStore = defineStore({
      * @param id The ID of the geometry object to update.
      */
     updateGeometry(payload: GeometryObject, id: string) {
-      if (!id || !payload || this.currProject === null) return;
+      if (!id || !payload || this.currProject === null) return
 
-      const index = this.findGeometryIndexById(id);
+      const index = this.findGeometryIndexById(id)
 
       if (index !== -1 && index != undefined)
-        this.currProject.geometry[index] = payload;
+        this.currProject.geometry[index] = payload
     },
 
     /**
@@ -83,9 +83,8 @@ export const useProjectStore = defineStore({
      */
     addResults(result: Results) {
       if (this.currProject?.results != null)
-        this.currProject.results.push(result);
-      else if (this.currProject != null)
-        this.currProject.results = [result];
+        this.currProject.results.push(result)
+      else if (this.currProject != null) this.currProject.results = [result]
     },
 
     /**
@@ -94,12 +93,16 @@ export const useProjectStore = defineStore({
      * @param id The ID of the results to update.
      */
     updateResults(payload: Results, id: string) {
-      if (!id || !payload || this.currProject === undefined) return;
+      if (!id || !payload || this.currProject === undefined) return
 
-      const index = this.findResultIndexById(id);
+      const index = this.findResultIndexById(id)
 
-      if (index !== -1 && index != undefined && this.currProject?.results != null)
-        this.currProject.results[index] = payload;
+      if (
+        index !== -1 &&
+        index != undefined &&
+        this.currProject?.results != null
+      )
+        this.currProject.results[index] = payload
     },
 
     /**
@@ -107,14 +110,16 @@ export const useProjectStore = defineStore({
      */
     getGroupTree() {
       if (this.projectGroups) {
-        const data = this.projectGroups;
-      
-        // Creating the nested object
-        const nestedObject = createNestedObject(data);
+        const data = this.projectGroups
 
-        return nestedObject;
+        // Creating the nested object
+        const nestedObject = createNestedObject(data)
+        return nestedObject
       } else {
-        console.log("No groups found to create tree structure in current project");
+        const msg =
+          'No groups found to create tree structure in current project.'
+        logMessageToSentry(msg, 'info')
+        console.log(msg)
       }
     },
 
@@ -124,7 +129,7 @@ export const useProjectStore = defineStore({
      * @returns The index of the geometry object, or -1 if not found.
      */
     findGeometryIndexById(id: string) {
-      return this.currProject?.geometry.findIndex((item) => item.id === id);
+      return this.currProject?.geometry.findIndex((item) => item.id === id)
     },
 
     /**
@@ -133,15 +138,16 @@ export const useProjectStore = defineStore({
      * @returns The index of the results, or -1 if not found.
      */
     findResultIndexById(id: string) {
-      return this.currProject?.geometry.findIndex((item) => item.id === id);
+      return this.currProject?.geometry.findIndex((item) => item.id === id)
     },
-
-
   },
-});
+})
 
+/**
+ * A store for managing material-related data.
+ */
 export const useMaterialStore = defineStore({
-  id: "materialStore",
+  id: 'materialStore',
   state: () => {
     return {
       currProject: null as Project | null,
@@ -149,21 +155,28 @@ export const useMaterialStore = defineStore({
   },
 
   actions: {
+    /**
+     * Creates a new project and sets it as the current project.
+     * @param project The project to be created.
+     */
     createNewProject(project: Project) {
-      this.currProject = project;
+      this.currProject = project
     },
-  }
-});
+  },
+})
 
 /**
  * Navigation store that is used by the navigation bar in the application view
+ */
+/**
+ * Defines a store for managing navigation state.
  */
 export const useNavigationStore = defineStore({
   id: 'navigationStore',
   state: () => {
     return {
-      activePage: "Projects" as string, // The current page
-      slideoverOpen: false, 
+      activePage: 'Projects' as string, // The current page
+      slideoverOpen: false,
     }
   },
   actions: {
@@ -172,30 +185,28 @@ export const useNavigationStore = defineStore({
      * @param page page that is currently active in the application view
      */
     setActivePage(page: string) {
-      this.activePage = page;
+      this.activePage = page
     },
-    
+
     toggleSlideover() {
-      this.slideoverOpen = !this.slideoverOpen;
+      this.slideoverOpen = !this.slideoverOpen
     },
 
     getSlideoverOpenTest() {
-      return this.slideoverOpen;
-    }
+      return this.slideoverOpen
+    },
   },
   getters: {
-    /**
-     * Returns the current page for the application view
-     * @returns currentPage
-     */
     getActivePage: (state) => state.activePage,
-    
     getSlideoverOpen: (state) => state.slideoverOpen,
   },
-});
+})
 
+/**
+ * Represents a nested object with names and numbers of objects.
+ */
 interface NestedObject {
-  name: string;
-  objects: number;
-  children: { [key: string]: NestedObject };
+  name: string
+  objects: number
+  children: { [key: string]: NestedObject }
 }
