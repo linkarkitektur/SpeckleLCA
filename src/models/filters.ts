@@ -1,19 +1,22 @@
 import type { GeometryObject } from "./geometryObject";
+import { getTextAfterLastDot } from "@/utils/projectUtils"
 
 /**
  * Filters done in correct sequencing with arguments to be used for each step
  */
 export interface FilterList {
-    name: string;
-    filters: {
-        [filterName: string]: Filter; // eg Equals
-    };
+    name: string
+    filters: Filter[]
 }
 
 /**
  * Interface for filterList
+ * name: The name of the filter that is added to the registry
+ * field: GeoObject property which to run filter on
+ * value: Optional value to use for comparrison in the filter
  */
 export interface Filter {
+    name: string
     field: string;
     value?: string;
 }
@@ -24,9 +27,12 @@ export interface Filter {
 export interface Group {
     id: string;
     name: string;
-    // Path describes how group is shown and the name/val ... val/name heirarchy
-    // eg. Wall/Inner Wall/Type 1
-    path: string;
+    // Path describes how group is shown in the tree view. 
+    // Always put in the root first and then final name last
+    // eg. ["Wall", "Inner Wall", "Type 1"]
+    path: [
+        string
+    ];
     elements: GeometryObject[];
 }   
 
@@ -53,7 +59,7 @@ export class FilterRegistry {
     }
 
     /**
-     * Call Filter and return grouping
+     * Call Filter defined in registry and return grouping
      * @param name name of filter
      * @param inGroup 
      * @param field 
@@ -104,10 +110,14 @@ export function createStandardFilters(registry: FilterRegistry) {
     
                             groupObj[value] = temp!;
                         } else {
+                            //Copy old path and push the new value at the end of the path
+                            let paths = grp.path;
+                            paths.push(value);
+
                             let temp: Group = {
                                 id: crypto.randomUUID(),
                                 name: `${value}`,
-                                path: `${grp.path}/${value}`,
+                                path: grp.path,
                                 elements: [obj],
                             };
 
@@ -122,10 +132,15 @@ export function createStandardFilters(registry: FilterRegistry) {
     
                             groupObj[nonValue] = temp!;
                         } else {
+                            //Copy old path and push the new cleaned up value at the end of the path
+                            const pathName = getTextAfterLastDot(obj.parameters[field])
+                            const paths: [string] = [...grp.path]
+                            paths.push(pathName)
+
                             let temp: Group = {
                                 id: crypto.randomUUID(),
-                                name: `!${value}`,
-                                path: `${grp.path}/!${value}`,
+                                name: nonValue,
+                                path: paths,
                                 elements: [obj],
                             };
 
@@ -160,13 +175,18 @@ export function createStandardFilters(registry: FilterRegistry) {
                     if (obj.parameters[field] in groupObj) {
                         let temp = groupObj[obj.parameters[field]];
                         temp!.elements.push(obj);
-
+                        
                         groupObj[obj.parameters[field]] = temp!;
                     } else {
+                        //Copy old path and push the new cleaned up value at the end of the path
+                        const pathName = getTextAfterLastDot(obj.parameters[field])
+                        const paths: [string] = [...grp.path]
+                        paths.push(pathName)
+                        
                         let temp: Group = {
                             id: crypto.randomUUID(),
                             name: obj.parameters[field],
-                            path: `${grp.path}/${obj.parameters[field]}`,
+                            path: paths,
                             elements: [obj],
                         };
                        

@@ -27,12 +27,12 @@
       </div>
     </div>
     <div class="justify-between items-center">
-      <div class="bg-gray-100 rounded-lg p-1 items-center">
-        <table v-if="expand" class="w-full text-left">
+      <div class="bg-gray-100 rounded-lg p-1 items-center max-w-full overflow-x-auto">
+        <table v-if="expand" class="w-full text-left table-auto">
           <thead class="text-sm">
             <tr>
-              <th class="px-4">Name</th>
-              <th>Elements</th>
+              <th class="px-4 w-3/4">Name</th>
+              <th class="w-1/4">Elements</th>
             </tr>
           </thead>
           <tbody>

@@ -63,11 +63,16 @@ export default defineComponent({
     //We use filterlists to create the tree
     const testFilters: FilterList = {
       name: "testFiltering",
-      filters: {
-        "groupByFilter": {
+      filters: [
+        {
+          name: "groupByFilter",
           field: "speckle_type"
-        }
-      }
+        },
+        {
+          name: "groupByFilter",
+          field: "speckle_type"
+        },
+      ]
     }
 
     //Create geometry objects from the project
@@ -80,31 +85,22 @@ export default defineComponent({
     let groups : Group[] = [{
       id: "test",
       name: "root",
-      path: "root",
+      path: ["root"],
       elements: geo
     }]
 
     //Go through each filters and iterate over them
-    for (let filterKey in testFilters.filters) {
-      if (testFilters.filters.hasOwnProperty(filterKey)) {
-        let filter = testFilters.filters[filterKey];
-        if (filter.value) {
-          groups = exampleRegistry.callFilter(`${filterKey}`, groups, `${filter.field}`, `${filter.value}`);
-        } else {
-          groups = exampleRegistry.callFilter(`${filterKey}`, groups, `${filter.field}`);
-        }
+    testFilters.filters.forEach(el => {
+      if (el.value) {
+        groups = exampleRegistry.callFilter(`${el.name}`, groups, `${el.field}`, `${el.value}`);
+      } else {
+        groups = exampleRegistry.callFilter(`${el.name}`, groups, `${el.field}`);
       }
-    }
+    })
 
     //Remove root in path since we had to add it 
     groups.forEach(element => {
-      let index = element.path.indexOf('/');
-      if (index !== -1) {
-        let modPath = element.path.substring(index + 1);
-        element.path = modPath;
-      } else {
-        console.log("No '/' found in the string.");
-      }
+      element.path.splice(0, 1);
     });
 
     groups.sort((a, b) => b.elements.length - a.elements.length);
