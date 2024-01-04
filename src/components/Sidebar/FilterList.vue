@@ -75,6 +75,9 @@ export default defineComponent({
       ]
     }
 
+    exampleRegistry.filterCallStack = testFilters
+    projectstore.setFilterRegistry(exampleRegistry)
+
     //Create geometry objects from the project
     let geo: GeometryObject[] = []
     projectstore.currProject?.geometry.forEach(element => {

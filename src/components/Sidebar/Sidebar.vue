@@ -35,7 +35,7 @@ export default defineComponent({
         return null;
       else
         return null;
-    });
+    })
     return {
       currentList
     };

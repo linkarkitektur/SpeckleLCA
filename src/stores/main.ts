@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import type { GeometryObject } from "@/models/geometryObject";
 import type { Project, Results } from "@/models/project";
-import type { Group } from "@/models/filters";
+import type { FilterRegistry, Group, Filter } from "@/models/filters";
 import { createNestedObject } from '@/utils/projectUtils'
 
 
@@ -14,6 +14,7 @@ export const useProjectStore = defineStore({
     return {
       currProject: null as Project | null, // The current project being worked on
       projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
+      filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
     }
   },
 
@@ -40,7 +41,6 @@ export const useProjectStore = defineStore({
      * @param name 
      */
     updateProjectGroupName(name: string) {
-      
     },
 
     /**
@@ -49,6 +49,26 @@ export const useProjectStore = defineStore({
      */
     updateProject(project: Project) {
       this.currProject = project;
+    },
+
+    /**
+     * Update store with current filter registry
+     * @param registry The registry to update to
+     */
+    setFilterRegistry(registry: FilterRegistry) {
+      this.filterRegistry = registry
+    },
+
+    /**
+     * Get current filter registry call stack and returns a array of 
+     * filters that are within it
+     * @returns Array of filters with keyvalues for the current filtering
+     */
+    getRegistryStack() {
+      if(this.filterRegistry !== null)
+        return this.filterRegistry.filterCallStack.filters
+      else
+        return null
     },
 
     /**

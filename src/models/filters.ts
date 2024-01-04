@@ -44,6 +44,11 @@ export class FilterRegistry {
         [filterName: string]: Function;
     } = {};
 
+    public filterCallStack: FilterList = {
+        name: "",
+        filters: []
+    }
+
     /**
      * Add functions to registry by providing a name and the function with 3 set parameters
      * @param name 
