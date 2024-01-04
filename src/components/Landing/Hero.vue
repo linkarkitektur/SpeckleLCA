@@ -26,47 +26,11 @@
     </svg>
 
     <div
-      class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40"
+      class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-20"
     >
       <div
         class="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8"
       >
-        <!-- Latest commit info -->
-        <div 
-          class="mt-24 sm:mt-32 lg:mt-16"
-        >
-          <a 
-            href="https://github.com/linkarkitektur/SpeckleLCA" 
-            class="inline-flex space-x-6"
-          >
-            <span 
-              class="rounded-full bg-indigo-600/10 px-3 py-1 text-sm text-center font-semibold leading-6 text-indigo-600 ring-1 ring-inset ring-indigo-600/10"
-            >
-              Last commit
-            </span>
-            <span 
-              class="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600"
-            >
-              <span>
-                <span 
-                  v-if="latestCommit"
-                > 
-                  {{ latestCommit }}
-                </span>
-                <span 
-                  v-else
-                >
-                  Loading...
-                </span>
-              </span>
-              <ChevronRightIcon 
-                class="h-5 w-5 text-gray-400" 
-                aria-hidden="true" 
-              />
-            </span>
-          </a>
-        </div>
-
         <!-- Main App Icon -->
         <img
           class="h-11"
@@ -106,7 +70,7 @@
 
         <!-- Commmits Section -->
         <div class="object-bottom h-56 overflow-hidden">
-          <div class="mt-34 sm:mt-24 lg:mt-34">
+          <div class="mt-12 sm:mt-10 lg:mt-12">
             <button
               type="button"
               class="rounded bg-indigo-100 px-2 py-1 text-sm font-semibold text-indigo-600 shadow-md"
