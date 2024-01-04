@@ -1,4 +1,4 @@
-import type { GeometryObject } from "./geometryObject";
+import type { GeometryObject } from "./geometryObject"
 import { getTextAfterLastDot } from "@/utils/projectUtils"
 
 /**
@@ -17,23 +17,23 @@ export interface FilterList {
  */
 export interface Filter {
     name: string
-    field: string;
-    value?: string;
+    field: string
+    value?: string
 }
 
 /**
  * Grouped geometryObjects with path information
  */
 export interface Group {
-    id: string;
-    name: string;
+    id: string
+    name: string
     // Path describes how group is shown in the tree view. 
     // Always put in the root first and then final name last
     // eg. ["Wall", "Inner Wall", "Type 1"]
     path: [
         string
-    ];
-    elements: GeometryObject[];
+    ]
+    elements: GeometryObject[]
 }   
 
 /**
@@ -41,8 +41,8 @@ export interface Group {
  */
 export class FilterRegistry {
     private filters: {
-        [filterName: string]: Function;
-    } = {};
+        [filterName: string]: Function
+    } = {}
 
     public filterCallStack: FilterList = {
         name: "",
@@ -60,7 +60,7 @@ export class FilterRegistry {
         name: string, 
         filter: (inGroup: Group[], field: string, value?: string) => Group[]
     ){
-        this.filters[name] = filter;
+        this.filters[name] = filter
     }
 
     /**
@@ -77,11 +77,11 @@ export class FilterRegistry {
         field: string,
         value?: string
     ){
-        const filter = this.filters[name];
+        const filter = this.filters[name]
         if (typeof filter === 'function') {
-            return filter(inGroup, field, value);
+            return filter(inGroup, field, value)
         } else {
-            throw new Error(`Function '${name}' not found.`);
+            throw new Error(`Function '${name}' not found.`)
         }
     }
   
@@ -98,44 +98,44 @@ export function createStandardFilters(registry: FilterRegistry) {
      */
     registry.addFilter('equalsFilter', (inGroup, field, value) => {
         if (value == undefined)
-            throw new Error(`No value provided for equalsFilter.`); 
-        const groupObj: { [value: string]: Group } = {};
+            throw new Error(`No value provided for equalsFilter.`) 
+        const groupObj: { [value: string]: Group } = {}
         for (const grp of inGroup) {
             for (const obj of grp.elements) {
                 // Find the parameter field
                 if (obj.parameters == undefined)
-                    throw new Error(`No parameters found for '${obj.id}'.`);
+                    throw new Error(`No parameters found for '${obj.id}'.`)
                 if (field in obj.parameters) {
                     // Check if the value is equal to the parameter
                     if (obj.parameters[field] == value) {
                         // Add to groupObj
                         if (value in groupObj) {
-                            let temp = groupObj[value];
-                            temp!.elements.push(obj);
+                            let temp = groupObj[value]
+                            temp!.elements.push(obj)
     
-                            groupObj[value] = temp!;
+                            groupObj[value] = temp!
                         } else {
                             //Copy old path and push the new value at the end of the path
-                            let paths = grp.path;
-                            paths.push(value);
+                            let paths = grp.path
+                            paths.push(value)
 
                             let temp: Group = {
                                 id: crypto.randomUUID(),
                                 name: `${value}`,
                                 path: grp.path,
                                 elements: [obj],
-                            };
+                            }
 
-                            groupObj[value] = temp!;
+                            groupObj[value] = temp!
                         }
                     } else {
                         // Add to groupObj
-                        let nonValue : string = `!${value}`;
+                        let nonValue : string = `!${value}`
                         if (nonValue in groupObj){
-                            let temp = groupObj[nonValue];
-                            temp!.elements.push(obj);
+                            let temp = groupObj[nonValue]
+                            temp!.elements.push(obj)
     
-                            groupObj[nonValue] = temp!;
+                            groupObj[nonValue] = temp!
                         } else {
                             //Copy old path and push the new cleaned up value at the end of the path
                             const pathName = getTextAfterLastDot(obj.parameters[field])
@@ -147,41 +147,41 @@ export function createStandardFilters(registry: FilterRegistry) {
                                 name: nonValue,
                                 path: paths,
                                 elements: [obj],
-                            };
+                            }
 
-                            groupObj[nonValue] = temp!;
+                            groupObj[nonValue] = temp!
                         }
                     }
                 } else {
-                    throw new Error(`Parameter in '${obj.id}' with the name '${field}' not found.`);
+                    throw new Error(`Parameter in '${obj.id}' with the name '${field}' not found.`)
                 }    
             }
         }
     
         // Create the output groups from the object
-        let group: Group[] = []; 
+        let group: Group[] = [] 
         for (const key in groupObj)
-            group.push(groupObj[key]);
-        return group;
-    });
+            group.push(groupObj[key])
+        return group
+    })
 
     /**
      * Groupby filter using only field
      */
     registry.addFilter('groupByFilter', (inGroup, field, value) => {
-        const groupObj: { [field: string]: Group } = {};
+        const groupObj: { [field: string]: Group } = {}
         for (const grp of inGroup) {
             for (const obj of grp.elements) {
                 // Find the parameter field
                 if (obj.parameters == undefined)
-                    throw new Error(`No parameters found for '${obj.id}'.`);
+                    throw new Error(`No parameters found for '${obj.id}'.`)
                 if (field in obj.parameters) {
                     // Group objects based on the field
                     if (obj.parameters[field] in groupObj) {
-                        let temp = groupObj[obj.parameters[field]];
-                        temp!.elements.push(obj);
+                        let temp = groupObj[obj.parameters[field]]
+                        temp!.elements.push(obj)
                         
-                        groupObj[obj.parameters[field]] = temp!;
+                        groupObj[obj.parameters[field]] = temp!
                     } else {
                         //Copy old path and push the new cleaned up value at the end of the path
                         const pathName = getTextAfterLastDot(obj.parameters[field])
@@ -193,20 +193,20 @@ export function createStandardFilters(registry: FilterRegistry) {
                             name: obj.parameters[field],
                             path: paths,
                             elements: [obj],
-                        };
+                        }
                        
-                        groupObj[obj.parameters[field]] = temp;
+                        groupObj[obj.parameters[field]] = temp
                     }
                 } else {
-                    throw new Error(`Parameter in '${obj.id}' with the name '${field}' not found.`);
+                    throw new Error(`Parameter in '${obj.id}' with the name '${field}' not found.`)
                 }    
             }
         }
     
         // Create the output groups from the object
-        let group: Group[] = []; 
+        let group: Group[] = [] 
         for (const key in groupObj)
-            group.push(groupObj[key]);
-        return group;
-    });
+            group.push(groupObj[key])
+        return group
+    })
 }
