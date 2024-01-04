@@ -13,7 +13,7 @@ export const userInfoQuery = `
       name
       company
     }
-  }`;
+  }`
 
 /**
  * @description GraphQL query to fetch project versions.
@@ -39,7 +39,7 @@ export const projectVersionsQuery = `
         }
       }
     }
-  }`;
+  }`
 
 /**
  * @description GraphQL query to search for streams.
@@ -56,7 +56,7 @@ export const streamSearchQuery = `
         updatedAt
       }
     }
-  }`;
+  }`
 
 /**
  * @description GraphQL query to fetch the latest streams.
@@ -73,7 +73,7 @@ export const latestStreamsQuery = `query {
             updatedAt
         }
     }
-}`;
+}`
 
 /**
  * @description GraphQL query to fetch children objects and their parameters based on selection.
@@ -93,7 +93,7 @@ export const selectedObjectsQuery = `query Stream($streamId: String!, $objectId:
       }
     }
   }
-}`;
+}`
 
 /**
  * @description DEPRECATED GraphQL query to fetch a stream object use selectedObjectsQuery instead
@@ -117,4 +117,4 @@ export const streamObjectQuery = `query($streamId: String!, $objectId: String!) 
           }
       }
   }
-}`;
+}`

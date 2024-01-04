@@ -10,14 +10,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
-export default defineComponent ({
-  name: "SpeckleViewer",
+export default defineComponent({
+  name: 'SpeckleViewer',
   components: {},
-  setup() {
-
-  },
+  setup() {},
   // Component logic
-});
+})
 </script>

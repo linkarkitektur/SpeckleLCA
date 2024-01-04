@@ -1,17 +1,17 @@
-import { FilterRegistry, createStandardFilters } from '@/models/filters';
-import { useProjectStore } from "@/stores/main";
+import { FilterRegistry, createStandardFilters } from '@/models/filters'
+import { useProjectStore } from '@/stores/main'
 
-import type { Group } from '@/models/filters';
-import type { GeometryObject } from "@/models/geometryObject";
-import type { Project } from "@/models/project";
-import type { Unit } from "lcax";
+import type { Group } from '@/models/filters'
+import type { GeometryObject } from '@/models/geometryObject'
+import type { Project } from '@/models/project'
+import type { Unit } from 'lcax'
 
-import crypto from 'node:crypto';
-import { expect, test } from "vitest";
+import crypto from 'node:crypto'
+import { expect, test } from 'vitest'
 import { createTestingPinia } from '@pinia/testing'
-import { createPinia, setActivePinia } from 'pinia';
+import { createPinia, setActivePinia } from 'pinia'
 
-import jsonData from './objects/testObjects.json';
+import jsonData from './objects/testObjects.json'
 
 // /**
 //  * Test equalityfilter and return a filtered list
@@ -22,10 +22,10 @@ import jsonData from './objects/testObjects.json';
 
 //     let geoObject: GeometryObject = jsonData.GeoObjects[0];
 //     let geoObject2: GeometryObject = jsonData.GeoObjects[1];
-    
+
 //     expect(geoObject.name).toBe("Wall1");
 //     expect(geoObject2.name).toBe("Wall1");
-    
+
 //     let group: Group = {
 //         id: crypto.randomUUID(),
 //         name: "",
@@ -38,7 +38,7 @@ import jsonData from './objects/testObjects.json';
 //     createStandardFilters(exampleRegistry);
 
 //     let testGroup: [Group];
-//     testGroup = exampleRegistry.callFilter("equalsFilter", [group], "testField", "testValue");  
+//     testGroup = exampleRegistry.callFilter("equalsFilter", [group], "testField", "testValue");
 
 //     expect(testGroup.length).toBe(2);
 //     expect(testGroup[0].elements.length).toBe(1);

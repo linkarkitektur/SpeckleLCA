@@ -13,8 +13,8 @@ TypeScript cannot handle type information for `.vue` imports by default, so we r
 If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
 
 1. Disable the built-in TypeScript Extension
-    1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
 
 ## Customize configuration
@@ -69,10 +69,10 @@ Create a new Firebase project in the Firebase console. Add a web app to the proj
 
 Enable the minimum following Firebase features in the Firebase console:
 
--   Authentication
--   Cloud Firestore
--   Cloud Storage
--   Hosting
+- Authentication
+- Cloud Firestore
+- Cloud Storage
+- Hosting
 
 ### Initialization
 
@@ -88,18 +88,18 @@ firebase init
 
 Unless you have a specific reason to change the default settings, select the following options:
 
--   Authentication
--   Firestore
--   Storage
--   Hosting
--   Functions (optional)
--   Emulators (optional)
+- Authentication
+- Firestore
+- Storage
+- Hosting
+- Functions (optional)
+- Emulators (optional)
 
 ### Sensitive Files
 
 Placeholder recommended .gitignore for repo. Remove as needed:
 
-```
+```json
 # Firebase files
 .src/firebase/config.ts
 .firebase.json
@@ -118,7 +118,7 @@ This is because Sentry is not initialized until the app is mounted. To catch the
 
 ```js
 window.addEventListener('error', (event) => {
-    Sentry.captureException(event.error)
+  Sentry.captureException(event.error)
 })
 ```
 
@@ -126,7 +126,7 @@ Additionally, you can use the following code snippet to catch errors that occur 
 
 ```js
 window.addEventListener('unhandledrejection', (event) => {
-    Sentry.captureException(event.reason)
+  Sentry.captureException(event.reason)
 })
 ```
 

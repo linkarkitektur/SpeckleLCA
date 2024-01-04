@@ -1,6 +1,8 @@
 <template>
   <div class="fixed inset-y-0 z-40 flex w-96 flex-col">
-    <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-20">
+    <div 
+      class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-20"
+    >
       <!-- This should be in its own component and switch dynamically -->
       <component :is="currentList" />
     </div>
@@ -16,13 +18,13 @@ import FilterList from '@/components/Sidebar/FilterList.vue'
 import { useNavigationStore, useProjectStore } from '@/stores/main'
 
 export default defineComponent({
-  name: "Sidebar",
+  name: 'Sidebar',
   components: {
     Draggable,
     FilterList,
   },
   setup() {
-    const navStore = useNavigationStore();
+    const navStore = useNavigationStore()
 
     const currentList = computed(() => {
       if (navStore.activePage === "Overview")
@@ -38,12 +40,11 @@ export default defineComponent({
     })
     return {
       currentList
-    };
+    }
   }
   
-});
-
-</script> 
+})
+</script>
 
 <style scoped>
 .ghost {
