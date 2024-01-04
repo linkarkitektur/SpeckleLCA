@@ -182,6 +182,8 @@ export default defineComponent({
       } else {
         console.error('Project store object is undefined.')
       }
+      
+      navigationStore.toggleLoading();
 
       const objects: ResponseObjectStream = await speckleStore.getObjects() // Attempt to get project objects from Speckle.
       const project: Project | null = convertObjects(objects) // Convert objects to a project class, can be null.
@@ -193,8 +195,9 @@ export default defineComponent({
         console.error('Could not create project from Speckle.')
       }
 
-      navigationStore.setActivePage('Overview') // Set the active page in the navigation store.
-      router.push('/dashboard') // Navigate to the dashboard.
+      navigationStore.setActivePage("Overview")
+      navigationStore.toggleLoading()
+      router.push('/dashboard')
     }
 
     // Watch for updates from parent object.
@@ -226,6 +229,7 @@ export default defineComponent({
       selectedProjectName,
       speckleStore,
       extractNames,
+      navigationStore,
       handleSelectedItem,
       loadProject,
       closeModal,

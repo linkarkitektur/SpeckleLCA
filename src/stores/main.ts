@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { defineStore } from 'pinia'
-import type { GeometryObject } from '@/models/geometryObject'
-import type { Project, Results } from '@/models/project'
-import type { Group } from '@/models/filters'
+import { defineStore } from "pinia"
+import type { GeometryObject } from "@/models/geometryObject"
+import type { Project, Results } from "@/models/project"
+import type { FilterRegistry, Group, Filter } from "@/models/filters"
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 
@@ -15,6 +15,7 @@ export const useProjectStore = defineStore({
     return {
       currProject: null as Project | null, // The current project being worked on
       projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
+      filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
     }
   },
 
@@ -36,11 +37,39 @@ export const useProjectStore = defineStore({
     },
 
     /**
+     * Update a specific group with a new name
+     * TODO: Split path into array of strings and ids so we can find one and rename it
+     * @param name 
+     */
+    updateProjectGroupName(name: string) {
+    },
+
+    /**
      * Updates the current project.
      * @param project The project to update.
      */
     updateProject(project: Project) {
       this.currProject = project
+    },
+
+    /**
+     * Update store with current filter registry
+     * @param registry The registry to update to
+     */
+    setFilterRegistry(registry: FilterRegistry) {
+      this.filterRegistry = registry
+    },
+
+    /**
+     * Get current filter registry call stack and returns a array of 
+     * filters that are within it
+     * @returns Array of filters with keyvalues for the current filtering
+     */
+    getRegistryStack() {
+      if(this.filterRegistry !== null)
+        return this.filterRegistry.filterCallStack.filters
+      else
+        return null
     },
 
     /**
@@ -175,8 +204,9 @@ export const useNavigationStore = defineStore({
   id: 'navigationStore',
   state: () => {
     return {
-      activePage: 'Projects' as string, // The current page
-      slideoverOpen: false,
+      activePage: "Projects" as string, // The current page
+      slideoverOpen: false, 
+      loading: false,
     }
   },
   actions: {
@@ -188,12 +218,18 @@ export const useNavigationStore = defineStore({
       this.activePage = page
     },
 
+    /**
+     * Toggle slideover where its present on the app
+     */
     toggleSlideover() {
       this.slideoverOpen = !this.slideoverOpen
     },
 
-    getSlideoverOpenTest() {
-      return this.slideoverOpen
+    /**
+     * Toggle loading state on the app
+     */
+    toggleLoading() {
+      this.loading = !this.loading;
     },
   },
   getters: {

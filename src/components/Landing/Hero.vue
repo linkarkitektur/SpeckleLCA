@@ -26,7 +26,7 @@
     </svg>
 
     <div
-      class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40"
+      class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-20"
     >
       <div
         class="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8"
@@ -70,7 +70,7 @@
 
         <!-- Commmits Section -->
         <div class="object-bottom h-56 overflow-hidden">
-          <div class="mt-34 sm:mt-24 lg:mt-34">
+          <div class="mt-12 sm:mt-10 lg:mt-12">
             <button
               type="button"
               class="rounded bg-indigo-100 px-2 py-1 text-sm font-semibold text-indigo-600 shadow-md"
@@ -148,10 +148,12 @@ export default defineComponent({
           {
             headers,
           }
+
         )
         const data = await response.json()
-        const latestCommitMessage: string = data.commit.message
+        const latestCommitMessage: string = data.commit.message.split('\n')[0]
         latestCommit.value = latestCommitMessage
+
       } catch (error) {
         console.error('Error fetching latest commit:', error)
       }

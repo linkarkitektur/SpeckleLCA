@@ -1,21 +1,18 @@
 <template>
   <div class="flex-1 p-6">
-    <button @click="openSlideOver()">Open Slideover</button>
     <div class="bg-white p-4 shadow-md rounded-md">
-      <!-- For Abhinav -->
-      <Slideover />
-      <VersionSelectionModal
-        :show="versionModalOpen"
-        :projectId="selectedProjectId"
-        :projectName="selectedProjectName"
-        @closeVersionModal="closeVersionModal"
+      <VersionSelectionModal 
+        :show="versionModalOpen" 
+        :projectId="selectedProjectId" 
+        :projectName="selectedProjectName" 
+        @closeVersionModal="closeVersionModal" 
       />
-      <ul
-        role="list"
+      <ul 
+        role="list" 
         class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
       >
-        <li
-          v-for="project in speckleStore.allProjects"
+        <li 
+          v-for="project in speckleStore.allProjects" 
           :key="project.name"
           class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
         >
@@ -36,7 +33,7 @@
           <!-- Stats. -->
           <div>
             <div class="-mt-px flex divide-x divide-gray-200">
-              // TODO Hardcoded values... should be dynamic.
+              <!-- TODO Hardcoded values... should be dynamic. -->
               <div class="flex w-0 flex-1">
                 <a
                   class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-green-900 text-center"
@@ -45,7 +42,7 @@
                 </a>
               </div>
 
-              // TODO Hardcoded values... should be dynamic.
+              <!-- TODO Hardcoded values... should be dynamic. -->
               <div class="-ml-px flex w-0 flex-1">
                 <a
                   class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-yellow-800 text-center"
@@ -66,8 +63,6 @@ import { useSpeckleStore } from '@/stores/speckle'
 import { defineComponent, onMounted, ref } from 'vue'
 import type { ProjectId } from '@/models/speckle'
 import VersionSelectionModal from '@/components/ProjectSelection/VersionSelectionModal.vue'
-import Slideover from '@/components/ModelViewer/Sliderover.vue'
-
 import { useNavigationStore } from '@/stores/main'
 
 /**
@@ -76,8 +71,7 @@ import { useNavigationStore } from '@/stores/main'
 export default defineComponent({
   name: 'ProjectGrid',
   components: {
-    VersionSelectionModal,
-    Slideover,
+    VersionSelectionModal
   },
   methods: {
     /**

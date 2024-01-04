@@ -36,15 +36,13 @@
               />
             </div>
             <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <a
-                v-for="step in steps"
-                :key="step.name"
-                :href="step.href"
+              <a v-for="step in steps" 
+                :key="step.name" 
                 :class="[
-                  step.name == navigationStore.activePage
-                    ? 'border-indigo-500 text-gray-900'
-                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                  'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium',
+                  step.name == navigationStore.activePage 
+                    ? 'border-indigo-500 text-gray-900' 
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 
+                    'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium'
                 ]"
                 @click="handleNavigation(step)"
               >
@@ -127,17 +125,14 @@
       <DisclosurePanel class="sm:hidden">
         <!--Tab Selection-->
         <div class="space-y-1 pb-3 pt-2">
-          <DisclosureButton
-            v-for="step in steps"
-            :key="step.name"
-            :href="step.href"
-            :selected="navigationStore.activePage"
+          <DisclosureButton v-for="step in steps" 
+            :key="step.name" 
+            :selected="navigationStore.activePage" 
             :class="[
               step.name == navigationStore.activePage
-                ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
-              'block border-l-4 py-2 pl-3 pr-4 text-base font-medium',
-            ]"
+                ? 'bg-indigo-50 border-indigo-500 text-indigo-700' 
+                : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700', 
+                'block border-l-4 py-2 pl-3 pr-4 text-base font-medium']"
             @click="handleNavigation(step)"
           >
             {{ step.name }}
@@ -210,9 +205,10 @@ import {
 } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import type { Step } from '@/models/pageLogic'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useSpeckleStore } from '@/stores/speckle'
 import { useNavigationStore } from '@/stores/main'
+import router from '@/router'
 
 export default defineComponent({
   name: 'NavbarComponent',
@@ -234,14 +230,20 @@ export default defineComponent({
 
     const handleNavigation = (step: Step) => {
       navigationStore.setActivePage(step.name) // Set the active page in the store
+      const currentRoute = router.currentRoute.value
+      if (currentRoute.path !== step.href) {
+        router.push(step.href);
+        console.log(navigationStore.activePage)
+      }
     }
 
+    //This should not href, but check if we are in dashboard and href if its active otherwise just switch in the store
     const steps: Step[] = [
       { name: 'Projects', href: '/projects' },
-      { name: 'Overview', href: '#' },
-      { name: 'Mapping', href: '#' },
-      { name: 'Results', href: '#' },
-      { name: 'Benchmark', href: '#' },
+      { name: 'Overview', href: '/dashboard' },
+      { name: 'Mapping', href: '/dashboard' },
+      { name: 'Results', href: '/dashboard' },
+      { name: 'Benchmark', href: '/dashboard' },
     ]
 
     return {

@@ -1,6 +1,6 @@
 <template>
   <tr class="text-sm leading-6 text-gray-900 border-b border-gray-300">
-    <td :class="`flex px-${computedPadding}`">
+    <td :class="`flex w-3/4 px-${computedPadding}`">
       <p :class="`w-${computedPadding}`"></p>
       <button
         aria-label="Expand"
@@ -16,10 +16,10 @@
           class="h-5 w-5"
         />
       </button>
-      <p class="pl-2">{{ subGroup.name }}</p>
+      <p class="pl-2 truncate">{{ subGroup.name }}</p>
     </td>
-    <td>
-      <p>{{ subGroup.objects }}</p>
+    <td class="w-1/4">
+      <p class="truncate">{{ subGroup.objects }}</p>
     </td>
   </tr>
 
