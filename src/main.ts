@@ -21,7 +21,7 @@ const app = createApp(App)
 Sentry.init({
   app,
   dsn: import.meta.env.VITE_SENTRY_DSN,
-  debug: true, // TODO Set this to `false` for production
+  debug: false, // TODO Set this to `false` for production
   attachStacktrace: true,
   integrations: [
     new Sentry.BrowserTracing({

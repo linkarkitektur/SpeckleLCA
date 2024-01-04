@@ -93,12 +93,12 @@ export function createStandardFilters(registry: FilterRegistry) {
           if (obj.parameters[field] == value) {
             // Add to groupObj
             if (value in groupObj) {
-              let temp = groupObj[value]
+              const temp = groupObj[value]
               temp!.elements.push(obj)
 
               groupObj[value] = temp!
             } else {
-              let temp: Group = {
+              const temp: Group = {
                 id: crypto.randomUUID(),
                 name: `${value}`,
                 path: `${grp.path}/${value}`,
@@ -109,14 +109,14 @@ export function createStandardFilters(registry: FilterRegistry) {
             }
           } else {
             // Add to groupObj
-            let nonValue: string = `!${value}`
+            const nonValue: string = `!${value}`
             if (nonValue in groupObj) {
-              let temp = groupObj[nonValue]
+              const temp = groupObj[nonValue]
               temp!.elements.push(obj)
 
               groupObj[nonValue] = temp!
             } else {
-              let temp: Group = {
+              const temp: Group = {
                 id: crypto.randomUUID(),
                 name: `${value}`,
                 path: `${grp.path}/${value}`,
@@ -135,7 +135,7 @@ export function createStandardFilters(registry: FilterRegistry) {
     }
 
     // Create the output groups from the object
-    let group: Group[] = []
+    const group: Group[] = []
     for (const key in groupObj) group.push(groupObj[key])
     return group
   })
@@ -143,7 +143,7 @@ export function createStandardFilters(registry: FilterRegistry) {
   /**
    * Groupby filter using only field
    */
-  registry.addFilter('groupByFilter', (inGroup, field, value) => {
+  registry.addFilter('groupByFilter', (inGroup, field) => {
     const groupObj: { [field: string]: Group } = {}
     for (const grp of inGroup) {
       for (const obj of grp.elements) {
@@ -153,12 +153,12 @@ export function createStandardFilters(registry: FilterRegistry) {
         if (field in obj.parameters) {
           // Group objects based on the field
           if (field in groupObj) {
-            let temp = groupObj[field]
+            const temp = groupObj[field]
             temp!.elements.push(obj)
 
             groupObj[field] = temp!
           } else {
-            let temp: Group = {
+            const temp: Group = {
               id: crypto.randomUUID(),
               name: field,
               path: `${grp.path}/${field}`,
@@ -176,7 +176,7 @@ export function createStandardFilters(registry: FilterRegistry) {
     }
 
     // Create the output groups from the object
-    let group: Group[] = []
+    const group: Group[] = []
     for (const key in groupObj) group.push(groupObj[key])
     return group
   })

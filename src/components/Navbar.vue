@@ -185,8 +185,8 @@
 
             <!-- Sign Out -->
             <DisclosureButton
-              as="a"
-              href="#"
+              as="button"
+              @click="logout()"
               class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
               >Sign Out</DisclosureButton
             >
@@ -235,6 +235,9 @@ export default defineComponent({
     const handleNavigation = (step: Step) => {
       navigationStore.setActivePage(step.name) // Set the active page in the store
     }
+    const logout = () => {
+      speckleStore.logout()
+    }
 
     const steps: Step[] = [
       { name: 'Projects', href: '/projects' },
@@ -249,6 +252,7 @@ export default defineComponent({
       navigationStore,
       handleNavigation,
       steps,
+      logout,
     }
   },
 })

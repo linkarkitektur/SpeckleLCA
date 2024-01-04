@@ -18,13 +18,11 @@ import {
   userInfoQuery,
 } from '@/graphql/speckleQueries'
 
-import { reportErrorToSentry } from './monitoring'
-
+import { logMessageToSentry, reportErrorToSentry } from './monitoring'
 import { useSpeckleStore } from '@/stores/speckle'
 
 export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME || 'speckleXYZ'
-export const SERVER_URL =
-  import.meta.env.VITE_APP_SERVER_URL || 'https://speckle.xyz'
+export const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL || 'https://speckle.xyz'
 export const TOKEN = `${APP_NAME}.AuthToken`
 export const REFRESH_TOKEN = `${APP_NAME}.RefreshToken`
 export const CHALLENGE = `${APP_NAME}.Challenge`
@@ -45,9 +43,8 @@ export function navigateToAuthPage() {
   localStorage.setItem(CHALLENGE, challenge)
 
   // Send user to auth page.
-  window.location.href = `${SERVER_URL}/authn/verify/${
-    import.meta.env.VITE_APP_SPECKLE_ID
-  }/${challenge}`
+  window.location.href = `${SERVER_URL}/authn/verify/${import.meta.env.VITE_SPECKLE_APP_ID
+    }/${challenge}`
 }
 
 /**
@@ -65,6 +62,9 @@ export function speckleLogOut() {
  * @returns A promise that resolves to the response data.
  */
 export async function exchangeAccessCode(accessCode: string) {
+  logMessageToSentry('Exchanging Speckle access code for token...', 'info')
+  console.log(`Access code: ${accessCode}`)
+
   const res = await fetch(`${SERVER_URL}/auth/token/`, {
     method: 'POST',
     headers: {
@@ -72,8 +72,8 @@ export async function exchangeAccessCode(accessCode: string) {
     },
     body: JSON.stringify({
       accessCode: accessCode,
-      appId: import.meta.env.VITE_APP_SPECKLE_ID,
-      appSecret: import.meta.env.VITE_APP_SPECKLE_SECRET,
+      appId: import.meta.env.VITE_SPECKLE_APP_ID,
+      appSecret: import.meta.env.VITE_SPECKLE_APP_SECRET,
       challenge: localStorage.getItem(CHALLENGE),
     }),
   })
@@ -83,6 +83,7 @@ export async function exchangeAccessCode(accessCode: string) {
    * If successful, remove challenge and set the new token and refresh token.
    * */
   const data = await res.json()
+  console.log('Response: ', data)
   if (data.token) {
     localStorage.removeItem(CHALLENGE)
     localStorage.setItem(TOKEN, data.token)
@@ -116,8 +117,7 @@ export async function speckleFetch(
           variables: vars || null,
         }),
       })
-      const data = await res.json()
-      return data
+      return await res.json()
     } catch (err) {
       const msg = 'API call failed!'
 

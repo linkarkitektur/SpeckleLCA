@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { useNavigationStore } from '@/stores/main'
 import {
   Dialog,
   DialogPanel,
@@ -75,13 +75,14 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { useNavigationStore } from '@/stores/main'
 import { storeToRefs } from 'pinia'
+import { defineComponent } from 'vue'
 
 //FOR ABHINAV
 export default defineComponent({
-  name: 'Slideover',
+  name: 'SlideoveComponent',
   components: {
+    // eslint-disable-next-line vue/no-reserved-component-names
     Dialog,
     DialogPanel,
     DialogTitle,

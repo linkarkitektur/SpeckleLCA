@@ -14,7 +14,7 @@
 import { ref } from 'vue'
 
 export default {
-  name: 'Modal',
+  name: 'UserModal',
   setup() {
     const showModal = ref(false)
 

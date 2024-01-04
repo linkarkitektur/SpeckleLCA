@@ -22,7 +22,7 @@ export function logMessageToSentry(
 ) {
   const time = new Date().toTimeString()
   Sentry.captureMessage(message, severity)
-  console.log(`[Sentry] - Severity: ${severity}, Info: ${message} at ${time}`) // Additionally log the message to console.
+  console.log(`[Sentry] - Severity: ${severity} : ${message} at ${time}`) // Additionally log the message to console.
 }
 
 /**

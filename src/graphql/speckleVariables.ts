@@ -4,7 +4,7 @@
  * @returns array of strings to be set as variables for graphQL queries
  */
 export function speckleSelection(sourceApplication: string) {
-  let selection: string[] = []
+  const selection: string[] = []
   selection.push(...generalParameters)
 
   if (sourceApplication.includes('Archicad'))

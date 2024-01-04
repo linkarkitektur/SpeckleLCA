@@ -1,13 +1,15 @@
 <template>
   <NavbarComponent />
-  <Sidebar />
-  <Slideover />
+  <!-- <Sidebar /> -->
+  <SlideoveComponent />
+  <SpeckleViewer />
 </template>
 
 <script lang="ts">
-import Sidebar from '@/components/Sidebar/Sidebar.vue'
+// import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import NavbarComponent from '@/components/Navbar.vue'
-import Slideover from '@/components/ModelViewer/Sliderover.vue'
+import SlideoveComponent from '@/components/ModelViewer/Sliderover.vue'
+import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 import '@/index.css'
 
 /**
@@ -18,8 +20,9 @@ export default {
   name: 'DashboardView',
   components: {
     NavbarComponent,
-    Sidebar,
-    Slideover,
+    // Sidebar,
+    SlideoveComponent,
+    SpeckleViewer,
   },
   setup() {},
 }
