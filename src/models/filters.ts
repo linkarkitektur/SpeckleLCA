@@ -178,8 +178,7 @@ export function createStandardFilters(registry: FilterRegistry) {
   /**
    * Groupby filter using only field
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  registry.addFilter('groupByFilter', (inGroup, field, value) => {
+  registry.addFilter('groupByFilter', (inGroup, field) => {
     const groupObj: { [field: string]: Group } = {}
     for (const grp of inGroup) {
       for (const obj of grp.elements) {
@@ -188,11 +187,12 @@ export function createStandardFilters(registry: FilterRegistry) {
           throw new Error(`No parameters found for '${obj.id}'.`)
         if (field in obj.parameters) {
           // Group objects based on the field
-          if (obj.parameters[field] in groupObj) {
-            const temp = groupObj[obj.parameters[field]]
+          const uniqueField = obj.parameters[field] + grp.path.join('')
+          if (uniqueField in groupObj) {
+            const temp = groupObj[uniqueField]
             temp!.elements.push(obj)
 
-            groupObj[obj.parameters[field]] = temp!
+            groupObj[uniqueField] = temp!
           } else {
             //Copy old path and push the new cleaned up value at the end of the path
             const pathName = getTextAfterLastDot(obj.parameters[field])
@@ -206,10 +206,31 @@ export function createStandardFilters(registry: FilterRegistry) {
               elements: [obj],
             }
 
-            groupObj[obj.parameters[field]] = temp
+            groupObj[uniqueField] = temp
           }
         } else {
-          //throw new Error(`Parameter in '${obj.id}' with the name '${field}' not found.`)
+          // Group objects based on the field
+          const uniqueField = "NoData" + grp.path.join('')
+          if (uniqueField in groupObj) {
+            const temp = groupObj[uniqueField]
+            temp!.elements.push(obj)
+
+            groupObj[uniqueField] = temp!
+          } else {
+            //Copy old path and push the new cleaned up value at the end of the path
+            const pathName = "No Data"
+            const paths: [string] = [...grp.path]
+            paths.push(pathName)
+
+            const temp: Group = {
+              id: crypto.randomUUID(),
+              name: "No data",
+              path: paths,
+              elements: [obj],
+            }
+
+            groupObj[uniqueField] = temp
+          }
         }
       }
     }
