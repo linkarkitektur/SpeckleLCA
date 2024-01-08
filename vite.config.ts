@@ -5,58 +5,37 @@
 
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
+// Load env file based on `mode` in the current working directory.
+// Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
+const env = loadEnv('string', process.cwd(), '')
+
 export default defineConfig({
-  /**
-   * Plugins used by Vite.
-   */
+
   plugins: [vue(), sentryVitePlugin({
     org: "link-io",
-    project: "speckle-lca-frontend"
+    project: "speckle-lca-frontend",
+    telemetry: false,
+    authToken: env.VITE_SENTRY_AUTH_TOKEN,
   })],
 
-  /**
-   * Resolve configuration for Vite.
-   */
   resolve: {
-    /**
-     * Aliases for module resolution.
-     */
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)) // Aliases for module resolution.
     }
   },
 
-  /**
-   * Test configuration for Vite.
-   */
   test: {
-    /**
-     * Enable jest-like global test APIs.
-     */
-    globals: true,
-    /**
-     * Simulate DOM with happy-dom.
-     * (requires installing happy-dom as a peer dependency)
-     */
-    environment: 'happy-dom',
-    /**
-     * Setup files for tests.
-     */
+    globals: true, // Enable jest-like global test APIs.
+    environment: 'happy-dom', // Simulate DOM with happy-dom.
     setupFiles: [
       '/src/tests/setup/globalSetup.ts'
     ],
   },
 
-  /**
-   * Build configuration for Vite.
-   */
   build: {
-    /**
-     * Generate sourcemaps for debugging.
-     */
-    sourcemap: true
+    sourcemap: false,
   }
 })

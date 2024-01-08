@@ -13,18 +13,13 @@ import { logMessageToSentry } from './utils/monitoring'
  * The main application component.
  */
 export default defineComponent({
-  name: 'SpeckLCA',
+  name: 'SpeckleLCA',
   components: {},
   setup() {
     const route = useRoute()
+    const pathHistory = false
 
-    /**
-     * Checks if the route has been redirected from another route.
-     *
-     * @param {Object} route - The route object.
-     * @returns {boolean} - Returns true if the route has been redirected, otherwise false.
-     */
-    if (route.redirectedFrom !== null) {
+    if (route.redirectedFrom !== null && pathHistory) {
       const originalPath = route.redirectedFrom
       const redirectPath = route.path
       const query = route.query

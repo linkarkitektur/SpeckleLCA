@@ -121,7 +121,8 @@ export const useSpeckleStore = defineStore({
       })
       // Wipe the tokens
       speckleLogOut()
-      router.push('/login')
+      logMessageToSentry('User logout was successful.', 'info')
+      router.push('/')
     },
 
     /**

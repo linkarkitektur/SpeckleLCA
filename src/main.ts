@@ -22,7 +22,6 @@ Sentry.init({
   app,
   dsn: import.meta.env.VITE_SENTRY_DSN,
   debug: false, // TODO Set this to `false` for production
-  attachStacktrace: true,
   integrations: [
     new Sentry.BrowserTracing({
       // TODO Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
@@ -36,9 +35,10 @@ Sentry.init({
     }),
   ],
   // Performance (set appropriately for production.)
-  tracesSampleRate: 1.0, // Capture 100% of transactions
+  tracesSampleRate: 0.1, // Capture 100% of transactions
   replaysSessionSampleRate: 0.5, // Change the sample rate to 100% while in development and then sample at a lower rate in production.
-  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+  replaysOnErrorSampleRate: 0.1, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+  trackComponents: false, // Set this to `false` to disable component tracking when developing.
 })
 
 /**

@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import HeroComponent from '@/components/Landing/Hero.vue'
-import FeaturesComponent from '@/components/Landing/Features.vue'
 import ContributeComponent from '@/components/Landing/Contribute.vue'
+import FeaturesComponent from '@/components/Landing/Features.vue'
 import FooterComponent from '@/components/Landing/Footer.vue'
+import HeroComponent from '@/components/Landing/Hero.vue'
 
 /**
  * The landing view.
@@ -18,10 +18,10 @@ import FooterComponent from '@/components/Landing/Footer.vue'
 export default {
   name: 'LandingView',
   components: {
-    HeroComponent,
-    FeaturesComponent,
     ContributeComponent,
+    FeaturesComponent,
     FooterComponent,
+    HeroComponent,
   },
   setup() {},
 }

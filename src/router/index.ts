@@ -1,12 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteLocationNormalized } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
-import LandingView from '@/views/Landing.vue'
 import Dashboard from '@/views/Dashboard.vue'
-import ProjectSelection from '@/views/ProjectSelection.vue'
+import LandingView from '@/views/Landing.vue'
+import LoginView from '@/views/Login.vue'
 import NotFound from '@/views/NotFound.vue'
-
-import LoginComponent from '@/components/SpeckleLogin.vue'
+import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 
 import { useSpeckleStore } from '@/stores/speckle'
 import { logMessageToSentry } from '@/utils/monitoring'
@@ -30,7 +29,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: LoginComponent,
+      component: LoginView,
       meta: {
         requiresAuth: false,
         title: 'Login',
@@ -48,12 +47,12 @@ const router = createRouter({
       },
     },
     {
-      path: '/projects',
-      name: 'Projects',
-      component: ProjectSelection,
+      path: '/modelViewer',
+      name: 'ModelViewer',
+      component: SpeckleViewer,
       meta: {
         requiresAuth: true,
-        title: 'Project Selection',
+        title: 'SpeckleViewer',
         icon: '',
       },
     },

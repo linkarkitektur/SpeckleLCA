@@ -75,7 +75,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import Dropdown, { type dropdownItem } from '@/components/Dropdown.vue'
+import Dropdown, { type IDropdownItem } from '@/components/Dropdown.vue'
 
 import router from '@/router'
 import { useNavigationStore, useProjectStore } from '@/stores/main'
@@ -132,11 +132,11 @@ export default defineComponent({
      *  Return the extracted names from all available versions of the project to be used in dropdown
      */
     const extractNames = computed(() => {
-      let versions: dropdownItem[] = []
+      let versions: IDropdownItem[] = []
 
       speckleStore.getAllVersions?.forEach((el) => {
         if (typeof el.message === 'string') {
-          const item: dropdownItem = {
+          const item: IDropdownItem = {
             name: el.message,
             data: el.id,
           }
@@ -151,7 +151,7 @@ export default defineComponent({
      * Sets the selected version from dropdown selected
      * @param selectedItem
      */
-    const handleSelectedItem = (selectedItem: dropdownItem) => {
+    const handleSelectedItem = (selectedItem: IDropdownItem) => {
       const version = speckleStore.getAllVersions?.find(
         (obj) => obj.id === selectedItem.data
       )

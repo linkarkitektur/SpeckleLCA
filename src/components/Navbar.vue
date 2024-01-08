@@ -29,24 +29,23 @@
             class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
           >
             <div class="flex flex-shrink-0 items-center">
-              <img
-                class="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-              />
+              <h1 class="text-lg font-semibold tracking-tight text-primary-200">
+                Speckle LCA
+              </h1>
+              <!-- <img class="h-6 w-auto" src="/logo.jpeg" alt="Link I/O Logo" /> -->
             </div>
             <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
               <a
                 v-for="step in steps"
+                as="button"
+                @click="handleNavigation(step.href)"
                 :key="step.name"
-                :href="step.href"
                 :class="[
                   step.name == navigationStore.activePage
-                    ? 'border-indigo-500 text-gray-900'
-                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                    ? 'border-primary-200 text-primary-200'
+                    : 'border-transparent text-primary-200/50 hover:border-primary-100/50 hover:text-primary-200/75',
                   'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium',
                 ]"
-                @click="handleNavigation(step)"
               >
                 {{ step.name }}
               </a>
@@ -79,7 +78,7 @@
                 leave-to-class="transform opacity-0 scale-95"
               >
                 <MenuItems
-                  class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-lg bg-white py-1 shadow-lg ring-1 ring-primary-100 ring-opacity-10 focus:outline-none"
                 >
                   <!-- Profile -->
                   <MenuItem v-slot="{ active }">
@@ -87,7 +86,7 @@
                       href="#"
                       :class="[
                         active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700',
+                        'block px-4 py-2 text-sm text-primary-400',
                       ]"
                       >Your Profile</a
                     >
@@ -99,7 +98,7 @@
                       href="#"
                       :class="[
                         active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700',
+                        'block px-4 py-2 text-sm text-primary-400',
                       ]"
                       >Settings</a
                     >
@@ -108,10 +107,11 @@
                   <!-- Sign Out -->
                   <MenuItem v-slot="{ active }">
                     <a
-                      href="#"
+                      as="button"
+                      @click="logout()"
                       :class="[
                         active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700',
+                        'block px-4 py-2 text-sm text-primary-400',
                       ]"
                       >Sign Out</a
                     >
@@ -129,8 +129,9 @@
         <div class="space-y-1 pb-3 pt-2">
           <DisclosureButton
             v-for="step in steps"
+            as="button"
+            @click="handleNavigation(step.href)"
             :key="step.name"
-            :href="step.href"
             :selected="navigationStore.activePage"
             :class="[
               step.name == navigationStore.activePage
@@ -138,7 +139,6 @@
                 : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
               'block border-l-4 py-2 pl-3 pr-4 text-base font-medium',
             ]"
-            @click="handleNavigation(step)"
           >
             {{ step.name }}
           </DisclosureButton>
@@ -228,20 +228,23 @@ export default defineComponent({
     Bars3Icon,
     XMarkIcon,
   },
-  setup() {
+  emits: ['submit'],
+  setup(_, { emit }) {
     const speckleStore = useSpeckleStore()
     const navigationStore = useNavigationStore()
 
-    const handleNavigation = (step: Step) => {
-      navigationStore.setActivePage(step.name) // Set the active page in the store
+    function handleNavigation(path: string) {
+      navigationStore.setActivePage(path) // Set the active page in the store
+      emit('submit', { path })
     }
-    const logout = () => {
+
+    function logout() {
       speckleStore.logout()
     }
 
     const steps: Step[] = [
       { name: 'Projects', href: '/projects' },
-      { name: 'Overview', href: '#' },
+      { name: 'Model View', href: '/modelViewer' },
       { name: 'Mapping', href: '#' },
       { name: 'Results', href: '#' },
       { name: 'Benchmark', href: '#' },
@@ -253,6 +256,7 @@ export default defineComponent({
       handleNavigation,
       steps,
       logout,
+      emit,
     }
   },
 })

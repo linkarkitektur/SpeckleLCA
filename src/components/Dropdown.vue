@@ -26,7 +26,11 @@
         class="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="py-1 max-h-60 overflow-y-auto">
-          <MenuItem v-for="item in items" v-slot="{ active }">
+          <MenuItem
+            v-for="item in menuItems"
+            :key="item.name"
+            v-slot="{ active }"
+          >
             <a
               v-if="selectedItem == item.name"
               :class="[
@@ -62,6 +66,7 @@ import { defineComponent, ref, getCurrentInstance, watch } from 'vue'
 export default defineComponent({
   name: 'DropDown',
   components: {
+    // eslint-disable-next-line vue/no-reserved-component-names
     Menu,
     MenuButton,
     MenuItem,
@@ -73,7 +78,7 @@ export default defineComponent({
      * List of items and potential data to be shown in the dropdown
      */
     items: {
-      type: Array as () => dropdownItem[],
+      type: Array as () => IDropdownItem[],
       required: true,
     },
     /**
@@ -88,9 +93,9 @@ export default defineComponent({
   setup(props) {
     const instance = getCurrentInstance()
     const selectedItem = ref(props.dropdownName)
-    const items = ref(props.items)
+    const menuItems = ref(props.items)
 
-    const select = (item: dropdownItem) => {
+    const select = (item: IDropdownItem) => {
       selectedItem.value = item.name
       // Emit back to parent so it knows the dropdown has selected something new
       instance?.emit('selectedItem', item)
@@ -99,19 +104,19 @@ export default defineComponent({
     watch(
       () => props.items,
       (newValue) => {
-        items.value = newValue
+        menuItems.value = newValue
       }
     )
 
     return {
       select,
-      items,
+      menuItems,
       selectedItem,
     }
   },
 })
 
-export interface dropdownItem {
+export interface IDropdownItem {
   name: string
   data?: string
 }
