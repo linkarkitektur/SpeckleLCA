@@ -84,7 +84,7 @@ export default defineComponent({
       const baseUrl =
         import.meta.env.VITE_APP_SERVER_URL || 'https://speckle.xyz'
       const streamId = project.id
-
+      
       return `${baseUrl}/embed?stream=${streamId}&transparent=true&hidecontrols=true&hidesidebar=true&hideselectioninfo=true`
     },
   },
