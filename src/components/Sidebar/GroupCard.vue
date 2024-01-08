@@ -59,7 +59,7 @@ import {
 
 import SubGroup from './SubGroup.vue'
 import type { NestedGroup } from '@/utils/projectUtils'
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
 
 export default defineComponent({
   name: 'GroupCard',
@@ -80,7 +80,6 @@ export default defineComponent({
   },
   setup(props) {
     const projectStore = useProjectStore()
-    const navStore = useNavigationStore()
 
     const inGroups = ref(props.groups)
     const expand = ref(false)

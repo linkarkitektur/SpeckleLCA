@@ -1,7 +1,7 @@
 <template>
-  <div class="fixed inset-y-0 z-40 flex w-96 flex-col">
+  <div class="relative inset-y-0 z-40 flex w-96 flex-col">
     <div 
-      class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-20"
+      class="flex grow h-[calc(100vh-4rem)] flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-4"
     >
       <!-- This should be in its own component and switch dynamically -->
       <component :is="currentList" />
@@ -10,15 +10,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from 'vue'
+import { defineComponent, computed } from 'vue'
 import Draggable from 'vuedraggable'
 
 import FilterList from '@/components/Sidebar/FilterList.vue'
 
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/main'
 
 export default defineComponent({
-  name: 'Sidebar',
+  name: 'SideBar',
   components: {
     Draggable,
     FilterList,
