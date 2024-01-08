@@ -1,0 +1,172 @@
+<template>
+  <div class="flex relative h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+    <div class="px-4 sm:px-6">
+      <div class="flex items-start justify-between">
+        <DialogTitle class="text-base font-semibold leading-6 text-gray-900">
+          Group edit
+        </DialogTitle>
+        <div class="ml-3 flex h-7 items-center">
+          <button type="button" 
+            class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" 
+            @click="toggleSlideover()"
+          >
+            <span class="absolute -inset-2.5" />
+            <span class="sr-only">
+              Close panel
+            </span>
+            <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="relative mt-6 flex-1 p-4 sm:px-6 overflow-auto">
+    <Draggable
+      v-if="callStack"
+      :list="callStack"
+      :group="callStack"
+      item-key="index"
+      ghost-class="ghost"
+      :animation="200"
+    >
+      <template #item="{ element, index }">
+        <div class="rounded-md bg-gray-200 mb-4 p-4 hover:cursor-move">
+          <div class="relative">
+            <button aria-label="Edit filter"
+              class="absolute right-0 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
+              @click="editFilter = !editFilter"
+            >
+              <PencilSquareIcon class="ml-2 h-5 w-5" />
+            </button>
+          </div>
+          <div v-if="editFilter">
+            <p>
+              <Dropdown
+                v-if="filterNames"
+                :items="filterNames"
+                :dropdownName="element.name"
+                @selectedItem="item => handleSelectedName(item, index)"
+              />
+            </p>
+            <p>
+              <Dropdown
+                v-if="parameterNames"
+                :v-model="element.field"
+                :items="parameterNames"
+                :dropdownName="element.field"
+                @selectedItem="item => handleSelectedField(item, index)"
+              />
+            </p>
+            <p>
+              <input
+                v-model="element.value" placeholder="edit me"
+              />
+            </p>
+          </div>
+          <div v-else>
+            <p>
+              <label class="ml-2 text-gray-700 font-semibold font-sans tracking-wide">
+                {{ element.name }}
+              </label>
+            </p>
+            <p>
+              <label class="ml-2 text-gray-700 font-semibold font-sans tracking-wide">
+                {{ element.field }}
+              </label>
+            </p>
+            <p>
+              <label class="ml-2 text-gray-700 font-semibold font-sans tracking-wide">
+                {{ element.value }}
+              </label>
+            </p>
+          </div>
+        </div>
+      </template>
+    </Draggable>
+     
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import Draggable from 'vuedraggable'
+import Dropdown, { type dropdownItem } from '@/components/Dropdown.vue'
+import { DialogTitle } from '@headlessui/vue'
+import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { PencilSquareIcon } from '@heroicons/vue/24/solid'
+import { useNavigationStore, useProjectStore } from '@/stores/main'
+
+export default defineComponent ({
+  name: "ModifyFilter",
+  components: {
+    DialogTitle,
+    Draggable,
+    Dropdown,
+    XMarkIcon,
+    PencilSquareIcon
+  },
+  setup() {
+    const navStore = useNavigationStore()
+    const projectStore = useProjectStore()
+
+    const toggleSlideover = () => {
+      projectStore.updateRegistryStack("test", callStack.value)
+      navStore.toggleSlideover()
+      console.log(projectStore.filterRegistry?.filterCallStack)
+    }
+
+    const editFilter = ref(false)
+
+    const saveEdit =  () => {
+      console.log(callStack)
+      editFilter.value = false
+      //projectStore.updateFilter(callStack.value)
+    }
+
+    const filterNames: dropdownItem[] = projectStore.getFilterNames().
+      map((el: string) => ({
+        name: el,
+        data: ""
+      })).sort((a, b) => a.name.localeCompare(b.name))
+
+    const parameterNames: dropdownItem[] = projectStore.getAvailableParameterList().
+      map((el: string) => ({
+        name: el,
+        data: ""
+      })).sort((a, b) => a.name.localeCompare(b.name))
+    
+    const callStack = ref(projectStore.getRegistryStack())
+    
+    /**
+     * Sets the selected name of the filter from dropdown selected
+     * @param selectedItem
+     * @param index of the item in the callstack
+     */
+     const handleSelectedName = (selectedItem: dropdownItem, index: number) => {
+      callStack.value[index].name = selectedItem.name
+      console.log(callStack.value)
+    }
+
+    /**
+     * Sets the selected field to filter on from dropdown selected
+     * @param selectedItem
+     * @param index of the item in the callstack
+     */
+     const handleSelectedField = (selectedItem: dropdownItem, index: number) => {
+      callStack.value[index].field = selectedItem.name
+      console.log(callStack.value)
+    }
+
+    return {
+      toggleSlideover,
+      saveEdit,
+      handleSelectedName,
+      handleSelectedField,
+      filterNames,
+      parameterNames,
+      editFilter,
+      callStack
+    }
+  }
+});
+</script>

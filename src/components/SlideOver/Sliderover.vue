@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="navRef.slideoverOpen.value">
-    <Dialog as="div" class="relative z-10">
+    <Dialog as="div" class="relative">
       <TransitionChild
         as="template"
         enter="ease-in-out duration-500"
@@ -51,12 +51,13 @@ import {
 import { useNavigationStore } from '@/stores/main'
 import { storeToRefs } from 'pinia'
 
-import ModifyFilter from '@/components/ModelViewer/ModifyFilter.vue';
+import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue';
 
 //FOR ABHINAV
 export default defineComponent({
-  name: 'Slideover',
+  name: 'SlideOver',
   components: {
+    // eslint-disable-next-line vue/no-reserved-component-names
     Dialog,
     DialogPanel,
     TransitionChild,
