@@ -7,7 +7,7 @@
 <script lang="ts">
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import NavbarComponent from '@/components/Navbar.vue'
-import Slideover from '@/components/ModelViewer/Sliderover.vue'
+import Slideover from '@/components/SlideOver/Sliderover.vue'
 import '@/index.css'
 
 /**

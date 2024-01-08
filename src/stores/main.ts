@@ -61,15 +61,64 @@ export const useProjectStore = defineStore({
     },
 
     /**
+     * Update store with new filter callstack with
+     * names and values
+     * @param callStack list of Filters
+     */
+    updateRegistryStack(name: string, callStack : Filter[]) {
+      if(this.filterRegistry)
+        this.filterRegistry.filterCallStack = {
+          name: name,
+          callStack: callStack
+        }
+    },
+
+    /**
      * Get current filter registry call stack and returns a array of 
      * filters that are within it
      * @returns Array of filters with keyvalues for the current filtering
      */
-    getRegistryStack() {
+    getRegistryStack() : Filter[] {
       if(this.filterRegistry !== null)
-        return this.filterRegistry.filterCallStack.filters
+        return this.filterRegistry.filterCallStack.callStack
       else
-        return null
+        return [{
+          name: "No filters founds",
+          field: "No filters founds",
+          value: "No filters founds"
+        }]
+    },
+
+    /**
+     * Get current filter names available in active registry
+     * @returns array of available filter names
+     */
+    getFilterNames() {
+      if(this.filterRegistry !== null)
+        return this.filterRegistry.getFilterNames()
+      else
+        return ["No filters founds"]
+    },
+
+    /**
+     * Goes through geometry objects and returns list of parameters available
+     * to filter project with
+     * @returns array of available parameters
+     */
+    getAvailableParameterList() {
+      if(this.currProject) {
+        const parameterSet: Set<string> = new Set()
+        this.currProject.geometry.forEach(geo => {
+          Object.keys(geo.parameters).forEach((key) => {
+            if (typeof geo.parameters[key] === 'string') {
+              parameterSet.add(key)
+            }
+          })
+        })
+        return Array.from(parameterSet)
+      } else {
+        return ["No parameters found"]
+      }
     },
 
     /**
