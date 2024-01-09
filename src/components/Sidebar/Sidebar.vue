@@ -1,10 +1,22 @@
 <template>
   <div class="fixed inset-y-0 z-40 flex w-96 flex-col">
-    <div 
-      class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-20"
-    >
-      <!-- This should be in its own component and switch dynamically -->
-      <component :is="currentList" />
+    <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-20">
+      <nav class="flex flex-1 flex-col pt-4">
+        <Draggable
+          v-if="refTree"
+          :list="refTree"
+          :group="refTree"
+          item-key="id"
+          ghost-class="ghost"
+          :animation="200"
+        >
+          <template #item="{ element }">
+            <div class="pt-4 pb-4">
+              <GroupCard class="hover:cursor-move" :groups="element" />
+            </div>
+          </template>
+        </Draggable>
+      </nav>
     </div>
   </div>
 </template>

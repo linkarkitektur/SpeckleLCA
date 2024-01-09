@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-2xl bg-gray-200 p-4">
+  <div class="rounded-2xl bg-violet-50 p-4">
     <div class="flex pb-2 justify-between items-center">
       <div class="flex">
         <button
@@ -31,7 +31,8 @@
       </div>
     </div>
     <div class="justify-between items-center">
-      <div class="bg-gray-100 rounded-lg p-1 items-center max-w-full overflow-x-auto">
+
+      <div class="bg-violet-100 rounded-lg p-1 items-center max-w-full overflow-x-auto">
         <table v-if="expand" class="w-full text-left table-auto">
           <thead class="text-sm">
             <tr>
