@@ -12,6 +12,7 @@ export function createNestedObject(data: Group[]): NestedGroup {
   const nestedObject: NestedGroup = {
     name: 'root',
     objects: 0,
+    id: crypto.randomUUID(),
     children: [],
   }
 
@@ -24,7 +25,12 @@ export function createNestedObject(data: Group[]): NestedGroup {
       )
 
       if (!existingLevel) {
-        existingLevel = { name: level, objects: 0, children: [] }
+        existingLevel = { 
+          name: level, 
+          objects: 0, 
+          id: entry.id,
+          children: [] 
+        }
         currentLevel.children.push(existingLevel)
       }
 
@@ -60,5 +66,6 @@ export function getTextAfterLastDot(text: string): string {
 export interface NestedGroup {
   name: string
   objects: number
+  id: string
   children: NestedGroup[]
 }

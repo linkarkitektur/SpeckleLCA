@@ -32,16 +32,52 @@ export const useProjectStore = defineStore({
      * Creates or updated the current groups set on the project
      * @param groups
      */
-    updateProjectGroups(groups: Group[]) {
+    updateGroups(groups: Group[]) {
       this.projectGroups = groups
     },
 
     /**
-     * Update a specific group with a new name
-     * TODO: Split path into array of strings and ids so we can find one and rename it
-     * @param name 
+     * Update a specific group by id with a new name and base path
+     * @param name name to change to
+     * @param id id of group to change 
      */
-    updateProjectGroupName(name: string) {
+    updateGroupName(name: string, id: string) {
+      if (this.projectGroups){
+        const foundObject = this.projectGroups.find(obj => obj.id === id)
+        if (foundObject) {
+          foundObject.name = name
+          foundObject.path[0] = name
+        }
+        else {
+          console.log("Object with the provided ID not found.")
+        }
+      }      
+    },
+
+    /**
+     * Removes a group from the project with id reference
+     * @param id if of group to remove
+     */
+    removeGroup(id: string) {
+      if (this.projectGroups) {
+        const foundIndex = this.projectGroups.findIndex(obj => obj.id === id)
+        if (foundIndex > -1) {
+          //Filter used when splicing it doesnt update the watchers
+          this.projectGroups = this.projectGroups.filter((element, index) => index != foundIndex)
+        } else {
+          console.warn("Object with the provided ID not found.")
+        }
+      }      
+    },
+
+    /**
+     * Adds a group to the project store
+     * @param group group to add to store
+     */
+    addGroup(group: Group) {
+      if (this.projectGroups) {
+        this.projectGroups.push(group)
+      }
     },
 
     /**
@@ -254,7 +290,8 @@ export const useNavigationStore = defineStore({
   state: () => {
     return {
       activePage: "Projects" as string, // The current page
-      slideoverOpen: false, 
+      slideoverOpen: false,
+      groupModalOpen: false,
       loading: false,
     }
   },
@@ -278,7 +315,14 @@ export const useNavigationStore = defineStore({
      * Toggle loading state on the app
      */
     toggleLoading() {
-      this.loading = !this.loading;
+      this.loading = !this.loading
+    },
+
+    /**
+     * Toggle new group modal interface
+     */
+    toggleGroupModal() {
+      this.groupModalOpen = !this.groupModalOpen
     },
   },
   getters: {

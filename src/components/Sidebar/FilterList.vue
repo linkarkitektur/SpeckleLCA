@@ -1,4 +1,5 @@
 <template>
+  <NewGroupModal />
   <nav class="flex flex-1 flex-col pt-4">
     <div class="relative h-12">
         <button aria-label="Expand"
@@ -21,15 +22,22 @@
         </div>
       </template>
     </Draggable>
+    <div class="pt-10 grid place-items-center">
+      <button @click="addGroup">
+        <PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500"/>
+      </button>
+    </div>
   </nav>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch } from 'vue'
 import Draggable from 'vuedraggable'
-import { PencilSquareIcon } from '@heroicons/vue/24/solid';
+import { storeToRefs } from 'pinia'
+import { PencilSquareIcon, PlusCircleIcon } from '@heroicons/vue/24/solid';
 
 import GroupCard from '@/components/Sidebar/GroupCard.vue'
+import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue';
 
 import { useProjectStore, useNavigationStore } from '@/stores/main'
 import { FilterRegistry, createStandardFilters } from '@/models/filters'
@@ -42,31 +50,44 @@ export default defineComponent({
   name: "FilterList",
   components: {
     PencilSquareIcon,
+    PlusCircleIcon,
     Draggable,
     GroupCard,
+    NewGroupModal,
   },
   setup() {
     const projectstore = useProjectStore() 
     const navStore = useNavigationStore()
 
+    const { filterRegistry, projectGroups } = storeToRefs(projectstore)
     const refTree = ref<NestedGroup[]>([])
 
     const editGroup = () => {
-      console.log("Editing Group information");
-      navStore.toggleSlideover();
-      console.log(projectstore.filterRegistry?.filterCallStack);
-      // Open editGroup slideout here
-    };
+      navStore.toggleSlideover()
+    }
+
+    const addGroup = () => {
+      navStore.toggleGroupModal()
+    }
 
     onMounted(() => {
       setStandardFilters()
-      calcList()
+      calcList(true)
     })
 
-    watch(() => projectstore.filterRegistry?.filterCallStack, () => {
-      console.log("updated filterCallStack")
-      calcList()
+    /**
+     * Remake the tree if change is done on filterss
+     */
+    watch(() => filterRegistry.value?.filterCallStack, () => {
+      calcList(true)
     })
+
+    /**
+     * Remake the tree if change is done of the group list
+     */
+    watch(projectGroups, () => {
+      calcList(false)
+    }, { deep: true } )
 
     /**
      * Set the standard filters for the project, this is mostly for testing
@@ -99,40 +120,49 @@ export default defineComponent({
     /**
      * Calculate the list, this is triggered onMounted but can be manually triggered on updates
      */
-    const calcList = () => {
-      //Create geometry objects from the project
-      let geo: GeometryObject[] = []
-      projectstore.currProject?.geometry.forEach(element => {
-        geo.push(element)
-      })
+    const calcList = (reCalc: boolean) => {
+      let groups : Group[] = []
 
-      //Root for the group, this should not be needed
-      let groups : Group[] = [{
-        id: "test",
-        name: "root",
-        path: ["root"],
-        elements: geo
-      }]
+      // First time running we need to define the groups from scratch
+      if(reCalc) {
+        //Create geometry objects from the project
+        let geo: GeometryObject[] = []
+        projectstore.currProject?.geometry.forEach(element => {
+          geo.push(element)
+        })
 
-      //Go through each filter and iterate over them
-      projectstore.filterRegistry?.filterCallStack.callStack.forEach(el => {
-        if (el.value) {
-          groups = projectstore.filterRegistry?.callFilter(`${el.name}`, groups, `${el.field}`, `${el.value}`);
-        } else {
-          groups = projectstore.filterRegistry?.callFilter(`${el.name}`, groups, `${el.field}`);
+        //Root for the group, this should not be needed
+        groups = [{
+          id: "test",
+          name: "root",
+          path: ["root"],
+          elements: geo
+        }]
+
+         //Go through each filter and iterate over them
+        projectstore.filterRegistry?.filterCallStack.callStack.forEach(el => {
+          if (el.value) {
+            groups = projectstore.filterRegistry?.callFilter(`${el.name}`, groups, `${el.field}`, `${el.value}`);
+          } else {
+            groups = projectstore.filterRegistry?.callFilter(`${el.name}`, groups, `${el.field}`);
+          }
+          
+          //Remove root in path since we had to add it 
+          groups.forEach(element => {
+            element.path.splice(0, 1);
+          })
+        })
+      } else {
+        if (projectstore.projectGroups) {
+          groups = projectstore.projectGroups
         }
-      })
-
-      //Remove root in path since we had to add it 
-      groups.forEach(element => {
-        element.path.splice(0, 1);
-      })
-
+      }
       groups.sort((a, b) => b.elements.length - a.elements.length)
 
       //Update groups and make a tree structure from them
-      projectstore.updateProjectGroups(groups);
-      const tree: NestedGroup[] | undefined = projectstore.getGroupTree()?.children;
+      projectstore.updateGroups(groups)
+      const tree: NestedGroup[] | undefined = projectstore.getGroupTree()?.children
+      
       if(tree) {
         tree.sort((a, b) => b.objects - a.objects)
         refTree.value = tree
@@ -142,6 +172,7 @@ export default defineComponent({
     return {
       refTree,
       editGroup,
+      addGroup,
     };
   }
   
