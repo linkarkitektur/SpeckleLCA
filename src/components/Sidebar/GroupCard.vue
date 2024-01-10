@@ -45,6 +45,16 @@
         </table>
         <p class="text-center">{{ groups.objects }}</p>
       </div>
+      <div class="flex items-center justify-center">
+        <button
+          v-if="editName"
+          aria-label="Remove filter"
+          class="pt-2 text-center focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
+          @click="removeGroup"
+        >
+          <MinusCircleIcon class="h-6 w-6" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -55,6 +65,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   PencilSquareIcon,
+  MinusCircleIcon,
 } from '@heroicons/vue/24/solid'
 
 import SubGroup from './SubGroup.vue'
@@ -68,6 +79,7 @@ export default defineComponent({
     ChevronDownIcon,
     ChevronUpIcon,
     PencilSquareIcon,
+    MinusCircleIcon
   },
   props: {
     /**
@@ -98,14 +110,19 @@ export default defineComponent({
     }
     
     const saveEdit =  () => {
-      console.log("Editing name")
       editName.value = false
-      projectStore.updateProjectGroupName(inGroups.value.name)
+      projectStore.updateGroupName(inGroups.value.name, inGroups.value.id)
+    }
+
+    const removeGroup = () => {
+      editName.value = false
+      projectStore.removeGroup(inGroups.value.id)
     }
 
     return {
       expandGroup,
       saveEdit,
+      removeGroup,
       editName,
       expand,
       inGroups,

@@ -29,17 +29,27 @@
       :animation="200"
     >
       <template #item="{ element, index }">
-        <div class="rounded-md bg-gray-200 mb-4 p-4 hover:cursor-move">
+        <div class="rounded-2xl bg-gray-200 mb-4 p-4 hover:cursor-move">
           <div class="relative">
-            <button aria-label="Edit filter"
+            <button 
+              v-if="index != editFilter"
+              aria-label="Edit filter"
               class="absolute right-0 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
-              @click="editFilter = !editFilter"
+              @click="toggleFilter(index)"
             >
               <PencilSquareIcon class="ml-2 h-5 w-5" />
             </button>
+            <button
+              v-else
+              aria-label="Edit filter"
+              class="absolute right-0 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
+              @click="toggleFilter(index)"
+            >
+              <XMarkIcon class="ml-2 h-5 w-5"/>
+            </button>
           </div>
-          <div v-if="editFilter">
-            <p>
+          <div v-if="index == editFilter">
+            <p class="pt-2">
               <Dropdown
                 v-if="filterNames"
                 :items="filterNames"
@@ -47,7 +57,7 @@
                 @selectedItem="item => handleSelectedName(item, index)"
               />
             </p>
-            <p>
+            <p class="pt-2">
               <Dropdown
                 v-if="parameterNames"
                 :v-model="element.field"
@@ -56,11 +66,18 @@
                 @selectedItem="item => handleSelectedField(item, index)"
               />
             </p>
-            <p>
+            <p class="pt-2">
               <input
                 v-model="element.value" placeholder="edit me"
               />
             </p>
+            <button 
+              aria-label="Remove filter"
+              class="pt-2 focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
+              @click="removeFilter(index)"
+            >
+              <MinusCircleIcon class="h-6 w-6" />
+            </button>
           </div>
           <div v-else>
             <p>
@@ -82,7 +99,11 @@
         </div>
       </template>
     </Draggable>
-     
+    <div class="pt-10 grid place-items-center">
+      <button @click="addNewFilter">
+        <PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500"/>
+      </button>
+    </div>
     </div>
   </div>
 </template>
@@ -93,7 +114,7 @@ import Draggable from 'vuedraggable'
 import Dropdown, { type dropdownItem } from '@/components/Dropdown.vue'
 import { DialogTitle } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { PencilSquareIcon } from '@heroicons/vue/24/solid'
+import { PencilSquareIcon, PlusCircleIcon, MinusCircleIcon } from '@heroicons/vue/24/solid'
 import { useNavigationStore, useProjectStore } from '@/stores/main'
 
 export default defineComponent ({
@@ -103,7 +124,9 @@ export default defineComponent ({
     Draggable,
     Dropdown,
     XMarkIcon,
-    PencilSquareIcon
+    PencilSquareIcon,
+    PlusCircleIcon,
+    MinusCircleIcon
   },
   setup() {
     const navStore = useNavigationStore()
@@ -112,14 +135,12 @@ export default defineComponent ({
     const toggleSlideover = () => {
       projectStore.updateRegistryStack("test", callStack.value)
       navStore.toggleSlideover()
-      console.log(projectStore.filterRegistry?.filterCallStack)
     }
 
-    const editFilter = ref(false)
+    const editFilter = ref(-1)
 
     const saveEdit =  () => {
-      console.log(callStack)
-      editFilter.value = false
+      editFilter.value = -1
       //projectStore.updateFilter(callStack.value)
     }
 
@@ -144,7 +165,6 @@ export default defineComponent ({
      */
      const handleSelectedName = (selectedItem: dropdownItem, index: number) => {
       callStack.value[index].name = selectedItem.name
-      console.log(callStack.value)
     }
 
     /**
@@ -154,7 +174,28 @@ export default defineComponent ({
      */
      const handleSelectedField = (selectedItem: dropdownItem, index: number) => {
       callStack.value[index].field = selectedItem.name
-      console.log(callStack.value)
+    }
+
+    const addNewFilter = () => {
+      callStack.value.push({
+        name: filterNames[0].name,
+        field: parameterNames[0].name,
+      })
+    }
+
+    const removeFilter = (index: number) => {
+      if (index > -1) {
+        callStack.value.splice(index, 1)
+      }
+      editFilter.value = -1
+    }
+
+    const toggleFilter = (index: number) => {
+      if (editFilter.value != index) {
+        editFilter.value = index
+      } else {
+        editFilter.value = -1
+      }
     }
 
     return {
@@ -162,6 +203,9 @@ export default defineComponent ({
       saveEdit,
       handleSelectedName,
       handleSelectedField,
+      addNewFilter,
+      removeFilter,
+      toggleFilter,
       filterNames,
       parameterNames,
       editFilter,
