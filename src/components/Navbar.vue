@@ -233,7 +233,6 @@ export default defineComponent({
       const currentRoute = router.currentRoute.value
       if (currentRoute.path !== step.href) {
         router.push(step.href);
-        console.log(navigationStore.activePage)
       }
     }
 
