@@ -14,11 +14,13 @@ export interface FilterList {
  * name: The name of the filter that is added to the registry
  * field: GeoObject property which to run filter on
  * value: Optional value to use for comparrison in the filter
+ * remove: Optional boolean if you want to remove all false results
  */
 export interface Filter {
   name: string
   field: string
   value?: string
+  remove?: boolean
 }
 
 /**
@@ -58,7 +60,7 @@ export class FilterRegistry {
    */
   addFilter(
     name: string,
-    filter: (inGroup: Group[], field: string, value?: string) => Group[]
+    filter: (inGroup: Group[], field: string, value?: string, remove?: boolean) => Group[]
   ) {
     this.filters[name] = filter
   }
@@ -66,20 +68,22 @@ export class FilterRegistry {
   /**
    * Call Filter defined in registry and return grouping
    * @param name name of filter
-   * @param inGroup 
-   * @param field 
-   * @param value 
+   * @param inGroup group to filter, has to have a root level atleast
+   * @param field field to filter upon
+   * @param value value to use for filtering true or false
+   * @param remove remove all false results
    * @returns Group[] from filter
    */
   callFilter(
     name: string,
     inGroup: Group[],
     field: string,
-    value?: string
+    value?: string,
+    remove?: boolean
   ) {
     const filter = this.filters[name]
     if (typeof filter === 'function') {
-      return filter(inGroup, field, value)
+      return filter(inGroup, field, value, remove)
     } else {
       throw new Error(`Function '${name}' not found.`)
     }
@@ -106,11 +110,15 @@ export function createStandardFilters(registry: FilterRegistry) {
   /**
    * Equality filter checking if field matches value
    */
-  registry.addFilter('equalsFilter', (inGroup, field, value) => {
+  registry.addFilter('equalsFilter', (inGroup, field, value, remove) => {
     if (value == undefined)
       throw new Error(`No value provided for equalsFilter.`)
     const groupObj: { [value: string]: Group } = {}
     for (const grp of inGroup) {
+      // Create unique identifier for this group and path
+      const uniqueTrueField = value + grp.path.join('')
+      const nonVal: string = `!${value}`
+      const uniqueFalseField = nonVal + grp.path.join('')
       for (const obj of grp.elements) {
         // Find the parameter field
         if (obj.parameters == undefined)
@@ -118,48 +126,49 @@ export function createStandardFilters(registry: FilterRegistry) {
         if (field in obj.parameters) {
           // Check if the value is equal to the parameter
           if (obj.parameters[field] == value) {
+
             // Add to groupObj
-            if (value in groupObj) {
-              const temp = groupObj[value]
+            if (uniqueTrueField in groupObj) {
+              const temp = groupObj[uniqueTrueField]
               temp!.elements.push(obj)
 
-              groupObj[value] = temp!
+              groupObj[uniqueTrueField] = temp!
             } else {
               //Copy old path and push the new value at the end of the path
-              const paths = grp.path
+              const paths: [string] = [...grp.path]
               paths.push(value)
 
               const temp: Group = {
                 id: crypto.randomUUID(),
                 name: `${value}`,
-                path: grp.path,
+                path: paths,
                 elements: [obj],
               }
 
-              groupObj[value] = temp!
+              groupObj[uniqueTrueField] = temp!
             }
-          } else {
+          } else if (!remove) {
             // Add to groupObj
-            const nonValue: string = `!${value}`
-            if (nonValue in groupObj) {
-              const temp = groupObj[nonValue]
+            // Check if we have the unique identifier in the group already
+            if (uniqueFalseField in groupObj) {
+              const temp = groupObj[uniqueFalseField]
               temp!.elements.push(obj)
 
-              groupObj[nonValue] = temp!
+              groupObj[uniqueFalseField] = temp!
             } else {
               //Copy old path and push the new cleaned up value at the end of the path
-              const pathName = getTextAfterLastDot(obj.parameters[field])
+              const pathName = getTextAfterLastDot(nonVal)
               const paths: [string] = [...grp.path]
               paths.push(pathName)
 
               const temp: Group = {
                 id: crypto.randomUUID(),
-                name: nonValue,
+                name: nonVal,
                 path: paths,
                 elements: [obj],
               }
 
-              groupObj[nonValue] = temp!
+              groupObj[uniqueFalseField] = temp!
             }
           }
         } else {
@@ -231,6 +240,83 @@ export function createStandardFilters(registry: FilterRegistry) {
 
             groupObj[uniqueField] = temp
           }
+        }
+      }
+    }
+
+    // Create the output groups from the object
+    const group: Group[] = []
+    for (const key in groupObj)
+      group.push(groupObj[key])
+    return group
+  })
+
+   /**
+   * Equality filter checking if field matches value
+   */
+   registry.addFilter('greaterThan', (inGroup, field, value, remove) => {
+    if (value == undefined)
+      throw new Error(`No value provided for greaterThan filter.`)
+    const groupObj: { [value: string]: Group } = {}
+    for (const grp of inGroup) {
+      // Create unique name to add to objs and search for so we add all path options
+      const valName = `>${value}`
+      const uniqueTrueField = valName + grp.path.join('')
+      const nonVal: string = `<${value}`
+      const uniqueFalseField = nonVal + grp.path.join('')
+      for (const obj of grp.elements) {
+        // Find the parameter field
+        if (obj.parameters == undefined)
+          throw new Error(`No parameters found for '${obj.id}'.`)
+
+        if (field in obj.parameters) {
+          // Check if the value is equal to the parameter
+          if (!isNaN(Number(obj.parameters[field])) && Number(obj.parameters[field]) > Number(value)) {
+            // Add to groupObj
+            if (uniqueTrueField in groupObj) {
+              const temp = groupObj[uniqueTrueField]
+              temp!.elements.push(obj)
+
+              groupObj[uniqueTrueField] = temp!
+            } else {
+              //Copy old path and push the new value at the end of the path
+              const paths: [string] = [...grp.path]
+              paths.push(valName)
+
+              const temp: Group = {
+                id: crypto.randomUUID(),
+                name: valName,
+                path: paths,
+                elements: [obj],
+              }
+
+              groupObj[uniqueTrueField] = temp!
+            }
+          } else if (!remove) {
+            // Add to groupObj
+            if (uniqueFalseField in groupObj) {
+              const temp = groupObj[uniqueFalseField]
+              temp!.elements.push(obj)
+
+              groupObj[uniqueFalseField] = temp!
+            } else {
+              //Copy old path and push the new cleaned up value at the end of the path
+              const pathName = getTextAfterLastDot(nonVal)
+              const paths: [string] = [...grp.path]
+              paths.push(pathName)
+
+              const temp: Group = {
+                id: crypto.randomUUID(),
+                name: nonVal,
+                path: paths,
+                elements: [obj],
+              }
+
+              groupObj[uniqueFalseField] = temp!
+            }
+          }
+        } else {
+          //throw new Warning(`Parameter in '${obj.id}' with the name '${field}' not found.`)
         }
       }
     }

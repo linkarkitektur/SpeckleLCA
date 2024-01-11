@@ -146,8 +146,14 @@ export const useProjectStore = defineStore({
         const parameterSet: Set<string> = new Set()
         this.currProject.geometry.forEach(geo => {
           Object.keys(geo.parameters).forEach((key) => {
-            if (typeof geo.parameters[key] === 'string') {
+            if (typeof geo.parameters[key] === 'string' || typeof geo.parameters[key] === 'number') {
               parameterSet.add(key)
+            }
+          })
+          Object.keys(geo.quantity).forEach((key) => {
+            if (geo.quantity[key as keyof typeof geo.quantity] !== 0) {
+              parameterSet.add(key)
+              geo.parameters[key] = geo.quantity[key as keyof typeof geo.quantity].toString()
             }
           })
         })

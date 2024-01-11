@@ -41,7 +41,7 @@ import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue';
 
 import { useProjectStore, useNavigationStore } from '@/stores/main'
 import { FilterRegistry, createStandardFilters } from '@/models/filters'
-import type { Group } from '@/models/filters'
+import type { Filter, Group } from '@/models/filters'
 import type { NestedGroup } from '@/utils/projectUtils'
 import type { FilterList } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
@@ -139,17 +139,22 @@ export default defineComponent({
           elements: geo
         }]
 
-         //Go through each filter and iterate over them
-        projectstore.filterRegistry?.filterCallStack.callStack.forEach(el => {
+        //Go through each filter and iterate over them
+        let reverseStack: Filter[] = []
+        if(projectstore.filterRegistry) 
+          reverseStack = projectstore.filterRegistry.filterCallStack.callStack
+        
+        reverseStack.forEach(el => {
           if (el.value) {
-            groups = projectstore.filterRegistry?.callFilter(`${el.name}`, groups, `${el.field}`, `${el.value}`);
+            groups = projectstore.filterRegistry?.callFilter(`${el.name}`, groups, `${el.field}`, `${el.value}`, el.remove);
           } else {
             groups = projectstore.filterRegistry?.callFilter(`${el.name}`, groups, `${el.field}`);
           }
           
           //Remove root in path since we had to add it 
           groups.forEach(element => {
-            element.path.splice(0, 1);
+            if (element.path[0] === "root")
+              element.path.splice(0, 1)
           })
         })
       } else {
@@ -164,7 +169,7 @@ export default defineComponent({
       const tree: NestedGroup[] | undefined = projectstore.getGroupTree()?.children
       
       if(tree) {
-        tree.sort((a, b) => b.objects - a.objects)
+        tree.sort((a, b) => b.objects.length - a.objects.length)
         refTree.value = tree
       }
     }

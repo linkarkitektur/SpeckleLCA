@@ -71,6 +71,13 @@
                 v-model="element.value" placeholder="edit me"
               />
             </p>
+            <p>
+              <input
+                v-model="element.remove"
+                type="checkbox"
+              />
+              <label>  Remove false results</label>
+            </p>
             <button 
               aria-label="Remove filter"
               class="pt-2 focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
