@@ -1,4 +1,5 @@
 import type { Group } from '@/models/filters'
+import type { GeometryObject } from '@/models/geometryObject'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -11,7 +12,7 @@ import type { Group } from '@/models/filters'
 export function createNestedObject(data: Group[]): NestedGroup {
   const nestedObject: NestedGroup = {
     name: 'root',
-    objects: 0,
+    objects: [],
     id: crypto.randomUUID(),
     children: [],
   }
@@ -27,14 +28,14 @@ export function createNestedObject(data: Group[]): NestedGroup {
       if (!existingLevel) {
         existingLevel = { 
           name: level, 
-          objects: 0, 
+          objects: [], 
           id: entry.id,
           children: [] 
         }
         currentLevel.children.push(existingLevel)
       }
 
-      existingLevel.objects += entry.elements.length
+      existingLevel.objects.push(...entry.elements)
       currentLevel = existingLevel
     })
   })
@@ -65,7 +66,7 @@ export function getTextAfterLastDot(text: string): string {
  */
 export interface NestedGroup {
   name: string
-  objects: number
+  objects: GeometryObject[]
   id: string
   children: NestedGroup[]
 }

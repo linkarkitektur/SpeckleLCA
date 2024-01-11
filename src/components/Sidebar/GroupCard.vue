@@ -43,7 +43,7 @@
             <SubGroup v-if="expand && inGroups" :subGroup="inGroups" />
           </tbody>
         </table>
-        <p class="text-center">{{ groups.objects }}</p>
+        <p class="text-center">{{ totalArea }} m<sub>2</sub></p>
       </div>
       <div class="flex items-center justify-center">
         <button
@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref } from 'vue'
+import { defineComponent, watch, ref, computed } from 'vue'
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -68,7 +68,7 @@ import {
   MinusCircleIcon,
 } from '@heroicons/vue/24/solid'
 
-import SubGroup from './SubGroup.vue'
+import SubGroup from '@/components/Sidebar/SubGroup.vue'
 import type { NestedGroup } from '@/utils/projectUtils'
 import { useProjectStore } from '@/stores/main'
 
@@ -104,6 +104,11 @@ export default defineComponent({
       }
     )
 
+    const totalArea = computed(() => {
+      const area = inGroups.value.objects.reduce((sum, obj) => sum + obj.quantity.M2, 0)
+      return parseFloat(area.toFixed(2));
+    })
+
     const expandGroup = () => {
       expand.value = !expand.value
       // Expand group logic here
@@ -123,6 +128,7 @@ export default defineComponent({
       expandGroup,
       saveEdit,
       removeGroup,
+      totalArea,
       editName,
       expand,
       inGroups,

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-use-v-if-with-v-for -->
 <template>
   <tr class="text-sm leading-6 text-gray-900 border-b border-gray-300">
     <td :class="`flex w-3/4 px-${computedPadding}`">
@@ -8,25 +9,26 @@
         @click="expandGroup"
       >
         <ChevronDownIcon
-          v-if="!expand && subGroup.children.length > 0"
+          v-if="!expand && subGroupData.children.length > 0"
           class="h-5 w-5"
         />
         <ChevronUpIcon
-          v-if="expand && subGroup.children.length > 0"
+          v-if="expand && subGroupData.children.length > 0"
           class="h-5 w-5"
         />
       </button>
-      <p class="pl-2 truncate">{{ subGroup.name }}</p>
+      <p class="pl-2 truncate">{{ subGroupData.name }}</p>
     </td>
     <td class="w-1/4">
-      <p class="truncate">{{ subGroup.objects }}</p>
+      <p class="truncate">{{ subGroupData.objects.length }}</p>
     </td>
   </tr>
 
   <!-- If we have children run it recursive -->
   <subGroup
-    v-if="subGroup.children && subGroup.children.length && expand"
-    v-for="child in subGroup.children"
+    v-if="subGroupData.children && subGroupData.children.length && expand"
+    v-for="child in subGroupData.children"
+    v-bind:key="child"
     :subGroup="child"
     :depth="depth + 1"
   />
@@ -34,9 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch, computed } from 'vue'
-import type { PropType } from 'vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid'
-import type { GeometryObject } from '@/models/geometryObject'
 import type { NestedGroup } from '@/utils/projectUtils'
 
 export default defineComponent({
@@ -56,14 +56,14 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const subGroup = ref(props.subGroup)
+    const subGroupData = ref(props.subGroup)
     const depth = ref(props.depth)
     const expand = ref(false)
 
     watch(
       () => props.subGroup,
       (newValue) => {
-        subGroup.value = newValue
+        subGroupData.value = newValue
       }
     )
 
@@ -79,7 +79,7 @@ export default defineComponent({
     }
 
     return {
-      subGroup,
+      subGroupData,
       expand,
       computedPadding,
       expandGroup,
