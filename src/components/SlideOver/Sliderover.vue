@@ -11,29 +11,27 @@
         leave-to="opacity-0"
       >
         <div
-          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          class="fixed inset-y-0 right-0 w-3/4 bg-gray-500 bg-opacity-75 transition-opacity"
         />
       </TransitionChild>
 
-      <div class="fixed inset-0 overflow-hidden">
-        <div class="absolute inset-0 overflow-hidden">
-          <div
-            class="pointer-events-none fixed inset-y-0 left-96 flex max-w-full pr-10 pt-16"
+      <div class="fixed inset-y-0 right-0 w-3/4 z-20 overflow-hidden">
+        <div
+          class="pointer-events-none fixed inset-y-0 left-1/4 flex w-1/4 pt-16"
+        >
+          <TransitionChild
+            as="template"
+            enter="transform transition ease-in-out duration-500 sm:duration-700"
+            enter-from="-translate-x-full"
+            enter-to="translate-x-0"
+            leave="transform transition ease-in-out duration-500 sm:duration-700"
+            leave-from="translate-x-0"
+            leave-to="-translate-x-full"
           >
-            <TransitionChild
-              as="template"
-              enter="transform transition ease-in-out duration-500 sm:duration-700"
-              enter-from="-translate-x-full"
-              enter-to="translate-x-0"
-              leave="transform transition ease-in-out duration-500 sm:duration-700"
-              leave-from="translate-x-0"
-              leave-to="-translate-x-full"
-            >
-              <DialogPanel class="pointer-events-auto w-screen max-w-md">
-                <component :is="currentSlideover" />
-              </DialogPanel>
-            </TransitionChild>
-          </div>
+            <DialogPanel class="pointer-events-auto w-screen max-w-md">
+              <component :is="currentSlideover" />
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </div>
     </Dialog>

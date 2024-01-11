@@ -22,7 +22,7 @@
         </div>
       </template>
     </Draggable>
-    <div class="pt-10 grid place-items-center">
+    <div class="p-10 grid place-items-center">
       <button @click="addGroup">
         <PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500"/>
       </button>

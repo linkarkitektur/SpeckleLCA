@@ -43,7 +43,7 @@
             <SubGroup v-if="expand && inGroups" :subGroup="inGroups" />
           </tbody>
         </table>
-        <p class="text-center">{{ totalArea }} m<sub>2</sub></p>
+        <p class="text-center">{{ totalArea }} m<sup>2</sup></p>
       </div>
       <div class="flex items-center justify-center">
         <button
