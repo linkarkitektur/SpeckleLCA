@@ -13,7 +13,7 @@
           {{ inGroup.name? inGroup.name : "No name"}}
         </label>
       </div>
-      <div class="bg-gray-100 rounded-lg p-1 mt-1 items-center max-w-full overflow-x-auto">
+      <div class="bg-gray-100 rounded-lg p-1 mt-1 items-center w-3/4 flex flex-col overflow-x-auto">
         <label
           class="ml-2 text-gray-700 font-semibold font-sans tracking-wide"
         >
