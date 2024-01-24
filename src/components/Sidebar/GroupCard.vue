@@ -1,5 +1,10 @@
 <template>
-  <div class="rounded-2xl bg-gray-200 p-4">
+  <div 
+    tabindex="0"
+    id="groupCard"
+    class="rounded-2xl bg-gray-200 p-4 focus:ring-1 focus:ring-gray-400"
+    @click="selectSubGroup(inGroups, $event)"
+  >
     <div class="flex pb-2 justify-between items-center">
       <div class="flex">
         <button
@@ -16,7 +21,12 @@
           v-model="inGroups.name" placeholder="edit me"
           @blur= "saveEdit"
           @keyup.enter = "saveEdit"/>
-        <label v-else class="ml-2 text-gray-700 font-semibold font-sans tracking-wide">
+        <label 
+          v-else 
+          id="groupName"
+          class="ml-2 text-gray-700 font-semibold font-sans tracking-wide"
+          @click="selectSubGroup(inGroups, $event)"
+        >
           {{ inGroups.name }}
         </label>
       </div>
@@ -35,15 +45,15 @@
         <table v-if="expand" class="w-full text-left table-auto">
           <thead class="text-sm">
             <tr>
-              <th class="px-4 w-3/4">Name</th>
-              <th class="w-1/4">Elements</th>
+              <th class="px-4 w-2/3">Name</th>
+              <th class="w-1/3">{{ currGroupValue }}</th>
             </tr>
           </thead>
           <tbody>
             <SubGroup v-if="expand && inGroups" :subGroup="inGroups" />
           </tbody>
         </table>
-        <p class="text-center">{{ totalArea }} m<sup>2</sup></p>
+        <component :is="currGroupTotal" :groups="inGroups" />
       </div>
       <div class="flex items-center justify-center">
         <button
@@ -69,13 +79,16 @@ import {
 } from '@heroicons/vue/24/solid'
 
 import SubGroup from '@/components/Sidebar/SubGroup.vue'
-import type { NestedGroup } from '@/utils/projectUtils'
-import { useProjectStore } from '@/stores/main'
+import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
+
+import type { NestedGroup } from '@/models/filters'
+import { useNavigationStore, useProjectStore } from '@/stores/main'
 
 export default defineComponent({
-  name: 'GroupCard',
+  name: 'OverviewGroupCard',
   components: {
     SubGroup,
+    OverviewGroupCard,
     ChevronDownIcon,
     ChevronUpIcon,
     PencilSquareIcon,
@@ -92,6 +105,7 @@ export default defineComponent({
   },
   setup(props) {
     const projectStore = useProjectStore()
+    const navStore = useNavigationStore()
 
     const inGroups = ref(props.groups)
     const expand = ref(false)
@@ -104,10 +118,39 @@ export default defineComponent({
       }
     )
 
-    const totalArea = computed(() => {
-      const area = inGroups.value.objects.reduce((sum, obj) => sum + obj.quantity.M2, 0)
-      return parseFloat(area.toFixed(2));
+    // Name to show in table for each group and subgroup
+    const currGroupValue = computed(() => {
+      if (navStore.activePage === "Overview")
+        return "Elements";
+      else if (navStore.activePage === "Mapping")
+        return "Material";
+      else if (navStore.activePage === "Results")
+        return "Co<sup>2<sup>";
+      else if (navStore.activePage === "Benchmark")
+        return "Co<sup>2<sup>";
+      else
+        return null;
     })
+
+    // Total value to be shown for each group
+    const currGroupTotal = computed(() => {
+      if (navStore.activePage === "Overview")
+        return OverviewGroupCard;
+      else if (navStore.activePage === "Mapping")
+        return null;
+      else if (navStore.activePage === "Results")
+        return null;
+      else if (navStore.activePage === "Benchmark")
+        return null;
+      else
+        return null;
+    });
+
+    const selectSubGroup = (subGroup: NestedGroup, event: MouseEvent): void => {
+      const target = event.target as HTMLElement
+      if (target.id === 'groupCard' || target.id === 'groupName')
+        projectStore.setSelectedGeometry(subGroup.objects)
+    }
 
     const expandGroup = () => {
       expand.value = !expand.value
@@ -128,10 +171,12 @@ export default defineComponent({
       expandGroup,
       saveEdit,
       removeGroup,
-      totalArea,
+      selectSubGroup,
       editName,
       expand,
       inGroups,
+      currGroupValue,
+      currGroupTotal,
     }
   },
 })

@@ -274,7 +274,6 @@ export default defineComponent({
 
       projectStore.addGroup(groupData)
       navStore.toggleGroupModal()
-      console.log(navStore.groupModalOpen)
     }
 
     return {
