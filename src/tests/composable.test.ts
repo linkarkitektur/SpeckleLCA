@@ -1,4 +1,5 @@
-import { FilterRegistry, createStandardFilters } from '@/models/filters'
+import { FilterRegistry } from '@/models/filters'
+import { createStandardFilters } from '@/utils/projectUtils'
 import { useProjectStore } from '@/stores/main'
 
 import type { Group } from '@/models/filters'

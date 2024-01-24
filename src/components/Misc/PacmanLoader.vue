@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-reserved-component-names -->
 <template>
   <TransitionRoot as="template" :show="navRef.loading.value">
     <Dialog as="div" class="relative z-10">
@@ -27,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, toRefs } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { Dialog, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import type { CSSProperties } from 'vue';
 import { useNavigationStore } from '@/stores/main'

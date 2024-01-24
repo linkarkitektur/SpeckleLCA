@@ -13,7 +13,7 @@ export interface GeometryObject {
   }
   material?: EPD | Assembly
   results?: Results[] // List of results if multiple runs are made.
-  parameters?: {
+  parameters: {
     [k: string]: string
   }
 }

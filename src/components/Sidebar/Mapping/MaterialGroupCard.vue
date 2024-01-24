@@ -1,10 +1,5 @@
 <template>
-  <div 
-    tabindex="0"
-    id="groupCard"
-    class="rounded-2xl bg-gray-200 p-4 focus:ring-1 focus:ring-gray-400"
-    @click="selectSubGroup(inGroups, $event)"
-  >
+  <div class="rounded-2xl bg-gray-200 p-4">
     <div class="flex pb-2 justify-between items-center">
       <div class="flex">
         <button
@@ -21,12 +16,7 @@
           v-model="inGroups.name" placeholder="edit me"
           @blur= "saveEdit"
           @keyup.enter = "saveEdit"/>
-        <label 
-          v-else 
-          id="groupName"
-          class="ml-2 text-gray-700 font-semibold font-sans tracking-wide"
-          @click="selectSubGroup(inGroups, $event)"
-        >
+        <label v-else class="ml-2 text-gray-700 font-semibold font-sans tracking-wide">
           {{ inGroups.name }}
         </label>
       </div>
@@ -46,14 +36,14 @@
           <thead class="text-sm">
             <tr>
               <th class="px-4 w-2/3">Name</th>
-              <th class="w-1/3">{{ currGroupValue }}</th>
+              <th class="w-1/3">Elements</th>
             </tr>
           </thead>
           <tbody>
             <SubGroup v-if="expand && inGroups" :subGroup="inGroups" />
           </tbody>
         </table>
-        <component :is="currGroupTotal" :groups="inGroups" />
+        <p class="text-center">{{ totalArea }} m<sup>2</sup></p>
       </div>
       <div class="flex items-center justify-center">
         <button
@@ -79,16 +69,13 @@ import {
 } from '@heroicons/vue/24/solid'
 
 import SubGroup from '@/components/Sidebar/SubGroup.vue'
-import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
-
 import type { NestedGroup } from '@/models/filters'
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
 
 export default defineComponent({
   name: 'OverviewGroupCard',
   components: {
     SubGroup,
-    OverviewGroupCard,
     ChevronDownIcon,
     ChevronUpIcon,
     PencilSquareIcon,
@@ -105,7 +92,6 @@ export default defineComponent({
   },
   setup(props) {
     const projectStore = useProjectStore()
-    const navStore = useNavigationStore()
 
     const inGroups = ref(props.groups)
     const expand = ref(false)
@@ -118,39 +104,10 @@ export default defineComponent({
       }
     )
 
-    // Name to show in table for each group and subgroup
-    const currGroupValue = computed(() => {
-      if (navStore.activePage === "Overview")
-        return "Elements";
-      else if (navStore.activePage === "Mapping")
-        return "Material";
-      else if (navStore.activePage === "Results")
-        return "Co<sup>2<sup>";
-      else if (navStore.activePage === "Benchmark")
-        return "Co<sup>2<sup>";
-      else
-        return null;
+    const totalArea = computed(() => {
+      const area = inGroups.value.objects.reduce((sum, obj) => sum + obj.quantity.M2, 0)
+      return parseFloat(area.toFixed(2));
     })
-
-    // Total value to be shown for each group
-    const currGroupTotal = computed(() => {
-      if (navStore.activePage === "Overview")
-        return OverviewGroupCard;
-      else if (navStore.activePage === "Mapping")
-        return null;
-      else if (navStore.activePage === "Results")
-        return null;
-      else if (navStore.activePage === "Benchmark")
-        return null;
-      else
-        return null;
-    });
-
-    const selectSubGroup = (subGroup: NestedGroup, event: MouseEvent): void => {
-      const target = event.target as HTMLElement
-      if (target.id === 'groupCard' || target.id === 'groupName')
-        projectStore.setSelectedGeometry(subGroup.objects)
-    }
 
     const expandGroup = () => {
       expand.value = !expand.value
@@ -171,12 +128,10 @@ export default defineComponent({
       expandGroup,
       saveEdit,
       removeGroup,
-      selectSubGroup,
+      totalArea,
       editName,
       expand,
       inGroups,
-      currGroupValue,
-      currGroupTotal,
     }
   },
 })

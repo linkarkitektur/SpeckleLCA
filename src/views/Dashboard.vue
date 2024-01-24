@@ -1,14 +1,18 @@
 <template>
-  <NavbarComponent />
-  <Sidebar />
-  <Slideover />
+  <div class="flex h-screen">
+    <NavbarComponent />
+    <Sidebar />
+    <Slideover />
+    <SpeckleViewer />
+  </div>
+
 </template>
 
 <script lang="ts">
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import NavbarComponent from '@/components/Navbar.vue'
-import Slideover from '@/components/ModelViewer/Sliderover.vue'
-import '@/index.css'
+import Slideover from '@/components/SlideOver/Sliderover.vue'
+import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 
 /**
  * Dashboard view.
@@ -20,7 +24,8 @@ export default {
     NavbarComponent,
     Sidebar,
     Slideover,
-  },
+    SpeckleViewer
+},
   setup() {},
 }
 </script>

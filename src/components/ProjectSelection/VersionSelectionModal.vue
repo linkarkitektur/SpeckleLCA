@@ -237,4 +237,3 @@ export default defineComponent({
   },
 })
 </script>
-{ version }{ version }

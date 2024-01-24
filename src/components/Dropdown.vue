@@ -23,10 +23,10 @@
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="fixed z-[100] mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="py-1 max-h-60 overflow-y-auto">
-          <MenuItem v-for="item in items" v-slot="{ active }">
+          <MenuItem v-for="item in dPItems" :key="item.name" v-slot="{ active }">
             <a
               v-if="selectedItem == item.name"
               :class="[
@@ -62,6 +62,7 @@ import { defineComponent, ref, getCurrentInstance, watch } from 'vue'
 export default defineComponent({
   name: 'DropDown',
   components: {
+    // eslint-disable-next-line vue/no-reserved-component-names
     Menu,
     MenuButton,
     MenuItem,
@@ -88,7 +89,7 @@ export default defineComponent({
   setup(props) {
     const instance = getCurrentInstance()
     const selectedItem = ref(props.dropdownName)
-    const items = ref(props.items)
+    const dPItems = ref(props.items)
 
     const select = (item: dropdownItem) => {
       selectedItem.value = item.name
@@ -99,13 +100,13 @@ export default defineComponent({
     watch(
       () => props.items,
       (newValue) => {
-        items.value = newValue
+        dPItems.value = newValue
       }
     )
 
     return {
       select,
-      items,
+      dPItems,
       selectedItem,
     }
   },

@@ -16,6 +16,7 @@ export const useProjectStore = defineStore({
       currProject: null as Project | null, // The current project being worked on
       projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
       filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
+      selectedGeometry: null as GeometryObject[] | null, // Geometry objects that is currently selected
     }
   },
 
@@ -32,16 +33,52 @@ export const useProjectStore = defineStore({
      * Creates or updated the current groups set on the project
      * @param groups
      */
-    updateProjectGroups(groups: Group[]) {
+    updateGroups(groups: Group[]) {
       this.projectGroups = groups
     },
 
     /**
-     * Update a specific group with a new name
-     * TODO: Split path into array of strings and ids so we can find one and rename it
-     * @param name 
+     * Update a specific group by id with a new name and base path
+     * @param name name to change to
+     * @param id id of group to change 
      */
-    updateProjectGroupName(name: string) {
+    updateGroupName(name: string, id: string) {
+      if (this.projectGroups){
+        const foundObject = this.projectGroups.find(obj => obj.id === id)
+        if (foundObject) {
+          foundObject.name = name
+          foundObject.path[0] = name
+        }
+        else {
+          console.log("Object with the provided ID not found.")
+        }
+      }      
+    },
+
+    /**
+     * Removes a group from the project with id reference
+     * @param id if of group to remove
+     */
+    removeGroup(id: string) {
+      if (this.projectGroups) {
+        const foundIndex = this.projectGroups.findIndex(obj => obj.id === id)
+        if (foundIndex > -1) {
+          //Filter used when splicing it doesnt update the watchers
+          this.projectGroups = this.projectGroups.filter((element, index) => index != foundIndex)
+        } else {
+          console.warn("Object with the provided ID not found.")
+        }
+      }      
+    },
+
+    /**
+     * Adds a group to the project store
+     * @param group group to add to store
+     */
+    addGroup(group: Group) {
+      if (this.projectGroups) {
+        this.projectGroups.push(group)
+      }
     },
 
     /**
@@ -61,15 +98,70 @@ export const useProjectStore = defineStore({
     },
 
     /**
+     * Update store with new filter callstack with
+     * names and values
+     * @param callStack list of Filters
+     */
+    updateRegistryStack(name: string, callStack : Filter[]) {
+      if(this.filterRegistry)
+        this.filterRegistry.filterCallStack = {
+          name: name,
+          callStack: callStack
+        }
+    },
+
+    /**
      * Get current filter registry call stack and returns a array of 
      * filters that are within it
      * @returns Array of filters with keyvalues for the current filtering
      */
-    getRegistryStack() {
+    getRegistryStack() : Filter[] {
       if(this.filterRegistry !== null)
-        return this.filterRegistry.filterCallStack.filters
+        return this.filterRegistry.filterCallStack.callStack
       else
-        return null
+        return [{
+          name: "No filters founds",
+          field: "No filters founds",
+          value: "No filters founds"
+        }]
+    },
+
+    /**
+     * Get current filter names available in active registry
+     * @returns array of available filter names
+     */
+    getFilterNames() {
+      if(this.filterRegistry !== null)
+        return this.filterRegistry.getFilterNames()
+      else
+        return ["No filters founds"]
+    },
+
+    /**
+     * Goes through geometry objects and returns list of parameters available
+     * to filter project with
+     * @returns array of available parameters
+     */
+    getAvailableParameterList() {
+      if(this.currProject) {
+        const parameterSet: Set<string> = new Set()
+        this.currProject.geometry.forEach(geo => {
+          Object.keys(geo.parameters).forEach((key) => {
+            if (typeof geo.parameters[key] === 'string' || typeof geo.parameters[key] === 'number') {
+              parameterSet.add(key)
+            }
+          })
+          Object.keys(geo.quantity).forEach((key) => {
+            if (geo.quantity[key as keyof typeof geo.quantity] !== 0) {
+              parameterSet.add(key)
+              geo.parameters[key] = geo.quantity[key as keyof typeof geo.quantity].toString()
+            }
+          })
+        })
+        return Array.from(parameterSet)
+      } else {
+        return ["No parameters found"]
+      }
     },
 
     /**
@@ -132,6 +224,15 @@ export const useProjectStore = defineStore({
         this.currProject?.results != null
       )
         this.currProject.results[index] = payload
+    },
+
+    /**
+     * Set the selected geometry objects in the project
+     * @param geometryObjects 
+     * @returns
+     */
+    setSelectedGeometry(geometryObjects: GeometryObject[]) {
+      this.selectedGeometry = geometryObjects
     },
 
     /**
@@ -205,7 +306,8 @@ export const useNavigationStore = defineStore({
   state: () => {
     return {
       activePage: "Projects" as string, // The current page
-      slideoverOpen: false, 
+      slideoverOpen: false,
+      groupModalOpen: false,
       loading: false,
     }
   },
@@ -229,7 +331,14 @@ export const useNavigationStore = defineStore({
      * Toggle loading state on the app
      */
     toggleLoading() {
-      this.loading = !this.loading;
+      this.loading = !this.loading
+    },
+
+    /**
+     * Toggle new group modal interface
+     */
+    toggleGroupModal() {
+      this.groupModalOpen = !this.groupModalOpen
     },
   },
   getters: {

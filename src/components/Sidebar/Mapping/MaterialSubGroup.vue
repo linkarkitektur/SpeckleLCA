@@ -17,12 +17,7 @@
           class="h-5 w-5"
         />
       </button>
-      <p 
-        class="pl-2 truncate"
-        @click="selectSubGroup(subGroupData)"
-      >
-        {{ subGroupData.name }}
-      </p>
+      <p class="pl-2 truncate">{{ subGroupData.name }}</p>
     </td>
     <td class="w-1/3">
       <p class="truncate">{{ subGroupData.objects.length }}</p>
@@ -43,10 +38,9 @@
 import { defineComponent, ref, watch, computed } from 'vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid'
 import type { NestedGroup } from '@/models/filters'
-import { useProjectStore } from '@/stores/main'
 
 export default defineComponent({
-  name: 'SubGroup',
+  name: 'OverviewSubGroup',
   components: {
     ChevronDownIcon,
     ChevronUpIcon,
@@ -66,8 +60,6 @@ export default defineComponent({
     const depth = ref(props.depth)
     const expand = ref(false)
 
-    const projectStore = useProjectStore()
-
     watch(
       () => props.subGroup,
       (newValue) => {
@@ -86,16 +78,11 @@ export default defineComponent({
       expand.value = !expand.value
     }
 
-    const selectSubGroup = (subGroup: NestedGroup) => {
-      projectStore.setSelectedGeometry(subGroup.objects)
-    }
-
     return {
       subGroupData,
       expand,
       computedPadding,
       expandGroup,
-      selectSubGroup,
     }
   },
 })
