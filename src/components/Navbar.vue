@@ -205,7 +205,7 @@ import {
 } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import type { Step } from '@/models/pageLogic'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useSpeckleStore } from '@/stores/speckle'
 import { useNavigationStore } from '@/stores/main'
 import router from '@/router'
