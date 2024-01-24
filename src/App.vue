@@ -10,7 +10,7 @@
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { logMessageToSentry } from './utils/monitoring'
-import pacmanLoader from '@/components/pacmanLoader.vue';
+import pacmanLoader from '@/components/Misc/PacmanLoader.vue';
 
 
 /**
