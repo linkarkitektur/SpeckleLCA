@@ -16,6 +16,7 @@ export const useProjectStore = defineStore({
       currProject: null as Project | null, // The current project being worked on
       projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
       filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
+      selectedGeometry: null as GeometryObject[] | null, // Geometry objects that is currently selected
     }
   },
 
@@ -223,6 +224,15 @@ export const useProjectStore = defineStore({
         this.currProject?.results != null
       )
         this.currProject.results[index] = payload
+    },
+
+    /**
+     * Set the selected geometry objects in the project
+     * @param geometryObjects 
+     * @returns
+     */
+    setSelectedGeometry(geometryObjects: GeometryObject[]) {
+      this.selectedGeometry = geometryObjects
     },
 
     /**
