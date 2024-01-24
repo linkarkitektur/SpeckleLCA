@@ -11,13 +11,13 @@
         leave-to="opacity-0"
       >
         <div
-          class="fixed inset-y-0 right-0 w-3/4 bg-gray-500 bg-opacity-75 transition-opacity"
+          class="fixed inset-y-0 right-0 w-2/3 bg-gray-500 bg-opacity-75 transition-opacity"
         />
       </TransitionChild>
 
-      <div class="fixed inset-y-0 right-0 w-3/4 z-20 overflow-hidden">
+      <div class="fixed inset-y-0 right-0 w-2/3 z-20 overflow-hidden">
         <div
-          class="pointer-events-none fixed inset-y-0 left-1/4 flex w-1/4 pt-16"
+          class="pointer-events-none fixed inset-y-0 left-1/3 flex w-1/3 pt-16"
         >
           <TransitionChild
             as="template"
