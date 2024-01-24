@@ -13,18 +13,18 @@ export default defineComponent({
     const projectStore = useProjectStore()
 
     const amountSelected = computed(() => {
-      if (projectStore.selectedGeometry == null) {
+      if (projectStore.selectedGroup == null) {
         return 0
       } else {
-        return projectStore.selectedGeometry.length
+        return projectStore.selectedGroup.objects.length
       }
     })
 
     const groupArea = computed(() => {
-      if (projectStore.selectedGeometry == null) {
+      if (projectStore.selectedGroup == null) {
         return 0
       } else {
-        const area = projectStore.selectedGeometry.reduce((sum, obj) => sum + obj.quantity.M2, 0)
+        const area = projectStore.selectedGroup.objects.reduce((sum, obj) => sum + obj.quantity.M2, 0)
         return parseFloat(area.toFixed(2));
       }
     })

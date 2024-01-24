@@ -2,7 +2,7 @@
 import { defineStore } from "pinia"
 import type { GeometryObject } from "@/models/geometryObject"
 import type { Project, Results } from "@/models/project"
-import type { FilterRegistry, Group, Filter } from "@/models/filters"
+import type { FilterRegistry, Group, Filter, NestedGroup } from "@/models/filters"
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 
@@ -16,7 +16,7 @@ export const useProjectStore = defineStore({
       currProject: null as Project | null, // The current project being worked on
       projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
       filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
-      selectedGeometry: null as GeometryObject[] | null, // Geometry objects that is currently selected
+      selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
     }
   },
 
@@ -227,12 +227,13 @@ export const useProjectStore = defineStore({
     },
 
     /**
-     * Set the selected geometry objects in the project
-     * @param geometryObjects 
+     * Set the selected group in the project
+     * @param group 
      * @returns
      */
-    setSelectedGeometry(geometryObjects: GeometryObject[]) {
-      this.selectedGeometry = geometryObjects
+    setSelectedGroup(group: NestedGroup) {
+      this.selectedGroup = group
+      console.log(this.selectedGroup)
     },
 
     /**
@@ -307,7 +308,9 @@ export const useNavigationStore = defineStore({
     return {
       activePage: "Projects" as string, // The current page
       slideoverOpen: false,
+      editName: null as string | null,
       groupModalOpen: false,
+      mappingModalOpen: false,
       loading: false,
     }
   },
@@ -339,6 +342,24 @@ export const useNavigationStore = defineStore({
      */
     toggleGroupModal() {
       this.groupModalOpen = !this.groupModalOpen
+    },
+
+    /**
+     * Toggle mapping modal interface
+     */
+    toggleMappingModal() {
+      this.mappingModalOpen = !this.mappingModalOpen
+    },
+
+    /**
+     * Toggle edit name for groups
+     */
+    toggleEditName(id: string) {
+      if (this.editName === id) {
+        this.editName = null
+      } else {
+        this.editName = id
+      }
     },
   },
   getters: {

@@ -2,7 +2,8 @@
   <div 
     tabindex="0"
     id="groupCard"
-    class="rounded-2xl bg-gray-200 p-4 focus:ring-1 focus:ring-gray-400"
+    :class="{'rounded-2xl bg-gray-200 p-4 focus:ring-1 focus:ring-gray-400' : inGroups.id == selectedGroup?.id, 
+    'rounded-2xl bg-gray-200 p-4' : inGroups.id != selectedGroup?.id}"
     @click="selectSubGroup(inGroups, $event)"
   >
     <div class="flex pb-2 justify-between items-center">
@@ -17,27 +18,21 @@
         </button>
       </div>
       <div class="flex items-center">
-        <input v-if="editName" 
+        <input v-if="inGroups.id === editName" 
           v-model="inGroups.name" placeholder="edit me"
           @blur= "saveEdit"
           @keyup.enter = "saveEdit"/>
         <label 
           v-else 
           id="groupName"
-          class="ml-2 text-gray-700 font-semibold font-sans tracking-wide"
+          class="ml-2 text-gray-700 font-semibold font-sans tracking-wide hover:underline"
           @click="selectSubGroup(inGroups, $event)"
         >
           {{ inGroups.name }}
         </label>
       </div>
       <div class="flex">
-        <button
-          aria-label="Expand"
-          class="p-1 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
-          @click="editName = !editName"
-        >
-            <PencilSquareIcon class="h-5 w-5" />
-        </button>
+        <component :is="currIconAction" :groups="inGroups" />
       </div>
     </div>
     <div class="justify-between items-center">
@@ -57,7 +52,7 @@
       </div>
       <div class="flex items-center justify-center">
         <button
-          v-if="editName"
+          v-if="inGroups.id === editName"
           aria-label="Remove filter"
           class="pt-2 text-center focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
           @click="removeGroup"
@@ -80,12 +75,16 @@ import {
 
 import SubGroup from '@/components/Sidebar/SubGroup.vue'
 import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
+import OverviewIconAction from '@/components/Sidebar/Overview/OverviewIconAction.vue'
+
+import MaterialIconAction from '@/components/Sidebar/Mapping/MaterialIconAction.vue'
 
 import type { NestedGroup } from '@/models/filters'
 import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
-  name: 'OverviewGroupCard',
+  name: 'GroupCard',
   components: {
     SubGroup,
     OverviewGroupCard,
@@ -109,7 +108,8 @@ export default defineComponent({
 
     const inGroups = ref(props.groups)
     const expand = ref(false)
-    const editName = ref(false)
+    const { editName } = storeToRefs(navStore)
+    const { selectedGroup } = storeToRefs(projectStore)
 
     watch(
       () => props.groups,
@@ -144,12 +144,26 @@ export default defineComponent({
         return null;
       else
         return null;
-    });
+    })
+
+    const currIconAction = computed(() => {
+      if (navStore.activePage === "Overview")
+        return OverviewIconAction;
+      else if (navStore.activePage === "Mapping")
+        return MaterialIconAction;
+      else if (navStore.activePage === "Results")
+        return null;
+      else if (navStore.activePage === "Benchmark")
+        return null;
+      else
+        return null;
+    })
 
     const selectSubGroup = (subGroup: NestedGroup, event: MouseEvent): void => {
       const target = event.target as HTMLElement
-      if (target.id === 'groupCard' || target.id === 'groupName')
-        projectStore.setSelectedGeometry(subGroup.objects)
+      if (target.id === 'groupCard' || target.id === 'groupName' || target.id === 'cardAction') {
+        projectStore.setSelectedGroup(subGroup)
+      }
     }
 
     const expandGroup = () => {
@@ -158,12 +172,12 @@ export default defineComponent({
     }
     
     const saveEdit =  () => {
-      editName.value = false
+      editName.value = null
       projectStore.updateGroupName(inGroups.value.name, inGroups.value.id)
     }
 
     const removeGroup = () => {
-      editName.value = false
+      editName.value = null
       projectStore.removeGroup(inGroups.value.id)
     }
 
@@ -177,6 +191,8 @@ export default defineComponent({
       inGroups,
       currGroupValue,
       currGroupTotal,
+      currIconAction,
+      selectedGroup,
     }
   },
 })

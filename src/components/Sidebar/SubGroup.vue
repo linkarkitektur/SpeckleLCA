@@ -18,7 +18,8 @@
         />
       </button>
       <p 
-        class="pl-2 truncate"
+        tabindex="0"
+        class="pl-2 truncate focus:underline hover:underline cursor-pointer"
         @click="selectSubGroup(subGroupData)"
       >
         {{ subGroupData.name }}
@@ -87,7 +88,7 @@ export default defineComponent({
     }
 
     const selectSubGroup = (subGroup: NestedGroup) => {
-      projectStore.setSelectedGeometry(subGroup.objects)
+      projectStore.setSelectedGroup(subGroup)
     }
 
     return {

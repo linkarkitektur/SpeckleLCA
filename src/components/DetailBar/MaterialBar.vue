@@ -29,10 +29,10 @@ export default defineComponent({
   components: {},
   setup() {
     const projectStore = useProjectStore()
-
+    
     // Check how many geometry objects has a material mapped to them
     const percentMapped = computed(() => {
-      if (projectStore.selectedGeometry == null) {
+      if (projectStore.selectedGroup == null) {
         // If no selection but we have a project get everything
         if (projectStore.currProject?.geometry != null) {
           const totalObjects = projectStore.currProject.geometry.length
@@ -45,8 +45,8 @@ export default defineComponent({
         }
       } else {
         // Count the number of objects with and without a material
-        const totalObjects = projectStore.selectedGeometry.length
-        const objectsWithMaterial = projectStore.selectedGeometry.filter(obj => obj.material !== undefined && obj.material !== null)
+        const totalObjects = projectStore.selectedGroup.objects.length
+        const objectsWithMaterial = projectStore.selectedGroup.objects.filter(obj => obj.material !== undefined && obj.material !== null)
 
         const percentageWithMaterial = (objectsWithMaterial.length / totalObjects) * 100
         // Debug remove for production

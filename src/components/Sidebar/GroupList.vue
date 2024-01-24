@@ -1,5 +1,4 @@
 <template>
-  <NewGroupModal />
   <nav class="flex flex-1 flex-col pt-4">
     <div class="relative h-12">
         <button aria-label="Expand"
@@ -37,7 +36,6 @@ import { storeToRefs } from 'pinia'
 import { PencilSquareIcon, PlusCircleIcon } from '@heroicons/vue/24/solid';
 
 import GroupCard from '@/components/Sidebar/GroupCard.vue'
-import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue';
 
 import { useProjectStore, useNavigationStore } from '@/stores/main'
 import { FilterRegistry } from '@/models/filters'
@@ -54,7 +52,6 @@ export default defineComponent({
     PlusCircleIcon,
     Draggable,
     GroupCard,
-    NewGroupModal,
   },
   setup() {
     const projectstore = useProjectStore() 
