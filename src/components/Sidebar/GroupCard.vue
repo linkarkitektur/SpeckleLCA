@@ -36,6 +36,7 @@
       </div>
     </div>
     <div class="justify-between items-center">
+
       <div class="bg-gray-100 rounded-lg p-1 items-center max-w-full overflow-x-auto">
         <table v-if="expand" class="w-full text-left table-auto">
           <thead class="text-sm">

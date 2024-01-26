@@ -51,7 +51,6 @@ import { storeToRefs } from 'pinia'
 
 import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue';
 
-//FOR ABHINAV
 export default defineComponent({
   name: 'SlideOver',
   components: {
