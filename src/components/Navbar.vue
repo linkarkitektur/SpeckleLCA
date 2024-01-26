@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-reserved-component-names -->
 <template>
   <div id="nav" class="h-16">
-    <Disclosure as="nav" class="fixed bg-violet-50 shadow w-full z-50" v-slot="{ open }">
+    <Disclosure as="nav" class="fixed bg-gray-50 shadow w-full z-50" v-slot="{ open }">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative flex h-16 justify-between">
           <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">

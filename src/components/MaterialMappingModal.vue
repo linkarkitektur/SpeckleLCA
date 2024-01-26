@@ -42,18 +42,68 @@
                   </div>
                 </div>
                 <div class="w-1/2">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Material</th>
-                        <th>Property 1</th>
-                        <th>Property 2</th>
-                        <!-- Add more table headers for additional properties -->
-                      </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                  </table>
+                  <!-- Search Bar and Table -->
+                  <div class="relative mt-1 flex-1 px-4 sm:px-6">
+                    <!-- Search Bar -->
+                    <div class="p-4">
+                      <input
+                        type="text"
+                        v-model="searchQuery"
+                        placeholder="Search..."
+                        class="w-full border p-2 rounded-md"
+                      />
+                    </div>
+                    <!-- Table -->
+                    <table class="min-w-full w-96 divide-y divide-gray-200">
+                      <thead>
+                        <tr>
+                          <th class="px-6 py-3 bg-violet-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Name
+                          </th>
+                          <th class="px-6 py-3 bg-violet-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Material Type
+                          </th>
+                          <th class="px-6 py-3 bg-violet-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Unit
+                          </th>
+                          <th class="px-6 py-3 bg-violet-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Role
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="bg-violet-50 divide-y divide-gray-200">
+                        <!-- Rows -->
+                        <!-- Row 1 -->
+                        <tr>
+                          <td class="px-6 py-4 whitespace-no-wrap">Material Name</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">Type</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">12</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">10 CO2/m2</td>
+                        </tr>
+                        <!-- Row 2 -->
+                        <tr>
+                          <td class="px-6 py-4 whitespace-no-wrap">Material Name</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">Type</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">31</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">15 CO2/m2</td>
+                        </tr>
+                        <!-- Row 3 -->
+                        <tr>
+                          <td class="px-6 py-4 whitespace-no-wrap">Material Name</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">Type</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">43</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">23.5 CO2/m2</td>
+                        </tr>
+                        <!-- Row 4 -->
+                        <tr>
+                          <td class="px-6 py-4 whitespace-no-wrap">Material Name</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">Type</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">64</td>
+                          <td class="px-6 py-4 whitespace-no-wrap">9 CO2/m2</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </DialogPanel>
@@ -65,7 +115,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import {
   Dialog,
@@ -95,6 +145,8 @@ export default defineComponent({
     const { selectedGroup } = storeToRefs(projectStore)
     const { mappingModalOpen} = storeToRefs(navStore)
 
+    const searchQuery = ref('')
+
     const closeModal = () => {
       navStore.toggleMappingModal()
     }
@@ -102,6 +154,7 @@ export default defineComponent({
     return {
       mappingModalOpen,
       selectedGroup,
+      searchQuery,
       closeModal,
       
     }

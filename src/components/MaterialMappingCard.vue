@@ -8,14 +8,14 @@
       <div class="flex items-center">
         <label 
           id="groupName"
-          class="ml-2 text-gray-700 font-semibold font-sans tracking-wide hover:underline"
+          class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate hover:underline"
         >
           {{ inGroup.name? inGroup.name : "No name"}}
         </label>
       </div>
-      <div class="bg-gray-100 rounded-lg p-1 mt-1 items-center w-3/4 flex flex-col overflow-x-auto">
+      <div class="bg-gray-100 rounded-lg p-1 mt-1 items-center w-3/4 flex flex-col">
         <label
-          class="ml-2 text-gray-700 font-semibold font-sans tracking-wide"
+          class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate"
         >
           {{ mappedMaterial }}
         </label>
