@@ -2,7 +2,9 @@
   <div 
     tabindex="0"
     id="groupCard"
-    class="rounded-2xl bg-gray-200 p-2 focus:ring-1 focus:ring-gray-400 min-w-full"
+    class="rounded-2xl bg-gray-200 p-2 focus:ring-1 focus:ring-gray-400 min-w-full dropArea"
+    @drop="onDrop"
+    @dragover.prevent
   >
     <div class="flex flex-col justify-between items-center">
       <div class="flex items-center">
@@ -25,12 +27,14 @@
 </template>
 
 <script lang="ts">
-
 import { computed, defineComponent, ref } from 'vue'
+import { useMaterialStore } from '@/stores/material'
+
 import type { NestedGroup } from '@/models/filters'
 
 export default defineComponent({
   name: 'MappingCard',
+  components: {},
   props: {
     /**
      * Group to show in the card
@@ -41,6 +45,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const materialStore = useMaterialStore()
     const inGroup = ref(props.group)
 
     const mappedMaterial = computed(() => {
@@ -63,9 +68,18 @@ export default defineComponent({
       }
     })
 
+    const onDrop = () => {
+      inGroup.value.objects.forEach(obj => {
+        if (materialStore.currentMapping != null) {
+          obj.material = materialStore.currentMapping
+        }
+      })
+    }
+
     return {
       inGroup,
       mappedMaterial,
+      onDrop
     }
   },
 })

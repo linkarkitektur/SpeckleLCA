@@ -29,21 +29,28 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6 min-w-full h-full"
+              class="transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all min-w-full h-full sm:my-8 sm:max-w-sm sm:p-6"
             >
               <div class="flex pb-2 h-full justify-between items-center">
-                <div v-if="selectedGroup != null" class="w-1/2 h-full overflow-y-scroll">
+                <div 
+                  v-if="selectedGroup != null" 
+                  class="w-1/2 h-full overflow-y-scroll"
+                >
                   <div class="w-full p-1">
-                    <MaterialMappingCard :group="selectedGroup" />
+                    <MappingCard :group="selectedGroup" />
                   </div>
-                  <div v-for="group in selectedGroup.children" :key="group.id" class="w-5/6 ml-[8%] flex flex-col items-center justify-center">
+                  <div 
+                    v-for="group in selectedGroup.children" 
+                    :key="group.id" 
+                    class="w-5/6 ml-[8%] flex flex-col items-center justify-center"
+                  >
                     <div class="border-l-2 border-dashed h-6 border-neutral-400 m-1"></div>
-                    <MaterialMappingCard :group="group" />  
+                    <MappingCard :group="group" />  
                   </div>
                 </div>
                 <div v-else class="w-1/2 h-full">
                   <div class="w-full p-1">
-                    <MaterialMappingCard :group="emptyGroup" />
+                    <MappingCard :group="emptyGroup" />
                   </div>
                 </div>
                 <div class="w-1/2 h-full overflow-y-scroll overflow-x-hidden">
@@ -58,44 +65,7 @@
                         class="w-full border p-2 rounded-md"
                       />
                     </div>
-                    <!-- Table -->
-                    <table class="divide-y divide-gray-200 max-w-full block table-fixed">
-                      <thead class="w-full block">
-                        <tr class="w-full flex bg-gray-200 text-gray-700 text-left text-xs leading-4 font-medium uppercase tracking-wider whitespace-nowrap">
-                          <th class="m-3 w-2/6">
-                            Name
-                          </th>
-                          <th class="m-3 w-2/6">
-                            Material Type
-                          </th>
-                          <th class="m-3 w-1/6">
-                            Unit
-                          </th>
-                          <th class="m-3 w-1/6">
-                            Emission
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody class="bg-gray-100 divide-y divide-gray-300 max-w-full block table-fixed">
-                        <tr 
-                          v-for="(material, index) in materialStore.materials" 
-                          :key="material.id"
-                          class="text-xs whitespace-no-wrap w-full flex"
-                        >
-                          <td class="m-2 w-2/6 line-clamp-3">{{ material.name }}</td>
-                          <td class="m-2 w-2/6">{{ material.subType}}</td>
-                          <td class="m-2 w-1/6">{{ material.declared_unit }}</td>
-                          <td 
-                            :class="{'text-red-600' : roundedEmissions[index].isPositive, 'text-green-600' : !roundedEmissions[index].isPositive}"
-                            class="m-2 w-1/6"
-                          >
-                              {{ roundedEmissions[index].value }} 
-                            <br>
-                              kg/CO<sub>2</sub>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <MaterialTable />
                   </div>
                 </div>
               </div>
@@ -118,8 +88,9 @@ import {
 } from '@headlessui/vue'
 
 import { useNavigationStore, useProjectStore } from '@/stores/main'
-import { useMaterialStore } from '@/stores/material'
-import MaterialMappingCard from '@/components/MaterialMappingCard.vue'
+import MappingCard from '@/components/MaterialMappingCard.vue'
+import MaterialTable from '@/components/MaterialTable.vue'
+
 import type { NestedGroup } from '@/models/filters'
 
 export default defineComponent({
@@ -129,18 +100,16 @@ export default defineComponent({
     DialogPanel,
     TransitionChild,
     TransitionRoot,
-    MaterialMappingCard,
+    MappingCard,
+    MaterialTable
   },
-
   setup() {
     const navStore = useNavigationStore()
     const projectStore = useProjectStore()
-    const materialStore = useMaterialStore()
-    
+
     const { selectedGroup } = storeToRefs(projectStore)
     const { mappingModalOpen} = storeToRefs(navStore)
 
-    materialStore.materialsFromJson()
     const searchQuery = ref('')
     // If no data selected or available show this instead, this should never happen so can remove from final version
     const emptyGroup: NestedGroup = {
@@ -149,25 +118,7 @@ export default defineComponent({
       children: [],
       objects: [],
     }
-
-    const materials = ref(materialStore.materials)  
-    const roundedEmissions = computed(() => {
-      return materials.value.map(mat => {
-        const value = parseFloat(String(mat.gwp?.a1a3 ?? '0'))
-        if (!isNaN(value)) {
-          const decimals = (value.toString().split('.')[1] || '').length
-          return {
-            value: decimals > 2 ? value.toFixed(2) : value.toString(),
-            isPositive: value > 0
-          }
-        } else {
-          return {
-            value: '0',
-            isPositive: false
-          }
-        }
-      })
-    })
+ 
     const closeModal = () => {
       navStore.toggleMappingModal()
     }
@@ -177,11 +128,8 @@ export default defineComponent({
       selectedGroup,
       searchQuery,
       emptyGroup,
-      materialStore,
-      roundedEmissions,
       closeModal,
-      
     }
-  },
+  }
 })
-</script>@/stores/material
+</script>
