@@ -8,6 +8,7 @@ export const useMaterialStore = defineStore({
   state: () => ({
     materials: [] as EPD[],
     assemblies: [] as Assembly[],
+    currentMapping: null as EPD | Assembly | null,
   }),
   actions: {
     /**
@@ -49,14 +50,20 @@ export const useMaterialStore = defineStore({
     },
 
     /**
+     * Set current mapping material which is being dragged
+     * @param mapping either EPD or Assembly
+     */
+    setCurrentMapping(mapping: EPD | Assembly) {
+      this.currentMapping = mapping
+    },
+
+    /**
      * Update material list from JSON path
      * @param material 
      */
     async materialsFromJson() {
       try {
         this.materials = materialList as any;
-
-        console.log(this.materials)
       } catch (error) {
         console.error('Error fetching JSON:', error)
       }

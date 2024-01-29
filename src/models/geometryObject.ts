@@ -1,5 +1,5 @@
-import type { Unit, EPD, Assembly } from 'lcax'
-import type { Results } from './project'
+import type { Unit, EPD } from 'lcax'
+import type { Assembly, Results } from '@/models/project'
 
 /*
  * Base geometry object.

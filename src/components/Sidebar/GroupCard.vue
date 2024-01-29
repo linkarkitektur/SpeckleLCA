@@ -78,6 +78,7 @@ import SubGroup from '@/components/Sidebar/SubGroup.vue'
 import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
 import OverviewIconAction from '@/components/Sidebar/Overview/OverviewIconAction.vue'
 
+import MaterialGroupCard from '@/components/Sidebar/Mapping/MaterialGroupCard.vue'
 import MaterialIconAction from '@/components/Sidebar/Mapping/MaterialIconAction.vue'
 
 import type { NestedGroup } from '@/models/filters'
@@ -138,7 +139,7 @@ export default defineComponent({
       if (navStore.activePage === "Overview")
         return OverviewGroupCard;
       else if (navStore.activePage === "Mapping")
-        return null;
+        return MaterialGroupCard;
       else if (navStore.activePage === "Results")
         return null;
       else if (navStore.activePage === "Benchmark")
