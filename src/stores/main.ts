@@ -233,7 +233,6 @@ export const useProjectStore = defineStore({
      */
     setSelectedGroup(group: NestedGroup) {
       this.selectedGroup = group
-      console.log(this.selectedGroup)
     },
 
     /**
@@ -367,12 +366,3 @@ export const useNavigationStore = defineStore({
     getSlideoverOpen: (state) => state.slideoverOpen,
   },
 })
-
-/**
- * Represents a nested object with names and numbers of objects.
- */
-interface NestedObject {
-  name: string
-  objects: number
-  children: { [key: string]: NestedObject }
-}
