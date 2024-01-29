@@ -99,18 +99,19 @@ const beforeEachGuard = async (to: RouteLocationNormalized) => {
         logMessageToSentry('Access code exchange failed', 'warning');
         return { name: 'Home' }
       });
-
-    // Fetch if the user is authenticated.
-    await speckleStore.updateUser().then(() => {
-      logMessageToSentry("Updated current user to: " + speckleStore.getUserInfo?.name, 'info');
-    })
-      .then(() => {
-        // If the route requires authentication and the user is not authenticated, return to the login page.
-        if (to.meta.requiresAuth && !speckleStore.isAuthenticated) {
-          logMessageToSentry("User is not authenticated, but the route required it.", 'warning');
-        }
-      });
   }
+  // Fetch if the user is authenticated.
+  await speckleStore.updateUser().then(() => {
+    logMessageToSentry("Updated current user to: " + speckleStore.getUserInfo?.name, 'info');
+  })
+    .then(() => {
+      // If the route requires authentication and the user is not authenticated, return to the login page.
+      if (to.meta.requiresAuth && !speckleStore.isAuthenticated) {
+        //logMessageToSentry("User is not authenticated, but the route required it.", 'warning')
+        console.log("User is not authenticated, but the route required it.")
+        speckleStore.login()
+      }
+    });
 }
 
 router.beforeEach(beforeEachGuard)
