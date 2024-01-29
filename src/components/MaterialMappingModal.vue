@@ -31,8 +31,8 @@
             <DialogPanel
               class="transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:max-w-sm sm:p-6 min-w-full h-full"
             >
-              <div class="flex pb-2 h-full justify-between items-center overflow-y-scroll divide-x divide-neutral-600 divide-dashed">
-                <div v-if="selectedGroup != null" class="w-1/2 h-full">
+              <div class="flex pb-2 h-full justify-between items-center">
+                <div v-if="selectedGroup != null" class="w-1/2 h-full overflow-y-scroll">
                   <div class="w-full p-1">
                     <MaterialMappingCard :group="selectedGroup" />
                   </div>
@@ -41,7 +41,12 @@
                     <MaterialMappingCard :group="group" />  
                   </div>
                 </div>
-                <div class="w-1/2">
+                <div v-else class="w-1/2 h-full">
+                  <div class="w-full p-1">
+                    <MaterialMappingCard :group="emptyGroup" />
+                  </div>
+                </div>
+                <div class="w-1/2 h-full overflow-y-scroll overflow-x-hidden">
                   <!-- Search Bar and Table -->
                   <div class="relative mt-1 flex-1 px-4 sm:px-6">
                     <!-- Search Bar -->
@@ -54,52 +59,40 @@
                       />
                     </div>
                     <!-- Table -->
-                    <table class="min-w-full w-96 divide-y divide-gray-200">
-                      <thead>
-                        <tr>
-                          <th class="px-6 py-3 bg-violet-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    <table class="divide-y divide-gray-200 max-w-full block table-fixed">
+                      <thead class="w-full block">
+                        <tr class="w-full flex bg-gray-200 text-gray-700 text-left text-xs leading-4 font-medium uppercase tracking-wider whitespace-nowrap">
+                          <th class="m-3 w-2/6">
                             Name
                           </th>
-                          <th class="px-6 py-3 bg-violet-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          <th class="m-3 w-2/6">
                             Material Type
                           </th>
-                          <th class="px-6 py-3 bg-violet-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          <th class="m-3 w-1/6">
                             Unit
                           </th>
-                          <th class="px-6 py-3 bg-violet-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Role
+                          <th class="m-3 w-1/6">
+                            Emission
                           </th>
                         </tr>
                       </thead>
-                      <tbody class="bg-violet-50 divide-y divide-gray-200">
-                        <!-- Rows -->
-                        <!-- Row 1 -->
-                        <tr>
-                          <td class="px-6 py-4 whitespace-no-wrap">Material Name</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">Type</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">12</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">10 CO2/m2</td>
-                        </tr>
-                        <!-- Row 2 -->
-                        <tr>
-                          <td class="px-6 py-4 whitespace-no-wrap">Material Name</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">Type</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">31</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">15 CO2/m2</td>
-                        </tr>
-                        <!-- Row 3 -->
-                        <tr>
-                          <td class="px-6 py-4 whitespace-no-wrap">Material Name</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">Type</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">43</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">23.5 CO2/m2</td>
-                        </tr>
-                        <!-- Row 4 -->
-                        <tr>
-                          <td class="px-6 py-4 whitespace-no-wrap">Material Name</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">Type</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">64</td>
-                          <td class="px-6 py-4 whitespace-no-wrap">9 CO2/m2</td>
+                      <tbody class="bg-gray-100 divide-y divide-gray-300 max-w-full block table-fixed">
+                        <tr 
+                          v-for="(material, index) in materialStore.materials" 
+                          :key="material.id"
+                          class="text-xs whitespace-no-wrap w-full flex"
+                        >
+                          <td class="m-2 w-2/6 line-clamp-3">{{ material.name }}</td>
+                          <td class="m-2 w-2/6">{{ material.subType}}</td>
+                          <td class="m-2 w-1/6">{{ material.declared_unit }}</td>
+                          <td 
+                            :class="{'text-red-600' : roundedEmissions[index].isPositive, 'text-green-600' : !roundedEmissions[index].isPositive}"
+                            class="m-2 w-1/6"
+                          >
+                              {{ roundedEmissions[index].value }} 
+                            <br>
+                              kg/CO<sub>2</sub>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -115,7 +108,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import {
   Dialog,
@@ -125,8 +118,9 @@ import {
 } from '@headlessui/vue'
 
 import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useMaterialStore } from '@/stores/material'
 import MaterialMappingCard from '@/components/MaterialMappingCard.vue'
-
+import type { NestedGroup } from '@/models/filters'
 
 export default defineComponent({
   name: 'MaterialMappingModal',
@@ -141,12 +135,39 @@ export default defineComponent({
   setup() {
     const navStore = useNavigationStore()
     const projectStore = useProjectStore()
-
+    const materialStore = useMaterialStore()
+    
     const { selectedGroup } = storeToRefs(projectStore)
     const { mappingModalOpen} = storeToRefs(navStore)
 
+    materialStore.materialsFromJson()
     const searchQuery = ref('')
+    // If no data selected or available show this instead, this should never happen so can remove from final version
+    const emptyGroup: NestedGroup = {
+      id: 'empty',
+      name: 'No group selected',
+      children: [],
+      objects: [],
+    }
 
+    const materials = ref(materialStore.materials)  
+    const roundedEmissions = computed(() => {
+      return materials.value.map(mat => {
+        const value = parseFloat(String(mat.gwp?.a1a3 ?? '0'))
+        if (!isNaN(value)) {
+          const decimals = (value.toString().split('.')[1] || '').length
+          return {
+            value: decimals > 2 ? value.toFixed(2) : value.toString(),
+            isPositive: value > 0
+          }
+        } else {
+          return {
+            value: '0',
+            isPositive: false
+          }
+        }
+      })
+    })
     const closeModal = () => {
       navStore.toggleMappingModal()
     }
@@ -155,9 +176,12 @@ export default defineComponent({
       mappingModalOpen,
       selectedGroup,
       searchQuery,
+      emptyGroup,
+      materialStore,
+      roundedEmissions,
       closeModal,
       
     }
   },
 })
-</script>
+</script>@/stores/material

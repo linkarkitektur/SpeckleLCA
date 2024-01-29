@@ -12,17 +12,29 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { MapIcon } from '@heroicons/vue/24/solid'
-import { useNavigationStore } from '@/stores/main'
+import { useNavigationStore, useProjectStore } from '@/stores/main'
+
+import type { NestedGroup } from '@/models/filters'
 
 export default defineComponent({
   name: 'MaterialIconAction',
   components: {
     MapIcon,
   },
-  setup() {
+  props: {
+    /**
+     * Array of groups to show in the card, they should all share a top level to show
+     */
+    groups: {
+      type: Object as () => NestedGroup,
+      required: true,
+    },
+  },
+  setup(props) {
     const navStore = useNavigationStore()
-
+    const projectStore = useProjectStore()
     const toggleMappingModal = () => {
+      projectStore.setSelectedGroup(props.groups)
       navStore.toggleMappingModal()
     }
 

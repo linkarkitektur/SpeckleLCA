@@ -235,7 +235,7 @@ export default defineComponent({
       TONES: 0,
       PCS: 0,
     })
-
+    
     const closeModal = () => {
       navStore.toggleGroupModal()
     }
@@ -270,6 +270,17 @@ export default defineComponent({
         id: crypto.randomUUID(),
         path: [formData.value.name],
         elements: [geoObj]
+      }
+
+      //Clear form data after saving
+      formData.value = {
+        name: "",
+        M: 0,
+        M2: 0,
+        M3: 0,
+        KG: 0,
+        TONES: 0,
+        PCS: 0,
       }
 
       projectStore.addGroup(groupData)
