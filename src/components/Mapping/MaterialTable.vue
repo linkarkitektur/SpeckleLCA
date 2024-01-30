@@ -18,8 +18,8 @@
       </tr>
     </thead>
     <Draggable
-      v-if="materials"
-      :list="materials"
+      v-if="filteredList"
+      :list="filteredList"
       :options="dragOptions"
       class="bg-gray-100 divide-y divide-gray-300 max-w-full block table-fixed hover:cursor-move"
       tag="tbody"
@@ -53,6 +53,8 @@ import { defineComponent, ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { useMaterialStore } from '@/stores/material'
 import type { EPD } from 'lcax'
+import { isEPD, isAssembly } from '@/utils/projectUtils'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'MaterialTable',
@@ -63,7 +65,7 @@ export default defineComponent({
     const materialStore = useMaterialStore()
     
     materialStore.materialsFromJson()
-    const materials = ref(materialStore.materials)
+    const { filteredList } = storeToRefs(materialStore)
 
     const dragOptions = ref({
       animation: 200,
@@ -74,8 +76,14 @@ export default defineComponent({
     })
 
     const roundedEmissions = computed(() => {
-      return materials.value.map(mat => {
-        const value = parseFloat(String(mat.gwp?.a1a3 ?? '0'))
+      return filteredList.value.map(mat => {
+        let value = 0
+        // Check if its an EPD or Assembly
+        if (isEPD(mat))
+          value = parseFloat(String(mat.gwp?.a1a3 ?? '0'))
+        else if (isAssembly(mat))
+          value = mat.result.emission.a1a3.total
+        // Return formatted value
         if (!isNaN(value)) {
           const decimals = (value.toString().split('.')[1] || '').length
           return {
@@ -96,7 +104,7 @@ export default defineComponent({
     }
 
     return {
-      materials,
+      filteredList,
       dragOptions,
       roundedEmissions,
       dragStart,

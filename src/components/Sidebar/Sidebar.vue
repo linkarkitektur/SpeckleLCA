@@ -17,7 +17,7 @@
 import { defineComponent } from 'vue'
 import GroupList from '@/components/Sidebar/GroupList.vue'
 import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
-import MaterialMappingModal from '@/components/MaterialMappingModal.vue'
+import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
 
 export default defineComponent({
   name: 'SideBar',

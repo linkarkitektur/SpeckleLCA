@@ -36,16 +36,24 @@
                   v-if="selectedGroup != null" 
                   class="w-1/2 h-full overflow-y-scroll"
                 >
-                  <div class="w-full p-1">
-                    <MappingCard :group="selectedGroup" />
+                  <div class="w-full p-2">
+                    <MappingCard class="bg-gray-400 focus:ring-gray-600" :group="selectedGroup" />
                   </div>
                   <div 
-                    v-for="group in selectedGroup.children" 
+                    v-for="(group, index) in selectedGroup.children" 
                     :key="group.id" 
-                    class="w-5/6 ml-[8%] flex flex-col items-center justify-center"
+                    class="flex pb-2 pr-2"
                   >
-                    <div class="border-l-2 border-dashed h-6 border-neutral-400 m-1"></div>
-                    <MappingCard :group="group" />  
+                    <div 
+                      v-if="index != selectedGroup.children.length - 1" 
+                      class="border-l-2 border-dashed border-neutral-400 flex-shrink-0 ml-2"
+                    ></div>
+                    <div 
+                      v-else 
+                      class="border-l-2 border-dashed border-neutral-400 flex-shrink-0 ml-2 max-h-8"
+                    ></div>
+                    <div class="border-t-2 border-dashed border-neutral-400 flex-grow pr-10 max-h-2 place-self-center"></div>
+                    <MappingCard class="ml-1 p-2 flex-grow w-5/6 bg-gray-200" :group="group" />  
                   </div>
                 </div>
                 <div v-else class="w-1/2 h-full">
@@ -56,15 +64,7 @@
                 <div class="w-1/2 h-full overflow-y-scroll overflow-x-hidden">
                   <!-- Search Bar and Table -->
                   <div class="relative mt-1 flex-1 px-4 sm:px-6">
-                    <!-- Search Bar -->
-                    <div class="p-4">
-                      <input
-                        type="text"
-                        v-model="searchQuery"
-                        placeholder="Search..."
-                        class="w-full border p-2 rounded-md"
-                      />
-                    </div>
+                    <MaterialSearch />
                     <MaterialTable />
                   </div>
                 </div>
@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import {
   Dialog,
@@ -88,8 +88,9 @@ import {
 } from '@headlessui/vue'
 
 import { useNavigationStore, useProjectStore } from '@/stores/main'
-import MappingCard from '@/components/MaterialMappingCard.vue'
-import MaterialTable from '@/components/MaterialTable.vue'
+import MappingCard from '@/components/Mapping/MaterialMappingCard.vue'
+import MaterialTable from '@/components/Mapping/MaterialTable.vue'
+import MaterialSearch from '@/components/Mapping/MaterialSearch.vue'
 
 import type { NestedGroup } from '@/models/filters'
 
@@ -101,7 +102,8 @@ export default defineComponent({
     TransitionChild,
     TransitionRoot,
     MappingCard,
-    MaterialTable
+    MaterialTable,
+    MaterialSearch
   },
   setup() {
     const navStore = useNavigationStore()

@@ -1,10 +1,14 @@
 <template>
-  <p class="text-center">{{ mappedMaterial }}</p>
+  <p 
+    class="text-center"
+    :class="mappedMaterial.color"
+  >{{ mappedMaterial.name }}</p>
 </template>
 
 <script lang="ts">
 import { defineComponent, watch, ref, computed } from 'vue'
 import type { NestedGroup } from '@/models/filters'
+import { getMappedMaterial } from '@/utils/projectUtils'
 
 export default defineComponent({
   name: 'MaterialGroupCard',
@@ -22,24 +26,9 @@ export default defineComponent({
   setup(props) {
     const inGroup = ref(props.groups)
 
+    // Get the material mapped to the group and color them accordingly
     const mappedMaterial = computed(() => {
-      const objects = inGroup.value.objects
-
-      if (objects) {
-        const materialNames = objects.map(obj => obj.material?.name)
-        const uniqueMaterialNames = [...new Set(materialNames)]
-        if (uniqueMaterialNames.length === 1) {
-          if (uniqueMaterialNames[0] == undefined) {
-            return "No material mapped"
-          } else {
-            return uniqueMaterialNames[0]
-          }
-        } else {
-          return "Mixed"
-        }
-      } else {
-        return "No material mapped"
-      }
+      return getMappedMaterial(inGroup.value)
     })
 
     watch(

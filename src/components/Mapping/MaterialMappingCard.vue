@@ -2,7 +2,7 @@
   <div 
     tabindex="0"
     id="groupCard"
-    class="rounded-2xl bg-gray-200 p-2 focus:ring-1 focus:ring-gray-400 min-w-full dropArea"
+    class="rounded-2xl pb-2 p-2 focus:ring-1 focus:ring-gray-400 dropArea"
     @drop="onDrop"
     @dragover.prevent
   >
@@ -10,16 +10,18 @@
       <div class="flex items-center">
         <label 
           id="groupName"
-          class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate hover:underline"
+          class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate hover:underline hover:cursor-pointer"
+          @dblclick="openSubGroup"
         >
           {{ inGroup.name? inGroup.name : "No name"}}
         </label>
       </div>
-      <div class="bg-gray-100 rounded-lg p-1 mt-1 items-center w-3/4 flex flex-col">
-        <label
-          class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate"
-        >
-          {{ mappedMaterial }}
+      <div 
+        class="rounded-lg p-1 mt-1  text-neutral-700 items-center w-3/4 flex flex-col"
+        :class="mappedMaterial.color"
+      >
+        <label class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate">
+          {{ mappedMaterial.name }}
         </label>
       </div>
     </div>
@@ -31,6 +33,8 @@ import { computed, defineComponent, ref } from 'vue'
 import { useMaterialStore } from '@/stores/material'
 
 import type { NestedGroup } from '@/models/filters'
+import { useProjectStore } from '@/stores/main'
+import { getMappedMaterial } from '@/utils/projectUtils'
 
 export default defineComponent({
   name: 'MappingCard',
@@ -46,28 +50,16 @@ export default defineComponent({
   },
   setup(props) {
     const materialStore = useMaterialStore()
+    const projStore = useProjectStore()
+
     const inGroup = ref(props.group)
 
+    // Get the material mapped to the group and color them accordingly
     const mappedMaterial = computed(() => {
-      const objects = inGroup.value.objects
-
-      if (objects) {
-        const materialNames = objects.map(obj => obj.material?.name)
-        const uniqueMaterialNames = [...new Set(materialNames)]
-        if (uniqueMaterialNames.length === 1) {
-          if (uniqueMaterialNames[0] == undefined) {
-            return "No material mapped"
-          } else {
-            return uniqueMaterialNames[0]
-          }
-        } else {
-          return "Mixed"
-        }
-      } else {
-        return "No material mapped"
-      }
+      return getMappedMaterial(inGroup.value)
     })
 
+    // Couldnt get the drop event to transmit the data so we use the store instead
     const onDrop = () => {
       inGroup.value.objects.forEach(obj => {
         if (materialStore.currentMapping != null) {
@@ -76,10 +68,18 @@ export default defineComponent({
       })
     }
 
+    // Open sub group if there are any
+    const openSubGroup = () => {
+      if (inGroup.value.children.length > 0) {
+        projStore.setSelectedGroup(inGroup.value)
+      }
+    }
+
     return {
       inGroup,
       mappedMaterial,
-      onDrop
+      onDrop,
+      openSubGroup
     }
   },
 })
