@@ -86,15 +86,16 @@
                 class="items-center mr-6 text-sm font-medium leading-6 text-gray-400"
               >
                 <span>
-                  <span v-if="latestCommit">
+                  <span class="flex items-center" v-if="latestCommit">
                     {{ latestCommit }}
+                    <ChevronRightIcon
+                      class="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
                   </span>
                   <span v-else>Loading...</span>
                 </span>
-                <ChevronRightIcon
-                  class="h-5 w-5 text-gray-400"
-                  aria-hidden="true"
-                />
+                
               </span>
             </a>
           </div>

@@ -49,10 +49,7 @@ export default defineComponent({
         const objectsWithMaterial = projectStore.selectedGroup.objects.filter(obj => obj.material !== undefined && obj.material !== null)
 
         const percentageWithMaterial = (objectsWithMaterial.length / totalObjects) * 100
-        // Debug remove for production
-        const randInt = Math.random() * 100
-        return parseFloat(randInt.toFixed(1))
-        //return parseFloat(percentageWithMaterial.toFixed(1))
+        return parseFloat(percentageWithMaterial.toFixed(1))
       }
     })
 
