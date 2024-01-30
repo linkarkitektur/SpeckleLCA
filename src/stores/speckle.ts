@@ -7,8 +7,6 @@
  * @see https://pinia.esm.dev/api/define-store.html
  */
 
-import { defineStore } from 'pinia'
-import router from '@/router'
 import type {
   ModelsAndVersions,
   ObjectParameter,
@@ -18,16 +16,19 @@ import type {
   User,
   Version,
 } from '@/models/speckle'
+import router from '@/router'
+import { logMessageToSentry } from '@/utils/monitoring'
 import {
   exchangeAccessCode,
+  getObjectParameters,
   getProjectVersions,
   getProjectsData,
-  getObjectParameters,
-  navigateToAuthPage,
   getUserData,
+  navigateToAuthPage,
   speckleLogOut,
-} from '@/utils/speckleUtils' // TODO Is this the right import in the wider structure?
-import { logMessageToSentry } from '@/utils/monitoring'
+} from '@/utils/speckleUtils'; // TODO Is this the right import in the wider structure?
+import { Viewer } from '@speckle/viewer'
+import { defineStore } from 'pinia'
 
 /**
  * The `useSpeckleStore` is a store that manages the state and actions related to the Speckle integration.
@@ -97,6 +98,8 @@ export const useSpeckleStore = defineStore({
        * @type {ObjectParameter[] | null}
        */
       customParameters: null as ObjectParameter[] | null,
+
+      viewer: null as Viewer | null,
     }
   },
   actions: {
@@ -308,6 +311,15 @@ export const useSpeckleStore = defineStore({
       this.selectedVersion = version
     },
 
+
+    /**
+     * Sets the viewer instance.
+     * @param viewerInstance The viewer instance to set.
+     */
+    setViewerInstance(viewerInstance: Viewer) {
+      this.viewer = viewerInstance
+    },
+
     /**
      * Add new parameter to list of parameters to include in fetching of speckle objects
      * @param parameter
@@ -400,5 +412,11 @@ export const useSpeckleStore = defineStore({
      */
     getCustomParameters: (state): ObjectParameter[] | null =>
       state.customParameters,
+
+    /**
+    * The `getViewerInstance` getter returns the viewer instance.
+    * @returns {Viewer | null}
+    */
+    getViewerInstance: (state): Viewer => state.viewer as Viewer,
   },
 })
