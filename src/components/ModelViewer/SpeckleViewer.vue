@@ -4,7 +4,7 @@
     <div class="bg-white p-4 shadow-md rounded-lg">
       <div
         class="z-10"
-        style="min-height: 400px; border: 1px solid red"
+        style="min-height: 400px; min-width: 800px; border: 1px solid red"
         id="renderer"
       ></div>
     </div>
@@ -34,6 +34,19 @@ export default defineComponent({
     const speckleStore = useSpeckleStore()
     const navigationStore = useNavigationStore()
 
+
+    // The server url is the url of the speckle server you want to connect to.
+    const server_url = import.meta.env.VITE_APP_SERVER_URL;
+    // To get the stream id use the selected project.
+    const stream_id = speckleStore.selectedProject?.id;
+    // The referenced id of the object you want to load. This one is on the selected version.
+    const refferece_Id = speckleStore.selectedVersion?.referencedObject
+    //TOKEN (ALL caps) is just the name of the key in local storage
+    //token lowercase is the value of the key
+    const token = localStorage.getItem(TOKEN)?.toString() || "";
+
+
+
     onMounted(async () => {
       /** Configure the viewer params */
       const params = DefaultViewerParams
@@ -53,8 +66,8 @@ export default defineComponent({
       // Create a loader for the Speckle stream.
       const loader = new SpeckleLoader(
         viewer.getWorldTree(),
-        'https://latest.speckle.dev/streams/efe00dbc44/objects/7d1688eaecf1b666d9cdc750a1d3cbdd',
-        TOKEN
+        server_url + '/streams/' + stream_id + '/objects/'  + refferece_Id,
+        token
       )
 
       // Load the Speckle object.
