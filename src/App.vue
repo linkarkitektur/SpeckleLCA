@@ -1,17 +1,15 @@
 <template>
   <div id="app">
-    <pacman-loader/>
+    <!-- <pacman-loader/> -->
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
-
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { logMessageToSentry } from './utils/monitoring'
-import pacmanLoader from '@/components/Misc/PacmanLoader.vue';
-
+// import pacmanLoader from '@/components/Misc/PacmanLoader.vue'
 
 /**
  * The main application component.
@@ -19,7 +17,7 @@ import pacmanLoader from '@/components/Misc/PacmanLoader.vue';
 export default defineComponent({
   name: 'SpeckLCA',
   components: {
-    pacmanLoader
+    // pacmanLoader,
   },
   setup() {
     const route = useRoute()

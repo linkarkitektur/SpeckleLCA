@@ -40,16 +40,16 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { 
-  Dialog, 
-  DialogPanel, 
-  TransitionChild, 
-  TransitionRoot 
+import {
+  Dialog,
+  DialogPanel,
+  TransitionChild,
+  TransitionRoot,
 } from '@headlessui/vue'
 import { useNavigationStore } from '@/stores/main'
 import { storeToRefs } from 'pinia'
 
-import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue';
+import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue'
 
 export default defineComponent({
   name: 'SlideOver',
@@ -59,24 +59,19 @@ export default defineComponent({
     DialogPanel,
     TransitionChild,
     TransitionRoot,
-    ModifyFilter
+    ModifyFilter,
   },
   setup() {
     const navStore = useNavigationStore()
     const navRef = storeToRefs(navStore)
 
     const currentSlideover = computed(() => {
-      if (navStore.activePage === "Overview")
-        return ModifyFilter;
-      else if (navStore.activePage === "Mapping")
-        return null;
-      else if (navStore.activePage === "Results")
-        return null;
-      else if (navStore.activePage === "Benchmark")
-        return null;
-      else
-        return null;
-    });
+      if (navStore.activePage === 'Overview') return ModifyFilter
+      else if (navStore.activePage === 'Mapping') return null
+      else if (navStore.activePage === 'Results') return null
+      else if (navStore.activePage === 'Benchmark') return null
+      else return null
+    })
 
     const toggleSlideover = () => {
       navStore.toggleSlideover()
@@ -85,8 +80,8 @@ export default defineComponent({
     return {
       navRef,
       toggleSlideover,
-      currentSlideover
+      currentSlideover,
     }
-  }
+  },
 })
 </script>

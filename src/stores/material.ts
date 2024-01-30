@@ -12,7 +12,7 @@ export const useMaterialStore = defineStore({
   actions: {
     /**
      * Add material to store
-     * @param material 
+     * @param material
      */
     addMaterial(material: EPD) {
       this.materials.push(material)
@@ -20,7 +20,7 @@ export const useMaterialStore = defineStore({
 
     /**
      * Remove material from store
-     * @param material 
+     * @param material
      */
     removeMaterial(material: EPD) {
       const index = this.materials.indexOf(material)
@@ -50,13 +50,13 @@ export const useMaterialStore = defineStore({
 
     /**
      * Update material list from JSON path
-     * @param material 
+     * @param material
      */
     async materialsFromJson() {
       try {
         this.materials = materialList as any;
 
-        console.log(this.materials)
+        // console.log(this.materials)
       } catch (error) {
         console.error('Error fetching JSON:', error)
       }

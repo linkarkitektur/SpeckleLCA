@@ -1,11 +1,10 @@
 <template>
-  <div class="flex h-screen">
+  <div class="flex">
     <NavbarComponent />
     <Sidebar />
     <Slideover />
     <SpeckleViewer />
   </div>
-
 </template>
 
 <script lang="ts">
@@ -24,8 +23,8 @@ export default {
     NavbarComponent,
     Sidebar,
     Slideover,
-    SpeckleViewer
-},
+    SpeckleViewer,
+  },
   setup() {},
 }
 </script>

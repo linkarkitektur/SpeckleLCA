@@ -1,7 +1,11 @@
 <!-- eslint-disable vue/no-reserved-component-names -->
 <template>
   <div id="nav" class="h-16">
-    <Disclosure as="nav" class="fixed bg-gray-50 shadow w-full z-50" v-slot="{ open }">
+    <Disclosure
+      as="nav"
+      class="fixed bg-gray-50 shadow w-full z-50"
+      v-slot="{ open }"
+    >
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative flex h-16 justify-between">
           <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -28,17 +32,18 @@
               <img
                 class="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
+                alt="SpeckLCA"
               />
             </div>
             <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <a v-for="step in steps" 
-                :key="step.name" 
+              <a
+                v-for="step in steps"
+                :key="step.name"
                 :class="[
-                  step.name == navigationStore.activePage 
-                    ? 'border-indigo-500 text-gray-900' 
-                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 
-                    'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium'
+                  step.name == navigationStore.activePage
+                    ? 'border-indigo-500 text-gray-900'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                  'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium',
                 ]"
                 @click="handleNavigation(step)"
               >
@@ -121,14 +126,16 @@
       <DisclosurePanel class="sm:hidden">
         <!--Tab Selection-->
         <div class="space-y-1 pb-3 pt-2">
-          <DisclosureButton v-for="step in steps" 
-            :key="step.name" 
-            :selected="navigationStore.activePage" 
+          <DisclosureButton
+            v-for="step in steps"
+            :key="step.name"
+            :selected="navigationStore.activePage"
             :class="[
               step.name == navigationStore.activePage
-                ? 'bg-indigo-50 border-indigo-500 text-indigo-700' 
-                : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700', 
-                'block border-l-4 py-2 pl-3 pr-4 text-base font-medium']"
+                ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
+                : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
+              'block border-l-4 py-2 pl-3 pr-4 text-base font-medium',
+            ]"
             @click="handleNavigation(step)"
           >
             {{ step.name }}
@@ -228,7 +235,7 @@ export default defineComponent({
       navigationStore.setActivePage(step.name) // Set the active page in the store
       const currentRoute = router.currentRoute.value
       if (currentRoute.path !== step.href) {
-        router.push(step.href);
+        router.push(step.href)
       }
     }
 

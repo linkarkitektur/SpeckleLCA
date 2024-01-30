@@ -1,16 +1,10 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "extends": "./tsconfig.app.json",
 
   "include": [
     "vite.config.*",
     "vitest.config.*",
     "cypress.config.*",
     "playwright.config.*"
-  ],
-
-  "compilerOptions": {
-    "composite": true,
-    "ignoreDeprecations": "5.0",
-    "types": ["node", "vitest/globals"]
-  }
+  ]
 }

@@ -1,19 +1,21 @@
 <template>
-  <div 
+  <div
     tabindex="0"
     id="groupCard"
     class="rounded-2xl bg-gray-200 p-2 focus:ring-1 focus:ring-gray-400 min-w-full"
   >
     <div class="flex flex-col justify-between items-center">
       <div class="flex items-center">
-        <label 
+        <label
           id="groupName"
           class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate hover:underline"
         >
-          {{ inGroup.name? inGroup.name : "No name"}}
+          {{ inGroup.name ? inGroup.name : 'No name' }}
         </label>
       </div>
-      <div class="bg-gray-100 rounded-lg p-1 mt-1 items-center w-3/4 flex flex-col">
+      <div
+        class="bg-gray-100 rounded-lg p-1 mt-1 items-center w-3/4 flex flex-col"
+      >
         <label
           class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate"
         >
@@ -25,7 +27,6 @@
 </template>
 
 <script lang="ts">
-
 import { computed, defineComponent, ref } from 'vue'
 import type { NestedGroup } from '@/models/filters'
 
@@ -47,19 +48,20 @@ export default defineComponent({
       const objects = inGroup.value.objects
 
       if (objects) {
-        const materialNames = objects.map(obj => obj.material?.name)
-        const uniqueMaterialNames = [...new Set(materialNames)]
-        if (uniqueMaterialNames.length === 1) {
+        const materialNames = objects.map((obj) => obj.material?.name)
+        const uniqueMaterialNames = new Set(materialNames)
+
+        if (uniqueMaterialNames.size === 1) {
           if (uniqueMaterialNames[0] == undefined) {
-            return "No material mapped"
+            return 'No material mapped'
           } else {
             return uniqueMaterialNames[0]
           }
         } else {
-          return "Mixed"
+          return 'Mixed'
         }
       } else {
-        return "No material mapped"
+        return 'No material mapped'
       }
     })
 
@@ -69,5 +71,4 @@ export default defineComponent({
     }
   },
 })
-
 </script>
