@@ -9,6 +9,7 @@ export const useMaterialStore = defineStore({
     materials: [] as EPD[],
     assemblies: [] as Assembly[],
     currentMapping: null as EPD | Assembly | null,
+    filteredList: [] as (EPD | Assembly)[],
   }),
   actions: {
     /**
@@ -58,12 +59,20 @@ export const useMaterialStore = defineStore({
     },
 
     /**
+     * set filtered materials
+     */
+    setFilteredMaterials(materials: (EPD | Assembly)[]) {
+      this.filteredList = materials
+    },
+
+    /**
      * Update material list from JSON path
      * @param material 
      */
     async materialsFromJson() {
       try {
-        this.materials = materialList as any;
+        this.materials = materialList as any
+        this.filteredList = this.materials
       } catch (error) {
         console.error('Error fetching JSON:', error)
       }

@@ -1,7 +1,7 @@
 import type { EPD } from 'lcax'
 import type { GeometryObject } from './geometryObject'
 
-enum Source {
+export enum Source {
   UserDefined,
   OrganisationStandard,
   Generated,

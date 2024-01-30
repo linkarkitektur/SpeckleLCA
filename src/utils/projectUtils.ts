@@ -1,5 +1,7 @@
 import type { Group } from '@/models/filters'
 import type { FilterRegistry, NestedGroup } from '@/models/filters'
+import type { Assembly } from '@/models/project'
+import type { EPD } from 'lcax'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -287,4 +289,62 @@ export function createStandardFilters(registry: FilterRegistry) {
       group.push(groupObj[key])
     return group
   })
+}
+
+/**
+ * Gets the mapped material and returns a color based on it
+ * @param group 
+ * @returns 
+ */
+export function getMappedMaterial(group: NestedGroup) {
+  const objects = group.objects
+  if (objects) {
+    const materialNames = objects.map(obj => obj.material?.name)
+    const uniqueMaterialNames = [...new Set(materialNames)]
+    
+    // Check if there are objects without materials to turn the card yellow
+    const objectsWithoutMaterials = objects.filter(obj => obj.material == undefined).length > 0
+
+    if (uniqueMaterialNames.length === 1) {
+      if (uniqueMaterialNames[0] == undefined) {
+        return {
+          name: "No material mapped",
+          color: "bg-red-50"
+        }
+      } else {
+        return {
+          name: uniqueMaterialNames[0],
+          color: "bg-green-50"
+        }
+      }
+    } else {
+      return {
+        name: "Mixed",
+        color: objectsWithoutMaterials? "bg-yellow-50" : "bg-green-50"
+      }
+    }
+  } else {
+    return {
+          name: "No material mapped",
+          color: "bg-red-50"
+        }
+  }
+}
+
+/**
+ * Checks if the object is an EPD
+ * @param obj 
+ * @returns 
+ */
+export function isEPD(obj: any): obj is EPD {
+  return obj && obj.Type === 'EPD'
+}
+
+/**
+ * Checks if the object is an Assembly
+ * @param obj 
+ * @returns 
+ */
+export function isAssembly(obj: any): obj is Assembly {
+  return obj && obj.Type === 'Assembly';
 }
