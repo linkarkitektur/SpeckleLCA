@@ -10,24 +10,22 @@ The purpose of this to do list is to keep track of all the tasks that need to be
   - [x] Implement "Change Camera" UI element.
     - [x] Implement corresponding functionality.
   - [x] Implement "Select All" UI element.
-    - [ ] Implement corresponding functionality.
+    - [x] Implement corresponding functionality.
   - [x] Implement "Zoom Extents" UI element.
     - [x] Implement corresponding functionality.
 
 - [x] Add functionality to the store to handle the viewer state.
   - [x] Add a field to hold the current selection.
   - [ ] Add a field to hold the current camera state.
-  - [ ] Add a field to hold the current geometry data.
-  - [ ] Add a field to hold the current flags data.
-  - [ ] Add the necessary actions to handle these fields.
-  - [ ] Add the necessary getters.
+  - [x] Add the necessary actions to handle these fields.
+  - [x] Add the necessary getters.
 
 ## Medium Priority
 
 - [ ] Grouping of geometry types:
 
-  - [ ] Separate geometry types into different groups.
-  - [ ] Add groups to the sidebar.
+  - [x] Separate geometry types into different groups.
+  - [x] Add groups to the sidebar.
   - [ ] Add functionality to colour groups.
 
 - [x] Add hotkeys & UI elements:

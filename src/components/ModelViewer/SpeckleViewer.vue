@@ -16,8 +16,9 @@
 		</p>
 	</div>
 
+	<!-- TODO Catch the emit event and update the viewer filter. -->
 	<div class="absolute text-md select-none top-20 right-4">
-		<FilterSelector /> //TODO Catch the emit event and update the viewer filter.
+		<FilterSelector />
 	</div>
 
 	<div class="absolute h-full w-full bg-gray-50 -z-10" id="renderer" />
