@@ -8,7 +8,7 @@ service cloud.firestore {
 
     // Updated until the end of January.
     match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2024, 1, 31); // TODO Revisit in January.
+      allow read, write: if request.time < timestamp.date(2024, 4, 31); // TODO Revisit in April.
     }
   }
 }

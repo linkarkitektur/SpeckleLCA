@@ -1,20 +1,33 @@
 {
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-  "exclude": ["src/**/__tests__/*"],
+	"extends": "@vue/tsconfig/tsconfig.web.json",
 
-  "compilerOptions": {
-    "allowJs": true,
-    "composite": true,
-    "baseUrl": ".",
-    "ignoreDeprecations": "5.0",
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES5",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "types": ["node", "vitest/globals", "vite/client"]
-  }
+	"include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+	"exclude": ["src/**/__tests__/*"],
+
+	"compilerOptions": {
+		"allowJs": true,
+		"composite": true,
+		"baseUrl": ".",
+		"target": "ESNext",
+		"useDefineForClassFields": true,
+		"module": "ESNext",
+		"lib": ["ESNext", "DOM"],
+		"moduleResolution": "Node",
+		"ignoreDeprecations": "5.0",
+		"importsNotUsedAsValues": "remove",
+		"strict": false,
+		"sourceMap": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"noEmit": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"noUnusedVariables": false,
+		"noImplicitReturns": true,
+		"skipLibCheck": true,
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	}
 }

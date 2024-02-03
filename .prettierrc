@@ -1,0 +1,32 @@
+{
+	"$schema": "https://json.schemastore.org/prettierrc",
+	"semi": false,
+	"singleQuote": true,
+	"useTabs": true,
+	"tabWidth": 2,
+	"vueIndentScriptAndStyle": true,
+	"embeddedLanguageFormatting": "auto",
+	"printWidth": 80,
+	"trailingComma": "none",
+	"overrides": [
+		{
+			"files": "*.md",
+			"options": {
+				"parser": "markdown",
+				"proseWrap": "never"
+			}
+		},
+		{
+			"files": "*.json, *.json5",
+			"options": {
+				"parser": "json"
+			}
+		},
+		{
+			"files": "*.yml, *.yaml",
+			"options": {
+				"parser": "yaml"
+			}
+		}
+	]
+}
