@@ -234,14 +234,16 @@
 
 		const dataTree = viewer.getDataTree()
 
-		dataTree.walk((guid): boolean => {
+		dataTree.walk((guid, obj): boolean => {
+			obj.selected = true
 			ids.push(guid)
 			return true
 		})
 
 		ids.splice(0, 1)
-		console.log(ids)
+		// console.log(ids)
 
+		viewer.selectObjects(ids)
 		viewer?.zoom()
 	}
 
