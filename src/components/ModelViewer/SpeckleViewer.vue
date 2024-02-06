@@ -201,6 +201,7 @@
 			if (e.ctrlKey && e.key.toLowerCase() == 'a') {
 				viewer.cameraHandler.enabled = false
 				console.log('Pressed Ctrl + A')
+				handleSelectAllButton()
 			}
 		}
 
