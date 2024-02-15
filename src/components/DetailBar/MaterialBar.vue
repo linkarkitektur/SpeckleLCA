@@ -54,8 +54,8 @@
 					}
 				} else {
 					// Count the number of objects with and without a material
-					const totalObjects = projectStore.selectedGroup.objects.length
-					const objectsWithMaterial = projectStore.selectedGroup.objects.filter(
+					const totalObjects = projectStore.selectedObjects.length
+					const objectsWithMaterial = projectStore.selectedObjects.filter(
 						(obj) => obj.material !== undefined && obj.material !== null
 					)
 

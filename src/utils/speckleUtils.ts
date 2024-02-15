@@ -204,7 +204,8 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 				id: el.id,
 				name: name,
 				quantity: quantity,
-				parameters: el.data
+				parameters: el.data,
+				URI: el.id
 			}
 
 			geoObjects.push(obj)

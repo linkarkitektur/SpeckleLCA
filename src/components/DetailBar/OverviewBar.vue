@@ -19,7 +19,7 @@
 				if (projectStore.selectedGroup == null) {
 					return 0
 				} else {
-					return projectStore.selectedGroup.objects.length
+					return projectStore.selectedObjects.length
 				}
 			})
 
@@ -27,7 +27,7 @@
 				if (projectStore.selectedGroup == null) {
 					return 0
 				} else {
-					const area = projectStore.selectedGroup.objects.reduce(
+					const area = projectStore.selectedObjects.reduce(
 						(sum, obj) => sum + obj.quantity.M2,
 						0
 					)

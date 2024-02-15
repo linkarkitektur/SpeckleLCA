@@ -1,82 +1,36 @@
 <template>
-	<div class="absolute text-md select-none top-20 left-4">
-		<h3
-			class="font-semibold leading-5 text-gray-400 border-b border-gray-300 pb-2"
-		>
-			Controls
-		</h3>
-		<p class="py-1.5 font-light leading-6 text-gray-400">
-			Use the toolbar below to interact with the model.<br />
-			<i>Clear Selection</i>: Esc<br />
-			<i>Select</i>: Left Click<br />
-			<i>Orbit</i>: Left Drag<br />
-			<i>Pan</i>: Right Drag<br />
-			<i>Move</i>: W,A,S,D<br />
-			<i>Zoom</i>: Scroll Wheel<br />
-		</p>
-	</div>
+	<div class="relative inset-y-16 w-2/3 h-[calc(100vh-4rem)] bg-gray-100">
+		<div class="absolute text-sm select-none left-4">
+			<h3
+				class="font-semibold leading-5 text-gray-400 border-b border-gray-300 pb-2"
+			>
+				Controls
+			</h3>
+			<p class="py-1.5 font-light leading-6 text-gray-400">
+				Use the toolbar below to interact with the model.<br />
+				<i>Clear Selection</i>: Esc<br />
+				<i>Select</i>: Left Click<br />
+				<i>Orbit</i>: Left Drag<br />
+				<i>Pan</i>: Right Drag<br />
+				<i>Move</i>: W,A,S,D<br />
+				<i>Zoom</i>: Scroll Wheel<br />
+			</p>
+		</div>
 
-	<!-- TODO Catch the emit event and update the viewer filter. -->
-	<div class="absolute text-md select-none top-20 right-4">
-		<FilterSelector />
-	</div>
+		<!-- TODO Catch the emit event and update the viewer filter. -->
+		<!-- this should not be in here?
+		<div class="flex text-md select-none top-20 right-4">
+			<FilterSelector />
+		</div>
+		-->
+		<div class="flex h-full w-full bg-gray-50 -z-10" id="renderer" />
 
-	<div class="absolute h-full w-full bg-gray-50 -z-10" id="renderer" />
-
-	<div
-		class="flex w-full mx-auto fixed bottom-4 align-bottom justify-center z-50"
-	>
-		<span
-			class="isolate inline-flex rounded-lg shadow-md shadow-gray-300 text-gray-400"
-		>
-			<button
-				type="button"
-				@click="handleProjectionButtonClick"
-				class="inline-flex items-center rounded-l-md bg-white px-3 py-2 ring-1 ring-inset ring-gray-200 hover:bg-gray-200 focus:z-10"
-			>
-				<VideoCameraIcon class="h-6" />
-			</button>
-
-			<button
-				type="button"
-				@click="handleSelectAllButton"
-				class="-ml-px inline-flex items-center bg-white px-3 py-2 ring-1 ring-inset ring-gray-200 hover:bg-gray-200 focus:z-10"
-			>
-				<ViewfinderCircleIcon class="h-6" />
-			</button>
-			<button
-				type="button"
-				@click="handleZoomExtentsButtonClick"
-				class="-ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 ring-1 ring-inset ring-gray-200 hover:bg-gray-200 focus:z-10"
-			>
-				<ArrowsPointingOutIcon class="h-6" />
-			</button>
-			<button
-				type="button"
-				@click="handleToggleSectionBoxButtonClick"
-				class="-ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 ring-1 ring-inset ring-gray-200 hover:bg-gray-200 focus:z-10"
-			>
-				<CubeTransparentIcon class="h-6" />
-			</button>
-			<button
-				type="button"
-				@click="handleLockOrbitButtonClick"
-				class="-ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 ring-1 ring-inset ring-gray-200 hover:bg-gray-200 focus:z-10"
-			>
-				<LockClosedIcon class="h-6" />
-			</button>
-		</span>
+		<ViewerControls />
+		<DetailBar />
 	</div>
 </template>
 
 <script setup lang="ts">
-	import {
-		ArrowsPointingOutIcon,
-		VideoCameraIcon,
-		ViewfinderCircleIcon,
-		CubeTransparentIcon,
-		LockClosedIcon
-	} from '@heroicons/vue/24/outline'
 	import {
 		DefaultViewerParams,
 		Viewer,
@@ -84,17 +38,18 @@
 		type SelectionEvent
 	} from '@speckle/viewer'
 	import { useSpeckleStore } from '@/stores/speckle'
-	import { onMounted } from 'vue'
-	import FilterSelector from './FilterSelector.vue'
+	import { onMounted, watch } from 'vue'
+	import { useProjectStore } from '@/stores/main'
+	import { storeToRefs } from 'pinia'
 
-	const props = defineProps<{
-		streamId: String
-		longObjectId: String
-	}>()
+	import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
+	import DetailBar from '@/components/DetailBar/DetailBar.vue'
 
 	let viewer: Viewer | null = null
-	let rotationLocked = false
 
+	const projectStore = useProjectStore()
+	const { selectedObjects } = storeToRefs(projectStore)
+	
 	onMounted(async () => {
 		const serverUrl = import.meta.env.VITE_APP_SERVER_URL
 		const token = import.meta.env.VITE_SPECKLE_TOKEN
@@ -117,7 +72,6 @@
 		const container = document.getElementById('renderer') as HTMLElement
 
 		viewer = new Viewer(container, DefaultViewerParams)
-
 		await viewer.init()
 
 		if (viewer == null) {
@@ -155,24 +109,27 @@
 		// 	}
 		// }
 
-		let selectedObjects = []
+		let selection: string[] = []
 		viewer.on(ViewerEvent.ObjectClicked, (selectionInfo: SelectionEvent) => {
 			if (selectionInfo) {
 				// Object was clicked. Highlight it.
 				const id = selectionInfo.hits[0].object.id
 
-				if (selectionInfo.event.shiftKey) selectedObjects.push(id)
-				else selectedObjects = [id]
+				if (selectionInfo.event.shiftKey) selection.push(id)
+				else selection = [id]
 
-				viewer.highlightObjects(selectedObjects, true)
-				console.log(selectedObjects)
+				projectStore.setObjectsByURI(selection)
 
+				viewer.highlightObjects(projectStore.getSelectedObjectsURI(), true)
 				// Zoom in on the hit and focus the camera target.
-				viewer.zoom()
+				//viewer.zoom()
 			} else {
-				// No object clicked. Restore focus to entire scene.
-				selectedObjects = []
-				viewer.resetHighlight()
+				// No object clicked. Restore selection from group.
+				projectStore.setObjectsFromGroup()
+
+				if (projectStore.selectedObjects.length === 0) viewer.resetHighlight()
+				else viewer.highlightObjects(projectStore.getSelectedObjectsURI(), true)
+
 				viewer.zoom()
 			}
 		})
@@ -180,16 +137,20 @@
 		// Clear the `selectedObjects` and `view` on an esc key press.
 		window.onkeydown = function (e) {
 			if (e.key.toLowerCase() == 'escape') {
-				selectedObjects = []
-				viewer.resetHighlight()
+				projectStore.setObjectsFromGroup()
+				viewer.resetFilters()
 			}
 		}
 
+		/**
+		 * Keep the selection and highlights until change is made elsewhere.
+		 * 
 		// Clear the `selectedObjects` and `view` on a mouse out event.
 		window.onmouseout = function () {
-			selectedObjects = []
+			projectStore.clearSelectedObjects()
 			viewer.resetHighlight()
 		}
+ 		*/
 
 		// Resize the viewer when the window is resized.
 		window.onresize = function () {
@@ -201,77 +162,28 @@
 			if (e.ctrlKey && e.key.toLowerCase() == 'a') {
 				viewer.cameraHandler.enabled = false
 				console.log('Pressed Ctrl + A')
-				handleSelectAllButton()
+
+				projectStore.setSelectedObjects(projectStore.currProject.geometry)
 			}
 		}
 
 		const speckleStore = useSpeckleStore()
 		speckleStore.setViewerInstance(viewer)
 
-		const url = `${serverUrl}/streams/${props.streamId}/objects/${props.longObjectId}`
+		const url = `${serverUrl}/streams/${speckleStore.selectedProject.id}/objects/${speckleStore.selectedVersion.referencedObject}`
 
 		/** Load the speckle data */
 		await viewer.loadObject(url, token, true, true)
 	})
 
+	watch(
+		() => selectedObjects.value,
+		() => {
+			viewer?.resetFilters()
+			viewer?.isolateObjects(projectStore.getSelectedObjectsURI())
+			//viewer?.highlightObjects(projectStore.getSelectedObjectsURI(), true)
+		}
+	)
+
 	// function setObjectColorsByVolume() {}
-
-	/**
-	 * Handles the click event of the projection button,
-	 * toggles between a perspective and orthographic camera.
-	 */
-	function handleProjectionButtonClick() {
-		if (!viewer) return
-
-		viewer.toggleCameraProjection()
-	}
-
-	/**
-	 * Handles the click event of the select all button,
-	 * selects all objects in the current scene.
-	 */
-	function handleSelectAllButton() {
-		let ids = []
-
-		const dataTree = viewer.getDataTree()
-
-		dataTree.walk((guid, obj): boolean => {
-			obj.selected = true
-			ids.push(guid)
-			return true
-		})
-
-		ids.splice(0, 1)
-		// console.log(ids)
-
-		viewer.selectObjects(ids)
-		viewer?.zoom()
-	}
-
-	/**
-	 * Handles the click event of the Zoom Extents button,
-	 * sends a request to the Speckle server to zoom extents.
-	 */
-	function handleZoomExtentsButtonClick() {
-		viewer?.zoom()
-	}
-
-	/**
-	 * Handles the click event of the section box button,
-	 * toggles a section box in the current scene.
-	 */
-	function handleToggleSectionBoxButtonClick() {
-		viewer?.toggleSectionBox()
-	}
-
-	/**
-	 * Handles the click event of the lock orbit button.
-	 * Locks/Unlocks camera orbit.
-	 */
-	function handleLockOrbitButtonClick() {
-		rotationLocked = !rotationLocked
-
-		if (rotationLocked) viewer?.cameraHandler.disableRotations()
-		else viewer?.cameraHandler.enableRotations()
-	}
 </script>

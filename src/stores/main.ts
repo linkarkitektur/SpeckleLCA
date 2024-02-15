@@ -21,7 +21,8 @@ export const useProjectStore = defineStore({
 			currProject: null as Project | null, // The current project being worked on
 			projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
 			filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
-			selectedGroup: null as NestedGroup | null // NestedGroup that is currently selected
+			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
+			selectedObjects: [] as GeometryObject[] | null // GeometryObjects that are currently selected
 		}
 	},
 
@@ -244,6 +245,58 @@ export const useProjectStore = defineStore({
 		 */
 		setSelectedGroup(group: NestedGroup) {
 			this.selectedGroup = group
+			this.setObjectsFromGroup()
+		},
+
+		/**
+		 * set selected objects from the selected group
+		 * Can be used to reset selection
+		 */
+		setObjectsFromGroup() {
+			this.selectedObjects = []
+			const group = this.selectedGroup
+			group.objects.forEach(element => {
+				this.selectedObjects?.push(element)
+			})
+		},
+
+		/**
+		 * Set the selected objects in the project
+		 * @param objects
+		 */
+		setSelectedObjects(objects: GeometryObject[]) {
+			this.selectedObjects = objects
+		},
+
+		/**
+		 * Set the selected objects in the project by URI
+		 * @param uri
+		 */
+		setObjectsByURI(uri: string[]) {
+			const objects = this.currProject.geometry
+			const foundObjects = objects?.filter((obj) => {
+				return uri.includes(obj.URI as string)
+			})
+			this.selectedObjects = foundObjects
+		},
+
+		/**
+		 * Clear the selected objects in the project
+		 */
+		clearSelectedObjects() {
+			this.selectedObjects = []
+		},
+
+		/**
+		 * returns only the URI of the selected objects in the project
+		 * @returns 
+		 */
+		getSelectedObjectsURI() {
+			if (this.selectedObjects) {
+				return this.selectedObjects.map((obj) => obj.URI as string)
+			} else {
+				return []
+			}
 		},
 
 		/**
