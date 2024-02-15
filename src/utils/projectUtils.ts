@@ -291,6 +291,7 @@ export function createStandardFilters(registry: FilterRegistry) {
   })
 }
 
+
 /**
  * Gets the mapped material and returns a color based on it
  * @param group 

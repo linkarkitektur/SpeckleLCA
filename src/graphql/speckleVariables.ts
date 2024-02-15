@@ -4,23 +4,23 @@
  * @returns array of strings to be set as variables for graphQL queries
  */
 export function speckleSelection(sourceApplication: string) {
-  let selection: string[] = []
-  selection.push(...generalParameters)
+	const selection: string[] = []
+	selection.push(...generalParameters)
 
-  if (sourceApplication.includes('Archicad'))
-    selection.push(...archicadParameters)
+	if (sourceApplication.includes('Archicad'))
+		selection.push(...archicadParameters)
 
-  if (sourceApplication.includes('Revit')) selection.push(...revitParameters)
+	if (sourceApplication.includes('Revit')) selection.push(...revitParameters)
 
-  if (sourceApplication.includes('IFC')) selection.push(...ifcParameters)
+	if (sourceApplication.includes('IFC')) selection.push(...ifcParameters)
 
-  if (
-    sourceApplication.includes('Rhino') &&
-    sourceApplication.includes('Grasshopper')
-  )
-    selection.push(...rhinoParameters)
+	if (
+		sourceApplication.includes('Rhino') &&
+		sourceApplication.includes('Grasshopper')
+	)
+		selection.push(...rhinoParameters)
 
-  return selection
+	return selection
 }
 
 /**
@@ -32,29 +32,29 @@ const generalParameters = ['name', 'speckleType', 'height', 'width', 'level']
  * Archicad building element information that speckle sets when sent from Archicad
  */
 const archicadParameters = [
-  'elementType',
-  'area',
-  'volume',
-  'number',
-  'sideMaterialName',
-  'oppositeMaterialName',
-  'referenceMaterialName',
-  'botMat',
-  'topMat',
-  'sideMat',
-  'buildingMaterialName',
-  'classifications',
+	'elementType',
+	'area',
+	'volume',
+	'number',
+	'sideMaterialName',
+	'oppositeMaterialName',
+	'referenceMaterialName',
+	'botMat',
+	'topMat',
+	'sideMat',
+	'buildingMaterialName',
+	'classifications'
 ]
 
 /**
  * Revit building element information that speckle sets when sent from Revit
  */
 const revitParameters = [
-  'type',
-  'family',
-  'category',
-  'parameters.HOST_AREA_COMPUTED.value',
-  'parameters.HOST_VOLUME_COMPUTED.value',
+	'type',
+	'family',
+	'category',
+	'parameters.HOST_AREA_COMPUTED.value',
+	'parameters.HOST_VOLUME_COMPUTED.value'
 ]
 
 /**

@@ -1,15 +1,7 @@
 {
   "extends": "./tsconfig.app.json",
   "exclude": [],
-
   "files": [
     "src/tests/objects/testObjects.json" // Add your JSON file here
-  ],
-
-  "compilerOptions": {
-    "allowJs": true,
-    "composite": true,
-    "lib": [],
-    "types": ["node", "jsdom"]
-  }
+  ]
 }
