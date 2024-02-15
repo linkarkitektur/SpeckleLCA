@@ -1,4 +1,4 @@
 export interface Step {
-  name: string
-  href: string
+	name: string
+	href: string
 }

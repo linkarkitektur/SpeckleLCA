@@ -1,19 +1,25 @@
-import type { ImpactCategoryKey, LifeCycleStage } from 'lcax'
+import type { EPD } from 'lcax'
 import type { GeometryObject } from './geometryObject'
+
+enum Source {
+	UserDefined,
+	OrganisationStandard,
+	Generated
+}
 
 /**
  * Project interface, stores all geometry and metadata of the project.
  */
 export interface Project {
-  name: string
-  description: string
-  id: string
-  geometry: GeometryObject[]
-  sqm?: number
-  projectType?: string
-  source?: string
-  location?: string
-  results?: Results[]
+	name: string
+	description: string
+	id: string
+	geometry: GeometryObject[]
+	sqm?: number
+	projectType?: string
+	source?: string
+	location?: string
+	results?: Results[]
 }
 
 /**
@@ -21,11 +27,31 @@ export interface Project {
  * ID and date is just for documentation.
  */
 export interface Results {
-  id: string // Run ID for results.
-  date: Date
-  emission: {
-    [impactCategory: string]: {
-      [lifeCycleStage: string]: number
-    }
-  } // GWP -> A1A3 -> Co2
+	id: string // Run ID for results.
+	date: Date
+	emission: {
+		[impactCategory: string]: {
+			[lifeCycleStage: string]: number
+		}
+	} // GWP -> A1A3 -> Co2
+}
+
+/**
+ * Assembly interface, stores all metadata of the assembly.
+ * Materials are stored as EPD and thickness.
+ * Result is stored as a reference to the results object so it can be accessed directly without calcs.
+ */
+export interface Assembly {
+	id: string
+	name: string
+	source: Source
+	location?: string
+	materials: [
+		{
+			EPD: EPD
+			thickness: number
+		}
+	]
+	sqm?: number
+	result: Results
 }

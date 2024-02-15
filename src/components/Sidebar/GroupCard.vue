@@ -1,199 +1,199 @@
 <template>
-  <div 
-    tabindex="0"
-    id="groupCard"
-    :class="{'rounded-2xl bg-gray-200 p-4 focus:ring-1 focus:ring-gray-400' : inGroups.id == selectedGroup?.id, 
-    'rounded-2xl bg-gray-200 p-4' : inGroups.id != selectedGroup?.id}"
-    @click="selectSubGroup(inGroups, $event)"
-  >
-    <div class="flex pb-2 justify-between items-center">
-      <div class="flex">
-        <button
-          aria-label="Expand"
-          class="p-1 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
-          @click="expandGroup"
-        >
-          <ChevronDownIcon v-if="!expand" class="h-5 w-5" />
-          <ChevronUpIcon v-if="expand" class="h-5 w-5" />
-        </button>
-      </div>
-      <div class="flex items-center">
-        <input v-if="inGroups.id === editName" 
-          v-model="inGroups.name" placeholder="edit me"
-          @blur= "saveEdit"
-          @keyup.enter = "saveEdit"/>
-        <label 
-          v-else 
-          id="groupName"
-          class="ml-2 text-gray-700 font-semibold font-sans tracking-wide hover:underline"
-          @click="selectSubGroup(inGroups, $event)"
-        >
-          {{ inGroups.name }}
-        </label>
-      </div>
-      <div class="flex">
-        <component :is="currIconAction" :groups="inGroups" />
-      </div>
-    </div>
-    <div class="justify-between items-center">
-      <div class="bg-gray-100 rounded-lg p-1 items-center max-w-full overflow-x-auto">
-        <table v-if="expand" class="w-full text-left table-auto">
-          <thead class="text-sm">
-            <tr>
-              <th class="px-4 w-2/3">Name</th>
-              <th class="w-1/3">{{ currGroupValue }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <SubGroup v-if="expand && inGroups" :subGroup="inGroups" />
-          </tbody>
-        </table>
-        <component :is="currGroupTotal" :groups="inGroups" />
-      </div>
-      <div class="flex items-center justify-center">
-        <button
-          v-if="inGroups.id === editName"
-          aria-label="Remove filter"
-          class="pt-2 text-center focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
-          @click="removeGroup"
-        >
-          <MinusCircleIcon class="h-6 w-6" />
-        </button>
-      </div>
-    </div>
-  </div>
+	<div
+		tabindex="0"
+		id="groupCard"
+		:class="{
+			'rounded-2xl bg-gray-200 p-4 focus:ring-1 focus:ring-gray-400':
+				inGroups.id == selectedGroup?.id,
+			'rounded-2xl bg-gray-200 p-4': inGroups.id != selectedGroup?.id
+		}"
+		@click="selectSubGroup(inGroups, $event)"
+	>
+		<div class="flex pb-2 justify-between items-center">
+			<div class="flex">
+				<button
+					aria-label="Expand"
+					class="p-1 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
+					@click="expandGroup"
+				>
+					<ChevronDownIcon v-if="!expand" class="h-5 w-5" />
+					<ChevronUpIcon v-if="expand" class="h-5 w-5" />
+				</button>
+			</div>
+			<div class="flex items-center">
+				<input
+					v-if="inGroups.id === editName"
+					v-model="inGroups.name"
+					placeholder="edit me"
+					@blur="saveEdit"
+					@keyup.enter="saveEdit"
+				/>
+				<label
+					v-else
+					id="groupName"
+					class="ml-2 text-gray-700 font-semibold font-sans tracking-wide hover:underline"
+					@click="selectSubGroup(inGroups, $event)"
+				>
+					{{ inGroups.name }}
+				</label>
+			</div>
+			<div class="flex">
+				<component :is="currIconAction" :groups="inGroups" />
+			</div>
+		</div>
+		<div class="justify-between items-center">
+			<div
+				class="bg-gray-100 rounded-lg p-1 items-center max-w-full overflow-x-auto"
+			>
+				<table v-if="expand" class="w-full text-left table-auto">
+					<thead class="text-sm">
+						<tr>
+							<th class="px-4 w-2/3">Name</th>
+							<th class="w-1/3">{{ currGroupValue }}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<SubGroup v-if="expand && inGroups" :subGroup="inGroups" />
+					</tbody>
+				</table>
+				<component :is="currGroupTotal" :groups="inGroups" />
+			</div>
+			<div class="flex items-center justify-center">
+				<button
+					v-if="inGroups.id === editName"
+					aria-label="Remove filter"
+					class="pt-2 text-center focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
+					@click="removeGroup"
+				>
+					<MinusCircleIcon class="h-6 w-6" />
+				</button>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, computed } from 'vue'
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  PencilSquareIcon,
-  MinusCircleIcon,
-} from '@heroicons/vue/24/solid'
+	import { defineComponent, watch, ref, computed } from 'vue'
+	import {
+		ChevronDownIcon,
+		ChevronUpIcon,
+		PencilSquareIcon,
+		MinusCircleIcon
+	} from '@heroicons/vue/24/solid'
 
-import SubGroup from '@/components/Sidebar/SubGroup.vue'
-import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
-import OverviewIconAction from '@/components/Sidebar/Overview/OverviewIconAction.vue'
+	import SubGroup from '@/components/Sidebar/SubGroup.vue'
+	import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
+	import OverviewIconAction from '@/components/Sidebar/Overview/OverviewIconAction.vue'
 
-import MaterialIconAction from '@/components/Sidebar/Mapping/MaterialIconAction.vue'
+	import MaterialIconAction from '@/components/Sidebar/Mapping/MaterialIconAction.vue'
 
-import type { NestedGroup } from '@/models/filters'
-import { useNavigationStore, useProjectStore } from '@/stores/main'
-import { storeToRefs } from 'pinia'
+	import type { NestedGroup } from '@/models/filters'
+	import { useNavigationStore, useProjectStore } from '@/stores/main'
+	import { storeToRefs } from 'pinia'
 
-export default defineComponent({
-  name: 'GroupCard',
-  components: {
-    SubGroup,
-    OverviewGroupCard,
-    ChevronDownIcon,
-    ChevronUpIcon,
-    PencilSquareIcon,
-    MinusCircleIcon
-  },
-  props: {
-    /**
-     * Array of groups to show in the card, they should all share a top level to show
-     */
-    groups: {
-      type: Object as () => NestedGroup,
-      required: true,
-    },
-  },
-  setup(props) {
-    const projectStore = useProjectStore()
-    const navStore = useNavigationStore()
+	export default defineComponent({
+		name: 'GroupCard',
+		components: {
+			SubGroup,
+			OverviewGroupCard,
+			ChevronDownIcon,
+			ChevronUpIcon,
+			PencilSquareIcon,
+			MinusCircleIcon
+		},
+		props: {
+			/**
+			 * Array of groups to show in the card, they should all share a top level to show
+			 */
+			groups: {
+				type: Object as () => NestedGroup,
+				required: true
+			}
+		},
+		setup(props) {
+			const projectStore = useProjectStore()
+			const navStore = useNavigationStore()
 
-    const inGroups = ref(props.groups)
-    const expand = ref(false)
-    const { editName } = storeToRefs(navStore)
-    const { selectedGroup } = storeToRefs(projectStore)
+			const inGroups = ref(props.groups)
+			const expand = ref(false)
+			const { editName } = storeToRefs(navStore)
+			const { selectedGroup } = storeToRefs(projectStore)
 
-    watch(
-      () => props.groups,
-      (newValue) => {
-        inGroups.value = newValue
-      }
-    )
+			watch(
+				() => props.groups,
+				(newValue) => {
+					inGroups.value = newValue
+				}
+			)
 
-    // Name to show in table for each group and subgroup
-    const currGroupValue = computed(() => {
-      if (navStore.activePage === "Overview")
-        return "Elements";
-      else if (navStore.activePage === "Mapping")
-        return "Material";
-      else if (navStore.activePage === "Results")
-        return "Co<sup>2<sup>";
-      else if (navStore.activePage === "Benchmark")
-        return "Co<sup>2<sup>";
-      else
-        return null;
-    })
+			// Name to show in table for each group and subgroup
+			const currGroupValue = computed(() => {
+				if (navStore.activePage === 'Overview') return 'Elements'
+				else if (navStore.activePage === 'Mapping') return 'Material'
+				else if (navStore.activePage === 'Results') return 'Co<sup>2<sup>'
+				else if (navStore.activePage === 'Benchmark') return 'Co<sup>2<sup>'
+				else return null
+			})
 
-    // Total value to be shown for each group
-    const currGroupTotal = computed(() => {
-      if (navStore.activePage === "Overview")
-        return OverviewGroupCard;
-      else if (navStore.activePage === "Mapping")
-        return null;
-      else if (navStore.activePage === "Results")
-        return null;
-      else if (navStore.activePage === "Benchmark")
-        return null;
-      else
-        return null;
-    })
+			// Total value to be shown for each group
+			const currGroupTotal = computed(() => {
+				if (navStore.activePage === 'Overview') return OverviewGroupCard
+				else if (navStore.activePage === 'Mapping') return null
+				else if (navStore.activePage === 'Results') return null
+				else if (navStore.activePage === 'Benchmark') return null
+				else return null
+			})
 
-    const currIconAction = computed(() => {
-      if (navStore.activePage === "Overview")
-        return OverviewIconAction;
-      else if (navStore.activePage === "Mapping")
-        return MaterialIconAction;
-      else if (navStore.activePage === "Results")
-        return null;
-      else if (navStore.activePage === "Benchmark")
-        return null;
-      else
-        return null;
-    })
+			const currIconAction = computed(() => {
+				if (navStore.activePage === 'Overview') return OverviewIconAction
+				else if (navStore.activePage === 'Mapping') return MaterialIconAction
+				else if (navStore.activePage === 'Results') return null
+				else if (navStore.activePage === 'Benchmark') return null
+				else return null
+			})
 
-    const selectSubGroup = (subGroup: NestedGroup, event: MouseEvent): void => {
-      const target = event.target as HTMLElement
-      if (target.id === 'groupCard' || target.id === 'groupName' || target.id === 'cardAction') {
-        projectStore.setSelectedGroup(subGroup)
-      }
-    }
+			const selectSubGroup = (
+				subGroup: NestedGroup,
+				event: MouseEvent
+			): void => {
+				const target = event.target as HTMLElement
+				if (
+					target.id === 'groupCard' ||
+					target.id === 'groupName' ||
+					target.id === 'cardAction'
+				) {
+					projectStore.setSelectedGroup(subGroup)
+				}
+			}
 
-    const expandGroup = () => {
-      expand.value = !expand.value
-      // Expand group logic here
-    }
-    
-    const saveEdit =  () => {
-      editName.value = null
-      projectStore.updateGroupName(inGroups.value.name, inGroups.value.id)
-    }
+			const expandGroup = () => {
+				expand.value = !expand.value
+				// Expand group logic here
+			}
 
-    const removeGroup = () => {
-      editName.value = null
-      projectStore.removeGroup(inGroups.value.id)
-    }
+			const saveEdit = () => {
+				editName.value = null
+				projectStore.updateGroupName(inGroups.value.name, inGroups.value.id)
+			}
 
-    return {
-      expandGroup,
-      saveEdit,
-      removeGroup,
-      selectSubGroup,
-      editName,
-      expand,
-      inGroups,
-      currGroupValue,
-      currGroupTotal,
-      currIconAction,
-      selectedGroup,
-    }
-  },
-})
+			const removeGroup = () => {
+				editName.value = null
+				projectStore.removeGroup(inGroups.value.id)
+			}
+
+			return {
+				expandGroup,
+				saveEdit,
+				removeGroup,
+				selectSubGroup,
+				editName,
+				expand,
+				inGroups,
+				currGroupValue,
+				currGroupTotal,
+				currIconAction,
+				selectedGroup
+			}
+		}
+	})
 </script>

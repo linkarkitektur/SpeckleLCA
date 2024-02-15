@@ -13,9 +13,9 @@ module.exports = {
   variants: {
     extend: {},
   },
-  // corePlugins: {
-  //   aspectRatio: false,
-  // },
+  corePlugins: {
+    aspectRatio: false,
+  },
   blocklist: [], // ['container', 'collapse']
   plugins: [
     require('@tailwindcss/forms'),
