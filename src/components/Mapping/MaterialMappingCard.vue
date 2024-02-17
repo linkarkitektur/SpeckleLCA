@@ -18,7 +18,7 @@
       </div>
       <div 
         class="rounded-lg p-1 mt-1  text-neutral-700 items-center w-3/4 flex flex-col"
-        :class="mappedMaterial.color"
+        :class="`bg-${mappedMaterial.color}`"
       >
         <label class="w-full text-center ml-2 text-gray-700 font-semibold font-sans truncate">
           {{ mappedMaterial.name }}
@@ -56,7 +56,7 @@ export default defineComponent({
 
     // Get the material mapped to the group and color them accordingly
     const mappedMaterial = computed(() => {
-      return getMappedMaterial(inGroup.value)
+      return getMappedMaterial(inGroup.value.objects)
     })
 
     // Couldnt get the drop event to transmit the data so we use the store instead

@@ -1,5 +1,6 @@
 import type { Group } from '@/models/filters'
 import type { FilterRegistry, NestedGroup } from '@/models/filters'
+import type { GeometryObject } from '@/models/geometryObject'
 import type { Assembly } from '@/models/project'
 import type { EPD } from 'lcax'
 
@@ -297,8 +298,7 @@ export function createStandardFilters(registry: FilterRegistry) {
  * @param group 
  * @returns 
  */
-export function getMappedMaterial(group: NestedGroup) {
-  const objects = group.objects
+export function getMappedMaterial(objects: GeometryObject[]) {
   if (objects) {
     const materialNames = objects.map(obj => obj.material?.name)
     const uniqueMaterialNames = [...new Set(materialNames)]
@@ -310,24 +310,24 @@ export function getMappedMaterial(group: NestedGroup) {
       if (uniqueMaterialNames[0] == undefined) {
         return {
           name: "No material mapped",
-          color: "bg-red-50"
+          color: "red-50"
         }
       } else {
         return {
           name: uniqueMaterialNames[0],
-          color: "bg-green-50"
+          color: "green-50"
         }
       }
     } else {
       return {
         name: "Mixed",
-        color: objectsWithoutMaterials? "bg-yellow-50" : "bg-green-50"
+        color: objectsWithoutMaterials? "yellow-50" : "green-50"
       }
     }
   } else {
     return {
           name: "No material mapped",
-          color: "bg-red-50"
+          color: "red-50"
         }
   }
 }
@@ -348,4 +348,19 @@ export function isEPD(obj: any): obj is EPD {
  */
 export function isAssembly(obj: any): obj is Assembly {
   return obj && obj.Type === 'Assembly';
+}
+
+/**
+ * Create a list of colors based on the number of objects
+ * Rainbow style for now, we can limit this range later
+ * @param n number of colors
+ * @returns list of HSL colors
+ */
+export function generateColors(n: number): string[] {
+  const colors: string[] = []
+  for (let i = 0; i < n; i++) {
+    const hue = Math.round(360 * i / n)
+    colors.push(`hsl(${hue}, 100%, 50%)`)
+  }
+  return colors
 }

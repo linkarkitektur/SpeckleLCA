@@ -2,8 +2,12 @@
   <div 
     tabindex="0"
     id="groupCard"
-    :class="{'rounded-2xl bg-gray-200 p-4 focus:ring-1 focus:ring-gray-400' : inGroups.id == selectedGroup?.id, 
-    'rounded-2xl bg-gray-200 p-4' : inGroups.id != selectedGroup?.id}"
+    class="focus:outline-none"
+    :class="{
+      'rounded-2xl bg-gray-200 p-4 ring-1 ring-gray-400' : selectedBool, 
+      'rounded-2xl bg-gray-200 p-4' : selectedBool == false,
+    }"
+    
     @click="selectSubGroup(inGroups, $event)"
   >
     <div class="flex pb-2 justify-between items-center">
@@ -110,7 +114,7 @@ export default defineComponent({
 
     const inGroups = ref(props.groups)
     const expand = ref(false)
-    const { editName } = storeToRefs(navStore)
+    const { editName, groupColorMode } = storeToRefs(navStore)
     const { selectedGroup } = storeToRefs(projectStore)
 
     watch(
@@ -119,6 +123,14 @@ export default defineComponent({
         inGroups.value = newValue
       }
     )
+    
+    const selectedBool = computed(() => {
+      if (selectedGroup.value) {
+        return inGroups.value.id === selectedGroup.value.id
+      } else {
+        return false
+      }
+    })
 
     // Name to show in table for each group and subgroup
     const currGroupValue = computed(() => {
@@ -194,7 +206,8 @@ export default defineComponent({
       currGroupValue,
       currGroupTotal,
       currIconAction,
-      selectedGroup,
+      selectedBool,
+      groupColorMode
     }
   },
 })

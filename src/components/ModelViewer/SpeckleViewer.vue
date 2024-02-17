@@ -38,36 +38,42 @@
 		type SelectionEvent
 	} from '@speckle/viewer'
 	import { useSpeckleStore } from '@/stores/speckle'
-	import { onMounted, watch } from 'vue'
+	import { onMounted, watch, onBeforeUnmount } from 'vue'
 	import { useProjectStore } from '@/stores/main'
 	import { storeToRefs } from 'pinia'
 
 	import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
 	import DetailBar from '@/components/DetailBar/DetailBar.vue'
 
+	import type { SunLightConfiguration } from '@/models/speckle'
+
 	let viewer: Viewer | null = null
 
 	const projectStore = useProjectStore()
 	const { selectedObjects } = storeToRefs(projectStore)
 	
+	const serverUrl = import.meta.env.VITE_APP_SERVER_URL
+	const token = import.meta.env.VITE_SPECKLE_TOKEN
+
+	const handleEscKey = (e) => {
+		if (e.key.toLowerCase() === 'escape') {
+			console.log('Pressed Esc')
+			projectStore.clearSelectedGroup()
+			viewer.resetFilters()
+		}
+	}
+
+	const handleSelectAll = (e) => {
+		if (e.ctrlKey && e.key.toLowerCase() === 'a') {
+			viewer.cameraHandler.enabled = false
+			console.log('Pressed Ctrl + A')
+			//projectStore.setSelectedObjects(projectStore.currProject.geometry)
+		}
+	}
+
 	onMounted(async () => {
-		const serverUrl = import.meta.env.VITE_APP_SERVER_URL
-		const token = import.meta.env.VITE_SPECKLE_TOKEN
-
-		interface LightConfiguration {
-			enabled?: boolean
-			castShadow?: boolean
-			intensity?: number
-			color?: number
-			indirectLightIntensity?: number
-		}
-
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		interface SunLightConfiguration extends LightConfiguration {
-			elevation?: number
-			azimuth?: number
-			radius?: number
-		}
+		window.addEventListener('keydown', handleEscKey)
+		//window.addEventListener('keydown', handleSelectAll)
 
 		const container = document.getElementById('renderer') as HTMLElement
 
@@ -92,7 +98,7 @@
 		}
 
 		viewer.setLightConfiguration(lightConfig)
-		viewer.sectionBoxOn()
+		// viewer.sectionBoxOn()
 
 		// function updateFilterType(payload) {
 		// 	switch (payload) {
@@ -134,14 +140,6 @@
 			}
 		})
 
-		// Clear the `selectedObjects` and `view` on an esc key press.
-		window.onkeydown = function (e) {
-			if (e.key.toLowerCase() == 'escape') {
-				projectStore.setObjectsFromGroup()
-				viewer.resetFilters()
-			}
-		}
-
 		/**
 		 * Keep the selection and highlights until change is made elsewhere.
 		 * 
@@ -157,16 +155,6 @@
 			viewer.resize()
 		}
 
-		// Select all in scene, do not pan.
-		window.onkeydown = function (e) {
-			if (e.ctrlKey && e.key.toLowerCase() == 'a') {
-				viewer.cameraHandler.enabled = false
-				console.log('Pressed Ctrl + A')
-
-				projectStore.setSelectedObjects(projectStore.currProject.geometry)
-			}
-		}
-
 		const speckleStore = useSpeckleStore()
 		speckleStore.setViewerInstance(viewer)
 
@@ -174,6 +162,10 @@
 
 		/** Load the speckle data */
 		await viewer.loadObject(url, token, true, true)
+	})
+
+	onBeforeUnmount(() => {
+  	window.removeEventListener('keydown', handleEscKey);
 	})
 
 	watch(

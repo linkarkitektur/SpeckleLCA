@@ -9,6 +9,12 @@
 				<p>{{ currSlideName }}</p>
 				<PencilSquareIcon class="ml-2 h-5 w-5" />
 			</button>
+
+			<button
+			@click="toggleColorMode">
+				<p>ColorMode</p>
+				<PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500" />
+			</button>
 		</div>
 		<Draggable
 			v-if="refTree"
@@ -77,6 +83,11 @@
 
 			const addGroup = () => {
 				navStore.toggleGroupModal()
+			}
+
+			const toggleColorMode = () => {
+				navStore.toggleColorMode()
+				projectstore.updateGroupColors()
 			}
 
 			onMounted(() => {
@@ -208,7 +219,8 @@
 				refTree,
 				currSlideName,
 				toggleSlideover,
-				addGroup
+				addGroup,
+				toggleColorMode
 			}
 		}
 	})
