@@ -8,8 +8,9 @@ import type {
 	Filter,
 	NestedGroup
 } from '@/models/filters'
-import { createNestedObject } from '@/utils/projectUtils'
+import { createNestedObject, generateColors } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
+import { get } from 'node:http'
 
 /**
  * Defines the project store, which contains the current project and its geometry and results.
@@ -22,7 +23,7 @@ export const useProjectStore = defineStore({
 			projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
 			filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
-			selectedObjects: [] as GeometryObject[] | null // GeometryObjects that are currently selected
+			selectedObjects: [] as GeometryObject[] // GeometryObjects that are currently selected
 		}
 	},
 
@@ -56,6 +57,25 @@ export const useProjectStore = defineStore({
 					foundObject.path[0] = name
 				} else {
 					console.log('Object with the provided ID not found.')
+				}
+			}
+		},
+
+		/**
+		 * Updates the colors of the groups in the project
+		 * Autmatically setting all colors, optional to change specific ones
+		 * @param id Optional: Ids of groups to change
+		 * @param color Optional: colors to change to
+		 */
+		updateGroupColors(id: string[] = [], color: string[] = []) {
+			if (this.projectGroups) {
+				const colors = generateColors(this.projectGroups.length)
+				for (let i = 0; i < this.projectGroups.length; i++) {
+					if (id.includes(this.projectGroups[i].id)) {
+						this.projectGroups[i].color = color[id.indexOf(this.projectGroups[i].id)]
+					} else {
+						this.projectGroups[i].color = colors[i]
+					}
 				}
 			}
 		},
@@ -254,6 +274,9 @@ export const useProjectStore = defineStore({
 		 */
 		setObjectsFromGroup() {
 			this.selectedObjects = []
+			//if null just return
+			if (this.selectedGroup === null) return
+
 			const group = this.selectedGroup
 			group.objects.forEach(element => {
 				this.selectedObjects?.push(element)
@@ -284,6 +307,14 @@ export const useProjectStore = defineStore({
 		 * Clear the selected objects in the project
 		 */
 		clearSelectedObjects() {
+			this.selectedObjects = []
+		},
+
+		/**
+		 * Clear the selected group and objects in the project
+		 */
+		clearSelectedGroup() {
+			this.selectedGroup = null
 			this.selectedObjects = []
 		},
 
@@ -377,7 +408,8 @@ export const useNavigationStore = defineStore({
 			editName: null as string | null,
 			groupModalOpen: false,
 			mappingModalOpen: false,
-			loading: false
+			loading: false,
+			groupColorMode: false,
 		}
 	},
 	actions: {
@@ -426,7 +458,15 @@ export const useNavigationStore = defineStore({
 			} else {
 				this.editName = id
 			}
+		},
+
+		/**
+		 * Toggle color mode for groups
+		 */
+		toggleColorMode() {
+			this.groupColorMode = !this.groupColorMode
 		}
+
 	},
 	getters: {
 		getActivePage: (state) => state.activePage,

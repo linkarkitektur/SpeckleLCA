@@ -23,7 +23,7 @@ export interface Filter {
 }
 
 /**
- * Grouped geometryObjects with path information
+ * Grouped geometryObjects with path and color information
  */
 export interface Group {
 	id: string
@@ -33,6 +33,7 @@ export interface Group {
 	// eg. ["Wall", "Inner Wall", "Type 1"]
 	path: [string]
 	elements: GeometryObject[]
+	color?: string
 }
 
 /**
@@ -109,4 +110,5 @@ export interface NestedGroup {
 	objects: GeometryObject[]
 	id: string
 	children: NestedGroup[]
+	color?: string
 }
