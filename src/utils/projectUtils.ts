@@ -360,7 +360,43 @@ export function generateColors(n: number): string[] {
   const colors: string[] = []
   for (let i = 0; i < n; i++) {
     const hue = Math.round(360 * i / n)
-    colors.push(`hsl(${hue}, 100%, 50%)`)
+    colors.push(`hsl(${hue}, 100%, 80%)`)
   }
   return colors
+}
+
+/**
+* Updates the colors of the groups in the project
+* Autmatically setting all colors, optional to change specific ones
+* @param id Optional: Ids of groups to change
+* @param color Optional: colors to change to
+*/
+export function updateGroupColors(tree: NestedGroup[], id: string[] = [], color: string[] = []) {
+  const colors = generateColors(tree.length)
+  for (let i = 0; i < tree.length; i++) {
+    if (id.includes(tree[i].id)) {
+      tree[i].color = color[id.indexOf(tree[i].id)]
+    } else {
+      tree[i].color = colors[i]
+    }
+  }
+  return tree
+}
+
+/**
+ * Convert hsl to hex, https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex
+ * @param h hue
+ * @param s saturation
+ * @param l lightness
+ * @returns Hex color
+ */
+export function hslToHex(h: number, s: number, l: number) {
+  l /= 100;
+  const a = s * Math.min(l, 1 - l) / 100;
+  const f = n => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
 }

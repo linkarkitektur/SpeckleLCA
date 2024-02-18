@@ -7,7 +7,7 @@
       'rounded-2xl bg-gray-200 p-4 ring-1 ring-gray-400' : selectedBool, 
       'rounded-2xl bg-gray-200 p-4' : selectedBool == false,
     }"
-    
+    :style="groupColorMode ? { 'background-color': inGroups.color } : {}"
     @click="selectSubGroup(inGroups, $event)"
   >
     <div class="flex pb-2 justify-between items-center">

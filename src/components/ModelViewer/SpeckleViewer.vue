@@ -39,7 +39,7 @@
 	} from '@speckle/viewer'
 	import { useSpeckleStore } from '@/stores/speckle'
 	import { onMounted, watch, onBeforeUnmount } from 'vue'
-	import { useProjectStore } from '@/stores/main'
+	import { useProjectStore, useNavigationStore } from '@/stores/main'
 	import { storeToRefs } from 'pinia'
 
 	import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
@@ -51,7 +51,8 @@
 
 	const projectStore = useProjectStore()
 	const { selectedObjects } = storeToRefs(projectStore)
-	
+	const navStore = useNavigationStore()
+
 	const serverUrl = import.meta.env.VITE_APP_SERVER_URL
 	const token = import.meta.env.VITE_SPECKLE_TOKEN
 
@@ -63,6 +64,8 @@
 		}
 	}
 
+	/**
+	/ Renable select all if needed, see no need for it now.
 	const handleSelectAll = (e) => {
 		if (e.ctrlKey && e.key.toLowerCase() === 'a') {
 			viewer.cameraHandler.enabled = false
@@ -70,6 +73,7 @@
 			//projectStore.setSelectedObjects(projectStore.currProject.geometry)
 		}
 	}
+	*/
 
 	onMounted(async () => {
 		window.addEventListener('keydown', handleEscKey)

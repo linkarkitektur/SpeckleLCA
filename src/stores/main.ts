@@ -8,9 +8,8 @@ import type {
 	Filter,
 	NestedGroup
 } from '@/models/filters'
-import { createNestedObject, generateColors } from '@/utils/projectUtils'
+import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
-import { get } from 'node:http'
 
 /**
  * Defines the project store, which contains the current project and its geometry and results.
@@ -57,25 +56,6 @@ export const useProjectStore = defineStore({
 					foundObject.path[0] = name
 				} else {
 					console.log('Object with the provided ID not found.')
-				}
-			}
-		},
-
-		/**
-		 * Updates the colors of the groups in the project
-		 * Autmatically setting all colors, optional to change specific ones
-		 * @param id Optional: Ids of groups to change
-		 * @param color Optional: colors to change to
-		 */
-		updateGroupColors(id: string[] = [], color: string[] = []) {
-			if (this.projectGroups) {
-				const colors = generateColors(this.projectGroups.length)
-				for (let i = 0; i < this.projectGroups.length; i++) {
-					if (id.includes(this.projectGroups[i].id)) {
-						this.projectGroups[i].color = color[id.indexOf(this.projectGroups[i].id)]
-					} else {
-						this.projectGroups[i].color = colors[i]
-					}
 				}
 			}
 		},
