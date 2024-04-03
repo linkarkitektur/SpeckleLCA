@@ -36,6 +36,8 @@ export interface Results {
 	} // GWP -> A1A3 -> Co2
 }
 
+// Material and Assembly interfaces
+
 /**
  * Assembly interface, stores all metadata of the assembly.
  * Materials are stored as EPD and thickness.
@@ -57,19 +59,17 @@ export interface Assembly {
 }
 
 /**
- * Assembly interface, stores all metadata of the assembly.
- * Materials are stored as EPD and thickness.
- * Result is stored as a reference to the results object so it can be accessed directly without calcs.
+ * Sorting option for material and assembly list.
  */
-export interface Assembly {
-  id: string
-  name: string
-  source: Source 
-  location?: string
-  materials: [{
-    EPD: EPD
-    thickness: number
-  }]
-  sqm?: number
-  result: Results
+export interface SortingOption {
+	parameter: string
+	direction: string
+}
+
+/**
+ * Filter parameters for material and assembly list.
+ */
+export interface FilterParam {
+	name: string,
+	selected: boolean
 }

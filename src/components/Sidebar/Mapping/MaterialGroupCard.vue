@@ -2,19 +2,16 @@
   <div class="w-full flex flex-col items-center">
     <div class="w-full flex"> 
       <div class="transition-all ease-out duration-1000 h-10 rounded-sm bg-green-300 justify-center flex items-center opacity-80 right-0 text-gray-600" :style="{ width: percentMapped + '%' }">
-        <label v-if="percentMapped > 0" class="text-center">
-          {{ percentMapped }}%
-        </label>
-        <label v-else class="text-center pl-8">
-          {{ percentMapped }}%
-        </label>
       </div>
       <div class="transition-all ease-out duration-1000 w-1 h-8 m-1 rounded-full bg-white border-transparent border-r opacity-50"></div>
       <div class="transition-all ease-out duration-1000 top-0 left-0 h-10 rounded-sm bg-red-300 justify-center flex items-center opacity-80" :style="{ width: (100 - percentMapped) + '%' }">
       </div>
     </div>
-    <div class="mt-1 flex w-full items-center justify-between text-xs  ">
+    <div class="mt-1 flex w-full items-center justify-between text-xs">
       <div class="text-gray-600 left-0">Mapped</div>
+      <label class="text-center text-l">
+        {{ percentMapped }}%
+      </label>
       <div class="text-gray-600 right-0">Not mapped</div>
     </div>
   </div>

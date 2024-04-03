@@ -7,7 +7,7 @@
           Name
         </th>
         <th class="m-3 w-2/6">
-          Material Type
+          Material type
         </th>
         <th class="m-3 w-1/6">
           Unit
@@ -18,8 +18,8 @@
       </tr>
     </thead>
     <Draggable
-      v-if="filteredList"
-      :list="filteredList"
+      v-if="EPDList"
+      :list="EPDList"
       :options="dragOptions"
       class="bg-gray-100 divide-y divide-gray-300 max-w-full block table-fixed hover:cursor-move"
       tag="tbody"
@@ -32,7 +32,8 @@
           @dragstart="dragStart($event, element)"
         >
           <td scope="row" class="m-2 w-2/6 line-clamp-3">{{ element.name }}</td>
-          <td class="m-2 w-2/6">{{ element.subType}}</td>
+          <td v-if=element.materialType class="m-2 w-2/6">{{ element.materialType}}</td>
+          <td v-else class="m-2 w-2/6">Other</td>
           <td class="m-2 w-1/6">{{ element.declared_unit }}</td>
           <td 
             :class="{'text-red-600' : roundedEmissions[index].isPositive, 'text-green-600' : !roundedEmissions[index].isPositive}"
@@ -53,7 +54,8 @@ import { defineComponent, ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { useMaterialStore } from '@/stores/material'
 import type { EPD } from 'lcax'
-import { isEPD, isAssembly } from '@/utils/projectUtils'
+import type { Assembly } from '@/models/project'
+import { isAssembly } from '@/utils/projectUtils'
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
@@ -64,8 +66,7 @@ export default defineComponent({
   setup() {
     const materialStore = useMaterialStore()
     
-    materialStore.materialsFromJson()
-    const { filteredList } = storeToRefs(materialStore)
+    const { EPDList } = storeToRefs(materialStore)
 
     const dragOptions = ref({
       animation: 200,
@@ -76,13 +77,21 @@ export default defineComponent({
     })
 
     const roundedEmissions = computed(() => {
-      return filteredList.value.map(mat => {
+      return EPDList.value.map(mat => {
         let value = 0
         // Check if its an EPD or Assembly
-        if (isEPD(mat))
+        // eslint-disable-next-line no-prototype-builtins
+        if (mat.hasOwnProperty('gwp')) {
+          mat = mat as EPD
           value = parseFloat(String(mat.gwp?.a1a3 ?? '0'))
+        }
+        /* this should check which mode is active and adapt the emission value accordingly
         else if (isAssembly(mat))
+        {
+          mat = mat as Assembly
           value = mat.result.emission.a1a3.total
+        }*/
+
         // Return formatted value
         if (!isNaN(value)) {
           const decimals = (value.toString().split('.')[1] || '').length
@@ -104,7 +113,7 @@ export default defineComponent({
     }
 
     return {
-      filteredList,
+      EPDList,
       dragOptions,
       roundedEmissions,
       dragStart,
