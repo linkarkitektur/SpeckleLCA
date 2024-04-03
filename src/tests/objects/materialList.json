@@ -20,7 +20,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/tmwhxyym/md-20007-en_rev1_tr%c3%a6dk.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Wood"
   },
   {
     "id": "d71b6dca-db6f-401a-b39a-6ff5a87c1f3c",
@@ -43,7 +44,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/4p1frhby/md-20003-en-tr%c3%a6-dk-c-o-tr%c3%a6-og-m%c3%b8belindustrien.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Wood"
   },
   {
     "id": "c00435c8-b4ef-4467-af08-ca881c96ea73",
@@ -66,7 +68,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/oxujrihc/md-20001-en-tr%c3%a6-dk-c-o-tr%c3%a6-og-m%c3%b8belindustrien.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Wood"
   },
   {
     "id": "e17fc44d-d098-4574-80cb-6aadf382a5b4",
@@ -89,7 +92,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/hzjhj3s2/md-20005-en_rev1_tr%c3%a6dk.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Wood"
   },
   {
     "id": "c0648552-a21e-4344-a415-5830840a8532",
@@ -112,7 +116,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/ksolk4dz/md-20017-da_rev2-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "6f865697-927b-4bcc-99cd-c75885a6ec0a",
@@ -135,7 +140,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/ksolk4dz/md-20017-da_rev2-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "9f7e5dfb-808e-4253-9b56-d28958212b85",
@@ -158,7 +164,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/ksolk4dz/md-20017-da_rev2-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "ad5a72de-38c2-43eb-8866-9ff8254fdcad",
@@ -181,7 +188,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/n5xnbcl5/md-20023-da_rev1-dansk-beton-blokforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "c7157686-c9fb-4691-ab31-b5415fa6efb1",
@@ -204,7 +212,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/n5xnbcl5/md-20023-da_rev1-dansk-beton-blokforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "73a3618e-e55a-455b-a231-b159a75a01f9",
@@ -227,7 +236,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/n5xnbcl5/md-20023-da_rev1-dansk-beton-blokforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "c12503a9-f80f-4fa0-a20f-4c5f23059aae",
@@ -250,7 +260,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/l4zjf2xp/md-20004-en_rev1_tr%c3%a6dk.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Wood"
   },
   {
     "id": "6538eff9-d01e-4847-a31a-952ef16b2a59",
@@ -273,7 +284,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/0bpbhpbl/md-20019-da_rev2.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Facade"
   },
   {
     "id": "305e9ca4-b551-4fc6-b3bb-6b9df74d660b",
@@ -296,7 +308,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/0bpbhpbl/md-20019-da_rev2.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Facade"
   },
   {
     "id": "c108bf89-f9d4-40f2-bf39-bfb01ea62ae7",
@@ -319,7 +332,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/oq0dzm1j/md-20015-da_rev1-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "2a6bf17b-b6e0-4e31-89b7-ddaedaf7240d",
@@ -342,7 +356,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/oq0dzm1j/md-20015-da_rev1-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "673ec5ce-04b9-45dc-8956-ac9257a68279",
@@ -365,7 +380,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/oq0dzm1j/md-20015-da_rev1-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "49d85f1d-ab7f-4c9a-8a47-d4664d99cae6",
@@ -388,7 +404,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/niyexcvm/md-20016-da_rev1-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "6b5e401d-5593-4704-b30c-f2324a140f1a",
@@ -411,7 +428,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/niyexcvm/md-20016-da_rev1-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "8c6dd10a-0e6f-44bb-99cb-3c615db92445",
@@ -434,7 +452,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/niyexcvm/md-20016-da_rev1-betonelement-foreningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "8dde0b7f-862d-47b7-b5bd-803bc2e562fc",
@@ -457,7 +476,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/jylpjfbu/md-20018-da_rev2.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "27dc407d-25ed-4cb4-a58f-8079f05acfac",
@@ -480,7 +500,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/jylpjfbu/md-20018-da_rev2.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "3106550b-89f6-4368-92ea-9c4d0fb10bbf",
@@ -503,7 +524,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/jylpjfbu/md-20018-da_rev2.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "4844bfd5-3b5e-4fb4-988d-dc9b92f49122",
@@ -526,7 +548,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/qoelm3vd/md-20011-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "a979d5f6-c5d8-4276-b482-1f07ef45b5d0",
@@ -549,7 +572,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/qoelm3vd/md-20011-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "8bd8a129-41e5-42cc-aa91-6afc99a19165",
@@ -572,7 +596,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/nvwgry4v/md-20013-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "f888ed95-62fa-40e1-a8cb-2c2f9058eb1e",
@@ -595,7 +620,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/nvwgry4v/md-20013-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "893a4175-cd1b-4d4a-8d26-48bcc69a7b36",
@@ -618,7 +644,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/nvwgry4v/md-20013-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "49356a0b-831a-4295-9fc8-ceb87a058fed",
@@ -641,7 +668,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/oz1jfz20/md-20014-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "74085511-73f3-4912-9479-3a6166c7cec3",
@@ -664,7 +692,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/oz1jfz20/md-20014-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "363ae9ee-23e4-4b62-8749-65ccd56f0f0a",
@@ -687,7 +716,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/oz1jfz20/md-20014-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "7728bf76-474c-444d-a807-888e5bd54eb4",
@@ -710,7 +740,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/c3alzank/md-20012-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "25f77b3b-76d5-43fd-8ec2-41b8994b8d06",
@@ -733,7 +764,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/c3alzank/md-20012-da_rev1-dansk-beton-fabriksbetonforeningen.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Concrete"
   },
   {
     "id": "6100aee3-169b-4df3-ab9d-70cb18d51881",
@@ -756,7 +788,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/vf0jy3ur/md-20002-en-tr%C3%A6-dk-c-o-tr%C3%A6-og-m%C3%B8belindustrien.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Wood"
   },
   {
     "id": "090d25f0-f57f-4ce5-8c65-e9d84287a6b4",
@@ -779,7 +812,8 @@
     "source": {
       "url": "https://www.epddanmark.dk/media/luijc3vg/md-20008-en_rev2_tr%c3%a6dk.pdf"
     },
-    "subType": "Branche data"
+    "subType": "Branche data",
+    "materialType": "Wood"
   },
   {
     "id": "056aa5c5-d4e7-4046-a701-a65c5a1f660e",
@@ -802,7 +836,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/70d35332-9f2d-4f3b-8688-431388263d2d?version=00.00.011"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Glass"
   },
   {
     "id": "6455bd98-404d-40a8-a1ae-5d34c684ceb3",
@@ -825,7 +860,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/6943ea24-03bc-4a84-9bf9-c320b052be82?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "7552e777-1be7-4f2e-8a79-f9da6445482f",
@@ -848,7 +884,8 @@
     "source": {
       "url": "https://oekobaudat.de/OEKOBAU.DAT/datasetdetail/process.xhtml?uuid=19249f5e-d218-43dd-834d-aa60f389adae&version=00.03.000&stock=OBD_2021_II&lang=de"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Concrete"
   },
   {
     "id": "951163ea-55b3-40e8-905d-586791708367",
@@ -871,7 +908,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ea1e97c0-5232-43cf-b56a-adde6e3e5916?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Flooring"
   },
   {
     "id": "2d897e19-3bed-4079-98ef-32b4040da3cc",
@@ -894,7 +932,8 @@
     "source": {
       "url": "https://oekobaudat.de/OEKOBAU.DAT/datasetdetail/process.xhtml?uuid=51a420d8-6366-4e14-83db-ecfe0721774d&version=00.00.050&stock=OBD_2021_II&lang=de"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "c509b9e0-b4e5-4182-8261-d8b7ffa19943",
@@ -917,7 +956,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/0ea8dd25-57aa-4b87-87e3-4496368f765b?version=00.04.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "794f3076-c0d0-44fd-aa40-89195bf73148",
@@ -940,7 +980,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/6f38efae-dc15-4667-96a4-1b87be6a80a5?version=00.04.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Mortar"
   },
   {
     "id": "dc80901a-0486-4f94-b427-2189d3ff80fa",
@@ -963,7 +1004,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/285ae869-97d4-4032-8269-767c9371e71f?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Membrane"
   },
   {
     "id": "eaf70f20-3f98-4391-8532-ce7455b2ee4a",
@@ -986,7 +1028,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/a2bad85c-ee4b-4007-bdb6-935826c4dc1f?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plastic"
   },
   {
     "id": "3834c760-b1e2-4a59-936f-595b07463d70",
@@ -1009,7 +1052,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/52378794-74b6-40ae-a8a8-a259c55f0a9d?version=00.05.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plastic"
   },
   {
     "id": "1c7131a1-b315-4d11-b92e-d97e20546eb1",
@@ -1032,7 +1076,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/4fe143d7-f46a-468f-950c-b90b804b6fe1?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plastic"
   },
   {
     "id": "4eb7e3f5-a903-4593-ad9e-371583899ee1",
@@ -1055,7 +1100,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/880e05ea-55c6-4346-a3ea-5af0e5f299e2?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "66c2cfbb-b461-4957-91fe-63e420082fa7",
@@ -1078,7 +1124,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/6a6756b7-a985-4358-8222-01254ddb6aa9?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plastic"
   },
   {
     "id": "c35cda56-aab8-401b-85b5-5b62f9b4c4ea",
@@ -1101,7 +1148,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/dd603f7a-93de-4a24-a26f-76a366966d4a?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Wood"
   },
   {
     "id": "821c4b45-e968-4efd-9682-b1c168350d87",
@@ -1124,7 +1172,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/0452f1bc-9766-4785-bf4e-44bc76dedf75?version=00.03.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Wood"
   },
   {
     "id": "9fded55b-9688-4fe3-8871-3b0b564b73ed",
@@ -1147,7 +1196,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/8dfa6b75-0dcb-4748-a2d9-2d572d87ba61?version=00.08.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "436ece26-9cab-4e22-bff5-3f438733a8db",
@@ -1170,7 +1220,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/c5edec42-1921-46c6-a3aa-5cbd27685a74?version=00.07.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "c172ab9e-bad0-432d-bac6-c2c5ff4aefd5",
@@ -1193,7 +1244,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ee10b277-07b5-4c0a-8a48-e0412a9630ff?version=00.07.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "f48e56ef-8fa2-4be9-8213-d88953623db9",
@@ -1216,7 +1268,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/64564161-a587-47de-b195-b6b13b3bfb07?version=00.07.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "ccd76857-b465-4a43-9757-6a84d5a0de55",
@@ -1239,7 +1292,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d63926ea-8473-4ea7-b965-a7bae6e5e022?version=00.07.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "9a094253-c41b-497c-9bf1-79287713e80c",
@@ -1262,7 +1316,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ee4fb7c2-6119-4f00-8cb6-fc74cb66fe9a?version=00.08.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "a949734e-f019-4ecf-9d40-c2f634920c6b",
@@ -1285,7 +1340,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/55943b94-ad62-4372-9dfc-bc50e19e52c0?version=00.05.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "17f70e58-22b1-4a31-b21d-b867a9ea4639",
@@ -1308,7 +1364,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/5cb2c568-76fe-4803-8b46-0084e79800c8?version=00.06.000"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "d03a8039-b5ab-4f86-8851-426d11fab193",
@@ -1331,7 +1388,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/948f8f68-f1f2-42f6-8350-6e27d6e80c7c?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Paint"
   },
   {
     "id": "a3bdcc4f-ba00-41a7-84d5-1dd45825745c",
@@ -1354,7 +1412,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/fbfe5992-4cd4-4875-867d-5e89cb453e2c?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Piping"
   },
   {
     "id": "8df52ea3-5559-4d84-840b-1380348d8689",
@@ -1377,7 +1436,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/fbd76e49-0fb1-47e0-abba-903ce1272684?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plaster"
   },
   {
     "id": "4830c500-9569-422c-b519-405c7bc01705",
@@ -1400,7 +1460,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/fbb81ecc-f707-4afb-bcce-758b6be6d337?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Ventilator"
   },
   {
     "id": "03ca0ea9-d26b-4772-bc7a-375bb374f07d",
@@ -1423,7 +1484,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/fbb56e56-29d6-408e-8941-fc37ed48fb11?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Heat pump"
   },
   {
     "id": "424f5e55-5d92-40c9-80d9-a3e555097e53",
@@ -1446,7 +1508,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/fa976ebb-09ce-4e5b-9976-621d9ac1f12e?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "5d42013b-8647-4997-aa19-fba309d1cf1b",
@@ -1469,7 +1532,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/f939c2b2-7f3d-40f8-9903-d0fc30a62d91?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Facade"
   },
   {
     "id": "5f226b79-c9cd-4e2e-a20d-88ca3abc8342",
@@ -1492,7 +1556,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/f8d6bd85-55e0-42d3-982b-b814387b7f58?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Gravel"
   },
   {
     "id": "22ee5777-cb5d-4d5d-b2ff-8cb49cd071b3",
@@ -1515,7 +1580,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/f74a19da-df9a-4462-a632-3b3dc83377b1?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Brick"
   },
   {
     "id": "9c4d4e87-7e31-4013-a947-b06b5791e812",
@@ -1538,7 +1604,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/f5c6cbd6-258c-4542-876a-1d44adfc0992?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Piping"
   },
   {
     "id": "78e85e83-dd07-43cc-8c10-c240afb91b63",
@@ -1561,7 +1628,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/f34a799a-52de-4f69-a623-335f5be207d9?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "a820e473-b064-4a8c-a88b-5cb023420cd5",
@@ -1584,7 +1652,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/f281ecaf-5754-4d27-8d70-cfd18780b192?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Membrane"
   },
   {
     "id": "c6f1db0f-4044-4c26-89e8-0a95be88c141",
@@ -1607,7 +1676,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/efabdf2d-993e-418c-ba86-85a3a91562a2?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Ventilator"
   },
   {
     "id": "145a0738-c2a7-44fb-8833-485469d4f2f4",
@@ -1630,7 +1700,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/efa279e8-0ac1-4883-b87c-0cb11e17d265?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Heat pump"
   },
   {
     "id": "bcd284d6-299f-4702-a567-9602e4991fa0",
@@ -1653,7 +1724,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ee840270-3055-428a-b38d-e7727426cc35?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plaster"
   },
   {
     "id": "a5abdbd7-90cc-43b3-bd91-73fe246b3210",
@@ -1676,7 +1748,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ed997c1e-274c-4d38-a5bf-2016693c91a3?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Piping"
   },
   {
     "id": "9312362d-ba26-4215-b205-aa132615a08b",
@@ -1699,7 +1772,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ecf20fae-fe11-41ad-b248-8b4118fd7cc7?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "f3f04c9b-0c5e-4eea-9e95-9725bffd387c",
@@ -1722,7 +1796,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/eaec8e5d-f70a-4993-b3a6-814607f5e7b3?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Paint"
   },
   {
     "id": "433b852e-ff03-4880-991f-c843e1c6b77f",
@@ -1745,7 +1820,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ea4ff1e8-4ee8-4ecf-8951-a79b5b60dd2a?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "9e375b9d-6761-4ac4-918e-e18fdb717955",
@@ -1768,7 +1844,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e9ae96ee-ba8d-420d-9725-7c8abd06e082?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "00b81137-211c-496a-b7a3-8200a9fcf650",
@@ -1791,7 +1868,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e98995e0-f945-4fea-849f-cec0aff6cb0c?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plastic"
   },
   {
     "id": "cecbad5b-d553-4658-81d0-6d905d1aa8d9",
@@ -1814,7 +1892,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e8afb4e6-1f0d-479b-a54a-c818970dcb42?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Ventilator"
   },
   {
     "id": "aae5e6d3-591c-4acd-8ce0-b92acdfba99e",
@@ -1837,7 +1916,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e7b1d3c2-3494-4ae6-9f98-d4d507dcd0c2?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Gravel"
   },
   {
     "id": "32b95d6a-c7ad-401f-a5b8-0cbdfc0c4be4",
@@ -1860,7 +1940,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e6b12fcd-c1fb-40d9-a9ec-d0149c3d1cd8?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "c3c23159-b1cd-472e-b694-631bfe660d68",
@@ -1883,7 +1964,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e69bcb28-f58b-443b-b62f-810bbdf6cedb?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Boiler"
   },
   {
     "id": "f5cde9bf-4a06-42ab-8b2f-20a70cdcc8b4",
@@ -1906,7 +1988,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e24f9f47-8580-45c2-b16d-45145d65a813?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plaster"
   },
   {
     "id": "15b61d9d-6526-439a-9f24-8256e2c99e95",
@@ -1929,7 +2012,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e2306538-776d-4bc5-ae3b-1c920fb40285?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Gravel"
   },
   {
     "id": "808d0f35-d75b-4361-a37d-5fb242b83a60",
@@ -1952,7 +2036,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e1f7f83b-6f6e-4ed8-a666-0d49682982e1?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Piping"
   },
   {
     "id": "d0a33e3a-6dfc-4b5f-825e-57aec9021d00",
@@ -1975,7 +2060,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e1ccc83d-01d7-407a-ab59-8c3e1265e8cf?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Boiler"
   },
   {
     "id": "70857bce-c8bf-4b88-a15d-7665a1034ff9",
@@ -1998,7 +2084,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e1875cbe-23ad-4800-b40d-ca36b9baab6a?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "93098ace-c336-4419-94f1-99f86cc905e7",
@@ -2021,7 +2108,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/dfa64bbb-dc8d-497b-9557-300416b8448f?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "fb1d2dff-4dc9-45e8-8035-1d722128f362",
@@ -2044,7 +2132,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/df3ec8a0-012d-49ba-ac07-878cdb764bf6?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Boiler"
   },
   {
     "id": "bd1862d7-56bd-46c7-9778-62200e8b9cab",
@@ -2067,7 +2156,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/dea7df16-f59b-4842-a66c-cb9463a58ae3?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plaster"
   },
   {
     "id": "0f1cf3f8-ed32-458e-9ce0-c7bc7053cadc",
@@ -2090,7 +2180,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/de7fbcfc-0ee0-4e65-a1f9-af1551a20281?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Gravel"
   },
   {
     "id": "21d069a2-676c-4197-bc80-44fa47541879",
@@ -2113,7 +2204,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/dcd5e23a-9bec-40b6-b07c-1642fe696a2e?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Boiler"
   },
   {
     "id": "1c6ba4ec-04a4-40bb-b0da-637038cbe7ed",
@@ -2136,7 +2228,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/dbc94e02-b28f-43eb-8133-a161e9b83dfa?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "5cdee5a1-182d-4728-8aa7-ed6f6ef4d51e",
@@ -2159,7 +2252,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d9f045e5-ae07-4ae6-9fde-5346560411d8?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "4c913b2f-e07d-4c61-ba9e-64a06e884dbc",
@@ -2182,7 +2276,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d9ee3a94-83a2-4615-b071-9afa3aaeff42?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "16c5c2d8-2de4-4dbd-a661-998132316ef6",
@@ -2205,7 +2300,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d9baa9f5-b9d2-4f8f-928d-2f4116b36662?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Piping"
   },
   {
     "id": "20aadcf5-6f63-4a6a-b7de-a9d8c7be2a7b",
@@ -2228,7 +2324,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d941f45e-1244-419c-a083-e4a49fb5498e?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Glass"
   },
   {
     "id": "8183db7a-cb59-430c-8b7c-adb839845a38",
@@ -2251,7 +2348,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d84cbf6a-0a50-426f-aa3d-c45918b43575?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Asphalt"
   },
   {
     "id": "e67c0ac4-a461-49a8-aac3-6065fa23a3c2",
@@ -2274,7 +2372,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d7f4a913-441f-4c21-aae5-42e421737e29?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plaster"
   },
   {
     "id": "07c72f20-caf8-4ed0-b3aa-c17ec6375462",
@@ -2297,7 +2396,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d775709c-1411-4aeb-9d20-36e1e8def5e2?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Piping"
   },
   {
     "id": "690efae6-7318-463e-bd21-9246e93a9464",
@@ -2320,7 +2420,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/8c47fba4-0e61-48d1-a03f-bf17911f0dae?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Wood"
   },
   {
     "id": "37d549fd-651b-40b7-995f-381e20368cc6",
@@ -2343,7 +2444,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/79002203-de3f-4da6-9a72-b689615b9963?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Piping"
   },
   {
     "id": "fc69697d-6969-42fd-bc76-62a66feac8c9",
@@ -2366,7 +2468,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d61a6f60-bcca-4bf6-a151-bd076b4c3366?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Paint"
   },
   {
     "id": "1a71dcf9-59f8-4952-a493-1893a103fd6c",
@@ -2389,7 +2492,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d5fe89f0-5fd2-4981-bb87-e74bbf13ef88?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Paint"
   },
   {
     "id": "142b6736-ac06-4536-8d2a-4d59ba69100d",
@@ -2412,7 +2516,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d596ddf7-aaf3-44cc-b7ae-faedc8d0870a?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Metal"
   },
   {
     "id": "88043cf8-129c-4864-a406-b2b7f9a34130",
@@ -2435,7 +2540,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d3f58b23-9526-43be-8a32-fb583dfebfaa?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Boiler"
   },
   {
     "id": "2eb92ac2-81a1-4c2b-a779-e6779f11e9da",
@@ -2458,7 +2564,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d3b59cac-3b4e-4d18-8c3a-780b553c9591?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Concrete"
   },
   {
     "id": "19916389-e963-4cee-ae67-6fcc2d12c60a",
@@ -2481,7 +2588,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d311ba82-a703-4865-b5e3-f704e5b88712?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Brick"
   },
   {
     "id": "6c91d4e5-b9c7-4342-8f41-be96848cb12b",
@@ -2504,7 +2612,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d1d6f54d-9709-4302-8276-fdb7d06801fd?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plaster"
   },
   {
     "id": "cf2b5aa8-2e68-48d6-bd34-884572bda87c",
@@ -2527,7 +2636,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d05ec06c-0443-4357-8915-ba745dcc84a5?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Coolant"
   },
   {
     "id": "393a150c-4905-489e-b5d9-154ed3977c73",
@@ -2550,7 +2660,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d05d595c-7542-42e2-9a02-df9c8c75e567?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Boiler"
   },
   {
     "id": "3e6cca9b-ce6d-4ec0-aef5-9f4d61599f6d",
@@ -2573,7 +2684,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/cf9764d1-3aba-4e5e-8795-a8f1ee93d9e5?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Boiler"
   },
   {
     "id": "9e2fbc5e-8ce7-459d-b980-9f882de16df9",
@@ -2596,7 +2708,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/cf963fcb-0e03-48c0-b501-ad0d1e3c22c0?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "13f8ce74-9a32-4bfd-b0f0-054228f5c8c6",
@@ -2619,7 +2732,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/cf6e341b-3de7-4e24-b4d2-8ac484ee7c0e?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Plastic"
   },
   {
     "id": "ac2303b9-57a8-46ea-b050-536a8070b11c",
@@ -2642,7 +2756,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/cd5b784e-497d-4c76-abbd-d66867e1e986?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Piping"
   },
   {
     "id": "046e5a39-555c-4174-abcb-804b684463c5",
@@ -2665,7 +2780,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ccdb5f3c-7305-46c7-ad5b-a05bb922a743?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Stone"
   },
   {
     "id": "06eaa736-fc22-479b-b834-b39f18eecc96",
@@ -2688,7 +2804,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/cca90907-409d-4f9c-9922-fdc011a0eb6f?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Elevator"
   },
   {
     "id": "113becf0-1db1-43eb-b2f5-3ea7f05f8df5",
@@ -2711,7 +2828,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/cace7e48-3fb4-4e11-8cc4-fcefc8b4116a?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Ceramic"
   },
   {
     "id": "e3ff6cac-6000-4a7a-9c95-dd3d06cf32fe",
@@ -2734,7 +2852,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/c8cf7494-2f23-4193-a185-f7d4fdfa36b6?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Ventilation"
   },
   {
     "id": "6b2ce313-8749-43c5-aa83-13eb61a06b53",
@@ -2757,7 +2876,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/c6de5beb-ffe9-4b5f-aba8-c0c2d3528c58?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Radiator"
   },
   {
     "id": "a2d85d3e-9765-4f8f-89c0-3cc339743fb0",
@@ -2780,7 +2900,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/c445279d-1358-4e36-9f0d-7ecfe8abda81?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Seal"
   },
   {
     "id": "42687052-d6ef-4c9e-b22b-1c3b99b7a797",
@@ -2803,7 +2924,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/c3d4882b-ee25-4595-9b95-01a318e72a44?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Coolant"
   },
   {
     "id": "eb2d0d79-44c0-4a87-a235-4380df0e6125",
@@ -2826,7 +2948,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/c355d75b-9026-4899-a41c-e5d221c424f2?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Insulation"
   },
   {
     "id": "567294e0-8b9e-42c0-b932-7a8b0c1fef9f",
@@ -2849,7 +2972,8 @@
     "source": {
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/c34147d4-e691-4733-bf78-8a7ccd039006?version=20.19.120"
     },
-    "subType": "Generisk data"
+    "subType": "Generisk data",
+    "materialType": "Seal"
   },
   {
     "id": "7fb96497-1cbc-454b-b4ba-daed5b1c8bae",
