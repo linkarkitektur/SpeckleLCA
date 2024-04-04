@@ -148,12 +148,8 @@
 					name: 'testFiltering',
 					callStack: [
 						{
-							name: 'groupByFilter',
-							field: 'category'
-						},
-						{
-							name: 'groupByFilter',
-							field: 'family'
+							name: 'groupBy',
+							field: 'speckle_type'
 						}
 					]
 				}

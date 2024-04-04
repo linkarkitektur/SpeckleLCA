@@ -84,22 +84,21 @@
         <PopoverGroup class="hidden sm:flex sm:items-baseline sm:space-x-8">
           <Popover 
             as="div" 
-            v-for="(param, paramId) in filters" 
-            :key="param.name" 
+            v-for="(param, paramId) in filterParameters" 
+            :key="param.filterName" 
             :id="`desktop-menu-${paramId}`" 
             class="relative inline-block text-left"
           >
-          <button @click="ShowDB">ShowDB</button>
             <div>
               <PopoverButton 
                 class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
               >
-                <span>{{ param.name }}</span>
+                <span>{{ param.displayName }}</span>
                 <span 
                   class="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700"
                 >
-                  {{ paramFilters[param.id].filter((option) => option.selected).length == 0 ? 
-                  'All' : paramFilters[param.id].filter((option) => option.selected).length }}
+                  {{ paramFilters[param.paramName].filter((option) => option.selected).length == 0 ? 
+                  'All' : paramFilters[param.paramName].filter((option) => option.selected).length }}
                 </span>
                 <ChevronDownIcon 
                   class="-mr-1 m</PopoverButton>l-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" 
@@ -121,18 +120,18 @@
               >
                 <form class="space-y-4">
                   <div 
-                    v-for="(option, optionIdx) in paramFilters[param.id]" 
+                    v-for="(option, optionIdx) in paramFilters[param.paramName]" 
                     :key="option" 
                     class="flex items-center"
                   >
                     <input
-                      :id="`filter-${param.id}-${optionIdx}`"
-                      :name="`${param.id}[]`"
+                      :id="`filter-${param.paramName}-${optionIdx}`"
+                      :name="`${param.paramName}[]`"
                       :value="option.name"
                       type="checkbox"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                       :checked="option.selected"
-                      @change="toggleSelection(param.id, optionIdx)"
+                      @change="toggleSelection(param.paramName, optionIdx)"
                     />
                     <label class="pl-2">
                       {{ option.name }}
@@ -149,7 +148,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { useMaterialStore } from '@/stores/material'
 import { storeToRefs } from 'pinia'
 
@@ -205,6 +204,10 @@ export default defineComponent({
       }
     })
     
+    const filterParameters = computed(() => {
+      return sortingParameters.value.filter(param => param.paramName !== null)
+    })
+    
     //Set sorting in material store
     const setSortOption = (parameterName: string) => {
       let dir = "asc"
@@ -215,7 +218,6 @@ export default defineComponent({
       materialStore.setSorting(parameterName, dir)
     }
 
-
     watch(() => materialStore.paramFilters,
       () => {
         materialStore.triggerParamSort()
@@ -224,41 +226,20 @@ export default defineComponent({
     )
 
     const toggleSelection = (sectionId, idx) => {
-      materialStore[sectionId][idx].selected = !materialStore[sectionId][idx].selected
+      materialStore.paramFilters[sectionId][idx].selected = !materialStore.paramFilters[sectionId][idx].selected
     }
-
-    const ShowDB = () => {
-      console.log(materialStore.materials)
-    }
-
-    const filters = [
-      {
-        id: 'matParams',
-        name: 'Material Type',
-      },
-      {
-        id: 'subParam',
-        name: 'EPD Type',
-      },
-      {
-        id: 'unitParams',
-        name: 'Units',
-      },
-    ]
 
     return {
       searchQuery,
-      filters,
       open,
       sortingParameters,
+      filterParameters,
       sorting,
       paramFilters,
       matRef,
       toggleSelection,
-      ShowDB,
       setSortOption,
     }
   },
 })
-
 </script>

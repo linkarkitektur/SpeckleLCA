@@ -150,7 +150,7 @@ export function createStandardFilters(registry: FilterRegistry) {
   /**
    * Groupby filter using only field
    */
-  registry.addFilter('groupByFilter', (inGroup, field) => {
+  registry.addFilter('groupBy', (inGroup, field) => {
     const groupObj: { [field: string]: Group } = {}
     for (const grp of inGroup) {
       for (const obj of grp.elements) {

@@ -1,4 +1,4 @@
-import type { EPD } from 'lcax'
+import type { EPD, SubType } from 'lcax'
 import type { Assembly, SortingOption, FilterParam } from '@/models/project'
 import { defineStore } from 'pinia'
 import materialList from '@/tests/objects/materialList.json'
@@ -15,22 +15,26 @@ export const useMaterialStore = defineStore({
     assemblyList: [] as Assembly[],
     //Filters this could be dynamic?
     paramFilters: {
-      matParams: [] as FilterParam[],
+      matParam: [] as FilterParam[],
       subParam: [] as FilterParam[],
-      unitParams: [] as FilterParam[],
+      unitParam: [] as FilterParam[],
     },
     sortingParameters: [
       { "filterName": 'name',
-        "displayName": "Name" 
+        "displayName": "Name",
+        "paramName": null 
       },
       { "filterName": 'subType',
-        "displayName": "EPD Type" 
+        "displayName": "EPD Type",
+        "paramName": "subParam"
       },
       { "filterName": 'materialType',
-        "displayName": "Material Type"
+        "displayName": "Material Type",
+        "paramName": "matParam"
       },
       { "filterName": 'declared_unit',
-        "displayName": "Declared Unit"
+        "displayName": "Declared Unit",
+        "paramName": "unitParam"
       }
     ],
   }),
@@ -93,7 +97,13 @@ export const useMaterialStore = defineStore({
      */
     async materialsFromJson() {
       try {
-        this.materials = materialList as any
+        this.materials = materialList.map((material: any) => ({
+          ...material,
+          "meta_data": {
+            "materialType": material["materialType"]
+          }
+        })) as any
+
         this.EPDList = this.materials
         this.updateParameters()
       } catch (error) {
@@ -105,13 +115,19 @@ export const useMaterialStore = defineStore({
      * Update filterable parameters from material list
      */
     updateParameters() {
-      const uniqueMaterialTypes = Array.from(new Set(this.materials.map((mat) => mat.meta_data?.materialType))).filter(Boolean);
-      const uniqueSubtypes = Array.from(new Set(this.materials.map((mat) => mat.subtype))).filter(Boolean);
-      const uniqueDeclaredUnits = Array.from(new Set(this.materials.map((mat) => mat.declared_unit))).filter(Boolean);
+      const uniqueMaterialTypes = Array.from(
+        new Set(this.materials.map((mat) => mat.meta_data?.materialType))
+      ).filter(Boolean)
+      const uniqueSubtypes = Array.from(
+        new Set(this.materials.map((mat) => mat.subType as SubType))
+      ).filter(Boolean)
+      const uniqueDeclaredUnits = Array.from(
+        new Set(this.materials.map((mat) => mat.declared_unit))
+      ).filter(Boolean)
 
-      this.paramFilters.matParams = uniqueMaterialTypes.map((name) => ({ name, selected: false }));
-      this.paramFilters.subParam = uniqueSubtypes.map((name) => ({ name, selected: false }));
-      this.paramFilters.unitParams = uniqueDeclaredUnits.map((name) => ({ name, selected: false }));
+      this.paramFilters.matParam = uniqueMaterialTypes.map((name) => ({ name, selected: false }))
+      this.paramFilters.subParam = uniqueSubtypes.map((name) => ({ name, selected: false }))
+      this.paramFilters.unitParam = uniqueDeclaredUnits.map((name) => ({ name, selected: false }))
     },
 
     /**
@@ -128,6 +144,9 @@ export const useMaterialStore = defineStore({
      */
     triggerParamSort() {
       if(this.EPDMode === true) {
+        // Reset EPDList to all EPDs
+        this.EPDList = this.materials
+        this.sortList()
         // Go through each paramFilters and check if any are selected
         for (const key in this.paramFilters) {
           // If none of the filters are selected then take all EPDs
@@ -135,21 +154,26 @@ export const useMaterialStore = defineStore({
             continue
           } else {
             // Include all EPDs that have the selected filter
-            this.EPDList = this.EPDList.filter(
+            const EPDkeys = this.sortingParameters.map(param => param.filterName)
+
+            const tempList = this.EPDList.filter(
               (epd) => {
-                return this[key]
-                  .filter((param) => param.selected)
-                  .map((param) => param.name)
-                  .includes(epd[key])
+                return EPDkeys.some((EPDkey) => {
+                  return this.paramFilters[key]
+                    .filter((param) => param.selected)
+                    .map((param) => param.name)
+                    .includes(epd[EPDkey])
+                })
               }
             )
+            this.EPDList = tempList
           }
         }
       } else {
         // Go through each assembly and check if the selected filter is in the assembly
         this.assemblyList = this.assemblyList.filter(
           (assembly) => {
-            return this.paramFilters.matParams
+            return this.paramFilters.matParam
               .filter((param) => param.selected)
               .map((param) => param.name)
               .includes(assembly.materials[0].EPD.meta_data?.materialType)
