@@ -9,6 +9,12 @@
 				<p>{{ currSlideName }}</p>
 				<PencilSquareIcon class="ml-2 h-5 w-5" />
 			</button>
+
+			<button
+			@click="toggleColorMode">
+				<p>ColorMode</p>
+				<PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500" />
+			</button>
 		</div>
 		<Draggable
 			v-if="refTree"
@@ -42,11 +48,12 @@
 
 	import { useProjectStore, useNavigationStore } from '@/stores/main'
 	import { FilterRegistry } from '@/models/filters'
-	import { createStandardFilters } from '@/utils/projectUtils'
+	import { createStandardFilters, updateGroupColors, hslToHex } from '@/utils/projectUtils'
 
 	import type { NestedGroup } from '@/models/filters'
 	import type { Filter, Group, FilterList } from '@/models/filters'
 	import type { GeometryObject } from '@/models/geometryObject'
+	import { useSpeckleStore } from '@/stores/speckle'
 
 	export default defineComponent({
 		name: 'FilterList',
@@ -59,6 +66,7 @@
 		setup() {
 			const projectstore = useProjectStore()
 			const navStore = useNavigationStore()
+			const speckleStore = useSpeckleStore()
 
 			const currSlideName = computed(() => {
 				if (navStore.activePage === 'Overview') return 'Edit filters'
@@ -77,6 +85,27 @@
 
 			const addGroup = () => {
 				navStore.toggleGroupModal()
+			}
+
+			const toggleColorMode = () => {
+				refTree.value = updateGroupColors(refTree.value)
+				navStore.toggleColorMode()
+				if(navStore.groupColorMode) {
+					const groups = []
+					refTree.value.forEach(element => {
+						// Extract the hsl values from the color string using regex
+						const hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
+  					const match = element.color.match(hslRegex);
+						const [, hue, saturation, lightness] = match.map(str => parseInt(str));
+						// Create group object with hex color
+						const group = {
+							objectIds: element.objects.map(obj => obj.URI),
+							color: hslToHex(hue, saturation, lightness)
+						}
+						groups.push(group)
+					})
+					speckleStore.viewer.setUserObjectColors(groups)
+				}
 			}
 
 			onMounted(() => {
@@ -119,12 +148,8 @@
 					name: 'testFiltering',
 					callStack: [
 						{
-							name: 'groupByFilter',
-							field: 'category'
-						},
-						{
-							name: 'groupByFilter',
-							field: 'family'
+							name: 'groupBy',
+							field: 'speckle_type'
 						}
 					]
 				}
@@ -154,7 +179,8 @@
 							id: 'test',
 							name: 'root',
 							path: ['root'],
-							elements: geo
+							elements: geo,
+							color: 'hsl(151, 100%, 50%)'
 						}
 					]
 
@@ -208,7 +234,8 @@
 				refTree,
 				currSlideName,
 				toggleSlideover,
-				addGroup
+				addGroup,
+				toggleColorMode
 			}
 		}
 	})

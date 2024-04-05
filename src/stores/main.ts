@@ -22,7 +22,7 @@ export const useProjectStore = defineStore({
 			projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
 			filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
-			selectedObjects: [] as GeometryObject[] | null // GeometryObjects that are currently selected
+			selectedObjects: [] as GeometryObject[] // GeometryObjects that are currently selected
 		}
 	},
 
@@ -254,6 +254,9 @@ export const useProjectStore = defineStore({
 		 */
 		setObjectsFromGroup() {
 			this.selectedObjects = []
+			//if null just return
+			if (this.selectedGroup === null) return
+
 			const group = this.selectedGroup
 			group.objects.forEach(element => {
 				this.selectedObjects?.push(element)
@@ -284,6 +287,14 @@ export const useProjectStore = defineStore({
 		 * Clear the selected objects in the project
 		 */
 		clearSelectedObjects() {
+			this.selectedObjects = []
+		},
+
+		/**
+		 * Clear the selected group and objects in the project
+		 */
+		clearSelectedGroup() {
+			this.selectedGroup = null
 			this.selectedObjects = []
 		},
 
@@ -377,7 +388,8 @@ export const useNavigationStore = defineStore({
 			editName: null as string | null,
 			groupModalOpen: false,
 			mappingModalOpen: false,
-			loading: false
+			loading: false,
+			groupColorMode: false,
 		}
 	},
 	actions: {
@@ -426,7 +438,15 @@ export const useNavigationStore = defineStore({
 			} else {
 				this.editName = id
 			}
+		},
+
+		/**
+		 * Toggle color mode for groups
+		 */
+		toggleColorMode() {
+			this.groupColorMode = !this.groupColorMode
 		}
+
 	},
 	getters: {
 		getActivePage: (state) => state.activePage,

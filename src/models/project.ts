@@ -1,10 +1,10 @@
 import type { EPD } from 'lcax'
 import type { GeometryObject } from './geometryObject'
 
-enum Source {
-	UserDefined,
-	OrganisationStandard,
-	Generated
+export enum Source {
+  UserDefined,
+  OrganisationStandard,
+  Generated,
 }
 
 /**
@@ -36,6 +36,8 @@ export interface Results {
 	} // GWP -> A1A3 -> Co2
 }
 
+// Material and Assembly interfaces
+
 /**
  * Assembly interface, stores all metadata of the assembly.
  * Materials are stored as EPD and thickness.
@@ -54,4 +56,20 @@ export interface Assembly {
 	]
 	sqm?: number
 	result: Results
+}
+
+/**
+ * Sorting option for material and assembly list.
+ */
+export interface SortingOption {
+	parameter: string
+	direction: string
+}
+
+/**
+ * Filter parameters for material and assembly list.
+ */
+export interface FilterParam {
+	name: string,
+	selected: boolean
 }

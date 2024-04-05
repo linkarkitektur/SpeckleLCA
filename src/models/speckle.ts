@@ -116,3 +116,23 @@ export interface ViewerStats {
 	names: string[]
 	vals: object[]
 }
+
+/**
+ * Speckle viewer sunLight default Configuration
+ */
+export interface LightConfiguration {
+	enabled?: boolean
+	castShadow?: boolean
+	intensity?: number
+	color?: number
+	indirectLightIntensity?: number
+}
+
+/**
+ * Speckle viewer sunLight Configuration
+ */
+export interface SunLightConfiguration extends LightConfiguration {
+	elevation?: number
+	azimuth?: number
+	radius?: number
+}

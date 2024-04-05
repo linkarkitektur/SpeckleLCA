@@ -21,6 +21,7 @@
 	import SpeckleStats from '@/components/ModelViewer/SpeckleStats.vue'
 	import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 	import NavbarComponent from '@/components/Navbar.vue'
+	import { useMaterialStore } from '@/stores/material'
 
 	/**
 	 * Dashboard view.
@@ -60,6 +61,9 @@
 			}
 		},
 		setup(props) {
+			const materialStore = useMaterialStore()
+			//Load materials from the store on startup
+    	materialStore.materialsFromJson()
 			let statNames: Array<string>
 			let statValues: Array<object>
 

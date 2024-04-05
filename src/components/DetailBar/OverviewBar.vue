@@ -16,7 +16,7 @@
 			const projectStore = useProjectStore()
 
 			const amountSelected = computed(() => {
-				if (projectStore.selectedGroup == null) {
+				if (projectStore.selectedObjects.length === 0) {
 					return 0
 				} else {
 					return projectStore.selectedObjects.length
@@ -24,7 +24,7 @@
 			})
 
 			const groupArea = computed(() => {
-				if (projectStore.selectedGroup == null) {
+				if (projectStore.selectedObjects.length === 0) {
 					return 0
 				} else {
 					const area = projectStore.selectedObjects.reduce(
