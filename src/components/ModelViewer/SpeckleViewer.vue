@@ -74,7 +74,6 @@
 
 	import type { SunLightConfiguration } from '@/models/speckle'
 
-
 	let viewer: Viewer | null = null
 
 	const projectStore = useProjectStore()
