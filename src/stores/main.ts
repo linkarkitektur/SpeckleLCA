@@ -390,6 +390,7 @@ export const useNavigationStore = defineStore({
 			mappingModalOpen: false,
 			loading: false,
 			groupColorMode: false,
+			sideBarShow: true,
 		}
 	},
 	actions: {
@@ -445,6 +446,13 @@ export const useNavigationStore = defineStore({
 		 */
 		toggleColorMode() {
 			this.groupColorMode = !this.groupColorMode
+		},
+
+		/**
+		 * Toggle sidebar on the app
+		 */
+		toggleSideBar() {
+			this.sideBarShow = !this.sideBarShow
 		}
 
 	},

@@ -1,5 +1,24 @@
 <template>
-	<div class="relative inset-y-16 w-2/3 h-[calc(100vh-4rem)] bg-gray-100">
+	<!-- TODO: This is supposed to fade in and out when resizing the viewer. Not working correct currently -->
+	<TransitionRoot as="template" :show="fadeOut">
+		<TransitionChild
+			as="template"
+			enter="ease-in-out duration-500"
+			enter-from="opacity-0"
+			enter-to="opacity-100"
+			leave="ease-in-out duration-500"
+			leave-from="opacity-100"
+			leave-to="opacity-0"
+		>
+			<div
+				class="fixed w-full h-full bg-gray-500 bg-opacity-75 transition-opacity z-30"
+			/>
+		</TransitionChild>
+	</TransitionRoot>
+	<div 
+		class="relative inset-y-16 w-full h-[calc(100vh-4rem)] bg-gray-100 overflow-auto" 
+		id="renderParent"
+	>
 		<div class="absolute text-sm select-none left-4">
 			<h3
 				class="font-semibold leading-5 text-gray-400 border-b border-gray-300 pb-2"
@@ -23,7 +42,10 @@
 			<FilterSelector />
 		</div>
 		-->
-		<div class="flex h-full w-full bg-gray-50 -z-10" id="renderer" />
+		<div 
+			class="flex h-full w-full bg-gray-50 -z-10" 
+			id="renderer" 
+		/>
 
 		<ViewerControls />
 		<DetailBar />
@@ -37,11 +59,16 @@
 		ViewerEvent,
 		type SelectionEvent
 	} from '@speckle/viewer'
+
 	import { useSpeckleStore } from '@/stores/speckle'
-	import { onMounted, watch, onBeforeUnmount } from 'vue'
-	import { useProjectStore, useNavigationStore } from '@/stores/main'
+	import { onMounted, watch, onBeforeUnmount, ref, render } from 'vue'
+	import { useProjectStore } from '@/stores/main'
 	import { storeToRefs } from 'pinia'
 
+	import {
+		TransitionChild, 
+    TransitionRoot,
+	} from '@headlessui/vue'
 	import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
 	import DetailBar from '@/components/DetailBar/DetailBar.vue'
 
@@ -51,16 +78,32 @@
 
 	const projectStore = useProjectStore()
 	const { selectedObjects } = storeToRefs(projectStore)
-	const navStore = useNavigationStore()
 
 	const serverUrl = import.meta.env.VITE_APP_SERVER_URL
 	const token = import.meta.env.VITE_SPECKLE_TOKEN
+	const resizeObserver = ref(null)
+	const fadeOut = ref(false)
 
 	const handleEscKey = (e) => {
 		if (e.key.toLowerCase() === 'escape') {
 			console.log('Pressed Esc')
 			projectStore.clearSelectedGroup()
 			viewer.resetFilters()
+		}
+	}
+
+	//This is to resize it properly when just div changes size as when expanding sidebar
+	const handleResize = (entries : ResizeObserverEntry[]) => {
+		for (let entry of entries) {
+			//fadeOut.value = true
+
+			const { width, height } = entry.contentRect
+			viewer.resize()
+			//Update aspect ratio manually
+			viewer.cameraHandler.activeCam.camera.aspect = width / height
+			viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
+
+			//fadeOut.value = false
 		}
 	}
 
@@ -76,10 +119,10 @@
 	*/
 
 	onMounted(async () => {
+		const renderParent = document.getElementById('renderParent') as HTMLElement
+		const container = document.getElementById('renderer') as HTMLElement
 		window.addEventListener('keydown', handleEscKey)
 		//window.addEventListener('keydown', handleSelectAll)
-
-		const container = document.getElementById('renderer') as HTMLElement
 
 		viewer = new Viewer(container, DefaultViewerParams)
 		await viewer.init()
@@ -154,10 +197,15 @@
 		}
  		*/
 
+		resizeObserver.value = new ResizeObserver(handleResize)
+    resizeObserver.value.observe(renderParent)
+
 		// Resize the viewer when the window is resized.
+		/*
 		window.onresize = function () {
 			viewer.resize()
 		}
+		*/
 
 		const speckleStore = useSpeckleStore()
 		speckleStore.setViewerInstance(viewer)
@@ -169,7 +217,8 @@
 	})
 
 	onBeforeUnmount(() => {
-  	window.removeEventListener('keydown', handleEscKey);
+  	window.removeEventListener('keydown', handleEscKey)
+		resizeObserver.value.disconnect()
 	})
 
 	watch(
