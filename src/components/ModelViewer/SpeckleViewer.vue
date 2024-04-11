@@ -96,7 +96,7 @@
 	//This is to resize it properly when just div changes size as when expanding sidebar
 	const handleResize = (entries : ResizeObserverEntry[]) => {
 		for (let entry of entries) {
-			fadeOut.value = true
+			//fadeOut.value = true
 
 			const { width, height } = entry.contentRect
 			viewer.resize()
@@ -104,7 +104,7 @@
 			viewer.cameraHandler.activeCam.camera.aspect = width / height
 			viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
 
-			fadeOut.value = false
+			//fadeOut.value = false
 		}
 	}
 
