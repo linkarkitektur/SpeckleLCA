@@ -28,35 +28,11 @@
 			Sidebar,
 			Slideover,
 		},
-		props: {
-			speckleStreamId: {
-				type: String,
-				required: false
-			},
-			longObjectId: {
-				type: String,
-				required: false
-			},
-			toolbarVisible: {
-				type: Boolean,
-				required: false,
-				default: true
-			},
-			statsVisible: {
-				type: Boolean,
-				required: false,
-				default: true
-			},
-			stats: {
-				type: Object,
-				required: false
-			}
-		},
 		setup() {
 			//Load materials from the store on startup
 			const materialStore = useMaterialStore()
     	materialStore.materialsFromJson()
-
+			
 			return {}
 		}
 	}

@@ -61,7 +61,7 @@
 	} from '@speckle/viewer'
 
 	import { useSpeckleStore } from '@/stores/speckle'
-	import { onMounted, watch, onBeforeUnmount, ref, render } from 'vue'
+	import { onMounted, watch, onBeforeUnmount, ref } from 'vue'
 	import { useProjectStore } from '@/stores/main'
 	import { storeToRefs } from 'pinia'
 

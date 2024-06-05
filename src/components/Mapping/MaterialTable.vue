@@ -54,8 +54,6 @@ import { defineComponent, ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { useMaterialStore } from '@/stores/material'
 import type { EPD } from 'lcax'
-import type { Assembly } from '@/models/project'
-import { isAssembly } from '@/utils/projectUtils'
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
@@ -85,13 +83,6 @@ export default defineComponent({
           mat = mat as EPD
           value = parseFloat(String(mat.gwp?.a1a3 ?? '0'))
         }
-        /* this should check which mode is active and adapt the emission value accordingly
-        else if (isAssembly(mat))
-        {
-          mat = mat as Assembly
-          value = mat.result.emission.a1a3.total
-        }*/
-
         // Return formatted value
         if (!isNaN(value)) {
           const decimals = (value.toString().split('.')[1] || '').length

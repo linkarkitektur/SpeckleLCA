@@ -53,7 +53,6 @@ import {
 } from '@heroicons/vue/24/solid'
 
 import { useNavigationStore } from '@/stores/main'
-import { useSpeckleStore } from '@/stores/speckle'
 
 import GroupList from '@/components/Sidebar/GroupList.vue'
 import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
@@ -79,7 +78,6 @@ export default defineComponent({
     const toggleSideBar = () => {
       navStore.toggleSideBar()
     }
-
     
     return {
       sideBarShow,

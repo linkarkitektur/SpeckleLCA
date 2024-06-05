@@ -81,9 +81,10 @@ import {
 import SubGroup from '@/components/Sidebar/SubGroup.vue'
 import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
 import OverviewIconAction from '@/components/Sidebar/Overview/OverviewIconAction.vue'
-
 import MaterialGroupCard from '@/components/Sidebar/Mapping/MaterialGroupCard.vue'
 import MaterialIconAction from '@/components/Sidebar/Mapping/MaterialIconAction.vue'
+import ResultIconAction from '@/components/Sidebar/Results/ResultIconAction.vue'
+import ResultsGroupCard from '@/components/Sidebar/Results/ResultsGroupCard.vue'
 
 import type { NestedGroup } from '@/models/filters'
 import { useNavigationStore, useProjectStore } from '@/stores/main'
@@ -135,38 +136,38 @@ export default defineComponent({
     // Name to show in table for each group and subgroup
     const currGroupValue = computed(() => {
       if (navStore.activePage === "Overview")
-        return "Elements";
+        return "Elements"
       else if (navStore.activePage === "Mapping")
-        return "Material";
+        return "Material"
       else if (navStore.activePage === "Results")
-        return "Co<sup>2<sup>";
+        return "Co<sup>2<sup>"
       else if (navStore.activePage === "Benchmark")
-        return "Co<sup>2<sup>";
+        return "Co<sup>2<sup>"
       else
-        return null;
+        return null
     })
 
     // Total value to be shown for each group
     const currGroupTotal = computed(() => {
       if (navStore.activePage === "Overview")
-        return OverviewGroupCard;
+        return OverviewGroupCard
       else if (navStore.activePage === "Mapping")
-        return MaterialGroupCard;
+        return MaterialGroupCard
       else if (navStore.activePage === "Results")
-        return null;
+        return ResultsGroupCard
       else if (navStore.activePage === "Benchmark")
-        return null;
+        return null
       else
-        return null;
+        return null
     })
 
     const currIconAction = computed(() => {
       if (navStore.activePage === "Overview")
-        return OverviewIconAction;
+        return OverviewIconAction
       else if (navStore.activePage === "Mapping")
-        return MaterialIconAction;
+        return MaterialIconAction
       else if (navStore.activePage === "Results")
-        return null;
+        return ResultIconAction
       else if (navStore.activePage === "Benchmark")
         return null;
       else

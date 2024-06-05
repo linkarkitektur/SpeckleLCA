@@ -33,7 +33,7 @@
 						>
 							<div>
 								<div
-									class="mx-auto flex h-12 w-auto items-center justify-center rounded-md bg-green-100"
+									class="mx-auto flex h-12 w-auto items-center justify-center rounded-md bg-gray-100"
 								>
 									<p>{{ projectName }}</p>
 								</div>

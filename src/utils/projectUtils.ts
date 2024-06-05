@@ -1,8 +1,10 @@
 import type { Group } from '@/models/filters'
 import type { FilterRegistry, NestedGroup } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
-import type { Assembly } from '@/models/project'
-import type { EPD } from 'lcax'
+import type { EPD, ImpactCategory } from 'lcax'
+import type { Emissions } from '@/models/project'
+import type { ChartData } from '@/models/chartModels'
+import { Chart } from 'chart.js'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -333,21 +335,82 @@ export function getMappedMaterial(objects: GeometryObject[]) {
 }
 
 /**
- * Checks if the object is an EPD
- * @param obj 
+ * Calculate the emissions of the current geo and attach the results to the geo
+ * @param geo
  * @returns 
  */
-export function isEPD(obj: any): obj is EPD {
-  return obj && obj.Type === 'EPD'
-}
-
-/**
- * Checks if the object is an Assembly
- * @param obj 
- * @returns 
- */
-export function isAssembly(obj: any): obj is Assembly {
-  return obj && obj.Type === 'Assembly';
+export function calculateEmissions(geo: GeometryObject): boolean {
+  let success = false
+  if (geo.material) {
+    const material = geo.material
+    //TODO: make this dynamic so we can change which impact categories are included
+    const emissions = { gwp: {} }
+    //Check if assembly
+    if (material instanceof Object 
+      && 'isAssembly' in material
+     ) {
+      const materialObj = material as { materials?: EPD[] }
+      materialObj.materials.forEach((mat: EPD) => {
+        //Go through and check if mat has any gwp values
+        if (mat.gwp) {
+          for (const phase in mat.gwp) {
+            const value = mat.gwp[phase]
+            if (typeof value === 'number' && mat.gwp[phase] !== null) {
+              //TODO: This needs to check thickness if needed for conversions or we just precalculate it on the material
+              emissions['gwp'][phase] = value * geo.quantity[mat.declared_unit]
+            }
+          }
+        }
+      })
+      //Add the emissions to the geo 
+      if(geo.results) {
+        geo.results.push({
+          id: crypto.randomUUID(),
+          date : new Date(),
+          emission: emissions
+        })
+        success = true
+      } else {
+        geo.results = [{
+          id: crypto.randomUUID(),
+          date : new Date(),
+          emission: emissions
+        }]
+        success = true
+      }
+    } 
+    // If its not assembly its and EPD
+    else {
+      //TODO: make this dynamic so we can change which impact categories are included
+      const emissions = { gwp: {} }
+      const materialObj = material as EPD
+      if (materialObj.gwp) {
+        for (const phase in materialObj.gwp) {
+          const value = materialObj.gwp[phase]
+          if (typeof value === 'string' && materialObj.gwp[phase] !== null) {
+            emissions['gwp'][phase] = parseFloat(value) * geo.quantity[materialObj.declared_unit]
+          }
+        }
+      }
+      //Add the emissions to the geo
+      if(geo.results) {
+        geo.results.push({
+          id: crypto.randomUUID(),
+          date : new Date(),
+          emission: emissions
+        })
+        success = true
+      } else {
+        geo.results = [{
+          id: crypto.randomUUID(),
+          date : new Date(),
+          emission: emissions
+        }]
+        success = true
+      }
+    }
+  }
+  return success
 }
 
 /**
@@ -399,4 +462,49 @@ export function hslToHex(h: number, s: number, l: number) {
     return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
   };
   return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+/**
+ * Converter of geometry object results into aggregated ChartData for specific impact categories
+ * @param objects geometry objects to convert
+ * @param impactCategory optional impact category to get results for that category
+ * @param resultKey optional key to get specific result
+ */
+export function geometryToLCSChartData(objects: GeometryObject[], impactCategory: string = 'gwp', resultKey: number = Number.MIN_SAFE_INTEGER): ChartData[] {
+  const groupedData: Emissions = {}
+  //Go through each selected object and get aggregated labels and emission data
+  objects.forEach(obj => {
+    if (!obj.results) return
+    //Check if we got any resultKey otherwise just take the last one
+    const result = resultKey == Number.MIN_SAFE_INTEGER ? obj.results[obj.results.length - 1] : obj.results[resultKey]
+    if (result && result.emission) {
+      for (const lifeCycleStage in result.emission[impactCategory]) {
+        if (!Object.prototype.hasOwnProperty.
+          call(groupedData, impactCategory)) 
+        {
+          groupedData[impactCategory] = {}
+        }
+
+        if (!Object.prototype.hasOwnProperty.
+          call(groupedData[impactCategory], lifeCycleStage)) 
+        {
+          groupedData[impactCategory][lifeCycleStage] = 0
+        }
+        groupedData[impactCategory][lifeCycleStage] += result.emission[impactCategory][lifeCycleStage]
+      }
+    }
+  })
+  if (!groupedData[impactCategory]) return []
+  
+  const data: ChartData[] = []
+  Object.keys(groupedData[impactCategory]).forEach((lifeCycleStage, i) => {
+    data.push(
+      {
+        label: lifeCycleStage,
+        value: Math.round(groupedData[impactCategory][lifeCycleStage])
+      }
+    )
+  })
+
+  return data
 }
