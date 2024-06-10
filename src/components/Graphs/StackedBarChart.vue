@@ -14,9 +14,9 @@ import { getValueColorFromGradient } from '@/utils/colors'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
 
 const sampleData: ChartData[] = [
-  { label: 'A1-A3', value: -55 },
+  { label: 'A1-A3', value: 55 },
   { label: 'A4', value: 233 },
-  { label: 'A5', value: -89 },
+  { label: 'A5', value: 89 },
   { label: 'C1-C4', value: 50 }
 ]
 
@@ -29,11 +29,11 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
 
   const total = ref(d3.sum(data, d => d.value > 0 ? d.value : 0))
   const totalAbs = ref(d3.sum(data, d => Math.abs(d.value)))
-  const groupData = ref(groupDataFunc(data, total))
+  const { groupData, zeroPoint } = groupDataFunc(data, total)
 
   const colors = ref(options.colors || 
-    groupData.value.map(d => 
-      getValueColorFromGradient(d.value, 0, Math.max(...groupData.value.map(d => d.value)))
+    groupData.map(d => 
+      getValueColorFromGradient(d.value, 0, Math.max(...groupData.map(d => d.value)))
     ))
 
   const drawChart = (svg: SVGSVGElement, tooltip: HTMLDivElement, container: HTMLDivElement) => {
@@ -63,6 +63,7 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
         .style("stroke", "black")
         .style("opacity", 1)
     }
+
     const mousemove = function (event: MouseEvent, data: ChartData) {
       const containerRect = container.getBoundingClientRect()
       const tooltipRect = tooltip.getBoundingClientRect()
@@ -89,6 +90,7 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
         .style("left", left + "px")
         .style("top", top + "px")
     }
+
     const mouseleave = function (event: MouseEvent, data: ChartData) {
       tooltipDiv.style("opacity", 0)
 
@@ -101,16 +103,36 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
           .style('stroke', 'none')
       } else {
         element
-          .style('stroke', (d, i) => chroma(fillColor).darken(1))
+          .style('stroke', () => chroma(fillColor).darken(1))
           .style("opacity", 0.8)
       }
     }
 
+    // Text mouseover join
+    const addTextWithTooltip = (textElement: d3.Selection<SVGTextElement, ChartData, SVGGElement, unknown>) => {
+      textElement
+        .on("mouseover", function(this: SVGTextElement, event, d) {
+          mouseover(event, d)
+          d3.select(this).style("font-weight", "normal")
+          d3.select(this.parentNode!.querySelector<SVGRectElement>('rect')).style("stroke", "black").style("opacity", 1)
+        })
+        .on("mousemove", function(this: SVGTextElement, event, d) {
+          mousemove(event, d)
+        })
+        .on("mouseleave", function(this: SVGTextElement, event, d) {
+          mouseleave(event, d)
+          d3.select(this).style("font-weight", "normal")
+          d3.select(this.parentNode!.querySelector<SVGRectElement>('rect')).style("stroke", "none").style("opacity", 0.8)
+        })
+    }
+
+    // Graph join
     const join = graph.selectAll<SVGGElement, ChartData>('g')
-      .data(groupData.value)
+      .data(groupData)
       .join('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
+    // Draw the bars
     join.append('rect')
       .attr('class', 'rect-stacked')
       .attr('x', d => xScale(d.cumulative as number))
@@ -129,23 +151,7 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
         mouseleave(event, d)
       })
 
-    const addTextWithTooltip = (textElement: d3.Selection<SVGTextElement, ChartData, SVGGElement, unknown>) => {
-      textElement
-        .on("mouseover", function(this: SVGTextElement, event, d) {
-          mouseover(event, d)
-          d3.select(this).style("font-weight", "normal")
-          d3.select(this.parentNode!.querySelector<SVGRectElement>('rect')).style("stroke", "black").style("opacity", 1)
-        })
-        .on("mousemove", function(this: SVGTextElement, event, d) {
-          mousemove(event, d)
-        })
-        .on("mouseleave", function(this: SVGTextElement, event, d) {
-          mouseleave(event, d)
-          d3.select(this).style("font-weight", "normal")
-          d3.select(this.parentNode!.querySelector<SVGRectElement>('rect')).style("stroke", "none").style("opacity", 0.8)
-        })
-    }
-
+    // Add the value texts
     addTextWithTooltip(
       join.append('text')
         .filter(d => Math.abs(d.percent) > 5)
@@ -157,6 +163,7 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
         .text(d => d.value.toString())
     )
 
+    // Add the labels
     join.append('text')
       .filter(d => Math.abs(d.percent) > 5)
       .attr('class', 'text-label text-base')
@@ -166,6 +173,7 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
       .style('fill', (d, i) => chroma(colors.value[i]).darken(2))
       .text(d => d.label)
 
+    // Add the percentages
     join.append('text')
       .filter(d => Math.abs(d.percent) > 5)
       .attr('class', 'text-percent text-base')
@@ -174,27 +182,71 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
       .attr('y', (h / 2) - (halfBarHeight.value * 1.2))
       .style('fill', (d, i) => chroma(colors.value[i]).darken(2))
       .text(d => d3.format('.1f')(d.percent) + ' %')
+    
+    // Only add zeroPoint line if its bigger than 0
+    if (zeroPoint > 0) {
+      // Add the zeroPoint line
+      graph.append('line')
+        .attr('x1', xScale(zeroPoint as number) + margin.left)
+        .attr('x2', xScale(zeroPoint as number) + margin.left)
+        .attr('y1', margin.top - 5)
+        .attr('y2', h + margin.top + 5)
+        .attr('stroke', 'black')
+        .attr('stroke-dasharray', '5,5')
+        .attr('stroke-width', 3)
+        .attr('opacity', 0.5)
+
+      // Add zeroPoint label
+      join.append('text')
+        .attr('class', 'text-label text-base')
+        .attr('text-anchor', 'left')
+        .attr('x', xScale(zeroPoint as number) + 5)
+        .attr('y', (h / 2) + (halfBarHeight.value * 1.6))
+        .style('fill', 'black')
+        .style('font-weight', '300')
+        .style('opacity', 0.5)
+        .text(0)
+
+    }
   }
+
   return { drawChart }
 }
 
 // Format the data (instead of using d3.stack()) and filter out 0 values:
 function groupDataFunc(data: ChartData[], total: { value: number }) {
-  let cumulative = 0
-  let percent = 0
-  const _data: ChartData[] = data.map(d => {
-    cumulative += Math.abs(d.value)
-    if (total.value > 0) {
+  let cumulative = 0;
+  let percent = 0;
+  let zeroPoint = 0;
+
+  // Sort the data by value (negative first, then positive) and by label text
+  const sortedData = data.slice().sort((a, b) => {
+    if (a.value < 0 && b.value >= 0) return -1
+    if (a.value >= 0 && b.value < 0) return 1
+    if (a.value < 0 && b.value < 0) return a.label.localeCompare(b.label)
+    if (a.value >= 0 && b.value >= 0) return a.label.localeCompare(b.label)
+    return 0;
+  });
+
+  const _data: ChartData[] = sortedData.map(d => {
+    if (total.value !== 0) {
       percent = (d.value / total.value) * 100
     }
-    return {
+    const result = {
       value: d.value,
-      cumulative: cumulative - Math.abs(d.value),
+      cumulative: cumulative,
       label: d.label,
       percent: percent
     }
-  }).filter(d => d.value != 0)
-  return _data
+    cumulative += Math.abs(d.value)
+    return result;
+  }).filter(d => d.value !== 0)
+
+  // Calculate the zero point
+  const negativeSum = d3.sum(_data.filter(d => d.value < 0), d => Math.abs(d.value))
+  zeroPoint = negativeSum
+
+  return { groupData: _data, zeroPoint }
 }
 
 export default {
@@ -243,7 +295,12 @@ export default {
       }
     }
 
-    onMounted(draw)
+    onMounted(() => {
+      draw()
+      // Handle resize with ResizeObserver
+      const resizeObserver = new ResizeObserver(draw)
+      resizeObserver.observe(svg.value)
+    })
 
     //Watch for props changes
     watch(
