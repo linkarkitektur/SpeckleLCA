@@ -14,11 +14,71 @@ import { getValueColorFromGradient } from '@/utils/colors'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
 
 const sampleData: ChartData[] = [
-  { label: 'A1-A3', value: 55 },
+  { label: 'A1-A3', value: -55 },
   { label: 'A4', value: 233 },
   { label: 'A5', value: 89 },
   { label: 'C1-C4', value: 50 }
 ]
+
+export default {
+  name: 'StackedBarChart',
+  props: {
+    data: {
+      type: Array as PropType<ChartData[]>,
+      required: false
+    },
+    options: {
+      type: Object as PropType<ChartOptions>,
+      default: () => ({})
+    }
+  },
+  setup(props) {
+    const svg = ref<SVGSVGElement | null>(null)
+    const tooltip = ref<HTMLDivElement | null>(null)
+    const container = ref<HTMLDivElement | null>(null)
+    
+    const clearSVG = () => {
+      if (svg.value) {
+        while (svg.value.firstChild) {
+          svg.value.removeChild(svg.value.firstChild)
+        }
+      }
+    }
+
+    const draw = () => {   
+      clearSVG()
+
+      const options: ChartOptions = { 
+        width: svg.value?.clientWidth, 
+        height: svg.value?.clientHeight, 
+        ...props.options 
+      }
+
+      const data: ChartData[] = props.data || sampleData
+
+      const { drawChart } = stackedBarChart(data, options)
+      if (svg.value && tooltip.value && container.value) {
+        drawChart(svg.value, tooltip.value, container.value)
+      }
+    }
+
+    onMounted(() => {
+      draw()
+      const resizeObserver = new ResizeObserver(draw)
+      resizeObserver.observe(svg.value)
+    })
+
+    watch(
+      () => props.data,
+      () => {
+        draw()
+      },
+      { deep: true }
+    )
+
+    return { svg, tooltip, container }
+  }
+}
 
 function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
   const width = ref(options.width || 800)
@@ -206,7 +266,6 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
         .style('font-weight', '300')
         .style('opacity', 0.5)
         .text(0)
-
     }
   }
 
@@ -247,72 +306,6 @@ function groupDataFunc(data: ChartData[], total: { value: number }) {
   zeroPoint = negativeSum
 
   return { groupData: _data, zeroPoint }
-}
-
-export default {
-  name: 'StackedBarChart',
-  props: {
-    data: {
-      type: Array as PropType<ChartData[]>,
-      required: false
-    },
-    options: {
-      type: Object as PropType<ChartOptions>,
-      default: () => ({})
-    }
-  },
-  setup(props) {
-    const svg = ref<SVGSVGElement | null>(null)
-    const tooltip = ref<HTMLDivElement | null>(null)
-    const container = ref<HTMLDivElement | null>(null)
-    
-    //Clear so we dont get overlaps
-    const clearSVG = () => {
-      if (svg.value) {
-        // Clear all children of the SVG element
-        while (svg.value.firstChild) {
-          svg.value.removeChild(svg.value.firstChild)
-        }
-      }
-    }
-
-    //Draw the chart
-    const draw = () => {   
-      clearSVG()
-
-      //When spreading the options it will overwrite the width and height if provided
-      const options: ChartOptions = { 
-        width: svg.value?.clientWidth, 
-        height: svg.value?.clientHeight, 
-        ...props.options 
-      }
-
-      const data: ChartData[] = props.data || sampleData
-
-      const { drawChart } = stackedBarChart(data, options)
-      if (svg.value && tooltip.value && container.value) {
-        drawChart(svg.value, tooltip.value, container.value)
-      }
-    }
-
-    onMounted(() => {
-      draw()
-      // Handle resize with ResizeObserver
-      const resizeObserver = new ResizeObserver(draw)
-      resizeObserver.observe(svg.value)
-    })
-
-    //Watch for props changes
-    watch(
-      () => props.data,
-      () => {
-        draw();
-      },
-      { deep: true }
-    )
-
-    return { svg, tooltip, container }
-  }
 }
 </script>
 
