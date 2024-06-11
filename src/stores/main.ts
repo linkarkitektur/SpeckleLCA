@@ -340,6 +340,19 @@ export const useProjectStore = defineStore({
 		},
 
 		/**
+		 * Set the selected objects to a subset of current selected objects by ID
+		 * Only searching current selected objects but if we need we can expand to whole project
+		 * @param id ids of objects to select
+		 */
+		setObjectsById(id: string[]) {
+			const objects = this.selectedObjects
+			const foundObjects = objects?.filter((obj) => {
+				return id.includes(obj.id)
+			})
+			this.selectedObjects = foundObjects
+		},
+
+		/**
 		 * Clear the selected objects in the project
 		 */
 		clearSelectedObjects() {
