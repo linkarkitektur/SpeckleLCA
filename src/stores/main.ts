@@ -8,7 +8,10 @@ import type {
 	Filter,
 	NestedGroup
 } from '@/models/filters'
-import { createNestedObject } from '@/utils/projectUtils'
+import { 
+	createNestedObject,
+	calculateEmissions 
+} from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 
 /**
@@ -211,6 +214,59 @@ export const useProjectStore = defineStore({
 		},
 
 		/**
+		 * Calculate the results for the project
+		 * Go through each object and check the material and calculate a value based on the material
+		 * @param geometry The geometry objects to calculate results for, if nothing will do whole project
+		 */
+		calculateResults(geometry: GeometryObject[] = []) {
+			if (this.currProject) {
+				let combineResults = false
+				// If no geometry is provided, calculate for all geometry objects in the project.
+				if (geometry.length === 0) {
+					combineResults = true
+					geometry = this.currProject.geometry
+				}
+					
+				if (this.currProject.results == null)
+					this.currProject.results = []
+
+				const combinedEmissions: any = {};
+
+				geometry.forEach((geo) => {
+					if (geo.material === null) {
+						return
+					} 
+					else {
+						if (calculateEmissions(geo)) {
+							console.log('Emissions calculated for object: ' + geo.name)
+							//Aggregate all the results into the project
+							if (combineResults) {
+								const geoEmissions = geo.results.slice(-1).pop() as Results
+								for (const phase in geoEmissions.emission.gwp) {
+									combinedEmissions[phase] = combinedEmissions[phase] || 0
+	
+									if (geoEmissions.emission.gwp[phase] !== undefined) 
+										combinedEmissions[phase] += geoEmissions.emission.gwp[phase]
+								}
+							}
+						}
+					} 						
+				})
+				
+				if (combineResults) {
+					this.currProject.results.push({
+						id: crypto.randomUUID(),
+						date: new Date(),
+						emission: {
+							gwp: combinedEmissions,
+						},
+					})
+					console.log(combinedEmissions)						
+				}
+			}
+		},
+
+		/**
 		 * Adds results to the current project.
 		 * @param result The results to add.
 		 */
@@ -279,6 +335,19 @@ export const useProjectStore = defineStore({
 			const objects = this.currProject.geometry
 			const foundObjects = objects?.filter((obj) => {
 				return uri.includes(obj.URI as string)
+			})
+			this.selectedObjects = foundObjects
+		},
+
+		/**
+		 * Set the selected objects to a subset of current selected objects by ID
+		 * Only searching current selected objects but if we need we can expand to whole project
+		 * @param id ids of objects to select
+		 */
+		setObjectsById(id: string[]) {
+			const objects = this.selectedObjects
+			const foundObjects = objects?.filter((obj) => {
+				return id.includes(obj.id)
 			})
 			this.selectedObjects = foundObjects
 		},

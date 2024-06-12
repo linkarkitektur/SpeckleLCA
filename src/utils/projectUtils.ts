@@ -1,8 +1,10 @@
 import type { Group } from '@/models/filters'
 import type { FilterRegistry, NestedGroup } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
-import type { Assembly } from '@/models/project'
-import type { EPD } from 'lcax'
+import type { EPD, ImpactCategory } from 'lcax'
+import type { Emissions } from '@/models/project'
+import type { ChartData } from '@/models/chartModels'
+import { Chart } from 'chart.js'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -333,21 +335,82 @@ export function getMappedMaterial(objects: GeometryObject[]) {
 }
 
 /**
- * Checks if the object is an EPD
- * @param obj 
+ * Calculate the emissions of the current geo and attach the results to the geo
+ * @param geo
  * @returns 
  */
-export function isEPD(obj: any): obj is EPD {
-  return obj && obj.Type === 'EPD'
-}
-
-/**
- * Checks if the object is an Assembly
- * @param obj 
- * @returns 
- */
-export function isAssembly(obj: any): obj is Assembly {
-  return obj && obj.Type === 'Assembly';
+export function calculateEmissions(geo: GeometryObject): boolean {
+  let success = false
+  if (geo.material) {
+    const material = geo.material
+    //TODO: make this dynamic so we can change which impact categories are included
+    const emissions = { gwp: {} }
+    //Check if assembly
+    if (material instanceof Object 
+      && 'isAssembly' in material
+     ) {
+      const materialObj = material as { materials?: EPD[] }
+      materialObj.materials.forEach((mat: EPD) => {
+        //Go through and check if mat has any gwp values
+        if (mat.gwp) {
+          for (const phase in mat.gwp) {
+            const value = mat.gwp[phase]
+            if (typeof value === 'number' && mat.gwp[phase] !== null) {
+              //TODO: This needs to check thickness if needed for conversions or we just precalculate it on the material
+              emissions['gwp'][phase] = value * geo.quantity[mat.declared_unit]
+            }
+          }
+        }
+      })
+      //Add the emissions to the geo 
+      if(geo.results) {
+        geo.results.push({
+          id: crypto.randomUUID(),
+          date : new Date(),
+          emission: emissions
+        })
+        success = true
+      } else {
+        geo.results = [{
+          id: crypto.randomUUID(),
+          date : new Date(),
+          emission: emissions
+        }]
+        success = true
+      }
+    } 
+    // If its not assembly its and EPD
+    else {
+      //TODO: make this dynamic so we can change which impact categories are included
+      const emissions = { gwp: {} }
+      const materialObj = material as EPD
+      if (materialObj.gwp) {
+        for (const phase in materialObj.gwp) {
+          const value = materialObj.gwp[phase]
+          if (typeof value === 'string' && materialObj.gwp[phase] !== null) {
+            emissions['gwp'][phase] = parseFloat(value) * geo.quantity[materialObj.declared_unit]
+          }
+        }
+      }
+      //Add the emissions to the geo
+      if(geo.results) {
+        geo.results.push({
+          id: crypto.randomUUID(),
+          date : new Date(),
+          emission: emissions
+        })
+        success = true
+      } else {
+        geo.results = [{
+          id: crypto.randomUUID(),
+          date : new Date(),
+          emission: emissions
+        }]
+        success = true
+      }
+    }
+  }
+  return success
 }
 
 /**
@@ -399,4 +462,88 @@ export function hslToHex(h: number, s: number, l: number) {
     return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
   };
   return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+/**
+ * Converter of geometry object results into aggregated ChartData for specific LifeCycleStages (LCS)
+ * @param objects geometry objects to convert
+ * @param impactCategory optional impact category to get results for that category
+ * @param resultKey optional key to get specific result
+ */
+export function geometryToLCSChartData(objects: GeometryObject[], impactCategory: string = 'gwp', resultKey: number = Number.MIN_SAFE_INTEGER): ChartData[] {
+  const groupedData = new Map<string, number>()
+
+  // Go through each selected object and get aggregated labels and emission data
+  for (const obj of objects) {
+    const results = obj.results
+    if (!results) continue
+
+    // Check if we got any resultKey otherwise just take the last one
+    const result = resultKey === Number.MIN_SAFE_INTEGER ? results[results.length - 1] : results[resultKey]
+    if (!result || !result.emission) continue
+
+    for (const lifeCycleStage in result.emission[impactCategory]) {
+      const currentValue = groupedData.get(lifeCycleStage) || 0
+      groupedData.set(lifeCycleStage, currentValue + result.emission[impactCategory][lifeCycleStage])
+    }
+  }
+
+  const data: ChartData[] = Array.from(groupedData, ([lifeCycleStage, value]) => ({
+    label: lifeCycleStage,
+    value: Math.round(value)
+  }))
+
+  return data
+}
+
+/**
+ * Converter of geometry object results into aggregated ChartData for all unique materials
+ * @param objects geometry objects to convert
+ * @param impactCategory optional impact category to get results for that category
+ * @param resultKey optional key to get specific result
+ */
+export function geometryToMaterialChartData(objects: GeometryObject[], impactCategory: string = 'gwp', resultKey: number = Number.MIN_SAFE_INTEGER): ChartData[] {
+  const groupedData = new Map<string, { value: number, ids: Set<string> }>()
+
+  // Go through each selected object and get aggregated labels and emission data
+  for (const obj of objects) {
+    const materialName = obj.material?.name
+    const results = obj.results
+    if (!results || !materialName) continue
+
+    const result = resultKey === Number.MIN_SAFE_INTEGER ? results[results.length - 1] : results[resultKey]
+    if (!result || !result.emission) continue
+
+    if (!groupedData.has(materialName)) {
+      groupedData.set(materialName, { value: 0, ids: new Set<string>() })
+    }
+
+    const materialData = groupedData.get(materialName)!
+
+    for (const lifeCycleStage in result.emission[impactCategory]) {
+      materialData.value += result.emission[impactCategory][lifeCycleStage]
+    }
+    materialData.ids.add(obj.id)
+  }
+
+  const data: ChartData[] = Array.from(groupedData, ([material, { value, ids }]) => ({
+    label: material,
+    value: Math.round(value),
+    ids: Array.from(ids)
+  }))
+
+  return data
+}
+
+/**
+ * Truncate text down to set length
+ * @param text 
+ * @param maxLength 
+ * @returns 
+ */
+export function truncateText(text, maxLength) {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  }
+  return text;
 }

@@ -1,8 +1,4 @@
 <template>
-  <!-- Add all modals here -->
-  <NewGroupModal />
-  <MaterialMappingModal />
-  <!-- End of modal area -->
   <button
     v-if="!sideBarShow"
     @click="toggleSideBar" 
@@ -53,11 +49,8 @@ import {
 } from '@heroicons/vue/24/solid'
 
 import { useNavigationStore } from '@/stores/main'
-import { useSpeckleStore } from '@/stores/speckle'
 
 import GroupList from '@/components/Sidebar/GroupList.vue'
-import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
-import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
 
 import { storeToRefs } from 'pinia'
 
@@ -65,8 +58,6 @@ export default defineComponent({
   name: 'SideBar',
   components: {
     GroupList,
-    NewGroupModal,
-    MaterialMappingModal,
     TransitionChild, 
     TransitionRoot,
     ChevronLeftIcon,
@@ -79,7 +70,6 @@ export default defineComponent({
     const toggleSideBar = () => {
       navStore.toggleSideBar()
     }
-
     
     return {
       sideBarShow,

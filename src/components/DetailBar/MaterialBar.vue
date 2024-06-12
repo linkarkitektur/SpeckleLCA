@@ -17,7 +17,7 @@ import { getMappedMaterial } from '@/utils/projectUtils'
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
-  name: 'MaterialGroupCard',
+  name: 'MaterialBar',
   components: {
   },
   setup() {

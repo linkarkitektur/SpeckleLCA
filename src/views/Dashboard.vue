@@ -1,4 +1,8 @@
 <template>
+	<!-- Add all modals here -->
+	<NewGroupModal />
+  <MaterialMappingModal />
+  <!-- End of modal area -->
 	<div class="flex">
 		<NavbarComponent />
 		<Sidebar />
@@ -15,6 +19,8 @@
 	import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 	import NavbarComponent from '@/components/Navbar.vue'
 	import { useMaterialStore } from '@/stores/material'
+	import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
+	import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
 
 	/**
 	 * Dashboard view.
@@ -27,36 +33,14 @@
 			SpeckleViewer,
 			Sidebar,
 			Slideover,
-		},
-		props: {
-			speckleStreamId: {
-				type: String,
-				required: false
-			},
-			longObjectId: {
-				type: String,
-				required: false
-			},
-			toolbarVisible: {
-				type: Boolean,
-				required: false,
-				default: true
-			},
-			statsVisible: {
-				type: Boolean,
-				required: false,
-				default: true
-			},
-			stats: {
-				type: Object,
-				required: false
-			}
+			NewGroupModal,
+			MaterialMappingModal,
 		},
 		setup() {
 			//Load materials from the store on startup
 			const materialStore = useMaterialStore()
     	materialStore.materialsFromJson()
-
+			
 			return {}
 		}
 	}

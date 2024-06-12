@@ -29,11 +29,17 @@ export interface Project {
 export interface Results {
 	id: string // Run ID for results.
 	date: Date
-	emission: {
-		[impactCategory: string]: {
-			[lifeCycleStage: string]: number
-		}
-	} // GWP -> A1A3 -> Co2
+	emission: Emissions
+}
+
+/**
+ * Emission information, stored as Impact Category, Life Cycle Stage then emission value.
+ * example, GWP -> A1A3 -> 105 kgCO2e
+ */
+export interface Emissions {
+	[impactCategory: string]: {
+		[lifeCycleStage: string]: number
+	}
 }
 
 // Material and Assembly interfaces
@@ -56,6 +62,7 @@ export interface Assembly {
 	]
 	sqm?: number
 	result: Results
+	isAssembly: boolean
 }
 
 /**
