@@ -124,6 +124,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const padAngle = stroke === "none" ? 1 / outerRadius : 0.02
   const maxTextLength = 12
 
+  const unit = 'kg CO2e'
   const colors = ref(options.colors || 
     groupData.value.map(d => 
       getValueColorFromGradient(d.value, 0, Math.max(...groupData.value.map(d => d.value)))
@@ -172,7 +173,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
       }
 
       tooltipDiv
-        .html(data.data.label + ": " + roundNumber(data.value, 3))
+        .html(data.data.label + ": " + roundNumber(data.value, 3) + " " + unit)
         .style("left", left + "px")
         .style("top", top + "px")
     }
@@ -308,15 +309,25 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
         })
       })
 
-    // Add total in the middle
-    graph.append("text")
-      .attr("text-anchor", "middle")
-      .attr("dy", "0.35em")
-      .attr("x", w / 2)
-      .attr("y", h / 2)
-      .classed("text-md", true)
-      .style("font-weight", "bold")
-      .text(roundNumber(total.value, 1))
+      let textElement = graph.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .attr("x", w / 2)
+        .attr("y", h / 2)
+        
+        .style("font-weight", "bold")
+
+      textElement.append("tspan")
+        .text(roundNumber(total.value, 1))
+        .classed("text-md", true)
+        .attr("x", w / 2)
+        .attr("dy", "-0.2em")
+
+      textElement.append("tspan")
+        .text(unit)
+        .classed("text-xs", true)
+        .attr("x", w / 2)
+        .attr("dy", "1.2em")
   }
   return { drawChart }
 }

@@ -20,6 +20,7 @@ const sampleData: ChartData[] = [
   { label: 'C1-C4', value: 50 }
 ]
 
+
 export default {
   name: 'StackedBarChart',
   props: {
@@ -91,6 +92,8 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
   const totalAbs = ref(d3.sum(data, d => Math.abs(d.value)))
   const { groupData, zeroPoint } = groupDataFunc(data, total)
 
+  const unit = ' kg CO2e'
+
   const colors = ref(options.colors || 
     groupData.map(d => 
       getValueColorFromGradient(d.value, 0, Math.max(...groupData.map(d => d.value)))
@@ -146,7 +149,7 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
       }
 
       tooltipDiv
-        .html(data.label + ": " + data.value)
+        .html(data.label + ": " + data.value + unit)
         .style("left", left + "px")
         .style("top", top + "px")
     }
@@ -220,7 +223,16 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
         .attr('x', d => xScale(d.cumulative as number) + (xScale(Math.abs(d.value)) / 2))
         .attr('y', (h / 2) + 5)
         .style('fill', (d, i) => chroma(colors.value[i]).darken(2))
-        .text(d => d.value.toString())
+        .each(function(this: SVGTextElement, d) {
+          const text = d3.select(this)
+          
+          text.append('tspan')
+            .text(d.value.toString());
+
+          text.append('tspan')
+            .attr('class', 'text-xs')
+            .text(" " + unit);
+        })
     )
 
     // Add the labels
