@@ -14,10 +14,12 @@ import type {
 	ProjectId,
 	ServerInfo,
 	User,
-	Version
+	Version,
+	ColorGroup
 } from '@/models/speckle'
 import router from '@/router'
 import { logMessageToSentry } from '@/utils/monitoring'
+import { updateGroupColors, hslToHex } from '@/utils/projectUtils'
 import {
 	exchangeAccessCode,
 	getObjectParameters,
@@ -29,6 +31,8 @@ import {
 } from '@/utils/speckleUtils' // TODO Is this the right import in the wider structure?
 import { Viewer } from '@speckle/viewer'
 import { defineStore } from 'pinia'
+import type { NestedGroup } from '@/models/filters'
+import type { GeometryObject } from '@/models/geometryObject'
 
 /**
  * The `useSpeckleStore` is a store that manages the state and actions related to the Speckle integration.
@@ -109,7 +113,27 @@ export const useSpeckleStore = defineStore({
 			 * The currently selected objects from the viewer.
 			 * @type {SpeckleObject[] | null}
 			 */
-			selectedObjectIds: [] as string[]
+			selectedObjectIds: [] as string[],
+
+			/**
+			 * Current Color groupings for the viewer
+			 */
+			colorGroups: [] as ColorGroup[],
+
+			/**
+			 * Token for the current user
+			 */
+			token: null as string | null,
+
+			/**
+			 * Server URL for the current user
+			 */
+			serverUrl: null as string | null,
+
+			/**
+			 * Hidden objects in the viewer
+			 */
+			hiddenObjects: [] as GeometryObject[] 
 		}
 	},
 	actions: {
@@ -338,6 +362,53 @@ export const useSpeckleStore = defineStore({
 		},
 
 		/**
+		 * Calculates the group colors for the viewer based on nested groups tree
+		 * @param refTree 
+		 */
+		calculateGroupColors(tree: NestedGroup[]) {
+			updateGroupColors(tree)
+			const groups = []
+			tree.forEach(element => {
+				// Extract the hsl values from the color string using regex
+				const hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
+				const match = element.color.match(hslRegex);
+				const [, hue, saturation, lightness] = match.map(str => parseInt(str));
+				// Create group object with hex color
+				const group = {
+					objectIds: element.objects.map(obj => obj.URI),
+					color: hslToHex(hue, saturation, lightness)
+				}
+				groups.push(group)
+			})
+			this.setColorGroups(groups)
+		},
+
+		/**
+		 * Set colorGroups overriding the last, used for coherent colors in graphics and setting the colors in the viewer
+		 * @param colorGroups 
+		 */
+		setColorGroups(colorGroups: ColorGroup[]) {
+			this.colorGroups = colorGroups
+			this.viewer?.setUserObjectColors(colorGroups)
+		},
+
+		/**
+		 * Set token for the current user
+		 * @param token 
+		 */
+		setToken(token: string) {
+			this.token = token
+		},
+
+		/**
+		 * Set serverUrl for the current user
+		 * @param serverUrl 
+		 */
+		setServerUrl(serverUrl: string) {
+			this.serverUrl = serverUrl
+		},
+
+		/**
 		 * Add new parameter to list of parameters to include in fetching of speckle objects
 		 * @param parameter
 		 */
@@ -348,6 +419,22 @@ export const useSpeckleStore = defineStore({
 			} else {
 				console.warn('Duplicate name found. Object not added.')
 			}
+		},
+
+		/**
+		 * Adds a geometry object to the hidden objects in the project.
+		 * @param object 
+		 */
+		addHiddenObject(object: GeometryObject) {
+			this.hiddenObjects.push(object)
+		},
+
+		/**
+		 * Sets the hidden objects in the project, this is checked when rendering the objects
+		 * @param objects 
+		 */
+		setHiddenObjects(objects: GeometryObject[]) {
+			this.hiddenObjects = objects
 		},
 
 		/**
@@ -370,6 +457,49 @@ export const useSpeckleStore = defineStore({
 				this.customParameters = this.customParameters?.filter(
 					(item) => item.name !== name
 				)
+		},
+
+		isolateObjects(objectIds: string[]) {
+			this.viewer?.resetFilters()
+			this.viewer?.isolateObjects(objectIds, null, true, true)
+			
+			if (objectIds.length > 0) {
+				//Find all color groups relevant for ids
+				const colorMap = new Map();
+
+				// Create a map from object ID to color
+				this.colorGroups.forEach(group => {
+					group.objectIds.forEach(id => {
+						colorMap.set(id, group.color)
+					})
+				})
+
+				const relevantColorGroups = objectIds.map(id => ({
+					objectIds: [id],
+					color: colorMap.get(id)
+				})).filter(group => group.color !== undefined)
+
+				this.viewer?.setUserObjectColors(relevantColorGroups)
+			} else {
+				this.viewer?.setUserObjectColors(this.colorGroups)
+				this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
+			}
+		},
+
+		/**
+		 * Hides all unusedObjects in the viewer
+		 * @param objectUrls 
+		 */
+		hideUnusedObjects(objectIds: string[]) {
+			this.viewer?.hideObjects(objectIds, null, false, false)
+		},
+
+		/**
+		 * Reset filters and colors to base state
+		 */
+		async resetUnusedObjects() {
+			this.viewer?.resetFilters()
+			this.viewer?.setUserObjectColors(this.colorGroups)
 		}
 	},
 
@@ -440,6 +570,12 @@ export const useSpeckleStore = defineStore({
 		 * Returns the currently selected object ids
 		 * @returns {string[]}
 		 */
-		getCurrentSelectedObjectIDs: (state): string[] => state.selectedObjectIds
+		getCurrentSelectedObjectIDs: (state): string[] => state.selectedObjectIds,
+
+		/**
+		 * Returns the currently selected color groups
+		 * @returns {ColorGroup[]}
+		 */
+		getColorGroups: (state): ColorGroup[] => state.colorGroups
 	}
 })

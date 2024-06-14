@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineStore } from 'pinia'
 import type { GeometryObject } from '@/models/geometryObject'
 import type { Project, Results } from '@/models/project'
@@ -25,7 +24,8 @@ export const useProjectStore = defineStore({
 			projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
 			filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
-			selectedObjects: [] as GeometryObject[] // GeometryObjects that are currently selected
+			selectedObjects: [] as GeometryObject[], // GeometryObjects that are currently selected
+			hiddenObjects: [] as GeometryObject[] // GeometryObjects that are currently hidden
 		}
 	},
 
@@ -388,6 +388,8 @@ export const useProjectStore = defineStore({
 
 				// Creating the nested object
 				const nestedObject = createNestedObject(data)
+				// Sorting the nested object by the number of objects in each group
+				nestedObject.children.sort((a, b) => b.objects.length - a.objects.length)
 				return nestedObject
 			} else {
 				const msg =
@@ -416,28 +418,6 @@ export const useProjectStore = defineStore({
 		 */
 		findResultIndexById(id: string) {
 			return this.currProject?.geometry.findIndex((item) => item.id === id)
-		}
-	}
-})
-
-/**
- * A store for managing material-related data.
- */
-export const useMaterialStore = defineStore({
-	id: 'materialStore',
-	state: () => {
-		return {
-			currProject: null as Project | null
-		}
-	},
-
-	actions: {
-		/**
-		 * Creates a new project and sets it as the current project.
-		 * @param project The project to be created.
-		 */
-		createNewProject(project: Project) {
-			this.currProject = project
 		}
 	}
 })
