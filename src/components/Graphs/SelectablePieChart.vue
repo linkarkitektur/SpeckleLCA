@@ -173,7 +173,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
       }
 
       tooltipDiv
-        .html(data.data.label + ": " + roundNumber(data.value, 3) + " " + unit)
+        .html(data.data.label + ": " + roundNumber(data.data.value, 3) + " " + unit)
         .style("left", left + "px")
         .style("top", top + "px")
     }
