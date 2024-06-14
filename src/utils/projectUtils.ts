@@ -1,10 +1,11 @@
-import type { Group } from '@/models/filters'
-import type { FilterRegistry, NestedGroup } from '@/models/filters'
+import type { FilterRegistry, NestedGroup, Filter, Group } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
-import type { EPD, ImpactCategory } from 'lcax'
-import type { Emissions } from '@/models/project'
+import type { EPD } from 'lcax'
 import type { ChartData } from '@/models/chartModels'
-import { Chart } from 'chart.js'
+import { useProjectStore } from '@/stores/main'
+import { useSpeckleStore } from '@/stores/speckle'
+import { baseColors } from '@/utils/colors'
+
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -216,10 +217,11 @@ export function createStandardFilters(registry: FilterRegistry) {
     return group
   })
 
-   /**
-   * Equality filter checking if field matches value
-   */
-   registry.addFilter('greaterThan', (inGroup, field, value, remove) => {
+  /**
+ * Equality filter checking if field matches value
+ */
+  registry.addFilter('greaterThan', (inGroup, field, value, remove) => {
+    const speckleStore = useSpeckleStore()
     if (value == undefined)
       throw new Error(`No value provided for greaterThan filter.`)
     const groupObj: { [value: string]: Group } = {}
@@ -257,6 +259,10 @@ export function createStandardFilters(registry: FilterRegistry) {
 
               groupObj[uniqueTrueField] = temp!
             }
+          } else if (remove) {
+            // Add to removed geometry in projectStore
+            speckleStore.addHiddenObject(obj)
+            
           } else if (!remove) {
             // Add to groupObj
             if (uniqueFalseField in groupObj) {
@@ -281,6 +287,8 @@ export function createStandardFilters(registry: FilterRegistry) {
             }
           }
         } else {
+          // Add to removed geometry in projectStore
+          speckleStore.addHiddenObject(obj)
           //throw new Warning(`Parameter in '${obj.id}' with the name '${field}' not found.`)
         }
       }
@@ -429,6 +437,71 @@ export function generateColors(n: number): string[] {
 }
 
 /**
+ * Calculate the groups based on the filters and the project
+ * @param reCalc 
+ */
+export function calculateGroups(reCalc: boolean) {
+  const projectStore = useProjectStore()
+  let groups: Group[] = []
+  // First time running we need to define the groups from scratch
+  if (reCalc) {
+    //Create geometry objects from the project
+    const geo: GeometryObject[] = []
+    projectStore.currProject?.geometry.forEach((element) => {
+      geo.push(element)
+    })
+
+    //Root for the group, this should not be needed
+    groups = [
+      {
+        id: 'test',
+        name: 'root',
+        path: ['root'],
+        elements: geo,
+        color: 'hsl(151, 100%, 50%)'
+      }
+    ]
+
+    //Go through each filter and iterate over them
+    let reverseStack: Filter[] = []
+    if (projectStore.filterRegistry)
+      reverseStack = projectStore.filterRegistry.filterCallStack.callStack
+
+    reverseStack.forEach((el) => {
+      if (el.value) {
+        groups = projectStore.filterRegistry?.callFilter(
+          `${el.name}`,
+          groups,
+          `${el.field}`,
+          `${el.value}`,
+          el.remove
+        )
+      } else {
+        groups = projectStore.filterRegistry?.callFilter(
+          `${el.name}`,
+          groups,
+          `${el.field}`
+        )
+      }
+
+      //Remove root in path since we had to add it
+      groups.forEach((element) => {
+        if (element.path[0] === 'root') element.path.splice(0, 1)
+      })
+    })
+  } else {
+    if (projectStore.projectGroups) {
+      groups = projectStore.projectGroups
+    }
+  }
+
+  groups.sort((a, b) => b.elements.length - a.elements.length)
+
+  //Update groups
+  projectStore.updateGroups(groups)
+}
+
+/**
 * Updates the colors of the groups in the project
 * Autmatically setting all colors, optional to change specific ones
 * @param id Optional: Ids of groups to change
@@ -462,6 +535,49 @@ export function hslToHex(h: number, s: number, l: number) {
     return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
   };
   return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+/**
+ * Set the color of the material based on if it is mapped or not, if no object is provided it will set all objects in the project
+ * @param object optional for specifik material updates
+ * @returns greenGroup and redGroup with objectIds and color
+ */
+export function setMappingColorGroup(objects: GeometryObject[] = null) {
+  const projectStore = useProjectStore()
+  //Create two groups for the mapping colors, one red and one green and move objects between them to match if mapped materials or not
+  const greenGroup: { objectIds: string[], color: string } = 
+    { objectIds: [], color: baseColors.primaryGreen }
+  const redGroup: { objectIds: string[], color: string } =
+    { objectIds: [], color: baseColors.primaryRed }
+
+  if (!objects) {
+    //Get all objects from the project
+    const groups = projectStore.projectGroups
+    if (groups) {
+      groups.forEach(group => {
+        group.elements.forEach(element => {
+          assignColorGroup(element)
+        })
+      })
+    }
+  } else {
+    objects.forEach((element) => {
+      assignColorGroup(element)
+    })
+  }
+  
+  return [ greenGroup, redGroup ]
+
+  function assignColorGroup(object: GeometryObject) {
+    //Check if we have a material to map
+    if (object && object.material) {
+      //Add the object to the green group
+      greenGroup.objectIds.push(object.id)
+    } else {
+      //No material mapped
+      redGroup.objectIds.push(object.id)
+    }
+  }
 }
 
 /**
