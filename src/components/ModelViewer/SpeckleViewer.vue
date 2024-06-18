@@ -19,6 +19,7 @@
     id="renderParent"
   >
     <div class="absolute text-sm select-none left-4">
+      <RenderToggle />
       <h3 class="font-semibold leading-5 text-gray-400 border-b border-gray-300 pb-2">
         Controls
       </h3>
@@ -78,6 +79,7 @@
   // Component imports
   import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
   import DetailBar from '@/components/DetailBar/DetailBar.vue'
+  import RenderToggle from '@/components/Misc/RenderToggle.vue'
   import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
 
   // Type imports
@@ -186,7 +188,7 @@
     resizeObserver.value.observe(renderParent)
 
     speckleStore.setViewerInstance(viewer)
-
+    
     if (!speckleStore.selectedProject || !speckleStore.selectedVersion) {
       throw new Error('No project or version selected!')
     }
@@ -196,8 +198,15 @@
     let selection: string[] = []
     viewer.on(ViewerEvent.ObjectClicked, (selectionInfo: SelectionEvent) => {
       if (selectionInfo) {
-        // Object was clicked. Highlight it.
-        const id = selectionInfo.hits[0].object.id
+        // Object was clicked. Check if its in hidden objects then highlight it
+        let id
+        const hiddenIds = new Set(speckleStore.hiddenObjects.map(obj => obj.id))
+        for(let hit of selectionInfo.hits) {
+          if (!hiddenIds.has(hit.object.id)) {
+            id = hit.object.id
+            break
+          }
+        }
 
         if (selectionInfo.event.shiftKey) selection.push(id)
         else selection = [id]

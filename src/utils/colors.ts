@@ -5,6 +5,7 @@ export const baseColors = {
   secondaryGreen: '#B5E655',
   primaryRed: '#F06000',
   secondaryRed: '#FF8F00',
+  primaryGrey: '#E0E0E0',
 }
 
 

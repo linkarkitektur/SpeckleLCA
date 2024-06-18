@@ -27,6 +27,7 @@
 	import { 
 		calculateGroups,
 		setMappingColorGroup,
+		setResultsColorGroup,
 	 } from '@/utils/projectUtils'
 
 	// Modals
@@ -55,6 +56,8 @@
 			const speckleStore = useSpeckleStore()
     	materialStore.materialsFromJson()
 			
+			// Watch for changes in the active page and update viewer colors
+			// TODO: Have this in the navStore instead?
 			watch(() => navStore.activePage , (newVal) => {
 				if(newVal === 'Overview') {
 					calculateGroups(true)
@@ -64,9 +67,10 @@
 					const mappingColors = setMappingColorGroup()
 					speckleStore.setColorGroups(mappingColors)
 				} else if(newVal === 'Results') {
-					console.log("Results page")
+					const resultsColors = setResultsColorGroup()
+					speckleStore.setColorGroups(resultsColors)
 				} else if(newVal === 'Benchmark') {
-					console.log("Benchmark page")
+					console.log("Benchmark page - No graphics to update")
 				}
 			})
 

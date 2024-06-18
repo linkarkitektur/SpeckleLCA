@@ -4,7 +4,7 @@ import type { EPD } from 'lcax'
 import type { ChartData } from '@/models/chartModels'
 import { useProjectStore } from '@/stores/main'
 import { useSpeckleStore } from '@/stores/speckle'
-import { baseColors } from '@/utils/colors'
+import { baseColors, getValueColorFromGradient } from '@/utils/colors'
 
 
 /**
@@ -535,6 +535,64 @@ export function hslToHex(h: number, s: number, l: number) {
     return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
   };
   return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+/**
+ * Set the color based on results, if no object is provided it will set all objects in the project
+ * @param objects optional for specfic material updates
+ * @param colorRange optional number of steps of colors in the gradient
+ * @returns gradient groups with increments for results
+ */
+export function setResultsColorGroup(objects: GeometryObject[] = null, colorRange: number = 10) {
+  const projectStore = useProjectStore()
+  const groups: { objectIds: string[], color: string }[] = []
+
+  //Create all colorRange groups including no results
+  const neutralGroup: { objectIds: string[], color: string } = 
+    { objectIds: [], color: baseColors.primaryGrey }
+
+  if (!objects) {
+    //Get all objects from the project
+    const groups = projectStore.projectGroups
+    if (groups) {
+      groups.forEach(group => {
+        group.elements.forEach(element => {
+          assignColorGroup(element)
+        })
+      })
+    }
+  } else {
+    objects.forEach((element) => {
+      assignColorGroup(element)
+    })
+  }
+  
+  //Add groups to main
+  groups.push(neutralGroup)
+
+  return groups
+
+  function assignColorGroup(object: GeometryObject) {
+    //Check if we have a result to map
+    if (object && object.results) {
+      //Get the last result
+      const result = object.results[object.results.length - 1]
+      if (result && result.emission) {
+        //Get the gwp value
+        const gwp = result.emission.gwp
+        let totalGwp = 0
+        for (const phase in gwp) {
+          totalGwp += gwp[phase]
+        }
+        //Calculate the color based on the gwp value
+        const color = getValueColorFromGradient(totalGwp, 0, 10000)
+        groups.push({ objectIds: [object.id], color: color })
+      }
+    } else {
+      //No result mapped set color to grey
+      neutralGroup.objectIds.push(object.id)
+    }
+  }
 }
 
 /**

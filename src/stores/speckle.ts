@@ -133,7 +133,17 @@ export const useSpeckleStore = defineStore({
 			/**
 			 * Hidden objects in the viewer
 			 */
-			hiddenObjects: [] as GeometryObject[] 
+			hiddenObjects: [] as GeometryObject[],
+
+			/**
+			 * Render mode for the app, true for 3D with materials, false for diagram style 
+			 */
+			renderMode: true as boolean,
+
+			/**
+			 * Show hidden objects or not, set to hide them as default
+			 */
+			showHiddenObjects: false as boolean
 		}
 	},
 	actions: {
@@ -389,7 +399,8 @@ export const useSpeckleStore = defineStore({
 		 */
 		setColorGroups(colorGroups: ColorGroup[]) {
 			this.colorGroups = colorGroups
-			this.viewer?.setUserObjectColors(colorGroups)
+			if (!this.renderMode)
+				this.viewer?.setUserObjectColors(colorGroups)
 		},
 
 		/**
@@ -463,7 +474,7 @@ export const useSpeckleStore = defineStore({
 			this.viewer?.resetFilters()
 			this.viewer?.isolateObjects(objectIds, null, true, true)
 			
-			if (objectIds.length > 0) {
+			if (objectIds.length > 0 && !this.renderMode) {
 				//Find all color groups relevant for ids
 				const colorMap = new Map();
 
@@ -478,11 +489,13 @@ export const useSpeckleStore = defineStore({
 					objectIds: [id],
 					color: colorMap.get(id)
 				})).filter(group => group.color !== undefined)
-
+				
 				this.viewer?.setUserObjectColors(relevantColorGroups)
 			} else {
-				this.viewer?.setUserObjectColors(this.colorGroups)
-				this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
+				if (!this.renderMode)
+					this.viewer?.setUserObjectColors(this.colorGroups)
+				if (!this.showHiddenObjects)
+					this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
 			}
 		},
 
@@ -491,7 +504,8 @@ export const useSpeckleStore = defineStore({
 		 * @param objectUrls 
 		 */
 		hideUnusedObjects(objectIds: string[]) {
-			this.viewer?.hideObjects(objectIds, null, false, false)
+			if (!this.showHiddenObjects)
+				this.viewer?.hideObjects(objectIds, null, false, false)
 		},
 
 		/**
@@ -499,7 +513,30 @@ export const useSpeckleStore = defineStore({
 		 */
 		async resetUnusedObjects() {
 			this.viewer?.resetFilters()
-			this.viewer?.setUserObjectColors(this.colorGroups)
+			if (!this.renderMode)
+				this.viewer?.setUserObjectColors(this.colorGroups)
+		},
+
+		/**
+		 * Toggle rendering mode on the app
+		 */
+		toggleRenderMode() {
+			this.renderMode = !this.renderMode
+			this.resetUnusedObjects()
+			//This is just to refresh the viewer
+			this.viewer?.resize()
+		},
+
+		/**
+		 * Toggle showing hidden objects in the viewer
+		 */
+		toggleHiddenObjects() {
+			this.showHiddenObjects = !this.showHiddenObjects
+			this.resetUnusedObjects()
+			if (!this.showHiddenObjects)
+				this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
+			//This is just to refresh the viewer
+			this.viewer?.resize()
 		}
 	},
 
