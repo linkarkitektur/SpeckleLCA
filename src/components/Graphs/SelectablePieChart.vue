@@ -8,7 +8,6 @@
 <script lang="ts">
 import * as d3 from 'd3'
 import { ref, reactive, onMounted, watch, type PropType } from 'vue'
-import chroma from 'chroma-js'
 
 import { getValueColorFromGradient } from '@/utils/colors'
 import { truncateText } from '@/utils/projectUtils'
@@ -42,7 +41,6 @@ export default {
     const svg = ref<SVGSVGElement | null>(null)
     const tooltip = ref<HTMLDivElement | null>(null)
     const container = ref<HTMLDivElement | null>(null)
-    const options: ChartOptions = props.options
     
     //Clear so we dont get overlaps
     const clearSVG = () => {
@@ -107,7 +105,6 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const margin = reactive(options.margin || { top: 20, right: 20, bottom: 20, left: 20 })
 
   const total = ref(d3.sum(data, d => d.value))
-  const totalAbs = ref(d3.sum(data, d => Math.abs(d.value)))
   const groupData = ref(groupDataFunc(data, total))
 
   const w = width.value - margin.left - margin.right
@@ -182,7 +179,6 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
 
       //Need to get this beforehand so that we can select the fill and darken it on mouseleave
       const element = d3.select(event.currentTarget as Element)
-      const fillColor = element.style("fill")
 
       if(element.node().tagName === 'text'){
         element

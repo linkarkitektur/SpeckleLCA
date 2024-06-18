@@ -9,12 +9,6 @@
 				<p>{{ currSlideName }}</p>
 				<PencilSquareIcon class="ml-2 h-5 w-5" />
 			</button>
-
-			<button
-			@click="toggleColorMode">
-				<p>ColorMode</p>
-				<PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500" />
-			</button>
 		</div>
 		<Draggable
 			v-if="refTree"
@@ -48,11 +42,10 @@
 
 	import { useProjectStore, useNavigationStore } from '@/stores/main'
 	import { FilterRegistry } from '@/models/filters'
-	import { createStandardFilters, updateGroupColors, hslToHex, calculateGroups } from '@/utils/projectUtils'
+	import { createStandardFilters, calculateGroups } from '@/utils/projectUtils'
 
 	import type { NestedGroup } from '@/models/filters'
 	import type { Filter, Group, FilterList } from '@/models/filters'
-	import type { GeometryObject } from '@/models/geometryObject'
 	import { useSpeckleStore } from '@/stores/speckle'
 
 	export default defineComponent({
@@ -89,7 +82,6 @@
 
 			const toggleColorMode = () => {
 				navStore.toggleColorMode()
-
 			}
 
 			onMounted(() => {
