@@ -34,7 +34,8 @@ import { useMaterialStore } from '@/stores/material'
 
 import type { NestedGroup } from '@/models/filters'
 import { useProjectStore } from '@/stores/main'
-import { getMappedMaterial } from '@/utils/projectUtils'
+import { useSpeckleStore } from '@/stores/speckle'
+import { getMappedMaterial, setMappingColorGroup } from '@/utils/projectUtils'
 
 export default defineComponent({
   name: 'MappingCard',
@@ -51,6 +52,7 @@ export default defineComponent({
   setup(props) {
     const materialStore = useMaterialStore()
     const projStore = useProjectStore()
+    const speckleStore = useSpeckleStore()
 
     const inGroup = ref(props.group)
 
@@ -66,6 +68,8 @@ export default defineComponent({
           obj.material = materialStore.currentMapping
         }
       })
+      const mappingColors = setMappingColorGroup()
+      speckleStore.setColorGroups(mappingColors)
     }
 
     // Open sub group if there are any

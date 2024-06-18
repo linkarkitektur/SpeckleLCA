@@ -136,3 +136,11 @@ export interface SunLightConfiguration extends LightConfiguration {
 	azimuth?: number
 	radius?: number
 }
+
+/**
+ * Speckle viewer ColorGroups for setUserObjectColors
+ */
+export interface ColorGroup {
+	objectIds: string[],
+	color: string
+}

@@ -7,7 +7,7 @@
       'rounded-2xl bg-gray-200 p-4 ring-1 ring-gray-400' : selectedBool, 
       'rounded-2xl bg-gray-200 p-4' : selectedBool == false,
     }"
-    :style="groupColorMode ? { 'background-color': inGroups.color } : {}"
+    :style="activePage == 'Overview' && !renderMode ? { 'background-color': inGroups.color } : {}"
     @click="selectSubGroup(inGroups, $event)"
   >
     <div class="flex pb-2 justify-between items-center">
@@ -88,6 +88,7 @@ import ResultsGroupCard from '@/components/Sidebar/Results/ResultsGroupCard.vue'
 
 import type { NestedGroup } from '@/models/filters'
 import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useSpeckleStore } from '@/stores/speckle'
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
@@ -115,7 +116,8 @@ export default defineComponent({
 
     const inGroups = ref(props.groups)
     const expand = ref(false)
-    const { editName, groupColorMode } = storeToRefs(navStore)
+    const { editName, activePage } = storeToRefs(navStore)
+    const { renderMode } = storeToRefs(useSpeckleStore())
     const { selectedGroup } = storeToRefs(projectStore)
 
     watch(
@@ -208,7 +210,8 @@ export default defineComponent({
       currGroupTotal,
       currIconAction,
       selectedBool,
-      groupColorMode
+      activePage,
+      renderMode
     }
   },
 })

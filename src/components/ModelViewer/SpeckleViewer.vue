@@ -19,6 +19,7 @@
     id="renderParent"
   >
     <div class="absolute text-sm select-none left-4">
+      <RenderToggle />
       <h3 class="font-semibold leading-5 text-gray-400 border-b border-gray-300 pb-2">
         Controls
       </h3>
@@ -78,6 +79,7 @@
   // Component imports
   import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
   import DetailBar from '@/components/DetailBar/DetailBar.vue'
+  import RenderToggle from '@/components/Misc/RenderToggle.vue'
   import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
 
   // Type imports
@@ -91,10 +93,14 @@
   const projectStore = useProjectStore()
   const { selectedObjects } = storeToRefs(projectStore)
   const navStore = useNavigationStore()
+  const speckleStore = useSpeckleStore()
   const serverUrl = import.meta.env.VITE_APP_SERVER_URL
   const token = import.meta.env.VITE_SPECKLE_TOKEN
   const resizeObserver = ref<ResizeObserver | null>(null)
   const fadeOut = ref(false)
+
+  speckleStore.setServerUrl(serverUrl)
+  speckleStore.setToken(token)
 
   // Computed property for dynamic component
   const leftModule = computed(() => {
@@ -132,9 +138,7 @@
   // Event handler for Escape key
   const handleEscKey = (e: KeyboardEvent) => {
     if (e.key.toLowerCase() === 'escape') {
-      console.log('Pressed Esc')
       projectStore.clearSelectedGroup()
-      viewer?.resetFilters()
     }
   }
 
@@ -183,33 +187,37 @@
     resizeObserver.value = new ResizeObserver(handleResize)
     resizeObserver.value.observe(renderParent)
 
-    const speckleStore = useSpeckleStore()
     speckleStore.setViewerInstance(viewer)
-
+    
+    if (!speckleStore.selectedProject || !speckleStore.selectedVersion) {
+      throw new Error('No project or version selected!')
+    }
     const url = `${serverUrl}/streams/${speckleStore.selectedProject.id}/objects/${speckleStore.selectedVersion.referencedObject}`
     await viewer.loadObject(url, token, true, true)
 
     let selection: string[] = []
     viewer.on(ViewerEvent.ObjectClicked, (selectionInfo: SelectionEvent) => {
       if (selectionInfo) {
-        // Object was clicked. Highlight it.
-        const id = selectionInfo.hits[0].object.id
+        // Object was clicked. Check if its in hidden objects then highlight it
+        let id
+        const hiddenIds = new Set(speckleStore.hiddenObjects.map(obj => obj.id))
+        for(let hit of selectionInfo.hits) {
+          if (!hiddenIds.has(hit.object.id)) {
+            id = hit.object.id
+            break
+          }
+        }
 
         if (selectionInfo.event.shiftKey) selection.push(id)
         else selection = [id]
 
         projectStore.setObjectsByURI(selection)
-        viewer.highlightObjects(projectStore.getSelectedObjectsURI(), true)
-        // Zoom in on the hit and focus the camera target.
-        // viewer.zoom()
       } else {
         // No object clicked. Restore selection from group.
         projectStore.setObjectsFromGroup()
 
         if (projectStore.selectedObjects.length === 0) viewer.resetHighlight()
         else viewer.highlightObjects(projectStore.getSelectedObjectsURI(), true)
-
-        viewer.zoom()
       }
     })
 
@@ -234,8 +242,7 @@
   watch(
     () => selectedObjects.value,
     () => {
-      viewer?.resetFilters()
-      viewer?.isolateObjects(projectStore.getSelectedObjectsURI())
+      speckleStore.isolateObjects(projectStore.getSelectedObjectsURI())
     }
   )
   // function setObjectColorsByVolume() {}

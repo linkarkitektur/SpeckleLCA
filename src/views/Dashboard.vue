@@ -14,11 +14,23 @@
 </template>
 
 <script lang="ts">
+	import { watch } from 'vue'
 	import Sidebar from '@/components/Sidebar/Sidebar.vue'
 	import Slideover from '@/components/SlideOver/Sliderover.vue'
 	import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 	import NavbarComponent from '@/components/Navbar.vue'
 	import { useMaterialStore } from '@/stores/material'
+	import { useNavigationStore, useProjectStore } from '@/stores/main'
+	import { useSpeckleStore } from '@/stores/speckle'
+
+	// Utils
+	import { 
+		calculateGroups,
+		setMappingColorGroup,
+		setResultsColorGroup,
+	 } from '@/utils/projectUtils'
+
+	// Modals
 	import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
 	import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
 
@@ -39,8 +51,29 @@
 		setup() {
 			//Load materials from the store on startup
 			const materialStore = useMaterialStore()
+			const navStore = useNavigationStore()
+			const projectStore = useProjectStore()
+			const speckleStore = useSpeckleStore()
     	materialStore.materialsFromJson()
 			
+			// Watch for changes in the active page and update viewer colors
+			// TODO: Have this in the navStore instead?
+			watch(() => navStore.activePage , (newVal) => {
+				if(newVal === 'Overview') {
+					calculateGroups(true)
+					const tree =	projectStore.getGroupTree()?.children
+					speckleStore.calculateGroupColors(tree)
+				} else if(newVal === 'Mapping') {
+					const mappingColors = setMappingColorGroup()
+					speckleStore.setColorGroups(mappingColors)
+				} else if(newVal === 'Results') {
+					const resultsColors = setResultsColorGroup()
+					speckleStore.setColorGroups(resultsColors)
+				} else if(newVal === 'Benchmark') {
+					console.log("Benchmark page - No graphics to update")
+				}
+			})
+
 			return {}
 		}
 	}

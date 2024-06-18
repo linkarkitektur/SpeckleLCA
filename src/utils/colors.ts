@@ -1,10 +1,11 @@
 import chroma from 'chroma-js'
 
-const baseColors = {
+export const baseColors = {
   primaryGreen: '#95C92C',
   secondaryGreen: '#B5E655',
   primaryRed: '#F06000',
   secondaryRed: '#FF8F00',
+  primaryGrey: '#E0E0E0',
 }
 
 

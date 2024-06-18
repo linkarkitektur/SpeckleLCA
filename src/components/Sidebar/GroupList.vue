@@ -9,12 +9,6 @@
 				<p>{{ currSlideName }}</p>
 				<PencilSquareIcon class="ml-2 h-5 w-5" />
 			</button>
-
-			<button
-			@click="toggleColorMode">
-				<p>ColorMode</p>
-				<PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500" />
-			</button>
 		</div>
 		<Draggable
 			v-if="refTree"
@@ -48,11 +42,10 @@
 
 	import { useProjectStore, useNavigationStore } from '@/stores/main'
 	import { FilterRegistry } from '@/models/filters'
-	import { createStandardFilters, updateGroupColors, hslToHex } from '@/utils/projectUtils'
+	import { createStandardFilters, calculateGroups } from '@/utils/projectUtils'
 
 	import type { NestedGroup } from '@/models/filters'
 	import type { Filter, Group, FilterList } from '@/models/filters'
-	import type { GeometryObject } from '@/models/geometryObject'
 	import { useSpeckleStore } from '@/stores/speckle'
 
 	export default defineComponent({
@@ -64,7 +57,7 @@
 			GroupCard
 		},
 		setup() {
-			const projectstore = useProjectStore()
+			const projectStore = useProjectStore()
 			const navStore = useNavigationStore()
 			const speckleStore = useSpeckleStore()
 
@@ -76,7 +69,7 @@
 				else return null
 			})
 
-			const { filterRegistry, projectGroups } = storeToRefs(projectstore)
+			const { filterRegistry, projectGroups } = storeToRefs(projectStore)
 			const refTree = ref<NestedGroup[]>([])
 
 			const toggleSlideover = () => {
@@ -88,29 +81,14 @@
 			}
 
 			const toggleColorMode = () => {
-				refTree.value = updateGroupColors(refTree.value)
 				navStore.toggleColorMode()
-				if(navStore.groupColorMode) {
-					const groups = []
-					refTree.value.forEach(element => {
-						// Extract the hsl values from the color string using regex
-						const hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
-  					const match = element.color.match(hslRegex);
-						const [, hue, saturation, lightness] = match.map(str => parseInt(str));
-						// Create group object with hex color
-						const group = {
-							objectIds: element.objects.map(obj => obj.URI),
-							color: hslToHex(hue, saturation, lightness)
-						}
-						groups.push(group)
-					})
-					speckleStore.viewer.setUserObjectColors(groups)
-				}
 			}
 
 			onMounted(() => {
 				setStandardFilters()
-				calcList(true)
+				calculateGroups(true)
+				refTree.value =	projectStore.getGroupTree()?.children
+				speckleStore.calculateGroupColors(refTree.value)
 			})
 
 			/**
@@ -119,17 +97,20 @@
 			watch(
 				() => filterRegistry.value?.filterCallStack,
 				() => {
-					calcList(true)
+					calculateGroups(true)
+					refTree.value =	projectStore.getGroupTree()?.children
+					speckleStore.calculateGroupColors(refTree.value)
+					speckleStore.hideUnusedObjects(speckleStore.hiddenObjects.map(obj => obj.id))
 				}
 			)
 
 			/**
-			 * Remake the tree if change is done of the group list
+			 * Remake the tree if change is done on the group list
 			 */
 			watch(
 				projectGroups,
 				() => {
-					calcList(false)
+					calculateGroups(false)
 				},
 				{ deep: true }
 			)
@@ -155,79 +136,7 @@
 				}
 
 				exampleRegistry.filterCallStack = testFilters
-				projectstore.setFilterRegistry(exampleRegistry)
-			}
-
-			/**
-			 * TODO: Move this to projectutils
-			 * Calculate the list, this is triggered onMounted but can be manually triggered on updates
-			 */
-			const calcList = (reCalc: boolean) => {
-				let groups: Group[] = []
-
-				// First time running we need to define the groups from scratch
-				if (reCalc) {
-					//Create geometry objects from the project
-					let geo: GeometryObject[] = []
-					projectstore.currProject?.geometry.forEach((element) => {
-						geo.push(element)
-					})
-
-					//Root for the group, this should not be needed
-					groups = [
-						{
-							id: 'test',
-							name: 'root',
-							path: ['root'],
-							elements: geo,
-							color: 'hsl(151, 100%, 50%)'
-						}
-					]
-
-					//Go through each filter and iterate over them
-					let reverseStack: Filter[] = []
-					if (projectstore.filterRegistry)
-						reverseStack = projectstore.filterRegistry.filterCallStack.callStack
-
-					reverseStack.forEach((el) => {
-						if (el.value) {
-							groups = projectstore.filterRegistry?.callFilter(
-								`${el.name}`,
-								groups,
-								`${el.field}`,
-								`${el.value}`,
-								el.remove
-							)
-						} else {
-							groups = projectstore.filterRegistry?.callFilter(
-								`${el.name}`,
-								groups,
-								`${el.field}`
-							)
-						}
-
-						//Remove root in path since we had to add it
-						groups.forEach((element) => {
-							if (element.path[0] === 'root') element.path.splice(0, 1)
-						})
-					})
-				} else {
-					if (projectstore.projectGroups) {
-						groups = projectstore.projectGroups
-					}
-				}
-
-				groups.sort((a, b) => b.elements.length - a.elements.length)
-
-				//Update groups and make a tree structure from them
-				projectstore.updateGroups(groups)
-				const tree: NestedGroup[] | undefined =
-					projectstore.getGroupTree()?.children
-
-				if (tree) {
-					tree.sort((a, b) => b.objects.length - a.objects.length)
-					refTree.value = tree
-				}
+				projectStore.setFilterRegistry(exampleRegistry)
 			}
 
 			return {
