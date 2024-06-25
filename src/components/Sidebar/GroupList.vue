@@ -49,7 +49,7 @@
 	import { useSpeckleStore } from '@/stores/speckle'
 
 	export default defineComponent({
-		name: 'FilterList',
+		name: 'GroupList',
 		components: {
 			PencilSquareIcon,
 			PlusCircleIcon,

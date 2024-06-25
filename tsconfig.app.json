@@ -23,7 +23,6 @@
 		"noEmit": true,
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
-		"noUnusedVariables": false,
 		"noImplicitReturns": true,
 		"skipLibCheck": true,
 		"paths": {
