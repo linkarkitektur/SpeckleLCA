@@ -1,5 +1,5 @@
 import type { EPD, SubType } from 'lcax'
-import type { Assembly, SortingOption, FilterParam } from '@/models/project'
+import type { Mapping, MaterialFilterParam, MaterialSortingOption, Assembly } from '@/models/material'
 import { defineStore } from 'pinia'
 import materialList from '@/tests/objects/materialList.json'
 
@@ -9,15 +9,15 @@ export const useMaterialStore = defineStore({
     materials: [] as EPD[],
     assemblies: [] as Assembly[],
     currentMapping: null as EPD | Assembly | null,
-    sorting: { parameter: 'name', direction: 'asc' } as SortingOption,
+    sorting: { parameter: 'name', direction: 'asc' } as MaterialSortingOption,
     EPDMode: true,
     EPDList: [] as EPD[],
     assemblyList: [] as Assembly[],
     //Filters this could be dynamic?
     paramFilters: {
-      matParam: [] as FilterParam[],
-      subParam: [] as FilterParam[],
-      unitParam: [] as FilterParam[],
+      matParam: [] as MaterialFilterParam[],
+      subParam: [] as MaterialFilterParam[],
+      unitParam: [] as MaterialFilterParam[],
     },
     sortingParameters: [
       { "filterName": 'name',
@@ -37,6 +37,11 @@ export const useMaterialStore = defineStore({
         "paramName": "unitParam"
       }
     ],
+    mapping: {
+      id: '',
+      name: '',
+      materials: [] as { objId: string, material: EPD | Assembly }[]
+    } as Mapping,
   }),
   actions: {
     /**
@@ -203,6 +208,38 @@ export const useMaterialStore = defineStore({
         }
         return 0
       })
+    },
+
+    /**
+     * Set Mapping for saving and reloading from firebase
+     */
+    setMapping(mapping: Mapping) {
+      this.mapping = mapping
+    },
+
+    /**
+     * Update Mapping material for specific objectId will create if not found
+     * @param objId objectId in most cases a speckle url
+     * @param material EPD or Assembly cannot be null
+     */
+    updateMappingMaterial(objId: string, material: EPD | Assembly) {
+      const index = this.mapping.materials.findIndex((mat) => mat.objId === objId)
+      if (index !== -1) {
+        this.mapping.materials[index].material = material
+      } else {
+        this.mapping.materials.push({ objId, material })
+      }
+    },
+
+    /**
+     * Remove material for specific object
+     * @param objId objectId in most cases a speckle url
+     */
+    removeMappingMaterial(objId: string) {
+      const index = this.mapping.materials.findIndex((mat) => mat.objId === objId)
+      if (index !== -1) {
+        this.mapping.materials.splice(index, 1)
+      }
     },
   }
 })
