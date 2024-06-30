@@ -214,6 +214,19 @@ export const useProjectStore = defineStore({
 		},
 
 		/**
+		 * Get the geometry object by ID
+		 * @param id The ID of the geometry object to get.
+		 * @returns The geometry object with the provided ID.
+		 */
+		getGeometryObjectById(id: string) {
+			if (this.currProject) {
+				return this.currProject.geometry.find((obj) => obj.id === id)
+			} else {
+				return null
+			}
+		},
+
+		/**
 		 * Calculate the results for the project
 		 * Go through each object and check the material and calculate a value based on the material
 		 * @param geometry The geometry objects to calculate results for, if nothing will do whole project

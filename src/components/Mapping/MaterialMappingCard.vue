@@ -62,10 +62,12 @@ export default defineComponent({
     })
 
     // Couldnt get the drop event to transmit the data so we use the store instead
+    // This is where we update the material of the objectsv
     const onDrop = () => {
       inGroup.value.objects.forEach(obj => {
         if (materialStore.currentMapping != null) {
           obj.material = materialStore.currentMapping
+          materialStore.updateMappingMaterial(obj.URI, materialStore.currentMapping)
         }
       })
       const mappingColors = setMappingColorGroup()
