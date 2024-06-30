@@ -1,19 +1,15 @@
 import { defineStore } from 'pinia'
 import { db } from '@/firebase'
-import { 
-  collection, 
-  addDoc,
-  query, 
-  where, 
-  orderBy, 
-  limit, 
-  getDocs 
-} from 'firebase/firestore'
 import type {
 	FilterRegistry,
   FilterList
 } from '@/models/filters'
-import type { Mapping } from '@/models/material'
+import type { 
+  Mapping 
+} from '@/models/material'
+import type { 
+  Results 
+} from '@/models/project'
 
 interface FilterLog {
   projectId: string
@@ -28,7 +24,13 @@ interface MappingLog {
   date: Date
 }
 
-export const useLogStore = defineStore('log', {
+interface ResultsLog {
+  projectId: string
+  results: Results
+  date: Date
+}
+
+export const useFirebaseStore = defineStore('firebase', {
   state: () => ({
     loading: false,
     error: null,
@@ -50,7 +52,7 @@ export const useLogStore = defineStore('log', {
           filterCallStack: filterRegistry.filterCallStack,
           date: new Date(),
         }
-        await addDoc(collection(db, 'projectFilters'), newStack)
+        await db.collection('projectFilters').add(newStack)
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -63,18 +65,16 @@ export const useLogStore = defineStore('log', {
      * @param projectId projectId which usually is the streamID from speckle
      * @returns last 5 filterLogs, or null if none found
      */
-    async fetchLatestFilterLogs(projectId: string): Promise<FilterLog[] | null> {
+    async fetchLatestFilters(projectId: string): Promise<FilterLog[] | null> {
       this.loading = true
       this.error = null
       try {
-        const q = query(
-          collection(db, 'projectFilters'),
-          where('projectId', '==', projectId),
-          orderBy('date', 'desc'),
-          limit(5)
-        )
-        const querySnapshot = await getDocs(q)
-        if (!querySnapshot.empty) {
+        const queryRef = db.collection('projectFilters')
+          .where('projectId', '==', projectId)
+          .orderBy('date', 'desc')
+          .limit(5)
+        const querySnapshot = await queryRef.get()
+          if (!querySnapshot.empty) {
           // Get the 5 latest filterstates
           const filterStates = querySnapshot.docs.map(doc => doc.data().filterCallStack) as FilterLog[]
           return filterStates
@@ -97,12 +97,10 @@ export const useLogStore = defineStore('log', {
       this.loading = true
       this.error = null
       try {
-        const q = query(
-          collection(db, 'genericFilters'),
-          orderBy('date', 'desc'),
-          limit(20)
-        )
-        const querySnapshot = await getDocs(q)
+        const queryRef = db.collection('genericFilters')
+          .orderBy('date', 'desc')
+          .limit(20)
+        const querySnapshot = await queryRef.get()
         if (!querySnapshot.empty) {
           // Get the 20 latest generic filterstates
           const filterStates = querySnapshot.docs.map(doc => doc.data().filterCallStack) as FilterLog[]
@@ -132,7 +130,7 @@ export const useLogStore = defineStore('log', {
           mapping: mapping,
           date: new Date(),
         }
-        await addDoc(collection(db, 'mappings'), mappingLog)
+        await db.collection('mappings').add(mappingLog)
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -150,13 +148,11 @@ export const useLogStore = defineStore('log', {
       this.loading = true
       this.error = null
       try {
-        const q = query(
-          collection(db, 'mappings'),
-          where('projectId', '==', projectId),
-          orderBy('date', 'desc'),
-          limit(resLimit)
-        )
-        const querySnapshot = await getDocs(q)
+        const queryRef = db.collection('mappings')
+          .where('projectId', '==', projectId)
+          .orderBy('date', 'desc')
+          .limit(resLimit)
+        const querySnapshot = await queryRef.get()
         if (!querySnapshot.empty) {
           const mappings = querySnapshot.docs.map(doc => doc.data()) as MappingLog[]
           return mappings
@@ -166,6 +162,123 @@ export const useLogStore = defineStore('log', {
       } catch (error: any) {
         this.error = error.message
         return null
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Deletes a mapping from the database
+     * @param projectId projectId which usually is the streamID from Speckle
+     * @param mappingId mappingId to delete
+     */
+    async deleteMapping(projectId: string, mappingId: string) {
+      this.loading = true
+      this.error = null
+    
+      try {
+        const queryRef = db.collection('mappings')
+          .where('projectId', '==', projectId)
+          .where('mappingId', '==', mappingId)
+        const querySnapshot = await queryRef.get()
+        if (!querySnapshot.empty) {
+          const batch = db.batch()
+          querySnapshot.forEach(doc => {
+            batch.delete(doc.ref)
+          })
+          await batch.commit()
+        } else {
+          this.error = 'No matching document found'
+        }
+      } catch (error: any) {
+        this.error = error.message
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Adds results to the firebase DB to save the current results, only saving aggregated results
+     * To get object based results reload the mappings and recalculate
+     * @param projectId projectId which usually is the streamID from speckle
+     * @param results aggregated results from geometry objects
+     */
+    async addResults(projectId: string, results: Results) {
+      this.loading = true
+      this.error = null
+      try {
+        const resultsLog: ResultsLog = {
+          projectId: projectId,
+          results: results,
+          date: new Date(),
+        }
+        await db.collection('projectResults').add(resultsLog)
+      } catch (error: any) {
+        this.error = error.message
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Fetches aggregated results for the project, with a optional limit
+     * @param projectId projectId which usually is the streamID from speckle
+     * @param resLimit Optional limit of results, default is 25
+     * @returns 
+     */
+    async fetchResults(projectId: string, resLimit: number = 25): Promise<ResultsLog[] | null> {
+      this.loading = true
+      this.error = null
+      try {
+        const queryRef = db.collection('projectResults')
+          .where('projectId', '==', projectId)
+          .orderBy('date', 'desc')
+          .limit(resLimit)
+        const querySnapshot = await queryRef.get()
+        if (!querySnapshot.empty) {
+          const results = querySnapshot.docs.map(doc => doc.data()) as ResultsLog[]
+          return results
+        } else {
+          return []
+        }
+      } catch (error: any) {
+        this.error = error.message
+        return null
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Deletes a result from the database
+     * @param projectId projectId which usually is the streamID from Speckle
+     * @param resultsId resultsId to delete
+     */
+    async deleteResults(projectId: string, resultsId: string) {
+      this.loading = true
+      this.error = null
+    
+      try {
+        const queryRef = db.collection('projectResults')
+          .where('projectId', '==', projectId)
+          .where('results.id', '==', resultsId)
+        
+        const querySnapshot = await queryRef.get()
+    
+        if (!querySnapshot.empty) {
+          const batch = db.batch()
+          querySnapshot.forEach(doc => {
+            const data = doc.data()
+            if (data.results && data.results.id === resultsId) {
+              batch.delete(doc.ref)
+            }
+          })
+          await batch.commit()
+        } else {
+          this.error = 'No matching document found'
+        }
+      } catch (error: any) {
+        this.error = error.message
       } finally {
         this.loading = false
       }

@@ -1,16 +1,15 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import type { ServiceAccount } from 'firebase-admin'
+import { getFirestore } from 'firebase-admin/firestore'
+import * as admin from 'firebase-admin'
+import path from 'path'
 
-const firebaseConfig = {
-  apiKey: 'YOUR_API_KEY',
-  authDomain: 'YOUR_AUTH_DOMAIN',
-  projectId: 'YOUR_PROJECT_ID',
-  storageBucket: 'YOUR_STORAGE_BUCKET',
-  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-  appId: 'YOUR_APP_ID',
-};
+const serviceAccountPath = path.resolve(__dirname, '../../serviceAccountKey.json')
+const serviceAccount: ServiceAccount = require(serviceAccountPath)
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+})
 
-export { db };
+const db = getFirestore()
+
+export { db }
