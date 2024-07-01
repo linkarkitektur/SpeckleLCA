@@ -4,6 +4,16 @@ import type {
 	FilterRegistry,
   FilterList
 } from '@/models/filters'
+import { 
+  collection, 
+  addDoc,
+  query, 
+  where, 
+  orderBy, 
+  limit, 
+  getDocs,
+  writeBatch
+} from 'firebase/firestore'
 import type { 
   Mapping 
 } from '@/models/material'
@@ -52,13 +62,14 @@ export const useFirebaseStore = defineStore('firebase', {
           filterCallStack: filterRegistry.filterCallStack,
           date: new Date(),
         }
-        await db.collection('projectFilters').add(newStack)
+        await addDoc(collection(db, 'projectFilters'), newStack)
       } catch (error: any) {
         this.error = error.message
       } finally {
         this.loading = false
       }
     },
+
 
     /**
      * Fetches the last 5 filterLogs for a project
@@ -69,12 +80,14 @@ export const useFirebaseStore = defineStore('firebase', {
       this.loading = true
       this.error = null
       try {
-        const queryRef = db.collection('projectFilters')
-          .where('projectId', '==', projectId)
-          .orderBy('date', 'desc')
-          .limit(5)
-        const querySnapshot = await queryRef.get()
-          if (!querySnapshot.empty) {
+        const q = query(
+          collection(db, 'projectFilters'),
+          where('projectId', '==', projectId),
+          orderBy('date', 'desc'),
+          limit(5)
+        )
+        const querySnapshot = await getDocs(q)
+        if (!querySnapshot.empty) {
           // Get the 5 latest filterstates
           const filterStates = querySnapshot.docs.map(doc => doc.data().filterCallStack) as FilterLog[]
           return filterStates
@@ -89,18 +102,22 @@ export const useFirebaseStore = defineStore('firebase', {
       }
     },
 
+
     /**
-     * Returns the last 20 generic filterLogs to be used as standard filters
+     * Returns the last generic filterLogs to be used as standard filters
+     * @param resLimit Optional limit of results, default is 20
      * @returns last 20 generic filterLogs
      */
-    async fetchGenericFilters(): Promise<FilterLog[]> {
+    async fetchGenericFilters(resLimit: number = 20): Promise<FilterLog[]> {
       this.loading = true
       this.error = null
       try {
-        const queryRef = db.collection('genericFilters')
-          .orderBy('date', 'desc')
-          .limit(20)
-        const querySnapshot = await queryRef.get()
+        const q = query(
+          collection(db, 'genericFilters'),
+          orderBy('date', 'desc'),
+          limit(resLimit)
+        )
+        const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
           // Get the 20 latest generic filterstates
           const filterStates = querySnapshot.docs.map(doc => doc.data().filterCallStack) as FilterLog[]
@@ -130,7 +147,7 @@ export const useFirebaseStore = defineStore('firebase', {
           mapping: mapping,
           date: new Date(),
         }
-        await db.collection('mappings').add(mappingLog)
+        await addDoc(collection(db, 'projectFilters'), mappingLog)
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -148,11 +165,13 @@ export const useFirebaseStore = defineStore('firebase', {
       this.loading = true
       this.error = null
       try {
-        const queryRef = db.collection('mappings')
-          .where('projectId', '==', projectId)
-          .orderBy('date', 'desc')
-          .limit(resLimit)
-        const querySnapshot = await queryRef.get()
+        const q = query(
+          collection(db, 'mappings'),
+          where('projectId', '==', projectId),
+          orderBy('date', 'desc'),
+          limit(resLimit)
+        )
+        const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
           const mappings = querySnapshot.docs.map(doc => doc.data()) as MappingLog[]
           return mappings
@@ -175,14 +194,16 @@ export const useFirebaseStore = defineStore('firebase', {
     async deleteMapping(projectId: string, mappingId: string) {
       this.loading = true
       this.error = null
-    
+
       try {
-        const queryRef = db.collection('mappings')
-          .where('projectId', '==', projectId)
-          .where('mappingId', '==', mappingId)
-        const querySnapshot = await queryRef.get()
+        const q = query(
+          collection(db, 'mappings'),
+          where('projectId', '==', projectId),
+          where('mappingId', '==', mappingId)
+        )
+        const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
-          const batch = db.batch()
+          const batch = writeBatch(db)
           querySnapshot.forEach(doc => {
             batch.delete(doc.ref)
           })
@@ -196,6 +217,7 @@ export const useFirebaseStore = defineStore('firebase', {
         this.loading = false
       }
     },
+
 
     /**
      * Adds results to the firebase DB to save the current results, only saving aggregated results
@@ -212,7 +234,7 @@ export const useFirebaseStore = defineStore('firebase', {
           results: results,
           date: new Date(),
         }
-        await db.collection('projectResults').add(resultsLog)
+        await addDoc(collection(db, 'projectFilters'), resultsLog)
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -230,11 +252,13 @@ export const useFirebaseStore = defineStore('firebase', {
       this.loading = true
       this.error = null
       try {
-        const queryRef = db.collection('projectResults')
-          .where('projectId', '==', projectId)
-          .orderBy('date', 'desc')
-          .limit(resLimit)
-        const querySnapshot = await queryRef.get()
+        const q = query(
+          collection(db, 'projectResults'),
+          where('projectId', '==', projectId),
+          orderBy('date', 'desc'),
+          limit(resLimit)
+        )
+        const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
           const results = querySnapshot.docs.map(doc => doc.data()) as ResultsLog[]
           return results
@@ -259,19 +283,16 @@ export const useFirebaseStore = defineStore('firebase', {
       this.error = null
     
       try {
-        const queryRef = db.collection('projectResults')
-          .where('projectId', '==', projectId)
-          .where('results.id', '==', resultsId)
-        
-        const querySnapshot = await queryRef.get()
-    
+        const q = query(
+          collection(db, 'projectResults'),
+          where('projectId', '==', projectId),
+          where('mappingId', '==', resultsId)
+        )
+        const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
-          const batch = db.batch()
+          const batch = writeBatch(db)
           querySnapshot.forEach(doc => {
-            const data = doc.data()
-            if (data.results && data.results.id === resultsId) {
-              batch.delete(doc.ref)
-            }
+            batch.delete(doc.ref)
           })
           await batch.commit()
         } else {
