@@ -20,25 +20,11 @@ import type {
 import type { 
   Results 
 } from '@/models/project'
-
-interface FilterLog {
-  projectId: string
-  stackName: string
-  filterCallStack: FilterList
-  date: Date
-}
-
-interface MappingLog {
-  projectId: string
-  mapping: Mapping
-  date: Date
-}
-
-interface ResultsLog {
-  projectId: string
-  results: Results
-  date: Date
-}
+import type {
+  FilterLog,
+  MappingLog,
+  ResultsLog
+} from '@/models/firebase'
 
 export const useFirebaseStore = defineStore('firebase', {
   state: () => ({
@@ -52,7 +38,7 @@ export const useFirebaseStore = defineStore('firebase', {
      * @param filterRegistry current loaded filterRegistry
      * @param stackName name of the filter state, eg. Archicad walls 
      */
-    async addFilterState(projectId: string ,filterRegistry: FilterRegistry, stackName: string) {
+    async addFilterRegistry(projectId: string ,filterRegistry: FilterRegistry, stackName: string) {
       this.loading = true
       this.error = null
       try {
@@ -70,6 +56,29 @@ export const useFirebaseStore = defineStore('firebase', {
       }
     },
 
+    /**
+     * Saves the current filter state to the database, with a timestamp
+     * @param projectId projectId which usually is the streamID from speckle
+     * @param filterRegistry current loaded filterRegistry
+     * @param stackName name of the filter state, eg. Archicad walls 
+     */
+    async addFilterList(projectId: string ,filterList: FilterList, stackName: string) {
+      this.loading = true
+      this.error = null
+      try {
+        const newStack: FilterLog = {
+          projectId: projectId,
+          stackName: stackName,
+          filterCallStack: filterList,
+          date: new Date(),
+        }
+        await addDoc(collection(db, 'projectFilters'), newStack)
+      } catch (error: any) {
+        this.error = error.message
+      } finally {
+        this.loading = false
+      }
+    },
 
     /**
      * Fetches the last 5 filterLogs for a project
@@ -89,7 +98,7 @@ export const useFirebaseStore = defineStore('firebase', {
         const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
           // Get the 5 latest filterstates
-          const filterStates = querySnapshot.docs.map(doc => doc.data().filterCallStack) as FilterLog[]
+          const filterStates = querySnapshot.docs.map(doc => doc.data()) as FilterLog[]
           return filterStates
         } else {
           return null
@@ -120,7 +129,7 @@ export const useFirebaseStore = defineStore('firebase', {
         const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
           // Get the 20 latest generic filterstates
-          const filterStates = querySnapshot.docs.map(doc => doc.data().filterCallStack) as FilterLog[]
+          const filterStates = querySnapshot.docs.map(doc => doc.data()) as FilterLog[]
           return filterStates
         } else {
           return []

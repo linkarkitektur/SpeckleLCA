@@ -3,6 +3,7 @@
 		<div class="relative h-12">
 			<Dropdown
 				:items="dropdownItems"
+				:dropdownName="dropdownName"
 				@selectedItem="handleSelected"
 			/>
 			<button
@@ -55,29 +56,49 @@ import { FilterRegistry } from '@/models/filters'
 import type { NestedGroup, FilterList } from '@/models/filters'
 import type { dropdownItem } from '../Dropdown.vue'
 import type { Mapping } from '@/models/material'
+import type {
+  FilterLog,
+  MappingLog,
+  ResultsLog
+} from '@/models/firebase'
 
-const useFetchDropdownItems = (navStore, firebaseStore, speckleStore) => {
+const useFetchDropdownItems = (navStore, firebaseStore, speckleStore, projectStore) => {
 	const dropdownItems = ref<dropdownItem[]>([])
+	const dropdownName = ref('Fetch data')
+
+	const { handleSelected } = useHandleSelected(navStore, projectStore)
 
 	const fetchDropdownItems = async () => {
 		switch (navStore.activePage) {
-			case 'Overview': {
+			case 'Overview': {				
+				//Clear dropdownItems
+				dropdownItems.value = []
+				dropdownName.value = 'Fetch filters'
+				//Fetch filters for project and generic filters
 				const projectFilters = await firebaseStore.fetchLatestFilters(speckleStore.selectedProject.id)
 				const genericFilter = await firebaseStore.fetchGenericFilters()
-
-				dropdownItems.value = [
-					...projectFilters.map(log => ({ 
-						name: log.stackName,
-						data: JSON.stringify(log.filterCallStack)
-					})),
-					...genericFilter.map(log => ({ 
-						name: log.stackName,
-						data: JSON.stringify(log.filterCallStack)
-					}))
-				]
+				if (projectFilters) {
+					dropdownItems.value.push(
+						...projectFilters.map((log: FilterLog) => ({
+							name: log.stackName,
+							data: JSON.stringify(log.filterCallStack),
+						}))
+					)
+				}
+				if (genericFilter) {
+					dropdownItems.value.push(
+						...genericFilter.map((log: FilterLog) => ({
+							name: log.stackName,
+							data: JSON.stringify(log.filterCallStack),
+						}))
+					)
+				}
 				break
 			}
 			case 'Mapping': {
+				//Clear dropdownItems
+				dropdownItems.value = []
+				dropdownName.value = 'Fetch mappings'
 				const projectFilters = await firebaseStore.fetchMappings(speckleStore.selectedProject.id)
 
 				dropdownItems.value = [
@@ -90,6 +111,7 @@ const useFetchDropdownItems = (navStore, firebaseStore, speckleStore) => {
 			}
 			case 'Results':
 			case 'Benchmark': {
+				dropdownName.value = 'Fetch results'
 				const projectFilters = await firebaseStore.fetchResults(speckleStore.selectedProject.id)
 
 				dropdownItems.value = [
@@ -107,6 +129,7 @@ const useFetchDropdownItems = (navStore, firebaseStore, speckleStore) => {
 
 	return {
 		dropdownItems,
+		dropdownName,
 		fetchDropdownItems
 	}
 }
@@ -116,7 +139,7 @@ const useHandleSelected = (navStore, projectStore) => {
 		try {
 			switch (navStore.activePage) {
 				case 'Overview': {
-					const filterList = JSON.parse(item) as FilterList
+					const filterList = JSON.parse(item.data) as FilterList
 					projectStore.updateRegistryStack(filterList.name, filterList.callStack)
 					break
 				} 
@@ -165,7 +188,7 @@ export default defineComponent({
 			else return null
 		})
 
-		const { dropdownItems, fetchDropdownItems } = useFetchDropdownItems(navStore, firebaseStore, speckleStore)
+		const { dropdownItems, dropdownName, fetchDropdownItems } = useFetchDropdownItems(navStore, firebaseStore, speckleStore, projectStore)
 		const { handleSelected } = useHandleSelected(navStore, projectStore)
 
 		const { filterRegistry, projectGroups } = storeToRefs(projectStore)
@@ -244,6 +267,7 @@ export default defineComponent({
 			refTree,
 			currSlideName,
 			dropdownItems,
+			dropdownName,
 			handleSelected,
 			toggleSlideover,
 			addGroup,
