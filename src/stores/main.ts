@@ -435,6 +435,7 @@ export const useProjectStore = defineStore({
 	}
 })
 
+//TODO: BREAK OUT INTO SEPERATE STORE
 /**
  * Navigation store that is used by the navigation bar in the application view
  */
@@ -453,6 +454,7 @@ export const useNavigationStore = defineStore({
 			loading: false,
 			groupColorMode: false,
 			sideBarShow: true,
+			saveModalOpen: false
 		}
 	},
 	actions: {
@@ -515,6 +517,13 @@ export const useNavigationStore = defineStore({
 		 */
 		toggleSideBar() {
 			this.sideBarShow = !this.sideBarShow
+		},
+
+		/**
+		 * Toggle save modal on the app
+		 */
+		toggleSaveModal() {
+			this.saveModalOpen = !this.saveModalOpen
 		}
 
 	},
