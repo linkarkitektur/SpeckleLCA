@@ -66,16 +66,18 @@ export default defineComponent({
     const navRef = storeToRefs(navStore)
 
     const currentSlideover = computed(() => {
-      if (navStore.activePage === "Overview")
-        return ModifyFilter;
-      else if (navStore.activePage === "Mapping")
-        return null;
-      else if (navStore.activePage === "Results")
-        return null;
-      else if (navStore.activePage === "Benchmark")
-        return null;
-      else
-        return null;
+      switch(navStore.activePage) {
+        case "Overview":
+          return ModifyFilter
+        case "Mapping":
+          return null
+        case "Results":
+          return null
+        case "Benchmark":
+          return null
+        default:
+          return null
+      }
     });
 
     const toggleSlideover = () => {
