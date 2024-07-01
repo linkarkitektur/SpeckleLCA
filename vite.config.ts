@@ -6,7 +6,6 @@
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
-import wasm from 'vite-plugin-wasm'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
@@ -18,8 +17,7 @@ export default defineConfig({
 		sentryVitePlugin({
 			org: 'link-io',
 			project: 'speckle-lca-frontend'
-		}),
-		wasm()
+		})
 	],
 
 	/**
