@@ -31,7 +31,7 @@ export interface Group {
 	// Path describes how group is shown in the tree view.
 	// Always put in the root first and then final name last
 	// eg. ["Wall", "Inner Wall", "Type 1"]
-	path: [string]
+	path: string[]
 	elements: GeometryObject[]
 	color?: string
 }
@@ -40,7 +40,7 @@ export interface Group {
  * Filter registry to store all filter functions
  */
 export class FilterRegistry {
-	private filters: {
+	public filters: {
 		[filterName: string]: Function
 	} = {}
 

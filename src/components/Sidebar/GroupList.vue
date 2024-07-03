@@ -58,8 +58,6 @@ import type { dropdownItem } from '../Dropdown.vue'
 import type { Mapping } from '@/models/material'
 import type {
   FilterLog,
-  MappingLog,
-  ResultsLog
 } from '@/models/firebase'
 
 const useFetchDropdownItems = (navStore, firebaseStore, speckleStore, projectStore) => {
@@ -93,6 +91,17 @@ const useFetchDropdownItems = (navStore, firebaseStore, speckleStore, projectSto
 						}))
 					)
 				}
+				if (dropdownItems.value.length === 0) {
+					dropdownItems.value.push({
+						name: 'No filters found',
+						data: null
+					})
+				} /*else {
+					handleSelected({
+						name: dropdownItems.value[0].name,
+						data: dropdownItems.value[0].data
+					})
+				}*/
 				break
 			}
 			case 'Mapping': {
@@ -212,22 +221,9 @@ export default defineComponent({
 		 */
 		 const setStandardFilters = () => {
 			//Create new filterregistry, maybe store this in the projectStore?
-			const exampleRegistry = new FilterRegistry()
-			createStandardFilters(exampleRegistry)
-
-			//We use filterlists to create the tree
-			const testFilters: FilterList = {
-				name: 'testFiltering',
-				callStack: [
-					{
-						name: 'groupBy',
-						field: 'speckle_type'
-					}
-				]
-			}
-
-			exampleRegistry.filterCallStack = testFilters
-			projectStore.setFilterRegistry(exampleRegistry)
+			const registry = new FilterRegistry()
+			projectStore.setFilterRegistry(registry)
+			createStandardFilters()
 		}
 
 		onMounted(() => {
