@@ -6,7 +6,7 @@
 			>
 				<div class="lg:ml-auto lg:pl-4 lg:pt-4">
 					<div class="lg:max-w-lg">
-						<h2 class="text-base font-semibold leading-7 text-indigo-600">
+						<h2 class="text-base font-semibold leading-7 text-green-600">
 							Sustainability in the cloud
 						</h2>
 						<p
@@ -31,7 +31,7 @@
 								<dt class="inline font-semibold text-gray-900">
 									<component
 										:is="feature.icon"
-										class="absolute left-1 top-1 h-5 w-5 text-indigo-600"
+										class="absolute left-1 top-1 h-5 w-5 text-green-600"
 										aria-hidden="true"
 									/>
 									{{ feature.name }}
@@ -49,7 +49,7 @@
 						class="-m-2 rounded-xl bg-gray-900/10 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4"
 					>
 						<img
-							src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+							:src="appScreenshotUrl"
 							alt="Product screenshot"
 							class="w-xl max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[1200px]"
 							width="2432"
@@ -69,6 +69,8 @@
 		ServerStackIcon
 	} from '@heroicons/vue/20/solid'
 	import { defineComponent } from 'vue'
+
+	import appScreenshot from '@/assets/images/appPictureMapping.png'
 
 	export default defineComponent({
 		name: 'FeaturesComponent',
@@ -96,7 +98,8 @@
 			]
 
 			return {
-				features
+				features,
+				appScreenshotUrl: appScreenshot,
 			}
 		}
 	})

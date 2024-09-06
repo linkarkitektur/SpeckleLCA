@@ -2,7 +2,7 @@
   <div class="relative isolate select-none overflow-hidden bg-white">
     <!-- Transparent Gridded Overlay -->
     <svg
-      class="absolute inset-0 -z-10 h-full w-full stroke-indigo-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+      class="absolute inset-0 -z-10 h-full w-full stroke-green-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
       aria-hidden="true"
     >
       <defs>
@@ -33,14 +33,14 @@
       >
         <!-- Main App Icon -->
         <img
-          class="h-11"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&amp;shade=600"
+          class="h-20"
+          :src="iconUrl"
           alt="SpeckLCA Logo"
         />
 
         <!-- Main hero section. -->
         <h1
-          class="mt-10 text-4xl font-semibold tracking-tight text-indigo-600 sm:text-6xl"
+          class="mt-10 text-4xl font-semibold tracking-tight text-green-600 sm:text-6xl"
         >
           SpeckLCA
         </h1>
@@ -58,7 +58,7 @@
         <div class="mt-10 flex items-center gap-x-6">
           <a
             href="/projects"
-            class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            class="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
             >Get Started</a
           >
           <a
@@ -73,7 +73,7 @@
           <div class="mt-12 sm:mt-10 lg:mt-12">
             <button
               type="button"
-              class="rounded bg-indigo-100 px-2 py-1 text-sm font-semibold text-indigo-600 shadow-md"
+              class="rounded bg-green-100 px-2 py-1 text-sm font-semibold text-green-600 shadow-md"
             >
               Latest Commits
             </button>
@@ -111,7 +111,7 @@
             class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4"
           >
             <img
-              src="https://tailwindui.com/img/component-images/project-app-screenshot.png"
+              :src="appScreenshotUrl"
               alt="App screenshot"
               width="2432"
               height="1442"
@@ -127,6 +127,9 @@
 <script lang="ts">
 import { ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { defineComponent, ref, onMounted } from 'vue'
+
+import icon from '@/assets/icons/logo.svg'
+import appScreenshot from '@/assets/images/appPicture3D.png'
 
 export default defineComponent({
   name: 'HeroComponent',
@@ -163,6 +166,8 @@ export default defineComponent({
 
     return {
       latestCommit,
+      iconUrl: icon,
+      appScreenshotUrl: appScreenshot,
     }
   },
 })

@@ -104,7 +104,7 @@ function addObjToGroup(
     outGroup[uniqueField].elements.push(obj)
   } else {
     outGroup[uniqueField] = {
-      id: crypto.randomUUID(),
+      id: uniqueField,
       name: pathName,
       path: paths,
       elements: [obj],
@@ -169,22 +169,17 @@ export function createStandardFilters() {
    */
   addFilter('groupBy', (inGroup, field) => {
     const outGroup: { [field: string]: Group } = {};
-
     for (const grp of inGroup) {
       for (const obj of grp.elements) {
         if (!obj.parameters) throw new Error(`No parameters found for '${obj.id}'.`)
-
         const fieldValue = obj.parameters[field] || "No Data"
         const pathName = getTextAfterLastDot(fieldValue)
-
         addObjToGroup(outGroup, obj, true, grp, pathName)
       }
     }
-
     return Object.values(outGroup)
   })
 }
-
 
 /**
  * Gets the mapped material and returns a color based on it

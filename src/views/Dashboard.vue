@@ -2,7 +2,7 @@
 	<!-- Add all modals here -->
 	<NewGroupModal />
   <MaterialMappingModal />
-	<SaveModal />
+	<SaveFilterModal />
   <!-- End of modal area -->
 	<div class="flex">
 		<NavbarComponent />
@@ -34,7 +34,7 @@
 	// Modals
 	import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
 	import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
-	import SaveModal from '@/components/Modals/SaveModal.vue'
+	import SaveFilterModal from '@/components/Modals/SaveFilterModal.vue'
 
 	/**
 	 * Dashboard view.
@@ -49,7 +49,7 @@
 			Slideover,
 			NewGroupModal,
 			MaterialMappingModal,
-			SaveModal, 
+			SaveFilterModal, 
 		},
 		setup() {
 			//Load materials from the store on startup
