@@ -49,7 +49,8 @@ import {
 import { useNavigationStore } from '@/stores/main'
 import { storeToRefs } from 'pinia'
 
-import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue';
+import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue'
+import SaveMapping from '@/components/SlideOver/SaveMapping.vue'
 
 export default defineComponent({
   name: 'SlideOver',
@@ -70,7 +71,7 @@ export default defineComponent({
         case "Overview":
           return ModifyFilter
         case "Mapping":
-          return null
+          return SaveMapping
         case "Results":
           return null
         case "Benchmark":

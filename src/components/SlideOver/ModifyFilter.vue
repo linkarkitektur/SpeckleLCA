@@ -141,7 +141,6 @@
 		BookmarkIcon,
 	} from '@heroicons/vue/24/solid'
 	import { useNavigationStore, useProjectStore } from '@/stores/main'
-	import { useFirebaseStore } from '@/stores/firebase'
 
 	export default defineComponent({
 		name: 'ModifyFilter',
@@ -158,7 +157,6 @@
 		setup() {
 			const navStore = useNavigationStore()
 			const projectStore = useProjectStore()
-			const firebaseStore = useFirebaseStore()
 
 			const toggleSlideover = () => {
 				projectStore.updateRegistryStack('test', callStack.value)
@@ -231,16 +229,6 @@
 				}
 			}
 
-			const saveFilters = () => {
-				firebaseStore.addFilterList(
-					projectStore.currProject.id, {
-						name: 'test',
-						callStack: callStack.value
-					}, 
-					'test'
-				)
-			}
-
 			const toggleSaveModal = () => {
 				projectStore.updateRegistryStack('test', callStack.value)
 				navStore.toggleSaveModal()
@@ -254,7 +242,6 @@
 				addNewFilter,
 				removeFilter,
 				toggleFilter,
-				saveFilters,
 				filterNames,
 				parameterNames,
 				editFilter,
