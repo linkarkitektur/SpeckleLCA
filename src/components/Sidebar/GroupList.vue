@@ -108,14 +108,21 @@ const useFetchDropdownItems = (navStore, firebaseStore, speckleStore, projectSto
 				//Clear dropdownItems
 				dropdownItems.value = []
 				dropdownName.value = 'Fetch mappings'
-				const projectFilters = await firebaseStore.fetchMappings(speckleStore.selectedProject.id)
-
+				const projectMappings = await firebaseStore.fetchMappings(speckleStore.selectedProject.id)
+				
 				dropdownItems.value = [
-					...projectFilters.map(log => ({ 
-						name: log.mapping.name,
+					...projectMappings.map(log => ({ 
+						name: log.name,
 						data: JSON.stringify(log.mapping)
 					}))
 				]
+
+				if (dropdownItems.value.length === 0) {
+					dropdownItems.value.push({
+						name: 'No mappings found',
+						data: null
+					})
+				}
 				break
 			}
 			case 'Results':
@@ -153,7 +160,7 @@ const useHandleSelected = (navStore, projectStore) => {
 					break
 				} 
 				case 'Mapping': {
-					const mapping = JSON.parse(item) as Mapping
+					const mapping = JSON.parse(item.data) as Mapping
 					updateMapping(mapping)
 					break
 				}
@@ -191,7 +198,7 @@ export default defineComponent({
 
 		const currSlideName = computed(() => {
 			if (navStore.activePage === 'Overview') return 'Edit filters'
-			else if (navStore.activePage === 'Mapping') return 'Edit materials'
+			else if (navStore.activePage === 'Mapping') return 'Save mapping'
 			else if (navStore.activePage === 'Results') return 'Edit results'
 			else if (navStore.activePage === 'Benchmark') return 'Edit results'
 			else return null
