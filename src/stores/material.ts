@@ -2,6 +2,7 @@ import type { EPD, SubType } from 'lcax'
 import type { Mapping, MaterialFilterParam, MaterialSortingOption, Assembly } from '@/models/material'
 import { defineStore } from 'pinia'
 import materialList from '@/tests/objects/materialList.json'
+import type { NestedGroup } from "@/models/filters"
 
 export const useMaterialStore = defineStore({
   id: 'materialStore',
@@ -37,11 +38,7 @@ export const useMaterialStore = defineStore({
         "paramName": "unitParam"
       }
     ],
-    mapping: {
-      id: '',
-      name: '',
-      materials: [] as { objId: string, material: EPD | Assembly }[]
-    } as Mapping,
+    mapping: null as Mapping | null,
   }),
   actions: {
     /**
@@ -98,6 +95,13 @@ export const useMaterialStore = defineStore({
     },
 
     /**
+     * Returns the current mapping
+     */
+    getCurrentMapping() {
+      return this.mapping
+    },
+
+    /**
      * Update EPD list from JSON path 
      */
     async materialsFromJson() {
@@ -122,17 +126,25 @@ export const useMaterialStore = defineStore({
     updateParameters() {
       const uniqueMaterialTypes = Array.from(
         new Set(this.materials.map((mat) => mat.meta_data?.materialType))
-      ).filter(Boolean)
+      ).filter(Boolean) as string[]
       const uniqueSubtypes = Array.from(
         new Set(this.materials.map((mat) => mat.subType as SubType))
-      ).filter(Boolean)
+      ).filter(Boolean) as string[]
       const uniqueDeclaredUnits = Array.from(
         new Set(this.materials.map((mat) => mat.declared_unit))
-      ).filter(Boolean)
+      ).filter(Boolean) as string[]
 
-      this.paramFilters.matParam = uniqueMaterialTypes.map((name) => ({ name, selected: false }))
-      this.paramFilters.subParam = uniqueSubtypes.map((name) => ({ name, selected: false }))
-      this.paramFilters.unitParam = uniqueDeclaredUnits.map((name) => ({ name, selected: false }))
+      this.paramFilters.matParam = uniqueMaterialTypes.map((name) => ({ 
+        name: name, 
+        selected: false 
+      }))
+      this.paramFilters.subParam = uniqueSubtypes.map((name) => ({ 
+        name: name, 
+        selected: false 
+      }))
+      this.paramFilters.unitParam = uniqueDeclaredUnits.map((name) => ({ 
+        name: name, selected: false 
+      }))
     },
 
     /**
@@ -218,28 +230,40 @@ export const useMaterialStore = defineStore({
     },
 
     /**
-     * Update Mapping material for specific objectId will create if not found
-     * @param objId objectId in most cases a speckle url
+     * Update Mapping material for specific nesterGroupId
+     * @param nestedGroupId id for the group to update
      * @param material EPD or Assembly cannot be null
      */
-    updateMappingMaterial(objId: string, material: EPD | Assembly) {
-      const index = this.mapping.materials.findIndex((mat) => mat.objId === objId)
+    updateMappingMaterial(nestedGroupId: string, material: EPD | Assembly) {
+      const index = this.mapping.steps.findIndex((step) => step.nestedGroupId === nestedGroupId)
       if (index !== -1) {
-        this.mapping.materials[index].material = material
-      } else {
-        this.mapping.materials.push({ objId, material })
+        this.mapping.steps[index].material = material
       }
     },
 
     /**
-     * Remove material for specific object
-     * @param objId objectId in most cases a speckle url
+     * Remove material for nested group
+     * @param nestedGroupId nested Group Id
      */
-    removeMappingMaterial(objId: string) {
-      const index = this.mapping.materials.findIndex((mat) => mat.objId === objId)
+    removeMappingMaterial(nestedGroupId: string) {
+      const index = this.mapping.steps.findIndex((mat) => mat.nestedGroupId === nestedGroupId)
       if (index !== -1) {
-        this.mapping.materials.splice(index, 1)
+        this.mapping.steps.splice(index, 1)
       }
     },
+
+    /**
+     * Add step to current mapping
+     * @param filterId filter id from current filter list to add to mapping object
+     * @param nestedGroup nested group to add mapping towards 
+     * @param material material to add to mapping
+     */
+    addStep(nestedGroup: NestedGroup, material: EPD | Assembly, filterId: string) {
+      this.mapping?.steps.push({
+        filterId: filterId,
+        nestedGroupId: nestedGroup.id,
+        material
+      })
+    }
   }
 })

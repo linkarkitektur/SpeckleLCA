@@ -115,9 +115,11 @@ export const useProjectStore = defineStore({
 		updateRegistryStack(name: string, callStack: Filter[]) {
 			if (this.filterRegistry)
 				this.filterRegistry.filterCallStack = {
+					id: crypto.randomUUID(),
 					name: name,
 					callStack: callStack
 				}
+				
 		},
 
 		/**
@@ -166,7 +168,8 @@ export const useProjectStore = defineStore({
 						}
 					})
 					Object.keys(geo.quantity).forEach((key) => {
-						if (geo.quantity[key as keyof typeof geo.quantity] !== 0) {
+						const quantityKey = key as keyof typeof geo.quantity
+						if (geo.quantity[quantityKey] !== 0 && geo.quantity[quantityKey] !== null) {
 							parameterSet.add(key)
 							geo.parameters[key] =
 								geo.quantity[key as keyof typeof geo.quantity].toString()
@@ -221,6 +224,19 @@ export const useProjectStore = defineStore({
 		getGeometryObjectById(id: string) {
 			if (this.currProject) {
 				return this.currProject.geometry.find((obj) => obj.id === id)
+			} else {
+				return null
+			}
+		},
+
+		/**
+		 * Returns nested group
+		 * @param id 
+		 * @returns 
+		 */
+		getGroupById(id: string): Group | null{
+			if (this.projectGroups) {
+				return this.projectGroups.find((group) => group.id === id)
 			} else {
 				return null
 			}

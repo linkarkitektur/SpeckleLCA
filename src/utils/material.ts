@@ -2,25 +2,39 @@ import { useProjectStore } from "@/stores/main"
 import { useMaterialStore } from "@/stores/material"
 import { useSpeckleStore } from "@/stores/speckle"
 
-import { setMappingColorGroup } from "@/utils/projectUtils"
+import { setMappingColorGroup, calculateGroups } from "@/utils/projectUtils"
 
 import type { Mapping } from "@/models/material"
 import type { FilterList, NestedGroup } from "@/models/filters"
 
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds
+ * TODO: This needs a redo and optimisation
  * @param mapping Mapping object to update towards project and material store
  */
 export function updateMapping(mapping: Mapping) {
   const projectStore = useProjectStore()
   const materialStore = useMaterialStore()
 
+  // Keep this in memory to avoid unnecessary updates of groups
+  let lastId = null
+
   mapping.steps.forEach(step => {
+    if (lastId != step.filterId) {
+      //Find the filter from the mapping and apply it to the project
+      const filterList = mapping.filters.find(filter => filter.id == step.filterId);
+      projectStore.updateRegistryStack(filterList.name, filterList.callStack)
+      calculateGroups(true)
+
+      lastId = step.filterId
+    }
+    //Search and find the group that we are updating
     const group = projectStore.getGroupById(step.nestedGroupId)
     
     if (group == null) {
       return
     } else {
+      //Update the material for all objects in the group
       group.elements.forEach(obj => {
         obj.material = step.material
       })
@@ -53,10 +67,15 @@ export function mapMaterial(inGroup: NestedGroup) {
     materialStore.mapping = newMapping
     materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
   } else {
+    // If the filter list is not in the mapping, add it
+    if (!materialStore.mapping.filters.includes(currFilterList)) {
+      materialStore.mapping.filters.push(currFilterList)
+    }
     materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
   }
 
   // Apply materials to all objects in the group
+  // TODO: I think this should be an automated function from the Step we added or moved to addStep instead
   inGroup.objects.forEach(obj => {
     if (materialStore.currentMapping != null) {
       obj.material = materialStore.currentMapping

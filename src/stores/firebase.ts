@@ -147,7 +147,7 @@ export const useFirebaseStore = defineStore('firebase', {
      * @param projectId projectId which usually is the streamID from speckle
      * @param mapping mapping to save
      */
-    async addMapping(projectId: string, mapping: Mapping) {
+    async addMapping(projectId: string, mapping: Mapping, name: string) {
       this.loading = true
       this.error = null
       try {
@@ -155,8 +155,9 @@ export const useFirebaseStore = defineStore('firebase', {
           projectId: projectId,
           mapping: mapping,
           date: new Date(),
+          name: name,
         }
-        await addDoc(collection(db, 'projectFilters'), mappingLog)
+        await addDoc(collection(db, 'mappings'), mappingLog)
       } catch (error: any) {
         this.error = error.message
       } finally {
