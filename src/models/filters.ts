@@ -5,6 +5,7 @@ import type { GeometryObject } from './geometryObject'
  */
 export interface FilterList {
 	name: string
+	id: string
 	callStack: Filter[]
 }
 
@@ -46,6 +47,7 @@ export class FilterRegistry {
 
 	public filterCallStack: FilterList = {
 		name: '',
+		id: '',
 		callStack: []
 	}
 

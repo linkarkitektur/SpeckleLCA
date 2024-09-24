@@ -11,6 +11,7 @@ export interface FilterLog {
 
 export interface MappingLog {
   projectId: string
+  name: string
   mapping: Mapping
   date: Date
 }

@@ -1,5 +1,6 @@
 import type { EPD } from 'lcax'
 import type { Results } from '@/models/project'
+import type { FilterList } from './filters'
 
 // Material and Assembly interfaces
 
@@ -27,20 +28,26 @@ export interface Assembly {
 	]
 	sqm?: number
 	result: Results
-	isAssembly: boolean
+}
+
+/**
+ * Mapping step used in saving and restoring mappings
+ */
+export interface MappingStep {
+	filterId: string
+	nestedGroupId: string
+	material: EPD | Assembly
 }
 
 /**
  * Mapping interface, stores all metadata of the mapping.
- * TODO: This is on object basis now, might be to much to store? Maybe make a similar approach as to filterings?
+ * Keeps a list of all filters so we dont have to cross reference with relationships
  */
 export interface Mapping {
   id: string
   name: string
-  materials: [{
-    objId: string
-    material: EPD | Assembly
-  }]
+	filters: FilterList[]  
+	steps: MappingStep[]
 }
 
 /**
