@@ -10,6 +10,15 @@
 				<div class="ml-3 flex h-7 items-center">
 					<button
 						type="button"
+						class="relative rounded-md mr-4 bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+						@click="toggleSaveModal()"
+					>
+						<span class="absolute -inset-2.5" />
+						<span class="sr-only"> Save filters </span>
+						<BookmarkIcon class="h-6 w-6" aria-hidden="true" />
+					</button>
+					<button
+						type="button"
 						class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 						@click="toggleSlideover()"
 					>
@@ -128,7 +137,8 @@
 	import {
 		PencilSquareIcon,
 		PlusCircleIcon,
-		MinusCircleIcon
+		MinusCircleIcon,
+		BookmarkIcon,
 	} from '@heroicons/vue/24/solid'
 	import { useNavigationStore, useProjectStore } from '@/stores/main'
 
@@ -141,7 +151,8 @@
 			XMarkIcon,
 			PencilSquareIcon,
 			PlusCircleIcon,
-			MinusCircleIcon
+			MinusCircleIcon,
+			BookmarkIcon
 		},
 		setup() {
 			const navStore = useNavigationStore()
@@ -153,11 +164,6 @@
 			}
 
 			const editFilter = ref(-1)
-
-			const saveEdit = () => {
-				editFilter.value = -1
-				//projectStore.updateFilter(callStack.value)
-			}
 
 			const filterNames: dropdownItem[] = projectStore
 				.getFilterNames()
@@ -223,9 +229,14 @@
 				}
 			}
 
+			const toggleSaveModal = () => {
+				projectStore.updateRegistryStack('test', callStack.value)
+				navStore.toggleSaveModal()
+			}
+
 			return {
 				toggleSlideover,
-				saveEdit,
+				toggleSaveModal,
 				handleSelectedName,
 				handleSelectedField,
 				addNewFilter,

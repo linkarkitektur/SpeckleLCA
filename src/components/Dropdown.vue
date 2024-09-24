@@ -108,6 +108,13 @@
 				}
 			)
 
+			watch(
+				() => props.dropdownName,
+				(newValue) => {
+					selectedItem.value = newValue
+				}
+			)
+
 			return {
 				select,
 				dPItems,

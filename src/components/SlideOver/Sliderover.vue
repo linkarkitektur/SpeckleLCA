@@ -49,7 +49,8 @@ import {
 import { useNavigationStore } from '@/stores/main'
 import { storeToRefs } from 'pinia'
 
-import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue';
+import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue'
+import SaveMapping from '@/components/SlideOver/SaveMapping.vue'
 
 export default defineComponent({
   name: 'SlideOver',
@@ -66,16 +67,18 @@ export default defineComponent({
     const navRef = storeToRefs(navStore)
 
     const currentSlideover = computed(() => {
-      if (navStore.activePage === "Overview")
-        return ModifyFilter;
-      else if (navStore.activePage === "Mapping")
-        return null;
-      else if (navStore.activePage === "Results")
-        return null;
-      else if (navStore.activePage === "Benchmark")
-        return null;
-      else
-        return null;
+      switch(navStore.activePage) {
+        case "Overview":
+          return ModifyFilter
+        case "Mapping":
+          return SaveMapping
+        case "Results":
+          return null
+        case "Benchmark":
+          return null
+        default:
+          return null
+      }
     });
 
     const toggleSlideover = () => {

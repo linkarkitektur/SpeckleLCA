@@ -36,6 +36,7 @@ import type { NestedGroup } from '@/models/filters'
 import { useProjectStore } from '@/stores/main'
 import { useSpeckleStore } from '@/stores/speckle'
 import { getMappedMaterial, setMappingColorGroup } from '@/utils/projectUtils'
+import { mapMaterial } from '@/utils/material'
 
 export default defineComponent({
   name: 'MappingCard',
@@ -62,14 +63,10 @@ export default defineComponent({
     })
 
     // Couldnt get the drop event to transmit the data so we use the store instead
+    // This is where we update the material of the objects
     const onDrop = () => {
-      inGroup.value.objects.forEach(obj => {
-        if (materialStore.currentMapping != null) {
-          obj.material = materialStore.currentMapping
-        }
-      })
-      const mappingColors = setMappingColorGroup()
-      speckleStore.setColorGroups(mappingColors)
+      if (inGroup.value != null)
+        mapMaterial(inGroup.value)
     }
 
     // Open sub group if there are any

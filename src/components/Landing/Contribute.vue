@@ -75,7 +75,7 @@
 									open for all.
 								</p>
 							</blockquote>
-							<figcaption class="mt-6 text-base text-lg text-white">
+							<figcaption class="mt-6 text-lg text-white">
 								<div class="font-medium underline">
 									https://github.com/linkarkitektur/SpeckleLCA
 								</div>
