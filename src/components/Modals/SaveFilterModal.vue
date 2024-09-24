@@ -133,6 +133,7 @@ export default defineComponent({
     const saveData = () => {
       const filters: Filter[] = projectStore.getRegistryStack()
       const filterList: FilterList = {
+        id: crypto.randomUUID(),
         name: formData.value.name,
         callStack: filters
       }
