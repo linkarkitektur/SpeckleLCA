@@ -10,7 +10,7 @@
 				<div class="ml-3 flex h-7 items-center">
 					<button
 						type="button"
-						class="relative rounded-md mr-4 bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+						class="relative rounded-md mr-4 bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
 						@click="toggleSaveModal()"
 					>
 						<span class="absolute -inset-2.5" />
@@ -19,7 +19,7 @@
 					</button>
 					<button
 						type="button"
-						class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+						class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
 						@click="toggleSlideover()"
 					>
 						<span class="absolute -inset-2.5" />

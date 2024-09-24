@@ -13,7 +13,7 @@
 				<div class="sm:mx-auto sm:w-full sm:max-w-md">
 					<img
 						class="mx-auto h-10 w-auto"
-						src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+						src="https://tailwindui.com/img/logos/mark.svg?color=green&shade=600"
 						alt="SpecklLCA"
 					/>
 					<h2
@@ -30,7 +30,7 @@
 						<button
 							type="button"
 							@click="login"
-							class="rounded-full bg-indigo-600 px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500"
+							class="rounded-full bg-green-600 px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-green-500"
 						>
 							Please Login
 						</button>
@@ -41,7 +41,7 @@
 						{{ ' ' }}
 						<a
 							href="#"
-							class="font-medium leading-6 text-indigo-600 hover:text-indigo-500"
+							class="font-medium leading-6 text-green-600 hover:text-green-500"
 							>Sign up here.</a
 						>
 					</p>
