@@ -2,8 +2,8 @@
   <Switch
     v-model="renderMode"
     :class="[
-      !renderMode ? 'bg-indigo-600' : 'bg-gray-200',
-      'relative inline-flex mt-4 mb-2 mr-4 h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2'
+      !renderMode ? 'bg-green-600' : 'bg-gray-200',
+      'relative inline-flex mt-4 mb-2 mr-4 h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2'
     ]"
     @click="toggleRenderMode"
   >
@@ -30,7 +30,7 @@
         ]"
         aria-hidden="true"
       >
-        <HomeIcon class="h-3 w-3 text-indigo-600" />
+        <HomeIcon class="h-3 w-3 text-green-600" />
       </span>
     </span>
   </Switch>
@@ -38,8 +38,8 @@
   <Switch
     v-model="showHiddenObjects"
     :class="[
-      showHiddenObjects ? 'bg-indigo-600' : 'bg-gray-200',
-      'relative inline-flex mt-4 mb-2 h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2'
+      showHiddenObjects ? 'bg-green-600' : 'bg-gray-200',
+      'relative inline-flex mt-4 mb-2 h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2'
     ]"
     @click="toggleHidden"
   >
@@ -66,7 +66,7 @@
         ]"
         aria-hidden="true"
       >
-        <EyeIcon class="h-3 w-3 text-indigo-600" />
+        <EyeIcon class="h-3 w-3 text-green-600" />
       </span>
     </span>
   </Switch>
