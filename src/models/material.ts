@@ -1,5 +1,9 @@
-import type { EPD } from 'lcax'
-import type { Results } from '@/models/project'
+import type { 
+	LifeCycleStage, 
+	ImpactCategoryKey, 
+	Assembly as LcaxAssembly,
+	Product as LcaxProduct 
+} from 'lcax'
 import type { FilterList } from './filters'
 
 // Material and Assembly interfaces
@@ -11,23 +15,30 @@ export enum Source {
 }
 
 /**
- * Assembly interface, stores all metadata of the assembly.
- * Materials are stored as EPD and thickness.
- * Result is stored as a reference to the results object so it can be accessed directly without calcs.
+ * Product interface, extends LcaxProduct and adds emission data
  */
-export interface Assembly {
-	id: string
-	name: string
-	source: Source
-	location?: string
-	materials: [
-		{
-			EPD: EPD
-			thickness: number
+export interface Product extends LcaxProduct {
+  emission: {
+    [impactCategory in ImpactCategoryKey]: {
+      [lifecycleStage in LifeCycleStage]: {
+        amount: number
+      }
+    }
+  }
+}
+
+/**
+ * Assembly interface, extends LcaxAssembly and adds emission data and replaces products with local one
+ */
+export interface Assembly extends Omit<LcaxAssembly, 'products'> {
+	products: Record<string, Product>
+	emission: {
+		[impactCategory in ImpactCategoryKey]: {
+			[lifecycleStage in LifeCycleStage]: {
+				amount: number
+			}
 		}
-	]
-	sqm?: number
-	result: Results
+	}
 }
 
 /**
@@ -36,7 +47,7 @@ export interface Assembly {
 export interface MappingStep {
 	filterId: string
 	nestedGroupId: string
-	material: EPD | Assembly
+	material: Product | Assembly
 }
 
 /**
@@ -65,3 +76,8 @@ export interface MaterialSortingOption {
 	parameter: string
 	direction: string
 }
+
+/**
+ * Units for materials and assemblies.
+ */
+export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l"
