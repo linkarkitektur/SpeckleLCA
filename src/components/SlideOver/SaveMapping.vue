@@ -80,7 +80,6 @@ import { useNavigationStore, useProjectStore } from '@/stores/main'
 import { useMaterialStore } from '@/stores/material'
 import { useFirebaseStore } from '@/stores/firebase'
 import { Mapping } from '@/models/material'
-import { Title } from 'chart.js'
 
 export default defineComponent({
   name: 'SaveMapping',

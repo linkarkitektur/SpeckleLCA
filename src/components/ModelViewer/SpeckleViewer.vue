@@ -86,7 +86,7 @@
   import type { SunLightConfiguration } from '@/models/speckle'
 
   // Utility imports
-  import { geometryToMaterialChartData } from '@/utils/projectUtils'
+  import { geometryToMaterialChartData } from '@/utils/resultUtils'
 
   // Variables and references
   let viewer: Viewer | null = null

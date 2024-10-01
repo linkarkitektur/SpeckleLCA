@@ -10,7 +10,7 @@ import * as d3 from 'd3'
 import { ref, reactive, onMounted, watch, type PropType } from 'vue'
 import chroma from 'chroma-js'
 
-import { getValueColorFromGradient } from '@/utils/colors'
+import { getValueColorFromGradient } from '@/utils/colorUtils'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
 
 const sampleData: ChartData[] = [
