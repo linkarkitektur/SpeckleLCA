@@ -1,18 +1,19 @@
-import type { EPD, SubType } from 'lcax'
-import type { Mapping, MaterialFilterParam, MaterialSortingOption, Assembly } from '@/models/material'
+import type { Mapping, MaterialFilterParam, MaterialSortingOption, Assembly, Product } from '@/models/material'
 import { defineStore } from 'pinia'
 import materialList from '@/tests/objects/materialList.json'
 import type { NestedGroup } from "@/models/filters"
 
+import { applyParamFilters } from '@/utils/material'
+
 export const useMaterialStore = defineStore({
   id: 'materialStore',
   state: () => ({
-    materials: [] as EPD[],
+    materials: [] as Product[],
     assemblies: [] as Assembly[],
-    currentMapping: null as EPD | Assembly | null,
+    currentMapping: null as Product | Assembly | null,
     sorting: { parameter: 'name', direction: 'asc' } as MaterialSortingOption,
     EPDMode: true,
-    EPDList: [] as EPD[],
+    EPDList: [] as Product[],
     assemblyList: [] as Assembly[],
     //Filters this could be dynamic?
     paramFilters: {
@@ -45,7 +46,7 @@ export const useMaterialStore = defineStore({
      * Add material to store
      * @param material 
      */
-    addMaterial(material: EPD) {
+    addMaterial(material: Product) {
       this.materials.push(material)
     },
 
@@ -53,7 +54,7 @@ export const useMaterialStore = defineStore({
      * Remove material from store
      * @param material 
      */
-    removeMaterial(material: EPD) {
+    removeMaterial(material: Product) {
       const index = this.materials.indexOf(material)
       if (index !== -1) {
         this.materials.splice(index, 1)
@@ -83,14 +84,14 @@ export const useMaterialStore = defineStore({
      * Set current mapping material which is being dragged
      * @param mapping either EPD or Assembly
      */
-    setCurrentMapping(mapping: EPD | Assembly) {
+    setCurrentMapping(mapping: Product | Assembly) {
       this.currentMapping = mapping
     },
 
     /**
      * set filtered EPD list
      */
-    setFilteredMaterials(materials: EPD[]) {
+    setFilteredMaterials(materials: Product[]) {
       this.EPDList = materials
     },
 
@@ -125,20 +126,13 @@ export const useMaterialStore = defineStore({
      */
     updateParameters() {
       const uniqueMaterialTypes = Array.from(
-        new Set(this.materials.map((mat) => mat.meta_data?.materialType))
-      ).filter(Boolean) as string[]
-      const uniqueSubtypes = Array.from(
-        new Set(this.materials.map((mat) => mat.subType as SubType))
+        new Set(this.materials.map((mat) => mat.metaData?.materialType))
       ).filter(Boolean) as string[]
       const uniqueDeclaredUnits = Array.from(
-        new Set(this.materials.map((mat) => mat.declared_unit))
+        new Set(this.materials.map((mat) => mat.unit))
       ).filter(Boolean) as string[]
 
       this.paramFilters.matParam = uniqueMaterialTypes.map((name) => ({ 
-        name: name, 
-        selected: false 
-      }))
-      this.paramFilters.subParam = uniqueSubtypes.map((name) => ({ 
         name: name, 
         selected: false 
       }))
@@ -170,32 +164,30 @@ export const useMaterialStore = defineStore({
           if (!this.paramFilters[key].some((param) => param.selected)) {
             continue
           } else {
-            // Include all EPDs that have the selected filter
-            const EPDkeys = this.sortingParameters.map(param => param.filterName)
-
-            const tempList = this.EPDList.filter(
-              (epd) => {
-                return EPDkeys.some((EPDkey) => {
-                  return this.paramFilters[key]
-                    .filter((param) => param.selected)
-                    .map((param) => param.name)
-                    .includes(epd[EPDkey])
-                })
-              }
-            )
-            this.EPDList = tempList
+            // Update the filtered list
+            this.EPDList = applyParamFilters(this.EPDList, this.paramFilters[key])
           }
         }
       } else {
-        // Go through each assembly and check if the selected filter is in the assembly
-        this.assemblyList = this.assemblyList.filter(
-          (assembly) => {
-            return this.paramFilters.matParam
-              .filter((param) => param.selected)
-              .map((param) => param.name)
-              .includes(assembly.materials[0].EPD.meta_data?.materialType)
-          }
-        )
+        // Filter assembly list
+        this.assemblyList = this.assemblyList.filter((assembly) => {
+          // Check if at least one product in the assembly matches the filter
+          return Object.values(assembly.products).some((product) => {
+            for (const key in this.paramFilters) {
+              // If none of the filters are selected, skip this filter
+              if (!this.paramFilters[key].some((param) => param.selected)) {
+                continue
+              }
+              // Apply filters to each product in the assembly
+              const filteredProducts = applyParamFilters([product], this.paramFilters[key])
+              // If any product matches the filters, include the assembly
+              if (filteredProducts.length > 0) {
+                return true
+              }
+            }
+            return false
+          })
+        })
       }
     },
 
@@ -234,7 +226,7 @@ export const useMaterialStore = defineStore({
      * @param nestedGroupId id for the group to update
      * @param material EPD or Assembly cannot be null
      */
-    updateMappingMaterial(nestedGroupId: string, material: EPD | Assembly) {
+    updateMappingMaterial(nestedGroupId: string, material: Product | Assembly) {
       const index = this.mapping.steps.findIndex((step) => step.nestedGroupId === nestedGroupId)
       if (index !== -1) {
         this.mapping.steps[index].material = material
@@ -258,7 +250,7 @@ export const useMaterialStore = defineStore({
      * @param nestedGroup nested group to add mapping towards 
      * @param material material to add to mapping
      */
-    addStep(nestedGroup: NestedGroup, material: EPD | Assembly, filterId: string) {
+    addStep(nestedGroup: NestedGroup, material: Product | Assembly, filterId: string) {
       this.mapping?.steps.push({
         filterId: filterId,
         nestedGroupId: nestedGroup.id,
