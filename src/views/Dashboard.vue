@@ -26,7 +26,7 @@
 
 	// Utils
 	import { 
-		calculateGroups,
+		updateProjectGroups,
 		setMappingColorGroup,
 		setResultsColorGroup,
 	 } from '@/utils/projectUtils'
@@ -63,7 +63,7 @@
 			// TODO: Have this in the navStore instead?
 			watch(() => navStore.activePage , (newVal) => {
 				if(newVal === 'Overview') {
-					calculateGroups(true)
+					updateProjectGroups(true)
 					const tree =	projectStore.getGroupTree()?.children
 					speckleStore.calculateGroupColors(tree)
 				} else if(newVal === 'Mapping') {
