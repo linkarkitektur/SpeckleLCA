@@ -59,5 +59,27 @@ export default defineConfig({
 		 * Generate sourcemaps for debugging.
 		 */
 		sourcemap: true
-	}
+	},
+
+	server: {
+    proxy: {
+      '/api/eco': {
+        target: 'https://data.eco-platform.org', 
+        changeOrigin: true,
+        rewrite: (path) => {
+          return path.replace(/^\/api\/eco/, '')
+				},
+        secure: true,
+      },
+      '/EPD-NORWAY_DIGI': {
+        target: 'https://epdnorway.lca-data.com/resource/processes/',
+        changeOrigin: true,
+        rewrite: (path) => {
+					const newPath = path.replace(/^\/EPD-NORWAY_DIGI/, '');
+					return newPath;
+        },
+        secure: true,
+      },
+    },
+  },
 })
