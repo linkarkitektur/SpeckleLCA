@@ -9,8 +9,8 @@
 import * as d3 from 'd3'
 import { ref, reactive, onMounted, watch, type PropType } from 'vue'
 
-import { getValueColorFromGradient } from '@/utils/colors'
-import { truncateText } from '@/utils/projectUtils'
+import { getValueColorFromGradient } from '@/utils/colorUtils'
+import { truncateText } from '@/utils/stringUtils'
 import { roundNumber } from '@/utils/math'
 import { useProjectStore } from '@/stores/main'
 import type { ChartData, ChartOptions } from '@/models/chartModels'

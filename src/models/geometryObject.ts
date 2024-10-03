@@ -1,5 +1,5 @@
-import type { Unit, EPD } from 'lcax'
-import type { Assembly, Results } from '@/models/project'
+import type { MetricUnits, Assembly, Product } from '@/models/material'
+import type { Results } from '@/models/project'
 
 /*
  * Base geometry object.
@@ -9,9 +9,9 @@ export interface GeometryObject {
 	name: string
 	URI?: string // Link to geometry.
 	quantity: {
-		[k in Unit]: number
+		[k in MetricUnits]: number
 	}
-	material?: EPD | Assembly
+	material?: Product | Assembly
 	results?: Results[] // List of results if multiple runs are made.
 	parameters: {
 		[k: string]: string

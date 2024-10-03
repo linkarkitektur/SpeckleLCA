@@ -49,7 +49,8 @@ import Dropdown from '@/components/Dropdown.vue'
 import { useProjectStore, useNavigationStore } from '@/stores/main'
 import { useSpeckleStore } from '@/stores/speckle'
 import { useFirebaseStore } from '@/stores/firebase'
-import { createStandardFilters, calculateGroups } from '@/utils/projectUtils'
+import { createStandardFilters } from '@/utils/filterUtils'
+import { updateProjectGroups } from '@/utils/projectUtils'
 import { updateMapping } from '@/utils/material'
 
 import { FilterRegistry } from '@/models/filters'
@@ -63,8 +64,6 @@ import type {
 const useFetchDropdownItems = (navStore, firebaseStore, speckleStore, projectStore) => {
 	const dropdownItems = ref<dropdownItem[]>([])
 	const dropdownName = ref('Fetch data')
-
-	const { handleSelected } = useHandleSelected(navStore, projectStore)
 
 	const fetchDropdownItems = async () => {
 		switch (navStore.activePage) {
@@ -235,7 +234,7 @@ export default defineComponent({
 
 		onMounted(() => {
 			setStandardFilters()
-			calculateGroups(true)
+			updateProjectGroups(true)
 			refTree.value = projectStore.getGroupTree()?.children
 			speckleStore.calculateGroupColors(refTree.value)
 		})
@@ -251,7 +250,7 @@ export default defineComponent({
 		watch(
 			() => filterRegistry.value?.filterCallStack,
 			() => {
-				calculateGroups(true)
+				updateProjectGroups(true)
 				refTree.value = projectStore.getGroupTree()?.children
 				speckleStore.calculateGroupColors(refTree.value)
 				speckleStore.hideUnusedObjects(speckleStore.hiddenObjects.map(obj => obj.id))
@@ -261,7 +260,7 @@ export default defineComponent({
 		watch(
 			projectGroups,
 			() => {
-				calculateGroups(false)
+				updateProjectGroups(false)
 			},
 			{ deep: true }
 		)

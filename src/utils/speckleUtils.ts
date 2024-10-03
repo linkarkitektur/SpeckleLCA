@@ -6,7 +6,7 @@
 import type { Project } from '@/models/project'
 import type { ResponseObject, ResponseObjectStream } from '@/models/speckle'
 import type { GeometryObject } from '@/models/geometryObject'
-import type { Unit } from 'lcax'
+import type { MetricUnits } from '@/models/material'
 
 import { selectedObjectsQuery } from '@/graphql/speckleQueries'
 import { speckleSelection } from '@/graphql/speckleVariables'
@@ -230,19 +230,18 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
  */
 export function calculateQuantity(obj: ResponseObject) {
 	const quantity: {
-		[key in Unit]: number
+		[key in MetricUnits]: number
 	} = {
-		M: 0,
-		M2: 0,
-		M3: 0,
-		KG: 0,
-		TONES: 0,
-		PCS: 0,
-		L: 0,
-		M2R1: 0,
-		UNKNOWN: 0
+		m: 0,
+		m2: 0,
+		m3: 0,
+		kg: 0,
+		pcs: 0,
+		l: 0
 	}
+
 	// Initial parameters we search for, can be added upon should maybe be moved from here to a model file instead
+	// TODO create a populated interface for this
 	const searchObject = [
 		{
 			searchValue: 'area',
@@ -277,7 +276,7 @@ export function calculateQuantity(obj: ResponseObject) {
 					if (typeof value === 'string') {
 						value = data['value']
 					}
-					quantity[sObj.metric as Unit] = value
+					quantity[sObj.metric] = value
 				}
 			}
 		}

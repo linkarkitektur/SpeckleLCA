@@ -7,10 +7,8 @@ import type {
 	Filter,
 	NestedGroup
 } from '@/models/filters'
-import { 
-	createNestedObject,
-	calculateEmissions 
-} from '@/utils/projectUtils'
+import { calculateEmissions } from '@/utils/emissionUtils'
+import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 
 /**

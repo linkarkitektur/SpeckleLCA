@@ -19,7 +19,8 @@ import type {
 } from '@/models/speckle'
 import router from '@/router'
 import { logMessageToSentry } from '@/utils/monitoring'
-import { updateGroupColors, hslToHex } from '@/utils/projectUtils'
+import { updateGroupColors } from '@/utils/projectUtils'
+import { hslToHex } from '@/utils/colorUtils'
 import {
 	exchangeAccessCode,
 	getObjectParameters,
@@ -380,13 +381,19 @@ export const useSpeckleStore = defineStore({
 			const groups = []
 			tree.forEach(element => {
 				// Extract the hsl values from the color string using regex
-				const hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
-				const match = element.color.match(hslRegex);
-				const [, hue, saturation, lightness] = match.map(str => parseInt(str));
+				const hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/
+				let color
+				if (!element.color) {
+					color = hslToHex(151, 100, 50)
+				} else {
+					const match = element.color.match(hslRegex)
+					const [, hue, saturation, lightness] = match.map(str => parseInt(str))
+					color = hslToHex(hue, saturation, lightness)
+				}
 				// Create group object with hex color
 				const group = {
 					objectIds: element.objects.map(obj => obj.URI),
-					color: hslToHex(hue, saturation, lightness)
+					color: color
 				}
 				groups.push(group)
 			})

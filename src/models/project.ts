@@ -1,4 +1,3 @@
-import type { EPD } from 'lcax'
 import type { GeometryObject } from './geometryObject'
 
 /**

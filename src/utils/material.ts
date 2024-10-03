@@ -1,11 +1,13 @@
+import type { Mapping, MaterialFilterParam, Product } from "@/models/material"
+import type { FilterList, NestedGroup } from "@/models/filters"
+import type { GeometryObject } from "@/models/geometryObject"
+
 import { useProjectStore } from "@/stores/main"
 import { useMaterialStore } from "@/stores/material"
 import { useSpeckleStore } from "@/stores/speckle"
 
-import { setMappingColorGroup, calculateGroups } from "@/utils/projectUtils"
+import { setMappingColorGroup, updateProjectGroups } from "@/utils/projectUtils"
 
-import type { Mapping } from "@/models/material"
-import type { FilterList, NestedGroup } from "@/models/filters"
 
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds
@@ -24,7 +26,7 @@ export function updateMapping(mapping: Mapping) {
       //Find the filter from the mapping and apply it to the project
       const filterList = mapping.filters.find(filter => filter.id == step.filterId);
       projectStore.updateRegistryStack(filterList.name, filterList.callStack)
-      calculateGroups(true)
+      updateProjectGroups(true)
 
       lastId = step.filterId
     }
@@ -85,4 +87,74 @@ export function mapMaterial(inGroup: NestedGroup) {
 
   const mappingColors = setMappingColorGroup()
   speckleStore.setColorGroups(mappingColors)
+}
+
+/**
+ * Function to sort through materials and only return relevant based on param List
+ * @param materials Materials to sort through
+ * @param paramFilters Filters to apply
+ * @returns List of products matching filtering criteria
+ */
+export function applyParamFilters(materials: Product[], paramFilters: MaterialFilterParam) {
+  let filteredList = materials
+  // Go through each paramFilters and check if any are selected
+  for (const key in paramFilters) {
+    // If none of the filters are selected, skip this filter
+    if (!paramFilters[key].some((param) => param.selected)) {
+      continue
+    }
+
+    // Get the selected filter names (e.g., materialType, impactCategory)
+    const selectedFilterNames = paramFilters[key]
+      .filter((param) => param.selected)
+      .map((param) => param.name)
+
+    // Apply the filter based on the selected criteria
+    filteredList = filteredList.filter((item) => {
+      const materialType = item.metaData?.materialType
+      // Check if materialType exists and is in the selected filters
+      return materialType && selectedFilterNames.includes(materialType)
+    })
+  }
+
+  return filteredList
+}
+
+/**
+ * Gets the mapped material and returns a color based on it
+ * @param group 
+ * @returns 
+ */
+export function getMappedMaterial(objects: GeometryObject[]) {
+  if (objects) {
+    const materialNames = objects.map(obj => obj.material?.name)
+    const uniqueMaterialNames = [...new Set(materialNames)]
+    
+    // Check if there are objects without materials to turn the card yellow
+    const objectsWithoutMaterials = objects.filter(obj => obj.material == undefined).length > 0
+
+    if (uniqueMaterialNames.length === 1) {
+      if (uniqueMaterialNames[0] == undefined) {
+        return {
+          name: "No material mapped",
+          color: "red-50"
+        }
+      } else {
+        return {
+          name: uniqueMaterialNames[0],
+          color: "green-50"
+        }
+      }
+    } else {
+      return {
+        name: "Mixed",
+        color: objectsWithoutMaterials? "yellow-50" : "green-50"
+      }
+    }
+  } else {
+    return {
+          name: "No material mapped",
+          color: "red-50"
+        }
+  }
 }

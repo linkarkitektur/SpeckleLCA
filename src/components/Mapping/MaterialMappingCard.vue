@@ -35,7 +35,7 @@ import { useMaterialStore } from '@/stores/material'
 import type { NestedGroup } from '@/models/filters'
 import { useProjectStore } from '@/stores/main'
 import { useSpeckleStore } from '@/stores/speckle'
-import { getMappedMaterial, setMappingColorGroup } from '@/utils/projectUtils'
+import { getMappedMaterial } from '@/utils/material'
 import { mapMaterial } from '@/utils/material'
 
 export default defineComponent({

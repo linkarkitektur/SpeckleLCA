@@ -18,7 +18,7 @@ import MaterialBar from '@/components/DetailBar/MaterialBar.vue'
 import ResultsBar from '@/components/DetailBar/ResultsBar.vue'
 import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 
-import { geometryToLCSChartData } from '@/utils/projectUtils'
+import { geometryToLCSChartData } from '@/utils/resultUtils'
 
 export default defineComponent({
   name: 'DetailBar',
