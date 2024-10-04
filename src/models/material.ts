@@ -15,11 +15,14 @@ export enum Source {
 }
 
 
-export type Emission = {
-	[impactCategory in ImpactCategoryKey]: {
-		[lifecycleStage in LifeCycleStage]: {
-			amount: number
-		}
+export type Emission = Partial<{
+	[impactCategory in ImpactCategoryKey]: 
+		LifeCycleStageEmission
+}>
+
+export type LifeCycleStageEmission = {
+	[lifecycleStage in LifeCycleStage]: {
+		amount: number
 	}
 }
 

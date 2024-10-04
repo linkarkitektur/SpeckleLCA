@@ -1,3 +1,5 @@
+import type { LifeCycleStageEmission } from "@/models/material"
+
 /**
  * Enum for countries to search from
  */
@@ -7,67 +9,49 @@ export enum country {
   Denmark = "Denmark",
   Finland = "Finland",
   Germany = "Germany",
+  Europe = "Europe",
 }
 
 /**
  * Reduced list for common use cases
  */
 export enum StandardBuildingMaterialType {
-  Aggregates = "Aggregates",
   AluminiumElements = "Aluminium elements",
   Asphalt = "Asphalt",
   BioBasedInsulation = "Bio-based insulation",
   Boards = "Boards",
   Bricks = "Bricks",
-  CalciumSilicateInsulation = "Calcium Silicate Insulation",
   Cement = "Cement",
-  Clay = "Clay",
-  CompositeBoards = "Composite Boards",
   Concrete = "Concrete",
   ConcreteBlocks = "Concrete blocks",
-  CopperElements = "Copper elements",
   CurtainWall = "Curtain wall",
   Doors = "Doors",
   ExteriorSubstrate = "Exterior Substrate",
   FibreCementBoard = "Fibre Cement board",
-  FireProtectionCoating = "Fire protection coating",
   FramesAndProfiles = "Frames and profiles",
   Generic = "Generic",
   Gypsum = "Gypsum",
   Hemp = "Hemp",
   Infill = "Infill",
-  InsulationFoam = "Insulation foam",
-  IronElements = "Iron elements",
-  Lime = "Lime",
   MineralWool = "Mineral wool",
   ModifiedWood = "Modified wood",
   Mortar = "Mortar",
   PaintExterior = "Paint (Exterior)",
   PaintInterior = "Paint (Interior)",
-  Pigments = "Pigments",
   Plasterboards = "Plasterboards",
   PlasticFlooring = "Plastic flooring",
   PlasticProfiles = "Plastic profiles",
   Primer = "Primer",
   ReinforcementSteel = "Reinforcement steel",
-  RendersAndPlasters = "Renders and plasters",
-  Resin = "Resin",
-  RigidFoam = "Rigid foam",
-  RigidFoamBoards = "Rigid foam boards",
   RoofingMembranes = "Roofing membranes",
   RubberFlooring = "Rubber flooring",
-  SolarPanel = "Solar Panel",
-  StainlessSteelTubes = "Stainless steel tubes",
-  SteelSheets = "Steel sheets",
   Stones = "Stones",
   StructuralTimber = "Structural timber",
-  SystemCompositions = "System compositions",
   TextileFlooring = "Textile flooring",
   Tiles = "Tiles",
   TimberBoards = "Timber Boards",
   TimberElements = "Timber Elements",
   TimberFlooring = "Timber flooring",
-  Tubes = "Tubes",
   WaterproofingMembranes = "Waterproofing membranes",
   WindowFittings = "Window fittings",
   Windows = "Windows"
@@ -165,4 +149,55 @@ export enum FullBuildingMaterialType {
   WaterproofingMembranes = "Waterproofing membranes",
   WindowFittings = "Window fittings",
   Windows = "Windows"
+}
+
+export interface RevaluData {
+  id: string
+  location: string
+  version: string
+  registration_number: string
+  name: string
+  manufacturer: string
+  valid_until: number
+  valid_from: number
+  declared_unit: string
+  thickness: number | null
+  grammage: number | null
+  gross_density: number | null
+  bulk_density: number | null
+  linear_density: number | null
+  standard: string
+  subtype: string
+  version_last_update_date: string
+  lambda: number | null
+  u_value: number | null
+  r_value: number | null
+  source: SourceInfo
+  gwp: LifeCycleStageEmission
+  gwp_fossil: LifeCycleStageEmission
+  gwp_biogenic: LifeCycleStageEmission
+  gwp_luluc: LifeCycleStageEmission
+  fw: LifeCycleStageEmission
+  pert: LifeCycleStageEmission
+  penrt: LifeCycleStageEmission
+  energy_mix_percentage: LifeCycleStageEmission
+  custom_attribute: any 
+  additional_data: AdditionalData
+  all_documents: Document[]
+  data_quality_warnings: any | null 
+  certificates: any[]
+}
+
+interface SourceInfo {
+  name: string
+  url: string
+}
+
+interface AdditionalData {
+  epd_pdf_url: string
+}
+
+interface Document {
+  document_type: string
+  document_url: string
 }
