@@ -11,7 +11,8 @@
 
 <script lang="ts">
 import { defineComponent, computed, watch, ref } from 'vue'
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 
 import OverviewBar from '@/components/DetailBar/OverviewBar.vue'
 import MaterialBar from '@/components/DetailBar/MaterialBar.vue'

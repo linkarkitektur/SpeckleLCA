@@ -53,7 +53,7 @@
 	import { computed, defineComponent } from 'vue'
 	import { Dialog, TransitionChild, TransitionRoot } from '@headlessui/vue'
 	import type { CSSProperties } from 'vue'
-	import { useNavigationStore } from '@/stores/main'
+	import { useNavigationStore } from '@/stores/navigation'
 	import { storeToRefs } from 'pinia'
 
 	export default defineComponent({

@@ -63,7 +63,7 @@
 	import { defineComponent, onMounted, ref } from 'vue'
 	import type { ProjectId } from '@/models/speckle'
 	import VersionSelectionModal from '@/components/ProjectSelection/VersionSelectionModal.vue'
-	import { useNavigationStore } from '@/stores/main'
+	import { useNavigationStore } from '@/stores/navigation'
 
 	/**
 	 * Component for displaying a grid of projects.

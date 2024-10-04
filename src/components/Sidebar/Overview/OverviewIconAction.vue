@@ -11,7 +11,7 @@
 <script lang="ts">
 	import { defineComponent } from 'vue'
 	import { PencilSquareIcon } from '@heroicons/vue/24/solid'
-	import { useNavigationStore } from '@/stores/main'
+	import { useNavigationStore } from '@/stores/navigation'
 
 	import type { NestedGroup } from '@/models/filters'
 

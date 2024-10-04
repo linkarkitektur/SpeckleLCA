@@ -73,7 +73,8 @@
 
   // Store imports
   import { useSpeckleStore } from '@/stores/speckle'
-  import { useProjectStore, useNavigationStore } from '@/stores/main'
+  import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
   import { storeToRefs } from 'pinia'
 
   // Component imports

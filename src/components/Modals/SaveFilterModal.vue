@@ -101,7 +101,8 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 import { useFirebaseStore } from '@/stores/firebase'
 import type { Filter, FilterList } from '@/models/filters'
 

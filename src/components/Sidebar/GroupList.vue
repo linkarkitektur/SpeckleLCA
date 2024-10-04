@@ -46,7 +46,9 @@ import { PencilSquareIcon, PlusCircleIcon } from '@heroicons/vue/24/solid'
 import GroupCard from '@/components/Sidebar/GroupCard.vue'
 import Dropdown from '@/components/Dropdown.vue'
 
-import { useProjectStore, useNavigationStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
+
 import { useSpeckleStore } from '@/stores/speckle'
 import { useFirebaseStore } from '@/stores/firebase'
 import { createStandardFilters } from '@/utils/filterUtils'

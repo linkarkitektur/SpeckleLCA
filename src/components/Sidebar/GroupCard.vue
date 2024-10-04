@@ -87,7 +87,8 @@ import ResultIconAction from '@/components/Sidebar/Results/ResultIconAction.vue'
 import ResultsGroupCard from '@/components/Sidebar/Results/ResultsGroupCard.vue'
 
 import type { NestedGroup } from '@/models/filters'
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 import { useSpeckleStore } from '@/stores/speckle'
 import { storeToRefs } from 'pinia'
 
