@@ -1,4 +1,5 @@
 import axios from 'axios'
+import type { AxiosInstance } from 'axios'
 import type { Product, Emission, LifeCycleStageEmission} from '@/models/material'
 import { useProjectStore } from '@/stores/main'
 import { EPDSource } from '@/models/settings'
@@ -9,125 +10,112 @@ const MAX_EPD_COUNT = 10
 // Ilcd reference to GWP total
 const GWP_REF_OBJECT_ID = '6a37f984-a4b3-458a-a20a-64418c145fa2'
 
+interface EPDService {
+  createApiClient(): AxiosInstance
+  createListUrl(): string
+  createEPDUrl(epd: any): string
+  createListParams(): any
+  createEPDParams(): any
+  updatePageIndex(params: any): any
+  extractEPDData(data: any): Product | null
+}
+
 /**
- * Creates an Axios instance with the necessary headers.
+ * Class for fetching data from EcoPortal
  */
-const createApiClient = () => {
-  const projectStore = useProjectStore()
-
-  switch (projectStore.appSettings.epdSource) {
-    case EPDSource.EcoPortal:
-      return axios.create({
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_APP_ECO_PORTAL_API_KEY}`,
-        },
-      })
-    case EPDSource.Revalu:
-      return axios.create({
-        headers: {
-          "x-api-key": import.meta.env.VITE_APP_REVALU_API_KEY,
-        },
-      })
-    default:
-      return null
+class EcoPortalService implements EPDService {
+  createApiClient() {
+    return axios.create({
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_APP_ECO_PORTAL_API_KEY}`,
+      },
+    })
   }
-}
-
-const createListUrl = () => {
-  const projectStore = useProjectStore()
-
-  switch (projectStore.appSettings.epdSource) {
-    case EPDSource.EcoPortal:
-      return '/api/eco/resource/processes'
-    case EPDSource.Revalu:
-      return 'api/revalu/epds/search'
-    default:
-      return null
+  
+  createListUrl() {
+    return '/api/eco/resource/processes'
   }
-}
 
-const createEPDUrl = (epd: any) => {
-  const projectStore = useProjectStore()
-
-  switch (projectStore.appSettings.epdSource) {
-    case EPDSource.EcoPortal:
-      return `/${epd.nodeid}${epd.uuid}`
-    case EPDSource.Revalu:
-      return `/epd/${epd.uuid}`
-    default:
-      return null
+  createEPDUrl(epd: any) {
+    return `/${epd.nodeid}${epd.uuid}`
   }
-}
 
-const createListParams = () => {
-  const projectStore = useProjectStore()
-
-  switch (projectStore.appSettings.epdSource) {
-    case EPDSource.EcoPortal:
-      return {
-        search: 'true',
-        distributed: 'true',
-        virtual: 'true',
-        metaDataOnly: 'false',
-        startIndex: '0',
-        pageSize: '100',
-        format: 'json',
-      }
-    case EPDSource.Revalu:
-      return {
-        search_term: "",
-        page_no: 1,
-        page_size: 15,
-      }
-    default:
-      return null
-  }
-}
-
-const createEPDParams = () => {
-  const projectStore = useProjectStore()
-
-  switch (projectStore.appSettings.epdSource) {
-    case EPDSource.EcoPortal:
-      return {
-        format: 'json',
-        view: 'extended',
-      }
-    case EPDSource.Revalu:
-      return {}
-    default:
-      return null
-  }
-}
-
-const updatePageIndex = (params: any) => {
-  const projectStore = useProjectStore()
-
-  switch (projectStore.appSettings.epdSource) {
-    case EPDSource.EcoPortal: {
-      const startIndex = parseInt(params.startIndex) + params.pageSize
-      return { ...params, startIndex: startIndex.toString() }
+  createListParams() {
+    return {
+      search: 'true',
+      distributed: 'true',
+      virtual: 'true',
+      metaDataOnly: 'false',
+      startIndex: '0',
+      pageSize: '100',
+      format: 'json',
     }
-    case EPDSource.Revalu:
-      return { ...params, page_no: params.page_no + 1 }
-    default:
-      return params
+  }
+
+  createEPDParams() {
+    return {
+      format: 'json',
+      view: 'extended',
+    }
+  }
+
+  updatePageIndex(params: any) {
+    const startIndex = parseInt(params.startIndex) + parseInt(params.pageSize)
+    return { ...params, startIndex: startIndex.toString() }
+  }
+
+  extractEPDData(data: any) {
+    return extractILCDData(data)
   }
 }
 
-const extractEPDData = (data: any) => {
-  const projectStore = useProjectStore()
+/**
+ * Class for fetching data from Revalu
+ */
+class RevaluService implements EPDService {
+  createApiClient() {
+    return axios.create({
+      headers: {
+        'x-api-key': import.meta.env.VITE_APP_REVALU_API_KEY,
+      },
+    })
+  }
+  
+  createListUrl() {
+    return 'api/revalu/epds/search'
+  }
 
-  switch (projectStore.appSettings.epdSource) {
-    case EPDSource.EcoPortal:
-      return extractILCDData(data)
-    case EPDSource.Revalu:
-      return extractRevaluData(data) 
-    default:
-      return null
+  createEPDUrl(epd: any) {
+    return `/epd/${epd.id}`
+  }
+
+  createListParams() {
+    return {
+      search_term: '',
+      page_no: 1,
+      page_size: 15,
+    }
+  }
+
+  createEPDParams() {
+    return {}
+  }
+
+  updatePageIndex(params: any) {
+    return { ...params, page_no: params.page_no + 1 }
+  }
+
+  extractEPDData(data: any) {
+    return extractRevaluData(data)
   }
 }
 
+/**
+ * Extract ILCD data from the response
+ * TODO: Implement lcaX conversion already made
+ * @param data 
+ * @returns 
+ */
 const extractILCDData = (data: any) => {
   // Extract metaData
   const metaData: Record<string, string> = {}
@@ -200,6 +188,11 @@ const extractILCDData = (data: any) => {
   return product
 }
 
+/**
+ * Extracts data from Revalu and their different data structure
+ * @param data 
+ * @returns 
+ */
 const extractRevaluData = (data: RevaluData) => {
   const emission: Emission = {
     gwp: data.gwp,
@@ -228,54 +221,61 @@ const extractRevaluData = (data: RevaluData) => {
 }
 
 /**
+ * Checks projectstore and gets the relevant EPD service
+ * @returns 
+ */
+function getEPDService(): EPDService {
+  const projectStore = useProjectStore()
+
+  switch (projectStore.appSettings.epdSource) {
+    case EPDSource.EcoPortal:
+      return new EcoPortalService()
+    case EPDSource.Revalu:
+      return new RevaluService()
+    default:
+      throw new Error('Unsupported EPD source')
+  }
+}
+
+/**
  * Get all EPDs from the ECO Portal
  * Acording to parameters, check API documentation for more information
  * @param parameters Key value pairs for the API call
  * @returns List of products with emission data
  */
-export async function getEPDList( 
-  parameters: { [key: string]: string } = {}
-): Promise<Product[]> {
+export async function getEPDList(parameters: { [key: string]: string } = {}): Promise<Product[]> {
+  const epdService = getEPDService()
   const EPDList: Product[] = []
-  const apiClient = createApiClient()
-  const baseUrl = createListUrl()
-  let params = createListParams()
+  const apiClient = epdService.createApiClient()
+  const baseUrl = epdService.createListUrl()
+  let params = epdService.createListParams()
 
   params = { ...params, ...parameters }
 
-  async function retreiveResourceList() {
+  while (EPDList.length < MAX_EPD_COUNT) {
     try {
-      while (EPDList.length < MAX_EPD_COUNT) {
-        try {
-          const response = await apiClient.get(baseUrl, { params })
-          const data = response.data
+      const response = await apiClient.get(baseUrl, { params })
+      const data = response.data
 
-          if (!data || data.length === 0) {
-            console.log('No more data to fetch')
-            break
-          }
+      if (!data || data.length === 0) {
+        console.log('No more data to fetch')
+        break
+      }
 
-          for (const epd of data.data) {
-            try {
-              const product = await getSpecificEPDEcoPortal(epd)
-              EPDList.push(product)
-            } catch (error) {
-              console.error(error)
-            }
-          }
-          // Update the start index for the next request
-          params = updatePageIndex(params)
-        } catch (error) {
-          console.error(error)
-          break
+      for (const epd of data.data) {
+        const product = await getSpecificEPD(epdService, epd)
+        if (product) {
+          EPDList.push(product)
         }
       }
+
+      params = epdService.updatePageIndex(params)
     } catch (error) {
-      console.error(error)
+      console.error('Error fetching EPD list:', error)
+      break
     }
   }
-  await retreiveResourceList()
-  
+
   return EPDList
 }
 
@@ -284,17 +284,16 @@ export async function getEPDList(
  * @param epd The EPD data containing nodeid and uuid.
  * @returns A Product with EPD data or null if an error occurs.
  */
-export async function getSpecificEPDEcoPortal(epd: any): Promise<Product | null> {
-  const apiClient = createApiClient()
-  const baseUrl = createEPDUrl(epd)
-  const params = createEPDParams()
+async function getSpecificEPD(epdService: EPDService, epd: any): Promise<Product | null> {
+  const apiClient = epdService.createApiClient()
+  const url = epdService.createEPDUrl(epd)
+  const params = epdService.createEPDParams()
 
   try {
-    const response = await apiClient.get(baseUrl, { params: params })
+    const response = await apiClient.get(url, { params })
     const data = response.data
 
-    const product = extractEPDData(data)
-    return product
+    return epdService.extractEPDData(data)
   } catch (error) {
     console.error(`Error fetching EPD ${epd.uuid}:`, error)
     return null
