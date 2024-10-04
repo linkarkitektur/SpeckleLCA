@@ -1,7 +1,231 @@
 import axios from 'axios'
-import type { LifeCycleStage } from 'lcax'
-import type { Product, Emission} from '@/models/material'
+import type { Product, Emission, LifeCycleStageEmission} from '@/models/material'
+import { useProjectStore } from '@/stores/main'
+import { EPDSource } from '@/models/settings'
+import type { RevaluData } from '@/models/revaluDataSource'
 //import { convertIlcd } from 'epdx'
+
+const MAX_EPD_COUNT = 10
+// Ilcd reference to GWP total
+const GWP_REF_OBJECT_ID = '6a37f984-a4b3-458a-a20a-64418c145fa2'
+
+/**
+ * Creates an Axios instance with the necessary headers.
+ */
+const createApiClient = () => {
+  const projectStore = useProjectStore()
+
+  switch (projectStore.appSettings.epdSource) {
+    case EPDSource.EcoPortal:
+      return axios.create({
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_APP_ECO_PORTAL_API_KEY}`,
+        },
+      })
+    case EPDSource.Revalu:
+      return axios.create({
+        headers: {
+          "x-api-key": import.meta.env.VITE_APP_REVALU_API_KEY,
+        },
+      })
+    default:
+      return null
+  }
+}
+
+const createListUrl = () => {
+  const projectStore = useProjectStore()
+
+  switch (projectStore.appSettings.epdSource) {
+    case EPDSource.EcoPortal:
+      return '/api/eco/resource/processes'
+    case EPDSource.Revalu:
+      return 'api/revalu/epds/search'
+    default:
+      return null
+  }
+}
+
+const createEPDUrl = (epd: any) => {
+  const projectStore = useProjectStore()
+
+  switch (projectStore.appSettings.epdSource) {
+    case EPDSource.EcoPortal:
+      return `/${epd.nodeid}${epd.uuid}`
+    case EPDSource.Revalu:
+      return `/epd/${epd.uuid}`
+    default:
+      return null
+  }
+}
+
+const createListParams = () => {
+  const projectStore = useProjectStore()
+
+  switch (projectStore.appSettings.epdSource) {
+    case EPDSource.EcoPortal:
+      return {
+        search: 'true',
+        distributed: 'true',
+        virtual: 'true',
+        metaDataOnly: 'false',
+        startIndex: '0',
+        pageSize: '100',
+        format: 'json',
+      }
+    case EPDSource.Revalu:
+      return {
+        search_term: "",
+        page_no: 1,
+        page_size: 15,
+      }
+    default:
+      return null
+  }
+}
+
+const createEPDParams = () => {
+  const projectStore = useProjectStore()
+
+  switch (projectStore.appSettings.epdSource) {
+    case EPDSource.EcoPortal:
+      return {
+        format: 'json',
+        view: 'extended',
+      }
+    case EPDSource.Revalu:
+      return {}
+    default:
+      return null
+  }
+}
+
+const updatePageIndex = (params: any) => {
+  const projectStore = useProjectStore()
+
+  switch (projectStore.appSettings.epdSource) {
+    case EPDSource.EcoPortal: {
+      const startIndex = parseInt(params.startIndex) + params.pageSize
+      return { ...params, startIndex: startIndex.toString() }
+    }
+    case EPDSource.Revalu:
+      return { ...params, page_no: params.page_no + 1 }
+    default:
+      return params
+  }
+}
+
+const extractEPDData = (data: any) => {
+  const projectStore = useProjectStore()
+
+  switch (projectStore.appSettings.epdSource) {
+    case EPDSource.EcoPortal:
+      return extractILCDData(data)
+    case EPDSource.Revalu:
+      return extractRevaluData(data) 
+    default:
+      return null
+  }
+}
+
+const extractILCDData = (data: any) => {
+  // Extract metaData
+  const metaData: Record<string, string> = {}
+  const classifications =
+    data?.processInformation?.dataSetInformation?.classificationInformation
+      ?.classification || []
+
+  classifications.forEach((classification: any) => {
+    classification.class.forEach((cls: any) => {
+      metaData[cls.classId] = cls.value
+    })
+  })
+
+  // Extract GWP emissions
+  const lciaResults = data?.LCIAResults?.LCIAResult || []
+  const gwpResult = lciaResults.find(
+    (result: any) =>
+      result.referenceToLCIAMethodDataSet.refObjectId === GWP_REF_OBJECT_ID
+  )
+
+  const emission = {} as Emission
+  let totalA1A3 = 0
+
+  if (gwpResult?.other?.anies) {
+    gwpResult.other.anies.forEach((entry: any) => {
+      const module = entry.module?.toLowerCase().replace(/-/g, '') as string
+      const amount = parseFloat(entry.value)
+
+      if (['a1', 'a2', 'a3'].includes(module)) {
+        totalA1A3 += amount
+      } else {
+        emission.gwp = emission.gwp || {} as LifeCycleStageEmission
+        emission.gwp[module] = { amount }
+      }
+    })
+
+    if (totalA1A3 > 0) {
+      emission.gwp = emission.gwp || {} as LifeCycleStageEmission
+      emission.gwp['a1a3'] = { amount: totalA1A3 }
+    }
+  }
+
+  // Extract unit and quantity
+  const exchange = data?.exchanges?.exchange?.[0]
+  const flowProperties = exchange?.flowProperties || []
+  const referenceProperty = flowProperties.find(
+    (prop: any) => prop.referenceUnit
+  )
+  const unit = referenceProperty?.referenceUnit || ''
+  const quantity = parseFloat(referenceProperty?.meanValue || '0')
+
+  // Build the product object
+  const product: Product = {
+    id: data.processInformation.dataSetInformation.UUID,
+    name:
+      data.processInformation.dataSetInformation.name.baseName[0]?.value ||
+      '',
+    description:
+      data.processInformation.technology
+        .technologyDescriptionAndIncludedProcesses[0]?.value || '',
+    referenceServiceLife: 50,
+    impactData: null,
+    quantity,
+    unit,
+    transport: null,
+    results: null,
+    metaData,
+    emission,
+  }
+  return product
+}
+
+const extractRevaluData = (data: RevaluData) => {
+  const emission: Emission = {
+    gwp: data.gwp,
+    //gwp_fossil: data.gwp_fossil,
+    //gwp_biogenic: data.gwp_biogenic,
+    //gwp_luluc: data.gwp_luluc,
+    fw: data.fw,
+    pert: data.pert,
+    penrt: data.penrt,
+    //energy_mix_percentage: data.energy_mix_percentage,
+  }
+  const product: Product = {
+    id: data.id,
+    name: data.name,
+    description: data.manufacturer,
+    referenceServiceLife: 50,
+    impactData: null,
+    quantity: 1,
+    unit: data.declared_unit,
+    transport: null,
+    results: null,
+    metaData: {},
+    emission
+  }
+  return product
+}
 
 /**
  * Get all EPDs from the ECO Portal
@@ -9,33 +233,19 @@ import type { Product, Emission} from '@/models/material'
  * @param parameters Key value pairs for the API call
  * @returns List of products with emission data
  */
-export async function getEPDListEcoPortal( 
+export async function getEPDList( 
   parameters: { [key: string]: string } = {}
 ): Promise<Product[]> {
   const EPDList: Product[] = []
-  const apiClient = axios.create({
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_APP_ECO_PORTAL_API_KEY}`
-    }
-  })
-  
-  const baseUrl = '/api/eco/resource/processes'
-
-  let params = {
-    search: 'true',
-    distributed: 'true',
-    virtual: 'true',
-    metaDataOnly: 'false',
-    startIndex: '0',
-    pageSize: '100',
-    format: 'json',
-  }
+  const apiClient = createApiClient()
+  const baseUrl = createListUrl()
+  let params = createListParams()
 
   params = { ...params, ...parameters }
 
   async function retreiveResourceList() {
     try {
-      while (EPDList.length < 10) {
+      while (EPDList.length < MAX_EPD_COUNT) {
         try {
           const response = await apiClient.get(baseUrl, { params })
           const data = response.data
@@ -54,7 +264,7 @@ export async function getEPDListEcoPortal(
             }
           }
           // Update the start index for the next request
-          params.startIndex = String(parseInt(params.startIndex) + data.length)
+          params = updatePageIndex(params)
         } catch (error) {
           console.error(error)
           break
@@ -70,85 +280,23 @@ export async function getEPDListEcoPortal(
 }
 
 /**
- * Get specific EPD from the ECO Portal
- * @param id ID of the EPD
- * @returns Product with EPD data
+ * Fetches a specific EPD
+ * @param epd The EPD data containing nodeid and uuid.
+ * @returns A Product with EPD data or null if an error occurs.
  */
-export async function getSpecificEPDEcoPortal(epd: any): Promise<Product> {
-  const apiClient = axios.create({
-    headers: {
-      Authorization: 'Bearer ' + import.meta.env.VITE_APP_ECO_PORTAL_API_KEY
-    }
-  })
-  const baseUrl = epd.nodeid
-  const urlData = epd.uuid
-  const url = '/' + baseUrl + urlData
-  const datasetParams = {
-    format: 'json',
-    view: 'extended'
-  }
+export async function getSpecificEPDEcoPortal(epd: any): Promise<Product | null> {
+  const apiClient = createApiClient()
+  const baseUrl = createEPDUrl(epd)
+  const params = createEPDParams()
 
   try {
-    const response = await apiClient.get(url, { params: datasetParams })
+    const response = await apiClient.get(baseUrl, { params: params })
     const data = response.data
-    const metaData = {}
-    data.processInformation.dataSetInformation.classificationInformation.classification.forEach(classification => {
-      classification.class.forEach(cls => {
-        metaData[cls.classId] = cls.value
-      })
-    })
 
-    const gwpToT = data.LCIAResults.LCIAResult.find(result => result.referenceToLCIAMethodDataSet.refObjectId === '6a37f984-a4b3-458a-a20a-64418c145fa2')
-    const emission: Emission = {} as Emission
-    let A1A3 = 0
-
-    gwpToT.other.anies.forEach(anies => {
-      if (["A1", "A2", "A3"].includes(anies.module)) {
-        A1A3 += parseFloat(anies.value)
-      } else {
-        if (!emission["gwp"]) {
-          emission["gwp"] = {}
-        }
-        emission["gwp"][anies.module?.toLowerCase().replace(/-/g, '') as LifeCycleStage] = { amount: parseFloat(anies.value) }
-      }
-
-      if (A1A3 > 0) {
-        if (!emission["gwp"]) {
-          emission["gwp"] = {}
-        }
-        emission["gwp"]["a1a3"] = { amount: A1A3 }
-      }
-    })
-
-    const flowProps = data.exchanges.exchange[0].flowProperties
-    const { unit, index } = flowProps.reduce(
-      (acc, prop, idx) => {
-        if (!acc.referenceUnit && prop.referenceUnit) {
-          return { unit: prop.referenceUnit, index: idx }
-        }
-        return acc
-      },
-      { unit: "", index: -1 }
-    )
-    const quantity = parseFloat(data.exchanges.exchange[0].flowProperties[index].meanValue)
-
-    const product: Product = {
-      id: data.processInformation.dataSetInformation.UUID,
-      name: data.processInformation.dataSetInformation.name.baseName[0].value,
-      description: data.processInformation.technology.technologyDescriptionAndIncludedProcesses[0].value,
-      referenceServiceLife: 50,
-      impactData: null,
-      quantity: quantity,
-      unit: unit,
-      transport: null,
-      results: null,
-      metaData: metaData,
-      emission: emission
-    }
-  
+    const product = extractEPDData(data)
     return product
   } catch (error) {
-    //console.error(error)
+    console.error(`Error fetching EPD ${epd.uuid}:`, error)
     return null
   }
 }

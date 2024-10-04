@@ -63,6 +63,14 @@ export default defineConfig({
 
 	server: {
     proxy: {
+			'/api/revalu': {
+				target: 'https://api.revalu.io',
+				changeOrigin: true,
+				rewrite: (path) => {
+					return path.replace(/^\/api\/revalu/, '')
+				},
+				secure: true,
+			},
       '/api/eco': {
         target: 'https://data.eco-platform.org', 
         changeOrigin: true,
