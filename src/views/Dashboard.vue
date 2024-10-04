@@ -21,7 +21,8 @@
 	import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 	import NavbarComponent from '@/components/Navbar.vue'
 	import { useMaterialStore } from '@/stores/material'
-	import { useNavigationStore, useProjectStore } from '@/stores/main'
+	import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 	import { useSpeckleStore } from '@/stores/speckle'
 
 	// Utils
