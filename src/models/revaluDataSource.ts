@@ -18,14 +18,14 @@ export enum Country {
  * Reduced list for common use cases
  */
 export enum StandardBuildingMaterialType {
-  AluminiumElements = "Aluminium elements",
+  /*AluminiumElements = "Aluminium elements",
   Asphalt = "Asphalt",
   BioBasedInsulation = "Bio-based insulation",
-  Boards = "Boards",
+  Boards = "Boards",*/
   Bricks = "Bricks",
   Cement = "Cement",
   Concrete = "Concrete",
-  ConcreteBlocks = "Concrete blocks",
+  /*ConcreteBlocks = "Concrete blocks",
   CurtainWall = "Curtain wall",
   Doors = "Doors",
   ExteriorSubstrate = "Exterior Substrate",
@@ -50,12 +50,12 @@ export enum StandardBuildingMaterialType {
   Stones = "Stones",
   StructuralTimber = "Structural timber",
   TextileFlooring = "Textile flooring",
-  Tiles = "Tiles",
+  Tiles = "Tiles",*/
   TimberBoards = "Timber Boards",
-  TimberElements = "Timber Elements",
-  TimberFlooring = "Timber flooring",
-  WaterproofingMembranes = "Waterproofing membranes",
-  WindowFittings = "Window fittings",
+  //TimberElements = "Timber Elements",
+  //TimberFlooring = "Timber flooring",
+  /*WaterproofingMembranes = "Waterproofing membranes",
+  WindowFittings = "Window fittings",*/
   Windows = "Windows"
 }
 
@@ -205,16 +205,18 @@ interface Document {
 }
 
 export const getRevaluBaseList = async() => {
-  const epdList: Product[] = []
   const allCountries: Country[] = Object.values(Country)
   const materialStore = useMaterialStore()
 
   for (const materialType in StandardBuildingMaterialType) {
-    epdList.push(... await getEPDList({
+    const products = await getEPDList({
       "material_type": StandardBuildingMaterialType[materialType], 
       "country": allCountries
-    }))
-    materialStore.materials = epdList
-    materialStore.EPDList = epdList
+    })
+
+    for (const product of products) {
+      product.metaData = { materialType: StandardBuildingMaterialType[materialType] }
+      materialStore.addMaterial(product)
+    }
   }
 }

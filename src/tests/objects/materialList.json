@@ -4,13 +4,13 @@
     "name": "Crosslaminated timber. CLT (Forbr\u00e6nding EoL)",
     "description": "Cross Laminated Timber is a solid construction wood product consisting of bonded wood layer panels arranged at right angles to each other.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-664",
       "C3": "744",
       "C4": "0",
       "D": "-387"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -28,13 +28,13 @@
     "name": "Construction wood - pine. Planed (Forbr\u00e6nding EoL)",
     "description": "Danish planed construction wood products of coniferous wood.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-652",
       "C3": "709",
       "C4": "0",
       "D": "-425"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -52,13 +52,13 @@
     "name": "Construction wood - pine. Wet and sawn  (Forbr\u00e6nding EoL)",
     "description": "Danish, wet and sawn construction wood products of coniferous wood.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-664",
       "C3": "709",
       "C4": "0",
       "D": "-425"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -76,13 +76,13 @@
     "name": "Limtr\u00e6s-produkter af fyr og gran. (Forbr\u00e6nding EoL)",
     "description": "Glulam construction wood products of pine and spruce.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-610",
       "C3": "743",
       "C4": "0",
       "D": "-395"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -100,13 +100,13 @@
     "name": "Huld\u00e6k element. 22 cm. 6-10 forsp\u00e6ndingsliner",
     "description": "22 cm tyk huld\u00e6k element I beton, med 6-10 forsp\u00e6ndingsliner i diameter 12,5 mm",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "49.8",
       "C3": "1.04",
       "C4": "0.76",
       "D": "-0.705"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -124,13 +124,13 @@
     "name": "Huld\u00e6k element. 32 cm. 6-10 forsp\u00e6ndingsliner",
     "description": "32 cm tyk huld\u00e6k element I beton, med 6-10 forsp\u00e6ndingsliner i diameter 12,5 mm",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "66.4",
       "C3": "1.4",
       "C4": "1.03",
       "D": "-0.953"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -148,13 +148,13 @@
     "name": "Huld\u00e6k element. 32 cm. 11-17 forsp\u00e6ndingsliner",
     "description": "32 cm tyk huld\u00e6k element I beton, med 11-17 forsp\u00e6ndingsliner i diameter 12,5 mm",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "67.9",
       "C3": "1.37",
       "C4": "1",
       "D": "-0.925"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -172,13 +172,13 @@
     "name": "Letklinkerblok. Massiv",
     "description": "Letklinkerblokke anvendes bl.a. til f\u00f8lgende bygningsdele: Fundamenter og sokler, k\u00e6ldertrapper og lyskasser, k\u00e6lderv\u00e6gge, st\u00f8ttemure, og indvendige og udvendige v\u00e6gge.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "194",
       "C3": "1.6",
       "C4": "1.19",
       "D": "-1.1"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -196,13 +196,13 @@
     "name": "Letklinkerblok med hvid EPS isolering",
     "description": "Letklinkerblokke anvendes bl.a. til f\u00f8lgende bygningsdele: Fundamenter og sokler, k\u00e6ldertrapper og lyskasser, k\u00e6lderv\u00e6gge, st\u00f8ttemure, og indvendige og udvendige v\u00e6gge.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "130",
       "C3": "0.961",
       "C4": "6.19",
       "D": "-4.39"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -220,13 +220,13 @@
     "name": "Letklinkerblok med gr\u00e5 EPS isolering",
     "description": "Letklinkerblokke anvendes bl.a. til f\u00f8lgende bygningsdele: Fundamenter og sokler, k\u00e6ldertrapper og lyskasser, k\u00e6lderv\u00e6gge, st\u00f8ttemure, og indvendige og udvendige v\u00e6gge.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "121",
       "C3": "0.836",
       "C4": "0.618",
       "D": "-0.572"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -244,13 +244,13 @@
     "name": "Konstruktionstr\u00e6 af fyr og gran. H\u00f8vlet (Forbr\u00e6nding EoL)",
     "description": "Planed construction wood products of pine and spruce.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-670",
       "C3": "728",
       "C4": "0",
       "D": "-371"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -268,13 +268,13 @@
     "name": "Sandwichelement med mineraluld (Facade)",
     "description": "1 m2 sandwichelement/facadeelement, best\u00e5ende af 150 mm bagmur, 200-300 mm mineral uld isolering, og 70-80 mm facadeplade, med 10% udsparinger.",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "90.6",
       "C3": "1.51",
       "C4": "1.25",
       "D": "-1.21"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -292,13 +292,13 @@
     "name": "Sandwichelement med EPS (Facade)",
     "description": "1 m2 sandwichelement/facadeelement, best\u00e5ende af 150 mm bagmur, 200-300 mm isolering, og 70-80 mm facadeplade, med 10% udsparinger.",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "87.3",
       "C3": "1.49",
       "C4": "10.8",
       "D": "-7.83"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -316,13 +316,13 @@
     "name": "Beton v\u00e6gelementer. 15 cm tyk v\u00e6g med 5-15 kg armering  (11% udsparinger)",
     "description": "15 cm tyk beton v\u00e6g, 11% udsparinger, med 5-15 kg armering",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "53.1",
       "C3": "0.965",
       "C4": "0.7",
       "D": "-0.787"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -340,13 +340,13 @@
     "name": "Beton v\u00e6gelementer. 20 cm tyk v\u00e6g med 5-15 kg armering (11% udsparinger)",
     "description": "20 cm tyk beton v\u00e6g, 11% udsparinger, med 5-15 kg armering",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "66.9",
       "C3": "1.28",
       "C4": "0.93",
       "D": "-1.01"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -364,13 +364,13 @@
     "name": "Beton v\u00e6gelementer. 20 cm tyk v\u00e6g med 16-25 kg armering (11% udsparinger)",
     "description": "20 cm tyk beton v\u00e6g, 11% udsparinger, med 16-25 kg armering",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "73.2",
       "C3": "1.29",
       "C4": "0.932",
       "D": "-1.08"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -388,13 +388,13 @@
     "name": "Letbeton v\u00e6gelement. 100 mm tyk v\u00e6g. 10% udsparinger",
     "description": "100 mm tyk letbeton v\u00e6gelement, 10% udsparinger, densitet: 1750-1850 kg/m3",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "26.8",
       "C3": "0.486",
       "C4": "0.356",
       "D": "-0.363"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -412,13 +412,13 @@
     "name": "Letbeton v\u00e6gelement. 150 mm tyk v\u00e6g. 10% udsparinger",
     "description": "150 mm tyk letbeton v\u00e6gelement, 10% udsparinger, densitet: 1750-1850 kg/m3",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "38.6",
       "C3": "0.744",
       "C4": "0.538",
       "D": "-0.621"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -436,13 +436,13 @@
     "name": "Letbeton v\u00e6gelement. 220 mm tyk v\u00e6g. 10% udsparinger",
     "description": "220 mm tyk letbeton v\u00e6gelement, 10% udsparinger, densitet: 1950-2050 kg/m3",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "63",
       "C3": "1.15",
       "C4": "0.836",
       "D": "-0.931"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -460,13 +460,13 @@
     "name": "TT-element/Ribbed\u00e6k. TT60 med 12-18 STK. L12.5 liner. og 1.3-3.3 kg slap armering",
     "description": "TT60-beton element med 12-18 stk. L12,5 liner, og 1,3-3,3 kg slap armering",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "56.3",
       "C3": "1",
       "C4": "0.734",
       "D": "-0.695"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -484,13 +484,13 @@
     "name": "TT-element/Ribbed\u00e6k. TTS90 med 16-22 STK. L12.5 liner. og 1-2.5 kg slap armering",
     "description": "TTS90-beton element med 16-22 stk. L12,5 liner, og 1-2,5 kg slap armering",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "55.3",
       "C3": "0.908",
       "C4": "0.658",
       "D": "-0.613"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -508,13 +508,13 @@
     "name": "TT-element/Ribbed\u00e6k. TT60 med 20-28 STK. L12.5 liner. og 2-4 kg slap armering",
     "description": "TT60-beton element med 20-28 stk. L12,5 liner, og 2-4 kg slap armering",
     "location": "DK",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "57.7",
       "C3": "1.01",
       "C4": "0.734",
       "D": "-0.711"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -532,13 +532,13 @@
     "name": "Fabriksbeton (C20/25 SCC) i eksponeringsklasserne X0 og XC1",
     "description": "C20/25 SCC (selvkompakterende beton)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "215",
       "C3": "6.94",
       "C4": "5.13",
       "D": "-4.74"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -556,13 +556,13 @@
     "name": "Fabriksbeton (C25/30) i eksponeringsklasserne X0 og XC1",
     "description": "C25/30 (s\u00e6tm\u00e5lsbeton)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "241",
       "C3": "6.73",
       "C4": "4.97",
       "D": "-4.6"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -580,13 +580,13 @@
     "name": "Fabriksbeton C35/45 \u0096 CEM I SR-5",
     "description": "C35/45 \u0096 CEM I SR-5 (S\u00e6tm\u00e5lsbeton fremstillet med sulfatbestandig cement typisk anvendt til anl\u00e6gskonstruktioner)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "403",
       "C3": "6.85",
       "C4": "5.06",
       "D": "-4.68"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -604,13 +604,13 @@
     "name": "Fabriksbeton C35/45 \u0096 CEM I",
     "description": "C35/45 \u0096 CEM I (S\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "362",
       "C3": "7.07",
       "C4": "5.23",
       "D": "-4.84"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -628,13 +628,13 @@
     "name": "Fabriksbeton C35/45 (fugebeton)",
     "description": "C35/45 fugebeton / sammenst\u00f8bningsbeton med max stenst\u00f8rrelse p\u00e5 8 mm",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "377",
       "C3": "6.63",
       "C4": "4.9",
       "D": "-4.54"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -652,13 +652,13 @@
     "name": "Fabriksbeton C40/50 \u0096 CEM I SR-5",
     "description": "C40/50 \u0096 CEM I SR-5 (s\u00e6tm\u00e5lsbeton fremstillet med sulfatbestandig cement typisk anvendt til anl\u00e6gskonstruktioner)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "465",
       "C3": "6.95",
       "C4": "5.14",
       "D": "-4.76"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -676,13 +676,13 @@
     "name": "Fabriksbeton C40/50 \u0096 CEM I",
     "description": "C40/50 \u0096 CEM I (s\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "429",
       "C3": "6.77",
       "C4": "5",
       "D": "-4.63"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -700,13 +700,13 @@
     "name": "Fabriksbeton C45/55",
     "description": "C45/55 \u0096 CEM I (s\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "426",
       "C3": "6.75",
       "C4": "4.99",
       "D": "-4.62"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -724,13 +724,13 @@
     "name": "Fabriksbeton C30/37",
     "description": "C30/37 (s\u00e6tm\u00e5lsbeton)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "282",
       "C3": "6.72",
       "C4": "4.97",
       "D": "-4.6"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -748,13 +748,13 @@
     "name": "Fabriksbeton C35/45 SCC",
     "description": "C35/45 SCC (selvkompakterende beton)",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "300",
       "C3": "6.54",
       "C4": "4.83",
       "D": "-4.47"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -772,13 +772,13 @@
     "name": "Konstruktionstr\u00e6 af fyr og gran. Savede og t\u00f8rrede (Forbr\u00e6nding EoL)",
     "description": "Sawn and dried construction wood products of pine and spruce.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-680",
       "C3": "728",
       "C4": "0",
       "D": "-371"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -796,13 +796,13 @@
     "name": "Krydsfiner. ubehandlet (Forbr\u00e6nding EoL)",
     "description": "WISA Spruce plywood, uncoated.",
     "location": "DK",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-599",
       "C3": "743",
       "C4": "0",
       "D": "-391"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -820,13 +820,13 @@
     "name": "Fireproof glass Pyrobel",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "71.6",
       "C3": "-",
       "C4": "0.645",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -844,13 +844,13 @@
     "name": "Copper piping",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "1.97",
       "C3": "-",
       "C4": "0.000949",
       "D": "-0.733"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -868,13 +868,13 @@
     "name": "Roofing stones, concrete",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "255.909",
       "C3": "-",
       "C4": "16.07",
       "D": "-2.681"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -892,13 +892,13 @@
     "name": "Carpeted tiling",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "20",
       "C3": "0.0341",
       "C4": "4.56",
       "D": "-0.0958"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -916,13 +916,13 @@
     "name": "Wood fiber insulation",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-156.3",
       "C3": "238.2",
       "C4": "-",
       "D": "-124"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -940,13 +940,13 @@
     "name": "Zink, patinaed",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "2.09",
       "C3": "-",
       "C4": "#G0122",
       "D": "#G0122"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -964,13 +964,13 @@
     "name": "Grout mortar",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.465",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -988,13 +988,13 @@
     "name": "Waterprrofing membrane, liquid",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "1.11",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1012,13 +1012,13 @@
     "name": "PE-foamcovered copper piping",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "2.29",
       "C3": "-",
       "C4": "0.377",
       "D": "-0.868"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1036,13 +1036,13 @@
     "name": "PE-covered copper piping",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "2.07",
       "C3": "-",
       "C4": "0.964",
       "D": "-1.1"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1060,13 +1060,13 @@
     "name": "PU-foamcovered copper piping",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "2.85",
       "C3": "-",
       "C4": "0.611",
       "D": "-0.952"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1084,13 +1084,13 @@
     "name": "PU foamplate (12 cm)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "14.8",
       "C3": "0.102",
       "C4": "8.74",
       "D": "-4"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1108,13 +1108,13 @@
     "name": "PVC-covered copper piping",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "1.83",
       "C3": "-",
       "C4": "0.987",
       "D": "-1.12"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1132,13 +1132,13 @@
     "name": "WPC fa\u00e7ade panel",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-0.558",
       "C3": "878.167",
       "C4": "-",
       "D": "-274.917"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1156,13 +1156,13 @@
     "name": "WPC terrace covering",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "0.253",
       "C3": "210.833",
       "C4": "-",
       "D": "-487.195"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1180,13 +1180,13 @@
     "name": "EPS insulation (grey) with thermal ray absorbant",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "49.7",
       "C3": "-",
       "C4": "55.6",
       "D": "-28.7"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1204,13 +1204,13 @@
     "name": "EPS insulation for walls and roofs 035",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "59.5",
       "C3": "-",
       "C4": "75.2",
       "D": "-39.6"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1228,13 +1228,13 @@
     "name": "EPS insulation for ceilings/floors and cellar walls/ground deck 035",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "75.4",
       "C3": "-",
       "C4": "85.9",
       "D": "-45.2"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1252,13 +1252,13 @@
     "name": "EPS insulation for walls and roofs 040",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "52.5",
       "C3": "-",
       "C4": "59.5",
       "D": "-31.3"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1276,13 +1276,13 @@
     "name": "EPS insulation for ceilings/floors and cellar walls/ground deck 040",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "53.8",
       "C3": "-",
       "C4": "61",
       "D": "-32.1"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1300,13 +1300,13 @@
     "name": "PU foam Insulation, covered with aluminium on both sides (12 cm)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "12.9",
       "C3": "0.106",
       "C4": "8.56",
       "D": "-4.98"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1324,13 +1324,13 @@
     "name": "Cellular glass insulation - 115 kg/m\u00b3",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "1.32",
       "C3": "-",
       "C4": "#G0912",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1348,13 +1348,13 @@
     "name": "Steel, rolled profiles and plates",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "1125",
       "C3": "1.844",
       "C4": "-",
       "D": "-413.4"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1372,13 +1372,13 @@
     "name": "Surface, fa\u00e7ade paint, primer, dispersion",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "210.646",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-0.00942649"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1396,13 +1396,13 @@
     "name": "Piping for electric heating (water-water) 70 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "417.966",
       "C3": "0.0147327",
       "C4": "-",
       "D": "-280.661"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1420,13 +1420,13 @@
     "name": "Stone plaster",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.00230588",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1444,13 +1444,13 @@
     "name": "Boksventilator 30.000 m\u00b3/h.",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "846.712",
       "C3": "118.708",
       "C4": "0.0982552",
       "D": "-506.236"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1468,13 +1468,13 @@
     "name": "Varmepumpe. jordvarmesonde. 70 Kw",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "6262.06",
       "C3": "114.807",
       "C4": "0.0300174",
       "D": "-267.67"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1492,13 +1492,13 @@
     "name": "Fiberglass cloth",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "0.293104",
       "C3": "0",
       "C4": "0.00196436",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1516,13 +1516,13 @@
     "name": "Curtain wall facade with 3-lags ruder. Steel",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "970.738",
       "C3": "620.355",
       "C4": "0.420155",
       "D": "-154.654"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1540,13 +1540,13 @@
     "name": "Lavagrus",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.00379143",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1564,13 +1564,13 @@
     "name": "Teglsten. formur",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "528.541",
       "C3": "13.207",
       "C4": "-",
       "D": "-369.717"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1588,13 +1588,13 @@
     "name": "R\u00f8r. Afl\u00f8bsr\u00f8r. PVC",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "191.881",
       "C3": "0.607628",
       "C4": "-",
       "D": "-0.259614"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1612,13 +1612,13 @@
     "name": "St\u00e5l. varmvalset plade. Genanvendelse",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "0.00068207",
       "D": "-181.062"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1636,13 +1636,13 @@
     "name": "Teflon-membran. polytetrafluoroethylen (PTFE)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "144.411",
       "C3": "0.364086",
       "C4": "-",
       "D": "-0.167871"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1660,13 +1660,13 @@
     "name": "Decentralt ventilationsanl\u00e6g med varmegenvinding (v\u00e6g & loft) 60 m3 / h",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "253.286",
       "C3": "448.641",
       "C4": "0.0504797",
       "D": "-11.696"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1684,13 +1684,13 @@
     "name": "Varmepumpe (luft-vand) 7kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "321.294",
       "C3": "210.599",
       "C4": "299.723",
       "D": "-169.065"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1708,13 +1708,13 @@
     "name": "Gips. beta-halvhydrat",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.103165",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1732,13 +1732,13 @@
     "name": "Gulvvarmesystem inkl. isolering. PEX (100 mm afstand)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "774.763",
       "C3": "668.108",
       "C4": "-",
       "D": "-278.435"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1756,13 +1756,13 @@
     "name": "Overflade. Anodisering af aluminiumplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "611.931",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1780,13 +1780,13 @@
     "name": "Overflade. Pulverlakering (Industri. udend\u00f8rs. hvid)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "473.516",
       "C3": "104.568",
       "C4": "-",
       "D": "-0.321226"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1804,13 +1804,13 @@
     "name": "Beslag. st\u00e5lvindue",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "927.171",
       "C3": "-",
       "C4": "#G0204",
       "D": "#G0204"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1828,13 +1828,13 @@
     "name": "Armeringsnet",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.683355",
       "C3": "-",
       "C4": "#G0204",
       "D": "#G0204"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1852,13 +1852,13 @@
     "name": "Afretningslag. h\u00e5rdt plast",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.3311",
       "C3": "-",
       "C4": "0.0163697",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1876,13 +1876,13 @@
     "name": "Boksventilator 10.000 m\u00b3/h.",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "343.014",
       "C3": "480.918",
       "C4": "0.0398429",
       "D": "-205.411"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1900,13 +1900,13 @@
     "name": "Grus 2-32 mm. t\u00f8rret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0332595",
       "C3": "0.00733722",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1924,13 +1924,13 @@
     "name": "Polystyren skumfyldning (uden bindemiddel)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "488.671",
       "C3": "554.102",
       "C4": "-",
       "D": "-23.208"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1948,13 +1948,13 @@
     "name": "Oliekedel. lav temperatur. 20-120 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1287.48",
       "C3": "190.828",
       "C4": "159.552",
       "D": "-223.013"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1972,13 +1972,13 @@
     "name": "Fibercementplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "6.993",
       "C3": "-",
       "C4": "0.195072",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -1996,13 +1996,13 @@
     "name": "Ekspanderet glasgranulat",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.273532",
       "C3": "-",
       "C4": "#G0912",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2020,13 +2020,13 @@
     "name": "R\u00f8r. Kloakr\u00f8r PVC",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "28.225",
       "C3": "301.298",
       "C4": "-",
       "D": "-0.66727"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2044,13 +2044,13 @@
     "name": "Gaskedel. kondenserende. < 20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "446.213",
       "C3": "915.866",
       "C4": "0.638208",
       "D": "-631.364"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2068,13 +2068,13 @@
     "name": "EPDM skum (r\u00f8risolering)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "245.125",
       "C3": "137.702",
       "C4": "-",
       "D": "-695.688"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2092,13 +2092,13 @@
     "name": "Vindueskarm. aluminium",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "157.712",
       "C3": "0.693459",
       "C4": "-",
       "D": "-951.688"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2116,13 +2116,13 @@
     "name": "Stokerfyr  20-120 KW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "2218.21",
       "C3": "508.292",
       "C4": "180.285",
       "D": "-998.687"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2140,13 +2140,13 @@
     "name": "Kalkcementpuds",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "356.634",
       "C3": "-",
       "C4": "27.01",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2164,13 +2164,13 @@
     "name": "Grus 16/32 (t\u00f8rret)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0342735",
       "C3": "0.00672578",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2188,13 +2188,13 @@
     "name": "Fjernvarmeanl\u00e6g",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "47.708",
       "C3": "0.20703",
       "C4": "0.00917947",
       "D": "-122.993"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2212,13 +2212,13 @@
     "name": "Gr\u00e5 st\u00f8bejern",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "163.536",
       "C3": "-",
       "C4": "#G0204",
       "D": "#G0204"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2236,13 +2236,13 @@
     "name": "St\u00e5lprofil. Genanvendelse",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "0.00068207",
       "D": "-0.393"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2260,13 +2260,13 @@
     "name": "Messing",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "138.566",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2284,13 +2284,13 @@
     "name": "R\u00f8r. Regnvandsr\u00f8r. PVC",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "242.826",
       "C3": "301.298",
       "C4": "-",
       "D": "-0.66727"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2308,13 +2308,13 @@
     "name": "Rude. 2-lags",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "369.941",
       "C3": "151.738",
       "C4": "0.327394",
       "D": "-0.702716"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2332,13 +2332,13 @@
     "name": "B\u00e6re-/slidlag. Asfalt",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0789355",
       "C3": "0",
       "C4": "-",
       "D": "-0.0263052"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2356,13 +2356,13 @@
     "name": "Kalkpuds",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "407.986",
       "C3": "-",
       "C4": "27.01",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2380,13 +2380,13 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). probe. 10 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "614.302",
       "C3": "0",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2404,13 +2404,13 @@
     "name": "Tr\u00e6. l\u00e6rk",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-907.564",
       "C3": "1186.9",
       "C4": "-",
       "D": "-314.259"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2428,13 +2428,13 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). probe. 20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "6027.13",
       "C3": "0",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2452,13 +2452,13 @@
     "name": "Overflade. Pulver coating af metal",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "409.796",
       "C3": "0.205333",
       "C4": "-",
       "D": "-0.0578208"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2476,13 +2476,13 @@
     "name": "Overflade. tr\u00e6vinduer. hvid grunder",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "182.186",
       "C3": "0.784673",
       "C4": "-",
       "D": "-0.243853"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2500,13 +2500,13 @@
     "name": "Blyplader",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "128.344",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2524,13 +2524,13 @@
     "name": "Buffertank. rustfast st\u00e5l",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "405.831",
       "C3": "0.663445",
       "C4": "-",
       "D": "-120.298"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2548,13 +2548,13 @@
     "name": "Porebeton 474 kg/m\u00b3. armeret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "263.192",
       "C3": "336.101",
       "C4": "-",
       "D": "-102.642"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2572,13 +2572,13 @@
     "name": "Facadeklinker",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "541.904",
       "C3": "134.516",
       "C4": "-",
       "D": "-410.796"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2596,13 +2596,13 @@
     "name": "Kalk. malet",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "144.393",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2620,13 +2620,13 @@
     "name": "Difluormethan (R32)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "522.467",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2644,13 +2644,13 @@
     "name": "Gas varmepumpe (luft) 20-70 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "362.364",
       "C3": "10.373",
       "C4": "632.349",
       "D": "-207.236"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2668,13 +2668,13 @@
     "name": "Gaskedel. kondenserende. 120-400 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "2842.15",
       "C3": "715.794",
       "C4": "180.384",
       "D": "-507.684"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2692,13 +2692,13 @@
     "name": "Papiruldsplader",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-199.935",
       "C3": "176.145",
       "C4": "-",
       "D": "-696.378"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2716,13 +2716,13 @@
     "name": "Phenolplast. stift skum (PF)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "873.203",
       "C3": "900.279",
       "C4": "-",
       "D": "-319.992"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2740,13 +2740,13 @@
     "name": "R\u00f8r. Kloakr\u00f8r HDPE",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "209.831",
       "C3": "345.444",
       "C4": "-",
       "D": "-170.559"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2764,13 +2764,13 @@
     "name": "Kunststenplade (bundet af epoxyharpiks)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "283.505",
       "C3": "0.381535",
       "C4": "-",
       "D": "-0.106807"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2788,13 +2788,13 @@
     "name": "Elevator (grundkomponenter pr. STK.)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "5193",
       "C3": "373.937",
       "C4": "488.271",
       "D": "-1579.64"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2812,13 +2812,13 @@
     "name": "Sanitetskeramik",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "280.282",
       "C3": "0.0163697",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2836,13 +2836,13 @@
     "name": "Ventilationsanl\u00e6g decentraliseret (v\u00e6g & loft) 60 m3 / h",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "408.676",
       "C3": "12.972",
       "C4": "0.0180285",
       "D": "-138.003"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2860,13 +2860,13 @@
     "name": "Radiator. st\u00e5lplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "444.802",
       "C3": "0.000818484",
       "C4": "-",
       "D": "-155.923"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2884,13 +2884,13 @@
     "name": "EPDM-t\u00e6tning til aluminiumsprofil. med kuldebroafbrydelse",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "138.151",
       "C3": "134.947",
       "C4": "134.869",
       "D": "-14.583"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2908,13 +2908,13 @@
     "name": "Klordifluormethan (R22)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "475.856",
       "C3": "-",
       "C4": "177.483",
       "D": "-0.212757"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2932,13 +2932,13 @@
     "name": "Papiruldsisolering. l\u00f8sfyld",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-733.725",
       "C3": "990.818",
       "C4": "-",
       "D": "-305.055"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2956,13 +2956,13 @@
     "name": "PUR fugemasse",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "533.286",
       "C3": "265.674",
       "C4": "-",
       "D": "-0.944422"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -2980,13 +2980,13 @@
     "name": "LPG tank 6400 l / t 2.9 (overjordiske)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "3107.97",
       "C3": "0.957626",
       "C4": "-",
       "D": "-1824.3"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3003,13 +3003,13 @@
     "name": "Vinduesramme. aluminium",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "17.055",
       "C3": "0.58799",
       "C4": "-",
       "D": "-104.202"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3026,13 +3026,13 @@
     "name": "Overflade. Tr\u00e6maling. udend\u00f8rs. d\u00e6kkende (topcoat-system)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "274.094",
       "C3": "0.836874",
       "C4": "-",
       "D": "-0.261171"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3049,13 +3049,13 @@
     "name": "Sand 0-2 mm. t\u00f8rret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0332595",
       "C3": "0.00733722",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3072,13 +3072,13 @@
     "name": "Overflade. Parket lak transparent",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "34.614",
       "C3": "0.912953",
       "C4": "-",
       "D": "-0.256981"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3095,13 +3095,13 @@
     "name": "EVA-tagmembran",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "512.518",
       "C3": "79.699",
       "C4": "-",
       "D": "-360.722"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3118,13 +3118,13 @@
     "name": "Betonmursten",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "242.351",
       "C3": "134.516",
       "C4": "-",
       "D": "-410.796"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3141,13 +3141,13 @@
     "name": "Aluminiumsprofil",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "10.677",
       "C3": "-",
       "C4": "#G0500",
       "D": "#G0500"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3164,13 +3164,13 @@
     "name": "Sk\u00e6rver 16-32 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.014695",
       "C3": "0.00672578",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3187,13 +3187,13 @@
     "name": "Fugemasse. Silikone",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "726.875",
       "C3": "151.829",
       "C4": "-",
       "D": "-0.702716"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3210,13 +3210,13 @@
     "name": "Keramikfliser. u-glaseret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "685.115",
       "C3": "0.146744",
       "C4": "-",
       "D": "-0.0410796"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3233,13 +3233,13 @@
     "name": "Ventilationsaggregat m. varmegenvinding 1000 m3 / h",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "372.133",
       "C3": "0.611164",
       "C4": "0.0901424",
       "D": "-212.093"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3256,13 +3256,13 @@
     "name": "Fugemasse. Acryl",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "303.501",
       "C3": "219.227",
       "C4": "-",
       "D": "-101.503"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3279,13 +3279,13 @@
     "name": "Puds. gips-kalk",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "119.397",
       "C3": "-",
       "C4": "13.505",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3302,13 +3302,13 @@
     "name": "Ekspanderet skifer",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.341109",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3325,13 +3325,13 @@
     "name": "Boksventilator 5.000 m\u00b3/h",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "217.047",
       "C3": "304.278",
       "C4": "0.0251497",
       "D": "-130.012"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3348,13 +3348,13 @@
     "name": "Lerr\u00f8r. glaseret. DN 400",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "515.194",
       "C3": "112.871",
       "C4": "-",
       "D": "-0.291665"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3371,13 +3371,13 @@
     "name": "Kork. expanderet",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-969.007",
       "C3": "151.505",
       "C4": "-",
       "D": "-388.339"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3394,13 +3394,13 @@
     "name": "Kertotr\u00e6 (LVL)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-465.421",
       "C3": "896.177",
       "C4": "-",
       "D": "-304.837"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3417,13 +3417,13 @@
     "name": "Cirkulationspumpe 50-250 W",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "264.569",
       "C3": "0.86599",
       "C4": "0.0450712",
       "D": "-506.214"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3440,13 +3440,13 @@
     "name": "Tetrafluorethan (R134a)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "838.634",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3463,13 +3463,13 @@
     "name": "Tetrafluorpropen (R1234ze)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "612.734",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3486,13 +3486,13 @@
     "name": "M\u00f8rtel. cementm\u00f8rtel",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "345.107",
       "C3": "-",
       "C4": "293.017",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3509,13 +3509,13 @@
     "name": "Buffertank. st\u00e5l",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "31.687",
       "C3": "0.663445",
       "C4": "-",
       "D": "-142.578"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3532,13 +3532,13 @@
     "name": "Ventilationskanal. galvaniseret st\u00e5l",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "304.722",
       "C3": "0.00163697",
       "C4": "-",
       "D": "-158.648"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3555,13 +3555,13 @@
     "name": "Beslag til dreje-kip vinduer (aluminium)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "123.655",
       "C3": "-",
       "C4": "#G0763",
       "D": "#G0763"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3578,13 +3578,13 @@
     "name": "Byggepap",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-0.0897286",
       "C3": "0.162065",
       "C4": "-",
       "D": "-0.0579045"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3601,13 +3601,13 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). collector. 70 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "2541.8",
       "C3": "0",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3624,13 +3624,13 @@
     "name": "R\u00f8r til el-varmepumpe (vand-vand) 20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "174.764",
       "C3": "0.0147327",
       "C4": "-",
       "D": "-280.661"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3647,13 +3647,13 @@
     "name": "H\u00f8rfiberdug",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "160.445",
       "C3": "861.825",
       "C4": "-",
       "D": "-120.031"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3670,13 +3670,13 @@
     "name": "Tr\u00e6. egetr\u00e6 (12% fugt / 10.7% H2O)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-1063",
       "C3": "1287.83",
       "C4": "-",
       "D": "-341.221"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3693,13 +3693,13 @@
     "name": "St\u00f8beasfalt",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0972808",
       "C3": "0",
       "C4": "-",
       "D": "-0.0263052"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3716,13 +3716,13 @@
     "name": "Ventilationsaggregat m. varmegenvinding 5000 m3 / h",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1460.38",
       "C3": "177.427",
       "C4": "0.180285",
       "D": "-881.899"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3739,13 +3739,13 @@
     "name": "Betontrappe. etageh\u00f8j",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "312.836",
       "C3": "139.419",
       "C4": "-",
       "D": "-390.288"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3762,13 +3762,13 @@
     "name": "ECB-plast tagmembran. if\u00f8lge DIN 16729 (med PES-filt)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "823.049",
       "C3": "704.063",
       "C4": "-",
       "D": "-32.606"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3785,13 +3785,13 @@
     "name": "Solvarmekollektor. vakuumr\u00f8r",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "109.581",
       "C3": "233.419",
       "C4": "-",
       "D": "-388.375"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3808,13 +3808,13 @@
     "name": "R\u00f8r til el-varmepumpe (vand-vand) 10 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "136.135",
       "C3": "0.0147327",
       "C4": "-",
       "D": "-280.661"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3831,13 +3831,13 @@
     "name": "Varmepumpe. vand-vand. 70 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "553.729",
       "C3": "136.581",
       "C4": "0.0300174",
       "D": "-307.478"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3854,13 +3854,13 @@
     "name": "Bitumenemulsion (40% bitumen. 60% vand)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.356326",
       "C3": "0",
       "C4": "0.0859383",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3877,13 +3877,13 @@
     "name": "Curtain wall profiler. st\u00e5l",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "366.271",
       "C3": "342.169",
       "C4": "-",
       "D": "-148.223"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3900,13 +3900,13 @@
     "name": "Kuldioxid (R744)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "10.753",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3923,13 +3923,13 @@
     "name": "Slaggebeton. sten",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "352.838",
       "C3": "102.721",
       "C4": "-",
       "D": "-287.557"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3946,13 +3946,13 @@
     "name": "Stenmel 0/2",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.014695",
       "C3": "0.00672578",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3969,13 +3969,13 @@
     "name": "Aluminiumsplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "104.617",
       "C3": "-",
       "C4": "#G0500",
       "D": "#G0500"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -3992,13 +3992,13 @@
     "name": "Rulletrappe (komponenter. som er afh\u00e6ngige af h\u00f8jden)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "2467.1",
       "C3": "272.787",
       "C4": "-",
       "D": "-1251.37"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4015,13 +4015,13 @@
     "name": "St\u00e5l. Smedest\u00e5l",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "280.793",
       "C3": "-",
       "C4": "#G0204",
       "D": "#G0204"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4038,13 +4038,13 @@
     "name": "Cementbundet sp\u00e5nplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "1694.15",
       "C3": "279.382",
       "C4": "-",
       "D": "-846.451"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4061,13 +4061,13 @@
     "name": "Elevator (komponenter pr. etage)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "969.289",
       "C3": "0.295179",
       "C4": "-",
       "D": "-493.136"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4084,13 +4084,13 @@
     "name": "Glasfiber-forst\u00e6rket plast. polyester (30% fiberandel)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "373.108",
       "C3": "159.357",
       "C4": "-",
       "D": "-0.737851"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4107,13 +4107,13 @@
     "name": "Cirkulationspumpe 250-1000 W",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "132.285",
       "C3": "432.995",
       "C4": "0.225356",
       "D": "-253.107"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4130,13 +4130,13 @@
     "name": "R\u00f8r. Afl\u00f8bsr\u00f8r. ABS",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "440.853",
       "C3": "255.257",
       "C4": "-",
       "D": "-14.943"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4153,13 +4153,13 @@
     "name": "R\u00f8r. Brugsvandsr\u00f8r. PEX",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "410.333",
       "C3": "376.848",
       "C4": "-",
       "D": "-170.559"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4176,13 +4176,13 @@
     "name": "St\u00e5lplade (0.3-3.0mm)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "242.761",
       "C3": "-",
       "C4": "#G0122",
       "D": "#G0122"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4199,13 +4199,13 @@
     "name": "Gulvvarmesystem inkl. isolering. Kobber (100 mm afstand)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "223.208",
       "C3": "317.258",
       "C4": "-",
       "D": "-679.116"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4222,13 +4222,13 @@
     "name": "K\u00f8lemiddel (R410a)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "806.324",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4245,13 +4245,13 @@
     "name": "Ammoniak (R717)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "249.446",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4268,13 +4268,13 @@
     "name": "Overflade. Opl\u00f8sningsmiddelbaseret lak. hvid",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "295.014",
       "C3": "0.68517",
       "C4": "-",
       "D": "-0.192736"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4291,13 +4291,13 @@
     "name": "Fiberdug. PE / PP",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "126.052",
       "C3": "188.424",
       "C4": "-",
       "D": "-0.852793"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4314,13 +4314,13 @@
     "name": "Overflade. Facademaling. grunder. silikat",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.900033",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-0.010823"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4337,13 +4337,13 @@
     "name": "R\u00f8r. polypropylen (PP)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "261.984",
       "C3": "322.333",
       "C4": "-",
       "D": "-146.545"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4360,13 +4360,13 @@
     "name": "St\u00e5lplade (20 mikrometer galvaniseret)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "267.628",
       "C3": "-",
       "C4": "#G0122",
       "D": "#G0122"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4383,13 +4383,13 @@
     "name": "Aluminium. plade og profil. Genanvendelse",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "0.00068207",
       "D": "-826.778"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4406,13 +4406,13 @@
     "name": "Overflade. Metalcoating (vandbaseret)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "209.554",
       "C3": "0.248242",
       "C4": "-",
       "D": "-0.0698668"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4429,13 +4429,13 @@
     "name": "Skorsten st\u00e5l (enkelt v\u00e6g)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "402.074",
       "C3": "0.000818484",
       "C4": "-",
       "D": "-127.358"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4452,13 +4452,13 @@
     "name": "Vinduesramme. plast",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "924.199",
       "C3": "482.076",
       "C4": "-",
       "D": "-342.906"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4475,13 +4475,13 @@
     "name": "Mineraluld. stenuld. teknisk pladeisolering",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "196.032",
       "C3": "0.0163697",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4498,13 +4498,13 @@
     "name": "Porebeton 380 kg/m\u00b3",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "182.392",
       "C3": "25.558",
       "C4": "-",
       "D": "-0.780513"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4521,13 +4521,13 @@
     "name": "Folie. PE-HD med PP-fiberdug",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "321.161",
       "C3": "484.274",
       "C4": "-",
       "D": "-219.178"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4544,13 +4544,13 @@
     "name": "Pimpsten. grus",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.00871442",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4567,13 +4567,13 @@
     "name": "Curtain wall facade med 3-lags ruder. aluminium",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "121.145",
       "C3": "620.355",
       "C4": "0.420155",
       "D": "-370.598"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4590,13 +4590,13 @@
     "name": "Solcelleanl\u00e6g 1000 kWh / m2*a",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "296.686",
       "C3": "-",
       "C4": "121.364",
       "D": "-362.013"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4613,13 +4613,13 @@
     "name": "HPL- plade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-385.54",
       "C3": "1978.67",
       "C4": "-",
       "D": "121.285"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4636,13 +4636,13 @@
     "name": "Tr\u00e6. gran (12% fugt / 10.7% H2O)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-693.836",
       "C3": "876.037",
       "C4": "-",
       "D": "-238.748"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4659,13 +4659,13 @@
     "name": "Lerpuds",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "931.477",
       "C3": "280.641",
       "C4": "-",
       "D": "-389.165"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4682,13 +4682,13 @@
     "name": "Vinduesprofil. karm. alu. pulverlak.",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "130.541",
       "C3": "-",
       "C4": "#G0500",
       "D": "#G0500"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4705,13 +4705,13 @@
     "name": "Kondenserende gaskedel <20 kW (v\u00e6g enhed)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "243.628",
       "C3": "705.425",
       "C4": "0.512009",
       "D": "-593.075"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4728,13 +4728,13 @@
     "name": "St\u00e5lplade. rustfri",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "342.727",
       "C3": "-",
       "C4": "#G0763",
       "D": "#G0763"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4751,13 +4751,13 @@
     "name": "Plast profil CR (chloropren gummi)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "635.686",
       "C3": "356.146",
       "C4": "-",
       "D": "-152.255"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4774,13 +4774,13 @@
     "name": "St\u00e5lr\u00f8r. gevindr\u00f8r",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "251.374",
       "C3": "0.00150055",
       "C4": "-",
       "D": "-155.923"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4797,13 +4797,13 @@
     "name": "Asfalt. b\u00e6relag",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0711519",
       "C3": "0",
       "C4": "-",
       "D": "-0.0263052"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4820,13 +4820,13 @@
     "name": "Grunder. silikat dispersion",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.579701",
       "C3": "-",
       "C4": "0.0163697",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4843,13 +4843,13 @@
     "name": "Overflade. Parket lak (primer til tr\u00e6; fortyndet med vand)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "181.695",
       "C3": "0.912953",
       "C4": "-",
       "D": "-0.256981"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4866,13 +4866,13 @@
     "name": "LPG tank 4850 l / 2.1 t (underjordisk)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "3084.11",
       "C3": "781.327",
       "C4": "-",
       "D": "-1735.34"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4889,13 +4889,13 @@
     "name": "Polybutadiene r\u00f8r (PB)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "410.241",
       "C3": "322.333",
       "C4": "-",
       "D": "-146.545"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4912,13 +4912,13 @@
     "name": "Anhydrit mix",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0892567",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4935,13 +4935,13 @@
     "name": "Perlite 0-1 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.522459",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4958,13 +4958,13 @@
     "name": "Tagsten. tegl",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "158.784",
       "C3": "0.30266",
       "C4": "-",
       "D": "-0.0924292"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -4981,13 +4981,13 @@
     "name": "Pimpsten 0-4 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.00869385",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5004,13 +5004,13 @@
     "name": "Overflade. Facademaling. silikoneharpiks",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "125.633",
       "C3": "0",
       "C4": "0.0150055",
       "D": "-0.00967088"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5027,13 +5027,13 @@
     "name": "Tr\u00e6. ceder",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-809.968",
       "C3": "1037.52",
       "C4": "-",
       "D": "-282.581"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5050,13 +5050,13 @@
     "name": "Gummigulve med skumbagside EN 1816",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "13.22",
       "C3": "109.893",
       "C4": "-",
       "D": "-647.756"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5073,13 +5073,13 @@
     "name": "Varmepumpe. vand-vand. 10 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "284.922",
       "C3": "522.458",
       "C4": "0.0300174",
       "D": "-173.463"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5096,13 +5096,13 @@
     "name": "Varmepumpe (luft-vand) 10 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "458.991",
       "C3": "300.855",
       "C4": "428.176",
       "D": "-241.521"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5119,13 +5119,13 @@
     "name": "Overflade. Kalkmaling",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.924854",
       "C3": "-",
       "C4": "0.0163697",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5142,13 +5142,13 @@
     "name": "Gummit\u00e6tning",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "36.402",
       "C3": "303.476",
       "C4": "-",
       "D": "-140.543"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5165,13 +5165,13 @@
     "name": "R\u00f8r. Kloakr\u00f8r PP",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "261.984",
       "C3": "345.444",
       "C4": "-",
       "D": "-170.559"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5188,13 +5188,13 @@
     "name": "Plastplade. transparent. PMMA st\u00f8bte",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "6291.42",
       "C3": "2889.91",
       "C4": "-",
       "D": "-1139.6"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5211,13 +5211,13 @@
     "name": "Naturstenplade. bl\u00f8d. facade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "16.231",
       "C3": "0.699482",
       "C4": "-",
       "D": "-0.213614"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5234,13 +5234,13 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). probe. 70 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1804.28",
       "C3": "0",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5257,13 +5257,13 @@
     "name": "M\u00f8rtel. flisekl\u00e6ber",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.347032",
       "C3": "-",
       "C4": "0.0163697",
       "D": "-0.00285525"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5280,13 +5280,13 @@
     "name": "Aluminiumsfolie (d=0.1 mm)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "311.981",
       "C3": "-",
       "C4": "#G0500",
       "D": "#G0500"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5303,13 +5303,13 @@
     "name": "Tr\u00e6betonplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-293.699",
       "C3": "317.455",
       "C4": "-",
       "D": "-113.794"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5326,13 +5326,13 @@
     "name": "Plastprofil. silikone",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "685.795",
       "C3": "10.128",
       "C4": "-",
       "D": "-0.468477"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5349,13 +5349,13 @@
     "name": "Polyurethanskum (r\u00f8risolering)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "200.718",
       "C3": "273.128",
       "C4": "-",
       "D": "-126.489"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5372,13 +5372,13 @@
     "name": "Nylonst\u00f8bning (PA 6.6)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "106.619",
       "C3": "287.643",
       "C4": "-",
       "D": "-108.716"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5395,13 +5395,13 @@
     "name": "Grus. 2-15 mm. t\u00f8rret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0342735",
       "C3": "0.00672578",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5418,13 +5418,13 @@
     "name": "Beslag til lodrette skydevinduer",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "11.591",
       "C3": "-",
       "C4": "#G0763",
       "D": "#G0763"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5441,13 +5441,13 @@
     "name": "Puds. kalk-gips. inde",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "198.85",
       "C3": "-",
       "C4": "13.505",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5464,13 +5464,13 @@
     "name": "Melamin-skum",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "65.813",
       "C3": "143.404",
       "C4": "-",
       "D": "-0.663676"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5487,13 +5487,13 @@
     "name": "Polystyren granulat (cementbundet)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "160.083",
       "C3": "103.432",
       "C4": "-",
       "D": "-433.217"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5510,13 +5510,13 @@
     "name": "Polycarbonatplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "593.594",
       "C3": "332.856",
       "C4": "-",
       "D": "-114.044"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5533,13 +5533,13 @@
     "name": "Gulvvarmesystem inkl. isolering. PP (100 mm afstand)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "613.759",
       "C3": "668.108",
       "C4": "-",
       "D": "-278.435"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5556,13 +5556,13 @@
     "name": "Ventilationsaggregat m. varmegenvinding 10 000 m3 / h",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "2815.96",
       "C3": "347.325",
       "C4": "0.270427",
       "D": "-1717.02"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5579,13 +5579,13 @@
     "name": "LPG tank 2700 l / 1.2 t (underjordisk)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "2135.85",
       "C3": "542.252",
       "C4": "-",
       "D": "-1202.05"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5602,13 +5602,13 @@
     "name": "Bindelag",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0778388",
       "C3": "0",
       "C4": "-",
       "D": "-0.0263052"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5625,13 +5625,13 @@
     "name": "Vinduesramme. pulverlakeret aluminium",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "125.422",
       "C3": "-",
       "C4": "#G0500",
       "D": "#G0500"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5648,13 +5648,13 @@
     "name": "EPDM-t\u00e6tning til aluminiumsprofil",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "0.578307",
       "C3": "0.564894",
       "C4": "0.564566",
       "D": "-0.610451"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5671,13 +5671,13 @@
     "name": "Skortsten polypropylen (PP)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "250.046",
       "C3": "273.128",
       "C4": "-",
       "D": "-126.489"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5694,13 +5694,13 @@
     "name": "Polyethylen-skum",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "305.545",
       "C3": "398.495",
       "C4": "-",
       "D": "-180.361"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5717,13 +5717,13 @@
     "name": "Regnvandsr\u00f8r. st\u00f8bejern",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.722883",
       "C3": "-",
       "C4": "#G0204",
       "D": "#G0204"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5740,13 +5740,13 @@
     "name": "Kalciumsilikatplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "550.399",
       "C3": "165.087",
       "C4": "-",
       "D": "-0.462146"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5763,13 +5763,13 @@
     "name": "Sand 0-2 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.00285398",
       "C3": "0.00672578",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5786,13 +5786,13 @@
     "name": "Sp\u00e5nplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-873.594",
       "C3": "1268.47",
       "C4": "-",
       "D": "-293.429"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5809,13 +5809,13 @@
     "name": "Solvarmekollektor. plan",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "104.039",
       "C3": "117.626",
       "C4": "-",
       "D": "-572.425"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5832,13 +5832,13 @@
     "name": "Lersten",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "936.405",
       "C3": "40.537",
       "C4": "-",
       "D": "-176.256"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5855,13 +5855,13 @@
     "name": "Mineraluld. l\u00f8sfyld",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "640.233",
       "C3": "124.651",
       "C4": "0.690596",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5878,13 +5878,13 @@
     "name": "Hampfiberdug",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "191.569",
       "C3": "861.825",
       "C4": "-",
       "D": "-120.031"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5901,13 +5901,13 @@
     "name": "Vindueskarm. plast",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "825.055",
       "C3": "391.687",
       "C4": "-",
       "D": "-322.888"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5924,13 +5924,13 @@
     "name": "Gulvvarmesystem inkl. isolering. Kobber (200 mm afstand)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "12.979",
       "C3": "316.865",
       "C4": "-",
       "D": "-405.503"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5947,13 +5947,13 @@
     "name": "Gipspulver. Alpha-halvhydrat",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.261835",
       "C3": "-",
       "C4": "0.0163697",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5970,13 +5970,13 @@
     "name": "Mineraluld. stenuld. r\u00f8rsk\u00e5l",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "317.952",
       "C3": "0.0163697",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -5993,13 +5993,13 @@
     "name": "St\u00f8beasfalt",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.11688",
       "C3": "0",
       "C4": "0.0793276",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6016,13 +6016,13 @@
     "name": "Bitumenkl\u00e6ber",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.61328",
       "C3": "0",
       "C4": "0.0859383",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6039,13 +6039,13 @@
     "name": "Plastplade. transparent. PVC",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "3996.11",
       "C3": "4010",
       "C4": "-",
       "D": "-814.07"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6062,13 +6062,13 @@
     "name": "Betonr\u00f8r. armeret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.141743",
       "C3": "0.00721909",
       "C4": "-",
       "D": "-0.00202091"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6085,13 +6085,13 @@
     "name": "Ler. stampet ler",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "934.931",
       "C3": "675.616",
       "C4": "-",
       "D": "-293.761"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6108,13 +6108,13 @@
     "name": "Porebeton granulat",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "528.468",
       "C3": "269.031",
       "C4": "-",
       "D": "-0.821592"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6131,13 +6131,13 @@
     "name": "Solafsk\u00e6rmning. polyethylenterephthalat (PET)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "4.194",
       "C3": "110.342",
       "C4": "-",
       "D": "-0.335872"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6154,13 +6154,13 @@
     "name": "Solafsk\u00e6rmning. aluminiumslameller",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "236.353",
       "C3": "-",
       "C4": "#G0500",
       "D": "#G0500"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6177,13 +6177,13 @@
     "name": "M\u00f8rtel. armeringsm\u00f8rtel. kunstharpiks spartelmasse",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.476923",
       "C3": "0",
       "C4": "0.0163697",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6200,13 +6200,13 @@
     "name": "Rustfri st\u00e5l. genanvendelse",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "0.00068207",
       "D": "-266.377"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6223,13 +6223,13 @@
     "name": "Affald. tr\u00e6. forbr\u00e6nding fjernvarme",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "182.315",
       "C4": "-",
       "D": "-0.685639"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6246,13 +6246,13 @@
     "name": "St\u00e5l. varmvalset plade. 2-20 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "267.628",
       "C3": "-",
       "C4": "#G0122",
       "D": "#G0122"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6269,13 +6269,13 @@
     "name": "St\u00e5l. Varmgalvaniseret st\u00e5lplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "163.885",
       "C3": "-",
       "C4": "#G0122",
       "D": "#G0122"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6292,13 +6292,13 @@
     "name": "Kalkcementm\u00f8rtel",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "202.003",
       "C3": "-",
       "C4": "294.654",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6315,13 +6315,13 @@
     "name": "Oliekedel. lav temperatur. 120-400 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "3035.05",
       "C3": "536.451",
       "C4": "180.285",
       "D": "-626.817"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6338,13 +6338,13 @@
     "name": "Brugsvandsr\u00f8r. rustfast st\u00e5l",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "355.922",
       "C3": "-",
       "C4": "#G0763",
       "D": "#G0763"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6361,13 +6361,13 @@
     "name": "Vandvarmer. el. gennemstr\u00f8m. 21 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "147.374",
       "C3": "492.449",
       "C4": "-",
       "D": "-693.214"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6384,13 +6384,13 @@
     "name": "Brugsvandsr\u00f8r. Alu-PEX",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "762.125",
       "C3": "188.424",
       "C4": "-",
       "D": "-479.765"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6407,13 +6407,13 @@
     "name": "Vinduesbeslag. aluminium",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "873.468",
       "C3": "-",
       "C4": "#G0763",
       "D": "#G0763"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6430,13 +6430,13 @@
     "name": "Dampsp\u00e6rre PA",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "0.707438",
       "C3": "0.219924",
       "C4": "-",
       "D": "-0.0874466"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6453,13 +6453,13 @@
     "name": "Oparbejdning af byggeaffald",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "0.002663",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6476,13 +6476,13 @@
     "name": "Puds. syntetisk harpiks",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "1201.64",
       "C3": "-",
       "C4": "255.094",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6499,13 +6499,13 @@
     "name": "Varmepumpe (luft-vand) 14kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "642.587",
       "C3": "421.198",
       "C4": "599.447",
       "D": "-338.129"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6522,13 +6522,13 @@
     "name": "Pillefyr. 20-120 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "2329.17",
       "C3": "329.897",
       "C4": "180.285",
       "D": "-1021.95"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6545,13 +6545,13 @@
     "name": "Rulletrappe (grundkomponenter pr. trappe)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "12715.1",
       "C3": "105.496",
       "C4": "488.271",
       "D": "-5674.33"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6568,13 +6568,13 @@
     "name": "Brugsvandsr\u00f8r. PEX-Alu-PEX",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "779.468",
       "C3": "30.242",
       "C4": "-",
       "D": "-292.695"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6591,13 +6591,13 @@
     "name": "Brugsvandsr\u00f8r. PB",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "399.847",
       "C3": "390.707",
       "C4": "-",
       "D": "-162.827"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6614,13 +6614,13 @@
     "name": "Tr\u00e6produkter. affaldsforbr\u00e6nding",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "180.183",
       "C4": "-",
       "D": "-0.523199"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6637,13 +6637,13 @@
     "name": "Perlite 0-3 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.558289",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6660,13 +6660,13 @@
     "name": "Lithiumbromid",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "808.139",
       "C3": "-",
       "C4": "923.499",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6683,13 +6683,13 @@
     "name": "LPG tank 6400 l / 2.9 t (underjordisk)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "3839.02",
       "C3": "973.728",
       "C4": "-",
       "D": "-2159.91"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6706,13 +6706,13 @@
     "name": "XPS isolering",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "963.403",
       "C3": "118.208",
       "C4": "-",
       "D": "-495.105"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6729,13 +6729,13 @@
     "name": "Lim til gipsplader",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.103165",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6752,13 +6752,13 @@
     "name": "Plastplade. transparent. PMMA ekstruderet",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "5756.79",
       "C3": "2889.91",
       "C4": "-",
       "D": "-1139.6"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6775,13 +6775,13 @@
     "name": "Vindueskarm. tr\u00e6",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "-0.369776",
       "C3": "403.683",
       "C4": "-",
       "D": "-162.212"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6798,13 +6798,13 @@
     "name": "Ler pulver",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.349057",
       "C3": "0.00337808",
       "C4": "-",
       "D": "-0.0014688"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6821,13 +6821,13 @@
     "name": "Skorsten opmuret (2 r\u00f8r)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "474.265",
       "C3": "320.127",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6844,13 +6844,13 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). collector. 20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "726.23",
       "C3": "0",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6867,13 +6867,13 @@
     "name": "Grus 2-32 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.00285398",
       "C3": "0.00672578",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6890,13 +6890,13 @@
     "name": "Rulleskodder. PVC",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "234.651",
       "C3": "120.519",
       "C4": "-",
       "D": "-100.487"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6913,13 +6913,13 @@
     "name": "El-varmepumpe (lodret jordvarme. saltvand) 10 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "338.947",
       "C3": "435.298",
       "C4": "0.0300174",
       "D": "-156.278"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6936,13 +6936,13 @@
     "name": "Grunder til silikonespuds",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.692053",
       "C3": "-",
       "C4": "0.0163697",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6959,13 +6959,13 @@
     "name": "PVC gulvbel\u00e6gning",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "8.191",
       "C3": "108.467",
       "C4": "-",
       "D": "-220.199"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -6982,13 +6982,13 @@
     "name": "L\u00e6sket kalk. pulver",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "109.784",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7005,13 +7005,13 @@
     "name": "Tr\u00e6fiberisoleringsplade (v\u00e5d proces)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-182.182",
       "C3": "334.691",
       "C4": "-",
       "D": "-886.621"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7028,13 +7028,13 @@
     "name": "Vinduesh\u00e5ndtag",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "0.957379",
       "C3": "0.251996",
       "C4": "-",
       "D": "-0.109308"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7051,13 +7051,13 @@
     "name": "Gaskedel. kondenserende. 20-120 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1104.19",
       "C3": "226.536",
       "C4": "157.929",
       "D": "-157.721"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7074,13 +7074,13 @@
     "name": "St\u00e5lprofil",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.994444",
       "C3": "-",
       "C4": "#G0204",
       "D": "#G0204"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7097,13 +7097,13 @@
     "name": "Kondenserende gaskedel 120-400 kW (standalone enhed)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "3422.37",
       "C3": "161.496",
       "C4": "180.285",
       "D": "-1357.73"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7120,13 +7120,13 @@
     "name": "Overflade. Indend\u00f8rsmaling. emulsions maling. slidst\u00e6rk",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "262.123",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-0.010823"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7143,13 +7143,13 @@
     "name": "Kalciumsulfat",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.107014",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7166,13 +7166,13 @@
     "name": "Varmepumpe. vand-vand. 20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "284.32",
       "C3": "522.458",
       "C4": "0.0300174",
       "D": "-173.463"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7189,13 +7189,13 @@
     "name": "Lerr\u00f8r. glaseret. DN 250",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "262.848",
       "C3": "0.405381",
       "C4": "-",
       "D": "-0.104753"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7212,13 +7212,13 @@
     "name": "Vinduesramme. tr\u00e6",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "-0.147349",
       "C3": "403.685",
       "C4": "-",
       "D": "-161.135"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7235,13 +7235,13 @@
     "name": "Tr\u00e6. fyrretr\u00e6 (12% fugt / 10.7% H2O)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-783.129",
       "C3": "985.049",
       "C4": "-",
       "D": "-260.334"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7258,13 +7258,13 @@
     "name": "Cirkulationspumpe < 50 W",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "132.285",
       "C3": "0.432995",
       "C4": "0.0225356",
       "D": "-253.107"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7281,13 +7281,13 @@
     "name": "Overflade. Vinduesmaling. hvid",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "182.186",
       "C3": "0.784673",
       "C4": "-",
       "D": "-0.243853"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7304,13 +7304,13 @@
     "name": "LPG tank 2700 l / t 1.2 (overjordiske)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1720.01",
       "C3": "0.433551",
       "C4": "-",
       "D": "-825.924"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7327,13 +7327,13 @@
     "name": "Affald. inert. deponering (glas)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "0.0136414",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7350,13 +7350,13 @@
     "name": "LPG tank 4850 l / 2.1t (overjordiske)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "2762.64",
       "C3": "0.851223",
       "C4": "-",
       "D": "-1621.6"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7373,13 +7373,13 @@
     "name": "PIR-skum. h\u00f8j densitet (250 kg/m3)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "781.381",
       "C3": "644.627",
       "C4": "-",
       "D": "-249.994"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7396,13 +7396,13 @@
     "name": "El-varmepumpe (lodret jordvarme. saltvand) 20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1997.42",
       "C3": "435.299",
       "C4": "0.0300174",
       "D": "-156.292"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7419,13 +7419,13 @@
     "name": "Oliekedel. lav temperatur. <20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "803.765",
       "C3": "119.181",
       "C4": "0.946495",
       "D": "-139.23"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7442,13 +7442,13 @@
     "name": "Gulvvarmesystem inkl. isolering. PEX (200 mm afstand)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "56.924",
       "C3": "49.229",
       "C4": "-",
       "D": "-205.162"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7465,13 +7465,13 @@
     "name": "Kalksandsten",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "306.119",
       "C3": "134.516",
       "C4": "-",
       "D": "-410.796"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7488,13 +7488,13 @@
     "name": "Singels 2-15 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.014695",
       "C3": "0.00672578",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7511,13 +7511,13 @@
     "name": "Gulvvarmesystem inkl. isolering. PP (200 mm afstand)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "488.738",
       "C3": "49.229",
       "C4": "-",
       "D": "-205.162"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7534,13 +7534,13 @@
     "name": "K\u00f8lemiddel (R407c)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "838.122",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7557,13 +7557,13 @@
     "name": "Sand. knust. t\u00f8rret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0342735",
       "C3": "0.00672578",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7580,13 +7580,13 @@
     "name": "Plastplade. transparent. PC",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "6131.21",
       "C3": "3661.42",
       "C4": "-",
       "D": "-1368.53"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7603,13 +7603,13 @@
     "name": "CR-profil til forsegling (chloropren gummi)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "0.895329",
       "C3": "0.555074",
       "C4": "-",
       "D": "-0.276832"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7626,13 +7626,13 @@
     "name": "Gipskartonplade 13 mm. hulplade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "136.406",
       "C3": "-",
       "C4": "0.127547",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7649,13 +7649,13 @@
     "name": "Bomuld",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-0.780289",
       "C3": "220.182",
       "C4": "-",
       "D": "-0.722834"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7672,13 +7672,13 @@
     "name": "Glasbyggesten",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "3926.96",
       "C3": "-",
       "C4": "443.346",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7695,13 +7695,13 @@
     "name": "Aluminium. st\u00f8begods",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "109.481",
       "C3": "-",
       "C4": "#G0500",
       "D": "#G0500"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7718,13 +7718,13 @@
     "name": "Stokerfyr 120-400 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "7141.52",
       "C3": "187.887",
       "C4": "180.285",
       "D": "-3691.63"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7741,13 +7741,13 @@
     "name": "Curtain wall profiler. aluminium",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "551.564",
       "C3": "342.169",
       "C4": "-",
       "D": "-356.544"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7764,13 +7764,13 @@
     "name": "Plast profil SBR",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "420.151",
       "C3": "31.383",
       "C4": "-",
       "D": "-16.957"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7787,13 +7787,13 @@
     "name": "Overflade. tr\u00e6facade. semi-pigmenteret lasursystem",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "27.365",
       "C3": "0.836874",
       "C4": "-",
       "D": "-0.261171"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7810,13 +7810,13 @@
     "name": "Porebeton 472 kg/m\u00b3",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "222.605",
       "C3": "317.457",
       "C4": "-",
       "D": "-0.969479"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7833,13 +7833,13 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). collector. 10 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "363.115",
       "C3": "0",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7856,13 +7856,13 @@
     "name": "Sk\u00e6rvemastisk asfalt (SMA)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.0765834",
       "C3": "0",
       "C4": "-",
       "D": "-0.0263052"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7879,13 +7879,13 @@
     "name": "Glas 4 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "133.289",
       "C3": "-",
       "C4": "0.163697",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7902,13 +7902,13 @@
     "name": "Kondenserende gaskedel <20 kW (standalone enhed)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "753.547",
       "C3": "218.182",
       "C4": "15.829",
       "D": "-183.436"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7925,13 +7925,13 @@
     "name": "Overflade. Metal maling (opl\u00f8sningsmiddelbaseret)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "228.622",
       "C3": "0.143886",
       "C4": "-",
       "D": "-0.0404745"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7948,13 +7948,13 @@
     "name": "Lithium jernfosfat (LiFePO4) batteri (1 kWh lagring)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "241.48",
       "C3": "-",
       "C4": "225.933",
       "D": "-352.863"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7971,13 +7971,13 @@
     "name": "Kondenserende gaskedel 20-120 kW (standalone enhed)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1268.3",
       "C3": "467.263",
       "C4": "180.285",
       "D": "-392.75"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -7994,13 +7994,13 @@
     "name": "Overflade. Vandbaseret lak. hvid",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "201.226",
       "C3": "0.856007",
       "C4": "-",
       "D": "-0.24092"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8017,13 +8017,13 @@
     "name": "Betonr\u00f8r. u-armeret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.132191",
       "C3": "0.00733722",
       "C4": "-",
       "D": "-0.00205398"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8040,13 +8040,13 @@
     "name": "PVC plastisol",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "243.275",
       "C3": "273.937",
       "C4": "-",
       "D": "-0.556058"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8063,13 +8063,13 @@
     "name": "Pellet-kedel. <20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1168.47",
       "C3": "131.871",
       "C4": "180.285",
       "D": "-409.511"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8086,13 +8086,13 @@
     "name": "R\u00f8rgods",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "177.322",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8109,13 +8109,13 @@
     "name": "Overflade. Facademaling. silikat",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.865769",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-0.010823"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8132,13 +8132,13 @@
     "name": "Puds. gips",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "134.173",
       "C3": "-",
       "C4": "13.505",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8155,13 +8155,13 @@
     "name": "Afretningslag. cementbaseret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.183551",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8178,13 +8178,13 @@
     "name": "Varmepumpe. jordvarmesonde. 10 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "855.755",
       "C3": "435.299",
       "C4": "0.0300174",
       "D": "-156.292"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8201,13 +8201,13 @@
     "name": "Urea formaldehyd skum isolering",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "288.236",
       "C3": "187.588",
       "C4": "-",
       "D": "-0.666651"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8224,13 +8224,13 @@
     "name": "Tr\u00e6br\u00e6dder. b\u00f8g (12% fugtighed / 10.7% H2O)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-1093.21",
       "C3": "1328.2",
       "C4": "-",
       "D": "-352.468"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8247,13 +8247,13 @@
     "name": "Overflade. Vinduesmaling. mellemlag d\u00e6kkende hvid",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "178.204",
       "C3": "0.784673",
       "C4": "-",
       "D": "-0.243992"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8270,13 +8270,13 @@
     "name": "Kalkpuds. t\u00f8rstof",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "190.611",
       "C3": "-",
       "C4": "13.505",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8293,13 +8293,13 @@
     "name": "Varmepumpe. jordvarmeslange. 20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "392.972",
       "C3": "435.298",
       "C4": "0.0300174",
       "D": "-156.278"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8316,13 +8316,13 @@
     "name": "Varmepumpe. jordvarmeslange. 70 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "931.906",
       "C3": "114.808",
       "C4": "0.0300174",
       "D": "-267.738"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8339,13 +8339,13 @@
     "name": "Bomuld. \u00f8kologisk",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-0.553836",
       "C3": "220.182",
       "C4": "-",
       "D": "-0.722834"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8362,13 +8362,13 @@
     "name": "Affald (forbr\u00e6nding). kunststof. fjernvarme",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "252.745",
       "C4": "-",
       "D": "-140.543"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8385,13 +8385,13 @@
     "name": "Propan (R290)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.556878",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8408,13 +8408,13 @@
     "name": "Aircondition (direkte fordamper) (per 1 kW)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "457.792",
       "C3": "303.977",
       "C4": "0.428176",
       "D": "-241.576"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8431,13 +8431,13 @@
     "name": "Overflade. Facademaling. akryl maling",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "148.132",
       "C3": "-",
       "C4": "0.0150055",
       "D": "-0.0101248"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8454,13 +8454,13 @@
     "name": "Skorsten opmuret (1 r\u00f8r)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M",
-    "gwp": {
+    "unit": "M",
+    "emission" : { "gwp": {
       "a1a3": "238.032",
       "C3": "160.914",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8477,13 +8477,13 @@
     "name": "Stokerfyr  <20 KW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1642.03",
       "C3": "347.892",
       "C4": "180.285",
       "D": "-683.535"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8500,13 +8500,13 @@
     "name": "K\u00f8lemiddel (R404a)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "948.597",
       "C3": "#G1298",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8523,13 +8523,13 @@
     "name": "Beslag til vandrette skydevinduer",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "575.046",
       "C3": "-",
       "C4": "#G0763",
       "D": "#G0763"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8546,13 +8546,13 @@
     "name": "Tagpap. bitumen toplag. ikke skiferbestr\u00f8et",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "535.539",
       "C3": "0",
       "C4": "0.413297",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8569,13 +8569,13 @@
     "name": "Rude (3-lags)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "577.726",
       "C3": "303.476",
       "C4": "0.49109",
       "D": "-140.543"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8592,13 +8592,13 @@
     "name": "Gummigulve profileret EN 12199",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "12.884",
       "C3": "13.866",
       "C4": "-",
       "D": "-817.326"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8615,13 +8615,13 @@
     "name": "Naturstenplade. bl\u00f8d. gulv",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "149.203",
       "C3": "0.349741",
       "C4": "-",
       "D": "-0.106807"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8638,13 +8638,13 @@
     "name": "Marmorplade (tykkelse 0.02 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "162.767",
       "C3": "0.381535",
       "C4": "-",
       "D": "-0.106807"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8661,13 +8661,13 @@
     "name": "Naturstenplade. h\u00e5rd. gulv",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "317.513",
       "C3": "0.349741",
       "C4": "-",
       "D": "-0.106807"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8684,13 +8684,13 @@
     "name": "Kork linoleumsgulv (tykkelse 0.0025 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "360.243",
       "C3": "358.677",
       "C4": "-",
       "D": "-0.350728"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8707,13 +8707,13 @@
     "name": "Loftspanel med mineraluld",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "34.872",
       "C3": "0",
       "C4": "0.0360133",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8730,13 +8730,13 @@
     "name": "Undertag. PP-membran",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "0.407157",
       "C3": "0.333621",
       "C4": "-",
       "D": "-0.164677"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8753,13 +8753,13 @@
     "name": "Gipskartonplade. brandimpr\u00e6gneret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "154.129",
       "C3": "-",
       "C4": "0.150055",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8776,13 +8776,13 @@
     "name": "Naturstensplade. udend\u00f8rsbrug",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "573.544",
       "C3": "139.896",
       "C4": "-",
       "D": "-0.427228"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8799,13 +8799,13 @@
     "name": "Tagpap. bitumen toplag. skiferbestr\u00f8et",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "536.407",
       "C3": "0",
       "C4": "0.491831",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8822,13 +8822,13 @@
     "name": "Naturstenplade. h\u00e5rd. facade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "324.057",
       "C3": "0.524611",
       "C4": "-",
       "D": "-0.160211"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8845,13 +8845,13 @@
     "name": "Net-forst\u00e6rket dampsp\u00e6rre PET",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "0.742035",
       "C3": "0.331026",
       "C4": "-",
       "D": "-0.100762"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8868,13 +8868,13 @@
     "name": "Keramikfliser. glaseret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "617.969",
       "C3": "0.146744",
       "C4": "-",
       "D": "-0.0410796"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8891,13 +8891,13 @@
     "name": "Gips. t\u00f8rstof (gipskartonplade) (tykkelse 0.025 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "311.901",
       "C3": "-",
       "C4": "0.301611",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8914,13 +8914,13 @@
     "name": "Gips. t\u00f8rstof (gipsfiberplade) (tykkelse 0.025 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "755.456",
       "C3": "0",
       "C4": "0.361634",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8937,13 +8937,13 @@
     "name": "PUR-underlag p\u00e5 PET-flis (tykkelse 0.0005 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "106.631",
       "C3": "0.54176",
       "C4": "-",
       "D": "-0.192588"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8960,13 +8960,13 @@
     "name": "Dampsp\u00e6rre PE (tykkelse 0.0002 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "0.399404",
       "C3": "0.555951",
       "C4": "-",
       "D": "-0.274462"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -8983,13 +8983,13 @@
     "name": "Skifer",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "150.386",
       "C3": "0.201774",
       "C4": "-",
       "D": "-0.0616194"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9006,13 +9006,13 @@
     "name": "Folie til gr\u00f8nt tag",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "354.926",
       "C3": "495.155",
       "C4": "-",
       "D": "-100.535"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9029,13 +9029,13 @@
     "name": "Tr\u00e6gulv. stavparket. 22 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-150.494",
       "C3": "236.049",
       "C4": "-",
       "D": "-636.585"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9052,13 +9052,13 @@
     "name": "Dampsp\u00e6rre. bitumen",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "20.393",
       "C3": "0",
       "C4": "0.396638",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9075,13 +9075,13 @@
     "name": "Gipsfiberplade 10 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "318.612",
       "C3": "0",
       "C4": "0.150055",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9098,13 +9098,13 @@
     "name": "Lerplade (tykkelse 0.02 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "0.0530942",
       "C3": "0.0436552",
       "C4": "-",
       "D": "-0.0205632"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9121,13 +9121,13 @@
     "name": "Undertag. fiberarmeret PE-membran",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "0.425628",
       "C3": "0.315442",
       "C4": "-",
       "D": "-0.14272"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9144,13 +9144,13 @@
     "name": "Tagpap. bitumen undermembran",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "24.749",
       "C3": "0",
       "C4": "0.396638",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9167,13 +9167,13 @@
     "name": "Linoleum gulvbel\u00e6gning (tykkelse 0.0025 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-324.756",
       "C3": "35.866",
       "C4": "-",
       "D": "-0.444446"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9190,13 +9190,13 @@
     "name": "Tagmembran. PVC",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "607.292",
       "C3": "493.032",
       "C4": "-",
       "D": "-100.091"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9213,13 +9213,13 @@
     "name": "Korkfliser 8 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-608.412",
       "C3": "638.655",
       "C4": "-",
       "D": "-0.665479"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9236,13 +9236,13 @@
     "name": "Fugtisolering. grundmursplade. PE",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "408.909",
       "C3": "414.532",
       "C4": "-",
       "D": "-20.467"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9259,13 +9259,13 @@
     "name": "Parket. flerlag (tykkelse 0.01 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-445.326",
       "C3": "118.038",
       "C4": "-",
       "D": "-231.635"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9282,13 +9282,13 @@
     "name": "Korkfliser 6 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-456.492",
       "C3": "484.491",
       "C4": "-",
       "D": "-0.544943"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9305,13 +9305,13 @@
     "name": "Gips. v\u00e6gplade (tykkelse 0.1 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "223.539",
       "C3": "-",
       "C4": "126.047",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9328,13 +9328,13 @@
     "name": "Korkfliser 4 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-304.279",
       "C3": "321.527",
       "C4": "-",
       "D": "-0.351073"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9351,13 +9351,13 @@
     "name": "Tagfolie EPDM",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "859.954",
       "C3": "679.964",
       "C4": "-",
       "D": "-339.139"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9374,13 +9374,13 @@
     "name": "Gipskartonplade 13 mm. impr\u00e6gneret",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "162.283",
       "C3": "-",
       "C4": "0.150055",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9397,13 +9397,13 @@
     "name": "Halm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-127",
       "C3": "0",
       "C4": "134",
       "D": "0"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9420,13 +9420,13 @@
     "name": "Ovenlyskuppel. plast (komplet ovenlys)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "45.7",
       "C3": "42.5",
       "C4": "0.18",
       "D": "-37.1"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9443,13 +9443,13 @@
     "name": "Rytterlys. plast/aluminium (komplet vindue)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "84.7",
       "C3": "10.6",
       "C4": "0.0495",
       "D": "-68.6"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9466,13 +9466,13 @@
     "name": "Fladtagsvindue. plast (komplet vindue)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "226",
       "C3": "15.1",
       "C4": "0.21",
       "D": "-148"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9489,13 +9489,13 @@
     "name": "Glastag. aluminium (komplet vindue)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "232",
       "C3": "10.6",
       "C4": "0.12",
       "D": "-77.4"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9512,13 +9512,13 @@
     "name": "D\u00f8r. alu. hovedd\u00f8r",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "163.382",
       "C3": "105.204",
       "C4": "0.117048",
       "D": "-925.086"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9535,13 +9535,13 @@
     "name": "D\u00f8r. alu. r\u00f8gd\u00f8r",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "157.17",
       "C3": "0.866486",
       "C4": "0.238074",
       "D": "-702.062"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9558,13 +9558,13 @@
     "name": "D\u00f8r. alu. T30/EI30",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "221.423",
       "C3": "0.927273",
       "C4": "0.389603",
       "D": "-740.761"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9581,13 +9581,13 @@
     "name": "D\u00f8r. alu. T90/EI90",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "351.666",
       "C3": "0.927262",
       "C4": "0.863448",
       "D": "-847.245"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9604,13 +9604,13 @@
     "name": "D\u00f8r. industriport",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "263.69",
       "C3": "0.0519",
       "C4": "5.71",
       "D": "-121.04"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9627,13 +9627,13 @@
     "name": "D\u00f8r. st\u00e5l. indv/udv/brand/r\u00f8g mv",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "135.75",
       "C3": "0.0578",
       "C4": "1.72",
       "D": "-63.02"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9650,13 +9650,13 @@
     "name": "Mineraluld. alm.",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "403.055",
       "C3": "0.72123",
       "C4": "0.399579",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9673,13 +9673,13 @@
     "name": "Mineraluld. facadesystem",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "703.915",
       "C3": "126.969",
       "C4": "0.703441",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9696,13 +9696,13 @@
     "name": "ETICS limning og mineralsk puds (Kratzputz)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "98.439",
       "C3": "0",
       "C4": "0.527835",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9719,13 +9719,13 @@
     "name": "Smeltekammergranulat",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9742,13 +9742,13 @@
     "name": "ETICS-limning og bel\u00e6gning af silikatdispersionspuds",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "548.029",
       "C3": "0",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9765,13 +9765,13 @@
     "name": "Pimpsten (SFK-4)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "780.446",
       "C3": "66.035",
       "C4": "-",
       "D": "-184.858"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9788,13 +9788,13 @@
     "name": "ETICS-limning og bel\u00e6gning af syntetisk harpikspuds",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "670.288",
       "C3": "0",
       "C4": "0.187209",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9811,13 +9811,13 @@
     "name": "Mineraluld. skr\u00e5tag",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "465.164",
       "C3": "0.783207",
       "C4": "0.455523",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9834,13 +9834,13 @@
     "name": "ETICS limning og mineralsk letpuds",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "473.572",
       "C3": "0",
       "C4": "0.168362",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9857,13 +9857,13 @@
     "name": "ETICS limning og mineralsk puds (Dekorputz)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "733.681",
       "C3": "0",
       "C4": "0.258395",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9880,13 +9880,13 @@
     "name": "Mineraluld. trykfast til tagsystem",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "209.503",
       "C3": "397.636",
       "C4": "2.203",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9903,13 +9903,13 @@
     "name": "Ekspanderet Ler. sand",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.338274",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9926,13 +9926,13 @@
     "name": "Mineraluld. terr\u00e6n",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "133.91",
       "C3": "233.097",
       "C4": "129.141",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9949,13 +9949,13 @@
     "name": "ETICS limning og silikonepuds",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "548.029",
       "C3": "0",
       "C4": "0.187209",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9972,13 +9972,13 @@
     "name": "OSB-plade",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-572.706",
       "C3": "#G0810",
       "C4": "-",
       "D": "#G0810"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -9995,13 +9995,13 @@
     "name": "Sp\u00e5nplade. melaminbelagt",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-691.465",
       "C3": "#G0810",
       "C4": "-",
       "D": "#G0810"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10018,13 +10018,13 @@
     "name": "Parket i massivt tr\u00e6",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-120.662",
       "C3": "#G0765",
       "C4": "-",
       "D": "#G0765"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10041,13 +10041,13 @@
     "name": "Tr\u00e6fiberplade. h\u00f8j densitet. HDF",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-854.246",
       "C3": "#G0810",
       "C4": "-",
       "D": "#G0810"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10064,13 +10064,13 @@
     "name": "Tr\u00e6fiberplade. medium densitet. MDF",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-726.358",
       "C3": "#G0810",
       "C4": "-",
       "D": "#G0810"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10087,13 +10087,13 @@
     "name": "Tom affaldsproces",
     "description": "-",
     "location": "DK",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "0",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10110,13 +10110,13 @@
     "name": "Silikatmaling (indend\u00f8rs)",
     "description": "-",
     "location": "DK",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "0.955",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10133,13 +10133,13 @@
     "name": "Silikatmaling (udend\u00f8rs)",
     "description": "-",
     "location": "DK",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "1.2",
       "C3": "#G0789",
       "C4": "-",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10156,13 +10156,13 @@
     "name": "Laminatgulv 8 mm",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-5.272",
       "C3": "13.5",
       "C4": "-",
       "D": "-3.649"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10179,13 +10179,13 @@
     "name": "Oliekedel. lav temperatur. kondenserende. < 20 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "891.1",
       "C3": "26.61",
       "C4": "1.803",
       "D": "-223.6"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10202,13 +10202,13 @@
     "name": "Oliekedel. lav temperatur. kondenserende. 20-120 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "1755",
       "C3": "72.67",
       "C4": "1.803",
       "D": "-610.8"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10225,13 +10225,13 @@
     "name": "Oliekedel. lav temperatur. kondenserende. 120-400 kW",
     "description": "-",
     "location": "DE",
-    "declared_unit": "STK",
-    "gwp": {
+    "unit": "STK",
+    "emission" : { "gwp": {
       "a1a3": "5075",
       "C3": "249.5",
       "C4": "1.803",
       "D": "-2099"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10248,13 +10248,13 @@
     "name": "Affald. byggeaffald. deponering (ikke glas)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "0.0136414",
       "D": "-"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10271,13 +10271,13 @@
     "name": "Affald. stenuld h\u00f8j densitet",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "2.46",
       "D": "-5.42"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10294,13 +10294,13 @@
     "name": "Affald. stenuld lav densitet",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "0.62",
       "D": "-1.36"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10317,13 +10317,13 @@
     "name": "Affald. stenuld middel densitet",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M3",
-    "gwp": {
+    "unit": "M3",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
       "C4": "1.52",
       "D": "-3.36"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10340,13 +10340,13 @@
     "name": "Affald (forbr\u00e6nding). tekstil. fjernvarme",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "173.941",
       "C4": "-",
       "D": "-0.826165"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10363,13 +10363,13 @@
     "name": "Affald (forbr\u00e6nding). polystyren (PS). fjernvarme",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "337.892",
       "C4": "-",
       "D": "-154.693"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10386,13 +10386,13 @@
     "name": "T\u00e6ppe gulvbel\u00e6gning (tykkelse 0.006 m)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "M2",
-    "gwp": {
+    "unit": "M2",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "404.533",
       "C4": "-",
       "D": "-160.441"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10409,13 +10409,13 @@
     "name": "Kobberr\u00f8r (blank)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "0.00136414",
       "C4": "-",
       "D": "-114.005"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10432,13 +10432,13 @@
     "name": "Kobberr\u00f8r (coatede)",
     "description": "-",
     "location": "DE",
-    "declared_unit": "KG",
-    "gwp": {
+    "unit": "KG",
+    "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "0.00136414",
       "C4": "-",
       "D": "-140.501"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10455,13 +10455,13 @@
     "name": "Enfamiliehuse. afl\u00f8b",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.00863",
       "C3": "0.01137",
       "C4": "-",
       "D": "-0.00562"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10478,13 +10478,13 @@
     "name": "Enfamiliehuse. vand",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.04831",
       "C3": "0.01169",
       "C4": "-",
       "D": "-0.0294"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10501,13 +10501,13 @@
     "name": "Enfamiliehuse. varme. ventilation og k\u00f8l",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.49399",
       "C3": "0.10567",
       "C4": "0.00034",
       "D": "-0.1975"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10524,13 +10524,13 @@
     "name": "R\u00e6kkehuse. afl\u00f8b",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.0414",
       "C3": "0.0486",
       "C4": "-",
       "D": "-0.0205"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10547,13 +10547,13 @@
     "name": "R\u00e6kkehuse. vand",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.0244",
       "C3": "0.0156",
       "C4": "-",
       "D": "-0.0123"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10570,13 +10570,13 @@
     "name": "R\u00e6kkehuse. varme. ventilation og k\u00f8l",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.44844",
       "C3": "0.0641",
       "C4": "0.00027",
       "D": "-0.2035"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10593,13 +10593,13 @@
     "name": "Etageboliger. afl\u00f8b",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.054",
       "C3": "0.066",
       "C4": "-",
       "D": "-0.0324"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10616,13 +10616,13 @@
     "name": "Etageboliger. vand",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.0522",
       "C3": "0.0078",
       "C4": "-",
       "D": "-0.0282"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10639,13 +10639,13 @@
     "name": "Etageboliger.varme. ventilation og k\u00f8l",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.4335",
       "C3": "0.0765",
       "C4": "-",
       "D": "-0.1683"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10662,13 +10662,13 @@
     "name": "Kontor. skoler og daginstitutioner. afl\u00f8b",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.018",
       "C3": "0.022",
       "C4": "-",
       "D": "-0.0108"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10685,13 +10685,13 @@
     "name": "Kontor. skoler og daginstitutioner. vand",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.048",
       "C3": "0.012",
       "C4": "-",
       "D": "-0.0192"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10708,13 +10708,13 @@
     "name": "Kontor. skoler og daginstitutioner. varme. ventilation og k\u00f8l",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.7224",
       "C3": "0.1176",
       "C4": "-",
       "D": "-0.3528"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10731,13 +10731,13 @@
     "name": "\u00d8vrige bygninger. afl\u00f8b",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.0225",
       "C3": "0.0275",
       "C4": "-",
       "D": "-0.0135"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10754,13 +10754,13 @@
     "name": "\u00d8vrige bygninger. vand",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.064",
       "C3": "0.016",
       "C4": "-",
       "D": "-0.0256"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",
@@ -10777,13 +10777,13 @@
     "name": "\u00d8vrige bygninger. varme. ventilation og k\u00f8l",
     "description": "-",
     "location": "DK",
-    "declared_unit": "-",
-    "gwp": {
+    "unit": "-",
+    "emission" : { "gwp": {
       "a1a3": "0.9374",
       "C3": "0.1526",
       "C4": "-",
       "D": "-0.4578"
-    },
+    }},
     "conversions": {
       "kg": {
         "to": "kg",

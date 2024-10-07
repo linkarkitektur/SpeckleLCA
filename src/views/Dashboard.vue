@@ -23,6 +23,7 @@ import NavbarComponent from '@/components/Navbar.vue'
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import { useSpeckleStore } from '@/stores/speckle'
+import { useMaterialStore } from '@/stores/material'
 
 // Utils
 import { 
@@ -57,6 +58,8 @@ import { getRevaluBaseList } from '@/models/revaluDataSource'
 			const navStore = useNavigationStore()
 			const projectStore = useProjectStore()
 			const speckleStore = useSpeckleStore()
+			const materialStore = useMaterialStore()
+			materialStore.materialsFromJson()
 			//getRevaluBaseList()
 			
 			// Watch for changes in the active page and update viewer colors
