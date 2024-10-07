@@ -48,7 +48,7 @@ class EcoPortalService implements EPDService {
       virtual: 'true',
       metaDataOnly: 'false',
       startIndex: '0',
-      pageSize: '100',
+      pageSize: MAX_EPD_COUNT,
       format: 'json',
     }
   }
@@ -98,7 +98,7 @@ class RevaluService implements EPDService {
     return {
       search_term: '',
       page_no: 0,
-      page_size: 15,
+      page_size: MAX_EPD_COUNT,
     }
   }
 

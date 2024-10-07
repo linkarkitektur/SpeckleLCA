@@ -48,6 +48,16 @@ export const useMaterialStore = defineStore({
      */
     addMaterial(material: Product) {
       this.materials.push(material)
+      this.updateParameters()
+    },
+    
+    /**
+     * Add material list to store
+     * @param materials
+    */
+    addMaterialList(materials: Product[]) {
+      this.materials = materials
+      this.updateParameters()
     },
 
     /**
@@ -109,7 +119,7 @@ export const useMaterialStore = defineStore({
       try {
         this.materials = materialList.map((material: any) => ({
           ...material,
-          "meta_data": {
+          "metaData": {
             "materialType": material["materialType"]
           }
         })) as any
@@ -134,10 +144,13 @@ export const useMaterialStore = defineStore({
 
       this.paramFilters.matParam = uniqueMaterialTypes.map((name) => ({ 
         name: name, 
-        selected: false 
+        selected: false,
+        filterParamter: 'metaData.materialType'
       }))
       this.paramFilters.unitParam = uniqueDeclaredUnits.map((name) => ({ 
-        name: name, selected: false 
+        name: name, 
+        selected: false,
+        filterParamter: 'unit'
       }))
     },
 

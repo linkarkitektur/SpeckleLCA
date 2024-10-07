@@ -66,7 +66,8 @@ export interface Mapping {
  */
 export interface MaterialFilterParam {
 	name: string,
-	selected: boolean
+	selected: boolean,
+	filterParamter: string
 }
 
 /**
