@@ -14,10 +14,10 @@ export default defineConfig({
 	 */
 	plugins: [
 		vue(),
-		sentryVitePlugin({
-			org: 'link-io',
-			project: 'speckle-lca-frontend'
-		})
+		//sentryVitePlugin({
+		//	org: 'link-io',
+		//	project: 'speckle-lca-frontend'
+		//})
 	],
 
 	/**

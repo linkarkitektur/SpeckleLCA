@@ -15,27 +15,27 @@
 </template>
 
 <script lang="ts">
-	import { watch } from 'vue'
-	import Sidebar from '@/components/Sidebar/Sidebar.vue'
-	import Slideover from '@/components/SlideOver/Sliderover.vue'
-	import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
-	import NavbarComponent from '@/components/Navbar.vue'
-	import { useMaterialStore } from '@/stores/material'
-	import { useProjectStore } from '@/stores/main'
+import { watch } from 'vue'
+import Sidebar from '@/components/Sidebar/Sidebar.vue'
+import Slideover from '@/components/SlideOver/Sliderover.vue'
+import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
+import NavbarComponent from '@/components/Navbar.vue'
+import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
-	import { useSpeckleStore } from '@/stores/speckle'
+import { useSpeckleStore } from '@/stores/speckle'
 
-	// Utils
-	import { 
-		updateProjectGroups,
-		setMappingColorGroup,
-		setResultsColorGroup,
-	 } from '@/utils/projectUtils'
+// Utils
+import { 
+	updateProjectGroups,
+	setMappingColorGroup,
+	setResultsColorGroup,
+} from '@/utils/projectUtils'
 
-	// Modals
-	import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
-	import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
-	import SaveFilterModal from '@/components/Modals/SaveFilterModal.vue'
+// Modals
+import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
+import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
+import SaveFilterModal from '@/components/Modals/SaveFilterModal.vue'
+import { getRevaluBaseList } from '@/models/revaluDataSource'
 
 	/**
 	 * Dashboard view.
@@ -54,11 +54,10 @@ import { useNavigationStore } from '@/stores/navigation'
 		},
 		setup() {
 			//Load materials from the store on startup
-			const materialStore = useMaterialStore()
 			const navStore = useNavigationStore()
 			const projectStore = useProjectStore()
 			const speckleStore = useSpeckleStore()
-    	materialStore.materialsFromJson()
+			//getRevaluBaseList()
 			
 			// Watch for changes in the active page and update viewer colors
 			// TODO: Have this in the navStore instead?

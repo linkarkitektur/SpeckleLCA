@@ -6,7 +6,7 @@ import { EPDSource } from '@/models/settings'
 import type { RevaluData } from '@/models/revaluDataSource'
 //import { convertIlcd } from 'epdx'
 
-const MAX_EPD_COUNT = 10
+const MAX_EPD_COUNT = 5
 // Ilcd reference to GWP total
 const GWP_REF_OBJECT_ID = '6a37f984-a4b3-458a-a20a-64418c145fa2'
 
@@ -18,6 +18,7 @@ interface EPDService {
   createEPDParams(): any
   updatePageIndex(params: any): any
   extractEPDData(data: any): Product | null
+  extractEPDList(data: any): any[]
 }
 
 /**
@@ -67,6 +68,10 @@ class EcoPortalService implements EPDService {
   extractEPDData(data: any) {
     return extractILCDData(data)
   }
+
+  extractEPDList(data: any): any[] {
+    return data.data;
+  }
 }
 
 /**
@@ -86,13 +91,13 @@ class RevaluService implements EPDService {
   }
 
   createEPDUrl(epd: any) {
-    return `/epd/${epd.id}`
+    return `api/revalu/epds/${epd.id}`
   }
 
   createListParams() {
     return {
       search_term: '',
-      page_no: 1,
+      page_no: 0,
       page_size: 15,
     }
   }
@@ -107,6 +112,10 @@ class RevaluService implements EPDService {
 
   extractEPDData(data: any) {
     return extractRevaluData(data)
+  }
+
+  extractEPDList(data: any): any[] {
+    return data.body.search_results
   }
 }
 
@@ -193,7 +202,8 @@ const extractILCDData = (data: any) => {
  * @param data 
  * @returns 
  */
-const extractRevaluData = (data: RevaluData) => {
+const extractRevaluData = (response: { body: RevaluData }) => {
+  const data = response.body
   const emission: Emission = {
     gwp: data.gwp,
     //gwp_fossil: data.gwp_fossil,
@@ -243,7 +253,7 @@ function getEPDService(): EPDService {
  * @param parameters Key value pairs for the API call
  * @returns List of products with emission data
  */
-export async function getEPDList(parameters: { [key: string]: string } = {}): Promise<Product[]> {
+export async function getEPDList(parameters: { [key: string]: string | string[] } = {}): Promise<Product[]> {
   const epdService = getEPDService()
   const EPDList: Product[] = []
   const apiClient = epdService.createApiClient()
@@ -257,13 +267,15 @@ export async function getEPDList(parameters: { [key: string]: string } = {}): Pr
       const response = await apiClient.get(baseUrl, { params })
       const data = response.data
 
-      if (!data || data.length === 0) {
+      const epdListData = epdService.extractEPDList(data)
+
+      if (!epdListData || epdListData.length === 0) {
         console.log('No more data to fetch')
         break
       }
 
-      for (const epd of data.data) {
-        const product = await getSpecificEPD(epdService, epd)
+      for (const epd of epdListData) {
+        const product = await getSpecificEPD(epd)
         if (product) {
           EPDList.push(product)
         }
@@ -281,10 +293,11 @@ export async function getEPDList(parameters: { [key: string]: string } = {}): Pr
 
 /**
  * Fetches a specific EPD
- * @param epd The EPD data containing nodeid and uuid.
+ * @param epd The EPD data containing uuid and nodeid for ecoportal.
  * @returns A Product with EPD data or null if an error occurs.
  */
-async function getSpecificEPD(epdService: EPDService, epd: any): Promise<Product | null> {
+export async function getSpecificEPD(epd: any): Promise<Product | null> {
+  const epdService = getEPDService()
   const apiClient = epdService.createApiClient()
   const url = epdService.createEPDUrl(epd)
   const params = epdService.createEPDParams()

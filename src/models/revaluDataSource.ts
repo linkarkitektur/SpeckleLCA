@@ -1,9 +1,11 @@
-import type { LifeCycleStageEmission } from "@/models/material"
+import type { LifeCycleStageEmission, Product } from "@/models/material"
+import { useMaterialStore } from "@/stores/material"
+import { getEPDList } from "@/utils/EPDUtils"
 
 /**
  * Enum for countries to search from
  */
-export enum country {
+export enum Country {
   Sweden = "Sweden",
   Norway = "Norway",
   Denmark = "Denmark",
@@ -200,4 +202,19 @@ interface AdditionalData {
 interface Document {
   document_type: string
   document_url: string
+}
+
+export const getRevaluBaseList = async() => {
+  const epdList: Product[] = []
+  const allCountries: Country[] = Object.values(Country)
+  const materialStore = useMaterialStore()
+
+  for (const materialType in StandardBuildingMaterialType) {
+    epdList.push(... await getEPDList({
+      "material_type": StandardBuildingMaterialType[materialType], 
+      "country": allCountries
+    }))
+    materialStore.materials = epdList
+    materialStore.EPDList = epdList
+  }
 }
