@@ -32,9 +32,9 @@
           @dragstart="dragStart($event, element)"
         >
           <td scope="row" class="m-2 w-2/6 line-clamp-3">{{ element.name }}</td>
-          <td v-if=element.materialType class="m-2 w-2/6">{{ element.materialType}}</td>
+          <td v-if=element.metaData.materialType class="m-2 w-2/6">{{ element.metaData.materialType }}</td>
           <td v-else class="m-2 w-2/6">Other</td>
-          <td class="m-2 w-1/6">{{ element.declared_unit }}</td>
+          <td class="m-2 w-1/6">{{ element.unit }}</td>
           <td 
             :class="{'text-red-600' : roundedEmissions[index].isPositive, 'text-green-600' : !roundedEmissions[index].isPositive}"
             class="m-2 w-1/6"
@@ -53,7 +53,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { useMaterialStore } from '@/stores/material'
-import type { EPD } from 'lcax'
+import type { Product, Assembly } from '@/types/material'
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
@@ -74,27 +74,17 @@ export default defineComponent({
       handle: '.handle',
     })
 
+    // Compute rounded emissions for Products and Assemblies
     const roundedEmissions = computed(() => {
-      return EPDList.value.map(mat => {
-        let value = 0
-        // Check if its an EPD or Assembly
-        // eslint-disable-next-line no-prototype-builtins
-        if (mat.hasOwnProperty('gwp')) {
-          mat = mat as EPD
-          value = parseFloat(String(mat.gwp?.a1a3 ?? '0'))
-        }
-        // Return formatted value
-        if (!isNaN(value)) {
-          const decimals = (value.toString().split('.')[1] || '').length
-          return {
-            value: decimals > 2 ? value.toFixed(2) : value.toString(),
-            isPositive: value > 0
-          }
-        } else {
-          return {
-            value: '0',
-            isPositive: false
-          }
+      if (!EPDList.value) return [];
+
+      return EPDList.value.map((product: Product) => {
+        const value = parseFloat(product.emission?.gwp?.a1a3 ?? '0');
+        const roundedValue = !isNaN(value) ? parseFloat(value.toFixed(2)) : 0;
+        
+        return {
+          value: roundedValue,
+          isPositive: roundedValue > 0,
         }
       })
     })

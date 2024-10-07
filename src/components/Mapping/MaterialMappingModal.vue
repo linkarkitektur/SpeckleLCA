@@ -87,7 +87,8 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 import MappingCard from '@/components/Mapping/MaterialMappingCard.vue'
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
 import MaterialSearch from '@/components/Mapping/MaterialSearch.vue'

@@ -95,29 +95,37 @@ export function mapMaterial(inGroup: NestedGroup) {
  * @param paramFilters Filters to apply
  * @returns List of products matching filtering criteria
  */
-export function applyParamFilters(materials: Product[], paramFilters: MaterialFilterParam) {
-  let filteredList = materials
-  // Go through each paramFilters and check if any are selected
-  for (const key in paramFilters) {
-    // If none of the filters are selected, skip this filter
-    if (!paramFilters[key].some((param) => param.selected)) {
-      continue
-    }
+export function applyParamFilters(materials: Product[], filters: MaterialFilterParam[]) {
+  const filteredList = materials
 
-    // Get the selected filter names (e.g., materialType, impactCategory)
-    const selectedFilterNames = paramFilters[key]
-      .filter((param) => param.selected)
-      .map((param) => param.name)
-
-    // Apply the filter based on the selected criteria
-    filteredList = filteredList.filter((item) => {
-      const materialType = item.metaData?.materialType
-      // Check if materialType exists and is in the selected filters
-      return materialType && selectedFilterNames.includes(materialType)
-    })
+  // Safety check if no filters are applied
+  if (!filters || filters.length === 0) {
+    return filteredList
   }
 
-  return filteredList
+  // Go through all materials and check for filter inclusions
+  return materials.filter((material) => {
+    if (!material)
+      return false
+    
+    return filters.some((filter) => {
+      if (!filter.selected)
+        return false
+      // Helper function to get the property value if its hidden under metaData or similar so we can access directly
+      const paramValue = getNestedPropertyValue(material, filter.filterParamter)
+      return filter.name.includes(paramValue)
+    })
+  })
+}
+
+/**
+ * Helper function to get nested property value from a string path
+ * @param obj The object to extract the value from
+ * @param path The path string (e.g., 'metaData.materialType')
+ * @returns The value at the specified path or undefined
+ */
+function getNestedPropertyValue(obj: any, path: string): any {
+  return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
 
 /**

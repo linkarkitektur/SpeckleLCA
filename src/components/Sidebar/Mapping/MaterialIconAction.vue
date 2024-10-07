@@ -12,7 +12,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { MapIcon } from '@heroicons/vue/24/solid'
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 
 import type { NestedGroup } from '@/models/filters'
 

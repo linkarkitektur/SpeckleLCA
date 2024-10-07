@@ -140,7 +140,8 @@
 		MinusCircleIcon,
 		BookmarkIcon,
 	} from '@heroicons/vue/24/solid'
-	import { useNavigationStore, useProjectStore } from '@/stores/main'
+	import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 
 	export default defineComponent({
 		name: 'ModifyFilter',

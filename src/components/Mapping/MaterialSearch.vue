@@ -150,8 +150,9 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useMaterialStore } from '@/stores/material'
-import { storeToRefs } from 'pinia'
+import { getSpecificEPD } from '@/utils/EPDUtils'
 
+import { storeToRefs } from 'pinia'
 import {
   Menu,
   MenuButton,
@@ -186,23 +187,35 @@ export default defineComponent({
     const searchQuery = ref('')
     const open = ref(false)
     
-    watch(searchQuery, (newVal) => {
-      if (newVal != null) {
-        console.log('searching')
-        if (materialStore.EPDList != undefined && materialStore.EPDList.length > 0) {
-          materialStore.setFilteredMaterials(materialStore.materials.filter(
-            (material) => {
-              return material.name
-                .toLowerCase()
-                .includes(searchQuery.value.toLowerCase())
-            }
-          ))
+    // Watch the search query and filter the materials
+    watch(searchQuery, async (newVal) => {
+      const isUUID = (str) =>
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str)
+
+      // If the input is a UUID, fetch the specific product
+      if (isUUID(newVal)) {
+        try {
+          const newMaterial: Product = await getSpecificEPD({ id: newVal })
+          materialStore.addMaterial(newMaterial)
+          materialStore.setFilteredMaterials([newMaterial])
+        } catch (error) {
+          console.error("Error fetching product by UUID:", error)
         }
-        else {
-          materialStore.EPDList = materialStore.materials
-        }
+        return
+      }
+
+      // Handle the search query filtering logic
+      const materials = materialStore.materials || []
+      if (materials.length > 0 || newVal.length > 0) {
+        const filteredMaterials = materials.filter((material) =>
+          material.name.toLowerCase().includes(newVal.toLowerCase())
+        )
+        materialStore.setFilteredMaterials(filteredMaterials)
+      } else {
+        materialStore.EPDList = materials
       }
     })
+
     
     const filterParameters = computed(() => {
       return sortingParameters.value.filter(param => param.paramName !== null)
@@ -213,7 +226,7 @@ export default defineComponent({
       let dir = "asc"
       // If same material is pressed toggle dir
       if (materialStore.sorting.parameter == parameterName) {
-        dir = materialStore.sorting.direction === 'asc' ? 'desc' : 'asc';
+        dir = materialStore.sorting.direction === 'asc' ? 'desc' : 'asc'
       }
       materialStore.setSorting(parameterName, dir)
     }

@@ -84,7 +84,8 @@
 	import Dropdown, { type dropdownItem } from '@/components/Dropdown.vue'
 
 	import router from '@/router'
-	import { useNavigationStore, useProjectStore } from '@/stores/main'
+	import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 	import { useSpeckleStore } from '@/stores/speckle'
 	import { convertObjects } from '@/utils/speckleUtils'
 	import type { Version } from '@/models/speckle'

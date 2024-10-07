@@ -17,6 +17,7 @@
 			Navbar,
 			ProjectGrid
 		},
-		setup() {}
+		setup() {
+		}
 	}
 </script>

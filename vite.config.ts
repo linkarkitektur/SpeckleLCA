@@ -14,10 +14,10 @@ export default defineConfig({
 	 */
 	plugins: [
 		vue(),
-		sentryVitePlugin({
-			org: 'link-io',
-			project: 'speckle-lca-frontend'
-		})
+		//sentryVitePlugin({
+		//	org: 'link-io',
+		//	project: 'speckle-lca-frontend'
+		//})
 	],
 
 	/**
@@ -59,5 +59,35 @@ export default defineConfig({
 		 * Generate sourcemaps for debugging.
 		 */
 		sourcemap: true
-	}
+	},
+
+	server: {
+    proxy: {
+			'/api/revalu': {
+				target: 'https://api.revalu.io',
+				changeOrigin: true,
+				rewrite: (path) => {
+					return path.replace(/^\/api\/revalu/, '')
+				},
+				secure: true,
+			},
+      '/api/eco': {
+        target: 'https://data.eco-platform.org', 
+        changeOrigin: true,
+        rewrite: (path) => {
+          return path.replace(/^\/api\/eco/, '')
+				},
+        secure: true,
+      },
+      '/EPD-NORWAY_DIGI': {
+        target: 'https://epdnorway.lca-data.com/resource/processes/',
+        changeOrigin: true,
+        rewrite: (path) => {
+					const newPath = path.replace(/^\/EPD-NORWAY_DIGI/, '');
+					return newPath;
+        },
+        secure: true,
+      },
+    },
+  },
 })

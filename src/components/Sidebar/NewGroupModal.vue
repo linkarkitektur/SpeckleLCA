@@ -208,7 +208,8 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 import type { Group } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
 

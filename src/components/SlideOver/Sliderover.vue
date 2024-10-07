@@ -46,7 +46,7 @@ import {
   TransitionChild, 
   TransitionRoot 
 } from '@headlessui/vue'
-import { useNavigationStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 import { storeToRefs } from 'pinia'
 
 import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue'

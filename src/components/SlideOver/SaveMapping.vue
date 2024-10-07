@@ -76,7 +76,8 @@
 import { defineComponent, ref } from 'vue'
 	import { XMarkIcon } from '@heroicons/vue/24/outline'
 
-import { useNavigationStore, useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 import { useMaterialStore } from '@/stores/material'
 import { useFirebaseStore } from '@/stores/firebase'
 import { Mapping } from '@/models/material'

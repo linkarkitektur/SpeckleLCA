@@ -203,7 +203,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import type { Step } from '@/models/pageLogic'
 import { defineComponent } from 'vue'
 import { useSpeckleStore } from '@/stores/speckle'
-import { useNavigationStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 import router from '@/router'
 
 import logo from '@/assets/icons/logo.svg'

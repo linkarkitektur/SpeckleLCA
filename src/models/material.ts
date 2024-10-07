@@ -14,17 +14,23 @@ export enum Source {
   Generated,
 }
 
+
+export type Emission = Partial<{
+	[impactCategory in ImpactCategoryKey]: 
+		LifeCycleStageEmission
+}>
+
+export type LifeCycleStageEmission = {
+	[lifecycleStage in LifeCycleStage]: {
+		amount: number
+	}
+}
+
 /**
  * Product interface, extends LcaxProduct and adds emission data
  */
 export interface Product extends LcaxProduct {
-  emission: {
-    [impactCategory in ImpactCategoryKey]: {
-      [lifecycleStage in LifeCycleStage]: {
-        amount: number
-      }
-    }
-  }
+  emission: Emission
 }
 
 /**
@@ -32,13 +38,7 @@ export interface Product extends LcaxProduct {
  */
 export interface Assembly extends Omit<LcaxAssembly, 'products'> {
 	products: Record<string, Product>
-	emission: {
-		[impactCategory in ImpactCategoryKey]: {
-			[lifecycleStage in LifeCycleStage]: {
-				amount: number
-			}
-		}
-	}
+	emission: Emission
 }
 
 /**
@@ -66,7 +66,8 @@ export interface Mapping {
  */
 export interface MaterialFilterParam {
 	name: string,
-	selected: boolean
+	selected: boolean,
+	filterParamter: string
 }
 
 /**
@@ -80,4 +81,4 @@ export interface MaterialSortingOption {
 /**
  * Units for materials and assemblies.
  */
-export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l"
+export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l" | "tonnes"

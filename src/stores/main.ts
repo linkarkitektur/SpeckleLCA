@@ -7,12 +7,19 @@ import type {
 	Filter,
 	NestedGroup
 } from '@/models/filters'
+import type { 
+	AppSettings 
+} from '@/models/settings'
+
+import { standardSettings } from '@/models/settings'
 import { calculateEmissions } from '@/utils/emissionUtils'
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 
+
 /**
  * Defines the project store, which contains the current project and its geometry and results.
+ * TODO: Restructure this and create a seperate speckleViewer store
  */
 export const useProjectStore = defineStore({
 	id: 'projectStore',
@@ -23,7 +30,8 @@ export const useProjectStore = defineStore({
 			filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
 			selectedObjects: [] as GeometryObject[], // GeometryObjects that are currently selected
-			hiddenObjects: [] as GeometryObject[] // GeometryObjects that are currently hidden
+			hiddenObjects: [] as GeometryObject[], // GeometryObjects that are currently hidden
+			appSettings: standardSettings as AppSettings, // Application settings
 		}
 	},
 
@@ -446,103 +454,5 @@ export const useProjectStore = defineStore({
 		findResultIndexById(id: string) {
 			return this.currProject?.geometry.findIndex((item) => item.id === id)
 		}
-	}
-})
-
-//TODO: BREAK OUT INTO SEPERATE STORE
-/**
- * Navigation store that is used by the navigation bar in the application view
- */
-/**
- * Defines a store for managing navigation state.
- */
-export const useNavigationStore = defineStore({
-	id: 'navigationStore',
-	state: () => {
-		return {
-			activePage: 'Projects' as string, // The current page
-			slideoverOpen: false,
-			editName: null as string | null,
-			groupModalOpen: false,
-			mappingModalOpen: false,
-			loading: false,
-			groupColorMode: false,
-			sideBarShow: true,
-			saveModalOpen: false
-		}
-	},
-	actions: {
-		/**
-		 * Set the application that is being used in the application view
-		 * @param page page that is currently active in the application view
-		 */
-		setActivePage(page: string) {
-			this.activePage = page
-		},
-
-		/**
-		 * Toggle slideover where its present on the app
-		 */
-		toggleSlideover() {
-			this.slideoverOpen = !this.slideoverOpen
-		},
-
-		/**
-		 * Toggle loading state on the app
-		 */
-		toggleLoading() {
-			this.loading = !this.loading
-		},
-
-		/**
-		 * Toggle new group modal interface
-		 */
-		toggleGroupModal() {
-			this.groupModalOpen = !this.groupModalOpen
-		},
-
-		/**
-		 * Toggle mapping modal interface
-		 */
-		toggleMappingModal() {
-			this.mappingModalOpen = !this.mappingModalOpen
-		},
-
-		/**
-		 * Toggle edit name for groups
-		 */
-		toggleEditName(id: string) {
-			if (this.editName === id) {
-				this.editName = null
-			} else {
-				this.editName = id
-			}
-		},
-
-		/**
-		 * Toggle color mode for groups
-		 */
-		toggleColorMode() {
-			this.groupColorMode = !this.groupColorMode
-		},
-
-		/**
-		 * Toggle sidebar on the app
-		 */
-		toggleSideBar() {
-			this.sideBarShow = !this.sideBarShow
-		},
-
-		/**
-		 * Toggle save modal on the app
-		 */
-		toggleSaveModal() {
-			this.saveModalOpen = !this.saveModalOpen
-		}
-
-	},
-	getters: {
-		getActivePage: (state) => state.activePage,
-		getSlideoverOpen: (state) => state.slideoverOpen
 	}
 })
