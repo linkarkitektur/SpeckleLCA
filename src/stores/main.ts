@@ -252,6 +252,7 @@ export const useProjectStore = defineStore({
 		 * Calculate the results for the project
 		 * Go through each object and check the material and calculate a value based on the material
 		 * @param geometry The geometry objects to calculate results for, if nothing will do whole project
+		 * @returns combinedEmissions
 		 */
 		calculateResults(geometry: GeometryObject[] = []) {
 			if (this.currProject) {
@@ -265,7 +266,7 @@ export const useProjectStore = defineStore({
 				if (this.currProject.results == null)
 					this.currProject.results = []
 
-				const combinedEmissions: any = {};
+				const combinedEmissions: any = {}
 
 				geometry.forEach((geo) => {
 					if (geo.material === null) {
@@ -298,6 +299,7 @@ export const useProjectStore = defineStore({
 					})
 					console.log(combinedEmissions)						
 				}
+				return combinedEmissions
 			}
 		},
 
