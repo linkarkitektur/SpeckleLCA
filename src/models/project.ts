@@ -18,6 +18,7 @@ export interface Project {
 /**
  * Results are stored as Impact Category, Life Cycle Stage then emission value
  * ID and date is just for documentation.
+ * TODO: Move to results model
  */
 export interface Results {
 	id: string // Run ID for results.
