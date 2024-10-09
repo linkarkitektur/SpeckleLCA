@@ -20,12 +20,12 @@ import {
 	Tooltip,
 	Legend,
 	BarElement,
-	CategoryScale,
-	LinearScale,
 } from 'chart.js'
 import { Bar } from 'vue-chartjs'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-import type { Results, Emissions } from '@/models/project'
+import type { Results } from '@/models/project'
+import type { Emission } from '@/models/material'
+import { GeometryObject } from '@/models/geometryObject'
 
 ChartJS.register(
 	Title,
@@ -45,7 +45,7 @@ export default defineComponent({
 
 		const amountSelected = computed(() => {
 			if (projectStore.selectedObjects.length === 0) {
-				return 0
+				return projectStore.currProject.geometry.length
 			} else {
 				return projectStore.selectedObjects.length
 			}
@@ -53,9 +53,15 @@ export default defineComponent({
 
 		// Chart data grouped for selected objects
 		const chartData = computed(() => {
-			const groupedData: Emissions = {}
+			const groupedData: Emission = {}
+			let geos: GeometryObject[]
+			if (projectStore.selectedObjects.length === 0) {
+				geos = projectStore.currProject.geometry
+			} else {
+				geos = projectStore.selectedObjects
+			}
 			//Go through each selected object and get aggregated labels and emission data
-			projectStore.selectedObjects.forEach(obj => {
+			geos.forEach(obj => {
 				if (!obj.results) return
 				const lastResult = obj.results[obj.results.length - 1]
 				if (lastResult && lastResult.emission) {

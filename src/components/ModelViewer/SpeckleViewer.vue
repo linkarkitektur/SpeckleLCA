@@ -52,199 +52,210 @@
 </template>
 
 <script setup lang="ts">
-  // External imports
-  import { 
-    DefaultViewerParams,
-    Viewer,
-    ViewerEvent,
-    type SelectionEvent 
-  } from '@speckle/viewer'
-  import { 
-    onMounted, 
-    watch, 
-    onBeforeUnmount, 
-    ref,
-    computed 
-  } from 'vue'
-  import { 
-    TransitionChild, 
-    TransitionRoot 
-  } from '@headlessui/vue'
+// External imports
+import { 
+  DefaultViewerParams,
+  Viewer,
+  ViewerEvent,
+  type SelectionEvent 
+} from '@speckle/viewer'
+import { 
+  onMounted, 
+  watch, 
+  onBeforeUnmount, 
+  ref,
+  computed 
+} from 'vue'
+import { 
+  TransitionChild, 
+  TransitionRoot 
+} from '@headlessui/vue'
 
-  // Store imports
-  import { useSpeckleStore } from '@/stores/speckle'
-  import { useProjectStore } from '@/stores/main'
+// Store imports
+import { useSpeckleStore } from '@/stores/speckle'
+import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
-  import { storeToRefs } from 'pinia'
+import { useResultStore } from '@/stores/result'
+import { storeToRefs } from 'pinia'
 
-  // Component imports
-  import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
-  import DetailBar from '@/components/DetailBar/DetailBar.vue'
-  import RenderToggle from '@/components/Misc/RenderToggle.vue'
-  import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
+// Component imports
+import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
+import DetailBar from '@/components/DetailBar/DetailBar.vue'
+import RenderToggle from '@/components/Misc/RenderToggle.vue'
+import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
 
-  // Type imports
-  import type { SunLightConfiguration } from '@/models/speckle'
+// Type imports
+import type { SunLightConfiguration } from '@/models/speckle'
 
-  // Utility imports
-  import { geometryToMaterialChartData } from '@/utils/resultUtils'
+// Utility imports
+import { 
+  geometryToMaterialChartData,
+  materialResultsToMaterialChartData
+  } from '@/utils/resultUtils'
+import { GeometryObject } from '@/models/geometryObject'
+import { ChartData } from '@/models/chartModels'
 
-  // Variables and references
-  let viewer: Viewer | null = null
-  const projectStore = useProjectStore()
-  const { selectedObjects } = storeToRefs(projectStore)
-  const navStore = useNavigationStore()
-  const speckleStore = useSpeckleStore()
-  const serverUrl = import.meta.env.VITE_APP_SERVER_URL
-  const token = import.meta.env.VITE_SPECKLE_TOKEN
-  const resizeObserver = ref<ResizeObserver | null>(null)
-  const fadeOut = ref(false)
+// Variables and references
+let viewer: Viewer | null = null
+const projectStore = useProjectStore()
+const resultStore = useResultStore()
 
-  speckleStore.setServerUrl(serverUrl)
-  speckleStore.setToken(token)
+const { selectedObjects } = storeToRefs(projectStore)
+const navStore = useNavigationStore()
+const speckleStore = useSpeckleStore()
+const serverUrl = import.meta.env.VITE_APP_SERVER_URL
+const token = import.meta.env.VITE_SPECKLE_TOKEN
+const resizeObserver = ref<ResizeObserver | null>(null)
+const fadeOut = ref(false)
 
-  // Computed property for dynamic component
-  const leftModule = computed(() => {
-    switch (navStore.activePage) {
-      case 'Overview':
-      case 'Mapping':
-        return ViewerControls
-      case 'Results':
-        return SelectablePieChart
-      case 'Benchmark':
-      default:
-        return null
-    }
-  })
+speckleStore.setServerUrl(serverUrl)
+speckleStore.setToken(token)
 
-  const graphProps = ref({})
-  // Pass props to the current detail bar component
-  const updateGraphProps = () => {
-    if (leftModule.value === SelectablePieChart) {
-      graphProps.value = {
-        data: geometryToMaterialChartData(projectStore.selectedObjects),
-      }
-    }
-    else {
-      graphProps.value = {}
+// Computed property for dynamic component
+const leftModule = computed(() => {
+  switch (navStore.activePage) {
+    case 'Overview':
+    case 'Mapping':
+      return ViewerControls
+    case 'Results':
+      return SelectablePieChart
+    case 'Benchmark':
+    default:
+      return null
+  }
+})
+
+const graphProps = ref({})
+// Pass props to the current detail bar component
+const updateGraphProps = () => {
+  if (leftModule.value === SelectablePieChart) {
+    let data: ChartData[]
+    if (!projectStore.selectedObjects.length) data = materialResultsToMaterialChartData(resultStore.materialResults)
+    else data = geometryToMaterialChartData(projectStore.selectedObjects)
+    graphProps.value = {
+      data: data
     }
   }
+  else {
+    graphProps.value = {}
+  }
+}
 
-  watch(() => projectStore.selectedObjects, () => {
-    updateGraphProps()
-  })
-
+watch(() => projectStore.selectedObjects, () => {
   updateGraphProps()
+})
 
-  // Event handler for Escape key
-  const handleEscKey = (e: KeyboardEvent) => {
-    if (e.key.toLowerCase() === 'escape') {
-      projectStore.clearSelectedGroup()
+updateGraphProps()
+
+// Event handler for Escape key
+const handleEscKey = (e: KeyboardEvent) => {
+  if (e.key.toLowerCase() === 'escape') {
+    projectStore.clearSelectedGroup()
+  }
+}
+
+// Resize handler for the viewer
+const handleResize = (entries: ResizeObserverEntry[]) => {
+  for (const entry of entries) {
+    const { width, height } = entry.contentRect
+    viewer?.resize()
+    if (viewer?.cameraHandler.activeCam.camera) {
+      viewer.cameraHandler.activeCam.camera.aspect = width / height
+      viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
     }
   }
+}
 
-  // Resize handler for the viewer
-  const handleResize = (entries: ResizeObserverEntry[]) => {
-    for (const entry of entries) {
-      const { width, height } = entry.contentRect
-      viewer?.resize()
-      if (viewer?.cameraHandler.activeCam.camera) {
-        viewer.cameraHandler.activeCam.camera.aspect = width / height
-        viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
-      }
-    }
+// Initialize and mount the viewer
+onMounted(async () => {
+  const renderParent = document.getElementById('renderParent') as HTMLElement
+  const container = document.getElementById('renderer') as HTMLElement
+  window.addEventListener('keydown', handleEscKey)
+  // window.addEventListener('keydown', handleSelectAll)
+
+  viewer = new Viewer(container, DefaultViewerParams)
+  await viewer.init()
+
+  if (!viewer) {
+    throw new Error('Failed to initialize viewer!')
+  } else {
+    console.log('Initialized viewer successfully!')
   }
 
-  // Initialize and mount the viewer
-  onMounted(async () => {
-    const renderParent = document.getElementById('renderParent') as HTMLElement
-    const container = document.getElementById('renderer') as HTMLElement
-    window.addEventListener('keydown', handleEscKey)
-    // window.addEventListener('keydown', handleSelectAll)
+  const lightConfig: SunLightConfiguration = {
+    enabled: true,
+    intensity: 10,
+    castShadow: false,
+    color: 0xffffff,
+    indirectLightIntensity: 50,
+    elevation: 1,
+    azimuth: 0.5,
+    radius: 50
+  }
 
-    viewer = new Viewer(container, DefaultViewerParams)
-    await viewer.init()
+  viewer.setLightConfiguration(lightConfig)
+  // viewer.sectionBoxOn()
 
-    if (!viewer) {
-      throw new Error('Failed to initialize viewer!')
-    } else {
-      console.log('Initialized viewer successfully!')
-    }
+  resizeObserver.value = new ResizeObserver(handleResize)
+  resizeObserver.value.observe(renderParent)
 
-    const lightConfig: SunLightConfiguration = {
-      enabled: true,
-      intensity: 10,
-      castShadow: false,
-      color: 0xffffff,
-      indirectLightIntensity: 50,
-      elevation: 1,
-      azimuth: 0.5,
-      radius: 50
-    }
+  speckleStore.setViewerInstance(viewer)
+  
+  if (!speckleStore.selectedProject || !speckleStore.selectedVersion) {
+    throw new Error('No project or version selected!')
+  }
+  const url = `${serverUrl}/streams/${speckleStore.selectedProject.id}/objects/${speckleStore.selectedVersion.referencedObject}`
+  await viewer.loadObject(url, token, true, true)
 
-    viewer.setLightConfiguration(lightConfig)
-    // viewer.sectionBoxOn()
-
-    resizeObserver.value = new ResizeObserver(handleResize)
-    resizeObserver.value.observe(renderParent)
-
-    speckleStore.setViewerInstance(viewer)
-    
-    if (!speckleStore.selectedProject || !speckleStore.selectedVersion) {
-      throw new Error('No project or version selected!')
-    }
-    const url = `${serverUrl}/streams/${speckleStore.selectedProject.id}/objects/${speckleStore.selectedVersion.referencedObject}`
-    await viewer.loadObject(url, token, true, true)
-
-    let selection: string[] = []
-    viewer.on(ViewerEvent.ObjectClicked, (selectionInfo: SelectionEvent) => {
-      if (selectionInfo) {
-        // Object was clicked. Check if its in hidden objects then highlight it
-        let id
-        const hiddenIds = new Set(speckleStore.hiddenObjects.map(obj => obj.id))
-        for(let hit of selectionInfo.hits) {
-          if (!hiddenIds.has(hit.object.id)) {
-            id = hit.object.id
-            break
-          }
+  let selection: string[] = []
+  viewer.on(ViewerEvent.ObjectClicked, (selectionInfo: SelectionEvent) => {
+    if (selectionInfo) {
+      // Object was clicked. Check if its in hidden objects then highlight it
+      let id
+      const hiddenIds = new Set(speckleStore.hiddenObjects.map(obj => obj.id))
+      for(let hit of selectionInfo.hits) {
+        if (!hiddenIds.has(hit.object.id)) {
+          id = hit.object.id
+          break
         }
-
-        if (selectionInfo.event.shiftKey) selection.push(id)
-        else selection = [id]
-
-        projectStore.setObjectsByURI(selection)
-      } else {
-        // No object clicked. Restore selection from group.
-        projectStore.setObjectsFromGroup()
-
-        if (projectStore.selectedObjects.length === 0) viewer.resetHighlight()
-        else viewer.highlightObjects(projectStore.getSelectedObjectsURI(), true)
       }
-    })
 
-    /**
-     * Keep the selection and highlights until change is made elsewhere.
-     * 
-     * // Clear the `selectedObjects` and `view` on a mouse out event.
-     * window.onmouseout = function () {
-     *   projectStore.clearSelectedObjects()
-     *   viewer.resetHighlight()
-     * }
-     */
-  })
+      if (selectionInfo.event.shiftKey) selection.push(id)
+      else selection = [id]
 
-  // Clean up on component unmount
-  onBeforeUnmount(() => {
-    window.removeEventListener('keydown', handleEscKey)
-    resizeObserver.value?.disconnect()
-  })
+      projectStore.setObjectsByURI(selection)
+    } else {
+      // No object clicked. Restore selection from group.
+      projectStore.setObjectsFromGroup()
 
-  // Watch for changes in selected objects
-  watch(
-    () => selectedObjects.value,
-    () => {
-      speckleStore.isolateObjects(projectStore.getSelectedObjectsURI())
+      if (projectStore.selectedObjects.length === 0) viewer.resetHighlight()
+      else viewer.highlightObjects(projectStore.getSelectedObjectsURI(), true)
     }
-  )
-  // function setObjectColorsByVolume() {}
+  })
+
+  /**
+   * Keep the selection and highlights until change is made elsewhere.
+   * 
+   * // Clear the `selectedObjects` and `view` on a mouse out event.
+   * window.onmouseout = function () {
+   *   projectStore.clearSelectedObjects()
+   *   viewer.resetHighlight()
+   * }
+   */
+})
+
+// Clean up on component unmount
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleEscKey)
+  resizeObserver.value?.disconnect()
+})
+
+// Watch for changes in selected objects
+watch(
+  () => selectedObjects.value,
+  () => {
+    speckleStore.isolateObjects(projectStore.getSelectedObjectsURI())
+  }
+)
+// function setObjectColorsByVolume() {}
 </script>
