@@ -1,4 +1,5 @@
 import type { GeometryObject } from './geometryObject'
+import type { Emission } from './material'
 
 /**
  * Project interface, stores all geometry and metadata of the project.
@@ -23,15 +24,5 @@ export interface Project {
 export interface Results {
 	id: string // Run ID for results.
 	date: Date
-	emission: Emissions
-}
-
-/**
- * Emission information, stored as Impact Category, Life Cycle Stage then emission value.
- * example, GWP -> A1A3 -> 105 kgCO2e
- */
-export interface Emissions {
-	[impactCategory: string]: {
-		[lifeCycleStage: string]: number
-	}
+	emission: Emission
 }

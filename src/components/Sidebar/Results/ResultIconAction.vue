@@ -33,8 +33,7 @@
 		setup(props) {
 			const calculateResults = () => {
 				const calculator = new EmissionCalculator(props.groups.objects)
-				
-        calculateResults(props.groups.objects)
+				calculator.calculateEmissions()
 			}
 
 			return {

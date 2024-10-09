@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia'
 
-import { resultsPerMaterial } from '@/utils/resultUtils'
-
-import type { Emission } from '@/models/material'
 import type { MaterialResults } from '@/models/result'
+import type { Results } from '@/models/project'
 
 /**
  * Defines the result store, which is used to store the results of the calculations
@@ -13,21 +11,26 @@ export const useResultStore = defineStore({
 	id: 'resultStore',
 	state: () => {
 		return {
-      aggregatedResults: {} as Emission,
-      materialResults: [] as MaterialResults[]
+      aggregatedResults: [] as Results[],
+      materialResults: {} as MaterialResults
 		}
 	},
   actions: {
-    setAggregatedResults(emission: Emission) {
-      this.aggregatedResults = emission
+    /**
+     * Sets results for the project with option material results
+     * @param result 
+     * @param materialResults 
+     */
+    setAggregatedResults(result: Results, materialResults: MaterialResults = {}) {
+      if (!this.aggregatedResults || this.aggregatedResults.length === 0) {
+        this.aggregatedResults = []
+      }
+      this.aggregatedResults.push(result)
 
-      //Trigger the results per material calculation
-      resultsPerMaterial()
+      if (Object.keys(materialResults).length > 0) {
+        this.materialResults = materialResults
+      }
     },
-
-    getAggregatedResults() {
-      return this.aggregatedResults
-    }
   }
   
 })

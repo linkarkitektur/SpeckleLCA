@@ -31,7 +31,8 @@ import {
 	setMappingColorGroup,
 	setResultsColorGroup,
 } from '@/utils/projectUtils'
-import { triggerCalculateResults } from '@/utils/resultUtils'
+import { EmissionCalculator } from '@/utils/emissionUtils'
+import { EmissionAggregator } from '@/utils/resultUtils'
 import { getRevaluBaseList } from '@/models/revaluDataSource'
 
 // Modals
@@ -75,7 +76,13 @@ export default {
 				const mappingColors = setMappingColorGroup()
 				speckleStore.setColorGroups(mappingColors)
 			} else if(newVal === 'Results') {
-				triggerCalculateResults()
+				// Trigger calc for project
+				const calculator = new EmissionCalculator()
+				calculator.calculateEmissions()
+
+				const aggregator = new EmissionAggregator()
+				aggregator.aggregate()
+				
 				const resultsColors = setResultsColorGroup()
 				speckleStore.setColorGroups(resultsColors)
 			} else if(newVal === 'Benchmark') {

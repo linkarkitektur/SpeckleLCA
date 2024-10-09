@@ -30,7 +30,7 @@
 
 			const totalArea = computed(() => {
 				const area = inGroups.value.objects.reduce(
-					(sum, obj) => sum + obj.quantity.M2,
+					(sum, obj) => sum + obj.quantity.m2,
 					0
 				)
 				return parseFloat(area.toFixed(2))

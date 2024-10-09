@@ -1,4 +1,4 @@
-import type { LifeCycleStageEmission, Product } from "@/models/material"
+import type { LifeCycleStageEmission } from "@/models/material"
 import { useMaterialStore } from "@/stores/material"
 import { getEPDList } from "@/utils/EPDUtils"
 
