@@ -236,7 +236,8 @@ export function calculateQuantity(obj: ResponseObject) {
 		m2: 0,
 		m3: 0,
 		kg: 0,
-		pcs: 0,
+		pcs: 1,
+		tonnes: 0,
 		l: 0
 	}
 

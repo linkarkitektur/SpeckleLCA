@@ -1,5 +1,9 @@
+import { useResultStore } from '@/stores/result'
+import { useProjectStore } from '@/stores/main'
+
 import type { ChartData } from '@/models/chartModels'
 import type { GeometryObject } from '@/models/geometryObject'
+import type { Emission } from '@/models/material'
 
 /**
  * Converter of geometry object results into aggregated ChartData for specific LifeCycleStages (LCS)
@@ -70,4 +74,49 @@ export function geometryToMaterialChartData(objects: GeometryObject[], impactCat
   }))
 
   return data
+}
+
+/**
+ * Aggregates a series of emissions
+ * @param emissions that you want aggregated
+ * @returns emission object with aggregated values
+ */
+export function aggregateResults(emissions: Emission[]) {
+  const aggregatedResults: Emission = {}
+
+  for (const emission of emissions) {
+    for (const impactCategory in emission) {
+      if (!aggregatedResults[impactCategory]) {
+        aggregatedResults[impactCategory] = {}
+      }
+
+      for (const lifeCycleStage in emission[impactCategory]) {
+        const currentValue = aggregatedResults[impactCategory][lifeCycleStage] || 0
+        aggregatedResults[impactCategory][lifeCycleStage] = currentValue + emission[impactCategory][lifeCycleStage]
+      }
+    }
+  }
+
+  return aggregatedResults
+}
+
+/**
+ * Calculates results for whole project
+ */
+export function triggerCalculateResults() {
+  const projectStore = useProjectStore()
+
+  projectStore.calculateResults()
+}
+
+export function resultsPerMaterial() {
+  const projectStore = useProjectStore()
+  const resultStore = useResultStore()
+
+  
+  const objects = projectStore.projectGroups.flatMap(group => group.elements)
+  const emissions = objects.flatMap(obj => obj.results?.map(result => result.emission) || [])
+
+  const aggregatedResults = aggregateResults(emissions)
+  resultStore.setAggregatedResults(aggregatedResults)
 }
