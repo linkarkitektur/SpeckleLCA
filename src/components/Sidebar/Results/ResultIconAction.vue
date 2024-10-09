@@ -11,9 +11,10 @@
 <script lang="ts">
 	import { defineComponent } from 'vue'
 	import { CalculatorIcon } from '@heroicons/vue/24/solid'
-	import { useProjectStore } from '@/stores/main'
 
 	import type { NestedGroup } from '@/models/filters'
+
+	import { EmissionCalculator } from '@/utils/emissionUtils'
 
 	export default defineComponent({
 		name: 'ResultsIconAction',
@@ -30,10 +31,10 @@
 			}
 		},
 		setup(props) {
-			const projectStore = useProjectStore()
-
 			const calculateResults = () => {
-        projectStore.calculateResults(props.groups.objects)
+				const calculator = new EmissionCalculator(props.groups.objects)
+				
+        calculateResults(props.groups.objects)
 			}
 
 			return {
