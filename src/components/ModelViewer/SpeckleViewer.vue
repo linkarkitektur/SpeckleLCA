@@ -83,6 +83,7 @@ import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
 import DetailBar from '@/components/DetailBar/DetailBar.vue'
 import RenderToggle from '@/components/Misc/RenderToggle.vue'
 import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
+import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
 
 // Type imports
 import type { SunLightConfiguration } from '@/models/speckle'
@@ -99,6 +100,7 @@ import { ChartData } from '@/models/chartModels'
 let viewer: Viewer | null = null
 const projectStore = useProjectStore()
 const resultStore = useResultStore()
+const navigationStore = useNavigationStore()
 
 const { selectedObjects } = storeToRefs(projectStore)
 const navStore = useNavigationStore()
@@ -118,7 +120,10 @@ const leftModule = computed(() => {
     case 'Mapping':
       return ViewerControls
     case 'Results':
-      return SelectablePieChart
+      if (navigationStore.sideBarShow)
+        return SelectablePieChart
+      else
+        return DivergingStackedBar
     case 'Benchmark':
     default:
       return null

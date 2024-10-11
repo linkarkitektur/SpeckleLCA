@@ -84,7 +84,7 @@ export function geometryToMaterialChartData(objects: GeometryObject[], impactCat
  * @param impactCategory 
  * @returns 
  */
-export function materialResultsToChartData(materialResult: MaterialResults, impactCategory: string = 'gwp'): ChartData[] {
+export function materialResultsToMaterialChartData(materialResult: MaterialResults, impactCategory: string = 'gwp'): ChartData[] {
   const data: ChartData[] = []
   for (const materialId in materialResult) {
     const material = materialResult[materialId]

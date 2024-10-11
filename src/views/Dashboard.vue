@@ -62,6 +62,7 @@ export default {
 		const projectStore = useProjectStore()
 		const speckleStore = useSpeckleStore()
 		const materialStore = useMaterialStore()
+		
 		materialStore.materialsFromJson()
 		//getRevaluBaseList()
 		
