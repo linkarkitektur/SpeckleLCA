@@ -5,6 +5,7 @@ import LandingView from '@/views/Landing.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import ProjectSelection from '@/views/ProjectSelection.vue'
 import NotFound from '@/views/NotFound.vue'
+import TestZone from '@/views/TestZone.vue'
 
 import LoginComponent from '@/components/SpeckleLogin.vue'
 
@@ -64,6 +65,16 @@ const router = createRouter({
       meta: {
         requiresAuth: false,
         title: 'Not Found',
+        icon: '',
+      },
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: TestZone,
+      meta: {
+        requiresAuth: false,
+        title: 'Test',
         icon: '',
       },
     },

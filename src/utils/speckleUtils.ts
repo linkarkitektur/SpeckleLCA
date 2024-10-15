@@ -236,7 +236,8 @@ export function calculateQuantity(obj: ResponseObject) {
 		m2: 0,
 		m3: 0,
 		kg: 0,
-		pcs: 0,
+		pcs: 1,
+		tonnes: 0,
 		l: 0
 	}
 
@@ -245,15 +246,15 @@ export function calculateQuantity(obj: ResponseObject) {
 	const searchObject = [
 		{
 			searchValue: 'area',
-			metric: 'M2'
+			metric: 'm2'
 		},
 		{
 			searchValue: 'volume',
-			metric: 'M3'
+			metric: 'm3'
 		},
 		{
 			searchValue: 'length',
-			metric: 'M'
+			metric: 'm'
 		}
 	]
 

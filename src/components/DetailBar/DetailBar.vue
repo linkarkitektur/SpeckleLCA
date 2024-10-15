@@ -21,6 +21,8 @@ import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 
 import { geometryToLCSChartData } from '@/utils/resultUtils'
 
+import type { GeometryObject } from '@/models/geometryObject'
+
 export default defineComponent({
   name: 'DetailBar',
   components: {
@@ -46,8 +48,15 @@ export default defineComponent({
     // Pass props to the current detail bar component
     const updateComponentProps = () => {
       if (currDetailbar.value === StackedBarChart) {
+        let geos: GeometryObject[]
+        if (projStore.selectedObjects.length > 0) {
+          geos = projStore.selectedObjects
+        } else {
+          geos = projStore.currProject.geometry
+        }
+
         componentProps.value = {
-          data: geometryToLCSChartData(projStore.selectedObjects),
+          data: geometryToLCSChartData(geos),
         }
       }
 			else {

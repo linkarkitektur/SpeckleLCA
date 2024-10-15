@@ -53,7 +53,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { useMaterialStore } from '@/stores/material'
-import type { Product, Assembly } from '@/types/material'
+import type { Product, Assembly } from '@/models/material'
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
@@ -89,7 +89,7 @@ export default defineComponent({
       })
     })
 
-    const dragStart = (event: DragEvent, material: EPD) => {
+    const dragStart = (event: DragEvent, material: Product) => {
       materialStore.setCurrentMapping(material)
     }
 

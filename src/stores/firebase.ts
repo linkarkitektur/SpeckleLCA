@@ -26,6 +26,11 @@ import type {
   ResultsLog
 } from '@/models/firebase'
 
+import { 
+  deepToRaw,
+  removeUndefinedFields
+ } from '@/utils/dataUtils'
+
 export const useFirebaseStore = defineStore('firebase', {
   state: () => ({
     loading: false,
@@ -150,10 +155,14 @@ export const useFirebaseStore = defineStore('firebase', {
     async addMapping(projectId: string, mapping: Mapping, name: string) {
       this.loading = true
       this.error = null
+
+      const rawMapping = deepToRaw(mapping)
+      const cleanedMapping = removeUndefinedFields(rawMapping)
+
       try {
         const mappingLog: MappingLog = {
           projectId: projectId,
-          mapping: mapping,
+          mapping: cleanedMapping,
           date: new Date(),
           name: name,
         }

@@ -4,7 +4,7 @@
     "name": "Crosslaminated timber. CLT (Forbr\u00e6nding EoL)",
     "description": "Cross Laminated Timber is a solid construction wood product consisting of bonded wood layer panels arranged at right angles to each other.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-664",
       "C3": "744",
@@ -28,7 +28,7 @@
     "name": "Construction wood - pine. Planed (Forbr\u00e6nding EoL)",
     "description": "Danish planed construction wood products of coniferous wood.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-652",
       "C3": "709",
@@ -52,7 +52,7 @@
     "name": "Construction wood - pine. Wet and sawn  (Forbr\u00e6nding EoL)",
     "description": "Danish, wet and sawn construction wood products of coniferous wood.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-664",
       "C3": "709",
@@ -76,7 +76,7 @@
     "name": "Limtr\u00e6s-produkter af fyr og gran. (Forbr\u00e6nding EoL)",
     "description": "Glulam construction wood products of pine and spruce.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-610",
       "C3": "743",
@@ -100,7 +100,7 @@
     "name": "Huld\u00e6k element. 22 cm. 6-10 forsp\u00e6ndingsliner",
     "description": "22 cm tyk huld\u00e6k element I beton, med 6-10 forsp\u00e6ndingsliner i diameter 12,5 mm",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "49.8",
       "C3": "1.04",
@@ -124,7 +124,7 @@
     "name": "Huld\u00e6k element. 32 cm. 6-10 forsp\u00e6ndingsliner",
     "description": "32 cm tyk huld\u00e6k element I beton, med 6-10 forsp\u00e6ndingsliner i diameter 12,5 mm",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "66.4",
       "C3": "1.4",
@@ -148,7 +148,7 @@
     "name": "Huld\u00e6k element. 32 cm. 11-17 forsp\u00e6ndingsliner",
     "description": "32 cm tyk huld\u00e6k element I beton, med 11-17 forsp\u00e6ndingsliner i diameter 12,5 mm",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "67.9",
       "C3": "1.37",
@@ -169,10 +169,10 @@
   },
   {
     "id": "ad5a72de-38c2-43eb-8866-9ff8254fdcad",
-    "name": "Letklinkerblok. Massiv",
+    "name": "Letklinkerblok. massiv",
     "description": "Letklinkerblokke anvendes bl.a. til f\u00f8lgende bygningsdele: Fundamenter og sokler, k\u00e6ldertrapper og lyskasser, k\u00e6lderv\u00e6gge, st\u00f8ttemure, og indvendige og udvendige v\u00e6gge.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "194",
       "C3": "1.6",
@@ -196,7 +196,7 @@
     "name": "Letklinkerblok med hvid EPS isolering",
     "description": "Letklinkerblokke anvendes bl.a. til f\u00f8lgende bygningsdele: Fundamenter og sokler, k\u00e6ldertrapper og lyskasser, k\u00e6lderv\u00e6gge, st\u00f8ttemure, og indvendige og udvendige v\u00e6gge.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "130",
       "C3": "0.961",
@@ -220,7 +220,7 @@
     "name": "Letklinkerblok med gr\u00e5 EPS isolering",
     "description": "Letklinkerblokke anvendes bl.a. til f\u00f8lgende bygningsdele: Fundamenter og sokler, k\u00e6ldertrapper og lyskasser, k\u00e6lderv\u00e6gge, st\u00f8ttemure, og indvendige og udvendige v\u00e6gge.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "121",
       "C3": "0.836",
@@ -244,7 +244,7 @@
     "name": "Konstruktionstr\u00e6 af fyr og gran. H\u00f8vlet (Forbr\u00e6nding EoL)",
     "description": "Planed construction wood products of pine and spruce.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-670",
       "C3": "728",
@@ -268,7 +268,7 @@
     "name": "Sandwichelement med mineraluld (Facade)",
     "description": "1 m2 sandwichelement/facadeelement, best\u00e5ende af 150 mm bagmur, 200-300 mm mineral uld isolering, og 70-80 mm facadeplade, med 10% udsparinger.",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "90.6",
       "C3": "1.51",
@@ -292,7 +292,7 @@
     "name": "Sandwichelement med EPS (Facade)",
     "description": "1 m2 sandwichelement/facadeelement, best\u00e5ende af 150 mm bagmur, 200-300 mm isolering, og 70-80 mm facadeplade, med 10% udsparinger.",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "87.3",
       "C3": "1.49",
@@ -316,7 +316,7 @@
     "name": "Beton v\u00e6gelementer. 15 cm tyk v\u00e6g med 5-15 kg armering  (11% udsparinger)",
     "description": "15 cm tyk beton v\u00e6g, 11% udsparinger, med 5-15 kg armering",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "53.1",
       "C3": "0.965",
@@ -340,7 +340,7 @@
     "name": "Beton v\u00e6gelementer. 20 cm tyk v\u00e6g med 5-15 kg armering (11% udsparinger)",
     "description": "20 cm tyk beton v\u00e6g, 11% udsparinger, med 5-15 kg armering",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "66.9",
       "C3": "1.28",
@@ -364,7 +364,7 @@
     "name": "Beton v\u00e6gelementer. 20 cm tyk v\u00e6g med 16-25 kg armering (11% udsparinger)",
     "description": "20 cm tyk beton v\u00e6g, 11% udsparinger, med 16-25 kg armering",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "73.2",
       "C3": "1.29",
@@ -388,7 +388,7 @@
     "name": "Letbeton v\u00e6gelement. 100 mm tyk v\u00e6g. 10% udsparinger",
     "description": "100 mm tyk letbeton v\u00e6gelement, 10% udsparinger, densitet: 1750-1850 kg/m3",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "26.8",
       "C3": "0.486",
@@ -412,7 +412,7 @@
     "name": "Letbeton v\u00e6gelement. 150 mm tyk v\u00e6g. 10% udsparinger",
     "description": "150 mm tyk letbeton v\u00e6gelement, 10% udsparinger, densitet: 1750-1850 kg/m3",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "38.6",
       "C3": "0.744",
@@ -436,7 +436,7 @@
     "name": "Letbeton v\u00e6gelement. 220 mm tyk v\u00e6g. 10% udsparinger",
     "description": "220 mm tyk letbeton v\u00e6gelement, 10% udsparinger, densitet: 1950-2050 kg/m3",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "63",
       "C3": "1.15",
@@ -457,10 +457,10 @@
   },
   {
     "id": "8dde0b7f-862d-47b7-b5bd-803bc2e562fc",
-    "name": "TT-element/Ribbed\u00e6k. TT60 med 12-18 STK. L12.5 liner. og 1.3-3.3 kg slap armering",
-    "description": "TT60-beton element med 12-18 stk. L12,5 liner, og 1,3-3,3 kg slap armering",
+    "name": "TT-element/Ribbed\u00e6k. TT60 med 12-18 pcs. L12.5 liner. og 1.3-3.3 kg slap armering",
+    "description": "TT60-beton element med 12-18 pcs. L12,5 liner, og 1,3-3,3 kg slap armering",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "56.3",
       "C3": "1",
@@ -481,10 +481,10 @@
   },
   {
     "id": "27dc407d-25ed-4cb4-a58f-8079f05acfac",
-    "name": "TT-element/Ribbed\u00e6k. TTS90 med 16-22 STK. L12.5 liner. og 1-2.5 kg slap armering",
-    "description": "TTS90-beton element med 16-22 stk. L12,5 liner, og 1-2,5 kg slap armering",
+    "name": "TT-element/Ribbed\u00e6k. TTS90 med 16-22 pcs. L12.5 liner. og 1-2.5 kg slap armering",
+    "description": "TTS90-beton element med 16-22 pcs. L12,5 liner, og 1-2,5 kg slap armering",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "55.3",
       "C3": "0.908",
@@ -505,10 +505,10 @@
   },
   {
     "id": "3106550b-89f6-4368-92ea-9c4d0fb10bbf",
-    "name": "TT-element/Ribbed\u00e6k. TT60 med 20-28 STK. L12.5 liner. og 2-4 kg slap armering",
-    "description": "TT60-beton element med 20-28 stk. L12,5 liner, og 2-4 kg slap armering",
+    "name": "TT-element/Ribbed\u00e6k. TT60 med 20-28 pcs. L12.5 liner. og 2-4 kg slap armering",
+    "description": "TT60-beton element med 20-28 pcs. L12,5 liner, og 2-4 kg slap armering",
     "location": "DK",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "57.7",
       "C3": "1.01",
@@ -532,7 +532,7 @@
     "name": "Fabriksbeton (C20/25 SCC) i eksponeringsklasserne X0 og XC1",
     "description": "C20/25 SCC (selvkompakterende beton)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "215",
       "C3": "6.94",
@@ -556,7 +556,7 @@
     "name": "Fabriksbeton (C25/30) i eksponeringsklasserne X0 og XC1",
     "description": "C25/30 (s\u00e6tm\u00e5lsbeton)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "241",
       "C3": "6.73",
@@ -577,10 +577,10 @@
   },
   {
     "id": "8bd8a129-41e5-42cc-aa91-6afc99a19165",
-    "name": "Fabriksbeton C35/45 \u0096 CEM I SR-5",
-    "description": "C35/45 \u0096 CEM I SR-5 (S\u00e6tm\u00e5lsbeton fremstillet med sulfatbestandig cement typisk anvendt til anl\u00e6gskonstruktioner)",
+    "name": "Fabriksbeton C35/45 \u0096 CEm I SR-5",
+    "description": "C35/45 \u0096 CEm I SR-5 (S\u00e6tm\u00e5lsbeton fremstillet med sulfatbestandig cement typisk anvendt til anl\u00e6gskonstruktioner)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "403",
       "C3": "6.85",
@@ -601,10 +601,10 @@
   },
   {
     "id": "f888ed95-62fa-40e1-a8cb-2c2f9058eb1e",
-    "name": "Fabriksbeton C35/45 \u0096 CEM I",
-    "description": "C35/45 \u0096 CEM I (S\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
+    "name": "Fabriksbeton C35/45 \u0096 CEm I",
+    "description": "C35/45 \u0096 CEm I (S\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "362",
       "C3": "7.07",
@@ -628,7 +628,7 @@
     "name": "Fabriksbeton C35/45 (fugebeton)",
     "description": "C35/45 fugebeton / sammenst\u00f8bningsbeton med max stenst\u00f8rrelse p\u00e5 8 mm",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "377",
       "C3": "6.63",
@@ -649,10 +649,10 @@
   },
   {
     "id": "49356a0b-831a-4295-9fc8-ceb87a058fed",
-    "name": "Fabriksbeton C40/50 \u0096 CEM I SR-5",
-    "description": "C40/50 \u0096 CEM I SR-5 (s\u00e6tm\u00e5lsbeton fremstillet med sulfatbestandig cement typisk anvendt til anl\u00e6gskonstruktioner)",
+    "name": "Fabriksbeton C40/50 \u0096 CEm I SR-5",
+    "description": "C40/50 \u0096 CEm I SR-5 (s\u00e6tm\u00e5lsbeton fremstillet med sulfatbestandig cement typisk anvendt til anl\u00e6gskonstruktioner)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "465",
       "C3": "6.95",
@@ -673,10 +673,10 @@
   },
   {
     "id": "74085511-73f3-4912-9479-3a6166c7cec3",
-    "name": "Fabriksbeton C40/50 \u0096 CEM I",
-    "description": "C40/50 \u0096 CEM I (s\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
+    "name": "Fabriksbeton C40/50 \u0096 CEm I",
+    "description": "C40/50 \u0096 CEm I (s\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "429",
       "C3": "6.77",
@@ -698,9 +698,9 @@
   {
     "id": "363ae9ee-23e4-4b62-8749-65ccd56f0f0a",
     "name": "Fabriksbeton C45/55",
-    "description": "C45/55 \u0096 CEM I (s\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
+    "description": "C45/55 \u0096 CEm I (s\u00e6tm\u00e5lsbeton fremstillet med cement for forholdsvis hurtig styrkeudvikling til en bred anvendelse i byggeriet)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "426",
       "C3": "6.75",
@@ -724,7 +724,7 @@
     "name": "Fabriksbeton C30/37",
     "description": "C30/37 (s\u00e6tm\u00e5lsbeton)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "282",
       "C3": "6.72",
@@ -748,7 +748,7 @@
     "name": "Fabriksbeton C35/45 SCC",
     "description": "C35/45 SCC (selvkompakterende beton)",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "300",
       "C3": "6.54",
@@ -772,7 +772,7 @@
     "name": "Konstruktionstr\u00e6 af fyr og gran. Savede og t\u00f8rrede (Forbr\u00e6nding EoL)",
     "description": "Sawn and dried construction wood products of pine and spruce.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-680",
       "C3": "728",
@@ -796,7 +796,7 @@
     "name": "Krydsfiner. ubehandlet (Forbr\u00e6nding EoL)",
     "description": "WISA Spruce plywood, uncoated.",
     "location": "DK",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-599",
       "C3": "743",
@@ -820,7 +820,7 @@
     "name": "Fireproof glass Pyrobel",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "71.6",
       "C3": "-",
@@ -844,7 +844,7 @@
     "name": "Copper piping",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "1.97",
       "C3": "-",
@@ -861,14 +861,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/6943ea24-03bc-4a84-9bf9-c320b052be82?version=00.03.000"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "7552e777-1be7-4f2e-8a79-f9da6445482f",
     "name": "Roofing stones, concrete",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "255.909",
       "C3": "-",
@@ -892,7 +892,7 @@
     "name": "Carpeted tiling",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "20",
       "C3": "0.0341",
@@ -916,7 +916,7 @@
     "name": "Wood fiber insulation",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-156.3",
       "C3": "238.2",
@@ -940,7 +940,7 @@
     "name": "Zink, patinaed",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "2.09",
       "C3": "-",
@@ -957,14 +957,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/0ea8dd25-57aa-4b87-87e3-4496368f765b?version=00.04.000"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "794f3076-c0d0-44fd-aa40-89195bf73148",
     "name": "Grout mortar",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.465",
       "C3": "#G0789",
@@ -981,14 +981,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/6f38efae-dc15-4667-96a4-1b87be6a80a5?version=00.04.000"
     },
     "subType": "Generisk data",
-    "materialType": "Mortar"
+    "materialType": "mortar"
   },
   {
     "id": "dc80901a-0486-4f94-b427-2189d3ff80fa",
     "name": "Waterprrofing membrane, liquid",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "1.11",
       "C3": "#G0789",
@@ -1005,14 +1005,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/285ae869-97d4-4032-8269-767c9371e71f?version=00.03.000"
     },
     "subType": "Generisk data",
-    "materialType": "Membrane"
+    "materialType": "membrane"
   },
   {
     "id": "eaf70f20-3f98-4391-8532-ce7455b2ee4a",
     "name": "PE-foamcovered copper piping",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "2.29",
       "C3": "-",
@@ -1036,7 +1036,7 @@
     "name": "PE-covered copper piping",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "2.07",
       "C3": "-",
@@ -1060,7 +1060,7 @@
     "name": "PU-foamcovered copper piping",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "2.85",
       "C3": "-",
@@ -1084,7 +1084,7 @@
     "name": "PU foamplate (12 cm)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "14.8",
       "C3": "0.102",
@@ -1108,7 +1108,7 @@
     "name": "PVC-covered copper piping",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "1.83",
       "C3": "-",
@@ -1132,7 +1132,7 @@
     "name": "WPC fa\u00e7ade panel",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-0.558",
       "C3": "878.167",
@@ -1156,7 +1156,7 @@
     "name": "WPC terrace covering",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "0.253",
       "C3": "210.833",
@@ -1180,7 +1180,7 @@
     "name": "EPS insulation (grey) with thermal ray absorbant",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "49.7",
       "C3": "-",
@@ -1204,7 +1204,7 @@
     "name": "EPS insulation for walls and roofs 035",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "59.5",
       "C3": "-",
@@ -1228,7 +1228,7 @@
     "name": "EPS insulation for ceilings/floors and cellar walls/ground deck 035",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "75.4",
       "C3": "-",
@@ -1252,7 +1252,7 @@
     "name": "EPS insulation for walls and roofs 040",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "52.5",
       "C3": "-",
@@ -1276,7 +1276,7 @@
     "name": "EPS insulation for ceilings/floors and cellar walls/ground deck 040",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "53.8",
       "C3": "-",
@@ -1300,7 +1300,7 @@
     "name": "PU foam Insulation, covered with aluminium on both sides (12 cm)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "12.9",
       "C3": "0.106",
@@ -1324,7 +1324,7 @@
     "name": "Cellular glass insulation - 115 kg/m\u00b3",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "1.32",
       "C3": "-",
@@ -1348,7 +1348,7 @@
     "name": "Steel, rolled profiles and plates",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "1125",
       "C3": "1.844",
@@ -1365,14 +1365,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/5cb2c568-76fe-4803-8b46-0084e79800c8?version=00.06.000"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "d03a8039-b5ab-4f86-8851-426d11fab193",
     "name": "Surface, fa\u00e7ade paint, primer, dispersion",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "210.646",
       "C3": "-",
@@ -1396,7 +1396,7 @@
     "name": "Piping for electric heating (water-water) 70 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "417.966",
       "C3": "0.0147327",
@@ -1420,7 +1420,7 @@
     "name": "Stone plaster",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.00230588",
       "C3": "-",
@@ -1444,7 +1444,7 @@
     "name": "Boksventilator 30.000 m\u00b3/h.",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "846.712",
       "C3": "118.708",
@@ -1468,7 +1468,7 @@
     "name": "Varmepumpe. jordvarmesonde. 70 Kw",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "6262.06",
       "C3": "114.807",
@@ -1492,7 +1492,7 @@
     "name": "Fiberglass cloth",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "0.293104",
       "C3": "0",
@@ -1516,7 +1516,7 @@
     "name": "Curtain wall facade with 3-lags ruder. Steel",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "970.738",
       "C3": "620.355",
@@ -1540,7 +1540,7 @@
     "name": "Lavagrus",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.00379143",
       "C3": "#G0789",
@@ -1564,7 +1564,7 @@
     "name": "Teglsten. formur",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "528.541",
       "C3": "13.207",
@@ -1588,7 +1588,7 @@
     "name": "R\u00f8r. Afl\u00f8bsr\u00f8r. PVC",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "191.881",
       "C3": "0.607628",
@@ -1612,7 +1612,7 @@
     "name": "St\u00e5l. varmvalset plade. Genanvendelse",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -1629,14 +1629,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/f34a799a-52de-4f69-a623-335f5be207d9?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "a820e473-b064-4a8c-a88b-5cb023420cd5",
     "name": "Teflon-membran. polytetrafluoroethylen (PTFE)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "144.411",
       "C3": "0.364086",
@@ -1653,14 +1653,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/f281ecaf-5754-4d27-8d70-cfd18780b192?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Membrane"
+    "materialType": "membrane"
   },
   {
     "id": "c6f1db0f-4044-4c26-89e8-0a95be88c141",
     "name": "Decentralt ventilationsanl\u00e6g med varmegenvinding (v\u00e6g & loft) 60 m3 / h",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "253.286",
       "C3": "448.641",
@@ -1684,7 +1684,7 @@
     "name": "Varmepumpe (luft-vand) 7kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "321.294",
       "C3": "210.599",
@@ -1708,7 +1708,7 @@
     "name": "Gips. beta-halvhydrat",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.103165",
       "C3": "-",
@@ -1732,7 +1732,7 @@
     "name": "Gulvvarmesystem inkl. isolering. PEX (100 mm afstand)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "774.763",
       "C3": "668.108",
@@ -1756,7 +1756,7 @@
     "name": "Overflade. Anodisering af aluminiumplade",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "611.931",
       "C3": "#G1298",
@@ -1773,14 +1773,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ecf20fae-fe11-41ad-b248-8b4118fd7cc7?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "f3f04c9b-0c5e-4eea-9e95-9725bffd387c",
     "name": "Overflade. Pulverlakering (Industri. udend\u00f8rs. hvid)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "473.516",
       "C3": "104.568",
@@ -1804,7 +1804,7 @@
     "name": "Beslag. st\u00e5lvindue",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "927.171",
       "C3": "-",
@@ -1821,14 +1821,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/ea4ff1e8-4ee8-4ecf-8951-a79b5b60dd2a?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "9e375b9d-6761-4ac4-918e-e18fdb717955",
     "name": "Armeringsnet",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.683355",
       "C3": "-",
@@ -1845,14 +1845,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/e9ae96ee-ba8d-420d-9725-7c8abd06e082?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "00b81137-211c-496a-b7a3-8200a9fcf650",
     "name": "Afretningslag. h\u00e5rdt plast",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.3311",
       "C3": "-",
@@ -1876,7 +1876,7 @@
     "name": "Boksventilator 10.000 m\u00b3/h.",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "343.014",
       "C3": "480.918",
@@ -1900,7 +1900,7 @@
     "name": "Grus 2-32 mm. t\u00f8rret",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0332595",
       "C3": "0.00733722",
@@ -1924,7 +1924,7 @@
     "name": "Polystyren skumfyldning (uden bindemiddel)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "488.671",
       "C3": "554.102",
@@ -1948,7 +1948,7 @@
     "name": "Oliekedel. lav temperatur. 20-120 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1287.48",
       "C3": "190.828",
@@ -1972,7 +1972,7 @@
     "name": "Fibercementplade",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "6.993",
       "C3": "-",
@@ -1996,7 +1996,7 @@
     "name": "Ekspanderet glasgranulat",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.273532",
       "C3": "-",
@@ -2020,7 +2020,7 @@
     "name": "R\u00f8r. Kloakr\u00f8r PVC",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "28.225",
       "C3": "301.298",
@@ -2044,7 +2044,7 @@
     "name": "Gaskedel. kondenserende. < 20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "446.213",
       "C3": "915.866",
@@ -2065,10 +2065,10 @@
   },
   {
     "id": "70857bce-c8bf-4b88-a15d-7665a1034ff9",
-    "name": "EPDM skum (r\u00f8risolering)",
+    "name": "EPDm skum (r\u00f8risolering)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "245.125",
       "C3": "137.702",
@@ -2092,7 +2092,7 @@
     "name": "Vindueskarm. aluminium",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "157.712",
       "C3": "0.693459",
@@ -2109,14 +2109,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/dfa64bbb-dc8d-497b-9557-300416b8448f?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "fb1d2dff-4dc9-45e8-8035-1d722128f362",
     "name": "Stokerfyr  20-120 KW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "2218.21",
       "C3": "508.292",
@@ -2140,7 +2140,7 @@
     "name": "Kalkcementpuds",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "356.634",
       "C3": "-",
@@ -2164,7 +2164,7 @@
     "name": "Grus 16/32 (t\u00f8rret)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0342735",
       "C3": "0.00672578",
@@ -2188,7 +2188,7 @@
     "name": "Fjernvarmeanl\u00e6g",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "47.708",
       "C3": "0.20703",
@@ -2212,7 +2212,7 @@
     "name": "Gr\u00e5 st\u00f8bejern",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "163.536",
       "C3": "-",
@@ -2229,14 +2229,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/dbc94e02-b28f-43eb-8133-a161e9b83dfa?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "5cdee5a1-182d-4728-8aa7-ed6f6ef4d51e",
     "name": "St\u00e5lprofil. Genanvendelse",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -2253,14 +2253,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d9f045e5-ae07-4ae6-9fde-5346560411d8?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "4c913b2f-e07d-4c61-ba9e-64a06e884dbc",
-    "name": "Messing",
+    "name": "messing",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "138.566",
       "C3": "#G1298",
@@ -2277,14 +2277,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d9ee3a94-83a2-4615-b071-9afa3aaeff42?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "16c5c2d8-2de4-4dbd-a661-998132316ef6",
     "name": "R\u00f8r. Regnvandsr\u00f8r. PVC",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "242.826",
       "C3": "301.298",
@@ -2308,7 +2308,7 @@
     "name": "Rude. 2-lags",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "369.941",
       "C3": "151.738",
@@ -2332,7 +2332,7 @@
     "name": "B\u00e6re-/slidlag. Asfalt",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0789355",
       "C3": "0",
@@ -2356,7 +2356,7 @@
     "name": "Kalkpuds",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "407.986",
       "C3": "-",
@@ -2380,7 +2380,7 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). probe. 10 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "614.302",
       "C3": "0",
@@ -2404,7 +2404,7 @@
     "name": "Tr\u00e6. l\u00e6rk",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-907.564",
       "C3": "1186.9",
@@ -2428,7 +2428,7 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). probe. 20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "6027.13",
       "C3": "0",
@@ -2452,7 +2452,7 @@
     "name": "Overflade. Pulver coating af metal",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "409.796",
       "C3": "0.205333",
@@ -2476,7 +2476,7 @@
     "name": "Overflade. tr\u00e6vinduer. hvid grunder",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "182.186",
       "C3": "0.784673",
@@ -2500,7 +2500,7 @@
     "name": "Blyplader",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "128.344",
       "C3": "#G1298",
@@ -2517,14 +2517,14 @@
       "url": "http://www.oekobaudat.de/OEKOBAU.DAT/resource/processes/d596ddf7-aaf3-44cc-b7ae-faedc8d0870a?version=20.19.120"
     },
     "subType": "Generisk data",
-    "materialType": "Metal"
+    "materialType": "metal"
   },
   {
     "id": "88043cf8-129c-4864-a406-b2b7f9a34130",
     "name": "Buffertank. rustfast st\u00e5l",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "405.831",
       "C3": "0.663445",
@@ -2548,7 +2548,7 @@
     "name": "Porebeton 474 kg/m\u00b3. armeret",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "263.192",
       "C3": "336.101",
@@ -2572,7 +2572,7 @@
     "name": "Facadeklinker",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "541.904",
       "C3": "134.516",
@@ -2596,7 +2596,7 @@
     "name": "Kalk. malet",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "144.393",
       "C3": "#G0789",
@@ -2620,7 +2620,7 @@
     "name": "Difluormethan (R32)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "522.467",
       "C3": "#G1298",
@@ -2644,7 +2644,7 @@
     "name": "Gas varmepumpe (luft) 20-70 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "362.364",
       "C3": "10.373",
@@ -2668,7 +2668,7 @@
     "name": "Gaskedel. kondenserende. 120-400 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "2842.15",
       "C3": "715.794",
@@ -2692,7 +2692,7 @@
     "name": "Papiruldsplader",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-199.935",
       "C3": "176.145",
@@ -2716,7 +2716,7 @@
     "name": "Phenolplast. stift skum (PF)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "873.203",
       "C3": "900.279",
@@ -2740,7 +2740,7 @@
     "name": "R\u00f8r. Kloakr\u00f8r HDPE",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "209.831",
       "C3": "345.444",
@@ -2764,7 +2764,7 @@
     "name": "Kunststenplade (bundet af epoxyharpiks)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "283.505",
       "C3": "0.381535",
@@ -2785,10 +2785,10 @@
   },
   {
     "id": "06eaa736-fc22-479b-b834-b39f18eecc96",
-    "name": "Elevator (grundkomponenter pr. STK.)",
+    "name": "Elevator (grundkomponenter pr. pcs.)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "5193",
       "C3": "373.937",
@@ -2812,7 +2812,7 @@
     "name": "Sanitetskeramik",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "280.282",
       "C3": "0.0163697",
@@ -2836,7 +2836,7 @@
     "name": "Ventilationsanl\u00e6g decentraliseret (v\u00e6g & loft) 60 m3 / h",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "408.676",
       "C3": "12.972",
@@ -2860,7 +2860,7 @@
     "name": "Radiator. st\u00e5lplade",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "444.802",
       "C3": "0.000818484",
@@ -2881,10 +2881,10 @@
   },
   {
     "id": "a2d85d3e-9765-4f8f-89c0-3cc339743fb0",
-    "name": "EPDM-t\u00e6tning til aluminiumsprofil. med kuldebroafbrydelse",
+    "name": "EPDm-t\u00e6tning til aluminiumsprofil. med kuldebroafbrydelse",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "138.151",
       "C3": "134.947",
@@ -2908,7 +2908,7 @@
     "name": "Klordifluormethan (R22)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "475.856",
       "C3": "-",
@@ -2932,7 +2932,7 @@
     "name": "Papiruldsisolering. l\u00f8sfyld",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-733.725",
       "C3": "990.818",
@@ -2956,7 +2956,7 @@
     "name": "PUR fugemasse",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "533.286",
       "C3": "265.674",
@@ -2980,7 +2980,7 @@
     "name": "LPG tank 6400 l / t 2.9 (overjordiske)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "3107.97",
       "C3": "0.957626",
@@ -3003,7 +3003,7 @@
     "name": "Vinduesramme. aluminium",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "17.055",
       "C3": "0.58799",
@@ -3026,7 +3026,7 @@
     "name": "Overflade. Tr\u00e6maling. udend\u00f8rs. d\u00e6kkende (topcoat-system)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "274.094",
       "C3": "0.836874",
@@ -3049,7 +3049,7 @@
     "name": "Sand 0-2 mm. t\u00f8rret",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0332595",
       "C3": "0.00733722",
@@ -3072,7 +3072,7 @@
     "name": "Overflade. Parket lak transparent",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "34.614",
       "C3": "0.912953",
@@ -3095,7 +3095,7 @@
     "name": "EVA-tagmembran",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "512.518",
       "C3": "79.699",
@@ -3118,7 +3118,7 @@
     "name": "Betonmursten",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "242.351",
       "C3": "134.516",
@@ -3141,7 +3141,7 @@
     "name": "Aluminiumsprofil",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "10.677",
       "C3": "-",
@@ -3164,7 +3164,7 @@
     "name": "Sk\u00e6rver 16-32 mm",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.014695",
       "C3": "0.00672578",
@@ -3187,7 +3187,7 @@
     "name": "Fugemasse. Silikone",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "726.875",
       "C3": "151.829",
@@ -3210,7 +3210,7 @@
     "name": "Keramikfliser. u-glaseret",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "685.115",
       "C3": "0.146744",
@@ -3233,7 +3233,7 @@
     "name": "Ventilationsaggregat m. varmegenvinding 1000 m3 / h",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "372.133",
       "C3": "0.611164",
@@ -3256,7 +3256,7 @@
     "name": "Fugemasse. Acryl",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "303.501",
       "C3": "219.227",
@@ -3279,7 +3279,7 @@
     "name": "Puds. gips-kalk",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "119.397",
       "C3": "-",
@@ -3302,7 +3302,7 @@
     "name": "Ekspanderet skifer",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.341109",
       "C3": "#G0789",
@@ -3325,7 +3325,7 @@
     "name": "Boksventilator 5.000 m\u00b3/h",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "217.047",
       "C3": "304.278",
@@ -3348,7 +3348,7 @@
     "name": "Lerr\u00f8r. glaseret. DN 400",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "515.194",
       "C3": "112.871",
@@ -3371,7 +3371,7 @@
     "name": "Kork. expanderet",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-969.007",
       "C3": "151.505",
@@ -3394,7 +3394,7 @@
     "name": "Kertotr\u00e6 (LVL)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-465.421",
       "C3": "896.177",
@@ -3417,7 +3417,7 @@
     "name": "Cirkulationspumpe 50-250 W",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "264.569",
       "C3": "0.86599",
@@ -3440,7 +3440,7 @@
     "name": "Tetrafluorethan (R134a)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "838.634",
       "C3": "#G1298",
@@ -3463,7 +3463,7 @@
     "name": "Tetrafluorpropen (R1234ze)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "612.734",
       "C3": "#G1298",
@@ -3483,10 +3483,10 @@
   },
   {
     "id": "e8dd2c71-5fb1-4e22-bf9c-768cbdda5fa1",
-    "name": "M\u00f8rtel. cementm\u00f8rtel",
+    "name": "m\u00f8rtel. cementm\u00f8rtel",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "345.107",
       "C3": "-",
@@ -3509,7 +3509,7 @@
     "name": "Buffertank. st\u00e5l",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "31.687",
       "C3": "0.663445",
@@ -3532,7 +3532,7 @@
     "name": "Ventilationskanal. galvaniseret st\u00e5l",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "304.722",
       "C3": "0.00163697",
@@ -3555,7 +3555,7 @@
     "name": "Beslag til dreje-kip vinduer (aluminium)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "123.655",
       "C3": "-",
@@ -3578,7 +3578,7 @@
     "name": "Byggepap",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-0.0897286",
       "C3": "0.162065",
@@ -3601,7 +3601,7 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). collector. 70 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "2541.8",
       "C3": "0",
@@ -3624,7 +3624,7 @@
     "name": "R\u00f8r til el-varmepumpe (vand-vand) 20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "174.764",
       "C3": "0.0147327",
@@ -3647,7 +3647,7 @@
     "name": "H\u00f8rfiberdug",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "160.445",
       "C3": "861.825",
@@ -3670,7 +3670,7 @@
     "name": "Tr\u00e6. egetr\u00e6 (12% fugt / 10.7% H2O)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-1063",
       "C3": "1287.83",
@@ -3693,7 +3693,7 @@
     "name": "St\u00f8beasfalt",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0972808",
       "C3": "0",
@@ -3716,7 +3716,7 @@
     "name": "Ventilationsaggregat m. varmegenvinding 5000 m3 / h",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1460.38",
       "C3": "177.427",
@@ -3739,7 +3739,7 @@
     "name": "Betontrappe. etageh\u00f8j",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "312.836",
       "C3": "139.419",
@@ -3762,7 +3762,7 @@
     "name": "ECB-plast tagmembran. if\u00f8lge DIN 16729 (med PES-filt)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "823.049",
       "C3": "704.063",
@@ -3785,7 +3785,7 @@
     "name": "Solvarmekollektor. vakuumr\u00f8r",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "109.581",
       "C3": "233.419",
@@ -3808,7 +3808,7 @@
     "name": "R\u00f8r til el-varmepumpe (vand-vand) 10 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "136.135",
       "C3": "0.0147327",
@@ -3831,7 +3831,7 @@
     "name": "Varmepumpe. vand-vand. 70 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "553.729",
       "C3": "136.581",
@@ -3854,7 +3854,7 @@
     "name": "Bitumenemulsion (40% bitumen. 60% vand)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.356326",
       "C3": "0",
@@ -3877,7 +3877,7 @@
     "name": "Curtain wall profiler. st\u00e5l",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "366.271",
       "C3": "342.169",
@@ -3900,7 +3900,7 @@
     "name": "Kuldioxid (R744)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "10.753",
       "C3": "#G1298",
@@ -3923,7 +3923,7 @@
     "name": "Slaggebeton. sten",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "352.838",
       "C3": "102.721",
@@ -3946,7 +3946,7 @@
     "name": "Stenmel 0/2",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.014695",
       "C3": "0.00672578",
@@ -3969,7 +3969,7 @@
     "name": "Aluminiumsplade",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "104.617",
       "C3": "-",
@@ -3992,7 +3992,7 @@
     "name": "Rulletrappe (komponenter. som er afh\u00e6ngige af h\u00f8jden)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "2467.1",
       "C3": "272.787",
@@ -4015,7 +4015,7 @@
     "name": "St\u00e5l. Smedest\u00e5l",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "280.793",
       "C3": "-",
@@ -4038,7 +4038,7 @@
     "name": "Cementbundet sp\u00e5nplade",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "1694.15",
       "C3": "279.382",
@@ -4061,7 +4061,7 @@
     "name": "Elevator (komponenter pr. etage)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "969.289",
       "C3": "0.295179",
@@ -4084,7 +4084,7 @@
     "name": "Glasfiber-forst\u00e6rket plast. polyester (30% fiberandel)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "373.108",
       "C3": "159.357",
@@ -4107,7 +4107,7 @@
     "name": "Cirkulationspumpe 250-1000 W",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "132.285",
       "C3": "432.995",
@@ -4130,7 +4130,7 @@
     "name": "R\u00f8r. Afl\u00f8bsr\u00f8r. ABS",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "440.853",
       "C3": "255.257",
@@ -4153,7 +4153,7 @@
     "name": "R\u00f8r. Brugsvandsr\u00f8r. PEX",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "410.333",
       "C3": "376.848",
@@ -4176,7 +4176,7 @@
     "name": "St\u00e5lplade (0.3-3.0mm)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "242.761",
       "C3": "-",
@@ -4199,7 +4199,7 @@
     "name": "Gulvvarmesystem inkl. isolering. Kobber (100 mm afstand)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "223.208",
       "C3": "317.258",
@@ -4222,7 +4222,7 @@
     "name": "K\u00f8lemiddel (R410a)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "806.324",
       "C3": "#G1298",
@@ -4245,7 +4245,7 @@
     "name": "Ammoniak (R717)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "249.446",
       "C3": "#G1298",
@@ -4268,7 +4268,7 @@
     "name": "Overflade. Opl\u00f8sningsmiddelbaseret lak. hvid",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "295.014",
       "C3": "0.68517",
@@ -4291,7 +4291,7 @@
     "name": "Fiberdug. PE / PP",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "126.052",
       "C3": "188.424",
@@ -4314,7 +4314,7 @@
     "name": "Overflade. Facademaling. grunder. silikat",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.900033",
       "C3": "-",
@@ -4337,7 +4337,7 @@
     "name": "R\u00f8r. polypropylen (PP)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "261.984",
       "C3": "322.333",
@@ -4360,7 +4360,7 @@
     "name": "St\u00e5lplade (20 mikrometer galvaniseret)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "267.628",
       "C3": "-",
@@ -4383,7 +4383,7 @@
     "name": "Aluminium. plade og profil. Genanvendelse",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -4403,10 +4403,10 @@
   },
   {
     "id": "ba5746b3-7abe-49ae-bead-ed793ee3a54e",
-    "name": "Overflade. Metalcoating (vandbaseret)",
+    "name": "Overflade. metalcoating (vandbaseret)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "209.554",
       "C3": "0.248242",
@@ -4429,7 +4429,7 @@
     "name": "Skorsten st\u00e5l (enkelt v\u00e6g)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "402.074",
       "C3": "0.000818484",
@@ -4452,7 +4452,7 @@
     "name": "Vinduesramme. plast",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "924.199",
       "C3": "482.076",
@@ -4472,10 +4472,10 @@
   },
   {
     "id": "52483dc8-2ba0-4f79-aa9b-e29cc023acbd",
-    "name": "Mineraluld. stenuld. teknisk pladeisolering",
+    "name": "mineraluld. stenuld. teknisk pladeisolering",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "196.032",
       "C3": "0.0163697",
@@ -4498,7 +4498,7 @@
     "name": "Porebeton 380 kg/m\u00b3",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "182.392",
       "C3": "25.558",
@@ -4521,7 +4521,7 @@
     "name": "Folie. PE-HD med PP-fiberdug",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "321.161",
       "C3": "484.274",
@@ -4544,7 +4544,7 @@
     "name": "Pimpsten. grus",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.00871442",
       "C3": "#G0789",
@@ -4567,7 +4567,7 @@
     "name": "Curtain wall facade med 3-lags ruder. aluminium",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "121.145",
       "C3": "620.355",
@@ -4590,7 +4590,7 @@
     "name": "Solcelleanl\u00e6g 1000 kWh / m2*a",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "296.686",
       "C3": "-",
@@ -4613,7 +4613,7 @@
     "name": "HPL- plade",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-385.54",
       "C3": "1978.67",
@@ -4636,7 +4636,7 @@
     "name": "Tr\u00e6. gran (12% fugt / 10.7% H2O)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-693.836",
       "C3": "876.037",
@@ -4659,7 +4659,7 @@
     "name": "Lerpuds",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "931.477",
       "C3": "280.641",
@@ -4682,7 +4682,7 @@
     "name": "Vinduesprofil. karm. alu. pulverlak.",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "130.541",
       "C3": "-",
@@ -4705,7 +4705,7 @@
     "name": "Kondenserende gaskedel <20 kW (v\u00e6g enhed)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "243.628",
       "C3": "705.425",
@@ -4728,7 +4728,7 @@
     "name": "St\u00e5lplade. rustfri",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "342.727",
       "C3": "-",
@@ -4751,7 +4751,7 @@
     "name": "Plast profil CR (chloropren gummi)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "635.686",
       "C3": "356.146",
@@ -4774,7 +4774,7 @@
     "name": "St\u00e5lr\u00f8r. gevindr\u00f8r",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "251.374",
       "C3": "0.00150055",
@@ -4797,7 +4797,7 @@
     "name": "Asfalt. b\u00e6relag",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0711519",
       "C3": "0",
@@ -4820,7 +4820,7 @@
     "name": "Grunder. silikat dispersion",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.579701",
       "C3": "-",
@@ -4843,7 +4843,7 @@
     "name": "Overflade. Parket lak (primer til tr\u00e6; fortyndet med vand)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "181.695",
       "C3": "0.912953",
@@ -4866,7 +4866,7 @@
     "name": "LPG tank 4850 l / 2.1 t (underjordisk)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "3084.11",
       "C3": "781.327",
@@ -4889,7 +4889,7 @@
     "name": "Polybutadiene r\u00f8r (PB)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "410.241",
       "C3": "322.333",
@@ -4912,7 +4912,7 @@
     "name": "Anhydrit mix",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0892567",
       "C3": "#G0789",
@@ -4935,7 +4935,7 @@
     "name": "Perlite 0-1 mm",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.522459",
       "C3": "#G0789",
@@ -4958,7 +4958,7 @@
     "name": "Tagsten. tegl",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "158.784",
       "C3": "0.30266",
@@ -4981,7 +4981,7 @@
     "name": "Pimpsten 0-4 mm",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.00869385",
       "C3": "#G0789",
@@ -5004,7 +5004,7 @@
     "name": "Overflade. Facademaling. silikoneharpiks",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "125.633",
       "C3": "0",
@@ -5027,7 +5027,7 @@
     "name": "Tr\u00e6. ceder",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-809.968",
       "C3": "1037.52",
@@ -5050,7 +5050,7 @@
     "name": "Gummigulve med skumbagside EN 1816",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "13.22",
       "C3": "109.893",
@@ -5073,7 +5073,7 @@
     "name": "Varmepumpe. vand-vand. 10 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "284.922",
       "C3": "522.458",
@@ -5096,7 +5096,7 @@
     "name": "Varmepumpe (luft-vand) 10 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "458.991",
       "C3": "300.855",
@@ -5119,7 +5119,7 @@
     "name": "Overflade. Kalkmaling",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.924854",
       "C3": "-",
@@ -5142,7 +5142,7 @@
     "name": "Gummit\u00e6tning",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "36.402",
       "C3": "303.476",
@@ -5165,7 +5165,7 @@
     "name": "R\u00f8r. Kloakr\u00f8r PP",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "261.984",
       "C3": "345.444",
@@ -5185,10 +5185,10 @@
   },
   {
     "id": "7491b1bd-3055-4b28-9974-8b17c057acae",
-    "name": "Plastplade. transparent. PMMA st\u00f8bte",
+    "name": "Plastplade. transparent. PmmA st\u00f8bte",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "6291.42",
       "C3": "2889.91",
@@ -5211,7 +5211,7 @@
     "name": "Naturstenplade. bl\u00f8d. facade",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "16.231",
       "C3": "0.699482",
@@ -5234,7 +5234,7 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). probe. 70 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1804.28",
       "C3": "0",
@@ -5254,10 +5254,10 @@
   },
   {
     "id": "95113356-2a02-470e-85e8-4e02a30f2156",
-    "name": "M\u00f8rtel. flisekl\u00e6ber",
+    "name": "m\u00f8rtel. flisekl\u00e6ber",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.347032",
       "C3": "-",
@@ -5280,7 +5280,7 @@
     "name": "Aluminiumsfolie (d=0.1 mm)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "311.981",
       "C3": "-",
@@ -5303,7 +5303,7 @@
     "name": "Tr\u00e6betonplade",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-293.699",
       "C3": "317.455",
@@ -5326,7 +5326,7 @@
     "name": "Plastprofil. silikone",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "685.795",
       "C3": "10.128",
@@ -5349,7 +5349,7 @@
     "name": "Polyurethanskum (r\u00f8risolering)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "200.718",
       "C3": "273.128",
@@ -5372,7 +5372,7 @@
     "name": "Nylonst\u00f8bning (PA 6.6)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "106.619",
       "C3": "287.643",
@@ -5395,7 +5395,7 @@
     "name": "Grus. 2-15 mm. t\u00f8rret",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0342735",
       "C3": "0.00672578",
@@ -5418,7 +5418,7 @@
     "name": "Beslag til lodrette skydevinduer",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "11.591",
       "C3": "-",
@@ -5441,7 +5441,7 @@
     "name": "Puds. kalk-gips. inde",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "198.85",
       "C3": "-",
@@ -5461,10 +5461,10 @@
   },
   {
     "id": "1de7a32d-314f-4f35-91e8-e6faa4d38497",
-    "name": "Melamin-skum",
+    "name": "melamin-skum",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "65.813",
       "C3": "143.404",
@@ -5487,7 +5487,7 @@
     "name": "Polystyren granulat (cementbundet)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "160.083",
       "C3": "103.432",
@@ -5510,7 +5510,7 @@
     "name": "Polycarbonatplade",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "593.594",
       "C3": "332.856",
@@ -5533,7 +5533,7 @@
     "name": "Gulvvarmesystem inkl. isolering. PP (100 mm afstand)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "613.759",
       "C3": "668.108",
@@ -5556,7 +5556,7 @@
     "name": "Ventilationsaggregat m. varmegenvinding 10 000 m3 / h",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "2815.96",
       "C3": "347.325",
@@ -5579,7 +5579,7 @@
     "name": "LPG tank 2700 l / 1.2 t (underjordisk)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "2135.85",
       "C3": "542.252",
@@ -5602,7 +5602,7 @@
     "name": "Bindelag",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0778388",
       "C3": "0",
@@ -5625,7 +5625,7 @@
     "name": "Vinduesramme. pulverlakeret aluminium",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "125.422",
       "C3": "-",
@@ -5645,10 +5645,10 @@
   },
   {
     "id": "fa7703c4-1914-4c88-80f6-1ca5be9db4fa",
-    "name": "EPDM-t\u00e6tning til aluminiumsprofil",
+    "name": "EPDm-t\u00e6tning til aluminiumsprofil",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "0.578307",
       "C3": "0.564894",
@@ -5671,7 +5671,7 @@
     "name": "Skortsten polypropylen (PP)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "250.046",
       "C3": "273.128",
@@ -5694,7 +5694,7 @@
     "name": "Polyethylen-skum",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "305.545",
       "C3": "398.495",
@@ -5717,7 +5717,7 @@
     "name": "Regnvandsr\u00f8r. st\u00f8bejern",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.722883",
       "C3": "-",
@@ -5740,7 +5740,7 @@
     "name": "Kalciumsilikatplade",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "550.399",
       "C3": "165.087",
@@ -5763,7 +5763,7 @@
     "name": "Sand 0-2 mm",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.00285398",
       "C3": "0.00672578",
@@ -5786,7 +5786,7 @@
     "name": "Sp\u00e5nplade",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-873.594",
       "C3": "1268.47",
@@ -5809,7 +5809,7 @@
     "name": "Solvarmekollektor. plan",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "104.039",
       "C3": "117.626",
@@ -5832,7 +5832,7 @@
     "name": "Lersten",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "936.405",
       "C3": "40.537",
@@ -5852,10 +5852,10 @@
   },
   {
     "id": "f1610791-141c-47ef-80cd-9fffe71787e8",
-    "name": "Mineraluld. l\u00f8sfyld",
+    "name": "mineraluld. l\u00f8sfyld",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "640.233",
       "C3": "124.651",
@@ -5878,7 +5878,7 @@
     "name": "Hampfiberdug",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "191.569",
       "C3": "861.825",
@@ -5901,7 +5901,7 @@
     "name": "Vindueskarm. plast",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "825.055",
       "C3": "391.687",
@@ -5924,7 +5924,7 @@
     "name": "Gulvvarmesystem inkl. isolering. Kobber (200 mm afstand)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "12.979",
       "C3": "316.865",
@@ -5947,7 +5947,7 @@
     "name": "Gipspulver. Alpha-halvhydrat",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.261835",
       "C3": "-",
@@ -5967,10 +5967,10 @@
   },
   {
     "id": "5d8c5d8a-ac88-47ad-bea4-1b56f7e77b57",
-    "name": "Mineraluld. stenuld. r\u00f8rsk\u00e5l",
+    "name": "mineraluld. stenuld. r\u00f8rsk\u00e5l",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "317.952",
       "C3": "0.0163697",
@@ -5993,7 +5993,7 @@
     "name": "St\u00f8beasfalt",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.11688",
       "C3": "0",
@@ -6016,7 +6016,7 @@
     "name": "Bitumenkl\u00e6ber",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.61328",
       "C3": "0",
@@ -6039,7 +6039,7 @@
     "name": "Plastplade. transparent. PVC",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "3996.11",
       "C3": "4010",
@@ -6062,7 +6062,7 @@
     "name": "Betonr\u00f8r. armeret",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.141743",
       "C3": "0.00721909",
@@ -6085,7 +6085,7 @@
     "name": "Ler. stampet ler",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "934.931",
       "C3": "675.616",
@@ -6108,7 +6108,7 @@
     "name": "Porebeton granulat",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "528.468",
       "C3": "269.031",
@@ -6131,7 +6131,7 @@
     "name": "Solafsk\u00e6rmning. polyethylenterephthalat (PET)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "4.194",
       "C3": "110.342",
@@ -6154,7 +6154,7 @@
     "name": "Solafsk\u00e6rmning. aluminiumslameller",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "236.353",
       "C3": "-",
@@ -6174,10 +6174,10 @@
   },
   {
     "id": "059d0d79-7a2f-4894-9327-0e330c65779c",
-    "name": "M\u00f8rtel. armeringsm\u00f8rtel. kunstharpiks spartelmasse",
+    "name": "m\u00f8rtel. armeringsm\u00f8rtel. kunstharpiks spartelmasse",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.476923",
       "C3": "0",
@@ -6200,7 +6200,7 @@
     "name": "Rustfri st\u00e5l. genanvendelse",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -6223,7 +6223,7 @@
     "name": "Affald. tr\u00e6. forbr\u00e6nding fjernvarme",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "182.315",
@@ -6246,7 +6246,7 @@
     "name": "St\u00e5l. varmvalset plade. 2-20 mm",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "267.628",
       "C3": "-",
@@ -6269,7 +6269,7 @@
     "name": "St\u00e5l. Varmgalvaniseret st\u00e5lplade",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "163.885",
       "C3": "-",
@@ -6292,7 +6292,7 @@
     "name": "Kalkcementm\u00f8rtel",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "202.003",
       "C3": "-",
@@ -6315,7 +6315,7 @@
     "name": "Oliekedel. lav temperatur. 120-400 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "3035.05",
       "C3": "536.451",
@@ -6338,7 +6338,7 @@
     "name": "Brugsvandsr\u00f8r. rustfast st\u00e5l",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "355.922",
       "C3": "-",
@@ -6361,7 +6361,7 @@
     "name": "Vandvarmer. el. gennemstr\u00f8m. 21 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "147.374",
       "C3": "492.449",
@@ -6384,7 +6384,7 @@
     "name": "Brugsvandsr\u00f8r. Alu-PEX",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "762.125",
       "C3": "188.424",
@@ -6407,7 +6407,7 @@
     "name": "Vinduesbeslag. aluminium",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "873.468",
       "C3": "-",
@@ -6430,7 +6430,7 @@
     "name": "Dampsp\u00e6rre PA",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "0.707438",
       "C3": "0.219924",
@@ -6453,7 +6453,7 @@
     "name": "Oparbejdning af byggeaffald",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "0.002663",
@@ -6476,7 +6476,7 @@
     "name": "Puds. syntetisk harpiks",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "1201.64",
       "C3": "-",
@@ -6499,7 +6499,7 @@
     "name": "Varmepumpe (luft-vand) 14kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "642.587",
       "C3": "421.198",
@@ -6522,7 +6522,7 @@
     "name": "Pillefyr. 20-120 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "2329.17",
       "C3": "329.897",
@@ -6545,7 +6545,7 @@
     "name": "Rulletrappe (grundkomponenter pr. trappe)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "12715.1",
       "C3": "105.496",
@@ -6568,7 +6568,7 @@
     "name": "Brugsvandsr\u00f8r. PEX-Alu-PEX",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "779.468",
       "C3": "30.242",
@@ -6591,7 +6591,7 @@
     "name": "Brugsvandsr\u00f8r. PB",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "399.847",
       "C3": "390.707",
@@ -6614,7 +6614,7 @@
     "name": "Tr\u00e6produkter. affaldsforbr\u00e6nding",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "180.183",
@@ -6637,7 +6637,7 @@
     "name": "Perlite 0-3 mm",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.558289",
       "C3": "#G0789",
@@ -6660,7 +6660,7 @@
     "name": "Lithiumbromid",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "808.139",
       "C3": "-",
@@ -6683,7 +6683,7 @@
     "name": "LPG tank 6400 l / 2.9 t (underjordisk)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "3839.02",
       "C3": "973.728",
@@ -6706,7 +6706,7 @@
     "name": "XPS isolering",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "963.403",
       "C3": "118.208",
@@ -6729,7 +6729,7 @@
     "name": "Lim til gipsplader",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.103165",
       "C3": "-",
@@ -6749,10 +6749,10 @@
   },
   {
     "id": "97dfd1a5-1a00-47ec-ae74-e28e632845ba",
-    "name": "Plastplade. transparent. PMMA ekstruderet",
+    "name": "Plastplade. transparent. PmmA ekstruderet",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "5756.79",
       "C3": "2889.91",
@@ -6775,7 +6775,7 @@
     "name": "Vindueskarm. tr\u00e6",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "-0.369776",
       "C3": "403.683",
@@ -6798,7 +6798,7 @@
     "name": "Ler pulver",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.349057",
       "C3": "0.00337808",
@@ -6821,7 +6821,7 @@
     "name": "Skorsten opmuret (2 r\u00f8r)",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "474.265",
       "C3": "320.127",
@@ -6844,7 +6844,7 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). collector. 20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "726.23",
       "C3": "0",
@@ -6867,7 +6867,7 @@
     "name": "Grus 2-32 mm",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.00285398",
       "C3": "0.00672578",
@@ -6890,7 +6890,7 @@
     "name": "Rulleskodder. PVC",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "234.651",
       "C3": "120.519",
@@ -6913,7 +6913,7 @@
     "name": "El-varmepumpe (lodret jordvarme. saltvand) 10 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "338.947",
       "C3": "435.298",
@@ -6936,7 +6936,7 @@
     "name": "Grunder til silikonespuds",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.692053",
       "C3": "-",
@@ -6959,7 +6959,7 @@
     "name": "PVC gulvbel\u00e6gning",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "8.191",
       "C3": "108.467",
@@ -6982,7 +6982,7 @@
     "name": "L\u00e6sket kalk. pulver",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "109.784",
       "C3": "#G0789",
@@ -7005,7 +7005,7 @@
     "name": "Tr\u00e6fiberisoleringsplade (v\u00e5d proces)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-182.182",
       "C3": "334.691",
@@ -7028,7 +7028,7 @@
     "name": "Vinduesh\u00e5ndtag",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "0.957379",
       "C3": "0.251996",
@@ -7051,7 +7051,7 @@
     "name": "Gaskedel. kondenserende. 20-120 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1104.19",
       "C3": "226.536",
@@ -7074,7 +7074,7 @@
     "name": "St\u00e5lprofil",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.994444",
       "C3": "-",
@@ -7097,7 +7097,7 @@
     "name": "Kondenserende gaskedel 120-400 kW (standalone enhed)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "3422.37",
       "C3": "161.496",
@@ -7120,7 +7120,7 @@
     "name": "Overflade. Indend\u00f8rsmaling. emulsions maling. slidst\u00e6rk",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "262.123",
       "C3": "-",
@@ -7143,7 +7143,7 @@
     "name": "Kalciumsulfat",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.107014",
       "C3": "-",
@@ -7166,7 +7166,7 @@
     "name": "Varmepumpe. vand-vand. 20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "284.32",
       "C3": "522.458",
@@ -7189,7 +7189,7 @@
     "name": "Lerr\u00f8r. glaseret. DN 250",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "262.848",
       "C3": "0.405381",
@@ -7212,7 +7212,7 @@
     "name": "Vinduesramme. tr\u00e6",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "-0.147349",
       "C3": "403.685",
@@ -7235,7 +7235,7 @@
     "name": "Tr\u00e6. fyrretr\u00e6 (12% fugt / 10.7% H2O)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-783.129",
       "C3": "985.049",
@@ -7258,7 +7258,7 @@
     "name": "Cirkulationspumpe < 50 W",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "132.285",
       "C3": "0.432995",
@@ -7281,7 +7281,7 @@
     "name": "Overflade. Vinduesmaling. hvid",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "182.186",
       "C3": "0.784673",
@@ -7304,7 +7304,7 @@
     "name": "LPG tank 2700 l / t 1.2 (overjordiske)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1720.01",
       "C3": "0.433551",
@@ -7327,7 +7327,7 @@
     "name": "Affald. inert. deponering (glas)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -7350,7 +7350,7 @@
     "name": "LPG tank 4850 l / 2.1t (overjordiske)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "2762.64",
       "C3": "0.851223",
@@ -7373,7 +7373,7 @@
     "name": "PIR-skum. h\u00f8j densitet (250 kg/m3)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "781.381",
       "C3": "644.627",
@@ -7396,7 +7396,7 @@
     "name": "El-varmepumpe (lodret jordvarme. saltvand) 20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1997.42",
       "C3": "435.299",
@@ -7419,7 +7419,7 @@
     "name": "Oliekedel. lav temperatur. <20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "803.765",
       "C3": "119.181",
@@ -7442,7 +7442,7 @@
     "name": "Gulvvarmesystem inkl. isolering. PEX (200 mm afstand)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "56.924",
       "C3": "49.229",
@@ -7465,7 +7465,7 @@
     "name": "Kalksandsten",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "306.119",
       "C3": "134.516",
@@ -7488,7 +7488,7 @@
     "name": "Singels 2-15 mm",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.014695",
       "C3": "0.00672578",
@@ -7511,7 +7511,7 @@
     "name": "Gulvvarmesystem inkl. isolering. PP (200 mm afstand)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "488.738",
       "C3": "49.229",
@@ -7534,7 +7534,7 @@
     "name": "K\u00f8lemiddel (R407c)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "838.122",
       "C3": "#G1298",
@@ -7557,7 +7557,7 @@
     "name": "Sand. knust. t\u00f8rret",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0342735",
       "C3": "0.00672578",
@@ -7580,7 +7580,7 @@
     "name": "Plastplade. transparent. PC",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "6131.21",
       "C3": "3661.42",
@@ -7603,7 +7603,7 @@
     "name": "CR-profil til forsegling (chloropren gummi)",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "0.895329",
       "C3": "0.555074",
@@ -7626,7 +7626,7 @@
     "name": "Gipskartonplade 13 mm. hulplade",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "136.406",
       "C3": "-",
@@ -7649,7 +7649,7 @@
     "name": "Bomuld",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-0.780289",
       "C3": "220.182",
@@ -7672,7 +7672,7 @@
     "name": "Glasbyggesten",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "3926.96",
       "C3": "-",
@@ -7695,7 +7695,7 @@
     "name": "Aluminium. st\u00f8begods",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "109.481",
       "C3": "-",
@@ -7718,7 +7718,7 @@
     "name": "Stokerfyr 120-400 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "7141.52",
       "C3": "187.887",
@@ -7741,7 +7741,7 @@
     "name": "Curtain wall profiler. aluminium",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "551.564",
       "C3": "342.169",
@@ -7764,7 +7764,7 @@
     "name": "Plast profil SBR",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "420.151",
       "C3": "31.383",
@@ -7787,7 +7787,7 @@
     "name": "Overflade. tr\u00e6facade. semi-pigmenteret lasursystem",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "27.365",
       "C3": "0.836874",
@@ -7810,7 +7810,7 @@
     "name": "Porebeton 472 kg/m\u00b3",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "222.605",
       "C3": "317.457",
@@ -7833,7 +7833,7 @@
     "name": "R\u00f8r til el-varmepumpe (lodret jordvarme. saltvand). collector. 10 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "363.115",
       "C3": "0",
@@ -7853,10 +7853,10 @@
   },
   {
     "id": "28db7874-e6cd-439b-9df4-923e9ee253ed",
-    "name": "Sk\u00e6rvemastisk asfalt (SMA)",
+    "name": "Sk\u00e6rvemastisk asfalt (SmA)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.0765834",
       "C3": "0",
@@ -7879,7 +7879,7 @@
     "name": "Glas 4 mm",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "133.289",
       "C3": "-",
@@ -7902,7 +7902,7 @@
     "name": "Kondenserende gaskedel <20 kW (standalone enhed)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "753.547",
       "C3": "218.182",
@@ -7922,10 +7922,10 @@
   },
   {
     "id": "d3fdfd1c-ac0c-48bf-8ed3-ff9a4cf2e3a2",
-    "name": "Overflade. Metal maling (opl\u00f8sningsmiddelbaseret)",
+    "name": "Overflade. metal maling (opl\u00f8sningsmiddelbaseret)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "228.622",
       "C3": "0.143886",
@@ -7948,7 +7948,7 @@
     "name": "Lithium jernfosfat (LiFePO4) batteri (1 kWh lagring)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "241.48",
       "C3": "-",
@@ -7971,7 +7971,7 @@
     "name": "Kondenserende gaskedel 20-120 kW (standalone enhed)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1268.3",
       "C3": "467.263",
@@ -7994,7 +7994,7 @@
     "name": "Overflade. Vandbaseret lak. hvid",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "201.226",
       "C3": "0.856007",
@@ -8017,7 +8017,7 @@
     "name": "Betonr\u00f8r. u-armeret",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.132191",
       "C3": "0.00733722",
@@ -8040,7 +8040,7 @@
     "name": "PVC plastisol",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "243.275",
       "C3": "273.937",
@@ -8063,7 +8063,7 @@
     "name": "Pellet-kedel. <20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1168.47",
       "C3": "131.871",
@@ -8086,7 +8086,7 @@
     "name": "R\u00f8rgods",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "177.322",
       "C3": "#G1298",
@@ -8109,7 +8109,7 @@
     "name": "Overflade. Facademaling. silikat",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.865769",
       "C3": "-",
@@ -8132,7 +8132,7 @@
     "name": "Puds. gips",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "134.173",
       "C3": "-",
@@ -8155,7 +8155,7 @@
     "name": "Afretningslag. cementbaseret",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.183551",
       "C3": "-",
@@ -8178,7 +8178,7 @@
     "name": "Varmepumpe. jordvarmesonde. 10 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "855.755",
       "C3": "435.299",
@@ -8201,7 +8201,7 @@
     "name": "Urea formaldehyd skum isolering",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "288.236",
       "C3": "187.588",
@@ -8224,7 +8224,7 @@
     "name": "Tr\u00e6br\u00e6dder. b\u00f8g (12% fugtighed / 10.7% H2O)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-1093.21",
       "C3": "1328.2",
@@ -8247,7 +8247,7 @@
     "name": "Overflade. Vinduesmaling. mellemlag d\u00e6kkende hvid",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "178.204",
       "C3": "0.784673",
@@ -8270,7 +8270,7 @@
     "name": "Kalkpuds. t\u00f8rstof",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "190.611",
       "C3": "-",
@@ -8293,7 +8293,7 @@
     "name": "Varmepumpe. jordvarmeslange. 20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "392.972",
       "C3": "435.298",
@@ -8316,7 +8316,7 @@
     "name": "Varmepumpe. jordvarmeslange. 70 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "931.906",
       "C3": "114.808",
@@ -8339,7 +8339,7 @@
     "name": "Bomuld. \u00f8kologisk",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-0.553836",
       "C3": "220.182",
@@ -8362,7 +8362,7 @@
     "name": "Affald (forbr\u00e6nding). kunststof. fjernvarme",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "252.745",
@@ -8385,7 +8385,7 @@
     "name": "Propan (R290)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.556878",
       "C3": "#G1298",
@@ -8408,7 +8408,7 @@
     "name": "Aircondition (direkte fordamper) (per 1 kW)",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "457.792",
       "C3": "303.977",
@@ -8431,7 +8431,7 @@
     "name": "Overflade. Facademaling. akryl maling",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "148.132",
       "C3": "-",
@@ -8454,7 +8454,7 @@
     "name": "Skorsten opmuret (1 r\u00f8r)",
     "description": "-",
     "location": "DE",
-    "unit": "M",
+    "unit": "m",
     "emission" : { "gwp": {
       "a1a3": "238.032",
       "C3": "160.914",
@@ -8477,7 +8477,7 @@
     "name": "Stokerfyr  <20 KW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1642.03",
       "C3": "347.892",
@@ -8500,7 +8500,7 @@
     "name": "K\u00f8lemiddel (R404a)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "948.597",
       "C3": "#G1298",
@@ -8523,7 +8523,7 @@
     "name": "Beslag til vandrette skydevinduer",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "575.046",
       "C3": "-",
@@ -8546,7 +8546,7 @@
     "name": "Tagpap. bitumen toplag. ikke skiferbestr\u00f8et",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "535.539",
       "C3": "0",
@@ -8569,7 +8569,7 @@
     "name": "Rude (3-lags)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "577.726",
       "C3": "303.476",
@@ -8592,7 +8592,7 @@
     "name": "Gummigulve profileret EN 12199",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "12.884",
       "C3": "13.866",
@@ -8615,7 +8615,7 @@
     "name": "Naturstenplade. bl\u00f8d. gulv",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "149.203",
       "C3": "0.349741",
@@ -8635,10 +8635,10 @@
   },
   {
     "id": "29ad3ccb-6243-4025-8d84-669f943d831f",
-    "name": "Marmorplade (tykkelse 0.02 m)",
+    "name": "marmorplade (tykkelse 0.02 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "162.767",
       "C3": "0.381535",
@@ -8661,7 +8661,7 @@
     "name": "Naturstenplade. h\u00e5rd. gulv",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "317.513",
       "C3": "0.349741",
@@ -8684,7 +8684,7 @@
     "name": "Kork linoleumsgulv (tykkelse 0.0025 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "360.243",
       "C3": "358.677",
@@ -8707,7 +8707,7 @@
     "name": "Loftspanel med mineraluld",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "34.872",
       "C3": "0",
@@ -8730,7 +8730,7 @@
     "name": "Undertag. PP-membran",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "0.407157",
       "C3": "0.333621",
@@ -8753,7 +8753,7 @@
     "name": "Gipskartonplade. brandimpr\u00e6gneret",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "154.129",
       "C3": "-",
@@ -8776,7 +8776,7 @@
     "name": "Naturstensplade. udend\u00f8rsbrug",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "573.544",
       "C3": "139.896",
@@ -8799,7 +8799,7 @@
     "name": "Tagpap. bitumen toplag. skiferbestr\u00f8et",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "536.407",
       "C3": "0",
@@ -8822,7 +8822,7 @@
     "name": "Naturstenplade. h\u00e5rd. facade",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "324.057",
       "C3": "0.524611",
@@ -8845,7 +8845,7 @@
     "name": "Net-forst\u00e6rket dampsp\u00e6rre PET",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "0.742035",
       "C3": "0.331026",
@@ -8868,7 +8868,7 @@
     "name": "Keramikfliser. glaseret",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "617.969",
       "C3": "0.146744",
@@ -8891,7 +8891,7 @@
     "name": "Gips. t\u00f8rstof (gipskartonplade) (tykkelse 0.025 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "311.901",
       "C3": "-",
@@ -8914,7 +8914,7 @@
     "name": "Gips. t\u00f8rstof (gipsfiberplade) (tykkelse 0.025 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "755.456",
       "C3": "0",
@@ -8937,7 +8937,7 @@
     "name": "PUR-underlag p\u00e5 PET-flis (tykkelse 0.0005 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "106.631",
       "C3": "0.54176",
@@ -8960,7 +8960,7 @@
     "name": "Dampsp\u00e6rre PE (tykkelse 0.0002 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "0.399404",
       "C3": "0.555951",
@@ -8983,7 +8983,7 @@
     "name": "Skifer",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "150.386",
       "C3": "0.201774",
@@ -9006,7 +9006,7 @@
     "name": "Folie til gr\u00f8nt tag",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "354.926",
       "C3": "495.155",
@@ -9029,7 +9029,7 @@
     "name": "Tr\u00e6gulv. stavparket. 22 mm",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-150.494",
       "C3": "236.049",
@@ -9052,7 +9052,7 @@
     "name": "Dampsp\u00e6rre. bitumen",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "20.393",
       "C3": "0",
@@ -9075,7 +9075,7 @@
     "name": "Gipsfiberplade 10 mm",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "318.612",
       "C3": "0",
@@ -9098,7 +9098,7 @@
     "name": "Lerplade (tykkelse 0.02 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "0.0530942",
       "C3": "0.0436552",
@@ -9121,7 +9121,7 @@
     "name": "Undertag. fiberarmeret PE-membran",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "0.425628",
       "C3": "0.315442",
@@ -9144,7 +9144,7 @@
     "name": "Tagpap. bitumen undermembran",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "24.749",
       "C3": "0",
@@ -9167,7 +9167,7 @@
     "name": "Linoleum gulvbel\u00e6gning (tykkelse 0.0025 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-324.756",
       "C3": "35.866",
@@ -9190,7 +9190,7 @@
     "name": "Tagmembran. PVC",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "607.292",
       "C3": "493.032",
@@ -9213,7 +9213,7 @@
     "name": "Korkfliser 8 mm",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-608.412",
       "C3": "638.655",
@@ -9236,7 +9236,7 @@
     "name": "Fugtisolering. grundmursplade. PE",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "408.909",
       "C3": "414.532",
@@ -9259,7 +9259,7 @@
     "name": "Parket. flerlag (tykkelse 0.01 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-445.326",
       "C3": "118.038",
@@ -9282,7 +9282,7 @@
     "name": "Korkfliser 6 mm",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-456.492",
       "C3": "484.491",
@@ -9305,7 +9305,7 @@
     "name": "Gips. v\u00e6gplade (tykkelse 0.1 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "223.539",
       "C3": "-",
@@ -9328,7 +9328,7 @@
     "name": "Korkfliser 4 mm",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-304.279",
       "C3": "321.527",
@@ -9348,10 +9348,10 @@
   },
   {
     "id": "7a8be224-e7cc-41c9-9958-3cbd4f45dd15",
-    "name": "Tagfolie EPDM",
+    "name": "Tagfolie EPDm",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "859.954",
       "C3": "679.964",
@@ -9374,7 +9374,7 @@
     "name": "Gipskartonplade 13 mm. impr\u00e6gneret",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "162.283",
       "C3": "-",
@@ -9397,7 +9397,7 @@
     "name": "Halm",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-127",
       "C3": "0",
@@ -9420,7 +9420,7 @@
     "name": "Ovenlyskuppel. plast (komplet ovenlys)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "45.7",
       "C3": "42.5",
@@ -9443,7 +9443,7 @@
     "name": "Rytterlys. plast/aluminium (komplet vindue)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "84.7",
       "C3": "10.6",
@@ -9466,7 +9466,7 @@
     "name": "Fladtagsvindue. plast (komplet vindue)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "226",
       "C3": "15.1",
@@ -9489,7 +9489,7 @@
     "name": "Glastag. aluminium (komplet vindue)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "232",
       "C3": "10.6",
@@ -9512,7 +9512,7 @@
     "name": "D\u00f8r. alu. hovedd\u00f8r",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "163.382",
       "C3": "105.204",
@@ -9535,7 +9535,7 @@
     "name": "D\u00f8r. alu. r\u00f8gd\u00f8r",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "157.17",
       "C3": "0.866486",
@@ -9558,7 +9558,7 @@
     "name": "D\u00f8r. alu. T30/EI30",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "221.423",
       "C3": "0.927273",
@@ -9581,7 +9581,7 @@
     "name": "D\u00f8r. alu. T90/EI90",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "351.666",
       "C3": "0.927262",
@@ -9604,7 +9604,7 @@
     "name": "D\u00f8r. industriport",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "263.69",
       "C3": "0.0519",
@@ -9627,7 +9627,7 @@
     "name": "D\u00f8r. st\u00e5l. indv/udv/brand/r\u00f8g mv",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "135.75",
       "C3": "0.0578",
@@ -9647,10 +9647,10 @@
   },
   {
     "id": "3fd560e6-0963-4788-a619-432e5b01523b",
-    "name": "Mineraluld. alm.",
+    "name": "mineraluld. alm.",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "403.055",
       "C3": "0.72123",
@@ -9670,10 +9670,10 @@
   },
   {
     "id": "80147761-92cd-4c8a-a4ed-7bb17c469056",
-    "name": "Mineraluld. facadesystem",
+    "name": "mineraluld. facadesystem",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "703.915",
       "C3": "126.969",
@@ -9696,7 +9696,7 @@
     "name": "ETICS limning og mineralsk puds (Kratzputz)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "98.439",
       "C3": "0",
@@ -9719,7 +9719,7 @@
     "name": "Smeltekammergranulat",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0",
       "C3": "#G0789",
@@ -9742,7 +9742,7 @@
     "name": "ETICS-limning og bel\u00e6gning af silikatdispersionspuds",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "548.029",
       "C3": "0",
@@ -9765,7 +9765,7 @@
     "name": "Pimpsten (SFK-4)",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "780.446",
       "C3": "66.035",
@@ -9788,7 +9788,7 @@
     "name": "ETICS-limning og bel\u00e6gning af syntetisk harpikspuds",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "670.288",
       "C3": "0",
@@ -9808,10 +9808,10 @@
   },
   {
     "id": "eaca794e-47d3-4358-b097-7bc07de2eee4",
-    "name": "Mineraluld. skr\u00e5tag",
+    "name": "mineraluld. skr\u00e5tag",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "465.164",
       "C3": "0.783207",
@@ -9834,7 +9834,7 @@
     "name": "ETICS limning og mineralsk letpuds",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "473.572",
       "C3": "0",
@@ -9857,7 +9857,7 @@
     "name": "ETICS limning og mineralsk puds (Dekorputz)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "733.681",
       "C3": "0",
@@ -9877,10 +9877,10 @@
   },
   {
     "id": "193c0f30-3321-4de9-af1d-93214bbf672e",
-    "name": "Mineraluld. trykfast til tagsystem",
+    "name": "mineraluld. trykfast til tagsystem",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "209.503",
       "C3": "397.636",
@@ -9903,7 +9903,7 @@
     "name": "Ekspanderet Ler. sand",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.338274",
       "C3": "#G0789",
@@ -9923,10 +9923,10 @@
   },
   {
     "id": "5d68608e-2373-49f5-b053-b0514ba02f1d",
-    "name": "Mineraluld. terr\u00e6n",
+    "name": "mineraluld. terr\u00e6n",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "133.91",
       "C3": "233.097",
@@ -9949,7 +9949,7 @@
     "name": "ETICS limning og silikonepuds",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "548.029",
       "C3": "0",
@@ -9972,7 +9972,7 @@
     "name": "OSB-plade",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-572.706",
       "C3": "#G0810",
@@ -9995,7 +9995,7 @@
     "name": "Sp\u00e5nplade. melaminbelagt",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-691.465",
       "C3": "#G0810",
@@ -10018,7 +10018,7 @@
     "name": "Parket i massivt tr\u00e6",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-120.662",
       "C3": "#G0765",
@@ -10041,7 +10041,7 @@
     "name": "Tr\u00e6fiberplade. h\u00f8j densitet. HDF",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-854.246",
       "C3": "#G0810",
@@ -10061,10 +10061,10 @@
   },
   {
     "id": "ed3efe91-4a13-4467-aef2-9718f42beb1c",
-    "name": "Tr\u00e6fiberplade. medium densitet. MDF",
+    "name": "Tr\u00e6fiberplade. medium densitet. mDF",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-726.358",
       "C3": "#G0810",
@@ -10087,7 +10087,7 @@
     "name": "Tom affaldsproces",
     "description": "-",
     "location": "DK",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "0",
@@ -10110,7 +10110,7 @@
     "name": "Silikatmaling (indend\u00f8rs)",
     "description": "-",
     "location": "DK",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "0.955",
       "C3": "#G0789",
@@ -10133,7 +10133,7 @@
     "name": "Silikatmaling (udend\u00f8rs)",
     "description": "-",
     "location": "DK",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "1.2",
       "C3": "#G0789",
@@ -10156,7 +10156,7 @@
     "name": "Laminatgulv 8 mm",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-5.272",
       "C3": "13.5",
@@ -10179,7 +10179,7 @@
     "name": "Oliekedel. lav temperatur. kondenserende. < 20 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "891.1",
       "C3": "26.61",
@@ -10202,7 +10202,7 @@
     "name": "Oliekedel. lav temperatur. kondenserende. 20-120 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "1755",
       "C3": "72.67",
@@ -10225,7 +10225,7 @@
     "name": "Oliekedel. lav temperatur. kondenserende. 120-400 kW",
     "description": "-",
     "location": "DE",
-    "unit": "STK",
+    "unit": "pcs",
     "emission" : { "gwp": {
       "a1a3": "5075",
       "C3": "249.5",
@@ -10248,7 +10248,7 @@
     "name": "Affald. byggeaffald. deponering (ikke glas)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -10271,7 +10271,7 @@
     "name": "Affald. stenuld h\u00f8j densitet",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -10294,7 +10294,7 @@
     "name": "Affald. stenuld lav densitet",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -10317,7 +10317,7 @@
     "name": "Affald. stenuld middel densitet",
     "description": "-",
     "location": "DE",
-    "unit": "M3",
+    "unit": "m3",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "-",
@@ -10340,7 +10340,7 @@
     "name": "Affald (forbr\u00e6nding). tekstil. fjernvarme",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "173.941",
@@ -10363,7 +10363,7 @@
     "name": "Affald (forbr\u00e6nding). polystyren (PS). fjernvarme",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "337.892",
@@ -10386,7 +10386,7 @@
     "name": "T\u00e6ppe gulvbel\u00e6gning (tykkelse 0.006 m)",
     "description": "-",
     "location": "DE",
-    "unit": "M2",
+    "unit": "m2",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "404.533",
@@ -10409,7 +10409,7 @@
     "name": "Kobberr\u00f8r (blank)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "0.00136414",
@@ -10432,7 +10432,7 @@
     "name": "Kobberr\u00f8r (coatede)",
     "description": "-",
     "location": "DE",
-    "unit": "KG",
+    "unit": "kg",
     "emission" : { "gwp": {
       "a1a3": "-",
       "C3": "0.00136414",

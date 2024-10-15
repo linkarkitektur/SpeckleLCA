@@ -1,126 +1,123 @@
+import { useProjectStore } from '@/stores/main'
+
 import type { GeometryObject } from '@/models/geometryObject'
-import type { Product } from '@/models/material'
-import type { Emissions } from '@/models/project'
-
- /**
- * Calculate the emissions of the current geo and attach the results to the geo
- * @param geo
- * @returns
- */
- export function calculateEmissions(geo: GeometryObject): boolean {
-  if (!geo.material) return false
-
-  const emissions = { gwp: {} }
-  const material = geo.material
-  let success = false
-
-  if (isAssembly(material)) {
-    success = processAssembly(material, geo, emissions)
-  } else {
-    success = processEPD(material as Product, geo, emissions)
-  }
-
-  if (success) {
-    addEmissionsToGeo(geo, emissions)
-  }
-
-  return success
-}
+import type { LifeCycleStageEmission, Product, Emission } from '@/models/material'
+import type { Results } from '@/models/project'
 
 /**
- * Checks if material is assembly or product
- * @param material 
- * @returns 
+ * EmissionCalculator class to calculate the emissions of geometry objects if none sent calculate for all
  */
-function isAssembly(material: any): material is { materials?: Product[] } {
-  return material instanceof Object && 'isAssembly' in material
-}
+export class EmissionCalculator {
+  private geo: GeometryObject[] = []
+  private impactCategory: string = 'gwp'
 
-/**
- * Prepare function for aseemblies so it can be calculated using same method as EPDs
- * @param material 
- * @param geo 
- * @param emissions 
- * @param impactCategory 
- * @returns 
- */
-function processAssembly(
-  material: { materials?: Product[] },
-  geo: GeometryObject,
-  emissions: Emissions,
-  impactCategory: string = 'gwp'
-): boolean {
-  if (!material.materials) return false
-
-  for (const mat of material.materials) {
-    if (mat.emission[impactCategory]) {
-      calculateMaterialEmissions(mat, geo, emissions)
+  constructor(geo: GeometryObject[] = []) {
+    const projectStore = useProjectStore()
+    if (projectStore.currProject) {
+      this.geo = geo
+      // If no geometry is provided, calculate for all geometry objects in the project.
+      if (geo.length === 0) {
+        this.geo = projectStore.currProject.geometry
+      }
+      
+      if (projectStore.currProject.results == null)
+        projectStore.currProject.results = []
     }
   }
-  return true
-}
 
-/**
- * Sanity check so that we have everything needed to calculate emissions
- * @param material 
- * @param geo 
- * @param emissions 
- * @param impactCategory TODO make this flexible
- * @returns 
- */
-function processEPD(
-  material: Product,
-  geo: GeometryObject,
-  emissions: Emissions,
-  impactCategory: string = 'gwp'
-): boolean {
-  if (material.emission[impactCategory]) {
-    calculateMaterialEmissions(material, geo, emissions)
+   /**
+   * Calculate the emissions of the current geo and attach the results to the geo
+   * @param geo
+   * @returns
+   */
+  calculateEmissions(): Results | boolean {
+    // Go through each geometry object and calculate the emissions
+    for (const geo of this.geo) {
+      let result: Results | boolean = false
+      if (!geo.material) continue
+
+      const emissions: Emission = { 
+        [this.impactCategory]: {} as LifeCycleStageEmission }
+      const material = geo.material
+
+      if (this.isAssembly(material)) {
+        result = this.processAssembly(material, emissions, geo)
+      } else {
+        result = this.processEPD(material as Product, emissions, geo)
+      }
+
+      if (result) {
+        result = this.addEmissionsToGeo(emissions, geo)
+      }
+    }
     return true
   }
-  return false
-}
 
-/**
- * Calculation method, goes through the material and calculates the emissions
- * @param mat 
- * @param geo 
- * @param emissions 
- * @param impactCategory 
- */
-function calculateMaterialEmissions(
-  mat: Product,
-  geo: GeometryObject,
-  emissions: Emissions,
-  impactCategory: string = 'gwp'
-) {
-  for (const phase in mat.emission[impactCategory]) {
-    const value = mat.emission[impactCategory][phase]
-    if (value !== null && !isNaN(Number(value))) {
-      const emissionValue =
-        parseFloat(value as string) * geo.quantity[mat.unit]
-      emissions.gwp[phase] = (emissions.gwp[phase] || 0) + emissionValue
+  private isAssembly(material: any): material is { materials?: Product[] } {
+    return material instanceof Object && 'isAssembly' in material
+  }
+
+  private processAssembly(
+    material: { materials?: Product[] },
+    emissions: Emission,
+    geo: GeometryObject
+  ): boolean {
+    if (!material.materials) return false
+
+    for (const mat of material.materials) {
+      if (mat.emission[this.impactCategory]) {
+        this.calculateMaterialEmissions(mat, emissions, geo)
+      }
+    }
+    return true
+  }
+
+  private processEPD(
+    material: Product,
+    emissions: Emission,
+    geo: GeometryObject
+  ): boolean {
+    if (material.emission[this.impactCategory]) {
+      this.calculateMaterialEmissions(material, emissions, geo)
+      return true
+    }
+    return false
+  }
+
+  // Calculate the emissions of the material and add it to the emissions object
+  private calculateMaterialEmissions(
+    mat: Product,
+    emissions: Emission,
+    geo: GeometryObject
+  ) {
+    for (const phase in mat.emission[this.impactCategory]) {
+      const value = mat.emission[this.impactCategory][phase]
+      if (value !== null && !isNaN(Number(value))) {
+        const emissionValue = parseFloat(value as string) * geo.quantity[mat.unit]
+        emissions[this.impactCategory][phase] = (emissions[this.impactCategory][phase] || 0) + emissionValue
+      }
     }
   }
-}
 
-/**
- * Attached emissions to Geo object
- * @param geo 
- * @param emissions 
- */
-function addEmissionsToGeo(
-  geo: GeometryObject,
-  emissions: Emissions
-) {
-  const result = {
-    id: crypto.randomUUID(),
-    date: new Date(),
-    emission: emissions,
-  }
-  if (geo.results) {
-    geo.results.push(result)
-  } else {
-    geo.results = [result]
+  /**
+   * Attached emissions to Geo object
+   * @param geo 
+   * @param emissions 
+   */
+  private addEmissionsToGeo(
+    emissions: Emission,
+    geo: GeometryObject
+  ) {
+    const result: Results = {
+      id: crypto.randomUUID(),
+      date: new Date(),
+      emission: emissions,
+    }
+    if (geo.results) {
+      geo.results.push(result)
+    } else {
+      geo.results = [result]
+    }
+    return result
   }
 }

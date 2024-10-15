@@ -142,19 +142,14 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
       .style("opacity", 0)
 
     //Create mouse over and tooltip functions
-    const mouseover = function (event: MouseEvent, data: ChartData) {
+    const mouseover = function (event: MouseEvent, { data: { value } }: d3.PieArcDatum<ChartData>) {
       tooltipDiv.style("opacity", 1)
-      if (data.data.value > 0) {
-        d3.select(event.currentTarget as Element)
-          .style("stroke", "black")
-          .style("opacity", 1)
-      } else {
-        d3.select(event.currentTarget as Element)
-          .style("stroke", "black")
-          .style("opacity", 0.6)
-      }
+      
+      d3.select(event.currentTarget as Element)
+      .style("stroke", "black")
+      .style("opacity", value > 0 ? 1 : 0.6)
     }
-    const mousemove = function (event: MouseEvent, data: ChartData) {
+    const mousemove = function (event: MouseEvent, { data: { value, label } }: d3.PieArcDatum<ChartData>) {
       const containerRect = container.getBoundingClientRect()
       const tooltipRect = tooltip.getBoundingClientRect()
 
@@ -170,11 +165,11 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
       }
 
       tooltipDiv
-        .html(data.data.label + ": " + roundNumber(data.data.value, 3) + " " + unit)
+        .html(label + ": " + roundNumber(value, 3) + " " + unit)
         .style("left", left + "px")
         .style("top", top + "px")
     }
-    const mouseleave = function (event: MouseEvent, data: ChartData) {
+    const mouseleave = function (event: MouseEvent, { data: { value, index } }: d3.PieArcDatum<ChartData>) {
       tooltipDiv.style("opacity", 0)
 
       //Need to get this beforehand so that we can select the fill and darken it on mouseleave
@@ -184,13 +179,13 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
         element
           .style('stroke', 'none')
       } else {
-        if (data.data.value > 0) {
+        if (value > 0) {
           element
           .style('stroke', stroke)
           .style("opacity", 0.8)
         } else {
           element
-          .style('stroke', colors[data.data.index])
+          .style('stroke', colors[index])
           .style('stroke-dasharray', '5,5')
           .style("opacity", 0.8)
         }
@@ -254,14 +249,14 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
 
     // Add the arcs
     join.append("path") 
-      .attr("stroke",  d => d.data.value > 0 ? stroke : colors.value[d.index]) // Colored stroke on negative value
-      .attr("stroke-width", d => d.data.value > 0 ? strokeWidth : strokeWidth * 3) // Thick stroke width on negative value
+      .attr("stroke",  ({ data: { value }, index }) => (value > 0 ? stroke : colors.value[index])) // Colored stroke on negative value
+      .attr("stroke-width", ({ data: { value } }) => (value > 0 ? strokeWidth : strokeWidth * 3)) // Thick stroke width on negative value
       .attr("stroke-linejoin", strokeLinejoin)
       .attr("pointer-events", "all")
       .attr("cursor", "pointer")
-      .style('stroke-dasharray', d => d.data.value > 0 ? '0' : '5,5') // Dashed stroke on negative value
+      .style('stroke-dasharray', ({ data: { value } }) => (value > 0 ? '0' : '5,5')) // Dashed stroke on negative value
       .style("opacity", 0.8) // Opacity on negative value
-      .attr("fill", d => d.data.value > 0 ? colors.value[d.index] : 'none' )// Remove fill on negative values
+      .attr("fill", ({ data: { value }, index }) => (value > 0 ? colors.value[index] : 'none' ))// Remove fill on negative values
       .attr("d", d => d.data.value > 0 ? arc(d) : arcNegative(d))
       .on("mouseover", function(event, d) {
         mouseover(event, d)

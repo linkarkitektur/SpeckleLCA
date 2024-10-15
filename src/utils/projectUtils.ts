@@ -126,7 +126,6 @@ export function updateGroupColors(
 ): void {
   const colors = generateColors(tree.length)
   tree.map((group, index) => {
-    const newGroup: NestedGroup = { ...group }
     if (id.includes(group.id)) {
       tree[index].color = color[id.indexOf(group.id)]
     } else {

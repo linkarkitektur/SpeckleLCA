@@ -240,6 +240,14 @@ export const useMaterialStore = defineStore({
      * @param material EPD or Assembly cannot be null
      */
     updateMappingMaterial(nestedGroupId: string, material: Product | Assembly) {
+      if (!this.mapping) {
+        this.mapping = {
+          id: crypto.randomUUID(),
+          name: 'temp',
+          filters: [],
+          steps: []
+        }
+      }
       const index = this.mapping.steps.findIndex((step) => step.nestedGroupId === nestedGroupId)
       if (index !== -1) {
         this.mapping.steps[index].material = material

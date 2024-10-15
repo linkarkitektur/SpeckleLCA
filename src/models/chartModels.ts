@@ -28,3 +28,12 @@ export interface ChartData {
   cumulative?: number
   percent?: number
 }
+
+/**
+ * Combined chart data interface
+ * For use with nested data sets
+ */
+export interface NestedChartData {
+  label: string
+  value: ChartData[]
+}
