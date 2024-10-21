@@ -166,3 +166,39 @@ export function getMappedMaterial(objects: GeometryObject[]) {
         }
   }
 }
+
+/**
+ * Creates a geometry object cube from a product for emission calculations
+ * @param product 
+ * @returns geometryObject consitsting of a material cube
+ */
+export function createGeometryFromProduct(product: Product): GeometryObject {
+  // Create base quantity object
+  const quantity = {
+    m: 1,
+    m2: 1,
+    m3: 1,
+    kg: 1, // TODO: This should be the weight of the product
+    pcs: 1,
+    tonnes: 0,
+    l: 0
+  }
+  
+  if (product.metaData.thickness) {
+    quantity.m3 = parseFloat(product.metaData.thickness) / 1000 // unit is in mm
+  }
+
+  const geo: GeometryObject = {
+    id: product.id,
+    name: 'type',
+    quantity: quantity,
+    material: product,
+    parameters: {
+      // Parameters from assembly creatino add more here if we add more to it
+      thickness: product.metaData.thickness ? product.metaData.thickness: "0",
+      color: product.metaData.color ? product.metaData.color: "#ffffff",
+    },
+  } 
+
+  return geo
+}

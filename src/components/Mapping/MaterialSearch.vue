@@ -7,9 +7,11 @@
       class="w-full border p-2 rounded-md"
     />
   </div>
+  
   <div>
     <section aria-labelledby="filter-heading" class="border-t border-gray-200 py-6">
       <div class="flex items-center justify-between">
+        <!-- Sort Menu -->
         <Menu as="div" class="relative inline-block text-left">
           <div>
             <MenuButton 
@@ -23,7 +25,7 @@
             </MenuButton>
           </div>
 
-          <transition 
+          <Transition 
             enter-active-class="transition ease-out duration-100" 
             enter-from-class="transform opacity-0 scale-95" 
             enter-to-class="transform opacity-100 scale-100" 
@@ -40,9 +42,9 @@
                   :key="sortingParam.displayName" 
                   v-slot="{ active }"
                 >
-                  <div class="group flex justify-between w-full"
-                    :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm font-medium text-gray-900',
-                    sortingParam.filterName === sorting.parameter ? 'underline' : '']"
+                  <div 
+                    class="group flex justify-between w-full px-4 py-2 text-sm font-medium text-gray-900 cursor-pointer"
+                    :class="[active ? 'bg-gray-100' : '', sortingParam.filterName === sorting.parameter ? 'underline' : '']"
                     @click="setSortOption(sortingParam.filterName)"
                   >
                     {{ sortingParam.displayName }}
@@ -72,8 +74,10 @@
                 </MenuItem>
               </div>
             </MenuItems>
-          </transition>
+          </Transition>
         </Menu>
+
+        <!-- Mobile Filters Button -->
         <button 
           type="button" 
           class="inline-block text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden" 
@@ -81,72 +85,22 @@
         >
           Filters
         </button>
-        <PopoverGroup class="hidden sm:flex sm:items-baseline sm:space-x-8">
-          <Popover 
-            as="div" 
-            v-for="(param, paramId) in filterParameters" 
-            :key="param.filterName" 
-            :id="`desktop-menu-${paramId}`" 
-            class="relative inline-block text-left"
-          >
-            <div>
-              <PopoverButton 
-                class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
-              >
-                <span>{{ param.displayName }}</span>
-                <span 
-                  class="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700"
-                >
-                  {{ paramFilters[param.paramName].filter((option) => option.selected).length == 0 ? 
-                  'All' : paramFilters[param.paramName].filter((option) => option.selected).length }}
-                </span>
-                <ChevronDownIcon 
-                  class="-mr-1 m</PopoverButton>l-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" 
-                  aria-hidden="true" 
-                />
-              </PopoverButton>
-            </div>
 
-            <transition 
-              enter-active-class="transition ease-out duration-100" 
-              enter-from-class="transform opacity-0 scale-95" 
-              enter-to-class="transform opacity-100 scale-100" 
-              leave-active-class="transition ease-in duration-75" 
-              leave-from-class="transform opacity-100 scale-100" 
-              leave-to-class="transform opacity-0 scale-95"
-            >
-              <PopoverPanel 
-                class="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
-              >
-                <form class="space-y-4">
-                  <div 
-                    v-for="(option, optionIdx) in paramFilters[param.paramName]" 
-                    :key="option" 
-                    class="flex items-center"
-                  >
-                    <input
-                      :id="`filter-${param.paramName}-${optionIdx}`"
-                      :name="`${param.paramName}[]`"
-                      :value="option.name"
-                      type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-                      :checked="option.selected"
-                      @change="toggleSelection(param.paramName, optionIdx)"
-                    />
-                    <label class="pl-2">
-                      {{ option.name }}
-                    </label>
-                  </div>
-                </form>
-              </PopoverPanel>
-            </transition>
-          </Popover>
+        <!-- Filter Dropdowns -->
+        <PopoverGroup class="hidden sm:flex sm:items-baseline sm:space-x-8">
+          <DropdownMulti
+            v-for="(param) in filterParameters"
+            :key="param.filterName"
+            :filterName="param.filterName"
+            :displayName="param.displayName"
+            :options="paramFilters[param.paramName]"
+            @update:options="updateFilterOptions(param.filterName, $event)"
+          />
         </PopoverGroup>
       </div>
     </section>
   </div>
 </template>
-
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useMaterialStore } from '@/stores/material'
@@ -158,12 +112,14 @@ import {
   MenuButton,
   MenuItem,
   MenuItems,
-  Popover,
-  PopoverButton,
   PopoverGroup,
-  PopoverPanel,
 } from '@headlessui/vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid'
+
+import DropdownMulti from '@/components/Misc/DropdownMulti.vue'
+
+import type { Product } from '@/models/material'
+import type { DropdownOption } from '@/models/pageLogic'
 
 export default defineComponent({
   name: 'MaterialSearch',
@@ -173,10 +129,8 @@ export default defineComponent({
     MenuButton,
     MenuItem,
     MenuItems,
-    Popover,
-    PopoverButton,
     PopoverGroup,
-    PopoverPanel,
+    DropdownMulti,
     ChevronDownIcon,
     ChevronUpIcon,
   },
@@ -189,7 +143,7 @@ export default defineComponent({
     
     // Watch the search query and filter the materials
     watch(searchQuery, async (newVal) => {
-      const isUUID = (str) =>
+      const isUUID = (str: string) =>
         /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str)
 
       // If the input is a UUID, fetch the specific product
@@ -216,16 +170,17 @@ export default defineComponent({
       }
     })
 
-    
     const filterParameters = computed(() => {
+      console.log(paramFilters.value)
+      console.log(sortingParameters.value)
       return sortingParameters.value.filter(param => param.paramName !== null)
     })
     
-    //Set sorting in material store
+    // Set sorting in material store
     const setSortOption = (parameterName: string) => {
       let dir = "asc"
       // If same material is pressed toggle dir
-      if (materialStore.sorting.parameter == parameterName) {
+      if (materialStore.sorting.parameter === parameterName) {
         dir = materialStore.sorting.direction === 'asc' ? 'desc' : 'asc'
       }
       materialStore.setSorting(parameterName, dir)
@@ -238,8 +193,14 @@ export default defineComponent({
       { deep: true }
     )
 
-    const toggleSelection = (sectionId, idx) => {
+    // Toggle selection of filter options
+    const toggleSelection = (sectionId: string, idx: number) => {
       materialStore.paramFilters[sectionId][idx].selected = !materialStore.paramFilters[sectionId][idx].selected
+    }
+
+    // Update filter options when DropdownMulti emits 'update:options'
+    const updateFilterOptions = (filterName: string, updatedOptions: DropdownOption[]) => {
+      materialStore.paramFilters[filterName] = updatedOptions
     }
 
     return {
@@ -252,6 +213,7 @@ export default defineComponent({
       matRef,
       toggleSelection,
       setSortOption,
+      updateFilterOptions,
     }
   },
 })

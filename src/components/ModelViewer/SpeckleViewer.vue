@@ -45,7 +45,7 @@
     <div
     	class="absolute h-1/3 mx-auto top-4 right-4 align-right justify-center z-20"
   	>
-			<component :is="leftModule" v-bind="graphProps" />
+      <GraphContainer />
 		</div>
     <DetailBar />
   </div>
@@ -63,8 +63,7 @@ import {
   onMounted, 
   watch, 
   onBeforeUnmount, 
-  ref,
-  computed 
+  ref 
 } from 'vue'
 import { 
   TransitionChild, 
@@ -74,36 +73,22 @@ import {
 // Store imports
 import { useSpeckleStore } from '@/stores/speckle'
 import { useProjectStore } from '@/stores/main'
-import { useNavigationStore } from '@/stores/navigation'
-import { useResultStore } from '@/stores/result'
 import { storeToRefs } from 'pinia'
 
 // Component imports
-import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
 import DetailBar from '@/components/DetailBar/DetailBar.vue'
 import RenderToggle from '@/components/Misc/RenderToggle.vue'
-import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
-import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
+import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 
 // Type imports
 import type { SunLightConfiguration } from '@/models/speckle'
 
-// Utility imports
-import { 
-  geometryToMaterialChartData,
-  materialResultsToMaterialChartData
-  } from '@/utils/resultUtils'
-import { GeometryObject } from '@/models/geometryObject'
-import { ChartData } from '@/models/chartModels'
-
 // Variables and references
 let viewer: Viewer | null = null
 const projectStore = useProjectStore()
-const resultStore = useResultStore()
-const navigationStore = useNavigationStore()
 
 const { selectedObjects } = storeToRefs(projectStore)
-const navStore = useNavigationStore()
+
 const speckleStore = useSpeckleStore()
 const serverUrl = import.meta.env.VITE_APP_SERVER_URL
 const token = import.meta.env.VITE_SPECKLE_TOKEN
@@ -113,44 +98,6 @@ const fadeOut = ref(false)
 speckleStore.setServerUrl(serverUrl)
 speckleStore.setToken(token)
 
-// Computed property for dynamic component
-const leftModule = computed(() => {
-  switch (navStore.activePage) {
-    case 'Overview':
-    case 'Mapping':
-      return ViewerControls
-    case 'Results':
-      if (navigationStore.sideBarShow)
-        return SelectablePieChart
-      else
-        return DivergingStackedBar
-    case 'Benchmark':
-    default:
-      return null
-  }
-})
-
-const graphProps = ref({})
-// Pass props to the current detail bar component
-const updateGraphProps = () => {
-  if (leftModule.value === SelectablePieChart) {
-    let data: ChartData[]
-    if (!projectStore.selectedObjects.length) data = materialResultsToMaterialChartData(resultStore.materialResults)
-    else data = geometryToMaterialChartData(projectStore.selectedObjects)
-    graphProps.value = {
-      data: data
-    }
-  }
-  else {
-    graphProps.value = {}
-  }
-}
-
-watch(() => projectStore.selectedObjects, () => {
-  updateGraphProps()
-})
-
-updateGraphProps()
 
 // Event handler for Escape key
 const handleEscKey = (e: KeyboardEvent) => {

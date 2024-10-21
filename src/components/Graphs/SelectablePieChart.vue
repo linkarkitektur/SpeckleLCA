@@ -10,6 +10,12 @@ import * as d3 from 'd3'
 import { ref, reactive, onMounted, watch, type PropType } from 'vue'
 
 import { getValueColorFromGradient } from '@/utils/colorUtils'
+import { 
+  aggregateCenter, 
+  spanPercentCenter,
+  parameterCenter
+} from '@/utils/chartUtils'
+
 import { truncateText } from '@/utils/stringUtils'
 import { roundNumber } from '@/utils/math'
 import { useProjectStore } from '@/stores/main'
@@ -121,7 +127,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const padAngle = stroke === "none" ? 1 / outerRadius : 0.02
   const maxTextLength = 12
 
-  const unit = 'kg CO2e'
+  const unit = options.unit || 'kg CO2e'
   const colors = ref(options.colors || 
     groupData.value.map(d => 
       getValueColorFromGradient(d.value, 0, Math.max(...groupData.value.map(d => d.value)))
@@ -129,7 +135,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
 
   const drawChart = (svg: SVGSVGElement, tooltip: HTMLDivElement, container: HTMLDivElement) => {
     if (!svg || !tooltip || !container) return
-    const graph = d3.select(svg)
+    const graph: d3.Selection<SVGElement, any, any, any> = d3.select(svg)
 
     // Create tooltip div
     const tooltipDiv = d3.select(tooltip)
@@ -233,7 +239,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
     const arcs = d3.pie()
       .padAngle(padAngle)
       .sort(null)
-      .value(d => Math.abs(d.value))(groupData.value.map(d => ({ ...d })))
+      .value(d => Math.abs(d.graphValue))(groupData.value.map(d => ({ ...d })))
     const arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius)
     // Negative values are drawn with a thicker stroke and a dashed line so we have to offset it slightly to compensate
     const arcNegative = d3.arc().innerRadius(innerRadius + (strokeWidth*3/2)).outerRadius(outerRadius - (strokeWidth*3/2))
@@ -300,25 +306,46 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
         })
       })
 
-      let textElement = graph.append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em")
-        .attr("x", w / 2)
-        .attr("y", h / 2)
-        
-        .style("font-weight", "bold")
-
-      textElement.append("tspan")
-        .text(roundNumber(total.value, 1))
-        .classed("text-md", true)
-        .attr("x", w / 2)
-        .attr("dy", "-0.2em")
-
-      textElement.append("tspan")
-        .text(unit)
-        .classed("text-xs", true)
-        .attr("x", w / 2)
-        .attr("dy", "1.2em")
+      let centerElement
+      switch (true) {
+        case options.aggregate !== undefined:
+          centerElement = aggregateCenter(
+            graph, 
+            total.value, 
+            w, 
+            h, 
+            unit
+          )
+          break
+        case options.spanPercent !== undefined:
+          centerElement = spanPercentCenter(
+            graph, 
+            options.spanPercent, 
+            groupData.value.map(data => data.value / data.ids.length), 
+            groupData.value.map( data => data.graphValue), 
+            w, 
+            h
+          )
+          break
+        case options.parameterValue !== undefined:
+          centerElement = parameterCenter(
+            graph, 
+            options.parameterValue, 
+            total.value, 
+            w, 
+            h
+          )
+          break
+        default:
+          centerElement = aggregateCenter(
+            graph, 
+            total.value, 
+            w, 
+            h, 
+            unit
+          )
+          break
+      }
   }
   return { drawChart }
 }
@@ -328,6 +355,8 @@ function groupDataFunc(data: ChartData[], total: { value: number }) {
   let cumulative = 0
   let percent = 0
   const _data: ChartData[] = data.map(d => {
+    // Check if we have another value we want to use for graphs size
+    let graphValue = d.graphValue ?? d.value
     cumulative += Math.abs(d.value)
     if (total.value > 0) {
       percent = (d.value / total.value) * 100
@@ -337,7 +366,8 @@ function groupDataFunc(data: ChartData[], total: { value: number }) {
       cumulative: cumulative - Math.abs(d.value),
       label: d.label,
       ids: d.ids,
-      percent: percent
+      percent: percent,
+      graphValue: graphValue
     }
   }).filter(d => d.value != 0)
   return _data

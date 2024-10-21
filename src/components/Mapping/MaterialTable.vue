@@ -24,6 +24,8 @@
       class="bg-gray-100 divide-y divide-gray-300 max-w-full block table-fixed hover:cursor-move"
       tag="tbody"
       item-key="id"
+      :group ="{ name: 'materials', pull: 'clone', put: false }"
+      :clone="cloneItem"
     >
       <template #item="{element, index}">
         <tr 
@@ -79,7 +81,7 @@ export default defineComponent({
       if (!EPDList.value) return [];
 
       return EPDList.value.map((product: Product) => {
-        const value = parseFloat(product.emission?.gwp?.a1a3 ?? '0');
+        const value = product.emission?.gwp?.a1a3.amount ?? 0;
         const roundedValue = !isNaN(value) ? parseFloat(value.toFixed(2)) : 0;
         
         return {
@@ -93,11 +95,16 @@ export default defineComponent({
       materialStore.setCurrentMapping(material)
     }
 
+    const cloneItem = (item: Product) => {
+      return { ...item }
+    }
+
     return {
       EPDList,
       dragOptions,
       roundedEmissions,
       dragStart,
+      cloneItem
     }
   },
 })

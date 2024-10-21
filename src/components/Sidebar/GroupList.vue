@@ -14,6 +14,7 @@
 				<p>{{ currSlideName }}</p>
 				<PencilSquareIcon class="ml-2 h-5 w-5" />
 			</button>
+			<button @click="toggleAssemblyModal">TestAssembly</button>
 		</div>
 		<Draggable
 			v-if="refTree"
@@ -233,6 +234,10 @@ export default defineComponent({
 			navStore.toggleColorMode()
 		}
 
+		const toggleAssemblyModal = () => {
+			navStore.toggleAssemblyModal()
+		}
+
 		/**
 		 * Set the standard filters for the project, this is mostly for testing
 		 * should be a popup or something better later on
@@ -285,7 +290,8 @@ export default defineComponent({
 			handleSelected,
 			toggleSlideover,
 			addGroup,
-			toggleColorMode
+			toggleColorMode,
+			toggleAssemblyModal
 		}
 	}
 })

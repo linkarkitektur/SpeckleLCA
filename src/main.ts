@@ -13,6 +13,8 @@ import * as Sentry from '@sentry/vue'
 import './index.css'
 import type { Vue } from '@sentry/vue/types/types'
 
+import { clickOutsideDirective } from '@/directives/clickDirectives'
+
 // Create the Vue 3 application.
 const app = createApp(App)
 
@@ -57,6 +59,9 @@ export function configureGlobalErrorHandling(app: Vue) {
 // Setup our Pinia store, and initialize the router.
 app.use(createPinia())
 app.use(router)
+
+// Create directives
+app.directive('click-outside' ,clickOutsideDirective)
 
 // Mount the app.
 app.mount('#app')

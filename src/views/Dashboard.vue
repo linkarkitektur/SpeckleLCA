@@ -3,6 +3,7 @@
 	<NewGroupModal />
   <MaterialMappingModal />
 	<SaveFilterModal />
+	<AssemblyModal />
   <!-- End of modal area -->
 	<div class="flex">
 		<NavbarComponent />
@@ -39,6 +40,7 @@ import { getRevaluBaseList } from '@/models/revaluDataSource'
 import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
 import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
 import SaveFilterModal from '@/components/Modals/SaveFilterModal.vue'
+import AssemblyModal from '@/components/Modals/AssemblyModal.vue'
 
 
 /**
@@ -55,6 +57,7 @@ export default {
 		NewGroupModal,
 		MaterialMappingModal,
 		SaveFilterModal, 
+		AssemblyModal,
 	},
 	setup() {
 		//Load materials from the store on startup

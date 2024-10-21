@@ -106,7 +106,7 @@ export function materialResultsToMaterialChartData(materialResult: MaterialResul
  */
 export class EmissionAggregator {
   private geos: GeometryObject[] = []
-  private totalEmission: Emission = {}
+  public totalEmission: Emission = {}
   private emissionsPerMaterial: MaterialResults = {}
 
   /**
@@ -124,7 +124,7 @@ export class EmissionAggregator {
   }
 
   // Main function to aggregate emissions
-  public aggregate(): void {
+  public aggregate(save: Boolean = true): void {
     this.geos.forEach(geo => {
       if (geo.results) {
         this.aggregateTotalEmissions(geo.results[geo.results.length - 1].emission)
@@ -139,7 +139,8 @@ export class EmissionAggregator {
       }
     })
 
-    this.saveResults()
+    if (save)
+      this.saveResults()
   }
 
   // Get the total emission

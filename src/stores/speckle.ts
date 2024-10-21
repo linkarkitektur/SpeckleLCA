@@ -501,8 +501,8 @@ export const useSpeckleStore = defineStore({
 			} else {
 				if (!this.renderMode)
 					this.viewer?.setUserObjectColors(this.colorGroups)
-				if (!this.showHiddenObjects)
-					this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
+				//if (!this.showHiddenObjects)
+					//this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
 			}
 		},
 

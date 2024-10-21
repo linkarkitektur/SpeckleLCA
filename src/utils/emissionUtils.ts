@@ -13,8 +13,8 @@ export class EmissionCalculator {
 
   constructor(geo: GeometryObject[] = []) {
     const projectStore = useProjectStore()
+    this.geo = geo
     if (projectStore.currProject) {
-      this.geo = geo
       // If no geometry is provided, calculate for all geometry objects in the project.
       if (geo.length === 0) {
         this.geo = projectStore.currProject.geometry
