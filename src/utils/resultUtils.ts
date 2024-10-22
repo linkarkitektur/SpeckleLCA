@@ -5,7 +5,7 @@ import type { ChartData } from '@/models/chartModels'
 import type { GeometryObject } from '@/models/geometryObject'
 import type { Product, Assembly, Emission } from '@/models/material'
 import type { MaterialResults } from '@/models/result'
-import { Results } from '@/models/project'
+import type { Results } from '@/models/project'
 
 /**
  * Converter of geometry object results into aggregated ChartData for specific LifeCycleStages (LCS)
