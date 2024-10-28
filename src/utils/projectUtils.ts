@@ -2,7 +2,12 @@ import type { NestedGroup, Filter, Group } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
 
 import { useProjectStore } from '@/stores/main'
-import { baseColors, getValueColorFromGradient, generateColors } from '@/utils/colorUtils'
+import { 
+  baseColors, 
+  getValueColorFromGradient, 
+  generateColors,
+  ColorManager 
+} from '@/utils/colorUtils'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -124,7 +129,8 @@ export function updateGroupColors(
   id: string[] = [],
   color: string[] = []
 ): void {
-  const colors = generateColors(tree.length)
+  const colorMngr = new ColorManager()
+  const colors = colorMngr.getMostDistinctColors(tree.length > 0 ? tree.length : 1)
   tree.map((group, index) => {
     if (id.includes(group.id)) {
       tree[index].color = color[id.indexOf(group.id)]

@@ -4,8 +4,8 @@
     id="groupCard"
     class="focus:outline-none"
     :class="{
-      'rounded-2xl bg-gray-200 p-4 ring-1 ring-gray-400' : selectedBool, 
-      'rounded-2xl bg-gray-200 p-4' : selectedBool == false,
+      'rounded-lg bg-gray-200 p-4 ring-1 ring-gray-400' : selectedBool, 
+      'rounded-lg bg-gray-200 p-4' : selectedBool == false,
     }"
     :style="activePage == 'Overview' && !renderMode ? { 'background-color': inGroups.color } : {}"
     @click="selectSubGroup(inGroups, $event)"
@@ -29,7 +29,8 @@
         <label 
           v-else 
           id="groupName"
-          class="ml-2 text-gray-700 font-semibold font-sans tracking-wide hover:underline"
+          class="ml-2 font-semibold font-sans tracking-wide hover:underline"
+          :class="fontColor"
           @click="selectSubGroup(inGroups, $event)"
         >
           {{ inGroups.name }}
@@ -92,6 +93,8 @@ import { useNavigationStore } from '@/stores/navigation'
 import { useSpeckleStore } from '@/stores/speckle'
 import { storeToRefs } from 'pinia'
 
+import { getFontColorForHSL } from '@/utils/colorUtils'
+
 export default defineComponent({
   name: 'GroupCard',
   components: {
@@ -136,6 +139,18 @@ export default defineComponent({
       }
     })
 
+    // Font color checker depending on the background color
+    const fontColor = computed(() => {
+      
+      if (inGroups.value && inGroups.value.color) {
+        if (navStore.activePage === "Overview" && !renderMode.value)
+          return getFontColorForHSL(inGroups.value.color)
+        else
+          return 'text-gray-700'
+      }
+      return 'text-gray-700'
+    })
+
     // Name to show in table for each group and subgroup
     const currGroupValue = computed(() => {
       if (navStore.activePage === "Overview")
@@ -172,9 +187,9 @@ export default defineComponent({
       else if (navStore.activePage === "Results")
         return ResultIconAction
       else if (navStore.activePage === "Benchmark")
-        return null;
+        return null
       else
-        return null;
+        return null
     })
 
     const selectSubGroup = (subGroup: NestedGroup, event: MouseEvent): void => {
@@ -212,7 +227,8 @@ export default defineComponent({
       currIconAction,
       selectedBool,
       activePage,
-      renderMode
+      renderMode,
+      fontColor
     }
   },
 })

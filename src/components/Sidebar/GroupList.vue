@@ -8,13 +8,20 @@
 			/>
 			<button
 				aria-label="Expand"
-				class="absolute flex top-0 right-0 p-1 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
+				class="absolute flex top-0 right-0 p-1 text-sm focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
 				@click="toggleSlideover"
 			>
 				<p>{{ currSlideName }}</p>
 				<PencilSquareIcon class="ml-2 h-5 w-5" />
 			</button>
-			<button @click="toggleAssemblyModal">TestAssembly</button>
+			<button
+				v-if="activePage === 'Mapping'"
+				aria-label="Expand"
+				class="flex absolute top-0 left-[40%] p-1 text-sm focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
+				@click="toggleAssemblyModal">
+					<p>Edit Assemblies</p>
+					<CakeIcon class="ml-2 h-5 w-5" />
+			</button>
 		</div>
 		<Draggable
 			v-if="refTree"
@@ -42,10 +49,10 @@
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { storeToRefs } from 'pinia'
-import { PencilSquareIcon, PlusCircleIcon } from '@heroicons/vue/24/solid'
+import { PencilSquareIcon, PlusCircleIcon, CakeIcon } from '@heroicons/vue/24/solid'
 
 import GroupCard from '@/components/Sidebar/GroupCard.vue'
-import Dropdown from '@/components/Dropdown.vue'
+import Dropdown from '@/components/Misc/Dropdown.vue'
 
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
@@ -58,7 +65,7 @@ import { updateMapping } from '@/utils/material'
 
 import { FilterRegistry } from '@/models/filters'
 import type { NestedGroup, FilterList } from '@/models/filters'
-import type { dropdownItem } from '../Dropdown.vue'
+import type { dropdownItem } from '../Misc/Dropdown.vue'
 import type { Mapping } from '@/models/material'
 import type {
   FilterLog,
@@ -198,6 +205,7 @@ export default defineComponent({
 	components: {
 		PencilSquareIcon,
 		PlusCircleIcon,
+		CakeIcon,
 		Draggable,
 		GroupCard,
 		Dropdown
@@ -220,6 +228,7 @@ export default defineComponent({
 		const { handleSelected } = useHandleSelected(navStore, projectStore)
 
 		const { filterRegistry, projectGroups } = storeToRefs(projectStore)
+		const { activePage } = storeToRefs(navStore)
 		const refTree = ref<NestedGroup[]>([])
 
 		const toggleSlideover = () => {
@@ -237,6 +246,7 @@ export default defineComponent({
 		const toggleAssemblyModal = () => {
 			navStore.toggleAssemblyModal()
 		}
+
 
 		/**
 		 * Set the standard filters for the project, this is mostly for testing
@@ -287,6 +297,7 @@ export default defineComponent({
 			currSlideName,
 			dropdownItems,
 			dropdownName,
+			activePage,
 			handleSelected,
 			toggleSlideover,
 			addGroup,

@@ -28,7 +28,7 @@
 					return 0
 				} else {
 					const area = projectStore.selectedObjects.reduce(
-						(sum, obj) => sum + obj.quantity.M2,
+						(sum, obj) => sum + obj.quantity.m2,
 						0
 					)
 					return parseFloat(area.toFixed(2))
