@@ -97,16 +97,17 @@ export class EmissionCalculator {
     
 
     for (const phase in matEmission) {
-      const value = matEmission[phase].amount
+      let value = matEmission[phase]
+      if (value === undefined) value = matEmission[phase]
       if (value !== null && !isNaN(Number(value))) {
         const emissionValue = parseFloat(value as string) * geo.quantity[mat.unit]
 
         if (!emissions[impactCategory][phase]) {
-          emissions[impactCategory][phase] = { amount: 0 }
+          emissions[impactCategory][phase] = 0
         }
 
-        const currentAmount = emissions[impactCategory][phase].amount || 0
-        emissions[impactCategory][phase].amount = currentAmount + emissionValue
+        const currentAmount = emissions[impactCategory][phase] || 0
+        emissions[impactCategory][phase] = currentAmount + emissionValue
       }
     }
 

@@ -86,7 +86,7 @@ export default defineComponent({
       if (!EPDList.value) return [];
 
       return EPDList.value.map((product: Product) => {
-        const value = product.emission?.gwp?.a1a3.amount ?? 0
+        const value = product.emission?.gwp?.a1a3 ?? 0
         const roundedValue = parseFloat((Number(value) || 0).toFixed(2))
         
         return {

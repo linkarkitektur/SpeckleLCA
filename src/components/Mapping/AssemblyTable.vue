@@ -94,7 +94,7 @@ export default defineComponent({
             value: 0,
             isPositive: false,
           }
-        const value = assembly.emission?.gwp?.a1a3.amount ?? 0
+        const value = assembly.emission?.gwp?.a1a3 ?? 0
         const roundedValue = parseFloat((Number(value) || 0).toFixed(2))
         
         return {

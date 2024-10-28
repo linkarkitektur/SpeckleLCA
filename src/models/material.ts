@@ -21,9 +21,7 @@ export type Emission = Partial<{
 }>
 
 export type LifeCycleStageEmission = {
-	[lifecycleStage in LifeCycleStage]: {
-		amount: number
-	}
+	[lifecycleStage in LifeCycleStage]: number
 }
 
 /**

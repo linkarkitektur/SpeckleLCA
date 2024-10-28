@@ -277,7 +277,7 @@ export default defineComponent({
         displayName: 'Unit',
       },
       {
-        filterName: 'emission.gwp.a1a3.amount',
+        filterName: 'emission.gwp.a1a3',
         displayName: 'Emission',
       },
     ]
