@@ -58,7 +58,7 @@ import { defineComponent, computed } from 'vue'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
-interface Option {
+export interface Option {
   label: string
   value: string
   selected: boolean

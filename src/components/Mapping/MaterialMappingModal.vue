@@ -91,7 +91,7 @@ import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import MappingCard from '@/components/Mapping/MaterialMappingCard.vue'
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
-import MaterialSearch from '@/components/Mapping/MaterialSearch.vue'
+import MaterialSearch from '@/components/Misc/SearchBar.vue'
 
 import type { NestedGroup } from '@/models/filters'
 

@@ -81,7 +81,7 @@
 		TransitionChild,
 		TransitionRoot
 	} from '@headlessui/vue'
-	import Dropdown, { type dropdownItem } from '@/components/Dropdown.vue'
+	import Dropdown, { type dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 	import router from '@/router'
 	import { useProjectStore } from '@/stores/main'

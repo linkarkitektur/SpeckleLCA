@@ -131,7 +131,7 @@
 <script lang="ts">
 	import { defineComponent, ref } from 'vue'
 	import Draggable from 'vuedraggable'
-	import Dropdown, { type dropdownItem } from '@/components/Dropdown.vue'
+	import Dropdown, { type dropdownItem } from '@/components/Misc/Dropdown.vue'
 	import { DialogTitle } from '@headlessui/vue'
 	import { XMarkIcon } from '@heroicons/vue/24/outline'
 	import {
