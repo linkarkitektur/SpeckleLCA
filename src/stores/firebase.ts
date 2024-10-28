@@ -7,6 +7,7 @@ import type {
 import { 
   collection, 
   addDoc,
+  setDoc,
   query, 
   where, 
   orderBy, 
@@ -15,7 +16,8 @@ import {
   writeBatch
 } from 'firebase/firestore'
 import type { 
-  Mapping 
+  Mapping,
+  Assembly
 } from '@/models/material'
 import type { 
   Results 
@@ -23,7 +25,8 @@ import type {
 import type {
   FilterLog,
   MappingLog,
-  ResultsLog
+  ResultsLog,
+  AssemblyList
 } from '@/models/firebase'
 
 import { 
@@ -322,6 +325,67 @@ export const useFirebaseStore = defineStore('firebase', {
       } finally {
         this.loading = false
       }
-    }
+    },
+
+    /**
+     * Fetches the whole assembly list for a project
+     * @param projectId 
+     * @returns 
+     */
+    async fetchAssemblyList(projectId: string): Promise<AssemblyList | null> {
+      this.loading = true
+      this.error = null
+      try {
+        const q = query(
+          collection(db, 'projectAssemblies'),
+          where('projectId', '==', projectId)
+        )
+        const querySnapshot = await getDocs(q)
+        if (!querySnapshot.empty) {
+          const assemblyList = querySnapshot.docs[0].data() as AssemblyList
+          return assemblyList
+        } else {
+          return null
+        }
+      } catch (error: any) {
+        this.error = error.message
+        return null
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Updates the assembly list for a project
+     * Overwrites the current list
+     * @param projectId 
+     * @param assemblies 
+     */
+    async addAssemblyList(projectId: string, assemblies: Assembly[]) {
+      this.loading = true
+      this.error = null
+
+      try {
+        const querySnapshot = await getDocs(
+          query(collection(db, 'projectAssemblies'), where('projectId', '==', projectId))
+        )
+
+        const assemblyList: AssemblyList = {
+          projectId: projectId,
+          assemblies: assemblies,
+        }
+
+        if (!querySnapshot.empty) {
+          const docRef = querySnapshot.docs[0].ref
+          await setDoc(docRef, assemblyList)
+        } else {
+          await addDoc(collection(db, 'projectAssemblies'), assemblyList);
+        }
+      } catch (error: any) {
+        this.error = error.message
+      } finally {
+        this.loading = false
+      }
+    },
   },
 })
