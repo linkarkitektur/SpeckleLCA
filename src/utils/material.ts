@@ -5,8 +5,10 @@ import type { GeometryObject } from "@/models/geometryObject"
 import { useProjectStore } from "@/stores/main"
 import { useMaterialStore } from "@/stores/material"
 import { useSpeckleStore } from "@/stores/speckle"
+import { useFirebaseStore } from "@/stores/firebase"
 
 import { setMappingColorGroup, updateProjectGroups } from "@/utils/projectUtils"
+import { AssemblyList } from "@/models/firebase"
 
 
 /**
@@ -124,7 +126,7 @@ export function applyParamFilters(materials: Product[], filters: MaterialFilterP
  * @param path The path string (e.g., 'metaData.materialType')
  * @returns The value at the specified path or undefined
  */
-function getNestedPropertyValue(obj: any, path: string): any {
+export function getNestedPropertyValue(obj: any, path: string): any {
   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
 
@@ -201,4 +203,22 @@ export function createGeometryFromProduct(product: Product): GeometryObject {
   } 
 
   return geo
+}
+
+/**
+ * Get the assembly list from firebase and update the material store
+ */
+export async function getAssemblyList() {
+  const materialStore = useMaterialStore()
+  const projectStore = useProjectStore()
+  const firebaseStore = useFirebaseStore()
+
+  try {
+    const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(projectStore.currProject.id)
+    if (assemblyList) {
+      materialStore.assemblies = assemblyList.assemblies
+    }
+  } catch (error) {
+    console.error('Error fetching assembly list:', error)
+  }
 }

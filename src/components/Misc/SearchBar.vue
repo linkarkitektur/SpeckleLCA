@@ -77,24 +77,15 @@
           </Transition>
         </Menu>
 
-        <!-- Mobile Filters Button -->
-        <button 
-          type="button" 
-          class="inline-block text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden" 
-          @click="open = true"
-        >
-          Filters
-        </button>
-
         <!-- Filter Dropdowns -->
         <PopoverGroup class="hidden sm:flex sm:items-baseline sm:space-x-8">
           <DropdownMulti
             v-for="(param) in filterParameters"
-            :key="param.filterName"
-            :filterName="param.filterName"
+            :key="param.paramName"
+            :filterName="param.paramName"
             :displayName="param.displayName"
-            :options="paramFilters[param.paramName]"
-            @update:options="updateFilterOptions(param.filterName, $event)"
+            :options="getOptionsForParameter(param.paramName)"
+            @update:options="(options) => updateFilterOptions(param.paramName, options)"
           />
         </PopoverGroup>
       </div>
@@ -105,8 +96,8 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useMaterialStore } from '@/stores/material'
 import { getSpecificEPD } from '@/utils/EPDUtils'
+import { getNestedPropertyValue } from '@/utils/material'
 
-import { storeToRefs } from 'pinia'
 import {
   Menu,
   MenuButton,
@@ -118,11 +109,12 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid'
 
 import DropdownMulti from '@/components/Misc/DropdownMulti.vue'
 
-import type { Product } from '@/models/material'
+import type { Assembly, Product } from '@/models/material'
 import type { DropdownOption } from '@/models/pageLogic'
+import type { Option } from '@/components/Misc/DropdownMulti.vue'
 
 export default defineComponent({
-  name: 'MaterialSearch',
+  name: 'SearchBar',
   components: {
     // eslint-disable-next-line vue/no-reserved-component-names
     Menu,
@@ -134,15 +126,94 @@ export default defineComponent({
     ChevronDownIcon,
     ChevronUpIcon,
   },
-  setup() {
-    const materialStore = useMaterialStore()
-    const { sortingParameters, sorting, paramFilters } = storeToRefs(materialStore)
-    const matRef = storeToRefs(materialStore)
+  props: {
+    data: {
+      //This is set as Product Assembly since its used for that now, can be anything
+      type: Array as () => Product[] | Assembly[],
+      required: true,
+    },
+    filterParam: {
+      type: Array as () => Array<{ paramName: string; displayName: string }>,
+      required: true,
+    },
+    sortingParam: {
+      type: Array as () => Array<{ filterName: string; displayName: string }>,
+      required: true,
+    },
+  },
+  emits: ['update:data'],
+  setup(props, {emit}) {
     const searchQuery = ref('')
-    const open = ref(false)
+    const selectedFilters = ref<Record<string, any[]>>({})
+    const sorting = ref<{ parameter: string; direction: 'asc' | 'desc' }>({
+      parameter: '',
+      direction: 'asc',
+    })
+
+    props.filterParam.forEach((param) => {
+      selectedFilters.value[param.paramName] = []
+    })
+
+    const getOptionsForParameter = (paramName: string): Option[] => {
+      const optionsSet = new Set()
+      props.data.forEach((item) => {
+        const value = getNestedPropertyValue(item, paramName)
+        if (value !== undefined) {
+          optionsSet.add(value)
+        }
+      })
+      return Array.from(optionsSet).map((option) => ({
+        label: option as string,
+        value: option as string,
+        selected: selectedFilters.value[paramName]?.includes(option),
+      }))
+    }
     
+    const filteredData = computed(() => {
+      return props.data.filter((item) => {
+        // Filter by search query
+        const matchesSearch = item.name
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase())
+
+        // Filter by selected filters
+        const matchesFilters = Object.entries(selectedFilters.value).every(
+          ([key, selectedOptions]) => {
+            if (selectedOptions.length === 0) return true
+
+            const value = getNestedPropertyValue(item, key)
+            return selectedOptions.includes(value)
+          }
+        )
+
+        return matchesSearch && matchesFilters
+      })
+    })
+
+    const sortedData = computed(() => {
+      const dataToSort = [...filteredData.value]
+      if (sorting.value.parameter) {
+        dataToSort.sort((a, b) => {
+          const dir = sorting.value.direction === 'asc' ? 1 : -1
+          if (a[sorting.value.parameter] < b[sorting.value.parameter]) return -1 * dir
+          if (a[sorting.value.parameter] > b[sorting.value.parameter]) return 1 * dir
+          return 0
+        })
+      }
+      return dataToSort
+    })
+
+    watch(
+      () => sortedData.value,
+      (newData) => {
+        emit('update:data', newData)
+      },
+      { immediate: true }
+    )
+
     // Watch the search query and filter the materials
     watch(searchQuery, async (newVal) => {
+      const materialStore = useMaterialStore()
       const isUUID = (str: string) =>
         /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str)
 
@@ -157,61 +228,31 @@ export default defineComponent({
         }
         return
       }
-
-      // Handle the search query filtering logic
-      const materials = materialStore.materials || []
-      if (materials.length > 0 || newVal.length > 0) {
-        const filteredMaterials = materials.filter((material) =>
-          material.name.toLowerCase().includes(newVal.toLowerCase())
-        )
-        materialStore.setFilteredMaterials(filteredMaterials)
-      } else {
-        materialStore.EPDList = materials
-      }
-    })
-
-    const filterParameters = computed(() => {
-      console.log(paramFilters.value)
-      console.log(sortingParameters.value)
-      return sortingParameters.value.filter(param => param.paramName !== null)
     })
     
     // Set sorting in material store
     const setSortOption = (parameterName: string) => {
-      let dir = "asc"
-      // If same material is pressed toggle dir
-      if (materialStore.sorting.parameter === parameterName) {
-        dir = materialStore.sorting.direction === 'asc' ? 'desc' : 'asc'
+      if (sorting.value.parameter === parameterName) {
+        sorting.value.direction = sorting.value.direction === 'asc' ? 'desc' : 'asc'
+      } else {
+        sorting.value.parameter = parameterName
+        sorting.value.direction = 'asc'
       }
-      materialStore.setSorting(parameterName, dir)
-    }
-
-    watch(() => materialStore.paramFilters,
-      () => {
-        materialStore.triggerParamSort()
-      },
-      { deep: true }
-    )
-
-    // Toggle selection of filter options
-    const toggleSelection = (sectionId: string, idx: number) => {
-      materialStore.paramFilters[sectionId][idx].selected = !materialStore.paramFilters[sectionId][idx].selected
     }
 
     // Update filter options when DropdownMulti emits 'update:options'
-    const updateFilterOptions = (filterName: string, updatedOptions: DropdownOption[]) => {
-      materialStore.paramFilters[filterName] = updatedOptions
+    const updateFilterOptions = (filterName: string, options: DropdownOption[]) => {
+      selectedFilters.value[filterName] = options
+        .filter((option) => option.selected)
+        .map((option) => option.value)
     }
 
     return {
       searchQuery,
-      open,
-      sortingParameters,
-      filterParameters,
+      sortingParameters: props.sortingParam,
+      filterParameters: props.filterParam,
       sorting,
-      paramFilters,
-      matRef,
-      toggleSelection,
+      getOptionsForParameter,
       setSortOption,
       updateFilterOptions,
     }

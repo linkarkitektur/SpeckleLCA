@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
-import type { Product, Emission, LifeCycleStageEmission} from '@/models/material'
+import type { Product, Emission, LifeCycleStageEmission, Assembly} from '@/models/material'
 import { useProjectStore } from '@/stores/main'
 import { EPDSource } from '@/models/settings'
 import type { RevaluData } from '@/models/revaluDataSource'
@@ -311,4 +311,8 @@ export async function getSpecificEPD(epd: any): Promise<Product | null> {
     console.error(`Error fetching EPD ${epd.uuid}:`, error)
     return null
   }
+}
+
+export function isAssembly(val: any): val is Assembly {
+  return val && typeof val === 'object' && 'products' in val && 'id' in val;
 }

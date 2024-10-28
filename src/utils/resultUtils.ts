@@ -3,7 +3,7 @@ import { useProjectStore } from '@/stores/main'
 
 import type { ChartData } from '@/models/chartModels'
 import type { GeometryObject } from '@/models/geometryObject'
-import type { Product, Assembly, Emission } from '@/models/material'
+import type { Product, Assembly, Emission, LifeCycleStageEmission } from '@/models/material'
 import type { MaterialResults } from '@/models/result'
 import type { Results } from '@/models/project'
 
@@ -147,12 +147,15 @@ export class EmissionAggregator {
   private aggregateTotalEmissions(emission: Emission): void {
     for (const impactCategory in emission) {
       if (!this.totalEmission[impactCategory]) {
-        this.totalEmission[impactCategory] = {} 
+        this.totalEmission[impactCategory] = {} as LifeCycleStageEmission
       }
       for (const phase in emission[impactCategory]) {
-        this.totalEmission[impactCategory][phase] =
-          (this.totalEmission[impactCategory][phase] || 0) +
-          emission[impactCategory][phase] 
+        if (!this.totalEmission[impactCategory][phase]) {
+          this.totalEmission[impactCategory][phase] = { amount: 0 }
+        }
+        const emissionAmount = emission[impactCategory][phase].amount || 0
+        const currentTotal = this.totalEmission[impactCategory][phase].amount || 0
+        this.totalEmission[impactCategory][phase].amount = currentTotal + emissionAmount
       }
     }
   }

@@ -34,6 +34,7 @@ import {
 } from '@/utils/projectUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
 import { EmissionAggregator } from '@/utils/resultUtils'
+import { getAssemblyList } from '@/utils/material'
 import { getRevaluBaseList } from '@/models/revaluDataSource'
 
 // Modals
@@ -67,6 +68,7 @@ export default {
 		const materialStore = useMaterialStore()
 		
 		materialStore.materialsFromJson()
+		getAssemblyList()
 		//getRevaluBaseList()
 		
 		// Watch for changes in the active page and update viewer colors

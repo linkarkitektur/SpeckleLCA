@@ -1,5 +1,5 @@
 <template>
-  <div div ref="assemblyViewerRef" class="assembly-viewer flex flex-col w-full h-full justify-center items-center">
+  <div ref="assemblyViewerRef" class="assembly-viewer flex flex-col w-full h-full justify-center items-center">
     <!-- Top Drop Zone -->
     <Draggable
       :list="[]"
@@ -20,22 +20,22 @@
       </template>
     </Draggable>
 
-    <!-- Draggable material bars -->
+    <!-- Draggable Material Bars -->
     <Draggable
-			v-if="materials"
-			:list="materials"
-			:group="materials"
-			item-key="metaData.appId"
-			ghost-class="ghost"
-			:animation="200"
+      v-if="localMaterials"
+      v-model="localMaterials"
+      group="materials"
+      item-key="metaData.appId"
+      ghost-class="ghost"
+      :animation="200"
       tag="div"
       class="flex flex-col justify-center w-full"
-		>
-      <template #item="{element, index}">
+    >
+      <template #item="{ element, index }">
         <MaterialBar
           :key="element.metaData.appId"
-          class="hover:cursor-move" 
-          :product="element" 
+          class="hover:cursor-move"
+          :product="element"
           @update:thickness="updateMaterialThickness"
           @update:color="updateMaterialColor"
           @delete="deleteMaterial(index)"
@@ -54,60 +54,64 @@
     >
       <template #header>
         <PlusCircleIcon
-        class="-mr-1 h-5 w-5 text-gray-400 "
-        aria-hidden="true"
-      />
+          class="-mr-1 h-5 w-5 text-gray-400"
+          aria-hidden="true"
+        />
       </template>
       <template #item>
         <!-- Empty template since the drop zone does not display items -->
       </template>
     </Draggable>
-    <button @click="saveAssembly" class="save-button">
-      Save Assembly
-    </button>
   </div>
 </template>
 
 <script lang="ts">
+import { defineComponent, ref, watch } from 'vue'
 import Draggable from 'vuedraggable'
-import { defineComponent, ref } from 'vue'
 import { PlusCircleIcon } from '@heroicons/vue/20/solid'
 
 import MaterialBar from '@/components/Mapping/MaterialBar.vue'
 
-import type { Product, Assembly } from '@/models/material'
-import type { GeometryObject } from '@/models/geometryObject'
-
-import { EmissionAggregator } from '@/utils/resultUtils'
-import { EmissionCalculator } from '@/utils/emissionUtils'
-import { createGeometryFromProduct } from '@/utils/material'
+import type { Product } from '@/models/material'
 
 export default defineComponent({
-  components: { 
+  components: {
     Draggable,
     MaterialBar,
-    PlusCircleIcon
-   },
-  setup() {
-    const materials = ref<Product[]>([])
+    PlusCircleIcon,
+  },
+  props: {
+    materials: {
+      type: Array as () => Product[],
+      required: true,
+    },
+  },
+  emits: ['update:materials'],
+  setup(props, { emit }) {
     const assemblyViewerRef = ref<HTMLElement | null>(null)
     const nextId = ref(100)
+
+    // Create a local copy of materials to work with
+    const localMaterials = ref<Product[]>([...props.materials])
 
     const normalizeHeight = () => {
       if (assemblyViewerRef.value) {
         const containerHeight = assemblyViewerRef.value.clientHeight
         const halfContainerHeight = containerHeight / 2
 
-        const totalHeight = materials.value.reduce((sum, material) => sum + parseInt(material.metaData.thickness), 0)
+        const totalHeight = localMaterials.value.reduce(
+          (sum, material) => sum + parseInt(material.metaData.thickness),
+          0
+        )
 
         if (totalHeight > halfContainerHeight) {
           const scale = halfContainerHeight / totalHeight
 
-          materials.value.forEach((material) => {
+          localMaterials.value.forEach((material) => {
             material.metaData.height = Math.round(parseInt(material.metaData.thickness) * scale).toString()
           })
         } else {
-          materials.value.forEach((material) => {
+          localMaterials.value.forEach((material) => {
             material.metaData.height = material.metaData.thickness
           })
         }
@@ -115,103 +119,74 @@ export default defineComponent({
     }
 
     const onDropAtStart = (event: any) => {
-      const newItem = { ...event.added.element }
+      const newItem = JSON.parse(JSON.stringify(event.added.element))
 
       newItem.metaData.appId = nextId.value++
-      newItem.metaData.thickness = 50
+      newItem.metaData.thickness = '50'
       newItem.metaData.height = newItem.metaData.thickness
       newItem.metaData.color = newItem.metaData.color || '#718096'
 
-      materials.value.unshift(newItem)
+      localMaterials.value.unshift(newItem)
 
-      normalizeHeight() 
+      normalizeHeight()
+      emit('update:materials', localMaterials.value)
     }
 
     const onDropAtEnd = (event: any) => {
-      const newItem = { ...event.added.element }
+      const newItem = JSON.parse(JSON.stringify(event.added.element))
 
       newItem.metaData.appId = nextId.value++
-      newItem.metaData.thickness = 50
+      newItem.metaData.thickness = '50'
       newItem.metaData.height = newItem.metaData.thickness
       newItem.metaData.color = '#718096'
 
-      materials.value.push(newItem)
+      localMaterials.value.push(newItem)
 
-      normalizeHeight() 
+      normalizeHeight()
+      emit('update:materials', localMaterials.value)
     }
 
-    const updateMaterialThickness = ({ appId, thickness }: { appId: string; thickness: number}) => {
-      const material = materials.value.find((m) => m.metaData.appId === appId)
+    const updateMaterialThickness = ({ appId, thickness }: { appId: string; thickness: number }) => {
+      const material = localMaterials.value.find((m) => m.metaData.appId === appId)
       if (material) {
         material.metaData.thickness = thickness.toString()
-        normalizeHeight() 
+        normalizeHeight()
+        emit('update:materials', localMaterials.value)
       }
     }
 
     const updateMaterialColor = ({ appId, color }: { appId: string; color: string }) => {
-      const material = materials.value.find((m) => m.metaData.appId === appId)
+      const material = localMaterials.value.find((m) => m.metaData.appId === appId)
       if (material) {
         material.metaData.color = color
+        emit('update:materials', localMaterials.value)
       }
     }
 
     const deleteMaterial = (index: number) => {
-      materials.value.splice(index, 1)
-      normalizeHeight() 
+      localMaterials.value.splice(index, 1)
+      normalizeHeight()
+      emit('update:materials', localMaterials.value)
     }
 
-    const saveAssembly = () => {
-      const products: Record<string, Product> = materials.value.reduce((acc, product) => {
-        acc[product.id] = product
-        return acc
-      }, {} as Record<string, Product>)
-      const tempGeos: GeometryObject[] = []
+    // Watch for changes in props.materials to update localMaterials
+    watch(
+      () => props.materials,
+      (newMaterials) => {
+        localMaterials.value = [...newMaterials]
+      },
+      { deep: true }
+    )
 
-      materials.value.forEach(product => {
-        tempGeos.push(createGeometryFromProduct(product))
-      })
-
-      const calculator = new EmissionCalculator(tempGeos)
-      calculator.calculateEmissions()
-
-      const aggregator = new EmissionAggregator(tempGeos)
-      aggregator.aggregate(false)
-      
-      const name = "Set this from the UI"
-      const description = "Set this from the UI"
-      const category = "Set this from the UI" // This should be BSAB avgränsning
-      const materialType = "Set this from the UI"
-
-      const assembly: Assembly = {
-        id: crypto.randomUUID(),
-        name:name,
-        description: description,
-        products: products,
-        emission: aggregator.totalEmission,
-        comment: '',
-        quantity: 1,
-        unit: 'm2',
-        category: category,
-        classification: null,
-        results: [],
-        metaData: { materialType: materialType },
-      }
-
-      console.log('Saving assembly:', assembly)
-    }
-
-    return { 
-      materials, 
+    return {
       assemblyViewerRef,
-      onDropAtStart, 
+      localMaterials,
+      onDropAtStart,
       onDropAtEnd,
       updateMaterialThickness,
       updateMaterialColor,
       deleteMaterial,
-      saveAssembly,
     }
   },
 })
-
-
 </script>

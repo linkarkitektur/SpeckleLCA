@@ -11,6 +11,7 @@ export const useMaterialStore = defineStore({
     materials: [] as Product[],
     assemblies: [] as Assembly[],
     currentMapping: null as Product | Assembly | null,
+    currentAssemby: null as Assembly | null,
     sorting: { parameter: 'name', direction: 'asc' } as MaterialSortingOption,
     EPDMode: true,
     EPDList: [] as Product[],
@@ -76,7 +77,12 @@ export const useMaterialStore = defineStore({
      * @param assembly
      */
     addAssembly(assembly: Assembly) {
-      this.assemblies.push(assembly)
+      const index = this.assemblies.findIndex((el) => el.id === assembly.id)
+      if (index !== -1) {
+        this.assemblies[index] = assembly;
+      } else {
+        this.assemblies.push(assembly);
+      }
     },
 
     /**
@@ -96,6 +102,14 @@ export const useMaterialStore = defineStore({
      */
     setCurrentMapping(mapping: Product | Assembly) {
       this.currentMapping = mapping
+    },
+
+    /**
+     * Set current assembly which is being dragged
+     * @param assembly
+     */
+    setCurrentAssembly(assembly: Assembly) {
+      this.currentAssemby = assembly
     },
 
     /**
