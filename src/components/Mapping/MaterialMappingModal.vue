@@ -64,8 +64,15 @@
                 <div class="w-1/2 h-full overflow-y-scroll overflow-x-hidden">
                   <!-- Search Bar and Table -->
                   <div class="relative mt-1 flex-1 px-4 sm:px-6">
-                    <MaterialSearch />
-                    <MaterialTable />
+                    <SearchBar
+                      :data="materials"
+                      :filterParam="productFilterParams"
+                      :sortingParam="sortingParameters"
+                      @update:data="handleFilteredData"
+                    />
+                    <MaterialTable
+                      :data="filteredMaterial"
+                    />
                   </div>
                 </div>
               </div>
@@ -91,9 +98,11 @@ import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import MappingCard from '@/components/Mapping/MaterialMappingCard.vue'
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
-import MaterialSearch from '@/components/Misc/SearchBar.vue'
+import SearchBar from '@/components/Misc/SearchBar.vue'
 
 import type { NestedGroup } from '@/models/filters'
+import type { Product } from '@/models/material'
+import { useMaterialStore } from '@/stores/material'
 
 export default defineComponent({
   name: 'MaterialMappingModal',
@@ -104,14 +113,43 @@ export default defineComponent({
     TransitionRoot,
     MappingCard,
     MaterialTable,
-    MaterialSearch
+    SearchBar
   },
   setup() {
     const navStore = useNavigationStore()
     const projectStore = useProjectStore()
+    const materialStore = useMaterialStore()
+
+    const materials = storeToRefs(materialStore).materials
+    const filteredMaterial = ref<Product[]>([])
 
     const { selectedGroup } = storeToRefs(projectStore)
     const { mappingModalOpen} = storeToRefs(navStore)
+    
+    const productFilterParams = [
+      {
+        paramName: 'metaData.materialType',
+        displayName: 'Material Type',
+      },
+      {
+        paramName: 'unit',
+        displayName: 'Unit',
+      },
+    ]
+    const sortingParameters = [
+      {
+        filterName: 'name',
+        displayName: 'Name',
+      },
+      {
+        filterName: 'unit',
+        displayName: 'Unit',
+      },
+      {
+        filterName: 'emission.gwp.a1a3',
+        displayName: 'Emission',
+      },
+    ]
 
     const searchQuery = ref('')
     // If no data selected or available show this instead, this should never happen so can remove from final version
@@ -121,7 +159,11 @@ export default defineComponent({
       children: [],
       objects: [],
     }
- 
+    
+    const handleFilteredData = (newData: Product[]) => {
+      filteredMaterial.value = newData
+    }
+
     const closeModal = () => {
       navStore.toggleMappingModal()
     }
@@ -131,6 +173,11 @@ export default defineComponent({
       selectedGroup,
       searchQuery,
       emptyGroup,
+      materials,
+      filteredMaterial,
+      productFilterParams,
+      sortingParameters,
+      handleFilteredData,
       closeModal,
     }
   }

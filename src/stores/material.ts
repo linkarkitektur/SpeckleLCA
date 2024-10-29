@@ -147,6 +147,7 @@ export const useMaterialStore = defineStore({
 
     /**
      * Update filterable parameters from material list
+     * DEPRICATED
      */
     updateParameters() {
       const uniqueMaterialTypes = Array.from(
@@ -170,6 +171,7 @@ export const useMaterialStore = defineStore({
 
     /**
      * Set sorting option and sort the list
+     * DEPRICATED
      */
     setSorting(parameter: string, direction: string) {
       const sorting = { parameter, direction }
@@ -179,6 +181,7 @@ export const useMaterialStore = defineStore({
 
     /**
      * Filter EPD list based on selected parameters
+     * DEPRICATED
      */
     triggerParamSort() {
       if(this.EPDMode === true) {

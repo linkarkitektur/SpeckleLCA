@@ -150,6 +150,8 @@ export default defineComponent({
       direction: 'asc',
     })
 
+    let manualMode = false
+
     props.filterParam.forEach((param) => {
       selectedFilters.value[param.paramName] = []
     })
@@ -206,7 +208,8 @@ export default defineComponent({
     watch(
       () => sortedData.value,
       (newData) => {
-        emit('update:data', newData)
+        if (!manualMode)
+          emit('update:data', newData)
       },
       { immediate: true }
     )
@@ -220,13 +223,16 @@ export default defineComponent({
       // If the input is a UUID, fetch the specific product
       if (isUUID(newVal)) {
         try {
+          manualMode = true
           const newMaterial: Product = await getSpecificEPD({ id: newVal })
           materialStore.addMaterial(newMaterial)
-          materialStore.setFilteredMaterials([newMaterial])
+          emit('update:data', [newMaterial])
         } catch (error) {
           console.error("Error fetching product by UUID:", error)
         }
         return
+      } else {
+        manualMode = false
       }
     })
     

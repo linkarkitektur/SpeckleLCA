@@ -195,7 +195,6 @@ import { useFirebaseStore } from '@/stores/firebase'
 import { useProjectStore } from '@/stores/main'
 
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
-import MaterialSearch from '@/components/Misc/SearchBar.vue'
 import AssemblyTable from '@/components/Mapping/AssemblyTable.vue'
 import AssemblyViewer from '@/components/Mapping/AssemblyViewer.vue'
 import DropdownMulti from '@/components/Misc/DropdownMulti.vue'
