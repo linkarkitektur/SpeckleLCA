@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.11'  # Replace with your Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project with secrets
+        env:
+          VITE_APP_SPECKLE_ID: ${{ secrets.VITE_APP_SPECKLE_ID }}
+          VITE_APP_SPECKLE_SECRET: ${{ secrets.VITE_APP_SPECKLE_SECRET }}
+          VITE_APP_SPECKLE_NAME: ${{ secrets.VITE_APP_SPECKLE_NAME }}
+          VITE_GITHUB_TOKEN: ${{ secrets.VITE_GITHUB_TOKEN }}
+          VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
+          VITE_GOOGLE_AUTH: ${{ secrets.VITE_GOOGLE_AUTH }}
+          VITE_GOOGLE_PROJECT_ID: ${{ secrets.VITE_GOOGLE_PROJECT_ID }}
+          VITE_GOOGLE_STORAGE_BUCKET: ${{ secrets.VITE_GOOGLE_STORAGE_BUCKET }}
+          VITE_GOOGLE_MESSAGING_SENDER_ID: ${{ secrets.VITE_GOOGLE_MESSAGING_SENDER_ID }}
+          VITE_GOOGLE_APP_ID: ${{ secrets.VITE_GOOGLE_APP_ID }}
+          VITE_GOOGLE_MEASUREMENT_ID: ${{ secrets.VITE_GOOGLE_MEASUREMENT_ID }}
+          VITE_APP_ECO_PORTAL_API_KEY: ${{ secrets.VITE_APP_ECO_PORTAL_API_KEY }}
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
