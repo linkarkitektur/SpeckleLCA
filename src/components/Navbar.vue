@@ -95,6 +95,7 @@
                         active ? 'bg-gray-100' : '',
                         'block px-4 py-2 text-sm text-gray-700',
                       ]"
+                      @click="toggleSettingsModal"
                       >Settings</a
                     >
                   </MenuItem>
@@ -234,6 +235,10 @@ export default defineComponent({
       }
     }
 
+    const toggleSettingsModal = () => {
+      navigationStore.toggleSettingsModal()
+    }
+
     //This should not href, but check if we are in dashboard and href if its active otherwise just switch in the store
     const steps: Step[] = [
       { name: 'Projects', href: '/projects' },
@@ -247,6 +252,7 @@ export default defineComponent({
       speckleStore,
       navigationStore,
       handleNavigation,
+      toggleSettingsModal,
       steps,
       logoUrl: logo,
     }
