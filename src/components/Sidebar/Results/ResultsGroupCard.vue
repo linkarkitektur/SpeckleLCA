@@ -3,7 +3,7 @@
     v-if="totalEmission !== 0" 
     class="text-center"
   >
-    {{ totalEmission }} CO<sup>2</sup>
+    {{ totalEmission }} CO<sup>2</sup>/m<sup>2</sup>
   </p>
   <p
     v-else
@@ -55,7 +55,7 @@
                 }
               }
             }
-            return sum
+            return sum / obj.quantity.m2
           },
           0
 				)

@@ -12,7 +12,7 @@
 				class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
 			>
 				<li
-					v-for="project in speckleStore.allProjects"
+					v-for="project in projectsWithRandomNumbers"
 					:key="project.name"
 					class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
 				>
@@ -24,7 +24,7 @@
 							<dd class="mt-3">
 								<span
 									class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
-									>{{ project.updatedAt }}</span
+								> {{ formatDate(project.updatedAt) }} </span
 								>
 							</dd>
 						</button>
@@ -38,16 +38,16 @@
 								<a
 									class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-green-900 text-center"
 								>
-									7,3 kg-co² / m²
+									{{ project.randomNumber }} kg-co² / m²
 								</a>
 							</div>
 
 							<!-- TODO Hardcoded values... should be dynamic. -->
 							<div class="-ml-px flex w-0 flex-1">
 								<a
-									class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-yellow-800 text-center"
+									class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-800 text-center"
 								>
-									10% above threshold
+									{{ project.differenceText }}
 								</a>
 							</div>
 						</div>
@@ -60,7 +60,7 @@
 
 <script lang="ts">
 	import { useSpeckleStore } from '@/stores/speckle'
-	import { defineComponent, onMounted, ref } from 'vue'
+	import { computed, defineComponent, onMounted, ref } from 'vue'
 	import type { ProjectId } from '@/models/speckle'
 	import VersionSelectionModal from '@/components/ProjectSelection/VersionSelectionModal.vue'
 	import { useNavigationStore } from '@/stores/navigation'
@@ -97,6 +97,36 @@
 			const selectedProjectId = ref('')
 			const selectedProjectName = ref('')
 
+			const projectsWithRandomNumbers = computed(() => {
+				if (!speckleStore.allProjects) return []
+				return speckleStore.allProjects.map(project => {
+					const randomNumber = Math.floor(Math.random() * 60) + 40
+					const percentageDifference = ((randomNumber - 75) / 75) * 100
+
+					const differenceText =
+						percentageDifference > 0
+							? `${Math.abs(percentageDifference).toFixed(1)}% above threshold`
+							: `${Math.abs(percentageDifference).toFixed(1)}% below threshold`
+
+					return {
+						...project,
+						randomNumber,
+						differenceText
+					}
+				})
+			})
+
+			const formatDate = (dateString) => {
+				const date = new Date(dateString);
+				const yy = String(date.getFullYear()).slice(-2);
+				const mm = String(date.getMonth() + 1).padStart(2, '0');
+				const dd = String(date.getDate()).padStart(2, '0');
+				const hh = String(date.getHours()).padStart(2, '0');
+				const min = String(date.getMinutes()).padStart(2, '0');
+				return `${yy}-${mm}-${dd} : ${hh}:${min}`;
+			};
+
+
 			const openVersionModal = (project: ProjectId) => {
 				versionModalOpen.value = true
 
@@ -121,6 +151,8 @@
 				versionModalOpen,
 				selectedProjectId,
 				selectedProjectName,
+				projectsWithRandomNumbers,
+				formatDate,
 				openVersionModal,
 				closeVersionModal,
 				openSlideOver

@@ -34,16 +34,10 @@
       </p>
     </div>
 
-    <!-- TODO Catch the emit event and update the viewer filter. -->
-    <!-- This should not be in here? -->
-    <!-- <div class="flex text-md select-none top-20 right-4">
-      <FilterSelector />
-    </div> -->
-
     <div class="flex h-full w-full bg-gray-50 -z-10" id="renderer" />
-
+    <!-- TODO This should be full height and positioned correctly from the graph itself just placed in the right corner -->
     <div
-    	class="absolute h-1/3 mx-auto top-4 right-4 align-right justify-center z-20"
+    	class="absolute h-1/3 mx-auto top-4 right-4 align-right justify-center z-20 overflow-visible"
   	>
       <GraphContainer />
 		</div>

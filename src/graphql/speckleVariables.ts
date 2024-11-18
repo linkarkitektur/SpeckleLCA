@@ -66,4 +66,4 @@ const ifcParameters = ['Name', 'GlobalId', 'Type', 'BIP', 'Tag']
 /**
  * Rhino building element information that speckle sets when sent from Rhino
  */
-const rhinoParameters = ['area', 'provenance']
+const rhinoParameters = ['area', 'provenance', 'volume']

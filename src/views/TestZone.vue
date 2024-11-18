@@ -1,13 +1,14 @@
 <template>
-  <DropDown :items="items" />
+  <DivergingStackedBar />
 </template>
 
 <script>
 import DropDown from '@/components/Misc/Dropdown.vue'
+import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue';
 import { BSAB96 } from '@/models/material';
 
 export default {
-  components: { DropDown },
+  components: { DivergingStackedBar },
   data() {
     return {
       items: BSAB96

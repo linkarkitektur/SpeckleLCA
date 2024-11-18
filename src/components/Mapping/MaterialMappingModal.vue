@@ -126,7 +126,16 @@ export default defineComponent({
     const { selectedGroup } = storeToRefs(projectStore)
     const { mappingModalOpen} = storeToRefs(navStore)
     
+    // TODO: Make these a part of the settings
     const productFilterParams = [
+      {
+        paramName: 'metaData.Collection',
+        displayName: 'Revalu Collection',
+      },
+      {
+        paramName: 'source',
+        displayName: 'Source',
+      },
       {
         paramName: 'metaData.materialType',
         displayName: 'Material Type',
