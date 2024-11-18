@@ -1,5 +1,8 @@
 import * as d3 from "d3"
 import { roundNumber} from "@/utils/math"
+import type { ChartData, ChartOptions } from '@/models/chartModels'
+
+import { useProjectStore } from "@/stores/main"
 
 /**
  * For use with aggregate charts, places the total value in the center of the chart
@@ -93,4 +96,120 @@ export function parameterCenter(graph: d3.Selection<SVGElement>, parameterValue:
     .attr("x", w / 2)
     .attr("dy", "-0.2em")
   return textElement
+}
+
+/**
+ * Sets selected objects from charts
+ * @param ids to select in viewer
+ */
+export function updateSelectedObjects(ids: string[]) {
+  const projectStore = useProjectStore()
+  projectStore.setObjectsById(ids)
+}
+
+/**
+ * Create the same base chart options and object for all charts
+ * @param options 
+ * @param containerElement 
+ * @returns 
+ */
+export function createBaseChart(options: ChartOptions, containerElement: HTMLElement) {
+  const width = options.width || 600
+  const height = options.height || 400
+  const margin = options.margin || { top: 20, right: 20, bottom: 20, left: 20 }
+
+  const svg = d3.select(containerElement)
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+
+  return { svg, width, height, margin }
+}
+
+
+/**
+ * Creates a style for tooltips of charts
+ * @param tooltipElement 
+ * @returns 
+ */
+export function createTooltip(tooltipElement: HTMLDivElement) {
+  return d3.select(tooltipElement)
+    .style('position', 'absolute')
+    .style('background-color', 'white')
+    .style('border', 'solid')
+    .style('border-width', '2px')
+    .style('border-radius', '5px')
+    .style('padding', '5px')
+    .style('opacity', 0)
+}
+
+/**
+ * Creates generalized mouse event handlers for charts
+ * @param tooltipDiv 
+ * @param container 
+ * @returns 
+ */
+export function createMouseEventHandlers(tooltipDiv: d3.Selection<HTMLDivElement, unknown, null, undefined>, container: HTMLElement) {
+  function mouseover(event: MouseEvent, data: any) {
+    tooltipDiv.style('opacity', 1)
+    d3.select(event.currentTarget)
+      .style('stroke', 'black')
+      .style('opacity', 1)
+  }
+
+  function mousemove(event: MouseEvent, data: any) {
+    const [mouseX, mouseY] = d3.pointer(event, container)
+    const containerRect = container.getBoundingClientRect()
+    const tooltipRect = tooltipDiv.node()!.getBoundingClientRect()
+
+    let left = mouseX + 15
+    let top = mouseY - 28
+
+    // Adjust left and top to keep the tooltip within the container
+    if (left + tooltipRect.width > containerRect.width) {
+      left = event.clientX - containerRect.left - tooltipRect.width - 15
+    }
+    if (left < 0) {
+      left = 10
+    }
+    if (top + tooltipRect.height > containerRect.height) {
+      top = containerRect.height - tooltipRect.height - 10
+    }
+    if (top < 0) {
+      top = 10
+    }
+
+    tooltipDiv
+      .html(data.tooltipContent)
+      .style('left', `${left}px`)
+      .style('top', `${top}px`)
+  }
+
+  function mouseleave(event: MouseEvent, data: any) {
+    tooltipDiv.style('opacity', 0)
+    d3.select(event.currentTarget)
+      .style('stroke', null)
+      .style('opacity', 0.8)
+  }
+
+  return { mouseover, mousemove, mouseleave }
+}
+
+/**
+ * Process data for charts
+ * @param data 
+ * @param totalValue 
+ * @returns 
+ */
+export function groupChartData(data: ChartData[], totalValue: number) {
+  let cumulative = 0
+  return data.map((d) => {
+    cumulative += Math.abs(d.value)
+    const percent = totalValue > 0 ? (d.value / totalValue) * 100 : 0
+    return {
+      ...d,
+      cumulative: cumulative - Math.abs(d.value),
+      percent,
+    }
+  }).filter((d) => d.value !== 0)
 }
