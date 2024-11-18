@@ -22,6 +22,7 @@ export function updateMapping(mapping: Mapping) {
 
   // Keep this in memory to avoid unnecessary updates of groups
   let lastId = null
+  clearMapping()
 
   mapping.steps.forEach(step => {
     if (lastId != step.filterId) {
@@ -46,6 +47,22 @@ export function updateMapping(mapping: Mapping) {
 
     materialStore.updateMappingMaterial(step.nestedGroupId, step.material)
   })
+  materialStore.setMapping(mapping)
+}
+
+export function clearMapping() {
+  const projectStore = useProjectStore()
+  const materialStore = useMaterialStore()
+
+  // Clear the mapping and update the project
+  materialStore.mapping = null
+  
+  // Remove all mappings on objects
+  projectStore.currProject.geometry.forEach(geo => {
+    geo.material = null
+  })
+
+  updateProjectGroups(true)
 }
 
 /**

@@ -98,6 +98,9 @@ import { useMaterialStore } from '@/stores/material'
 import { getSpecificEPD } from '@/utils/EPDUtils'
 import { getNestedPropertyValue } from '@/utils/material'
 
+import { Source } from '@/models/material'
+import { getEnumEntries } from '@/utils/dataUtils'
+
 import {
   Menu,
   MenuButton,
@@ -158,6 +161,17 @@ export default defineComponent({
 
     const getOptionsForParameter = (paramName: string): Option[] => {
       const optionsSet = new Set()
+
+      // Manual check for source enum so we set name instead
+      // TODO: Make dynamic for all enums
+      if (paramName === 'source') {
+        return getEnumEntries(Source).map((entry) => ({
+          label: entry.label,
+          value: entry.value,
+          selected: selectedFilters.value[paramName]?.includes(entry.value),
+        }))
+      }
+
       props.data.forEach((item) => {
         const value = getNestedPropertyValue(item, paramName)
         if (value !== undefined) {

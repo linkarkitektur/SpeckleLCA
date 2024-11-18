@@ -211,6 +211,7 @@ import { EmissionAggregator } from '@/utils/resultUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
 import { createGeometryFromProduct } from '@/utils/material'
 
+// TODO Go over this and clean it up!
 export default defineComponent({
   name: 'AssemblyModal',
   components: {
