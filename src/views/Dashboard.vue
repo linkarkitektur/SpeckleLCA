@@ -1,10 +1,12 @@
 <template>
-	<!-- Add all modals here -->
+	<!-- Modal area -->
 	<NewGroupModal />
   <MaterialMappingModal />
 	<SaveFilterModal />
 	<AssemblyModal />
-  <!-- End of modal area -->
+	<SettingsModal />
+
+  <!-- App area -->
 	<div class="flex">
 		<NavbarComponent />
 		<Sidebar />
@@ -42,6 +44,7 @@ import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
 import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
 import SaveFilterModal from '@/components/Modals/SaveFilterModal.vue'
 import AssemblyModal from '@/components/Modals/AssemblyModal.vue'
+import SettingsModal from '@/components/Modals/SettingsModal.vue'
 
 
 /**
@@ -59,6 +62,7 @@ export default {
 		MaterialMappingModal,
 		SaveFilterModal, 
 		AssemblyModal,
+		SettingsModal,
 	},
 	setup() {
 		//Load materials from the store on startup

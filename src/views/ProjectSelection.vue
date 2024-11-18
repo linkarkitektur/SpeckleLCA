@@ -1,11 +1,16 @@
 <template>
+	<!-- Modal area -->
+	<SettingsModal />
+
+	<!-- Main content area -->
 	<Navbar />
 	<ProjectGrid />
 </template>
 
 <script>
-	import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue'
-	import Navbar from '@/components/Navbar.vue'
+import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue'
+import Navbar from '@/components/Navbar.vue'
+import SettingsModal from '@/components/Modals/SettingsModal.vue';
 
 	/**
 	 * The project selection view.
@@ -15,7 +20,8 @@
 		name: 'ProjectSelectionView',
 		components: {
 			Navbar,
-			ProjectGrid
+			ProjectGrid,
+			SettingsModal
 		},
 		setup() {
 		}
