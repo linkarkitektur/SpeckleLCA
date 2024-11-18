@@ -22,7 +22,7 @@ import { reportErrorToSentry } from './monitoring'
 
 import { useSpeckleStore } from '@/stores/speckle'
 
-export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME || 'speckleXYZ'
+export const APP_NAME = 'SpeckLCA'
 export const SERVER_URL =
 	import.meta.env.VITE_APP_SERVER_URL || 'https://speckle.xyz'
 export const TOKEN = `${APP_NAME}.AuthToken`

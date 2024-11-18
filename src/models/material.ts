@@ -83,6 +83,8 @@ export interface MaterialSortingOption {
  */
 export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l" | "tonnes"
 
+export type ExtendedImpactCategoryKey = 'gwp_total' | 'gwp_fossil' | 'gwp_bio' | 'gwp_luluc' | ImpactCategoryKey
+
 /**
  * BASAB codes for buildingParts
  * TODO: Find a better place to store these.
