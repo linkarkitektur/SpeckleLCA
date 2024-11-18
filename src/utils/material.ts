@@ -5,8 +5,10 @@ import type { GeometryObject } from "@/models/geometryObject"
 import { useProjectStore } from "@/stores/main"
 import { useMaterialStore } from "@/stores/material"
 import { useSpeckleStore } from "@/stores/speckle"
+import { useFirebaseStore } from "@/stores/firebase"
 
 import { setMappingColorGroup, updateProjectGroups } from "@/utils/projectUtils"
+import { AssemblyList } from "@/models/firebase"
 
 
 /**
@@ -20,6 +22,7 @@ export function updateMapping(mapping: Mapping) {
 
   // Keep this in memory to avoid unnecessary updates of groups
   let lastId = null
+  clearMapping()
 
   mapping.steps.forEach(step => {
     if (lastId != step.filterId) {
@@ -44,6 +47,22 @@ export function updateMapping(mapping: Mapping) {
 
     materialStore.updateMappingMaterial(step.nestedGroupId, step.material)
   })
+  materialStore.setMapping(mapping)
+}
+
+export function clearMapping() {
+  const projectStore = useProjectStore()
+  const materialStore = useMaterialStore()
+
+  // Clear the mapping and update the project
+  materialStore.mapping = null
+  
+  // Remove all mappings on objects
+  projectStore.currProject.geometry.forEach(geo => {
+    geo.material = null
+  })
+
+  updateProjectGroups(true)
 }
 
 /**
@@ -124,7 +143,7 @@ export function applyParamFilters(materials: Product[], filters: MaterialFilterP
  * @param path The path string (e.g., 'metaData.materialType')
  * @returns The value at the specified path or undefined
  */
-function getNestedPropertyValue(obj: any, path: string): any {
+export function getNestedPropertyValue(obj: any, path: string): any {
   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
 
@@ -164,5 +183,59 @@ export function getMappedMaterial(objects: GeometryObject[]) {
           name: "No material mapped",
           color: "red-50"
         }
+  }
+}
+
+/**
+ * Creates a geometry object cube from a product for emission calculations
+ * @param product 
+ * @returns geometryObject consitsting of a material cube
+ */
+export function createGeometryFromProduct(product: Product): GeometryObject {
+  // Create base quantity object
+  const quantity = {
+    m: 1,
+    m2: 1,
+    m3: 1,
+    kg: 1, // TODO: This should be the weight of the product
+    pcs: 1,
+    tonnes: 0,
+    l: 0
+  }
+  
+  if (product.metaData.thickness) {
+    quantity.m3 = parseFloat(product.metaData.thickness) / 1000 // unit is in mm
+  }
+
+  const geo: GeometryObject = {
+    id: product.id,
+    name: 'type',
+    quantity: quantity,
+    material: product,
+    parameters: {
+      // Parameters from assembly creatino add more here if we add more to it
+      thickness: product.metaData.thickness ? product.metaData.thickness: "0",
+      color: product.metaData.color ? product.metaData.color: "#ffffff",
+    },
+  } 
+
+  return geo
+}
+
+/**
+ * Get the assembly list from firebase and update the material store
+ */
+export async function getAssemblyList() {
+  const materialStore = useMaterialStore()
+  const projectStore = useProjectStore()
+  const firebaseStore = useFirebaseStore()
+
+  try {
+    const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(projectStore.currProject.id)
+    if (assemblyList) {
+      materialStore.assemblies = assemblyList.assemblies
+    }
+  } catch (error) {
+    console.error('Error fetching assembly list:', error)
   }
 }

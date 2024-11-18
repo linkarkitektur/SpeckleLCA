@@ -1,9 +1,10 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
-import type { Product, Emission, LifeCycleStageEmission} from '@/models/material'
+import { type Product, type Emission, type LifeCycleStageEmission, type Assembly, Source} from '@/models/material'
 import { useProjectStore } from '@/stores/main'
 import { EPDSource } from '@/models/settings'
 import type { RevaluData } from '@/models/revaluDataSource'
+import { delay } from '@/utils/math'
 //import { convertIlcd } from 'epdx'
 
 const MAX_EPD_COUNT = 5
@@ -163,7 +164,7 @@ const extractILCDData = (data: any) => {
 
     if (totalA1A3 > 0) {
       emission.gwp = emission.gwp || {} as LifeCycleStageEmission
-      emission.gwp['a1a3'] = { amount: totalA1A3 }
+      emission.gwp['a1a3'] = totalA1A3 
     }
   }
 
@@ -193,6 +194,7 @@ const extractILCDData = (data: any) => {
     results: null,
     metaData,
     emission,
+    source: Source.ECOPortal,
   }
   return product
 }
@@ -225,7 +227,8 @@ const extractRevaluData = (response: { body: RevaluData }) => {
     transport: null,
     results: null,
     metaData: {},
-    emission
+    emission,
+    source: Source.Revalu,
   }
   return product
 }
@@ -261,6 +264,8 @@ export async function getEPDList(parameters: { [key: string]: string | string[] 
   let params = epdService.createListParams()
 
   params = { ...params, ...parameters }
+
+  await delay(1000)
 
   while (EPDList.length < MAX_EPD_COUNT) {
     try {
@@ -311,4 +316,8 @@ export async function getSpecificEPD(epd: any): Promise<Product | null> {
     console.error(`Error fetching EPD ${epd.uuid}:`, error)
     return null
   }
+}
+
+export function isAssembly(val: any): val is Assembly {
+  return val && typeof val === 'object' && 'products' in val && 'id' in val;
 }

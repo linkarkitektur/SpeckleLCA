@@ -3,6 +3,7 @@
 	<NewGroupModal />
   <MaterialMappingModal />
 	<SaveFilterModal />
+	<AssemblyModal />
   <!-- End of modal area -->
 	<div class="flex">
 		<NavbarComponent />
@@ -33,12 +34,14 @@ import {
 } from '@/utils/projectUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
 import { EmissionAggregator } from '@/utils/resultUtils'
+import { getAssemblyList } from '@/utils/material'
 import { getRevaluBaseList } from '@/models/revaluDataSource'
 
 // Modals
 import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
 import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
 import SaveFilterModal from '@/components/Modals/SaveFilterModal.vue'
+import AssemblyModal from '@/components/Modals/AssemblyModal.vue'
 
 
 /**
@@ -55,6 +58,7 @@ export default {
 		NewGroupModal,
 		MaterialMappingModal,
 		SaveFilterModal, 
+		AssemblyModal,
 	},
 	setup() {
 		//Load materials from the store on startup
@@ -64,6 +68,7 @@ export default {
 		const materialStore = useMaterialStore()
 		
 		materialStore.materialsFromJson()
+		getAssemblyList()
 		//getRevaluBaseList()
 		
 		// Watch for changes in the active page and update viewer colors

@@ -10,20 +10,19 @@ import * as d3 from 'd3'
 import { ref, reactive, onMounted, watch, type PropType } from 'vue'
 
 import { getValueColorFromGradient } from '@/utils/colorUtils'
+import { 
+  aggregateCenter, 
+  spanPercentCenter,
+  parameterCenter,
+  updateSelectedObjects,
+  createTooltip,
+  createMouseEventHandlers,
+  createBaseChart,
+} from '@/utils/chartUtils'
+
 import { truncateText } from '@/utils/stringUtils'
 import { roundNumber } from '@/utils/math'
-import { useProjectStore } from '@/stores/main'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
-
-const sampleData: ChartData[] = [
-  { label: 'Wood dummy', value: -500.12458, ids: ['1', '2', '3']},
-  { label: 'Concerete dummy', value: 800.12458, ids: ['4', '5', '6']},
-  { label: 'Steel dummy', value: 400.12458, ids: ['7', '8', '9']},
-  { label: 'Other dummy', value: 300.12458, ids: ['8', '9', '10']},
-  { label: 'Another dummy', value: 100.12458, ids: ['11', '12', '13']},
-  { label: 'Yet another dummy', value: 200.12458, ids: ['14', '15', '16']},
-  { label: 'Last dummy', value: 100.12458, ids: ['17', '18', '19']}
-]
 
 export default {
   name: 'SelectablePieChart',
@@ -63,7 +62,7 @@ export default {
         ...props.options 
       }
 
-      const data: ChartData[] = props.data || sampleData
+      const data: ChartData[] = props.data
 
       const { drawChart } = SelectablePieChart(data, options)
       if (svg.value && tooltip.value && container.value) {
@@ -105,7 +104,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const margin = reactive(options.margin || { top: 20, right: 20, bottom: 20, left: 20 })
 
   const total = ref(d3.sum(data, d => d.value))
-  const groupData = ref(groupDataFunc(data, total))
+  const groupData = ref(groupDataFunc(data, total, options))
 
   const w = width.value - margin.left - margin.right
   const h = height.value - margin.top - margin.bottom
@@ -121,81 +120,27 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const padAngle = stroke === "none" ? 1 / outerRadius : 0.02
   const maxTextLength = 12
 
-  const unit = 'kg CO2e'
+  const unit = options.unit || 'kg CO2e'
   const colors = ref(options.colors || 
     groupData.value.map(d => 
-      getValueColorFromGradient(d.value, 0, Math.max(...groupData.value.map(d => d.value)))
+      getValueColorFromGradient(d.value, 0, Math.max(...groupData.value.map(d => d.value).filter(value => !isNaN(value)))
     ))
+  )
 
-  const drawChart = (svg: SVGSVGElement, tooltip: HTMLDivElement, container: HTMLDivElement) => {
-    if (!svg || !tooltip || !container) return
-    const graph = d3.select(svg)
+  const drawChart = (svg: SVGSVGElement, tooltipElement: HTMLDivElement, containerElement: HTMLDivElement) => {
+    if (!svg || !tooltipElement || !containerElement) return
+    const graph: d3.Selection<SVGElement, any, any, any> = d3.select(svg)
 
-    // Create tooltip div
-    const tooltipDiv = d3.select(tooltip)
-      .style("position", "absolute")
-      .style("background-color", "white")
-      .style("border", "solid")
-      .style("border-width", "2px")
-      .style("border-radius", "5px")
-      .style("padding", "5px")
-      .style("opacity", 0)
-
-    //Create mouse over and tooltip functions
-    const mouseover = function (event: MouseEvent, { data: { value } }: d3.PieArcDatum<ChartData>) {
-      tooltipDiv.style("opacity", 1)
-      
-      d3.select(event.currentTarget as Element)
-      .style("stroke", "black")
-      .style("opacity", value > 0 ? 1 : 0.6)
-    }
-    const mousemove = function (event: MouseEvent, { data: { value, label } }: d3.PieArcDatum<ChartData>) {
-      const containerRect = container.getBoundingClientRect()
-      const tooltipRect = tooltip.getBoundingClientRect()
-
-      let left = event.clientX - containerRect.left + 15
-      let top = event.clientY - containerRect.top - 28
-
-      // Adjust left and top to keep the tooltip within the container
-      if (left + tooltipRect.width > containerRect.width) {
-        left = event.clientX - containerRect.left - tooltipRect.width - 15
-      }
-      if (top + tooltipRect.height > containerRect.height) {
-        top = containerRect.height - tooltipRect.height - 10
-      }
-
-      tooltipDiv
-        .html(label + ": " + roundNumber(value, 3) + " " + unit)
-        .style("left", left + "px")
-        .style("top", top + "px")
-    }
-    const mouseleave = function (event: MouseEvent, { data: { value, index } }: d3.PieArcDatum<ChartData>) {
-      tooltipDiv.style("opacity", 0)
-
-      //Need to get this beforehand so that we can select the fill and darken it on mouseleave
-      const element = d3.select(event.currentTarget as Element)
-
-      if(element.node().tagName === 'text'){
-        element
-          .style('stroke', 'none')
-      } else {
-        if (value > 0) {
-          element
-          .style('stroke', stroke)
-          .style("opacity", 0.8)
-        } else {
-          element
-          .style('stroke', colors[index])
-          .style('stroke-dasharray', '5,5')
-          .style("opacity", 0.8)
-        }
-      }
-    }
+    // Create tooltips
+    const tooltipDiv = createTooltip(tooltipElement)
+    
+    // Mouse event handlers
+    const { mouseover, mousemove, mouseleave } = createMouseEventHandlers(tooltipDiv, containerElement)
 
     const addTextWithTooltip = (textElement: d3.Selection<SVGTextElement, ChartData, SVGGElement, unknown>) => {
       textElement
         .on("mouseover", function(this: SVGTextElement, event, d) {
-          mouseover(event, d)
+          mouseover(event, d.data)
           d3.select(this).style("font-weight", "normal")
           if (d.data.value > 0) {
             d3.select(this.parentNode!
@@ -210,10 +155,10 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
           }
         })
         .on("mousemove", function(this: SVGTextElement, event, d) {
-          mousemove(event, d)
+          mousemove(event, d.data)
         })
         .on("mouseleave", function(this: SVGTextElement, event, d) {
-          mouseleave(event, d)
+          mouseleave(event, d.data)
           d3.select(this).style("font-weight", "normal")
           if (d.data.value > 0) {
             d3.select(this.parentNode!
@@ -233,7 +178,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
     const arcs = d3.pie()
       .padAngle(padAngle)
       .sort(null)
-      .value(d => Math.abs(d.value))(groupData.value.map(d => ({ ...d })))
+      .value(d => Math.abs(d.graphValue))(groupData.value.map(d => ({ ...d })))
     const arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius)
     // Negative values are drawn with a thicker stroke and a dashed line so we have to offset it slightly to compensate
     const arcNegative = d3.arc().innerRadius(innerRadius + (strokeWidth*3/2)).outerRadius(outerRadius - (strokeWidth*3/2))
@@ -259,13 +204,13 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
       .attr("fill", ({ data: { value }, index }) => (value > 0 ? colors.value[index] : 'none' ))// Remove fill on negative values
       .attr("d", d => d.data.value > 0 ? arc(d) : arcNegative(d))
       .on("mouseover", function(event, d) {
-        mouseover(event, d)
+        mouseover(event, d.data)
       })
       .on("mousemove", function(event, d) {
-        mousemove(event, d)
+        mousemove(event, d.data)
       })
       .on("mouseleave", function(event, d) {
-        mouseleave(event, d)
+        mouseleave(event, d.data)
       })
       .on("click", function(event, d) {
         updateSelectedObjects(d.data.ids)
@@ -300,53 +245,76 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
         })
       })
 
-      let textElement = graph.append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em")
-        .attr("x", w / 2)
-        .attr("y", h / 2)
-        
-        .style("font-weight", "bold")
-
-      textElement.append("tspan")
-        .text(roundNumber(total.value, 1))
-        .classed("text-md", true)
-        .attr("x", w / 2)
-        .attr("dy", "-0.2em")
-
-      textElement.append("tspan")
-        .text(unit)
-        .classed("text-xs", true)
-        .attr("x", w / 2)
-        .attr("dy", "1.2em")
+      let centerElement
+      switch (true) {
+        case options.aggregate !== undefined:
+          centerElement = aggregateCenter(
+            graph, 
+            total.value, 
+            w, 
+            h, 
+            unit
+          )
+          break
+        case options.spanPercent !== undefined:
+          centerElement = spanPercentCenter(
+            graph, 
+            options.spanPercent, 
+            groupData.value.map(data => data.value / data.ids.length), 
+            groupData.value.map( data => data.graphValue), 
+            w, 
+            h
+          )
+          break
+        case options.parameterValue !== undefined:
+          centerElement = parameterCenter(
+            graph, 
+            options.parameterValue, 
+            total.value, 
+            w, 
+            h
+          )
+          break
+        default:
+          centerElement = aggregateCenter(
+            graph, 
+            total.value, 
+            w, 
+            h, 
+            unit
+          )
+          break
+      }
   }
   return { drawChart }
 }
 
 // Format the data (instead of using d3.stack()) and filter out 0 values:
-function groupDataFunc(data: ChartData[], total: { value: number }) {
+function groupDataFunc(data: ChartData[], total: { value: number }, options: ChartOptions = {}) {
   let cumulative = 0
   let percent = 0
   const _data: ChartData[] = data.map(d => {
+    // Check if we have another value we want to use for graphs size
+    let graphValue = d.graphValue ?? d.value
     cumulative += Math.abs(d.value)
     if (total.value > 0) {
       percent = (d.value / total.value) * 100
     }
+    const tooltipContent = d.label + ": " + roundNumber(d.value, 3) + " " + options.unit
     return {
       value: d.value,
       cumulative: cumulative - Math.abs(d.value),
       label: d.label,
       ids: d.ids,
-      percent: percent
+      percent: percent,
+      graphValue: graphValue,
+      tooltipContent: tooltipContent
     }
   }).filter(d => d.value != 0)
   return _data
 }
 
-function updateSelectedObjects(ids: string[]) {
-  const projectStore = useProjectStore()
-  projectStore.setObjectsById(ids)
-}
+
 </script>
 
 <style>

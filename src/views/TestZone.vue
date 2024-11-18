@@ -2,16 +2,17 @@
   <DivergingStackedBar />
 </template>
 
-<script lang="ts">
-import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
+<script>
+import DropDown from '@/components/Misc/Dropdown.vue'
+import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue';
+import { BSAB96 } from '@/models/material';
 
 export default {
-  name: 'TestZone',
-  components: {
-    DivergingStackedBar
+  components: { DivergingStackedBar },
+  data() {
+    return {
+      items: BSAB96
+    }
   },
-  setup() {
-    return {}
-  }
 }
 </script>

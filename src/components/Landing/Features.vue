@@ -70,7 +70,7 @@
 	} from '@heroicons/vue/20/solid'
 	import { defineComponent } from 'vue'
 
-	import appScreenshot from '@/assets/images/appPictureMapping.png'
+	import appScreenshot from '@/assets/images/AppPictureMapping.png'
 
 	export default defineComponent({
 		name: 'FeaturesComponent',

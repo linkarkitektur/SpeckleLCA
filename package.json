@@ -14,6 +14,7 @@
 		"format": "prettier --write src/"
 	},
 	"dependencies": {
+		"@ckpack/vue-color": "^1.6.0",
 		"@graphql-codegen/cli": "^5.0.0",
 		"@headlessui/vue": "^1.7.16",
 		"@heroicons/vue": "^2.0.18",

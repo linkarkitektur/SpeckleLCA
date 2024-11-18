@@ -18,7 +18,9 @@ export const useNavigationStore = defineStore({
 			loading: false,
 			groupColorMode: false,
 			sideBarShow: true,
-			saveModalOpen: false
+			saveModalOpen: false,
+			assemblyModalOpen: false,
+			assemblyTableShow: false
 		}
 	},
 	actions: {
@@ -88,6 +90,20 @@ export const useNavigationStore = defineStore({
 		 */
 		toggleSaveModal() {
 			this.saveModalOpen = !this.saveModalOpen
+		},
+
+		/**
+		 * Toggle assembly modal on the app
+		 */
+		toggleAssemblyModal() {
+			this.assemblyModalOpen = !this.assemblyModalOpen
+		},
+
+		/**
+		 * Toggle assembly table on the app
+		 */
+		toggleAssemblyTable() {
+			this.assemblyTableShow = !this.assemblyTableShow
 		}
 
 	},

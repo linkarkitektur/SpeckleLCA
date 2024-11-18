@@ -1,4 +1,4 @@
-import type { Mapping, MaterialFilterParam, MaterialSortingOption, Assembly, Product } from '@/models/material'
+import { type Mapping, type MaterialFilterParam, type MaterialSortingOption, type Assembly, type Product, Source } from '@/models/material'
 import { defineStore } from 'pinia'
 import materialList from '@/tests/objects/materialList.json'
 import type { NestedGroup } from "@/models/filters"
@@ -11,6 +11,7 @@ export const useMaterialStore = defineStore({
     materials: [] as Product[],
     assemblies: [] as Assembly[],
     currentMapping: null as Product | Assembly | null,
+    currentAssemby: null as Assembly | null,
     sorting: { parameter: 'name', direction: 'asc' } as MaterialSortingOption,
     EPDMode: true,
     EPDList: [] as Product[],
@@ -76,7 +77,12 @@ export const useMaterialStore = defineStore({
      * @param assembly
      */
     addAssembly(assembly: Assembly) {
-      this.assemblies.push(assembly)
+      const index = this.assemblies.findIndex((el) => el.id === assembly.id)
+      if (index !== -1) {
+        this.assemblies[index] = assembly;
+      } else {
+        this.assemblies.push(assembly);
+      }
     },
 
     /**
@@ -96,6 +102,14 @@ export const useMaterialStore = defineStore({
      */
     setCurrentMapping(mapping: Product | Assembly) {
       this.currentMapping = mapping
+    },
+
+    /**
+     * Set current assembly which is being dragged
+     * @param assembly
+     */
+    setCurrentAssembly(assembly: Assembly) {
+      this.currentAssemby = assembly
     },
 
     /**
@@ -119,9 +133,11 @@ export const useMaterialStore = defineStore({
       try {
         this.materials = materialList.map((material: any) => ({
           ...material,
-          "metaData": {
-            "materialType": material["materialType"]
-          }
+          metaData: {
+            materialType: material["materialType"],
+            Collection: material?.metaData?.Collection ?? "-",  // Check for metaData.Collection, set to "-" if it doesn't exist
+        },
+          source: Source.LCAbyg
         })) as any
 
         this.EPDList = this.materials
@@ -133,6 +149,7 @@ export const useMaterialStore = defineStore({
 
     /**
      * Update filterable parameters from material list
+     * DEPRICATED
      */
     updateParameters() {
       const uniqueMaterialTypes = Array.from(
@@ -156,6 +173,7 @@ export const useMaterialStore = defineStore({
 
     /**
      * Set sorting option and sort the list
+     * DEPRICATED
      */
     setSorting(parameter: string, direction: string) {
       const sorting = { parameter, direction }
@@ -165,6 +183,7 @@ export const useMaterialStore = defineStore({
 
     /**
      * Filter EPD list based on selected parameters
+     * DEPRICATED
      */
     triggerParamSort() {
       if(this.EPDMode === true) {

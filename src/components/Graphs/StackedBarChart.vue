@@ -10,6 +10,11 @@ import * as d3 from 'd3'
 import { ref, reactive, onMounted, watch, type PropType } from 'vue'
 import chroma from 'chroma-js'
 
+import { 
+  createTooltip, 
+  createMouseEventHandlers,
+} from '@/utils/chartUtils'
+
 import { getValueColorFromGradient } from '@/utils/colorUtils'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
 
@@ -90,17 +95,17 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
 
   const total = ref(d3.sum(data, d => d.value > 0 ? d.value : 0))
   const totalAbs = ref(d3.sum(data, d => Math.abs(d.value)))
-  const { groupData, zeroPoint } = groupDataFunc(data, total)
+  const { groupData, zeroPoint } = groupDataFunc(data, total, options)
 
-  const unit = ' kg CO2e'
+  const unit = options.unit || ''
 
   const colors = ref(options.colors || 
     groupData.map(d => 
-      getValueColorFromGradient(d.value, 0, Math.max(...groupData.map(d => d.value)))
+      getValueColorFromGradient(d.value, 0, Math.max(...groupData.map(d => d.value).filter(value => !isNaN(value))))
     ))
 
-  const drawChart = (svg: SVGSVGElement, tooltip: HTMLDivElement, container: HTMLDivElement) => {
-    if (!svg || !tooltip || !container) return
+  const drawChart = (svg: SVGSVGElement, tooltipElement: HTMLDivElement, containerElement: HTMLDivElement) => {
+    if (!svg || !tooltipElement || !containerElement) return
     const graph = d3.select(svg)
 
     const w = width.value - margin.left - margin.right
@@ -110,66 +115,11 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
       .domain([0, totalAbs.value])
       .range([0, w])
 
-    // Create tooltip div
-    const tooltipDiv = d3.select(tooltip)
-      .style("position", "absolute")
-      .style("background-color", "white")
-      .style("border", "solid")
-      .style("border-width", "2px")
-      .style("border-radius", "5px")
-      .style("padding", "5px")
-      .style("opacity", 0)
-
-    const mouseover = function (event: MouseEvent, data: ChartData) {
-      tooltipDiv.style("opacity", 1)
-      d3.select(event.currentTarget as Element)
-        .style("stroke", "black")
-        .style("opacity", 1)
-    }
-
-    const mousemove = function (event: MouseEvent, data: ChartData) {
-      const containerRect = container.getBoundingClientRect()
-      const tooltipRect = tooltip.getBoundingClientRect()
-
-      let left = event.clientX - containerRect.left + 15
-      let top = event.clientY - containerRect.top - 28
-
-      // Adjust left and top to keep the tooltip within the container
-      if (left + tooltipRect.width > containerRect.width) {
-        left = event.clientX - containerRect.left - tooltipRect.width - 15
-      }
-      if (left < 0) {
-        left = 10
-      }
-      if (top + tooltipRect.height > containerRect.height) {
-        top = containerRect.height - tooltipRect.height - 10
-      }
-      if (top < 0) {
-        top = 10
-      }
-
-      tooltipDiv
-        .html(data.label + ": " + data.value + unit)
-        .style("left", left + "px")
-        .style("top", top + "px")
-    }
-
-    const mouseleave = function (event: MouseEvent, data: ChartData) {
-      tooltipDiv.style("opacity", 0)
-
-      //Need to get this beforehand so that we can select the fill and darken it on mouseleave
-      const element = d3.select(event.currentTarget as Element)
-      const fillColor = element.style("fill")
-
-      if(element.node().tagName === 'text'){
-        element
-          .style('stroke', 'none')
-      } else {
-        element
-          .style('stroke', () => chroma(fillColor).darken(1))
-          .style("opacity", 0.8)
-      }
-    }
+    // Create tooltips
+    const tooltipDiv = createTooltip(tooltipElement)
+        
+    // Mouse event handlers
+    const { mouseover, mousemove, mouseleave } = createMouseEventHandlers(tooltipDiv, containerElement)
 
     // Text mouseover join
     const addTextWithTooltip = (textElement: d3.Selection<SVGTextElement, ChartData, SVGGElement, unknown>) => {
@@ -285,7 +235,7 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
 }
 
 // Format the data (instead of using d3.stack()) and filter out 0 values:
-function groupDataFunc(data: ChartData[], total: { value: number }) {
+function groupDataFunc(data: ChartData[], total: { value: number }, options: ChartOptions = {}) {
   let cumulative = 0;
   let percent = 0;
   let zeroPoint = 0;
@@ -296,18 +246,20 @@ function groupDataFunc(data: ChartData[], total: { value: number }) {
     if (a.value >= 0 && b.value < 0) return 1
     if (a.value < 0 && b.value < 0) return a.label.localeCompare(b.label)
     if (a.value >= 0 && b.value >= 0) return a.label.localeCompare(b.label)
-    return 0;
-  });
+    return 0
+  })
 
   const _data: ChartData[] = sortedData.map(d => {
     if (total.value !== 0) {
       percent = (d.value / total.value) * 100
     }
+    const tooltipContent = `${d.label}: ${d.value} ${options.unit || ' kg CO2e'}`
     const result = {
       value: d.value,
       cumulative: cumulative,
       label: d.label,
-      percent: percent
+      percent: percent,
+      tooltipContent: tooltipContent
     }
     cumulative += Math.abs(d.value)
     return result;

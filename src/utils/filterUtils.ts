@@ -32,8 +32,6 @@ function createComparisonFilter (
   addFilter(
     name,
     (inGroup, field, filterValue, remove) => {
-      if (filterValue == undefined)
-        throw new Error(`No value provided for ${name}.`)
       const outGroup: { [key: string]: Group } = {}
       // Go through each group and find the objects that match the comparison function
       for (const grp of inGroup) {
@@ -69,6 +67,7 @@ function createComparisonFilter (
 export function createStandardFilters() {
   // Define filters
   createComparisonFilter('equalsFilter', (a, b) => a === b)
+  createComparisonFilter('notEqualsFilter', (a, b) => a !== b)
   createComparisonFilter('greaterThan', (a, b) => !isNaN(Number(a)) && Number(a) > Number(b))
 
   /**

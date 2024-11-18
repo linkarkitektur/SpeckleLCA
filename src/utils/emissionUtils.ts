@@ -1,4 +1,5 @@
 import { useProjectStore } from '@/stores/main'
+import { isAssembly } from '@/utils/EPDUtils'
 
 import type { GeometryObject } from '@/models/geometryObject'
 import type { LifeCycleStageEmission, Product, Emission } from '@/models/material'
@@ -13,8 +14,8 @@ export class EmissionCalculator {
 
   constructor(geo: GeometryObject[] = []) {
     const projectStore = useProjectStore()
+    this.geo = geo
     if (projectStore.currProject) {
-      this.geo = geo
       // If no geometry is provided, calculate for all geometry objects in the project.
       if (geo.length === 0) {
         this.geo = projectStore.currProject.geometry
@@ -40,8 +41,9 @@ export class EmissionCalculator {
         [this.impactCategory]: {} as LifeCycleStageEmission }
       const material = geo.material
 
-      if (this.isAssembly(material)) {
-        result = this.processAssembly(material, emissions, geo)
+      if (isAssembly(material)) {
+        const products = material.products
+        result = this.processAssembly(products, emissions, geo)
       } else {
         result = this.processEPD(material as Product, emissions, geo)
       }
@@ -51,10 +53,6 @@ export class EmissionCalculator {
       }
     }
     return true
-  }
-
-  private isAssembly(material: any): material is { materials?: Product[] } {
-    return material instanceof Object && 'isAssembly' in material
   }
 
   private processAssembly(
@@ -90,13 +88,29 @@ export class EmissionCalculator {
     emissions: Emission,
     geo: GeometryObject
   ) {
-    for (const phase in mat.emission[this.impactCategory]) {
-      const value = mat.emission[this.impactCategory][phase]
+    const impactCategory = this.impactCategory
+    const matEmission = mat.emission[impactCategory]
+
+    if (!emissions[impactCategory]) {
+      emissions[impactCategory] = {} as LifeCycleStageEmission
+    }
+    
+
+    for (const phase in matEmission) {
+      let value = matEmission[phase]
+      if (value === undefined) value = matEmission[phase]
       if (value !== null && !isNaN(Number(value))) {
         const emissionValue = parseFloat(value as string) * geo.quantity[mat.unit]
-        emissions[this.impactCategory][phase] = (emissions[this.impactCategory][phase] || 0) + emissionValue
+
+        if (!emissions[impactCategory][phase]) {
+          emissions[impactCategory][phase] = 0
+        }
+
+        const currentAmount = emissions[impactCategory][phase] || 0
+        emissions[impactCategory][phase] = currentAmount + emissionValue
       }
     }
+
   }
 
   /**

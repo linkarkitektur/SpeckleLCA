@@ -129,7 +129,7 @@ import { ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { defineComponent, ref, onMounted } from 'vue'
 
 import icon from '@/assets/icons/logo.svg'
-import appScreenshot from '@/assets/images/appPicture3D.png'
+import appScreenshot from '@/assets/images/AppPicture3D.png'
 
 export default defineComponent({
   name: 'HeroComponent',

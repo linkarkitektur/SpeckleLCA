@@ -1,4 +1,5 @@
 import type { LifeCycleStageEmission } from "@/models/material"
+import { Source } from "@/models/material"
 import { useMaterialStore } from "@/stores/material"
 import { getEPDList } from "@/utils/EPDUtils"
 
@@ -31,9 +32,10 @@ export enum StandardBuildingMaterialType {
   ExteriorSubstrate = "Exterior Substrate",
   FibreCementBoard = "Fibre Cement board",
   FramesAndProfiles = "Frames and profiles",
+  */
   Generic = "Generic",
   Gypsum = "Gypsum",
-  Hemp = "Hemp",
+  /* Hemp = "Hemp",
   Infill = "Infill",
   MineralWool = "Mineral wool",
   ModifiedWood = "Modified wood",
@@ -52,8 +54,8 @@ export enum StandardBuildingMaterialType {
   TextileFlooring = "Textile flooring",
   Tiles = "Tiles",*/
   TimberBoards = "Timber Boards",
-  //TimberElements = "Timber Elements",
-  //TimberFlooring = "Timber flooring",
+  TimberElements = "Timber Elements",
+  TimberFlooring = "Timber flooring",
   /*WaterproofingMembranes = "Waterproofing membranes",
   WindowFittings = "Window fittings",*/
   Windows = "Windows"
@@ -216,6 +218,7 @@ export const getRevaluBaseList = async() => {
 
     for (const product of products) {
       product.metaData = { materialType: StandardBuildingMaterialType[materialType] }
+      product.source = Source.Revalu
       materialStore.addMaterial(product)
     }
   }

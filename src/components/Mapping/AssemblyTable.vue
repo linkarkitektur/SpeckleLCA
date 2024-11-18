@@ -7,19 +7,19 @@
           Name
         </th>
         <th class="m-3 w-2/6">
-          Material type
+          Category
         </th>
         <th class="m-3 w-1/6">
-          Unit
+          Material
         </th>
         <th class="m-3 w-1/6">
           Emission
         </th>
       </tr>
-    </thead>
+    </thead> 
     <Draggable
-      v-if="EPDList"
-      :list="EPDList"
+      v-if="assemblyList"
+      :list="assemblyList"
       :options="dragOptions"
       class="bg-gray-100 divide-y divide-gray-300 max-w-full block table-fixed hover:cursor-move"
       tag="tbody"
@@ -32,11 +32,12 @@
           class="text-xs whitespace-no-wrap w-full flex hover:bg-gray-200"
           :data-item="JSON.stringify(element)"
           @dragstart="dragStart($event, element)"
+          @dblclick="loadAssembly(element)"
         >
           <td scope="row" class="m-2 w-2/6 line-clamp-3">{{ element.name }}</td>
-          <td v-if=element.metaData.materialType class="m-2 w-2/6">{{ element.metaData.materialType }}</td>
-          <td v-else class="m-2 w-2/6">Other</td>
-          <td class="m-2 w-1/6">{{ element.unit }}</td>
+          <td class="m-2 w-2/6">{{ element.category }}</td>
+          <td v-if=element.metaData.materialType class="m-2 w-1/6">{{ element.metaData.materialType }}</td>
+          <td v-else class="m-2 w-1/6">Other</td>
           <td 
             :class="{'text-red-600' : roundedEmissions[index].isPositive, 'text-green-600' : !roundedEmissions[index].isPositive}"
             class="m-2 w-1/6"
@@ -51,28 +52,30 @@
   </table>
 </template>
 
+
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { useMaterialStore } from '@/stores/material'
-import type { Product } from '@/models/material'
+import type { Product, Assembly } from '@/models/material'
+
 
 export default defineComponent({
   name: 'MaterialTable',
   components: {
-    Draggable,
+    Draggable
   },
   props: {
     data: {
-      type: Array as () => Product[], //| Assembly[],
+      type: Array as () => Assembly[], //| Product[],
       required: true,
     },
   },
   setup(props) {
     const materialStore = useMaterialStore()
-
-    const EPDList = computed(() => props.data)
     
+    const assemblyList = computed(() => props.data)
+
     const dragOptions = ref({
       animation: 200,
       group: 'materials',
@@ -83,10 +86,15 @@ export default defineComponent({
 
     // Compute rounded emissions for Products and Assemblies
     const roundedEmissions = computed(() => {
-      if (!EPDList.value) return [];
+      if (!assemblyList.value) return [];
 
-      return EPDList.value.map((product: Product) => {
-        const value = product.emission?.gwp?.a1a3 ?? 0
+      return assemblyList.value.map((assembly: Assembly) => {
+        if (!assembly.emission)
+          return {
+            value: 0,
+            isPositive: false,
+          }
+        const value = assembly.emission?.gwp?.a1a3 ?? 0
         const roundedValue = parseFloat((Number(value) || 0).toFixed(2))
         
         return {
@@ -96,20 +104,25 @@ export default defineComponent({
       })
     })
 
-    const dragStart = (event  : DragEvent, material: Product) => {
-      materialStore.setCurrentMapping(material)
+    const dragStart = (event: DragEvent, assembly: Assembly) => {
+      materialStore.setCurrentAssembly(assembly)
     }
 
-    const cloneItem = (item: Product) => {
+    const cloneItem = (item: Assembly) => {
       return { ...item }
     }
 
+    const loadAssembly = (assembly: Assembly) => {
+      materialStore.setCurrentAssembly(assembly)
+    }
+
     return {
-      EPDList,
+      assemblyList,
       dragOptions,
       roundedEmissions,
+      loadAssembly,
       dragStart,
-      cloneItem
+      cloneItem,
     }
   },
 })
