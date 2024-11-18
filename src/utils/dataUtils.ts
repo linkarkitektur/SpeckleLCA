@@ -51,3 +51,9 @@ export function removeUndefinedFields(obj: any): any {
           return acc
         }, {} as any)
 }
+
+export const getEnumEntries = (enumObj: any) => {
+  return Object.keys(enumObj)
+    .filter((key) => isNaN(Number(key)))
+    .map((key) => ({ label: key, value: enumObj[key] }))
+}

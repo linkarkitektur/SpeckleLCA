@@ -246,22 +246,25 @@ export function calculateQuantity(obj: ResponseObject) {
 	const searchObject = [
 		{
 			searchValue: 'area',
-			metric: 'm2'
+			metric: 'm2',
+			mmConversion: 1000000
 		},
 		{
 			searchValue: 'volume',
-			metric: 'm3'
+			metric: 'm3',
+			mmConversion: 1000000000
 		},
 		{
 			searchValue: 'length',
-			metric: 'm'
+			metric: 'm',
+			mmConversion: 1000
 		}
 	]
 
 	// Recursive search for key values in object properties
 	const searchNested = (
 		data: { [key: string]: any },
-		sObj: { searchValue: string; metric: string }
+		sObj: { searchValue: string; metric: string; mmConversion: number }
 	) => {
 		for (const key in data) {
 			if (Object.prototype.hasOwnProperty.call(data, key)) {
@@ -278,8 +281,21 @@ export function calculateQuantity(obj: ResponseObject) {
 						value = data['value']
 					}
 					quantity[sObj.metric] = value
+				} else if (key == sObj.searchValue) {
+					// If the property is a string and matches the search value, set the quantity
+					let value = data[key]
+
+					if (typeof value === 'string') {
+						value = data['value']
+					}
+					//TODO Make more conversions
+					if (data['units'] == 'mm') {
+						value = value / sObj.mmConversion
+					}
+
+					quantity[sObj.metric] = value
 				}
-			}
+			}	
 		}
 	}
 

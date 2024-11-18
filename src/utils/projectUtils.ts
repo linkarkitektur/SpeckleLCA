@@ -188,8 +188,12 @@ export function setResultsColorGroup(objects: GeometryObject[] = null, colorRang
         for (const phase in gwp) {
           totalGwp += gwp[phase]
         }
+
+        const sizeFactor = object ? Math.log10(object.quantity.m2 + 1) : 1
+
+        const normalisedEmissions = (totalGwp / object.quantity.m2) * sizeFactor
         //Calculate the color based on the gwp value
-        const color = getValueColorFromGradient(totalGwp, 0, 10000)
+        const color = getValueColorFromGradient(normalisedEmissions, 0, 200)
         groups.push({ objectIds: [object.id], color: color })
       }
     } else {

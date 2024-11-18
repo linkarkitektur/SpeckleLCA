@@ -13,3 +13,7 @@ export function roundNumber(num: number, decimals: number) {
   }
   return rounded;
 }
+
+export function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}

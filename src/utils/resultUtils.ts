@@ -1,7 +1,7 @@
 import { useResultStore } from '@/stores/result'
 import { useProjectStore } from '@/stores/main'
 
-import type { ChartData } from '@/models/chartModels'
+import type { ChartData, NestedChartData } from '@/models/chartModels'
 import type { GeometryObject } from '@/models/geometryObject'
 import type { Product, Assembly, Emission, LifeCycleStageEmission } from '@/models/material'
 import type { MaterialResults } from '@/models/result'
@@ -46,7 +46,7 @@ export function geometryToLCSChartData(objects: GeometryObject[], impactCategory
  * @param resultKey optional key to get specific result
  */
 export function geometryToMaterialChartData(objects: GeometryObject[], impactCategory: string = 'gwp', resultKey: number = Number.MIN_SAFE_INTEGER): ChartData[] {
-  const groupedData = new Map<string, { value: number, ids: Set<string> }>()
+  const groupedData = new Map<string, ChartData>()
 
   // Go through each selected object and get aggregated labels and emission data
   for (const obj of objects) {
@@ -58,7 +58,12 @@ export function geometryToMaterialChartData(objects: GeometryObject[], impactCat
     if (!result || !result.emission) continue
 
     if (!groupedData.has(materialName)) {
-      groupedData.set(materialName, { value: 0, ids: new Set<string>() })
+      const entry: ChartData = {
+        label: materialName,
+        value: 0,
+        ids: []
+      }
+      groupedData.set(materialName, entry)
     }
 
     const materialData = groupedData.get(materialName)!
@@ -66,16 +71,67 @@ export function geometryToMaterialChartData(objects: GeometryObject[], impactCat
     for (const lifeCycleStage in result.emission[impactCategory]) {
       materialData.value += result.emission[impactCategory][lifeCycleStage]
     }
-    materialData.ids.add(obj.id)
+    materialData.ids.push(obj.id)
   }
 
   const data: ChartData[] = Array.from(groupedData, ([material, { value, ids }]) => ({
     label: material,
     value: Math.round(value),
-    ids: Array.from(ids)
+    ids: ids
   }))
 
   return data
+}
+
+/**
+ * Converter of geometry object results into nested ChartData for all unique materials
+ * @param objects geometry objects to convert
+ * @param impactCategory optional impact category to get results for that category
+ * @param resultKey optional key to get specific result
+ */export function geometryToMaterialTypeNestedChartData(objects: GeometryObject[], impactCategory: string = 'gwp', resultKey: number = Number.MIN_SAFE_INTEGER): NestedChartData[] {
+  const groupedData = new Map<string, Map<string, ChartData>>()
+
+  // Go through each selected object and get aggregated labels and emission data
+  for (const obj of objects) {
+    const materialType = obj.parameters.category
+    const results = obj.results
+    if (!results || !materialType) continue
+
+    const result = resultKey === Number.MIN_SAFE_INTEGER ? results[results.length - 1] : results[resultKey]
+    if (!result || !result.emission) continue
+
+    if (!groupedData.has(materialType)) {
+      groupedData.set(materialType, new Map<string, ChartData>())
+    }
+
+    const materialStages = groupedData.get(materialType)!
+
+    for (const lifeCycleStage in result.emission[impactCategory]) {
+      if (!materialStages.has(lifeCycleStage)) {
+        materialStages.set(lifeCycleStage, {
+          label: lifeCycleStage,
+          value: 0,
+          ids: []
+        })
+      }
+
+      const stageData = materialStages.get(lifeCycleStage)!
+      stageData.value += result.emission[impactCategory][lifeCycleStage]
+      stageData.ids.push(obj.id)
+    }
+  }
+
+  // Convert grouped data into NestedChartData format
+  const nestedData: NestedChartData[] = Array.from(groupedData, ([material, stages]) => ({
+    label: material,
+    value: Array.from(stages.values()).map(({ label, value, ids }) => ({
+      label,
+      value: Math.round(value),
+      ids
+    }))
+  }))
+
+  return nestedData
 }
 
 /**
