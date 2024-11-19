@@ -1,7 +1,7 @@
 <template>
   <div ref="container" class="w-full justify-items-center relative overflow-visible">
     <svg ref="svg" class="w-full overflow-visible"></svg>
-    <div ref="tooltip" class="absolute flex z-50 bg-white border-solid border-2 border-gray-300 rounded-5 p-5" style="opacity: 0"></div>
+    <div ref="tooltip" class="absolute flex z-50 bg-white border-solid border-2 border-gray-300 rounded-5 p-5 pointer-events-none" style="opacity: 0"></div>
   </div>
 </template>
 
@@ -14,7 +14,6 @@ import {
   updateSelectedObjects, 
   createTooltip, 
   createMouseEventHandlers,
-  createBaseChart,
 } from '@/utils/chartUtils'
 import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModels'
 

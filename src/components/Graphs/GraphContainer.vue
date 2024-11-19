@@ -1,5 +1,5 @@
 <template>
-  <component :is="leftModule" v-bind="graphProps" />
+  <component :is="leftModule" v-bind="graphProps"/>
 </template>
 
 <script setup lang="ts">
