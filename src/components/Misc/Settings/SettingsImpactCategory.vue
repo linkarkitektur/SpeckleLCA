@@ -10,7 +10,7 @@
           <Dropdown
             :items="impactCategoryList"
             name="codes"
-            dropdownName="Select Impact Category"
+            :dropdownName="impactCategory"
             @selectedItem="handleSelectedItem"
           />
            <UpdateButton @click="updateImpactCategory" />

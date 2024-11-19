@@ -1,18 +1,18 @@
 import { initializeApp } from 'firebase/app'
 import { Firestore, getFirestore } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
-import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
 export let db: Firestore = null
 
 export function initializeFirebase() {
-  const projectStore =  useProjectStore()
+  const settingsStore = useSettingsStore()
 
-  if (!projectStore.appSettings.firebaseConfig || !projectStore.appSettings.firebaseConfig.apiKey) {
+  if (!settingsStore.keySettings.firebaseConfig || !settingsStore.keySettings.firebaseConfig.apiKey) {
     console.error('Firebase configuration or API key not found in settings')
   }
 
-  const app = initializeApp(projectStore.appSettings.firebaseConfig)
+  const app = initializeApp(settingsStore.keySettings.firebaseConfig)
   const tempDb = getFirestore(app)
   const auth = getAuth(app)
 

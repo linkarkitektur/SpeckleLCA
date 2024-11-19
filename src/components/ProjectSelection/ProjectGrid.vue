@@ -59,11 +59,15 @@
 </template>
 
 <script lang="ts">
-	import { useSpeckleStore } from '@/stores/speckle'
 	import { computed, defineComponent, onMounted, ref } from 'vue'
-	import type { ProjectId } from '@/models/speckle'
+	
 	import VersionSelectionModal from '@/components/ProjectSelection/VersionSelectionModal.vue'
+
 	import { useNavigationStore } from '@/stores/navigation'
+	import { useSettingsStore } from '@/stores/settings'
+	import { useSpeckleStore } from '@/stores/speckle'
+
+	import type { ProjectId } from '@/models/speckle'
 
 	/**
 	 * Component for displaying a grid of projects.
@@ -81,8 +85,8 @@
 			 * @returns {string} The embedded URL for the project.
 			 */
 			getEmbeddedUrl(project: ProjectId) {
-				const baseUrl =
-					import.meta.env.VITE_APP_SERVER_URL || 'https://speckle.xyz'
+				const settingsStore = useSettingsStore()
+				const baseUrl = settingsStore.keySettings.speckleConfig.serverUrl
 				const streamId = project.id
 
 				return `${baseUrl}/embed?stream=${streamId}&transparent=true&hidecontrols=true&hidesidebar=true&hideselectioninfo=true`

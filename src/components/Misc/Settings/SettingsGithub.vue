@@ -10,7 +10,7 @@
            <input
              type="text"
              v-model="githubKey"
-             placeholder="Revalu key"
+             placeholder="Github token"
              class="w-full border p-2 rounded-md"
            />
            <UpdateButton @click="updateGithub" />
