@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
 // TODO: Add general settings here!
 export default defineComponent({
@@ -77,12 +77,12 @@ export default defineComponent({
    }),
  },
  setup() {
-   const projectStore = useProjectStore()
+   const settingsStore = useSettingsStore()
 
-   const githubKey = ref(projectStore.appSettings.githubApiKey)
+   const githubKey = ref(settingsStore.keySettings.githubApiKey)
 
    const updateGithub = () => {
-     projectStore.updateGithubApiKey(githubKey.value)
+    settingsStore.updateGithubApiKey(githubKey.value)
    }
    
    return { 

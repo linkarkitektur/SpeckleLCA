@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
 export default defineComponent({
  name: 'SettingsMaterials',
@@ -68,12 +68,12 @@ export default defineComponent({
    }),
  },
  setup() {
-   const projectStore = useProjectStore()
+   const settingsStore = useSettingsStore()
 
-   const materialKeys = ref(projectStore.appSettings.materialKeys)
+   const materialKeys = ref(settingsStore.keySettings.materialKeys)
 
    const updateMaterialKeys = () => {
-     projectStore.updateMaterialKeys(materialKeys.value)
+    settingsStore.updateMaterialKeys(materialKeys.value)
    }
    
    return { 

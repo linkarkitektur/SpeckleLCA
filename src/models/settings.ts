@@ -1,14 +1,27 @@
 import type { ImpactCategoryKey, LifeCycleStage } from "lcax"
 import type { ExtendedImpactCategoryKey } from '@/models/material'
 
-export interface AppSettings {
-  epdSource: EPDSource
-  includedStages: IncludedStages
-  standardImpactCategory: ExtendedImpactCategoryKey
-  materialKeys: MaterialKeys
+/**
+ * Settings for external connections such as API keys and configurations
+ */
+export interface KeySettings {
+  materialKeys: MaterialKeys,
   githubApiKey: string
   firebaseConfig: FirebaseConfig
   speckleConfig: SpeckleConfig
+}
+
+export interface CalculationSettings {
+  includedStages: IncludedStages
+  standardImpactCategory: ExtendedImpactCategoryKey
+}
+
+export interface MaterialSettings {
+  epdSource: EPDSource
+}
+
+export interface AppSettings {
+  colorscheme: string
 }
 
 export enum EPDSource {
@@ -66,22 +79,19 @@ interface IncludedStages {
 /**
  * Default settings for the application
  */
-export const standardSettings: AppSettings = {
-  epdSource: EPDSource.Revalu,
-  includedStages: {
-    relevantStages: [
-      { included: true, stage: "a1a3" as LifeCycleStage }, // Manufacturing
-      { included: true, stage: "a4" as LifeCycleStage }, // Transport
-      { included: true, stage: "a5" as LifeCycleStage }, // Assembly
-      { included: true, stage: "b1" as LifeCycleStage }, // Use
-      { included: true, stage: "c1" as LifeCycleStage }, // End of life
-    ]
-  },
-  standardImpactCategory: { impactCategory: "gwp" as ImpactCategoryKey },
+export const standardAppSettings: AppSettings = {
+  colorscheme: 'light'
+}
+
+/**
+ * Default settings for the material settings
+ */
+export const standardKeySettings: KeySettings = {
   materialKeys: {
-    revalu: "enter key here",
-    ecoPortal: "enter key here"
+    revalu: null,
+    ecoPortal: null
   },
+  githubApiKey: null,
   firebaseConfig: {
     apiKey: null,
     authDomain: "specklca.firebaseapp.com",
@@ -91,10 +101,26 @@ export const standardSettings: AppSettings = {
     appId: "1:660785821928:web:236a8b63b72bf6abcc715d",
     measurementId: "G-EKQGVJLEEG"
   },
-  githubApiKey: "enter key here",
   speckleConfig: {
     serverUrl: "https://app.speckle.systems",
-    id: "enter id here",
-    secret: "enter secret here"
+    id: null,
+    secret: null
   }
+}
+
+export const standardCalculationSettings: CalculationSettings = {
+  includedStages: {
+    relevantStages: [
+      { included: true, stage: "a1a3" as LifeCycleStage }, // Manufacturing
+      { included: true, stage: "a4" as LifeCycleStage }, // Transport
+      { included: true, stage: "a5" as LifeCycleStage }, // Assembly
+      { included: true, stage: "b1" as LifeCycleStage }, // Use
+      { included: true, stage: "c1" as LifeCycleStage }, // End of life
+    ]
+  },
+  standardImpactCategory: 'gwp'
+}
+
+export const standardMaterialSettings: MaterialSettings = {
+  epdSource: EPDSource.Revalu
 }

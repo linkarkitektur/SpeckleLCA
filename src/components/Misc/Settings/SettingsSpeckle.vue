@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
 export default defineComponent({
  name: 'SettingsSpeckle',
@@ -79,12 +79,12 @@ export default defineComponent({
    }),
  },
  setup() {
-   const projectStore = useProjectStore()
+   const settingsStore = useSettingsStore()
 
-   const speckleSettings = ref(projectStore.appSettings.speckleConfig)
+   const speckleSettings = ref(settingsStore.keySettings.speckleConfig)
 
    const updateSpeckleSettings = () => {
-     projectStore.updateSpeckleSettings(speckleSettings.value)
+    settingsStore.updateSpeckleSettings(speckleSettings.value)
    }
    
    return { 

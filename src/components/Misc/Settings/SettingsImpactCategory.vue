@@ -11,6 +11,7 @@
             :items="impactCategoryList"
             name="codes"
             dropdownName="Select Impact Category"
+            @selectedItem="handleSelectedItem"
           />
            <UpdateButton @click="updateImpactCategory" />
          </dd>
@@ -21,9 +22,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
-import type { ExtendedImpactCategoryKey } from '@/models/material'
+import { ExtendedImpactCategoryKey, extendedImpactCategoryKeys } from '@/models/material'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 import Dropdown from '@/components/Misc/Dropdown.vue'
@@ -61,24 +62,28 @@ export default defineComponent({
     }),
   },
   setup() {
-  const projectStore = useProjectStore()
+  const settingsStore = useSettingsStore()
 
-  const impactCategory = ref(projectStore.appSettings.standardImpactCategory)
+  const impactCategory = ref(settingsStore.calculationSettings.standardImpactCategory)
 
-  const impactCategoryList: dropdownItem[] = [
-    { name: 'GWP' },
-    { name: 'GWP - bio' },
-    { name: 'GWP - fossil' },
-  ]
+  const impactCategoryList: dropdownItem[] = []
+  extendedImpactCategoryKeys.map((key) => {
+    impactCategoryList.push({ name: key })
+  })
 
   const updateImpactCategory = () => {
-    projectStore.updateStandardImpactCategory(impactCategory.value)
+    settingsStore.updateStandardImpactCategory(impactCategory.value)
+  }
+
+  const handleSelectedItem = (selectedItem: dropdownItem) => {
+    impactCategory.value = selectedItem.name as ExtendedImpactCategoryKey
   }
 
   return { 
-  impactCategory,
-  impactCategoryList,
-  updateImpactCategory
+    impactCategory,
+    impactCategoryList,
+    updateImpactCategory,
+    handleSelectedItem
   }
   },
 })

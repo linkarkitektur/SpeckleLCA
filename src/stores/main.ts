@@ -11,7 +11,6 @@ import type {
 	AppSettings 
 } from '@/models/settings'
 
-import { standardSettings } from '@/models/settings'
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 
@@ -30,7 +29,6 @@ export const useProjectStore = defineStore({
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
 			selectedObjects: [] as GeometryObject[], // GeometryObjects that are currently selected
 			hiddenObjects: [] as GeometryObject[], // GeometryObjects that are currently hidden
-			appSettings: standardSettings as AppSettings, // Application settings
 		}
 	},
 	// Save the store to local storage so we dont have to create new settings every time
@@ -39,7 +37,6 @@ export const useProjectStore = defineStore({
 		afterHydrate: (ctx) => {
       console.log(`just hydrated '${ctx.store.$id}'`)
     }
-
 	},
 	actions: {
 		/**
@@ -407,59 +404,5 @@ export const useProjectStore = defineStore({
 		findResultIndexById(id: string) {
 			return this.currProject?.geometry.findIndex((item) => item.id === id)
 		},
-
-		/**
-		 * Updates the firebase configuration in the app settings.
-		 * @param firebaseConfig The new firebase configuration.
-		 */
-		updateFirebaseSettings(firebaseConfig: AppSettings['firebaseConfig']) {
-			this.appSettings.firebaseConfig = firebaseConfig
-		},
-
-		/**
-		 * Updates the speckle configuration in the app settings.
-		 * @param speckleConfig The new speckle configuration.
-		 */
-		updateSpeckleSettings(speckleConfig: AppSettings['speckleConfig']) {
-			this.appSettings.speckleConfig = speckleConfig
-		},
-
-		/**
-		 * Updates the material keys in the app settings.
-		 * @param materialKeys The new material keys.
-		 */
-		updateMaterialKeys(materialKeys: AppSettings['materialKeys']) {
-			this.appSettings.materialKeys = materialKeys
-		},
-
-		/**
-		 * Updates the EPD source in the app settings.
-		 * @param epdSource The new EPD source.
-		 */
-		updateEPDSource(epdSource: AppSettings['epdSource']) {
-			this.appSettings.epdSource = epdSource
-		},
-
-		
-		updateGithubApiKey(githubApiKey: AppSettings['githubApiKey']) {
-			this.appSettings.githubApiKey = githubApiKey
-		},
-
-		/**
-		 * Updates the included stages in the app settings.
-		 * @param includedStages The new included stages.
-		 */
-		updateIncludedStages(includedStages: AppSettings['includedStages']) {
-			this.appSettings.includedStages = includedStages
-		},
-
-		/**
-		 * Updates the standard impact category in the app settings.
-		 * @param standardImpactCategory The new standard impact category.
-		 */
-		updateStandardImpactCategory(standardImpactCategory: AppSettings['standardImpactCategory']) {
-			this.appSettings.standardImpactCategory = standardImpactCategory
-		},
-
 	}
 })

@@ -94,7 +94,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
 export default defineComponent({
   name: 'SettingsFirebase',
@@ -127,12 +127,12 @@ export default defineComponent({
     }),
   },
   setup() {
-    const projectStore = useProjectStore()
+    const settingsStore = useSettingsStore()
 
-    const firebaseSettings = ref(projectStore.appSettings.firebaseConfig)
+    const firebaseSettings = ref(settingsStore.keySettings.firebaseConfig)
 
     const updateFirebaseSettings = () => {
-      projectStore.updateFirebaseSettings(firebaseSettings.value)
+      settingsStore.updateFirebaseSettings(firebaseSettings.value)
     }
     
     return { 

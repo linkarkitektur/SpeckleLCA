@@ -83,7 +83,22 @@ export interface MaterialSortingOption {
  */
 export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l" | "tonnes"
 
-export type ExtendedImpactCategoryKey = 'gwp_total' | 'gwp_fossil' | 'gwp_bio' | 'gwp_luluc' | ImpactCategoryKey
+/**
+ * Extended impact categories for application
+ * Array of possible impact categories to use, increase as needed
+ */
+export type ExtendedImpactCategoryKey = 'gwp-total' | 'gwp-fossil' | 'gwp-biogenic' | 'gwp-LULUC' | ImpactCategoryKey
+export const extendedImpactCategoryKeys: ExtendedImpactCategoryKey[] = [
+  'gwp',
+  'gwp-total',
+  'gwp-fossil',
+  'gwp-biogenic',
+  'gwp-LULUC',
+  'odp',
+  'ap',
+  'pocp',
+] as const
+
 
 /**
  * BASAB codes for buildingParts
