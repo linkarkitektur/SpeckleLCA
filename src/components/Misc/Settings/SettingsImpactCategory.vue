@@ -21,13 +21,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
 
 import { ExtendedImpactCategoryKey, extendedImpactCategoryKeys } from '@/models/material'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 import Dropdown from '@/components/Misc/Dropdown.vue'
+import { storeToRefs } from 'pinia'
 
 // TODO: Add general settings here!
 export default defineComponent({
@@ -63,7 +64,8 @@ export default defineComponent({
   },
   setup() {
   const settingsStore = useSettingsStore()
-
+  
+  const { calculationSettings } = storeToRefs(settingsStore)
   const impactCategory = ref(settingsStore.calculationSettings.standardImpactCategory)
 
   const impactCategoryList: dropdownItem[] = []
@@ -78,6 +80,10 @@ export default defineComponent({
   const handleSelectedItem = (selectedItem: dropdownItem) => {
     impactCategory.value = selectedItem.name as ExtendedImpactCategoryKey
   }
+  
+  watch(() => calculationSettings.value.standardImpactCategory, (newValue) => {
+    impactCategory.value = newValue
+  })
 
   return { 
     impactCategory,
