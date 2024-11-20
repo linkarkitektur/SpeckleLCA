@@ -1,5 +1,7 @@
-import type { ImpactCategoryKey, LifeCycleStage } from "lcax"
+import type { LifeCycleStage } from "lcax"
 import type { ExtendedImpactCategoryKey } from '@/models/material'
+import type { BuildingCodeItem } from '@/models/buildingCode'
+import { BSAB96 } from '@/models/buildingCode'
 
 /**
  * Settings for external connections such as API keys and configurations
@@ -14,6 +16,11 @@ export interface KeySettings {
 export interface CalculationSettings {
   includedStages: IncludedStages
   standardImpactCategory: ExtendedImpactCategoryKey
+  buildingCode: {
+    key: string,
+    data: BuildingCodeItem[],
+  },
+
 }
 
 export interface MaterialSettings {
@@ -118,7 +125,11 @@ export const standardCalculationSettings: CalculationSettings = {
       { included: true, stage: "c1" as LifeCycleStage }, // End of life
     ]
   },
-  standardImpactCategory: 'gwp'
+  standardImpactCategory: 'gwp',
+  buildingCode: {
+    key: 'BSAB96',
+    data: BSAB96
+  }
 }
 
 export const standardMaterialSettings: MaterialSettings = {

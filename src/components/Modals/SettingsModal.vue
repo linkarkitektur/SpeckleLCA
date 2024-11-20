@@ -70,7 +70,10 @@ import SettingsSidebar from '@/components/Misc/Settings/SettingsSidebar.vue'
 
 import SettingsGeneral from '@/components/Misc/Settings/SettingsGeneral.vue'
 
+import SettingsCalculationCategory from '@/components/Misc/Settings/SettingsCalculationCategory.vue'
 import SettingsImpactCategory from '@/components/Misc/Settings/SettingsImpactCategory.vue'
+import SettingsLifecycleStages from '@/components/Misc/Settings/SettingsLifecycleStages.vue'
+import SettingsBuildingCodes from '@/components/Misc/Settings/SettingsBuildingCodes.vue'
 
 import SettingsFirebase from '@/components/Misc/Settings/SettingsFirebase.vue'
 import SettingsSpeckle from '@/components/Misc/Settings/SettingsSpeckle.vue'
@@ -94,6 +97,8 @@ export default defineComponent({
     SettingsSpeckle,
     SettingsMaterials,
     SettingsGithub,
+    SettingsLifecycleStages,
+    SettingsCalculationCategory,
   },
   setup() {
     const navStore = useNavigationStore()
@@ -109,7 +114,7 @@ export default defineComponent({
 
     const viewComponents = {
       'General': [SettingsGeneral],
-      'Calculation': [SettingsImpactCategory],
+      'Calculation': [SettingsCalculationCategory, SettingsImpactCategory, SettingsLifecycleStages, SettingsBuildingCodes],
       'Keys': [SettingsFirebase, SettingsSpeckle, SettingsMaterials, SettingsGithub],
     }
 
@@ -121,9 +126,7 @@ export default defineComponent({
 
     const setView = (view: SettingView) => {
       currentSettingView.value = view.name
-    }
-
-    
+    }    
     
     return {
       settingsModalOpen,

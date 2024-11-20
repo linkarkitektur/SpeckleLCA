@@ -26,13 +26,15 @@ import type {
   FilterLog,
   MappingLog,
   ResultsLog,
-  AssemblyList
+  AssemblyList,
+  CalculationSettingsLog
 } from '@/models/firebase'
 
 import { 
   deepToRaw,
   removeUndefinedFields
  } from '@/utils/dataUtils'
+import { CalculationSettings } from '@/models/settings'
 
 export const useFirebaseStore = defineStore('firebase', {
   state: () => ({
@@ -381,6 +383,74 @@ export const useFirebaseStore = defineStore('firebase', {
         } else {
           await addDoc(collection(db, 'projectAssemblies'), assemblyList);
         }
+      } catch (error: any) {
+        this.error = error.message
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Fetches the calculation settings for a project and all generic ones
+     * @param projectId 
+     * @param settings 
+     * @returns CalculationSettings[] or null if none found
+     */
+    async fetchCalculationSettings(projectId: string): Promise<CalculationSettingsLog[] | null> {
+      this.loading = true
+      this.error = null
+
+      try {
+        const specificQuery = query(
+          collection(db, 'calculationSettings'),
+          where('projectId', '==', projectId)
+        )
+        const genericQuery = query(
+          collection(db, 'calculationSettings'),
+          where('projectId', '==', 'generic')
+        )
+
+        const [specificSnapshot, genericSnapshot] = await Promise.all([
+          getDocs(specificQuery),
+          getDocs(genericQuery)
+        ])
+        
+        if (!specificSnapshot.empty || !genericSnapshot.empty) {
+          const combinedSettings: CalculationSettingsLog[] = [...specificSnapshot.docs, ...genericSnapshot.docs].map(doc => ({
+            ...doc.data()
+          })) as CalculationSettingsLog[]
+          return combinedSettings
+        } else {
+          return null
+        }
+      } catch (error: any) {
+        this.error = error.message
+        return null
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Adds a calculation setting to the database
+     * @param projectId 
+     * @param setting 
+     */
+    async addCalculationSettings(projectId: string, setting: CalculationSettings, name: string) {
+      this.loading = true
+      this.error = null
+  
+      try {
+        if (!setting) 
+          return null
+
+        const settingLog: CalculationSettingsLog = {
+          projectId: projectId,
+          settings: setting,
+          date: new Date(),
+          name: name
+        }
+        await addDoc(collection(db, 'calculationSettings'), settingLog);
       } catch (error: any) {
         this.error = error.message
       } finally {

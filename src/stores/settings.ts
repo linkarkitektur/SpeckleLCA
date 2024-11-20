@@ -84,5 +84,13 @@ export const useSettingsStore = defineStore({
 		updateStandardImpactCategory(standardImpactCategory: CalculationSettings['standardImpactCategory']) {
 			this.calculationSettings.standardImpactCategory = standardImpactCategory
 		},
+
+		/**
+		 * Updates the building code in the app settings.
+		 * @param buildingCode The new building code.
+		 */
+		updateBuildingCode(buildingCode: CalculationSettings['buildingCode']) {
+			this.calculationSettings.buildingCode = buildingCode
+		},
 	}
 })
