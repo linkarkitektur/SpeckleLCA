@@ -198,7 +198,7 @@ export const generic: BuildingCodeItem[] = [
  * List of building codes
  * Add new codes here
  */
-export const codes: BuildingCodeItem[][] = [
-  BSAB96,
-  generic
-]
+export const buildingCodes: { [key:string]: BuildingCodeItem[] } = {
+  BSAB96: BSAB96,
+  generic: generic
+}
