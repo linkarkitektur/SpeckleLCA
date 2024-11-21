@@ -31,13 +31,6 @@ export const useProjectStore = defineStore({
 			hiddenObjects: [] as GeometryObject[], // GeometryObjects that are currently hidden
 		}
 	},
-	// Save the store to local storage so we dont have to create new settings every time
-	persist: {
-    storage: localStorage,
-		afterHydrate: (ctx) => {
-      console.log(`just hydrated '${ctx.store.$id}'`)
-    }
-	},
 	actions: {
 		/**
 		 * Creates a new project.

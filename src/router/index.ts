@@ -123,14 +123,15 @@ const beforeEachGuard = async (to: RouteLocationNormalized) => {
     .then(() => {
       // If the route requires authentication and the user is not authenticated, return to the login page.
       if (to.meta.requiresAuth && !speckleStore.isAuthenticated) {
-        if (settingsStore.keySettings.speckleConfig.id === '' || settingsStore.keySettings.speckleConfig.secret === '') {
+        if (settingsStore.keySettings.speckleConfig.id == undefined || settingsStore.keySettings.speckleConfig.secret == undefined) {
           console.log("Speckle credentials are not set, redirecting to project.")
           navigationStore.toggleSettingsModal()
           return { name: 'Projects' }
+        } else {
+          //logMessageToSentry("User is not authenticated, but the route required it.", 'warning')
+          console.log("User is not authenticated, but the route required it and keys exists.")
+          speckleStore.login()
         }
-        //logMessageToSentry("User is not authenticated, but the route required it.", 'warning')
-        console.log("User is not authenticated, but the route required it and keys exists.")
-        speckleStore.login()
       }
     });
 }

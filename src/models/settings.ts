@@ -110,8 +110,8 @@ export const standardKeySettings: KeySettings = {
   },
   speckleConfig: {
     serverUrl: "https://app.speckle.systems",
-    id: null,
-    secret: null
+    id: "25477842e5",
+    secret: "c5a683ccc4"
   }
 }
 
