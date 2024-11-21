@@ -38,7 +38,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch, Ref } from 'vue'
+import { defineComponent, computed, ref, watch } from 'vue'
+import type { Ref } from 'vue'
 import { PaintBrushIcon, MinusCircleIcon } from '@heroicons/vue/20/solid'
 import { Sketch } from '@ckpack/vue-color'
 import type { ColorInput } from '@ctrl/tinycolor'

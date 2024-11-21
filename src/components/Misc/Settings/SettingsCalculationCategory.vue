@@ -33,7 +33,7 @@ import { useSettingsStore } from '@/stores/settings'
 import { useProjectStore } from '@/stores/main'
 import { useFirebaseStore } from '@/stores/firebase'
 
-import { CalculationSettings } from '@/models/settings'
+import type { CalculationSettings } from '@/models/settings'
 import type { CalculationSettingsLog } from '@/models/firebase'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 

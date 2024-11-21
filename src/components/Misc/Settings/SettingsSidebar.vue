@@ -28,8 +28,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, Ref } from 'vue'
-import { SettingView } from '@/models/settings';
+import { defineComponent} from 'vue'
+
+import type { PropType } from 'vue'
+import type { SettingView } from '@/models/settings';
 
 export default defineComponent({
   name: 'SettingsSidebar',

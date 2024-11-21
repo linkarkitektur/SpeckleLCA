@@ -1,0 +1,28 @@
+name: Buildable check
+on:
+  pull_request:
+    branches:
+      - main 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.11
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm i
+
+      # Build the project
+      - name: Build project
+        run: npm run build
