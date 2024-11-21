@@ -23,8 +23,9 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
+import { extendedImpactCategoryKeys } from '@/models/material'
 
-import { ExtendedImpactCategoryKey, extendedImpactCategoryKeys } from '@/models/material'
+import type { ExtendedImpactCategoryKey } from '@/models/material'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 import Dropdown from '@/components/Misc/Dropdown.vue'

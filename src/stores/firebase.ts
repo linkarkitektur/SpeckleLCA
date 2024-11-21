@@ -34,7 +34,7 @@ import {
   deepToRaw,
   removeUndefinedFields
  } from '@/utils/dataUtils'
-import { CalculationSettings } from '@/models/settings'
+import type { CalculationSettings } from '@/models/settings'
 
 export const useFirebaseStore = defineStore('firebase', {
   state: () => ({

@@ -26,7 +26,9 @@ import {
   materialResultsToMaterialChartData,
   geometryToMaterialTypeNestedChartData
   } from '@/utils/resultUtils'
-import { ChartData, ChartOptions, NestedChartData } from '@/models/chartModels'
+
+// Type imports
+import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModels'
 
 const navigationStore = useNavigationStore()
 const resultStore = useResultStore()

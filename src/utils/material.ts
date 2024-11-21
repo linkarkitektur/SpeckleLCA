@@ -1,6 +1,7 @@
 import type { Mapping, MaterialFilterParam, Product } from "@/models/material"
 import type { FilterList, NestedGroup } from "@/models/filters"
 import type { GeometryObject } from "@/models/geometryObject"
+import type { AssemblyList } from "@/models/firebase"
 
 import { useProjectStore } from "@/stores/main"
 import { useMaterialStore } from "@/stores/material"
@@ -8,8 +9,6 @@ import { useSpeckleStore } from "@/stores/speckle"
 import { useFirebaseStore } from "@/stores/firebase"
 
 import { setMappingColorGroup, updateProjectGroups } from "@/utils/projectUtils"
-import { AssemblyList } from "@/models/firebase"
-
 
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds

@@ -22,9 +22,8 @@ import {
 } from 'chart.js'
 import { Bar } from 'vue-chartjs'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-import type { Results } from '@/models/project'
 import type { Emission } from '@/models/material'
-import { GeometryObject } from '@/models/geometryObject'
+import type { GeometryObject } from '@/models/geometryObject'
 
 ChartJS.register(
 	Title,

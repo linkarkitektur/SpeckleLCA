@@ -80,7 +80,7 @@ import SettingsSpeckle from '@/components/Misc/Settings/SettingsSpeckle.vue'
 import SettingsMaterials from '@/components/Misc/Settings/SettingsMaterials.vue'
 import SettingsGithub from '@/components/Misc/Settings/SettingsGithub.vue'
 
-import { SettingView } from '@/models/settings'
+import type { SettingView } from '@/models/settings'
 
 export default defineComponent({
   name: 'SettingsModal',

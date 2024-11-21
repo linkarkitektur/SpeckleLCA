@@ -74,13 +74,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-	import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { XMarkIcon } from '@heroicons/vue/24/outline'
 
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import { useMaterialStore } from '@/stores/material'
 import { useFirebaseStore } from '@/stores/firebase'
-import { Mapping } from '@/models/material'
+
+import type { Mapping } from '@/models/material'
 
 export default defineComponent({
   name: 'SaveMapping',
