@@ -88,7 +88,7 @@ export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l" | "tonnes"
  * Array of possible impact categories to use, increase as needed
  */
 export type ExtendedImpactCategoryKey = 'gwp-total' | 'gwp-fossil' | 'gwp-biogenic' | 'gwp-LULUC' | ImpactCategoryKey
-export const extendedImpactCategoryKeys: ExtendedImpactCategoryKey[] = [
+export const extendedImpactCategoryKeys: readonly ExtendedImpactCategoryKey[] = [
   'gwp',
   'gwp-total',
   'gwp-fossil',
@@ -99,7 +99,7 @@ export const extendedImpactCategoryKeys: ExtendedImpactCategoryKey[] = [
   'pocp',
 ] as const
 
-export const LifeCycleStages: LifeCycleStage[] = [
+export const LifeCycleStages: readonly LifeCycleStage[] = [
   'a1a3',
   'a4',
   'a5',

@@ -2,7 +2,6 @@
 	<Bar 
 		class="max-h-full"
 		:data="chartData" 
-		:options="chartOptions" 
 	/>
 	<!--<label class="text-center"
 		>Emissions: {{ amountSelected }} objects <br />

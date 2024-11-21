@@ -58,6 +58,7 @@ export default defineConfig({
 		/**
 		 * Generate sourcemaps for debugging.
 		 */
+		outDir: 'dist',
 		sourcemap: true
 	},
 
