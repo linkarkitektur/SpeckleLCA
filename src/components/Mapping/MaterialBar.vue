@@ -77,12 +77,12 @@ export default defineComponent({
 
     const barStyle = computed(() => {
       let backgroundColor: string
-
+      
       if (typeof color.value === 'string') {
         backgroundColor = color.value
       } else if (typeof color.value === 'object' && color.value !== null) {
-        if ('hex' in color.value && typeof color.value.hex === 'string') {
-          backgroundColor = color.value.hex
+        if ('hex' in color.value && typeof color.value === 'string') {
+          backgroundColor = color.value
         } else {
           backgroundColor = props.product.metaData.color
         }
@@ -116,8 +116,8 @@ export default defineComponent({
         if (typeof newColor === 'string') {
           newHexColor = newColor
         } else if (typeof newColor === 'object' && newColor !== null) {
-          if ('hex' in newColor && typeof newColor.hex === 'string') {
-            newHexColor = newColor.hex
+          if ('hex' in newColor && typeof newColor === 'string') {
+            newHexColor = newColor
           } else {
             newHexColor = props.product.metaData.color
           }

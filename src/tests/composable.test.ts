@@ -1,11 +1,11 @@
 import { FilterRegistry } from '@/models/filters'
-import { createStandardFilters } from '@/utils/projectUtils'
+//import { createStandardFilters } from '@/utils/projectUtils'
 import { useProjectStore } from '@/stores/main'
 
 import type { Group } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
 import type { Project } from '@/models/project'
-import type { Unit } from 'lcax'
+//import type { Unit } from 'lcax'
 
 import crypto from 'node:crypto'
 import { expect, test } from 'vitest'

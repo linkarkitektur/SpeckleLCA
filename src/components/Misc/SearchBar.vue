@@ -100,6 +100,7 @@ import { getNestedPropertyValue } from '@/utils/material'
 
 import { Source } from '@/models/material'
 import { getEnumEntries } from '@/utils/dataUtils'
+import { isProduct, isAssembly } from '@/utils/dataUtils'
 
 import {
   Menu,
@@ -132,7 +133,7 @@ export default defineComponent({
   props: {
     data: {
       //This is set as Product Assembly since its used for that now, can be anything
-      type: Array as () => Product[] | Assembly[],
+      type: Array as () => (Product | Assembly)[],
       required: true,
     },
     filterParam: {
@@ -187,21 +188,19 @@ export default defineComponent({
     
     const filteredData = computed(() => {
       return props.data.filter((item) => {
-        // Filter by search query
+        // Common filtering logic
         const matchesSearch = item.name
           .toLowerCase()
-          .includes(searchQuery.value.toLowerCase())
+          .includes(searchQuery.value.toLowerCase());
 
-        // Filter by selected filters
         const matchesFilters = Object.entries(selectedFilters.value).every(
           ([key, selectedOptions]) => {
-            if (selectedOptions.length === 0) return true
+            if (selectedOptions.length === 0) return true;
 
-            const value = getNestedPropertyValue(item, key)
-            return selectedOptions.includes(value)
+            const value = getNestedPropertyValue(item, key);
+            return selectedOptions.includes(value);
           }
         )
-
         return matchesSearch && matchesFilters
       })
     })

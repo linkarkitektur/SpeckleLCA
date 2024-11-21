@@ -1,5 +1,7 @@
 import { toRaw, isProxy } from 'vue'
 
+import type { Product, Assembly } from '@/models/material'
+
 /**
  * Removes all nested reactivity and returns a raw object
  * @param obj json object to convert
@@ -56,4 +58,21 @@ export const getEnumEntries = (enumObj: any) => {
   return Object.keys(enumObj)
     .filter((key) => isNaN(Number(key)))
     .map((key) => ({ label: key, value: enumObj[key] }))
+}
+
+export function isProduct(item: unknown): item is Product {
+  return (
+    item !== null &&
+    typeof item === 'object' &&
+    'referenceServiceLife' in item
+  )
+}
+
+
+export function isAssembly(item: unknown): item is Assembly {
+  return (
+    item !== null &&
+    typeof item === 'object' &&
+    'products' in item
+  )
 }
