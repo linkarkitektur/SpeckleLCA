@@ -1,4 +1,5 @@
 import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 import { isAssembly } from '@/utils/EPDUtils'
 
 import type { GeometryObject } from '@/models/geometryObject'
@@ -10,7 +11,7 @@ import type { Results } from '@/models/project'
  */
 export class EmissionCalculator {
   private geo: GeometryObject[] = []
-  private impactCategory: string = 'gwp'
+  private settingsStore = useSettingsStore()
 
   constructor(geo: GeometryObject[] = []) {
     const projectStore = useProjectStore()
@@ -38,7 +39,7 @@ export class EmissionCalculator {
       if (!geo.material) continue
 
       const emissions: Emission = { 
-        [this.impactCategory]: {} as LifeCycleStageEmission }
+        [this.settingsStore.calculationSettings.standardImpactCategory]: {} as LifeCycleStageEmission }
       const material = geo.material
 
       if (isAssembly(material)) {
@@ -63,7 +64,7 @@ export class EmissionCalculator {
     if (!material.materials) return false
 
     for (const mat of material.materials) {
-      if (mat.emission[this.impactCategory]) {
+      if (mat.emission[this.settingsStore.calculationSettings.standardImpactCategory]) {
         this.calculateMaterialEmissions(mat, emissions, geo)
       }
     }
@@ -75,7 +76,7 @@ export class EmissionCalculator {
     emissions: Emission,
     geo: GeometryObject
   ): boolean {
-    if (material.emission[this.impactCategory]) {
+    if (material.emission[this.settingsStore.calculationSettings.standardImpactCategory]) {
       this.calculateMaterialEmissions(material, emissions, geo)
       return true
     }
@@ -88,7 +89,7 @@ export class EmissionCalculator {
     emissions: Emission,
     geo: GeometryObject
   ) {
-    const impactCategory = this.impactCategory
+    const impactCategory = this.settingsStore.calculationSettings.standardImpactCategory
     const matEmission = mat.emission[impactCategory]
 
     if (!emissions[impactCategory]) {
@@ -97,20 +98,24 @@ export class EmissionCalculator {
     
 
     for (const phase in matEmission) {
-      let value = matEmission[phase]
-      if (value === undefined) value = matEmission[phase]
-      if (value !== null && !isNaN(Number(value))) {
-        const emissionValue = parseFloat(value as string) * geo.quantity[mat.unit]
-
-        if (!emissions[impactCategory][phase]) {
-          emissions[impactCategory][phase] = 0
+      // Check if the phase is included in the calculation settings, if not skip it
+      if (this.settingsStore.calculationSettings.includedStages.relevantStages.some(
+        (stage) => phase === stage.stage)
+      ){
+        let value = matEmission[phase]
+        if (value === undefined) value = matEmission[phase]
+        if (value !== null && !isNaN(Number(value))) {
+          const emissionValue = parseFloat(value as string) * geo.quantity[mat.unit]
+  
+          if (!emissions[impactCategory][phase]) {
+            emissions[impactCategory][phase] = 0
+          }
+  
+          const currentAmount = emissions[impactCategory][phase] || 0
+          emissions[impactCategory][phase] = currentAmount + emissionValue
         }
-
-        const currentAmount = emissions[impactCategory][phase] || 0
-        emissions[impactCategory][phase] = currentAmount + emissionValue
       }
     }
-
   }
 
   /**

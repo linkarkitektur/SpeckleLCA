@@ -1,7 +1,7 @@
 <template>
   <div ref="container" class="w-full h-full justify-items-center relative">
     <svg ref="svg" class="h-full w-full pt-4"></svg>
-    <div ref="tooltip" class="absolute flex z-50 bg-white border-solid border-2 border-gray-300 rounded-5 p-5 opacity-0"></div>
+    <div ref="tooltip" class="absolute flex z-50 bg-white border-solid border-2 border-gray-300 rounded-5 p-5 opacity-0 pointer-events-none"></div>
   </div>
 </template>
 

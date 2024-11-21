@@ -21,10 +21,11 @@ import {
 import { reportErrorToSentry } from './monitoring'
 
 import { useSpeckleStore } from '@/stores/speckle'
+import { useSettingsStore } from '@/stores/settings'
 
-export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME || 'speckleXYZ'
-export const SERVER_URL =
-	import.meta.env.VITE_APP_SERVER_URL || 'https://speckle.xyz'
+
+export const APP_NAME = 'SpeckLCA'
+
 export const TOKEN = `${APP_NAME}.AuthToken`
 export const REFRESH_TOKEN = `${APP_NAME}.RefreshToken`
 export const CHALLENGE = `${APP_NAME}.Challenge`
@@ -36,6 +37,7 @@ export const CHALLENGE = `${APP_NAME}.Challenge`
  * Generates a random challenge, saves it in localStorage, and redirects the user to the authentication page.
  */
 export function navigateToAuthPage() {
+	const settingsStore = useSettingsStore()
 	// Generate random challenge.
 	const challenge =
 		Math.random().toString(36).substring(2, 15) +
@@ -45,8 +47,8 @@ export function navigateToAuthPage() {
 	localStorage.setItem(CHALLENGE, challenge)
 
 	// Send user to auth page.
-	window.location.href = `${SERVER_URL}/authn/verify/${
-		import.meta.env.VITE_APP_SPECKLE_ID
+	window.location.href = `${settingsStore.keySettings.speckleConfig.serverUrl}/authn/verify/${
+		settingsStore.keySettings.speckleConfig.id
 	}/${challenge}`
 }
 
@@ -65,15 +67,16 @@ export function speckleLogOut() {
  * @returns A promise that resolves to the response data.
  */
 export async function exchangeAccessCode(accessCode: string) {
-	const res = await fetch(`${SERVER_URL}/auth/token/`, {
+	const settingsStore = useSettingsStore()
+	const res = await fetch(`${settingsStore.keySettings.speckleConfig.serverUrl}/auth/token/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
 			accessCode: accessCode,
-			appId: import.meta.env.VITE_APP_SPECKLE_ID,
-			appSecret: import.meta.env.VITE_APP_SPECKLE_SECRET,
+			appId: settingsStore.keySettings.speckleConfig.id,
+			appSecret: settingsStore.keySettings.speckleConfig.secret,
 			challenge: localStorage.getItem(CHALLENGE)
 		})
 	})
@@ -102,10 +105,11 @@ export async function speckleFetch(
 	query: string,
 	vars?: { [key: string]: any }
 ) {
+	const settingsStore = useSettingsStore()
 	const token = localStorage.getItem(TOKEN)
 	if (token)
 		try {
-			const res = await fetch(`${SERVER_URL}/graphql`, {
+			const res = await fetch(`${settingsStore.keySettings.speckleConfig.serverUrl}/graphql`, {
 				method: 'POST',
 				headers: {
 					Authorization: 'Bearer ' + token,

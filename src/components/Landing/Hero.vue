@@ -128,6 +128,8 @@
 import { ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { defineComponent, ref, onMounted } from 'vue'
 
+import { useSettingsStore } from '@/stores/settings'
+
 import icon from '@/assets/icons/logo.svg'
 import appScreenshot from '@/assets/images/AppPicture3D.png'
 
@@ -141,7 +143,8 @@ export default defineComponent({
 
     const fetchLatestCommit = async () => {
       try {
-        const accessToken = import.meta.env.VITE_GITHUB_TOKEN || false
+        const settingsStore = useSettingsStore()
+        const accessToken = settingsStore.keySettings.githubApiKey || false
         const headers: Record<string, string> = {}
         if (accessToken) {
           headers.Authorization = `Bearer ${accessToken}`

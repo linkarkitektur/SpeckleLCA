@@ -1,6 +1,7 @@
 import type { FilterList } from '@/models/filters'
 import type { Assembly, Mapping } from '@/models/material'
 import type { Results } from '@/models/project'
+import type { CalculationSettings } from '@/models/settings'
 
 export interface FilterLog {
   projectId: string
@@ -25,4 +26,11 @@ export interface ResultsLog {
 export interface AssemblyList {
   projectId: string
   assemblies: Assembly[]
+}
+
+export interface CalculationSettingsLog {
+  projectId: string
+  name: string
+  settings: CalculationSettings
+  date: Date
 }

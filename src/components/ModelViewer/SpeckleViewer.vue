@@ -66,6 +66,7 @@ import {
 
 // Store imports
 import { useSpeckleStore } from '@/stores/speckle'
+import { useSettingsStore } from '@/stores/settings'
 import { useProjectStore } from '@/stores/main'
 import { storeToRefs } from 'pinia'
 
@@ -84,8 +85,9 @@ const projectStore = useProjectStore()
 const { selectedObjects } = storeToRefs(projectStore)
 
 const speckleStore = useSpeckleStore()
-const serverUrl = import.meta.env.VITE_APP_SERVER_URL
-const token = import.meta.env.VITE_SPECKLE_TOKEN
+const settingsStore = useSettingsStore()
+const serverUrl = settingsStore.keySettings.speckleConfig.serverUrl
+const token = ""
 const resizeObserver = ref<ResizeObserver | null>(null)
 const fadeOut = ref(false)
 

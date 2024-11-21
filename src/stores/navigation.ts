@@ -20,7 +20,9 @@ export const useNavigationStore = defineStore({
 			sideBarShow: true,
 			saveModalOpen: false,
 			assemblyModalOpen: false,
-			assemblyTableShow: false
+			assemblyTableShow: false,
+			settingsModalOpen: false,
+
 		}
 	},
 	actions: {
@@ -58,6 +60,10 @@ export const useNavigationStore = defineStore({
 		 */
 		toggleMappingModal() {
 			this.mappingModalOpen = !this.mappingModalOpen
+		},
+
+		toggleSettingsModal() {
+			this.settingsModalOpen = !this.settingsModalOpen
 		},
 
 		/**

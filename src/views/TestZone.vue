@@ -4,8 +4,8 @@
 
 <script>
 import DropDown from '@/components/Misc/Dropdown.vue'
-import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue';
-import { BSAB96 } from '@/models/material';
+import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
+import { BSAB96 } from '@/models/buildingCode'
 
 export default {
   components: { DivergingStackedBar },

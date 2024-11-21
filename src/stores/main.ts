@@ -11,7 +11,6 @@ import type {
 	AppSettings 
 } from '@/models/settings'
 
-import { standardSettings } from '@/models/settings'
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 
@@ -30,10 +29,8 @@ export const useProjectStore = defineStore({
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
 			selectedObjects: [] as GeometryObject[], // GeometryObjects that are currently selected
 			hiddenObjects: [] as GeometryObject[], // GeometryObjects that are currently hidden
-			appSettings: standardSettings as AppSettings, // Application settings
 		}
 	},
-
 	actions: {
 		/**
 		 * Creates a new project.
@@ -399,6 +396,6 @@ export const useProjectStore = defineStore({
 		 */
 		findResultIndexById(id: string) {
 			return this.currProject?.geometry.findIndex((item) => item.id === id)
-		}
+		},
 	}
 })

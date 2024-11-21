@@ -5,10 +5,12 @@
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
 import router from './router'
 import * as Sentry from '@sentry/vue'
+import { initializeFirebase } from '@/firebase'
 
 import './index.css'
 import type { Vue } from '@sentry/vue/types/types'
@@ -57,7 +59,10 @@ export function configureGlobalErrorHandling(app: Vue) {
 }
 
 // Setup our Pinia store, and initialize the router.
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+
+app.use(pinia)
 app.use(router)
 
 // Create directives
@@ -65,5 +70,7 @@ app.directive('click-outside' ,clickOutsideDirective)
 
 // Mount the app.
 app.mount('#app')
+
+initializeFirebase()
 
 export default app

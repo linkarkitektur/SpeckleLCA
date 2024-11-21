@@ -1,10 +1,14 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
-import { type Product, type Emission, type LifeCycleStageEmission, type Assembly, Source} from '@/models/material'
-import { useProjectStore } from '@/stores/main'
+
+import { delay } from '@/utils/math'
+
+import { useSettingsStore } from '@/stores/settings'
+
 import { EPDSource } from '@/models/settings'
 import type { RevaluData } from '@/models/revaluDataSource'
-import { delay } from '@/utils/math'
+import { type Product, type Emission, type LifeCycleStageEmission, type Assembly, Source} from '@/models/material'
+
 //import { convertIlcd } from 'epdx'
 
 const MAX_EPD_COUNT = 5
@@ -27,9 +31,10 @@ interface EPDService {
  */
 class EcoPortalService implements EPDService {
   createApiClient() {
+    const settingsStore = useSettingsStore()
     return axios.create({
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_APP_ECO_PORTAL_API_KEY}`,
+        Authorization: `Bearer ${settingsStore.keySettings.materialKeys.ecoPortal}`,
       },
     })
   }
@@ -80,9 +85,10 @@ class EcoPortalService implements EPDService {
  */
 class RevaluService implements EPDService {
   createApiClient() {
+    const settingsStore = useSettingsStore()
     return axios.create({
       headers: {
-        'x-api-key': import.meta.env.VITE_APP_REVALU_API_KEY,
+        'x-api-key': settingsStore.keySettings.materialKeys.revalu,
       },
     })
   }
@@ -238,9 +244,9 @@ const extractRevaluData = (response: { body: RevaluData }) => {
  * @returns 
  */
 function getEPDService(): EPDService {
-  const projectStore = useProjectStore()
+  const settingsStore = useSettingsStore()
 
-  switch (projectStore.appSettings.epdSource) {
+  switch (settingsStore.materialSettings.epdSource) {
     case EPDSource.EcoPortal:
       return new EcoPortalService()
     case EPDSource.Revalu:

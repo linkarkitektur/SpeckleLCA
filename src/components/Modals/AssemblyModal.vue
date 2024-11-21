@@ -201,7 +201,7 @@ import DropdownMulti from '@/components/Misc/DropdownMulti.vue'
 import Dropdown from '@/components/Misc/Dropdown.vue'
 import SearchBar from '@/components/Misc/SearchBar.vue'
 
-import { BSAB96 } from '@/models/material'
+import { BSAB96 } from '@/models/buildingCode'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 import type { DropdownOption } from '@/models/pageLogic'
 import type { Assembly, Product } from '@/models/material'
