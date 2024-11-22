@@ -62,6 +62,8 @@ export default defineConfig({
 		sourcemap: true
 	},
 
+	base: '/SpeckleLCA/',
+
 	server: {
     proxy: {
 			'/api/revalu': {
