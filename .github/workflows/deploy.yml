@@ -1,5 +1,8 @@
 name: Deploy as static Github Page
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:

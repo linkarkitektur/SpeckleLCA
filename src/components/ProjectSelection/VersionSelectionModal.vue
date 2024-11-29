@@ -42,6 +42,7 @@
 										:items="extractNames"
 										@selectedItem="handleSelectedItem"
 										name="Version"
+										dropdownName="Select a version"
 									/>
 									<!--<DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Here you will select your current version</DialogTitle>
                   <div class="mt-2">
@@ -184,7 +185,8 @@ import { useNavigationStore } from '@/stores/navigation'
 						version = versionFound
 						speckleStore.setSelectedVersion(version)
 					} else {
-						console.error('Could not find the selected model versions.')
+						const latestVersion = speckleStore.getProjectDetails.stream.commits.items[0]
+						speckleStore.setSelectedVersion(latestVersion)
 					}
 				} else {
 					console.error('Project store object is undefined.')
