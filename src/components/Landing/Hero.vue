@@ -56,11 +56,12 @@
         </p>
 
         <div class="mt-10 flex items-center gap-x-6">
-          <a
-            href="/projects"
+          <router-link
+            to="/projects"
             class="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-            >Get Started</a
-          >
+            >
+            Get Started
+          </router-link>
           <a
             href="#features"
             class="text-sm font-semibold leading-6 text-gray-900"
