@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     branches:
-      - GithubPages
+      - main
 
 jobs:
   deploy:
