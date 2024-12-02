@@ -219,7 +219,7 @@ export default defineComponent({
 		const currSlideName = computed(() => {
 			if (navStore.activePage === 'Overview') return 'Edit filters'
 			else if (navStore.activePage === 'Mapping') return 'Save mapping'
-			else if (navStore.activePage === 'Results') return 'Edit results'
+			else if (navStore.activePage === 'Results') return 'Save results'
 			else if (navStore.activePage === 'Benchmark') return 'Edit results'
 			else return null
 		})
