@@ -1,5 +1,5 @@
 import type { MetricUnits, Assembly, Product } from '@/models/material'
-import type { Results } from '@/models/project'
+import type { Results } from '@/models/result'
 
 /*
  * Base geometry object.

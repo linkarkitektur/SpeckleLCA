@@ -68,7 +68,6 @@ export function isProduct(item: unknown): item is Product {
   )
 }
 
-
 export function isAssembly(item: unknown): item is Assembly {
   return (
     item !== null &&

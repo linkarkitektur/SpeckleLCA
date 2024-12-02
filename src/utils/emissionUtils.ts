@@ -4,7 +4,7 @@ import { isAssembly } from '@/utils/EPDUtils'
 
 import type { GeometryObject } from '@/models/geometryObject'
 import type { LifeCycleStageEmission, Product, Emission } from '@/models/material'
-import type { Results } from '@/models/project'
+import type { Results } from '@/models/result'
 
 /**
  * EmissionCalculator class to calculate the emissions of geometry objects if none sent calculate for all

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { GeometryObject } from '@/models/geometryObject'
-import type { Project, Results } from '@/models/project'
+import type { Project } from '@/models/project'
 import type {
 	FilterRegistry,
 	Group,
@@ -10,6 +10,7 @@ import type {
 import type { 
 	AppSettings 
 } from '@/models/settings'
+import type { Results } from '@/models/result'
 
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'

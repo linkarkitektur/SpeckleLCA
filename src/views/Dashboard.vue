@@ -35,7 +35,7 @@ import {
 	setResultsColorGroup,
 } from '@/utils/projectUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
-import { EmissionAggregator } from '@/utils/resultUtils'
+import { ResultCalculator } from '@/utils/resultUtils'
 import { getAssemblyList } from '@/utils/material'
 import { getRevaluBaseList } from '@/models/revaluDataSource'
 
@@ -90,8 +90,8 @@ export default {
 				const calculator = new EmissionCalculator()
 				calculator.calculateEmissions()
 
-				const aggregator = new EmissionAggregator()
-				aggregator.aggregate()
+				const resCalc = new ResultCalculator()
+				resCalc.aggregate()
 				
 				const resultsColors = setResultsColorGroup()
 				speckleStore.setColorGroups(resultsColors)
