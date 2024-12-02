@@ -1,11 +1,13 @@
 import { useResultStore } from '@/stores/result'
 import { useProjectStore } from '@/stores/main'
 
+import { getNestedPropertyValue } from '@/utils/material'
+import { ResultList } from '@/models/result'
+
+import type { MaterialResults, Results } from '@/models/result'
 import type { ChartData, NestedChartData } from '@/models/chartModels'
 import type { GeometryObject } from '@/models/geometryObject'
 import type { Product, Assembly, Emission, LifeCycleStageEmission } from '@/models/material'
-import type { MaterialResults } from '@/models/result'
-import type { Results } from '@/models/project'
 
 /**
  * Converter of geometry object results into aggregated ChartData for specific LifeCycleStages (LCS)
@@ -157,13 +159,36 @@ export function materialResultsToMaterialChartData(materialResult: MaterialResul
   return data
 }
 
+export function addEmissions(a: Emission, b: Emission): Emission {
+  const result: Emission = {}
+
+  const mergeIntoResult = (source: Emission) => {
+    for (const impactCategory in source) {
+      if (!result[impactCategory]) {
+        result[impactCategory] = {}
+      }
+
+      for (const phase in source[impactCategory]) {
+        result[impactCategory][phase] =
+          (result[impactCategory][phase] || 0) + source[impactCategory][phase]
+      }
+    }
+  }
+  mergeIntoResult(a)
+  mergeIntoResult(b)
+
+  return result
+}
+
 /**
  * Aggregates a series of emissions on either whole project or just selection
  */
-export class EmissionAggregator {
+export class ResultCalculator {
   private geos: GeometryObject[] = []
+  private resultStore = useResultStore()
   public totalEmission: Emission = {}
   private emissionsPerMaterial: MaterialResults = {}
+  private resultList: ResultList = ResultList
 
   /**
    * @param geos Geometry objects to aggregate emissions on if left empty it will do it on whole project
@@ -180,7 +205,7 @@ export class EmissionAggregator {
   }
 
   // Main function to aggregate emissions
-  public aggregate(save: Boolean = true): void {
+  public aggregate(save: Boolean = true, calcResultList = true): void {
     this.geos.forEach(geo => {
       if (geo.results) {
         this.aggregateTotalEmissions(geo.results[geo.results.length - 1].emission)
@@ -191,6 +216,9 @@ export class EmissionAggregator {
             geo.material, 
             geo.results[geo.results.length - 1].emission
           )
+        }
+        if (calcResultList) {
+          this.aggregateEmissionsForResultList(geo)
         }
       }
     })
@@ -246,14 +274,52 @@ export class EmissionAggregator {
       }
     }
   }
+
+  private aggregateEmissionsForResultList(geo: GeometryObject): void {
+    for (const index in this.resultList) {
+      const parameter = this.resultList[index].parameter
+      const paramValue = getNestedPropertyValue(geo, parameter)
+      if (paramValue) {
+        const geoEmission = geo.results[geo.results.length - 1].emission
+
+        const paramList = this.resultList[index]
+
+        if (!paramList.data) {
+          paramList.data = []
+        }
+
+        let groupedResult = paramList.data.find((result) => result.parameter === paramValue)
+
+        if (!groupedResult) {
+          groupedResult = {
+            parameter: paramValue,
+            data: {
+              emission: {} as Emission,
+              geoId: [],
+            }
+          }
+          paramList.data.push(groupedResult)
+        }
+
+        groupedResult.data.emission = addEmissions(
+          groupedResult.data.emission,
+          geoEmission
+        )
+
+        if (!groupedResult.data.geoId.includes(geo.id)) {
+          groupedResult.data.geoId.push(geo.id)
+        }
+      }
+    }
+  }
   
   private saveResults(): void {
-    const resultStore = useResultStore()
+
     const result: Results = {
       id: crypto.randomUUID(),
       date: new Date(),
       emission: this.totalEmission,
     }
-    resultStore.setAggregatedResults(result, this.emissionsPerMaterial)
+    this.resultStore.setAggregatedResults(result, this.emissionsPerMaterial)
   }
 }

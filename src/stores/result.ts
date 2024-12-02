@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia'
 
-import type { MaterialResults } from '@/models/result'
-import type { Results } from '@/models/project'
+import type { 
+  MaterialResults,
+  GroupedResults,
+} from '@/models/result'
+
+import { ResultList } from '@/models/result'
+
+import type { Results } from '@/models/result'
 
 /**
  * Defines the result store, which is used to store the results of the calculations
@@ -12,7 +18,8 @@ export const useResultStore = defineStore({
 	state: () => {
 		return {
       aggregatedResults: [] as Results[],
-      materialResults: {} as MaterialResults
+      materialResults: {} as MaterialResults,
+      resultList: ResultList,
 		}
 	},
   actions: {
@@ -31,6 +38,34 @@ export const useResultStore = defineStore({
         this.materialResults = materialResults
       }
     },
+
+    /**
+     * Update the resultlist with the grouped results
+     * @param groupedResult Results to update with
+     * @param id to update, e.g. category, material, materialType, BSABCodes, speckleType
+     */
+    updateGroupedResults(groupedResult: GroupedResults[], id: string) {
+      if (!this.resultList[id]) {
+        this.resultList[id] = []
+      }
+      this.resultList[id] = groupedResult 
+    },
+
+    /**
+     * Returns the grouped results for a specific id or all if empty
+     * @param id 
+     * @returns 
+     */
+    getGroupedResults(id: string = 'all') {
+      if (id === 'all') {
+        return this.resultList
+      }
+      if (this.resultList[id]) {
+        return { [id]: this.resultList[id] }
+      }
+      return {}
+    
+    }
   }
   
 })

@@ -20,8 +20,9 @@ import type {
   Assembly
 } from '@/models/material'
 import type { 
-  Results 
-} from '@/models/project'
+  Results, 
+  ResultList
+} from '@/models/result'
 import type {
   FilterLog,
   MappingLog,
@@ -249,16 +250,17 @@ export const useFirebaseStore = defineStore('firebase', {
      * @param projectId projectId which usually is the streamID from speckle
      * @param results aggregated results from geometry objects
      */
-    async addResults(projectId: string, results: Results) {
+    async addResults(projectId: string, results: ResultList, name: string) {
       this.loading = true
       this.error = null
       try {
         const resultsLog: ResultsLog = {
+          name: name,
           projectId: projectId,
           results: results,
           date: new Date(),
         }
-        await addDoc(collection(db, 'projectFilters'), resultsLog)
+        await addDoc(collection(db, 'projectResults'), resultsLog)
       } catch (error: any) {
         this.error = error.message
       } finally {

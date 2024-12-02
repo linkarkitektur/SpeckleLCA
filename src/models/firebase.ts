@@ -1,7 +1,8 @@
 import type { FilterList } from '@/models/filters'
 import type { Assembly, Mapping } from '@/models/material'
-import type { Results } from '@/models/project'
+import type { ResultList } from '@/models/result'
 import type { CalculationSettings } from '@/models/settings'
+
 
 export interface FilterLog {
   projectId: string
@@ -19,7 +20,8 @@ export interface MappingLog {
 
 export interface ResultsLog {
   projectId: string
-  results: Results
+  name: string
+  results: ResultList
   date: Date
 }
 
