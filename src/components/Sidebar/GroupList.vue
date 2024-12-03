@@ -67,11 +67,14 @@ import { FilterRegistry } from '@/models/filters'
 import type { NestedGroup, FilterList } from '@/models/filters'
 import type { dropdownItem } from '../Misc/Dropdown.vue'
 import type { Mapping } from '@/models/material'
+import type { ResultList } from '@/models/result'
 import type {
   FilterLog,
 	MappingLog,
 	ResultsLog
 } from '@/models/firebase'
+import { useResultStore } from '@/stores/result'
+
 
 const useFetchDropdownItems = (navStore, firebaseStore, speckleStore, projectStore) => {
 	const dropdownItems = ref<dropdownItem[]>([])
@@ -151,8 +154,8 @@ const useFetchDropdownItems = (navStore, firebaseStore, speckleStore, projectSto
 				
 				dropdownItems.value = [
 					...projectResults.map((log: ResultsLog) => ({ 
-						name: log.results.date.toDateString(),
-						data: JSON.stringify(log.results)
+						name: log.name,
+						data: JSON.stringify(log.resultList)
 					}))
 				]
 				break
@@ -169,7 +172,7 @@ const useFetchDropdownItems = (navStore, firebaseStore, speckleStore, projectSto
 	}
 }
 
-const useHandleSelected = (navStore, projectStore) => {
+const useHandleSelected = (navStore, projectStore, resultStore) => {
 	const handleSelected = (item: any) => {
 		try {
 			switch (navStore.activePage) {
@@ -183,7 +186,11 @@ const useHandleSelected = (navStore, projectStore) => {
 					updateMapping(mapping)
 					break
 				}
-				case 'Results':
+				case 'Results': {
+					const resultList = JSON.parse(item.data) as ResultList
+					resultStore.setResultList(resultList)
+					break
+				}
 				case 'Benchmark':
 					//projectStore.updateResultState(item)
 					break
@@ -213,6 +220,7 @@ export default defineComponent({
 	setup() {
 		const projectStore = useProjectStore()
 		const navStore = useNavigationStore()
+		const resultStore = useResultStore()
 		const speckleStore = useSpeckleStore()
 		const firebaseStore = useFirebaseStore()
 
@@ -225,7 +233,7 @@ export default defineComponent({
 		})
 
 		const { dropdownItems, dropdownName, fetchDropdownItems } = useFetchDropdownItems(navStore, firebaseStore, speckleStore, projectStore)
-		const { handleSelected } = useHandleSelected(navStore, projectStore)
+		const { handleSelected } = useHandleSelected(navStore, projectStore, resultStore)
 
 		const { filterRegistry, projectGroups } = storeToRefs(projectStore)
 		const { activePage } = storeToRefs(navStore)
