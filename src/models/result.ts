@@ -33,7 +33,7 @@ export interface GroupedEmission {
   geoId: string[]
 }
 
-interface ResultItem {
+export interface ResultItem {
   parameter: string
   displayName: string
   data: GroupedResults[] 

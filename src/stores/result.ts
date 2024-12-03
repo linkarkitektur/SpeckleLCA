@@ -40,6 +40,14 @@ export const useResultStore = defineStore({
     },
 
     /**
+     * Updates resultList
+     * @param resultList resultList to update with
+     */
+    setResultList(resultList: ResultList) {
+      this.resultList = resultList
+    },
+
+    /**
      * Update the resultlist with the grouped results
      * @param groupedResult Results to update with
      * @param id to update, e.g. category, material, materialType, BSABCodes, speckleType

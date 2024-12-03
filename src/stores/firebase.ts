@@ -250,17 +250,17 @@ export const useFirebaseStore = defineStore('firebase', {
      * @param projectId projectId which usually is the streamID from speckle
      * @param results aggregated results from geometry objects
      */
-    async addResults(projectId: string, results: ResultList, name: string) {
+    async addResultList(projectId: string, resultList: ResultList, name: string) {
       this.loading = true
       this.error = null
       try {
         const resultsLog: ResultsLog = {
           name: name,
           projectId: projectId,
-          results: results,
+          resultList: resultList,
           date: new Date(),
         }
-        await addDoc(collection(db, 'projectResults'), resultsLog)
+        await addDoc(collection(db, 'resultLists'), resultsLog)
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -279,7 +279,7 @@ export const useFirebaseStore = defineStore('firebase', {
       this.error = null
       try {
         const q = query(
-          collection(db, 'projectResults'),
+          collection(db, 'resultLists'),
           where('projectId', '==', projectId),
           orderBy('date', 'desc'),
           limit(resLimit)

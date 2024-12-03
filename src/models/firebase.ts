@@ -21,7 +21,7 @@ export interface MappingLog {
 export interface ResultsLog {
   projectId: string
   name: string
-  results: ResultList
+  resultList: ResultList
   date: Date
 }
 
