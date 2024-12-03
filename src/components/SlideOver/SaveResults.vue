@@ -77,7 +77,6 @@
             <button 
               type="submit"
               class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-              @click="saveData"
             >
               Save
             </button>
@@ -94,11 +93,8 @@
   
   import { useProjectStore } from '@/stores/main'
   import { useNavigationStore } from '@/stores/navigation'
-  import { useMaterialStore } from '@/stores/material'
   import { useFirebaseStore } from '@/stores/firebase'
-  
-  import type { Mapping } from '@/models/material'
-import { GroupedResults } from '@/models/result'
+
 import { useResultStore } from '@/stores/result'
   
   export default defineComponent({
@@ -146,9 +142,9 @@ import { useResultStore } from '@/stores/result'
       const nameInput = ref(null)
   
       const saveData = () => {
-        const results = resultStore.getGroupedResults()
+        const resultList = resultStore.resultList
         
-        //firebaseStore.addResults(projectStore.currProject.id, results, formData.value.name)
+        firebaseStore.addResultList(projectStore.currProject.id, resultList, formData.value.name)
         navStore.toggleSlideover()
       }
   
