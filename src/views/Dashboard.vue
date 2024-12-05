@@ -10,9 +10,14 @@
 	<div class="flex">
 		<NavbarComponent />
 		<Sidebar />
-		<Suspense>
-			<SpeckleViewer />
-		</Suspense>
+		<div 
+			class="relative inset-y-16 w-full h-[calc(100vh-4rem)] bg-gray-100 overflow-auto" 
+			id="renderParent"
+		>
+			<Suspense>
+				<SpeckleViewer />
+			</Suspense>
+		</div>
 		<Slideover />
 	</div>
 </template>
