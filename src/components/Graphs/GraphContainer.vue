@@ -15,7 +15,8 @@
 import { 
   watch, 
   ref,
-  computed
+  computed,
+  defineProps
 } from 'vue'
 
 // Store imports
@@ -31,8 +32,7 @@ import Dropdown from '@/components/Misc/Dropdown.vue'
 
 // Utility imports
 import { 
-  geometryToMaterialChartData,
-  materialResultsToMaterialChartData,
+  geometryToChartData,
   ResultItemToChartData,
   geometryToMaterialTypeNestedChartData
   } from '@/utils/resultUtils'
@@ -45,6 +45,11 @@ import type { ResultItem } from '@/models/result'
 const navigationStore = useNavigationStore()
 const resultStore = useResultStore()
 const projectStore = useProjectStore()
+
+const props = defineProps<{
+  resultItem?: ResultItem
+}>()
+
 
 // Dropdown items from resultList
 const graphParameters = ref<dropdownItem[]>(
@@ -91,6 +96,8 @@ const leftModule = computed(() => {
         return DivergingStackedBar
       }
     case 'Benchmark':
+      updateGraphProps("SelectablePieChart")
+      return SelectablePieChart
     default:
       return null
   }
@@ -118,32 +125,40 @@ const updateGraphProps = (chart: string = "") => {
   switch (chart) {
     case "SelectablePieChart": {
       let data: ChartData[]
-      if (!projectStore.selectedObjects.length) {
-        data = ResultItemToChartData(selectedResult.value)
-        graphProps.value.data = data
-        graphProps.value.options = {
-          aggregate: true,
-          unit: "kgCO2e",
-        }
+      let options: ChartOptions = {
+        aggregate: true,
+        unit: "kgCO2e",
       }
-      else {
-        data = geometryToMaterialChartData(projectStore.selectedObjects)
-        graphProps.value.data = data
-        graphProps.value.options = {
-          aggregate: true,
-          unit: 'kgCO2e',
-        } 
+      if (!projectStore.selectedObjects.length) {
+        if (selectedResult.value) {
+          data = ResultItemToChartData(selectedResult.value)
+        } else {
+          data = ResultItemToChartData(props.resultItem)
+        }
+        graphProps.value = {
+          data,
+          options,
+        }
+      } else {
+        data = geometryToChartData(projectStore.selectedObjects, selectedResult.value.parameter)
+        graphProps.value = {
+          data,
+          options,
+        }
       }
       break
     }
     case "DivergingStackedBar": {
       let data: NestedChartData[]
-      
+      let options: ChartOptions = {
+        aggregate: true,
+        unit: "kgCO2e",
+      }
+
       data = geometryToMaterialTypeNestedChartData(projectStore.currProject.geometry)
-      graphProps.value.data = data
-      graphProps.value.options = {
-        aggregate: false,
-        unit: 'kgCO2e',
+      graphProps.value = {
+        data,
+        options,
       }
       break
     }
@@ -190,6 +205,10 @@ watch(graphParameters, (newGraphParameters) => {
     dropdownName.value = 'Select a result'
   }
 })
+
+watch(() => props, () => {
+  updateGraphProps()
+}), { deep : true }
 
 updateGraphProps()
 </script>

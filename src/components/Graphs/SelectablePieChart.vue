@@ -84,7 +84,7 @@ export default {
     watch(
       () => props.data,
       () => {
-        draw();
+        draw()
       },
       { deep: true }
     )
