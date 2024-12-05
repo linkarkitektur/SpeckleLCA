@@ -4,7 +4,7 @@ import {
 	standardAppSettings, 
 	standardCalculationSettings, 
 	standardKeySettings,
-	standardMaterialSettings
+	standardMaterialSettings,
 } from '@/models/settings'
 import type { 
 	AppSettings,
@@ -91,6 +91,10 @@ export const useSettingsStore = defineStore({
 		 */
 		updateBuildingCode(buildingCode: CalculationSettings['buildingCode']) {
 			this.calculationSettings.buildingCode = buildingCode
+		},
+
+		updateArea(area: AppSettings['area']) {
+			this.appSettings.area = area
 		},
 	}
 })

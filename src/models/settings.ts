@@ -29,6 +29,7 @@ export interface MaterialSettings {
 
 export interface AppSettings {
   colorscheme: string
+  area: number
 }
 
 export enum EPDSource {
@@ -85,9 +86,11 @@ interface IncludedStages {
 
 /**
  * Default settings for the application
+ * TODO Move the project specific settings to a seperate interface?
  */
 export const standardAppSettings: AppSettings = {
-  colorscheme: 'light'
+  colorscheme: 'light',
+  area: 1000
 }
 
 /**

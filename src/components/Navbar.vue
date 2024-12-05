@@ -245,7 +245,7 @@ export default defineComponent({
       { name: 'Overview', href: '/dashboard' },
       { name: 'Mapping', href: '/dashboard' },
       { name: 'Results', href: '/dashboard' },
-      { name: 'Benchmark', href: '/dashboard' },
+      { name: 'Benchmark', href: '/benchmark' },
     ]
 
     return {

@@ -4,6 +4,7 @@ import type { RouteLocationNormalized } from 'vue-router'
 import LandingView from '@/views/Landing.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import ProjectSelection from '@/views/ProjectSelection.vue'
+import Benchmark from '@/views/Benchmark.vue'
 import NotFound from '@/views/NotFound.vue'
 import TestZone from '@/views/TestZone.vue'
 
@@ -57,6 +58,16 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         title: 'Project Selection',
+        icon: '',
+      },
+    },
+    {
+      path: '/benchmark',
+      name: 'Benchmark',
+      component: Benchmark,
+      meta: {
+        requiresAuth: true,
+        title: 'Benchmark',
         icon: '',
       },
     },
