@@ -1,15 +1,18 @@
 import { useResultStore } from '@/stores/result'
 import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
 import { getNestedPropertyValue } from '@/utils/material'
 import { ResultList } from '@/models/result'
+import { getTextAfterLastDot } from '@/utils/stringUtils'
 
 import type { MaterialResults, Results } from '@/models/result'
 import type { ChartData, NestedChartData } from '@/models/chartModels'
 import type { GeometryObject } from '@/models/geometryObject'
 import type { Product, Assembly, Emission, LifeCycleStageEmission } from '@/models/material'
 import type { ResultItem } from '@/models/result'
-import { useSettingsStore } from '@/stores/settings'
+import type { ResultsLog } from '@/models/firebase'
+
 
 /**
  * Converter of geometry object results into aggregated ChartData for specific LifeCycleStages (LCS)
@@ -54,12 +57,17 @@ export function ResultItemToChartData (resultItem: ResultItem): ChartData[] {
   const impactCategory = settingsStore.calculationSettings.standardImpactCategory
   const groupedData = new Map<string, ChartData>()
 
+  if (!resultItem?.data) return []
   // Go through each selected object and get aggregated labels and emission data
   for (const groupedResult of resultItem.data) {
-    const objectName = groupedResult.parameter
+    let objectName = groupedResult.parameter
     const emissionData = groupedResult.data.emission
 
     if (!objectName || !emissionData) continue
+
+    // Fix for Speckletype names
+    if ((objectName.split('.').length - 1) > 2 )
+      objectName = getTextAfterLastDot(objectName)
 
     if (!groupedData.has(objectName)) {
       const entry: ChartData = {
@@ -89,49 +97,19 @@ export function ResultItemToChartData (resultItem: ResultItem): ChartData[] {
 }
 
 /**
- * Converter of geometry object results into aggregated ChartData for all unique materials
- * TODO: Move this to resultList logic
- * @param objects geometry objects to convert
- * @param impactCategory optional impact category to get results for that category
- * @param resultKey optional key to get specific result
+ * Creates a result list from the given objects and then find the relevant parameter and makes it into chart data
+ * @param objects Geoobject with reuslts on them
+ * @param chartParameter Parameter to convert into chartdata
+ * @returns Chartdata for given parameter
  */
-export function geometryToMaterialChartData(objects: GeometryObject[], impactCategory: string = 'gwp', resultKey: number = Number.MIN_SAFE_INTEGER): ChartData[] {
-  const groupedData = new Map<string, ChartData>()
+export function geometryToChartData(objects: GeometryObject[], chartParameter: string): ChartData[] {
+  // Create result aggregator and calculator
+  const resCalc = new ResultCalculator(objects)
+  resCalc.aggregate(false, true)
+  
+  const resultItem = resCalc.resultList.find((item) => item.parameter === chartParameter)
 
-  // Go through each selected object and get aggregated labels and emission data
-  for (const obj of objects) {
-    const materialName = obj.material?.name
-    const results = obj.results
-    if (!results || !materialName) continue
-
-    const result = resultKey === Number.MIN_SAFE_INTEGER ? results[results.length - 1] : results[resultKey]
-    if (!result || !result.emission) continue
-
-    if (!groupedData.has(materialName)) {
-      const entry: ChartData = {
-        label: materialName,
-        value: 0,
-        ids: []
-      }
-      groupedData.set(materialName, entry)
-    }
-
-    const materialData = groupedData.get(materialName)!
-
-    for (const lifeCycleStage in result.emission[impactCategory]) {
-      materialData.value += result.emission[impactCategory][lifeCycleStage]
-    }
-
-    materialData.ids.push(obj.id)
-  }
-
-  const data: ChartData[] = Array.from(groupedData, ([material, { value, ids }]) => ({
-    label: material,
-    value: Math.round(value),
-    ids: ids
-  }))
-
-  return data
+  return ResultItemToChartData(resultItem)
 }
 
 /**
@@ -140,7 +118,8 @@ export function geometryToMaterialChartData(objects: GeometryObject[], impactCat
  * @param objects geometry objects to convert
  * @param impactCategory optional impact category to get results for that category
  * @param resultKey optional key to get specific result
- */export function geometryToMaterialTypeNestedChartData(objects: GeometryObject[], impactCategory: string = 'gwp', resultKey: number = Number.MIN_SAFE_INTEGER): NestedChartData[] {
+ */
+export function geometryToMaterialTypeNestedChartData(objects: GeometryObject[], impactCategory: string = 'gwp', resultKey: number = Number.MIN_SAFE_INTEGER): NestedChartData[] {
   const groupedData = new Map<string, Map<string, ChartData>>()
 
   // Go through each selected object and get aggregated labels and emission data
@@ -209,6 +188,58 @@ export function materialResultsToMaterialChartData(materialResult: MaterialResul
   return data
 }
 
+/**
+ * Returns number of total emission in co2 eq for a given emission object with all relevant phases and categories from settings
+ * @param emission Emission object to convert to number
+ * @returns Number for category and included phases in settings
+ */
+export function emissionToNumber(emission: Emission): number {
+  const settingsStore = useSettingsStore()
+  const impactCategory = settingsStore.calculationSettings.standardImpactCategory
+  const includedPhases = settingsStore.calculationSettings.includedStages
+  
+  let total = 0
+
+  // Only go through relevant ImpactCategory
+  for (const phase in emission[impactCategory]) {
+    // Find the relevant stage object for the current phase
+    const relevantStage = includedPhases.relevantStages.find(
+      (stageObj) => stageObj.stage === phase
+    )
+  
+    // If the stage exists and is included, add its emission to the total
+    if (relevantStage && relevantStage.included) {
+      total += emission[impactCategory][phase]
+    }
+  }  
+
+  return total
+}
+
+/**
+ * Returns emission object from a resultLog
+ * @param resultLog ResultLog to get emission from, this comes from Firebase
+ * @param parameter Paramater to get emissions for, e.g. 'parameter.category', 'parameter.speckleType'
+ * @returns returns summed up emissions for the parameter
+ */
+export function getResultLogEmissions(resultLog: ResultsLog, parameter: string): Emission {
+  const resItem = resultLog.resultList.find((item: ResultItem) => item.parameter === parameter)
+
+  const emissionList = extractEmissionsFromResultItem(resItem)
+  
+  return sumEmissions(emissionList)
+}
+
+function extractEmissionsFromResultItem(resultItem: ResultItem): Emission[] {
+  return resultItem.data.map(groupedResult => groupedResult.data.emission)
+}
+
+function sumEmissions(emissions: Emission[]): Emission {
+  return emissions.reduce((accumulatedEmission, currentEmission) => {
+    return addEmissions(accumulatedEmission, currentEmission)
+  }, {})
+}
+
 export function addEmissions(a: Emission, b: Emission): Emission {
   const result: Emission = {}
 
@@ -238,7 +269,11 @@ export class ResultCalculator {
   private resultStore = useResultStore()
   public totalEmission: Emission = {}
   private emissionsPerMaterial: MaterialResults = {}
-  private resultList: ResultList = ResultList
+  // Decouple from original list
+  public resultList: ResultList = ResultList.map(item => ({
+    ...item,
+    data: [],
+  }))
 
   /**
    * @param geos Geometry objects to aggregate emissions on if left empty it will do it on whole project
