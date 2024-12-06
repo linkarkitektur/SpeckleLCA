@@ -65,6 +65,7 @@ export interface ServerInfo {
 export interface ProjectId {
 	name: string // The name of the project
 	id: string // The id of the project
+	latestModelId?: string // The id of the latest model
 	updatedAt: Date // The last update of the project
 }
 
@@ -108,6 +109,22 @@ export interface ResponseObject {
 		[key: string]: any // Flexible key:strings that you can expand with more
 	}
 }
+
+/**
+ * Response from speckle graphql API when getting projects and latest Model
+ */
+export interface ModelResponseObject {
+  data: {
+    project: {
+      models: {
+        items: {
+          id: string;
+        }[]
+      }
+    }
+  }
+}
+
 
 /**
  * Object to use in updating viewer stat bubbles.

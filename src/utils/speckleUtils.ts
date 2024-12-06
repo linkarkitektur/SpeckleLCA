@@ -15,7 +15,8 @@ import {
 	projectVersionsQuery,
 	streamObjectQuery,
 	streamSearchQuery,
-	userInfoQuery
+	userInfoQuery,
+	modelIdQuery
 } from '@/graphql/speckleQueries'
 
 import { reportErrorToSentry } from './monitoring'
@@ -163,6 +164,11 @@ export function getObject(streamId: string, objectId: string) {
 // Get the latest projects
 export function getProjectsData() {
 	return speckleFetch(latestStreamsQuery)
+}
+
+// Get the latest model for a specific project
+export function getLatestModel(projectId: string) {
+	return speckleFetch(modelIdQuery, { projectId })
 }
 
 /**

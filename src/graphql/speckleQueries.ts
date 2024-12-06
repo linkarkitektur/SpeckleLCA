@@ -75,6 +75,17 @@ export const latestStreamsQuery = `query {
     }
 }`
 
+export const modelIdQuery = `query($projectId: String!) {
+  project(id: $projectId) {
+    models {
+      items {
+        id
+      }
+    }
+  }
+}
+`
+
 /**
  * @description GraphQL query to fetch children objects and their parameters based on selection.
  * @param streamId - The ID of the stream.

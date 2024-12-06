@@ -15,7 +15,8 @@ import type {
 	ServerInfo,
 	User,
 	Version,
-	ColorGroup
+	ColorGroup,
+	ModelResponseObject
 } from '@/models/speckle'
 import router from '@/router'
 import { logMessageToSentry } from '@/utils/monitoring'
@@ -28,7 +29,8 @@ import {
 	getProjectsData,
 	getUserData,
 	navigateToAuthPage,
-	speckleLogOut
+	speckleLogOut,
+	getLatestModel
 } from '@/utils/speckleUtils' // TODO Is this the right import in the wider structure?
 import { Viewer } from '@speckle/viewer'
 import { defineStore } from 'pinia'
@@ -209,25 +211,30 @@ export const useSpeckleStore = defineStore({
 			try {
 				const json = await getProjectsData()
 				const data = json.data
+		
+				const projects: ProjectId[] = []
+		
+				for (const el of data.streams.items) {
+					const model: ModelResponseObject = await getLatestModel(el.id)
 
-				// Ensure enpepotemce criteria is met.
-				this.$patch((state) => {
-					state.allProjects = []
-					data.streams.items.forEach(
-						(el: { name: string; id: string; updatedAt: Date }) => {
-							const proj: ProjectId = {
-								name: el.name,
-								id: el.id,
-								updatedAt: el.updatedAt
-							}
-							state.allProjects?.push(proj)
-						}
-					)
-				})
+		
+					const proj: ProjectId = {
+						name: el.name,
+						id: el.id,
+						updatedAt: el.updatedAt,
+						latestModelId: model.data.project.models.items[0].id
+					}
+		
+					projects.push(proj)
+				}
+		
+				// Directly assign the array to your state, no $patch needed
+				this.allProjects = projects
 			} catch (err: any) {
 				logMessageToSentry(err as string, 'info')
 			}
 		},
+		
 
 		/**
 		 * The `updateProjectVersions` action updates the project versions for the specified project.
