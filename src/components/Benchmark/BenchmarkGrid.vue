@@ -10,7 +10,7 @@
       />
 			<ul
 				role="list"
-				class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+				class="max-h-screen grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start overflow-auto"
 			>
 				<li
 					v-for="(resultLog, index) in resultLogs"
@@ -19,7 +19,7 @@
 				>
 					<!-- Project Iterator. -->
 					<div class="flex flex-1 flex-col p-8">
-            <dd class="text-lg text text-gray-500">{{ resultLog.name }}</dd>
+            <dd class="text-m text text-gray-500">{{ resultLog.name }}</dd>
             <div class="h-[20vh]">
               <GraphContainer 
                 :resultItem="displayResultList[index]"
@@ -28,8 +28,9 @@
             <dd class="mt-3">
               <span
                 class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
-              > {{ resultLog.resultList[0].displayName }} </span
-              >
+              > 
+                {{ displayResultList[index].displayName }} 
+              </span>
             </dd>
 					</div>
 
@@ -48,16 +49,29 @@
 								<a
 									class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-800 text-center"
 								>
-                <td 
-                  :class="{'text-red-600' : emissionPercentage[index] >= 100, 'text-green-600' : emissionPercentage[index] < 100}"
-                >
-                  {{ emissionPercentage[index] }}%
-                </td>
-
+                  <td 
+                    :class="{'text-red-600' : emissionPercentage[index] >= 100, 'text-green-600' : emissionPercentage[index] < 100}"
+                  >
+                    {{ emissionPercentage[index] }}%
+                  </td>
 								</a>
 							</div>
 						</div>
 					</div>
+
+
+          <!-- Expand Button -->
+          <button
+            class="mt-4 w-full rounded bg-green-500 text-white py-2 text-sm font-medium hover:bg-green-600"
+            @click="toggleExpansion(index)"
+          >
+            {{ expanded[index] ? 'Hide Details' : 'Show Details' }}
+          </button>
+
+          <!-- Expandable Data Table -->
+          <div v-if="expanded[index]" class="overflow-auto max-h-80">
+            <DataTable :resultItem="displayResultList[index]" />
+          </div>
 				</li>
 			</ul>
 		</div>
@@ -66,14 +80,15 @@
 
 <script lang="ts">
 import Dropdown from '@/components/Misc/Dropdown.vue'
-import GraphContainer from '../Graphs/GraphContainer.vue'
+import GraphContainer from '@/components/Graphs/GraphContainer.vue'
+import DataTable from '@/components/Graphs/DataTable.vue'
 
 import { useResultStore } from '@/stores/result'
 import { useFirebaseStore } from '@/stores/firebase'
 import { useProjectStore } from '@/stores/main'
 import { useSettingsStore } from '@/stores/settings'
 
-import { defineComponent, ref, computed, watch } from 'vue'
+import { defineComponent, ref, reactive, computed, watch } from 'vue'
 
 import type { ResultItem } from '@/models/result'
 import type { ResultsLog } from '@/models/firebase'
@@ -87,6 +102,7 @@ export default defineComponent({
   components: {
     Dropdown,
     GraphContainer,
+    DataTable,
   },
   setup() {
     const resultStore = useResultStore()
@@ -97,7 +113,10 @@ export default defineComponent({
     const resultLogs = ref<ResultsLog[]>([])
     const benchmarkParameter = ref<string>('parameters.speckle_type')
 
-    //
+    // Create a boolean array to track expansion state
+    const expanded = reactive(resultLogs.value.map(() => false))
+
+    // Fetches results from firebase
     firebaseStore.fetchResults(projectStore.currProject.id).then((logs) => {
       resultLogs.value = logs
     })
@@ -116,6 +135,8 @@ export default defineComponent({
 
     // Handler for selecting a dropdown item
     const handleResultListSelection = (selectedItem: dropdownItem) => {
+      resultStore.setReloadData(true)
+      projectStore.clearSelectedObjects()
       const parsedResult = JSON.parse(selectedItem.data) as ResultItem
       benchmarkParameter.value = parsedResult.parameter
     }
@@ -123,7 +144,7 @@ export default defineComponent({
     const aggregatedEmission = computed(() => {
       const resultLogEmission = resultLogs.value.map((log: ResultsLog) => {
         const emission = getResultLogEmissions(log, benchmarkParameter.value)
-        return Math.round(emissionToNumber(emission) / settingsStore.appSettings.area) 
+        return Math.round(emissionToNumber(emission) / (settingsStore.appSettings.area ?? 100)) 
       })
       return resultLogEmission 
     })
@@ -139,8 +160,11 @@ export default defineComponent({
       return resultLogs.value.map((resultLog) => {
         return resultLog.resultList.find((item: ResultItem) => item.parameter === benchmarkParameter.value)
       })
-      
     })
+
+    function toggleExpansion(index) {
+      expanded[index] = !expanded[index]
+    }
 
     watch(graphParameters, (newGraphParameters) => {
       if (newGraphParameters.length > 0) {
@@ -164,10 +188,12 @@ export default defineComponent({
     })
 
     return {
+      handleResultListSelection,
+      toggleExpansion,
+      expanded,
       resultLogs,
       aggregatedEmission,
       graphParameters,
-      handleResultListSelection,
       dropdownName,
       displayResultList,
       emissionPercentage,
