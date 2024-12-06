@@ -1,11 +1,10 @@
 import { defineStore } from 'pinia'
 
 import type { 
-  MaterialResults,
-  GroupedResults,
+  ResultList,
 } from '@/models/result'
 
-import { ResultList } from '@/models/result'
+import { DefaultResultList } from '@/models/result'
 
 import type { Results } from '@/models/result'
 
@@ -18,45 +17,18 @@ export const useResultStore = defineStore({
 	state: () => {
 		return {
       aggregatedResults: [] as Results[],
-      materialResults: {} as MaterialResults,
-      resultList: ResultList,
+      resultList: DefaultResultList,
+      activeParameter: 'parameters.category', // Default active parameter for result filtering in resultLists TODO: Is this needed?
+      reloadChartData: true, // Boolean to reload the chart data
 		}
 	},
   actions: {
-    /**
-     * Sets results for the project with option material results
-     * @param result 
-     * @param materialResults 
-     */
-    setAggregatedResults(result: Results, materialResults: MaterialResults = {}) {
-      if (!this.aggregatedResults || this.aggregatedResults.length === 0) {
-        this.aggregatedResults = []
-      }
-      this.aggregatedResults.push(result)
-
-      if (Object.keys(materialResults).length > 0) {
-        this.materialResults = materialResults
-      }
-    },
-
     /**
      * Updates resultList
      * @param resultList resultList to update with
      */
     setResultList(resultList: ResultList) {
       this.resultList = resultList
-    },
-
-    /**
-     * Update the resultlist with the grouped results
-     * @param groupedResult Results to update with
-     * @param id to update, e.g. category, material, materialType, BSABCodes, speckleType
-     */
-    updateGroupedResults(groupedResult: GroupedResults[], id: string) {
-      if (!this.resultList[id]) {
-        this.resultList[id] = []
-      }
-      this.resultList[id] = groupedResult 
     },
 
     /**
@@ -72,8 +44,22 @@ export const useResultStore = defineStore({
         return { [id]: this.resultList[id] }
       }
       return {}
-    
-    }
+    },
+
+    /**
+     * Toggle the reloadChartData boolean
+     */
+    toggleReloadData() {
+      this.reloadChartData = !this.reloadChartData
+    },
+
+    /**
+     * Set the reloadChartData boolean
+     * @param reload 
+     */
+    setReloadData(reload: boolean) {
+      this.reloadChartData = reload
+    },
   }
   
 })

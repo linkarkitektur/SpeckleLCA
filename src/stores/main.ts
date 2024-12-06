@@ -156,6 +156,7 @@ export const useProjectStore = defineStore({
 		/**
 		 * Goes through geometry objects and returns list of parameters available
 		 * to filter project with
+		 * TODO: Run this lazy on load of projects
 		 * @returns array of available parameters
 		 */
 		getAvailableParameterList() {

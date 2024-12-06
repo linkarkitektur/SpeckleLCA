@@ -3,14 +3,14 @@ import { useProjectStore } from '@/stores/main'
 import { useSettingsStore } from '@/stores/settings'
 
 import { getNestedPropertyValue } from '@/utils/material'
-import { ResultList } from '@/models/result'
+import { DefaultResultList } from '@/models/result'
 import { getTextAfterLastDot } from '@/utils/stringUtils'
 
-import type { MaterialResults, Results } from '@/models/result'
+import type { Results } from '@/models/result'
 import type { ChartData, NestedChartData } from '@/models/chartModels'
-import type { GeometryObject } from '@/models/geometryObject'
-import type { Product, Assembly, Emission, LifeCycleStageEmission } from '@/models/material'
-import type { ResultItem } from '@/models/result'
+import type { GeometryObject, Quantity } from '@/models/geometryObject'
+import type { Product, Assembly, Emission, LifeCycleStageEmission, MetricUnits } from '@/models/material'
+import type { ResultItem, ResultList } from '@/models/result'
 import type { ResultsLog } from '@/models/firebase'
 
 
@@ -166,29 +166,6 @@ export function geometryToMaterialTypeNestedChartData(objects: GeometryObject[],
 }
 
 /**
- * Converter of material results into aggregated ChartData
- * @param materialResult 
- * @param impactCategory 
- * @returns 
- */
-export function materialResultsToMaterialChartData(materialResult: MaterialResults, impactCategory: string = 'gwp'): ChartData[] {
-  const data: ChartData[] = []
-  for (const materialId in materialResult) {
-    const material = materialResult[materialId]
-    let totalValue = 0
-    for (const phase in material.emission[impactCategory]) {
-      totalValue += material.emission[impactCategory][phase]
-    }
-    data.push({
-      label: material.material.name,
-      value: Math.round(totalValue),
-      ids: material.geoId
-    })
-  }
-  return data
-}
-
-/**
  * Returns number of total emission in co2 eq for a given emission object with all relevant phases and categories from settings
  * @param emission Emission object to convert to number
  * @returns Number for category and included phases in settings
@@ -234,12 +211,18 @@ function extractEmissionsFromResultItem(resultItem: ResultItem): Emission[] {
   return resultItem.data.map(groupedResult => groupedResult.data.emission)
 }
 
-function sumEmissions(emissions: Emission[]): Emission {
+export function sumEmissions(emissions: Emission[]): Emission {
   return emissions.reduce((accumulatedEmission, currentEmission) => {
     return addEmissions(accumulatedEmission, currentEmission)
   }, {})
 }
 
+/**
+ * Simple function to add two emissions together
+ * @param a Emission to add to
+ * @param b Emission to add from
+ * @returns Emission with added values
+ */
 export function addEmissions(a: Emission, b: Emission): Emission {
   const result: Emission = {}
 
@@ -251,7 +234,7 @@ export function addEmissions(a: Emission, b: Emission): Emission {
 
       for (const phase in source[impactCategory]) {
         result[impactCategory][phase] =
-          (result[impactCategory][phase] || 0) + source[impactCategory][phase]
+          (result[impactCategory][phase] || 0) + (source[impactCategory][phase] || 0)
       }
     }
   }
@@ -262,15 +245,31 @@ export function addEmissions(a: Emission, b: Emission): Emission {
 }
 
 /**
+ * Simple function to add two quantities together
+ * @param a Quantity to add to
+ * @param b Quantity to add from
+ * @returns Quantity with added values
+ */
+export function addQuantity(a: Quantity, b: Quantity): Quantity {
+  const result: Quantity = {}
+  // Find unique keys in a and b
+  const allKeys = new Set<MetricUnits>([...Object.keys(a || {}) as MetricUnits[], ...Object.keys(b || {}) as MetricUnits[]])
+  
+  for (const key of allKeys) {
+    result[key] = (a[key] || 0) + (b[key] || 0)
+  }
+  return result
+}
+
+/**
  * Aggregates a series of emissions on either whole project or just selection
  */
 export class ResultCalculator {
   private geos: GeometryObject[] = []
   private resultStore = useResultStore()
   public totalEmission: Emission = {}
-  private emissionsPerMaterial: MaterialResults = {}
   // Decouple from original list
-  public resultList: ResultList = ResultList.map(item => ({
+  public resultList: ResultList = DefaultResultList.map(item => ({
     ...item,
     data: [],
   }))
@@ -294,14 +293,6 @@ export class ResultCalculator {
     this.geos.forEach(geo => {
       if (geo.results) {
         this.aggregateTotalEmissions(geo.results[geo.results.length - 1].emission)
-        if (geo.material) {
-          this.aggregateEmissionsPerMaterial(
-            geo.id,
-            geo.material.id, 
-            geo.material, 
-            geo.results[geo.results.length - 1].emission
-          )
-        }
         if (calcResultList) {
           this.aggregateEmissionsForResultList(geo)
         }
@@ -329,43 +320,13 @@ export class ResultCalculator {
     }
   }
 
-  // Get the emission per material
-  private aggregateEmissionsPerMaterial(
-    geoId: string,
-    materialId: string,
-    material: Product | Assembly,
-    emission: Emission
-  ): void {
-    if (!this.emissionsPerMaterial[materialId]) {
-      this.emissionsPerMaterial[materialId] = {
-        material: material,
-        emission: {},
-        geoId: []
-      } 
-    }
-
-    //Checks the ID and adds that as key to the emission object
-    const materialEmission = this.emissionsPerMaterial[materialId].emission 
-    this.emissionsPerMaterial[materialId].geoId.push(geoId)
-
-    for (const impactCategory in emission) {
-      if (!materialEmission[impactCategory]) {
-        materialEmission[impactCategory] = {} 
-      }
-      for (const phase in emission[impactCategory]) {
-        materialEmission[impactCategory][phase] =
-          (materialEmission[impactCategory][phase] || 0) +
-          emission[impactCategory][phase] 
-      }
-    }
-  }
-
   private aggregateEmissionsForResultList(geo: GeometryObject): void {
     for (const index in this.resultList) {
       const parameter = this.resultList[index].parameter
       const paramValue = getNestedPropertyValue(geo, parameter)
       if (paramValue) {
         const geoEmission = geo.results[geo.results.length - 1].emission
+        const geoQuantity = geo.quantity
 
         const paramList = this.resultList[index]
 
@@ -378,6 +339,7 @@ export class ResultCalculator {
         if (!groupedResult) {
           groupedResult = {
             parameter: paramValue,
+            quantity: geoQuantity,
             data: {
               emission: {} as Emission,
               geoId: [],
@@ -386,9 +348,16 @@ export class ResultCalculator {
           paramList.data.push(groupedResult)
         }
 
+        // Add emissions together
         groupedResult.data.emission = addEmissions(
           groupedResult.data.emission,
           geoEmission
+        )
+
+        // Add quantities together
+        groupedResult.quantity = addQuantity(
+          groupedResult.quantity, 
+          geoQuantity
         )
 
         if (!groupedResult.data.geoId.includes(geo.id)) {
@@ -399,14 +368,6 @@ export class ResultCalculator {
   }
   
   private saveResults(): void {
-
-    const result: Results = {
-      id: crypto.randomUUID(),
-      date: new Date(),
-      emission: this.totalEmission,
-    }
-    this.resultStore.setAggregatedResults(result, this.emissionsPerMaterial)
-
     this.resultStore.setResultList(this.resultList)
   }
 }
