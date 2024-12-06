@@ -73,6 +73,7 @@ const dropdownName = ref(selectedResult.value ? selectedResult.value.displayName
 
 // Handler for selecting a dropdown item
 const handleResultListSelection = (selectedItem: dropdownItem) => {
+  resultStore.setReloadData(true)
   const parsedResult = JSON.parse(selectedItem.data) as ResultItem
   selectedResult.value = parsedResult
 
@@ -140,6 +141,7 @@ const updateGraphProps = (chart: string = "") => {
           options,
         }
       } else {
+        if (!selectedResult.value) return
         data = geometryToChartData(projectStore.selectedObjects, selectedResult.value.parameter)
         graphProps.value = {
           data,

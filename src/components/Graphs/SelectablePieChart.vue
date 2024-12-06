@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import * as d3 from 'd3'
-import { ref, reactive, onMounted, watch, type PropType } from 'vue'
+import { ref, reactive, onMounted, watch, onBeforeUnmount, type PropType } from 'vue'
 
 import { getValueColorFromGradient } from '@/utils/colorUtils'
 import { 
@@ -23,6 +23,7 @@ import {
 import { truncateText } from '@/utils/stringUtils'
 import { roundNumber } from '@/utils/math'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
+import { useResultStore } from '@/stores/result'
 
 export default {
   name: 'SelectablePieChart',
@@ -37,6 +38,8 @@ export default {
     }
   },
   setup(props) {
+    const resultStore = useResultStore()
+
     const svg = ref<SVGSVGElement | null>(null)
     const tooltip = ref<HTMLDivElement | null>(null)
     const container = ref<HTMLDivElement | null>(null)
@@ -73,18 +76,32 @@ export default {
       }
     }
 
+    const onKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        resultStore.setReloadData(true)
+        draw()
+      }
+    }
+
     onMounted(() => {
       draw()
       // Handle resize with ResizeObserver
       const resizeObserver = new ResizeObserver(draw)
       resizeObserver.observe(svg.value)
+
+      document.addEventListener('keydown', onKeydown)
+    })
+
+    onBeforeUnmount(() => {
+      document.removeEventListener('keydown', onKeydown)
     })
 
     //Watch for props changes
     watch(
       () => props.data,
       () => {
-        draw()
+        if (resultStore.reloadChartData)
+          draw()
       },
       { deep: true }
     )
@@ -98,6 +115,7 @@ export default {
 }
 
 function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
+  const resultStore = useResultStore()
   // Setup options and default settings
   const width = ref(options.width || 400)
   const height = ref(options.height || 400)
@@ -130,6 +148,9 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const drawChart = (svg: SVGSVGElement, tooltipElement: HTMLDivElement, containerElement: HTMLDivElement) => {
     if (!svg || !tooltipElement || !containerElement) return
     const graph: d3.Selection<SVGElement, any, any, any> = d3.select(svg)
+
+    // Double click checks
+    let clickTimeout = null
 
     // Create tooltips
     const tooltipDiv = createTooltip(tooltipElement)
@@ -212,8 +233,30 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
       .on("mouseleave", function(event, d) {
         mouseleave(event, d.data)
       })
+      // Double click event check, grey out if single but send it to selectedObjects for viewer
       .on("click", function(event, d) {
-        updateSelectedObjects(d.data.ids)
+        if (clickTimeout) {
+          // A second click occurred within the timer: it's a double click
+          clearTimeout(clickTimeout)
+          clickTimeout = null
+          resultStore.setReloadData(true)
+
+          updateSelectedObjects(d.data.ids)
+        } else {
+          clickTimeout = setTimeout(() => {
+            clickTimeout = null
+            resultStore.setReloadData(false)
+
+            updateSelectedObjects(d.data.ids)
+
+            d3.selectAll('.arc path')
+              .transition()
+              .duration(200)
+              .style('opacity', arcData => {
+                return arcData.data.label === d.data.label ? 1 : 0.1
+              })
+          }, 300)
+        }
       })
 
     // Add the value texts
