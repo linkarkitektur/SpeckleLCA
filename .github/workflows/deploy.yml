@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     branches:
-      - benchmarking
+      - Benchmarking
 
 jobs:
   deploy:
