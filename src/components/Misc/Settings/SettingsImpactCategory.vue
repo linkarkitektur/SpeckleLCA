@@ -29,6 +29,7 @@ import type { ExtendedImpactCategoryKey } from '@/models/material'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 import Dropdown from '@/components/Misc/Dropdown.vue'
+import UpdateButton from '@/components/Misc/Settings/UpdateButton.vue'
 import { storeToRefs } from 'pinia'
 
 // TODO: Add general settings here!
@@ -36,32 +37,7 @@ export default defineComponent({
   name: 'SettingsImpactCategory',
   components: {
     Dropdown,
-    // Local update button
-    UpdateButton: defineComponent({
-      name: 'UpdateButton',
-      props: {
-        label: {
-          type: String,
-          default: 'Update',
-        },
-      },
-      setup(props, { emit }) {
-        const handleClick = () => {
-          emit('click')
-        }
-
-        return { handleClick }
-      },
-      template: `
-        <button 
-          type="button" 
-          class="font-semibold text-green-600 hover:text-green-500"
-          @click="handleClick"
-        >
-          {{ label }}
-        </button>
-      `,
-    }),
+    UpdateButton,
   },
   setup() {
   const settingsStore = useSettingsStore()
