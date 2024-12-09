@@ -1,5 +1,5 @@
 import type { Emission } from '@/models/material'
-import { Quantity } from '@/models/geometryObject'
+import type { Quantity } from '@/models/geometryObject'
 
 /**
  * Grouped results interface to store the results grouped by a parameter

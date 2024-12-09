@@ -39,13 +39,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 import { emissionToNumber } from '@/utils/resultUtils'
 
+import type { PropType } from 'vue'
 import type { ResultItem, GroupedResults } from '@/models/result'
-import { useResultStore } from '@/stores/result'
-import { storeToRefs } from 'pinia';
 
 export default defineComponent({
   name: 'ResultTable',
