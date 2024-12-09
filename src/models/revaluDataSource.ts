@@ -19,28 +19,29 @@ export enum Country {
  * Reduced list for common use cases
  */
 export enum StandardBuildingMaterialType {
-  /*AluminiumElements = "Aluminium elements",
+  AluminiumElements = "Aluminium elements",
   Asphalt = "Asphalt",
   BioBasedInsulation = "Bio-based insulation",
-  Boards = "Boards",*/
+  Boards = "Boards",
   Bricks = "Bricks",
   Cement = "Cement",
   Concrete = "Concrete",
-  /*ConcreteBlocks = "Concrete blocks",
+  ConcreteBlocks = "Concrete blocks",
   CurtainWall = "Curtain wall",
   Doors = "Doors",
-  ExteriorSubstrate = "Exterior Substrate",
+  /*ExteriorSubstrate = "Exterior Substrate",
   FibreCementBoard = "Fibre Cement board",
   FramesAndProfiles = "Frames and profiles",
   */
   Generic = "Generic",
   Gypsum = "Gypsum",
-  /* Hemp = "Hemp",
+  /*Hemp = "Hemp",
   Infill = "Infill",
+  */
   MineralWool = "Mineral wool",
   ModifiedWood = "Modified wood",
   Mortar = "Mortar",
-  PaintExterior = "Paint (Exterior)",
+  /*PaintExterior = "Paint (Exterior)",
   PaintInterior = "Paint (Interior)",
   Plasterboards = "Plasterboards",
   PlasticFlooring = "Plastic flooring",
@@ -219,6 +220,7 @@ export const getRevaluBaseList = async() => {
     for (const product of products) {
       product.metaData = { materialType: StandardBuildingMaterialType[materialType] }
       product.source = Source.Revalu
+      
       materialStore.addMaterial(product)
     }
   }

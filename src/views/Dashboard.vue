@@ -78,7 +78,7 @@ export default {
 		
 		materialStore.materialsFromJson()
 		getAssemblyList()
-		//getRevaluBaseList()
+		getRevaluBaseList()
 		
 		// Watch for changes in the active page and update viewer colors
 		// TODO: Have this in the navStore instead?

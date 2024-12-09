@@ -11,7 +11,7 @@ import { type Product, type Emission, type LifeCycleStageEmission, type Assembly
 
 //import { convertIlcd } from 'epdx'
 
-const MAX_EPD_COUNT = 5
+const MAX_EPD_COUNT = 15
 // Ilcd reference to GWP total
 const GWP_REF_OBJECT_ID = '6a37f984-a4b3-458a-a20a-64418c145fa2'
 
@@ -214,7 +214,7 @@ const extractRevaluData = (response: { body: RevaluData }) => {
   const data = response.body
   const emission: Emission = {
     gwp: data.gwp,
-    //gwp_fossil: data.gwp_fossil,
+    gwp_fossil: data.gwp_fossil,
     //gwp_biogenic: data.gwp_biogenic,
     //gwp_luluc: data.gwp_luluc,
     fw: data.fw,
