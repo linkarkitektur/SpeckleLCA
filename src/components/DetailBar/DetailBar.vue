@@ -23,7 +23,7 @@ import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 import { geometryToChartData } from '@/utils/resultUtils'
 
 import type { GeometryObject } from '@/models/geometryObject'
-import { ChartData } from '@/models/chartModels'
+import type { ChartData } from '@/models/chartModels'
 
 export default defineComponent({
   name: 'DetailBar',
