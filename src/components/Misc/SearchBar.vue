@@ -100,7 +100,6 @@ import { getNestedPropertyValue } from '@/utils/material'
 
 import { Source } from '@/models/material'
 import { getEnumEntries } from '@/utils/dataUtils'
-import { isProduct, isAssembly } from '@/utils/dataUtils'
 
 import {
   Menu,
