@@ -28,6 +28,7 @@ interface EPDService {
 
 /**
  * Class for fetching data from EcoPortal
+ * TODO: This implementation is not done yet, EPD Information is flaky at best
  */
 class EcoPortalService implements EPDService {
   createApiClient() {
@@ -93,12 +94,20 @@ class RevaluService implements EPDService {
     })
   }
   
+  // Create list URL, we check if dev or not and switch the URL
   createListUrl() {
-    return 'api/revalu/epds/search'
+    const apiListUrl = import.meta.env.MODE === 'development' 
+      ? '/SpeckleLCA/api/revalu/epds/search' 
+      : 'https://api.revalu.io/epds/search'
+    return apiListUrl
   }
 
+  // Create EPD URL, we check if dev or not and switch the URL
   createEPDUrl(epd: any) {
-    return `api/revalu/epds/${epd.id}`
+    const apiEPDUrl = import.meta.env.MODE === 'development' 
+      ? `/SpeckleLCA/api/revalu/epds/${epd.id}` 
+      : `https://api.revalu.io/epds/${epd.id}`
+    return apiEPDUrl
   }
 
   createListParams() {

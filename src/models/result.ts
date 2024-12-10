@@ -9,6 +9,7 @@ export interface GroupedResults{
   parameter: string
   data: GroupedEmission
   quantity?: Quantity
+  nested?: GroupedResults[]
 }
 
 /**
@@ -27,7 +28,6 @@ export interface ResultItem {
   parameter: string
   displayName: string
   data: GroupedResults[]
-  nested?: ResultItem
 }
 
 export type ResultList = ResultItem[]

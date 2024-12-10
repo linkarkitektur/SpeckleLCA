@@ -20,7 +20,6 @@ export interface CalculationSettings {
     key: string,
     data: BuildingCodeItem[],
   },
-
 }
 
 export interface MaterialSettings {

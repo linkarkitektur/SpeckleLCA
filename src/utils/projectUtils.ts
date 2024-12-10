@@ -4,8 +4,7 @@ import type { GeometryObject } from '@/models/geometryObject'
 import { useProjectStore } from '@/stores/main'
 import { 
   baseColors, 
-  getValueColorFromGradient, 
-  generateColors,
+  getValueColorFromGradient,
   ColorManager 
 } from '@/utils/colorUtils'
 

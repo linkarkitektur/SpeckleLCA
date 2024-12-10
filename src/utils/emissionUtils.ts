@@ -100,7 +100,7 @@ export class EmissionCalculator {
     for (const phase in matEmission) {
       // Check if the phase is included in the calculation settings, if not skip it
       if (this.settingsStore.calculationSettings.includedStages.relevantStages.some(
-        (stage) => phase === stage.stage)
+        (stage) => phase === stage.stage && stage.included)
       ){
         let value = matEmission[phase]
         if (value === undefined) value = matEmission[phase]

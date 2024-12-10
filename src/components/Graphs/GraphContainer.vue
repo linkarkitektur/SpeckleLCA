@@ -33,8 +33,9 @@ import Dropdown from '@/components/Misc/Dropdown.vue'
 // Utility imports
 import { 
   geometryToChartData,
+  geometryToNestedChartData,
   ResultItemToChartData,
-  geometryToMaterialTypeNestedChartData
+  ResultItemToNestedChartData
   } from '@/utils/resultUtils'
 
 // Type imports
@@ -156,8 +157,8 @@ const updateGraphProps = (chart: string = "") => {
         aggregate: true,
         unit: "kgCO2e",
       }
-
-      data = geometryToMaterialTypeNestedChartData(projectStore.currProject.geometry)
+      
+      data = geometryToNestedChartData(projectStore.currProject.geometry, selectedResult.value.parameter)
       graphProps.value = {
         data,
         options,
