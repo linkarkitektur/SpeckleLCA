@@ -6,14 +6,12 @@ import { getNestedPropertyValue } from '@/utils/material'
 import { DefaultResultList } from '@/models/result'
 import { getTextAfterLastDot } from '@/utils/stringUtils'
 
-import type { GroupedResults, Results } from '@/models/result'
+import type { GroupedResults } from '@/models/result'
 import type { ChartData, NestedChartData } from '@/models/chartModels'
 import type { GeometryObject, Quantity } from '@/models/geometryObject'
 import type { ExtendedImpactCategoryKey, Emission, LifeCycleStageEmission, MetricUnits } from '@/models/material'
 import type { ResultItem, ResultList } from '@/models/result'
 import type { ResultsLog } from '@/models/firebase'
-import { group } from 'console'
-
 
 /**
  * Converter of geometry object results into aggregated ChartData for specific LifeCycleStages (LCS)
@@ -48,11 +46,36 @@ export function geometryToLCSChartData(objects: GeometryObject[], impactCategory
 }
 
 /**
+ * Converts a ResultItem into a list of ChartData with only lifecycle stages information
+ * @param resultItem ResultItem to convert
+ * @returns ChartData array for use with charts such as stackedBar
+ */
+export function resultItemToLCSChartData(resultItem: ResultItem): ChartData[] {
+  const settingsStore = useSettingsStore()
+  const impactCategory = settingsStore.calculationSettings.standardImpactCategory
+  const groupedData = new Map<string, ChartData>()
+
+  if (!resultItem?.data) return []
+  // Go through each selected object and get aggregated labels and emission data
+  for (const groupedResult of resultItem.data) {
+    groupedResultToLCSChartData(groupedResult, groupedData, impactCategory)
+  }
+
+  const data: ChartData[] = Array.from(groupedData, ([material, { value, ids }]) => ({
+    label: material,
+    value: Math.round(value),
+    ids: ids
+  }))
+
+  return data
+}
+
+/**
  * Converts a ResultItem into a list of ChartData
  * @param resultItem ResultItem to convert
  * @returns ChartData array for use with charts such as pie, bar chart etc
  */
-export function ResultItemToChartData (resultItem: ResultItem): ChartData[] {
+export function resultItemToChartData (resultItem: ResultItem): ChartData[] {
   const settingsStore = useSettingsStore()
   const impactCategory = settingsStore.calculationSettings.standardImpactCategory
   const groupedData = new Map<string, ChartData>()
@@ -78,7 +101,7 @@ export function ResultItemToChartData (resultItem: ResultItem): ChartData[] {
  * @param resultItem ResultItem to convert
  * @returns NestedChartData array for use with charts such as diverging stacked bar chart
  */
-export function ResultItemToNestedChartData (resultItem: ResultItem): NestedChartData[] {
+export function resultItemToNestedChartData (resultItem: ResultItem): NestedChartData[] {
   const settingsStore = useSettingsStore()
   const impactCategory = settingsStore.calculationSettings.standardImpactCategory
   
@@ -166,20 +189,53 @@ function groupedResultToChartData(groupedResult: GroupedResults, groupedData: Ma
   materialData.ids.push(... groupedResult.data.geoId) 
 }
 
+
+/**
+ * Helper function to convert a single grouped result into a chart data for lifecycle stages
+ * @param groupedResult Grouped result to convert
+ * @param groupedData Map to store the grouped data
+ * @param impactCategory Impact category to get results for
+ */
+function groupedResultToLCSChartData(groupedResult: GroupedResults, groupedData: Map<string, ChartData>, impactCategory: ExtendedImpactCategoryKey): void {
+  const emissionData = groupedResult.data.emission
+
+  if (!emissionData) return null
+
+  for (const lifeCycleStage in groupedResult.data.emission[impactCategory]) {
+    if (!groupedData.has(lifeCycleStage)) {
+      const entry: ChartData = {
+        label: lifeCycleStage,
+        value: 0,
+        ids: []
+      }
+      groupedData.set(lifeCycleStage, entry)
+    }
+
+    const materialData = groupedData.get(lifeCycleStage)!
+
+    materialData.value += groupedResult.data.emission[impactCategory][lifeCycleStage]
+    materialData.ids.push(... groupedResult.data.geoId) 
+  }
+}
+
 /**
  * Creates a result list from the given objects and then find the relevant parameter and makes it into chart data
  * @param objects Geoobject with reuslts on them
  * @param chartParameter Parameter to convert into chartdata
  * @returns Chartdata for given parameter
  */
-export function geometryToChartData(objects: GeometryObject[], chartParameter: string): ChartData[] {
+export function geometryToChartData(objects: GeometryObject[], chartParameter: string, LCSData: boolean = false): ChartData[] {
   // Create result aggregator and calculator
   const resCalc = new ResultCalculator(objects)
   resCalc.aggregate(false, true)
   
   const resultItem = resCalc.resultList.find((item) => item.parameter === chartParameter)
 
-  return ResultItemToChartData(resultItem)
+  // If we are calculating for LCS, we need to convert the data differently
+  if (LCSData) 
+    return resultItemToLCSChartData(resultItem)
+  
+  return resultItemToChartData(resultItem)
 }
 
 /**
@@ -195,7 +251,7 @@ export function geometryToNestedChartData(objects: GeometryObject[], chartParame
   
   const resultItem = resCalc.resultList.find((item) => item.parameter === chartParameter)
 
-  return ResultItemToNestedChartData(resultItem)
+  return resultItemToNestedChartData(resultItem)
 }
 
 /**
@@ -240,7 +296,7 @@ export function getResultLogEmissions(resultLog: ResultsLog, parameter: string):
   return sumEmissions(emissionList)
 }
 
-function extractEmissionsFromResultItem(resultItem: ResultItem): Emission[] {
+export function extractEmissionsFromResultItem(resultItem: ResultItem): Emission[] {
   return resultItem.data.map(groupedResult => groupedResult.data.emission)
 }
 

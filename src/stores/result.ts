@@ -60,6 +60,14 @@ export const useResultStore = defineStore({
     setReloadData(reload: boolean) {
       this.reloadChartData = reload
     },
+
+    /**
+     * Set the active parameter for result filtering
+     * @param parameter 
+     */
+    setActiveParameter(parameter: string) {
+      this.activeParameter = parameter
+    },
   }
   
 })

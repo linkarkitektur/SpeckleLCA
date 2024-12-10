@@ -38,7 +38,7 @@ export type ResultList = ResultItem[]
 export const DefaultResultList: ResultList = [
   { parameter: 'parameters.category', displayName: 'Category', data: [] },
   { parameter: 'material.name', displayName: 'Material', data: [] },
-  { parameter: 'material.metadata.materialType', displayName: 'Material Type', data: [] },
+  { parameter: 'material.metaData.materialType', displayName: 'Material Type', data: [] },
   { parameter: 'BSABCodes', displayName: 'BSAB Codes', data: [] },
   { parameter: 'parameters.speckle_type', displayName: 'Speckle Type', data: [] },
 ]
