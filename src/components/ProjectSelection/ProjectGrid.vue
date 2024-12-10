@@ -89,7 +89,7 @@
 				const baseUrl = settingsStore.keySettings.speckleConfig.serverUrl
 				const streamId = project.id
 
-				return `${baseUrl}/embed?stream=${streamId}&transparent=true&hidecontrols=true&hidesidebar=true&hideselectioninfo=true`
+				return `${baseUrl}/projects/${project.id}/models/${project.latestModelId}#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%2C%22hideControls%22%3Atrue%2C%22hideSelectionInfo%22%3Atrue%2C%22noScroll%22%3Atrue%7D`
 			}
 		},
 		setup() {

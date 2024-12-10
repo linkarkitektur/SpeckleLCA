@@ -207,7 +207,7 @@ import type { DropdownOption } from '@/models/pageLogic'
 import type { Assembly, Product } from '@/models/material'
 import type { GeometryObject } from '@/models/geometryObject'
 
-import { EmissionAggregator } from '@/utils/resultUtils'
+import { ResultCalculator } from '@/utils/resultUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
 import { createGeometryFromProduct } from '@/utils/material'
 
@@ -353,8 +353,8 @@ export default defineComponent({
       const calculator = new EmissionCalculator(tempGeos)
       calculator.calculateEmissions()
 
-      const aggregator = new EmissionAggregator(tempGeos)
-      aggregator.aggregate(false)
+      const resCalc = new ResultCalculator(tempGeos)
+      resCalc.aggregate(false)
 
       const name = assemblyName.value
       const description = assemblyDescription.value
@@ -365,7 +365,7 @@ export default defineComponent({
         name: name,
         description: description,
         products: products,
-        emission: aggregator.totalEmission,
+        emission: resCalc.totalEmission,
         comment: '',
         quantity: 1,
         unit: 'm2',

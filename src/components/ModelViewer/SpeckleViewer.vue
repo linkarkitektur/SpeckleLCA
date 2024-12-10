@@ -13,11 +13,6 @@
       <div class="fixed w-full h-full bg-gray-500 bg-opacity-75 transition-opacity z-30" />
     </TransitionChild>
   </TransitionRoot>
-
-  <div 
-    class="relative inset-y-16 w-full h-[calc(100vh-4rem)] bg-gray-100 overflow-auto" 
-    id="renderParent"
-  >
     <div class="absolute text-sm select-none left-4">
       <RenderToggle />
       <h3 class="font-semibold leading-5 text-gray-400 border-b border-gray-300 pb-2">
@@ -36,13 +31,14 @@
 
     <div class="flex h-full w-full bg-gray-50 -z-10" id="renderer" />
     <!-- TODO This should be full height and positioned correctly from the graph itself just placed in the right corner -->
+    <!-- Only show in dashboard view -->
     <div
     	class="absolute h-1/3 mx-auto top-4 right-4 align-right justify-center z-20 overflow-visible"
+      v-if="navigationStore.activePage !== 'Benchmark'"
   	>
       <GraphContainer />
 		</div>
     <DetailBar />
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -68,6 +64,7 @@ import {
 import { useSpeckleStore } from '@/stores/speckle'
 import { useSettingsStore } from '@/stores/settings'
 import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigation'
 import { storeToRefs } from 'pinia'
 
 // Component imports
@@ -86,6 +83,7 @@ const { selectedObjects } = storeToRefs(projectStore)
 
 const speckleStore = useSpeckleStore()
 const settingsStore = useSettingsStore()
+const navigationStore = useNavigationStore()
 const serverUrl = settingsStore.keySettings.speckleConfig.serverUrl
 const token = ""
 const resizeObserver = ref<ResizeObserver | null>(null)

@@ -2,12 +2,19 @@ import type { NestedGroup, Filter, Group } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
 
 import { useProjectStore } from '@/stores/main'
+import { useResultStore } from '@/stores/result'
+import { useSettingsStore } from '@/stores/settings'
 import { 
   baseColors, 
-  getValueColorFromGradient, 
-  generateColors,
+  getValueColorFromGradient,
   ColorManager 
 } from '@/utils/colorUtils'
+import { 
+  ResultCalculator,
+  extractEmissionsFromResultItem,
+  sumEmissions,
+  emissionToNumber
+} from '@/utils/resultUtils'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -177,25 +184,28 @@ export function setResultsColorGroup(objects: GeometryObject[] = null, colorRang
   return groups
 
   function assignColorGroup(object: GeometryObject) {
-    //Check if we have a result to map
+    const settingsStore = useSettingsStore()
+    const resultStore = useResultStore()
+    
     if (object && object.results) {
-      //Get the last result
-      const result = object.results[object.results.length - 1]
-      if (result && result.emission) {
-        //Get the gwp value
-        const gwp = result.emission.gwp
-        let totalGwp = 0
-        for (const phase in gwp) {
-          totalGwp += gwp[phase]
-        }
+      // Calculate the resultlist for the object
+      // TODO: Check if this is super inefficient nice to have it gathered into one function for all results
+      const resCalc = new ResultCalculator([object])
+      resCalc.aggregate(false)
 
-        const sizeFactor = object ? Math.log10(object.quantity.m2 + 1) : 1
+      // Find the result for the active parameter
+      const resItem = resCalc.resultList.find((item) => item.parameter === 'material.name')
+      
+      // Extract emissions from the result
+      const emissionList = extractEmissionsFromResultItem(resItem)
+      const emission = sumEmissions(emissionList)
 
-        const normalisedEmissions = (totalGwp / object.quantity.m2) * sizeFactor
-        //Calculate the color based on the gwp value
-        const color = getValueColorFromGradient(normalisedEmissions, 0, 200)
-        groups.push({ objectIds: [object.id], color: color })
-      }
+      // We use a log10 scale, I think it makes sense
+      const sizeFactor = object ? Math.log10(object.quantity.m2 + 1) : 1
+      const normalisedEmissions = (emissionToNumber(emission) / object.quantity.m2) * sizeFactor
+      //Calculate the color based on the gwp value
+      const color = getValueColorFromGradient(normalisedEmissions, 0, 200)
+      groups.push({ objectIds: [object.id], color: color })
     } else {
       //No result mapped set color to grey
       neutralGroup.objectIds.push(object.id)

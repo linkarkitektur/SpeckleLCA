@@ -26,7 +26,7 @@
       >
         <div class="py-1 max-h-60 overflow-y-auto">
           <DropdownMenuItem
-            v-for="item in dPItems"
+            v-for="item in items"
             :key="item.name"
             :item="item"
             :selectedItem="selectedItem"
@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
-import { defineComponent, ref, getCurrentInstance, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import DropdownMenuItem from '@/components/Misc/DropdownMenuItem.vue'
 
 export default defineComponent({
@@ -60,29 +60,20 @@ export default defineComponent({
       default: 'Options',
     },
   },
-  setup(props) {
-    const instance = getCurrentInstance()
+  setup(props, { emit }) {
     const selectedItem = ref(props.dropdownName)
-    const dPItems = ref(props.items)
     const isOpen = ref(false)
 
     const select = (item: dropdownItem) => {
       selectedItem.value = item.name
       isOpen.value = false
       // Emit back to parent so it knows the dropdown has selected something new
-      instance?.emit('selectedItem', item)
+      emit('selectedItem', item)
     }
 
     const toggleDropdown = () => {
       isOpen.value = !isOpen.value
     }
-
-    watch(
-      () => props.items,
-      (newValue) => {
-        dPItems.value = newValue
-      }
-    )
 
     watch(
       () => props.dropdownName,
@@ -91,9 +82,22 @@ export default defineComponent({
       }
     )
 
+    watch(
+      () => props.items,
+      (newItems) => {
+        if (!newItems.some((item) => item.name === selectedItem.value)) {
+          if (newItems.length > 0) {
+            //selectedItem.value = newItems[0].name
+          } else {
+            selectedItem.value = props.dropdownName || 'Options'
+          }
+        }
+      },
+      { immediate: true }
+    )
+
     return {
       select,
-      dPItems,
       selectedItem,
       isOpen,
       toggleDropdown,

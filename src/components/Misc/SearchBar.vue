@@ -100,7 +100,6 @@ import { getNestedPropertyValue } from '@/utils/material'
 
 import { Source } from '@/models/material'
 import { getEnumEntries } from '@/utils/dataUtils'
-import { isProduct, isAssembly } from '@/utils/dataUtils'
 
 import {
   Menu,
@@ -238,6 +237,7 @@ export default defineComponent({
         try {
           manualMode = true
           const newMaterial: Product = await getSpecificEPD({ id: newVal })
+          newMaterial.metaData.materialType = 'ManualEntry'
           materialStore.addMaterial(newMaterial)
           emit('update:data', [newMaterial])
         } catch (error) {

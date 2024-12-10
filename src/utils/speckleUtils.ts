@@ -5,7 +5,7 @@
  */
 import type { Project } from '@/models/project'
 import type { ResponseObject, ResponseObjectStream } from '@/models/speckle'
-import type { GeometryObject } from '@/models/geometryObject'
+import type { GeometryObject, Quantity } from '@/models/geometryObject'
 import type { MetricUnits } from '@/models/material'
 
 import { selectedObjectsQuery } from '@/graphql/speckleQueries'
@@ -15,7 +15,8 @@ import {
 	projectVersionsQuery,
 	streamObjectQuery,
 	streamSearchQuery,
-	userInfoQuery
+	userInfoQuery,
+	modelIdQuery
 } from '@/graphql/speckleQueries'
 
 import { reportErrorToSentry } from './monitoring'
@@ -165,6 +166,11 @@ export function getProjectsData() {
 	return speckleFetch(latestStreamsQuery)
 }
 
+// Get the latest model for a specific project
+export function getLatestModel(projectId: string) {
+	return speckleFetch(modelIdQuery, { projectId })
+}
+
 /**
  * Get object parameters for a stream and specific referenced object.
  * The parameters will be dynamic for the sourceapplication that was used when sending to Speckle
@@ -233,16 +239,8 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
  * @returns An object representing the quantity of different units.
  */
 export function calculateQuantity(obj: ResponseObject) {
-	const quantity: {
-		[key in MetricUnits]: number
-	} = {
-		m: 0,
+	const quantity: Quantity = {
 		m2: 0,
-		m3: 0,
-		kg: 0,
-		pcs: 1,
-		tonnes: 0,
-		l: 0
 	}
 
 	// Initial parameters we search for, can be added upon should maybe be moved from here to a model file instead

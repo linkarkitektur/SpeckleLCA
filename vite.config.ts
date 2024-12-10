@@ -66,31 +66,30 @@ export default defineConfig({
 
 	server: {
     proxy: {
-			'/api/revalu': {
+			'/SpeckleLCA/api/revalu': {
 				target: 'https://api.revalu.io',
 				changeOrigin: true,
 				rewrite: (path) => {
-					return path.replace(/^\/api\/revalu/, '')
+					return path.replace(/^\/SpeckleLCA\/api\/revalu/, '')
 				},
 				secure: true,
 			},
-      '/api/eco': {
-        target: 'https://data.eco-platform.org', 
-        changeOrigin: true,
-        rewrite: (path) => {
-          return path.replace(/^\/api\/eco/, '')
+      '/SpeckleLCA/api/eco': {
+				target: 'https://data.eco-platform.org',
+				changeOrigin: true,
+				rewrite: (path) => {
+					return path.replace(/^\/SpeckleLCA\/api\/eco/, ''); // Removes the entire prefix
 				},
-        secure: true,
-      },
-      '/EPD-NORWAY_DIGI': {
-        target: 'https://epdnorway.lca-data.com/resource/processes/',
-        changeOrigin: true,
-        rewrite: (path) => {
-					const newPath = path.replace(/^\/EPD-NORWAY_DIGI/, '');
-					return newPath;
-        },
-        secure: true,
-      },
+				secure: true,
+			},
+      '/SpeckleLCA/EPD-NORWAY_DIGI': {
+				target: 'https://epdnorway.lca-data.com/resource/processes/',
+				changeOrigin: true,
+				rewrite: (path) => {
+					return path.replace(/^\/SpeckleLCA\/EPD-NORWAY_DIGI/, ''); // Removes the entire prefix
+				},
+				secure: true,
+			},
     },
   },
 })

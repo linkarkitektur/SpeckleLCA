@@ -19,7 +19,7 @@
             v-model="currentSetting.name" 
             class="w-full border p-2 rounded-md"
           />
-          <SaveButton label="Save" @click="saveSettings" />
+          <UpdateButton label="Save" @click="saveSettings" />
         </dd>
       </div>
     </dl>
@@ -38,38 +38,14 @@ import type { CalculationSettingsLog } from '@/models/firebase'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 import Dropdown from '@/components/Misc/Dropdown.vue'
+import UpdateButton from './UpdateButton.vue'
 
 // TODO: Add general settings here!
 export default defineComponent({
   name: 'SettingsImpactCategory',
   components: {
     Dropdown,
-    // Local update button
-    SaveButton: defineComponent({
-      name: 'SaveButton',
-      props: {
-        label: {
-          type: String,
-          default: 'Update',
-        },
-      },
-      setup(props, { emit }) {
-        const handleClick = () => {
-          emit('click')
-        }
-
-        return { handleClick }
-      },
-      template: `
-        <button 
-          type="button" 
-          class="font-semibold text-green-600 hover:text-green-500"
-          @click="handleClick"
-        >
-          {{ label }}
-        </button>
-      `,
-    }),
+    UpdateButton
   },
   setup() {
   const settingsStore = useSettingsStore()

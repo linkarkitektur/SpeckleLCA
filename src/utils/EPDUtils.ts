@@ -11,7 +11,7 @@ import { type Product, type Emission, type LifeCycleStageEmission, type Assembly
 
 //import { convertIlcd } from 'epdx'
 
-const MAX_EPD_COUNT = 5
+const MAX_EPD_COUNT = 15
 // Ilcd reference to GWP total
 const GWP_REF_OBJECT_ID = '6a37f984-a4b3-458a-a20a-64418c145fa2'
 
@@ -28,6 +28,7 @@ interface EPDService {
 
 /**
  * Class for fetching data from EcoPortal
+ * TODO: This implementation is not done yet, EPD Information is flaky at best
  */
 class EcoPortalService implements EPDService {
   createApiClient() {
@@ -93,12 +94,20 @@ class RevaluService implements EPDService {
     })
   }
   
+  // Create list URL, we check if dev or not and switch the URL
   createListUrl() {
-    return 'api/revalu/epds/search'
+    const apiListUrl = import.meta.env.MODE === 'development' 
+      ? '/SpeckleLCA/api/revalu/epds/search' 
+      : 'https://api.revalu.io/epds/search'
+    return apiListUrl
   }
 
+  // Create EPD URL, we check if dev or not and switch the URL
   createEPDUrl(epd: any) {
-    return `api/revalu/epds/${epd.id}`
+    const apiEPDUrl = import.meta.env.MODE === 'development' 
+      ? `/SpeckleLCA/api/revalu/epds/${epd.id}` 
+      : `https://api.revalu.io/epds/${epd.id}`
+    return apiEPDUrl
   }
 
   createListParams() {
@@ -214,7 +223,7 @@ const extractRevaluData = (response: { body: RevaluData }) => {
   const data = response.body
   const emission: Emission = {
     gwp: data.gwp,
-    //gwp_fossil: data.gwp_fossil,
+    gwp_fossil: data.gwp_fossil,
     //gwp_biogenic: data.gwp_biogenic,
     //gwp_luluc: data.gwp_luluc,
     fw: data.fw,

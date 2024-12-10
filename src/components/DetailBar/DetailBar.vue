@@ -13,15 +13,17 @@
 import { defineComponent, computed, watch, ref } from 'vue'
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
+import { useResultStore } from '@/stores/result'
 
 import OverviewBar from '@/components/DetailBar/OverviewBar.vue'
 import MaterialBar from '@/components/DetailBar/MaterialBar.vue'
 import ResultsBar from '@/components/DetailBar/ResultsBar.vue'
 import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 
-import { geometryToLCSChartData } from '@/utils/resultUtils'
+import { geometryToChartData } from '@/utils/resultUtils'
 
 import type { GeometryObject } from '@/models/geometryObject'
+import type { ChartData } from '@/models/chartModels'
 
 export default defineComponent({
   name: 'DetailBar',
@@ -33,7 +35,8 @@ export default defineComponent({
   },
   setup() {
     const navStore = useNavigationStore()
-    const projStore = useProjectStore()
+    const projectStore = useProjectStore()
+    const resultStore = useResultStore()
     // Total value to be shown for each group
     const currDetailbar = computed(() => {
       if (navStore.activePage === 'Overview') return OverviewBar
@@ -48,15 +51,15 @@ export default defineComponent({
     // Pass props to the current detail bar component
     const updateComponentProps = () => {
       if (currDetailbar.value === StackedBarChart) {
-        let geos: GeometryObject[]
-        if (projStore.selectedObjects.length > 0) {
-          geos = projStore.selectedObjects
+        let data: ChartData[] = []
+        if (projectStore.selectedObjects.length > 0) {
+          data = geometryToChartData(projectStore.selectedObjects, resultStore.activeParameter, true)
         } else {
-          geos = projStore.currProject.geometry
+          data = geometryToChartData(projectStore.currProject.geometry, resultStore.activeParameter, true)
         }
-
+        
         componentProps.value = {
-          data: geometryToLCSChartData(geos),
+          data: data,
         }
       }
 			else {
@@ -64,9 +67,13 @@ export default defineComponent({
 			}
 		}
 
-		watch(() => projStore.selectedObjects, () => {
+		watch(() => projectStore.selectedObjects, () => {
 			updateComponentProps()
 		})
+
+    watch(() => resultStore.activeParameter, () => {
+      updateComponentProps()
+    })
 
 		updateComponentProps()
 

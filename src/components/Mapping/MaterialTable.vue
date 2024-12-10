@@ -18,8 +18,8 @@
       </tr>
     </thead>
     <Draggable
-      v-if="EPDList"
-      :list="EPDList"
+      v-if="MaterialList"
+      :list="MaterialList"
       :options="dragOptions"
       class="bg-gray-100 divide-y divide-gray-300 max-w-full block table-fixed hover:cursor-move"
       tag="tbody"
@@ -55,8 +55,10 @@
 import { defineComponent, ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { useMaterialStore } from '@/stores/material'
-import type { Product } from '@/models/material'
+import type { Product, Assembly } from '@/models/material'
 
+// This component just shows the values of the material list, it does not modify it
+// TODO: Move this from props to store?
 export default defineComponent({
   name: 'MaterialTable',
   components: {
@@ -64,14 +66,14 @@ export default defineComponent({
   },
   props: {
     data: {
-      type: Array as () => Product[], //| Assembly[],
+      type: Array as () => Product[] | Assembly[],
       required: true,
     },
   },
   setup(props) {
     const materialStore = useMaterialStore()
 
-    const EPDList = computed(() => props.data)
+    const MaterialList = computed(() => props.data)
     
     const dragOptions = ref({
       animation: 200,
@@ -83,10 +85,10 @@ export default defineComponent({
 
     // Compute rounded emissions for Products and Assemblies
     const roundedEmissions = computed(() => {
-      if (!EPDList.value) return [];
-
-      return EPDList.value.map((product: Product) => {
-        const value = product.emission?.gwp?.a1a3 ?? 0
+      if (!MaterialList.value) return [];
+      
+      return MaterialList.value.map((mat: Product | Assembly) => {
+        const value = mat.emission?.gwp?.a1a3 ?? 0
         const roundedValue = parseFloat((Number(value) || 0).toFixed(2))
         
         return {
@@ -105,7 +107,7 @@ export default defineComponent({
     }
 
     return {
-      EPDList,
+      MaterialList,
       dragOptions,
       roundedEmissions,
       dragStart,

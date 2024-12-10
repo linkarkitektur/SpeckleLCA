@@ -10,9 +10,14 @@
 	<div class="flex">
 		<NavbarComponent />
 		<Sidebar />
-		<Suspense>
-			<SpeckleViewer />
-		</Suspense>
+		<div 
+			class="relative inset-y-16 w-full h-[calc(100vh-4rem)] bg-gray-100 overflow-auto" 
+			id="renderParent"
+		>
+			<Suspense>
+				<SpeckleViewer />
+			</Suspense>
+		</div>
 		<Slideover />
 	</div>
 </template>
@@ -35,7 +40,7 @@ import {
 	setResultsColorGroup,
 } from '@/utils/projectUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
-import { EmissionAggregator } from '@/utils/resultUtils'
+import { ResultCalculator } from '@/utils/resultUtils'
 import { getAssemblyList } from '@/utils/material'
 import { getRevaluBaseList } from '@/models/revaluDataSource'
 
@@ -73,7 +78,7 @@ export default {
 		
 		materialStore.materialsFromJson()
 		getAssemblyList()
-		//getRevaluBaseList()
+		getRevaluBaseList()
 		
 		// Watch for changes in the active page and update viewer colors
 		// TODO: Have this in the navStore instead?
@@ -90,8 +95,8 @@ export default {
 				const calculator = new EmissionCalculator()
 				calculator.calculateEmissions()
 
-				const aggregator = new EmissionAggregator()
-				aggregator.aggregate()
+				const resCalc = new ResultCalculator()
+				resCalc.aggregate()
 				
 				const resultsColors = setResultsColorGroup()
 				speckleStore.setColorGroups(resultsColors)

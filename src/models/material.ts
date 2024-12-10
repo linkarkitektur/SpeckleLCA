@@ -17,7 +17,7 @@ export enum Source {
 
 
 export type Emission = Partial<{
-	[impactCategory in ImpactCategoryKey]: 
+	[impactCategory in ExtendedImpactCategoryKey]: 
 		LifeCycleStageEmission
 }>
 
@@ -87,13 +87,13 @@ export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l" | "tonnes"
  * Extended impact categories for application
  * Array of possible impact categories to use, increase as needed
  */
-export type ExtendedImpactCategoryKey = 'gwp-total' | 'gwp-fossil' | 'gwp-biogenic' | 'gwp-LULUC' | ImpactCategoryKey
+export type ExtendedImpactCategoryKey = 'gwp_total' | 'gwp_fossil' | 'gwp_biogenic' | 'gwp_LULUC' | ImpactCategoryKey
 export const extendedImpactCategoryKeys: readonly ExtendedImpactCategoryKey[] = [
   'gwp',
-  'gwp-total',
-  'gwp-fossil',
-  'gwp-biogenic',
-  'gwp-LULUC',
+  'gwp_total',
+  'gwp_fossil',
+  'gwp_biogenic',
+  'gwp_LULUC',
   'odp',
   'ap',
   'pocp',

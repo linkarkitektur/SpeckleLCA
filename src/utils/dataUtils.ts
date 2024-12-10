@@ -59,20 +59,3 @@ export const getEnumEntries = (enumObj: any) => {
     .filter((key) => isNaN(Number(key)))
     .map((key) => ({ label: key, value: enumObj[key] }))
 }
-
-export function isProduct(item: unknown): item is Product {
-  return (
-    item !== null &&
-    typeof item === 'object' &&
-    'referenceServiceLife' in item
-  )
-}
-
-
-export function isAssembly(item: unknown): item is Assembly {
-  return (
-    item !== null &&
-    typeof item === 'object' &&
-    'products' in item
-  )
-}

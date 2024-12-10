@@ -36,36 +36,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
+import UpdateButton from '@/components/Misc/Settings/UpdateButton.vue'
 
 export default defineComponent({
  name: 'SettingsMaterials',
  components: {
-   // Local update button
-   UpdateButton: defineComponent({
-     name: 'UpdateButton',
-     props: {
-       label: {
-         type: String,
-         default: 'Update',
-       },
-     },
-     setup(props, { emit }) {
-       const handleClick = () => {
-         emit('click')
-       }
-
-       return { handleClick }
-     },
-     template: `
-       <button 
-         type="button" 
-         class="font-semibold text-green-600 hover:text-green-500"
-         @click="handleClick"
-       >
-         {{ label }}
-       </button>
-     `,
-   }),
+   UpdateButton
  },
  setup() {
    const settingsStore = useSettingsStore()

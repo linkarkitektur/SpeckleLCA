@@ -18,14 +18,6 @@ import {
 import { getValueColorFromGradient } from '@/utils/colorUtils'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
 
-const sampleData: ChartData[] = [
-  { label: 'A1-A3', value: -55 },
-  { label: 'A4', value: 233 },
-  { label: 'A5', value: 89 },
-  { label: 'C1-C4', value: 50 }
-]
-
-
 export default {
   name: 'StackedBarChart',
   props: {
@@ -60,7 +52,7 @@ export default {
         ...props.options 
       }
 
-      const data: ChartData[] = props.data || sampleData
+      const data: ChartData[] = props.data || []
 
       const { drawChart } = stackedBarChart(data, options)
       if (svg.value && tooltip.value && container.value) {

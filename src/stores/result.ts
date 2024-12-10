@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 
-import type { MaterialResults } from '@/models/result'
-import type { Results } from '@/models/project'
+import type { 
+  ResultList,
+} from '@/models/result'
+
+import { DefaultResultList } from '@/models/result'
+
+import type { Results } from '@/models/result'
 
 /**
  * Defines the result store, which is used to store the results of the calculations
@@ -12,24 +17,56 @@ export const useResultStore = defineStore({
 	state: () => {
 		return {
       aggregatedResults: [] as Results[],
-      materialResults: {} as MaterialResults
+      resultList: DefaultResultList,
+      activeParameter: 'parameters.category', // Default active parameter for result filtering in resultLists TODO: Is this needed?
+      reloadChartData: true, // Boolean to reload the chart data
 		}
 	},
   actions: {
     /**
-     * Sets results for the project with option material results
-     * @param result 
-     * @param materialResults 
+     * Updates resultList
+     * @param resultList resultList to update with
      */
-    setAggregatedResults(result: Results, materialResults: MaterialResults = {}) {
-      if (!this.aggregatedResults || this.aggregatedResults.length === 0) {
-        this.aggregatedResults = []
-      }
-      this.aggregatedResults.push(result)
+    setResultList(resultList: ResultList) {
+      this.resultList = resultList
+    },
 
-      if (Object.keys(materialResults).length > 0) {
-        this.materialResults = materialResults
+    /**
+     * Returns the grouped results for a specific id or all if empty
+     * @param id 
+     * @returns 
+     */
+    getGroupedResults(id: string = 'all') {
+      if (id === 'all') {
+        return this.resultList
       }
+      if (this.resultList[id]) {
+        return { [id]: this.resultList[id] }
+      }
+      return {}
+    },
+
+    /**
+     * Toggle the reloadChartData boolean
+     */
+    toggleReloadData() {
+      this.reloadChartData = !this.reloadChartData
+    },
+
+    /**
+     * Set the reloadChartData boolean
+     * @param reload 
+     */
+    setReloadData(reload: boolean) {
+      this.reloadChartData = reload
+    },
+
+    /**
+     * Set the active parameter for result filtering
+     * @param parameter 
+     */
+    setActiveParameter(parameter: string) {
+      this.activeParameter = parameter
     },
   }
   
