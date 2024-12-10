@@ -238,6 +238,7 @@ export default defineComponent({
         try {
           manualMode = true
           const newMaterial: Product = await getSpecificEPD({ id: newVal })
+          newMaterial.metaData.materialType = 'ManualEntry'
           materialStore.addMaterial(newMaterial)
           emit('update:data', [newMaterial])
         } catch (error) {

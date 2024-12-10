@@ -34,8 +34,8 @@ import Dropdown from '@/components/Misc/Dropdown.vue'
 import { 
   geometryToChartData,
   geometryToNestedChartData,
-  ResultItemToChartData,
-  ResultItemToNestedChartData
+  resultItemToChartData,
+  resultItemToNestedChartData
   } from '@/utils/resultUtils'
 
 // Type imports
@@ -78,6 +78,7 @@ const handleResultListSelection = (selectedItem: dropdownItem) => {
   const parsedResult = JSON.parse(selectedItem.data) as ResultItem
   selectedResult.value = parsedResult
 
+  resultStore.setActiveParameter(parsedResult.parameter)
   // Update graphProps with the new data
   updateGraphProps("SelectablePieChart")
 }
@@ -133,9 +134,9 @@ const updateGraphProps = (chart: string = "") => {
       }
       if (!projectStore.selectedObjects.length) {
         if (selectedResult.value) {
-          data = ResultItemToChartData(selectedResult.value)
+          data = resultItemToChartData(selectedResult.value)
         } else {
-          data = ResultItemToChartData(props.resultItem)
+          data = resultItemToChartData(props.resultItem)
         }
         graphProps.value = {
           data,
