@@ -1,9 +1,9 @@
 <template>
-  <div class="relative inline-block text-left">
+  <div class="relative inline-block text-left w-min">
     <div class="max-w-xs">
       <button
         @click="toggleDropdown"
-        class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-6 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 truncate"
+        class="inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-6 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 truncate"
       >
         <div class="flex items-center space-x-2 truncate">
           {{ selectedItem }}
@@ -22,7 +22,7 @@
     >
       <div
         v-if="isOpen"
-        class="fixed z-[100] mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute z-[100] mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="py-1 max-h-60 overflow-y-auto">
           <DropdownMenuItem

@@ -29,6 +29,7 @@ export const useProjectStore = defineStore({
 			filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
 			selectedObjects: [] as GeometryObject[], // GeometryObjects that are currently selected
+			highlightedLabel: null as string | null, // Label that is currently highlighted
 			hiddenObjects: [] as GeometryObject[], // GeometryObjects that are currently hidden
 		}
 	},
@@ -272,6 +273,14 @@ export const useProjectStore = defineStore({
 				this.currProject?.results != null
 			)
 				this.currProject.results[index] = payload
+		},
+
+		/**
+		 * Set the highlighted label in the project
+		 * @param label
+		 */
+		setHighlightedLabel(label: string) {
+			this.highlightedLabel = label
 		},
 
 		/**
