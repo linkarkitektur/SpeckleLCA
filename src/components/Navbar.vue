@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-reserved-component-names -->
 <template>
-  <div id="nav" class="h-16">
+  <div id="nav" class="h-16 navbar-component">
     <Disclosure as="nav" class="fixed bg-gray-50 shadow w-full z-50" v-slot="{ open }">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative flex h-16 justify-between">
@@ -239,13 +239,13 @@ export default defineComponent({
       navigationStore.toggleSettingsModal()
     }
 
-    //This should not href, but check if we are in dashboard and href if its active otherwise just switch in the store
     const steps: Step[] = [
       { name: 'Projects', href: '/projects' },
       { name: 'Overview', href: '/dashboard' },
       { name: 'Mapping', href: '/dashboard' },
       { name: 'Results', href: '/dashboard' },
       { name: 'Benchmark', href: '/benchmark' },
+      { name: 'Report', href: '/report' },
     ]
 
     return {
