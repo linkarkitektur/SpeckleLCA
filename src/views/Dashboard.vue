@@ -31,7 +31,6 @@ import NavbarComponent from '@/components/Navbar.vue'
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import { useSpeckleStore } from '@/stores/speckle'
-import { useMaterialStore } from '@/stores/material'
 
 // Utils
 import { 
@@ -41,8 +40,7 @@ import {
 } from '@/utils/projectUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
 import { ResultCalculator } from '@/utils/resultUtils'
-import { getAssemblyList } from '@/utils/material'
-import { getRevaluBaseList } from '@/models/revaluDataSource'
+import { preloadDashboardData } from '@/utils/preLoader'
 
 // Modals
 import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
@@ -74,12 +72,10 @@ export default {
 		const navStore = useNavigationStore()
 		const projectStore = useProjectStore()
 		const speckleStore = useSpeckleStore()
-		const materialStore = useMaterialStore()
-		
-		materialStore.materialsFromJson()
-		getAssemblyList()
-		getRevaluBaseList()
-		
+
+		// Preload all needed resources
+		preloadDashboardData()
+
 		// Watch for changes in the active page and update viewer colors
 		// TODO: Have this in the navStore instead?
 		watch(() => navStore.activePage , (newVal) => {
