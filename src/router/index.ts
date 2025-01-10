@@ -7,6 +7,8 @@ import ProjectSelection from '@/views/ProjectSelection.vue'
 import Benchmark from '@/views/Benchmark.vue'
 import NotFound from '@/views/NotFound.vue'
 import TestZone from '@/views/TestZone.vue'
+import ReportPage from '@/views/ReportPage.vue'
+
 
 import LoginComponent from '@/components/SpeckleLogin.vue'
 
@@ -68,6 +70,16 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         title: 'Benchmark',
+        icon: '',
+      },
+    },
+    {
+      path: '/report',
+      name: 'Report',
+      component: ReportPage,
+      meta: {
+        requiresAuth: true,
+        title: 'Report',
         icon: '',
       },
     },
