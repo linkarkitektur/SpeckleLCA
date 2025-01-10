@@ -35,7 +35,6 @@ import {
   geometryToChartData,
   geometryToNestedChartData,
   resultItemToChartData,
-  resultItemToNestedChartData
   } from '@/utils/resultUtils'
 
 // Type imports
@@ -101,6 +100,9 @@ const leftModule = computed(() => {
     case 'Benchmark':
       updateGraphProps("SelectablePieChart")
       return SelectablePieChart
+    case 'Report':
+      updateGraphProps("SelectablePieChart")
+      return SelectablePieChart
     default:
       return null
   }
@@ -153,12 +155,13 @@ const updateGraphProps = (chart: string = "") => {
       break
     }
     case "DivergingStackedBar": {
+      console.log("Selected result: ", selectedResult.value)
       let data: NestedChartData[]
       let options: ChartOptions = {
         aggregate: true,
         unit: "kgCO2e",
       }
-      
+
       data = geometryToNestedChartData(projectStore.currProject.geometry, selectedResult.value.parameter)
       graphProps.value = {
         data,

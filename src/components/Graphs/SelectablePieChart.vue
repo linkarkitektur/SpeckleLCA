@@ -19,11 +19,13 @@ import {
   createMouseEventHandlers,
   createBaseChart,
 } from '@/utils/chartUtils'
+import { getTextAfterLastDot } from '@/utils/stringUtils'
 
 import { truncateText } from '@/utils/stringUtils'
 import { roundNumber } from '@/utils/math'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
 import { useResultStore } from '@/stores/result'
+import { useProjectStore } from '@/stores/main'
 
 export default {
   name: 'SelectablePieChart',
@@ -116,6 +118,7 @@ export default {
 
 function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const resultStore = useResultStore()
+  const projectStore = useProjectStore()
   // Setup options and default settings
   const width = ref(options.width || 400)
   const height = ref(options.height || 400)
@@ -245,16 +248,11 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
         } else {
           clickTimeout = setTimeout(() => {
             clickTimeout = null
+
             resultStore.setReloadData(false)
-
+            projectStore.setHighlightedLabel(d.data.label)
+            
             updateSelectedObjects(d.data.ids)
-
-            d3.selectAll('.arc path')
-              .transition()
-              .duration(200)
-              .style('opacity', arcData => {
-                return arcData.data.label === d.data.label ? 1 : 0.1
-              })
           }, 300)
         }
       })
@@ -328,6 +326,17 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
           )
           break
       }
+
+      // Watch to see if highlightedLabel changes then change opacity of arcs
+      // TODO move this to common place with dataTable, and other graphs
+      watch(() => projectStore.highlightedLabel, (newLabel) => {
+        d3.selectAll('.arc path')
+          .transition()
+          .duration(200)
+          .style('opacity', arcData => {
+            return getTextAfterLastDot(arcData.data.label) === getTextAfterLastDot(newLabel) ? 1 : 0.1
+          })
+      })
   }
   return { drawChart }
 }
@@ -356,7 +365,6 @@ function groupDataFunc(data: ChartData[], total: { value: number }, options: Cha
   }).filter(d => d.value != 0)
   return _data
 }
-
 
 </script>
 

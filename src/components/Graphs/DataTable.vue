@@ -18,9 +18,11 @@
         v-for="(groupedResult) in resultItem.data"
         :key="groupedResult.parameter"
         class="text-xs whitespace-no-wrap w-full flex hover:bg-gray-200"
+        :class="[isHighlighted(groupedResult) ? 'bg-green-100' : '']"
+        @click="onRowClicked(groupedResult)"
       >
         <td scope="row" class="m-2 w-3/6 line-clamp-3">
-          {{ groupedResult.parameter }}
+          {{ getTextAfterLastDot(groupedResult.parameter) }}
         </td>
         <td class="m-2 w-1/6">
           {{ getAmountWithUnit(groupedResult) }}
@@ -42,6 +44,8 @@
 import { defineComponent } from 'vue'
 
 import { emissionToNumber } from '@/utils/resultUtils'
+import { useProjectStore } from '@/stores/main'
+import { getTextAfterLastDot } from '@/utils/stringUtils'
 
 import type { PropType } from 'vue'
 import type { ResultItem, GroupedResults } from '@/models/result'
@@ -70,6 +74,7 @@ export default defineComponent({
       if (quantity?.pcs) return `${quantity.pcs} pcs`
       return '0'
     },
+    
     /**
      * Gets rounded emission for a grouped result
      * TODO: This should be a threshold or dynamic and atleast noramlized to sqm
@@ -80,7 +85,21 @@ export default defineComponent({
     },
   },
   setup() {
+    const projectStore = useProjectStore()
+
+    function isHighlighted(res: GroupedResults) {
+      return projectStore.highlightedLabel === getTextAfterLastDot(res.parameter)
+    }
+
+    function onRowClicked(res) {
+      projectStore.setHighlightedLabel(res.parameter)
+      projectStore.setObjectsById(res.data.geoId)
+    }
+
     return {
+      isHighlighted,
+      onRowClicked,
+      getTextAfterLastDot
     }
   },
 })
