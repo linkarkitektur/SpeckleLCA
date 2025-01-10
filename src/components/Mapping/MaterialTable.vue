@@ -58,7 +58,6 @@ import { useMaterialStore } from '@/stores/material'
 import type { Product, Assembly } from '@/models/material'
 
 // This component just shows the values of the material list, it does not modify it
-// TODO: Move this from props to store?
 export default defineComponent({
   name: 'MaterialTable',
   components: {
@@ -66,7 +65,7 @@ export default defineComponent({
   },
   props: {
     data: {
-      type: Array as () => Product[] | Assembly[],
+      type: Array as () => (Product | Assembly)[],
       required: true,
     },
   },

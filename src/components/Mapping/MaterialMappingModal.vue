@@ -65,7 +65,7 @@
                   <!-- Search Bar and Table -->
                   <div class="relative mt-1 flex-1 px-4 sm:px-6">
                     <SearchBar
-                      :data="materials"
+                      :data="combinedMaterials"
                       :filterParam="productFilterParams"
                       :sortingParam="sortingParameters"
                       @update:data="handleFilteredData"
@@ -85,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import {
   Dialog,
@@ -101,7 +101,7 @@ import MaterialTable from '@/components/Mapping/MaterialTable.vue'
 import SearchBar from '@/components/Misc/SearchBar.vue'
 
 import type { NestedGroup } from '@/models/filters'
-import type { Product } from '@/models/material'
+import type { Product, Assembly } from '@/models/material'
 import { useMaterialStore } from '@/stores/material'
 
 export default defineComponent({
@@ -121,7 +121,9 @@ export default defineComponent({
     const materialStore = useMaterialStore()
 
     const materials = storeToRefs(materialStore).materials
-    const filteredMaterial = ref<Product[]>([])
+    const assemblies = storeToRefs(materialStore).assemblies
+
+    const filteredMaterial = ref<(Product | Assembly)[]>([])
 
     const { selectedGroup } = storeToRefs(projectStore)
     const { mappingModalOpen} = storeToRefs(navStore)
@@ -141,8 +143,8 @@ export default defineComponent({
         displayName: 'Material Type',
       },
       {
-        paramName: 'unit',
-        displayName: 'Unit',
+        paramName: 'isAssembly',
+        displayName: 'Assembly',
       },
     ]
     const sortingParameters = [
@@ -161,15 +163,20 @@ export default defineComponent({
     ]
 
     const searchQuery = ref('')
-    // If no data selected or available show this instead, this should never happen so can remove from final version
+    // If no data selected or available show this instead, mostly for debug
     const emptyGroup: NestedGroup = {
       id: 'empty',
       name: 'No group selected',
       children: [],
       objects: [],
     }
+
+    const combinedMaterials = computed(() => [
+      ...materials.value,
+      ...assemblies.value,
+    ])
     
-    const handleFilteredData = (newData: Product[]) => {
+    const handleFilteredData = (newData: (Product | Assembly)[]) => {
       filteredMaterial.value = newData
     }
 
@@ -183,6 +190,7 @@ export default defineComponent({
       searchQuery,
       emptyGroup,
       materials,
+      combinedMaterials,
       filteredMaterial,
       productFilterParams,
       sortingParameters,

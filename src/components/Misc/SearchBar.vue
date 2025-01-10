@@ -100,6 +100,7 @@ import { getNestedPropertyValue } from '@/utils/material'
 
 import { Source } from '@/models/material'
 import { getEnumEntries } from '@/utils/dataUtils'
+import { isAssembly } from '@/utils/EPDUtils'
 
 import {
   Menu,
@@ -131,7 +132,7 @@ export default defineComponent({
   },
   props: {
     data: {
-      //This is set as Product Assembly since its used for that now, can be anything
+      //This is set as Product Assembly, can be both
       type: Array as () => (Product | Assembly)[],
       required: true,
     },
@@ -163,13 +164,20 @@ export default defineComponent({
       const optionsSet = new Set()
 
       // Manual check for source enum so we set name instead
-      // TODO: Make dynamic for all enums
       if (paramName === 'source') {
         return getEnumEntries(Source).map((entry) => ({
           label: entry.label,
           value: entry.value,
           selected: selectedFilters.value[paramName]?.includes(entry.value),
         }))
+      }
+
+      // Check for Assembly filtering then we make custom entries
+      if (paramName === 'isAssembly') {
+        return [
+          { label: 'Assembly', value: 'assembly', selected: selectedFilters.value[paramName]?.includes('assembly') },
+          { label: 'Product', value: 'product', selected: selectedFilters.value[paramName]?.includes('product') },
+        ]
       }
 
       props.data.forEach((item) => {
@@ -187,11 +195,12 @@ export default defineComponent({
     
     const filteredData = computed(() => {
       return props.data.filter((item) => {
-        // Common filtering logic
+        // Search logic
         const matchesSearch = item.name
           .toLowerCase()
           .includes(searchQuery.value.toLowerCase());
 
+        // Parameter matching logic
         const matchesFilters = Object.entries(selectedFilters.value).every(
           ([key, selectedOptions]) => {
             if (selectedOptions.length === 0) return true;
@@ -200,9 +209,22 @@ export default defineComponent({
             return selectedOptions.includes(value);
           }
         )
-        return matchesSearch && matchesFilters
+        
+        let isAssemblyMatch = true
+        // More custom check for assembly logic
+        if (selectedFilters.value.isAssembly) {
+          const itemType = isAssembly(item) ? 'assembly' : 'product'
+          isAssemblyMatch =
+            selectedFilters.value.isAssembly.length === 0 ||
+            selectedFilters.value.isAssembly.includes(itemType)
+        } 
+
+
+        return matchesSearch && matchesFilters && isAssemblyMatch
       })
     })
+
+    
 
     const sortedData = computed(() => {
       const dataToSort = [...filteredData.value]
