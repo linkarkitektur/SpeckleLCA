@@ -59,3 +59,51 @@ export const getEnumEntries = (enumObj: any) => {
     .filter((key) => isNaN(Number(key)))
     .map((key) => ({ label: key, value: enumObj[key] }))
 }
+
+/**
+ * Checks a list of objects recursively and gathers all keys within it
+ * @param parameters Start point for the parameter collection
+ * @param parameterSet Returns set of unique parameters
+ */
+export function collectParameters(parameters: Record<string, any>, parameterSet: Set<string>) {
+  const guidOrHexRegex = /^(?:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{32})$/;
+
+  Object.keys(parameters).forEach((key) => {
+    // Skip if the key is already in the set
+    if (parameterSet.has(key)) {
+      return
+    }
+
+    const value = parameters[key]
+
+    // Skip if the key is a GUID or 32-character hex string
+    if (guidOrHexRegex.test(key)) {
+      return
+    }
+
+    // Skip if the value is null, undefined, or an empty object/array
+    if (
+      value === null ||
+      value === undefined ||
+      (Array.isArray(value) && value.length === 0) ||
+      (typeof value === 'object' && Object.keys(value).length === 0)
+    ) {
+      return
+    }
+
+    // Add the key to the set
+    parameterSet.add(key);
+
+    if (Array.isArray(value)) {
+      // If it's an array, recursively process each object in the array
+      value.forEach((element) => {
+        if (typeof element === 'object' && element !== null) {
+          collectParameters(element, parameterSet)
+        }
+      })
+    } else if (typeof value === 'object' && value !== null) {
+      // If it's an object, process it recursively
+      collectParameters(value, parameterSet)
+    }
+  })
+}
