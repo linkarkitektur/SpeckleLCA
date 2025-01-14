@@ -15,6 +15,7 @@ import { useProjectStore } from "@/stores/main"
  */
 export function aggregateCenter(graph: d3.Selection<SVGElement>, total: number , w: number, h: number, unit: string) {
   const textElement = graph.append("text")
+        .attr("class", "center-text")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
         .attr("x", w / 2)
@@ -48,6 +49,7 @@ export function spanPercentCenter(graph: d3.Selection<SVGElement>, span: number[
   const result = checkValuesInSpan(value, span[0], span[1])
   const spanPercent = calculatePercent(result, graphValue)
   const textElement = graph.append("text")
+    .attr("class", "center-text")
     .attr("text-anchor", "middle")
     .attr("dy", "0.35em")
     .attr("x", w / 2)
@@ -84,6 +86,7 @@ export function spanPercentCenter(graph: d3.Selection<SVGElement>, span: number[
 
 export function parameterCenter(graph: d3.Selection<SVGElement>, parameterValue: number, total: number, w: number, h: number) {
   const textElement = graph.append("text")
+    .attr("class", "center-text")
     .attr("text-anchor", "middle")
     .attr("dy", "0.35em")
     .attr("x", w / 2)

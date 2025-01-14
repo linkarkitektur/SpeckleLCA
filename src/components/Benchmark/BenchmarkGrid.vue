@@ -27,9 +27,9 @@
             </div>
             <dd class="mt-3">
               <span
-                class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
+                class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-base font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
               > 
-                {{ displayResultList[index].displayName }} 
+                {{ aggregatedEmission[index] }} kg-co²
               </span>
             </dd>
 					</div>
@@ -41,7 +41,7 @@
 								<a
 									class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-green-900 text-center"
 								>
-									{{ aggregatedEmission[index] }} kg-co² / m²
+									{{ aggregatedSQMEmission[index] }} kg-co² / m²
 								</a>
 							</div>
 
@@ -144,6 +144,14 @@ export default defineComponent({
     const aggregatedEmission = computed(() => {
       const resultLogEmission = resultLogs.value.map((log: ResultsLog) => {
         const emission = getResultLogEmissions(log, benchmarkParameter.value)
+        return Math.round(emissionToNumber(emission)) 
+      })
+      return resultLogEmission 
+    })
+
+    const aggregatedSQMEmission = computed(() => {
+      const resultLogEmission = resultLogs.value.map((log: ResultsLog) => {
+        const emission = getResultLogEmissions(log, benchmarkParameter.value)
         return Math.round(emissionToNumber(emission) / (settingsStore.appSettings.area ?? 100)) 
       })
       return resultLogEmission 
@@ -193,6 +201,7 @@ export default defineComponent({
       expanded,
       resultLogs,
       aggregatedEmission,
+      aggregatedSQMEmission,
       graphParameters,
       dropdownName,
       displayResultList,
