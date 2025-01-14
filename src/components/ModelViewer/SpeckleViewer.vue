@@ -38,7 +38,9 @@
   	>
       <GraphContainer />
 		</div>
-    <DetailBar />
+    <div v-if="Detailbar" id="Detailbar">
+      <DetailBar />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -74,6 +76,14 @@ import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 
 // Type imports
 import type { SunLightConfiguration } from '@/models/speckle'
+
+// Props
+const props = withDefaults(defineProps<{
+  Detailbar?: boolean
+}>(), {
+  Detailbar: true,
+})
+
 
 // Variables and references
 let viewer: Viewer | null = null

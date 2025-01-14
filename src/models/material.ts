@@ -30,6 +30,7 @@ export type LifeCycleStageEmission = {
  */
 export interface Product extends LcaxProduct {
   emission: Emission
+  materialFraction?: number
   source: Source
 }
 
