@@ -1,7 +1,7 @@
 import type { LifeCycleStageEmission } from "@/models/material"
 import { Source } from "@/models/material"
 import { useMaterialStore } from "@/stores/material"
-import { getEPDList } from "@/utils/EPDUtils"
+import { getCollection, getEPDList } from "@/utils/EPDUtils"
 
 /**
  * Enum for countries to search from
@@ -156,6 +156,9 @@ export enum FullBuildingMaterialType {
   Windows = "Windows"
 }
 
+/**
+ * Interface for a single Revalu EPD
+ */
 export interface RevaluData {
   id: string
   location: string
@@ -193,6 +196,39 @@ export interface RevaluData {
   certificates: any[]
 }
 
+/**
+ * Interface for a collection of Revalu Collections
+ */
+export interface RevaluCollection {
+  description: string
+  material_count: number
+  owner_name: string
+  collaborator_names: string[] | null
+  collaborationStatus: string | null
+  publishStatus: string | null
+  image: string | null
+  team: any[] // Not sure what this returns
+  collection_id: string
+  collection_name: string
+  created_date: number
+  modified_date: number
+  collection_ownership: "own" | "shared"
+  original_collection_id: string | null
+  collection_type: "CATALOGUE" | "PROJECT" | string // Might be more than catalogue and project
+  project_contact_name: string | null
+  project_contact_email: string | null
+  project_link: string | null
+
+}
+
+/**
+ * Interface for a single collection of Revalu data
+ */
+export interface RevaluSingleCollection extends RevaluCollection {
+  materials: RevaluData[]
+}
+
+
 interface SourceInfo {
   name: string
   url: string
@@ -207,6 +243,9 @@ interface Document {
   document_url: string
 }
 
+/**
+ * Get base list of materials from Revalu, we are getting 15 from every materialType
+ */
 export const getRevaluBaseList = async() => {
   const allCountries: Country[] = Object.values(Country)
   const materialStore = useMaterialStore()
@@ -223,5 +262,17 @@ export const getRevaluBaseList = async() => {
       
       materialStore.addMaterial(product)
     }
+  }
+}
+
+/**
+ * Gets all available collections for the user
+ */
+export const getRevaluCollections = async() => {
+  const materialStore = useMaterialStore()
+  const collection = await getCollection()
+
+  for (const product of collection) {
+    materialStore.addMaterial(product)
   }
 }

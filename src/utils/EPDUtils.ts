@@ -6,7 +6,7 @@ import { delay } from '@/utils/math'
 import { useSettingsStore } from '@/stores/settings'
 
 import { EPDSource } from '@/models/settings'
-import type { RevaluData } from '@/models/revaluDataSource'
+import type { RevaluData, RevaluCollection, RevaluSingleCollection } from '@/models/revaluDataSource'
 import { type Product, type Emission, type LifeCycleStageEmission, type Assembly, Source} from '@/models/material'
 
 //import { convertIlcd } from 'epdx'
@@ -19,6 +19,8 @@ interface EPDService {
   createApiClient(): AxiosInstance
   createListUrl(): string
   createEPDUrl(epd: any): string
+  createCollectionUrl(): string
+  createCollectionDetailsUrl(collectionId: string): string
   createListParams(): any
   createEPDParams(): any
   updatePageIndex(params: any): any
@@ -46,6 +48,14 @@ class EcoPortalService implements EPDService {
 
   createEPDUrl(epd: any) {
     return `/${epd.nodeid}${epd.uuid}`
+  }
+
+  createCollectionUrl() {
+    return null
+  }
+
+  createCollectionDetailsUrl(collectionId: string) {
+    return null
   }
 
   createListParams() {
@@ -108,6 +118,22 @@ class RevaluService implements EPDService {
       ? `/SpeckleLCA/api/revalu/epds/${epd.id}` 
       : `https://api.revalu.io/epds/${epd.id}`
     return apiEPDUrl
+  }
+
+  // Create collection URL
+  createCollectionUrl() {
+    const apiCollectionUrl = import.meta.env.MODE === 'development'
+      ? '/SpeckleLCA/api/revalu/users/colletions?page_no=0&page_size=20' 
+      : 'https://api.revalu.io/users/colletions?page_no=0&page_size=20'
+    return apiCollectionUrl
+  }
+
+  // Create collection details URL
+  createCollectionDetailsUrl(collectionId: string) {
+    const apiCollectionDetailsUrl = import.meta.env.MODE === 'development'
+      ? `/SpeckleLCA/api/revalu/users/colletions/${collectionId}` 
+      : `https://api.revalu.io/users/colletions/${collectionId}`
+    return apiCollectionDetailsUrl
   }
 
   createListParams() {
@@ -219,7 +245,7 @@ const extractILCDData = (data: any) => {
  * @param data 
  * @returns 
  */
-const extractRevaluData = (response: { body: RevaluData }) => {
+const extractRevaluData = (response: { body: RevaluData }, collection: string = "") => {
   const data = response.body
   const emission: Emission = {
     gwp: data.gwp,
@@ -241,9 +267,9 @@ const extractRevaluData = (response: { body: RevaluData }) => {
     unit: data.declared_unit,
     transport: null,
     results: null,
-    metaData: {},
     emission,
     source: Source.Revalu,
+    metaData: { Collection: collection },
   }
   return product
 }
@@ -266,7 +292,7 @@ function getEPDService(): EPDService {
 }
 
 /**
- * Get all EPDs from the ECO Portal
+ * Get all EPDs from chosen API
  * Acording to parameters, check API documentation for more information
  * @param parameters Key value pairs for the API call
  * @returns List of products with emission data
@@ -335,4 +361,37 @@ export async function getSpecificEPD(epd: any): Promise<Product | null> {
 
 export function isAssembly(val: any): val is Assembly {
   return val && typeof val === 'object' && 'products' in val && 'id' in val;
+}
+
+/**
+ * Gets all collections from Revalu, and fetches all EPDs from them
+ * Only available for Revalu for now, not sure if ECOportal has collections
+ * @returns Products from collections converted to EPDx format
+ */
+export async function getCollection(): Promise<Product[]> {
+  const epdService = getEPDService()
+  const apiClient = epdService.createApiClient()
+  const url = epdService.createCollectionUrl()
+
+  try {
+    const collectionEpds: Product[] = []
+    const response = await apiClient.get(url)
+    const data = response.data as RevaluCollection[]
+
+    for (const collection of data) {
+      const collectionDetailsUrl = epdService.createCollectionDetailsUrl(collection.collection_id)
+      const collectionResponse = await apiClient.get(collectionDetailsUrl)
+
+      const collectionData = collectionResponse.data as RevaluSingleCollection
+
+      for (const product of collectionData.materials) {
+        collectionEpds.push(extractRevaluData({ body: product }, collection.collection_name))
+      }
+    }
+    
+    return collectionEpds
+  } catch (error) {
+    console.error(`Error fetching Collections:`, error)
+    return null
+  }
 }
