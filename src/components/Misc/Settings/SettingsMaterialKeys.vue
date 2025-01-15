@@ -39,7 +39,7 @@ import { useSettingsStore } from '@/stores/settings'
 import UpdateButton from '@/components/Misc/Settings/UpdateButton.vue'
 
 export default defineComponent({
- name: 'SettingsMaterials',
+ name: 'SettingsMaterialKeys',
  components: {
    UpdateButton
  },

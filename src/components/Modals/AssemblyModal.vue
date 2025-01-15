@@ -75,7 +75,7 @@
                       > NEW ASSEMBLY </button>
                       <SearchBar
                         :data="assemblyData"
-                        :filterParam="assemblyFilterParams"
+                        :filterParam="filterParameters"
                         :sortingParam="sortingParameters"
                         @update:data="handleFilteredAssemblyData"
                       />
@@ -154,7 +154,7 @@
                     <div class="relative mt-1 flex-1 px-4 sm:px-6">
                       <SearchBar
                         :data="productData"
-                        :filterParam="productFilterParams"
+                        :filterParam="filterParameters"
                         :sortingParam="sortingParameters"
                         @update:data="handleFilteredData"
                       />
@@ -193,6 +193,7 @@ import { useNavigationStore } from '@/stores/navigation'
 import { useMaterialStore } from '@/stores/material'
 import { useFirebaseStore } from '@/stores/firebase'
 import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
 import AssemblyTable from '@/components/Mapping/AssemblyTable.vue'
@@ -234,6 +235,8 @@ export default defineComponent({
     const materialStore = useMaterialStore()
     const firebaseStore = useFirebaseStore()
     const projectStore = useProjectStore()
+    const settingsStore = useSettingsStore()
+
     const { assemblyModalOpen, assemblyTableShow } = storeToRefs(navStore)
     const { currentAssemby } = storeToRefs(materialStore)
 
@@ -246,42 +249,9 @@ export default defineComponent({
 
     //const filteredProducts = ref<Product[] | Assembly[]>([])
     
-    const productFilterParams = [
-      {
-        paramName: 'metaData.materialType',
-        displayName: 'Material Type',
-      },
-      {
-        paramName: 'unit',
-        displayName: 'Unit',
-      },
-    ]
-    const assemblyFilterParams = [
-      {
-        paramName: 'category',
-        displayName: 'Category',
-      },
-      {
-        paramName: 'metaData.materialType',
-        displayName: 'Material Type',
-      },
-    ]
-
-    const sortingParameters = [
-      {
-        filterName: 'name',
-        displayName: 'Name',
-      },
-      {
-        filterName: 'unit',
-        displayName: 'Unit',
-      },
-      {
-        filterName: 'emission.gwp.a1a3',
-        displayName: 'Emission',
-      },
-    ]
-
+    const filterParameters = settingsStore.materialSettings.filterParams
+    const sortingParameters = settingsStore.materialSettings.sortingParams
+    
     const filteredProducts = ref<Product[]>([])
     const filteredAssemblies = ref<Assembly[]>([])
     const productData = materialStore.materials
@@ -406,8 +376,7 @@ export default defineComponent({
       assemblyTableShow,
       assemblyName,
       assemblyDescription,
-      productFilterParams,
-      assemblyFilterParams,
+      filterParameters,
       sortingParameters,
       filteredProducts,
       filteredAssemblies,

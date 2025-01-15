@@ -66,17 +66,18 @@ export interface Mapping {
  * Filter parameters for material and assembly list.
  */
 export interface MaterialFilterParam {
-	name: string,
-	selected: boolean,
-	filterParamter: string
+	displayName: string,
+	paramName: string,
+  selected?: boolean
 }
 
 /**
  * Sorting option for material and assembly list.
  */
-export interface MaterialSortingOption {
-	parameter: string
-	direction: string
+export interface MaterialSortingParam {
+	filterName: string
+	displayName: string
+  selected?: boolean
 }
 
 /**

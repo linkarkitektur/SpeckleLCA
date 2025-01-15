@@ -1,6 +1,9 @@
 import type { LifeCycleStage } from "lcax"
 import type { ExtendedImpactCategoryKey } from '@/models/material'
 import type { BuildingCodeItem } from '@/models/buildingCode'
+import type { MaterialFilterParam, MaterialSortingParam } from '@/models/material'
+
+import { Source } from '@/models/material'
 import { BSAB96 } from '@/models/buildingCode'
 
 /**
@@ -23,19 +26,15 @@ export interface CalculationSettings {
 }
 
 export interface MaterialSettings {
-  epdSource: EPDSource
+  Source: Source
+  includeCollections: boolean
+  filterParams: MaterialFilterParam[]
+  sortingParams: MaterialSortingParam[]
 }
 
 export interface AppSettings {
   colorscheme: string
   area: number
-}
-
-export enum EPDSource {
-  EcoPortal,
-  Revalu,
-  LCAByg,
-  Other
 }
 
 export interface SettingView {
@@ -135,5 +134,45 @@ export const standardCalculationSettings: CalculationSettings = {
 }
 
 export const standardMaterialSettings: MaterialSettings = {
-  epdSource: EPDSource.Revalu
+  Source: Source.Revalu,
+  includeCollections: true,
+  filterParams: [
+    {
+      paramName: 'metaData.Collection',
+      displayName: 'Revalu Collection',
+      selected: true
+    },
+    {
+      paramName: 'source',
+      displayName: 'Source',
+      selected: true
+    },
+    {
+      paramName: 'metaData.materialType',
+      displayName: 'Material Type',
+      selected: true
+    },
+    {
+      paramName: 'isAssembly',
+      displayName: 'Assembly',
+      selected: true
+    },
+  ],
+  sortingParams: [
+    {
+      filterName: 'name',
+      displayName: 'Name',
+      selected: true
+    },
+    {
+      filterName: 'unit',
+      displayName: 'Unit',
+      selected: true
+    },
+    {
+      filterName: 'emission.gwp.a1a3',
+      displayName: 'Emission',
+      selected: true
+    },
+  ]
 }

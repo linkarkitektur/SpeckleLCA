@@ -5,9 +5,9 @@ import { delay } from '@/utils/math'
 
 import { useSettingsStore } from '@/stores/settings'
 
-import { EPDSource } from '@/models/settings'
+import { Source } from '@/models/material'
 import type { RevaluData, RevaluCollection, RevaluSingleCollection } from '@/models/revaluDataSource'
-import { type Product, type Emission, type LifeCycleStageEmission, type Assembly, Source} from '@/models/material'
+import type { Product, Emission, LifeCycleStageEmission, Assembly } from '@/models/material'
 
 //import { convertIlcd } from 'epdx'
 
@@ -123,16 +123,16 @@ class RevaluService implements EPDService {
   // Create collection URL
   createCollectionUrl() {
     const apiCollectionUrl = import.meta.env.MODE === 'development'
-      ? '/SpeckleLCA/api/revalu/users/colletions?page_no=0&page_size=20' 
-      : 'https://api.revalu.io/users/colletions?page_no=0&page_size=20'
+      ? '/SpeckleLCA/api/revalu/users/collections?page_no=0&page_size=20' 
+      : 'https://api.revalu.io/users/collections?page_no=0&page_size=20'
     return apiCollectionUrl
   }
 
   // Create collection details URL
   createCollectionDetailsUrl(collectionId: string) {
     const apiCollectionDetailsUrl = import.meta.env.MODE === 'development'
-      ? `/SpeckleLCA/api/revalu/users/colletions/${collectionId}` 
-      : `https://api.revalu.io/users/colletions/${collectionId}`
+      ? `/SpeckleLCA/api/revalu/users/collections/${collectionId}` 
+      : `https://api.revalu.io/users/collections/${collectionId}`
     return apiCollectionDetailsUrl
   }
 
@@ -281,10 +281,10 @@ const extractRevaluData = (response: { body: RevaluData }, collection: string = 
 function getEPDService(): EPDService {
   const settingsStore = useSettingsStore()
 
-  switch (settingsStore.materialSettings.epdSource) {
-    case EPDSource.EcoPortal:
+  switch (settingsStore.materialSettings.Source) {
+    case Source.ECOPortal:
       return new EcoPortalService()
-    case EPDSource.Revalu:
+    case Source.Revalu:
       return new RevaluService()
     default:
       throw new Error('Unsupported EPD source')
@@ -376,13 +376,13 @@ export async function getCollection(): Promise<Product[]> {
   try {
     const collectionEpds: Product[] = []
     const response = await apiClient.get(url)
-    const data = response.data as RevaluCollection[]
+    const data = response.data.body.data as RevaluCollection[]
 
     for (const collection of data) {
       const collectionDetailsUrl = epdService.createCollectionDetailsUrl(collection.collection_id)
       const collectionResponse = await apiClient.get(collectionDetailsUrl)
 
-      const collectionData = collectionResponse.data as RevaluSingleCollection
+      const collectionData = collectionResponse.data.body as RevaluSingleCollection
 
       for (const product of collectionData.materials) {
         collectionEpds.push(extractRevaluData({ body: product }, collection.collection_name))

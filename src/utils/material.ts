@@ -1,4 +1,4 @@
-import type { Mapping, MaterialFilterParam, Product } from "@/models/material"
+import type { Mapping, Product } from "@/models/material"
 import type { FilterList, NestedGroup } from "@/models/filters"
 import type { GeometryObject } from "@/models/geometryObject"
 import type { AssemblyList } from "@/models/firebase"
@@ -105,35 +105,6 @@ export function mapMaterial(inGroup: NestedGroup) {
 
   const mappingColors = setMappingColorGroup()
   speckleStore.setColorGroups(mappingColors)
-}
-
-/**
- * Function to sort through materials and only return relevant based on param List
- * @param materials Materials to sort through
- * @param paramFilters Filters to apply
- * @returns List of products matching filtering criteria
- */
-export function applyParamFilters(materials: Product[], filters: MaterialFilterParam[]) {
-  const filteredList = materials
-
-  // Safety check if no filters are applied
-  if (!filters || filters.length === 0) {
-    return filteredList
-  }
-
-  // Go through all materials and check for filter inclusions
-  return materials.filter((material) => {
-    if (!material)
-      return false
-    
-    return filters.some((filter) => {
-      if (!filter.selected)
-        return false
-      // Helper function to get the property value if its hidden under metaData or similar so we can access directly
-      const paramValue = getNestedPropertyValue(material, filter.filterParamter)
-      return filter.name.includes(paramValue)
-    })
-  })
 }
 
 /**

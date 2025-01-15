@@ -62,13 +62,15 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import { UserCircleIcon, FingerPrintIcon, CalculatorIcon } from '@heroicons/vue/20/solid'
+import { UserCircleIcon, FingerPrintIcon, CalculatorIcon, CubeTransparentIcon } from '@heroicons/vue/20/solid'
 
 import { useNavigationStore } from '@/stores/navigation'
 
 import SettingsSidebar from '@/components/Misc/Settings/SettingsSidebar.vue'
 
 import SettingsGeneral from '@/components/Misc/Settings/SettingsGeneral.vue'
+
+import SettingsMaterial from '@/components/Misc/Settings/SettingsMaterial.vue'
 
 import SettingsCalculationCategory from '@/components/Misc/Settings/SettingsCalculationCategory.vue'
 import SettingsImpactCategory from '@/components/Misc/Settings/SettingsImpactCategory.vue'
@@ -77,7 +79,7 @@ import SettingsBuildingCodes from '@/components/Misc/Settings/SettingsBuildingCo
 
 import SettingsFirebase from '@/components/Misc/Settings/SettingsFirebase.vue'
 import SettingsSpeckle from '@/components/Misc/Settings/SettingsSpeckle.vue'
-import SettingsMaterials from '@/components/Misc/Settings/SettingsMaterials.vue'
+import SettingsMaterialKeys from '@/components/Misc/Settings/SettingsMaterialKeys.vue'
 import SettingsGithub from '@/components/Misc/Settings/SettingsGithub.vue'
 
 import type { SettingView } from '@/models/settings'
@@ -95,7 +97,8 @@ export default defineComponent({
     SettingsSidebar,
     SettingsFirebase,
     SettingsSpeckle,
-    SettingsMaterials,
+    SettingsMaterialKeys,
+    SettingsMaterial,
     SettingsGithub,
     SettingsLifecycleStages,
     SettingsCalculationCategory,
@@ -108,14 +111,16 @@ export default defineComponent({
     
     const settingViews = reactive<SettingView[]>([
       { name: 'General', icon: UserCircleIcon, current: true },
+      { name: 'Materials', icon: CubeTransparentIcon, current: false },
       { name: 'Calculation', icon: CalculatorIcon, current: false },
       { name: 'Keys', icon: FingerPrintIcon, current: false },
     ])
 
     const viewComponents = {
       'General': [SettingsGeneral],
+      'Materials': [SettingsMaterial],
       'Calculation': [SettingsCalculationCategory, SettingsImpactCategory, SettingsLifecycleStages, SettingsBuildingCodes],
-      'Keys': [SettingsFirebase, SettingsSpeckle, SettingsMaterials, SettingsGithub],
+      'Keys': [SettingsFirebase, SettingsSpeckle, SettingsMaterialKeys, SettingsGithub],
     }
 
     const currentViewComponents = computed(() => viewComponents[currentSettingView.value])

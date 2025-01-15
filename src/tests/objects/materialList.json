@@ -10587,7 +10587,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Wood Link Standard" }
+    "metaData": {}
   },
   {
     "id": "31652caa-6b04-4b39-86e6-482b4bd26416",
@@ -10611,7 +10611,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Wood Facade Link Standard" }
+    "metaData": {}
   },
   {
     "id": "4d0ef38d-b47e-4d10-be49-d8c24a6ebfe2",
@@ -10635,7 +10635,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Windows Link Standard" }
+    "metaData": {}
   },
   {
     "id": "c9eb9a0e-372d-47dc-8428-13bb0697b3b7",
@@ -10659,7 +10659,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Steel Link Standard" }
+    "metaData": {}
   },
   {
     "id": "d9cab14f-d708-49d4-9605-810a69b96eb1",
@@ -10683,7 +10683,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Roof Link Standard" }
+    "metaData": {}
   },
   {
     "id": "89e2c27d-e240-4b17-b590-e61701f653dd",
@@ -10707,7 +10707,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Metal Facades Link Standard" }
+    "metaData": {}
   },
   {
     "id": "fce38f39-ff71-4a3b-9050-c64f37803d2d",
@@ -10731,7 +10731,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Gypsum Link Standard" }
+    "metaData": {}
   },
   {
     "id": "00fb66f3-39e7-437a-86dc-a355fbbf248e",
@@ -10755,7 +10755,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Floor Link Standard" }
+    "metaData": {}
   },
   {
     "id": "cc8a21ec-1813-4055-a108-2be8a3f07fa6",
@@ -10779,7 +10779,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Concrete Link Standard" }
+    "metaData": {}
   },
   {
     "id": "1383f0f9-d75c-4372-b690-5e44779f1618",
@@ -10803,7 +10803,7 @@
       "url": "-"
     },
     "subType": "Standardv\u00e6rdi",
-    "metaData": { "Collection": "Bricks Link Standard" }
+    "metaData": {}
 
   }
 ]

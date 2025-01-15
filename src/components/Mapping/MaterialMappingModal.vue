@@ -66,7 +66,7 @@
                   <div class="relative mt-1 flex-1 px-4 sm:px-6">
                     <SearchBar
                       :data="combinedMaterials"
-                      :filterParam="productFilterParams"
+                      :filterParam="filterParameters"
                       :sortingParam="sortingParameters"
                       @update:data="handleFilteredData"
                     />
@@ -96,13 +96,15 @@ import {
 
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
+import { useMaterialStore } from '@/stores/material'
+import { useSettingsStore } from '@/stores/settings'
+
 import MappingCard from '@/components/Mapping/MaterialMappingCard.vue'
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
 import SearchBar from '@/components/Misc/SearchBar.vue'
 
 import type { NestedGroup } from '@/models/filters'
 import type { Product, Assembly } from '@/models/material'
-import { useMaterialStore } from '@/stores/material'
 
 export default defineComponent({
   name: 'MaterialMappingModal',
@@ -119,6 +121,7 @@ export default defineComponent({
     const navStore = useNavigationStore()
     const projectStore = useProjectStore()
     const materialStore = useMaterialStore()
+    const settingsStore = useSettingsStore()
 
     const materials = storeToRefs(materialStore).materials
     const assemblies = storeToRefs(materialStore).assemblies
@@ -128,39 +131,8 @@ export default defineComponent({
     const { selectedGroup } = storeToRefs(projectStore)
     const { mappingModalOpen} = storeToRefs(navStore)
     
-    // TODO: Make these a part of the settings
-    const productFilterParams = [
-      {
-        paramName: 'metaData.Collection',
-        displayName: 'Revalu Collection',
-      },
-      {
-        paramName: 'source',
-        displayName: 'Source',
-      },
-      {
-        paramName: 'metaData.materialType',
-        displayName: 'Material Type',
-      },
-      {
-        paramName: 'isAssembly',
-        displayName: 'Assembly',
-      },
-    ]
-    const sortingParameters = [
-      {
-        filterName: 'name',
-        displayName: 'Name',
-      },
-      {
-        filterName: 'unit',
-        displayName: 'Unit',
-      },
-      {
-        filterName: 'emission.gwp.a1a3',
-        displayName: 'Emission',
-      },
-    ]
+    const filterParameters = settingsStore.materialSettings.filterParams
+    const sortingParameters = settingsStore.materialSettings.sortingParams
 
     const searchQuery = ref('')
     // If no data selected or available show this instead, mostly for debug
@@ -192,7 +164,7 @@ export default defineComponent({
       materials,
       combinedMaterials,
       filteredMaterial,
-      productFilterParams,
+      filterParameters,
       sortingParameters,
       handleFilteredData,
       closeModal,
