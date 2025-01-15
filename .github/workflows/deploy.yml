@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     branches:
-      - main
+      - optimization
 
 jobs:
   deploy:

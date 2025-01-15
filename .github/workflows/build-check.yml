@@ -2,7 +2,7 @@ name: Buildable check
 on:
   pull_request:
     branches:
-      - optimization 
+      - main 
 
 jobs:
   build:
