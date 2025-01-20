@@ -130,7 +130,7 @@
                     </button>
                   </div>
                   <AssemblyViewer
-                    :materials="materials"
+                    :materials="assemblyMaterials"
                     @update:materials="updateMaterials"
                   />
                 </div>
@@ -153,7 +153,7 @@
                   >
                     <div class="relative mt-1 flex-1 px-4 sm:px-6">
                       <SearchBar
-                        :data="productData"
+                        :data="combinedMaterials"
                         :filterParam="filterParameters"
                         :sortingParam="sortingParameters"
                         @update:data="handleFilteredData"
@@ -174,7 +174,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref, watch, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import {
   Dialog,
@@ -240,6 +240,13 @@ export default defineComponent({
     const { assemblyModalOpen, assemblyTableShow } = storeToRefs(navStore)
     const { currentAssemby } = storeToRefs(materialStore)
 
+    const materials = storeToRefs(materialStore).materials
+    const assemblies = storeToRefs(materialStore).assemblies
+    const combinedMaterials = computed(() => [
+      ...materials.value,
+      ...assemblies.value,
+    ])
+
     const assemblyName = ref('')
     const assemblyDescription = ref('')
     const category = ref('')
@@ -258,7 +265,7 @@ export default defineComponent({
     const { assemblies: assemblyData } = storeToRefs(materialStore)
 
     // This is the assembly we are constructing
-    const materials = ref<Product[]>([])
+    const assemblyMaterials = ref<Product[]>([])
 
     const categories = ref({
       materialTypes: [
@@ -296,7 +303,7 @@ export default defineComponent({
     }
 
     const updateMaterials = (newMaterials: Product[]) => {
-      materials.value = newMaterials
+      assemblyMaterials.value = newMaterials
     }
 
     const newAssembly = () => {
@@ -305,18 +312,18 @@ export default defineComponent({
       assemblyDescription.value = ''
       category.value = ''
       materialType.value = ''
-      materials.value = []
+      assemblyMaterials.value = []
 
       navStore.toggleAssemblyTable()
     }
 
     const saveAssembly = () => {
-      const products: Record<string, Product> = materials.value.reduce((acc, product) => {
+      const products: Record<string, Product> = assemblyMaterials.value.reduce((acc, product) => {
         acc[product.metaData.appId] = product
         return acc
       }, {})
 
-      const tempGeos: GeometryObject[] = materials.value.map(product =>
+      const tempGeos: GeometryObject[] = assemblyMaterials.value.map(product =>
         createGeometryFromProduct(product)
       )
 
@@ -359,7 +366,7 @@ export default defineComponent({
       category.value = assembly.category
       materialType.value = assembly.metaData.materialType
 
-      materials.value = Object.values(assembly.products)
+      assemblyMaterials.value = Object.values(assembly.products)
       
       navStore.toggleAssemblyTable()
     }
@@ -382,9 +389,10 @@ export default defineComponent({
       filteredAssemblies,
       categories,
       codes,
-      materials,
+      assemblyMaterials,
       productData,
       assemblyData,
+      combinedMaterials,
       closeModal,
       toggleAssemblyTable,
       updateFilterOptions,
