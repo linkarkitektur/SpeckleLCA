@@ -13,7 +13,8 @@ import {
   orderBy, 
   limit, 
   getDocs,
-  writeBatch
+  writeBatch,
+  doc
 } from 'firebase/firestore'
 import type { 
   Mapping,
@@ -333,20 +334,35 @@ export const useFirebaseStore = defineStore('firebase', {
 
     /**
      * Fetches the whole assembly list for a project
-     * @param projectId 
-     * @returns 
+     * @param projectId optional projectId to filter on if omitted gets all assemblies
+     * @returns list of assemblies
      */
-    async fetchAssemblyList(projectId: string): Promise<AssemblyList | null> {
+    async fetchAssemblyList(projectId: string | boolean): Promise<AssemblyList | null> {
       this.loading = true
       this.error = null
       try {
-        const q = query(
-          collection(db, 'projectAssemblies'),
-          where('projectId', '==', projectId)
-        )
+        let q
+        if (projectId === true) {
+          q = query(
+            collection(db, 'projectAssemblies')
+          )
+        } else {
+          q = query(
+            collection(db, 'projectAssemblies'),
+            where('projectId', '==', projectId)
+          )
+        }
+
         const querySnapshot = await getDocs(q)
         if (!querySnapshot.empty) {
-          const assemblyList = querySnapshot.docs[0].data() as AssemblyList
+          const assemblyList: AssemblyList = {
+            projectId: projectId as string,
+            assemblies: []
+          }
+          querySnapshot.forEach(doc => {
+            const data = doc.data() as AssemblyList
+            assemblyList.assemblies.push(... data.assemblies)
+          })
           return assemblyList
         } else {
           return null
@@ -371,7 +387,8 @@ export const useFirebaseStore = defineStore('firebase', {
 
       try {
         const querySnapshot = await getDocs(
-          query(collection(db, 'projectAssemblies'), where('projectId', '==', projectId))
+          query(collection(db, 'projectAssemblies'), 
+          where('projectId', '==', projectId))
         )
 
         const assemblyList: AssemblyList = {

@@ -28,6 +28,7 @@ export interface CalculationSettings {
 export interface MaterialSettings {
   Source: Source
   includeCollections: boolean
+  globalAssemblies: boolean
   filterParams: MaterialFilterParam[]
   sortingParams: MaterialSortingParam[]
 }
@@ -136,6 +137,7 @@ export const standardCalculationSettings: CalculationSettings = {
 export const standardMaterialSettings: MaterialSettings = {
   Source: Source.Revalu,
   includeCollections: true,
+  globalAssemblies: false,
   filterParams: [
     {
       paramName: 'metaData.Collection',

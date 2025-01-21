@@ -9,6 +9,7 @@ import { useSpeckleStore } from "@/stores/speckle"
 import { useFirebaseStore } from "@/stores/firebase"
 
 import { setMappingColorGroup, updateProjectGroups } from "@/utils/projectUtils"
+import { useSettingsStore } from "@/stores/settings"
 
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds
@@ -199,12 +200,21 @@ export async function getAssemblyList() {
   const materialStore = useMaterialStore()
   const projectStore = useProjectStore()
   const firebaseStore = useFirebaseStore()
+  const settingsStore = useSettingsStore()
 
   try {
-    const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(projectStore.currProject.id)
-    if (assemblyList) {
-      materialStore.assemblies = assemblyList.assemblies
+    if (!settingsStore.materialSettings.globalAssemblies){
+      const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(projectStore.currProject.id)
+      if (assemblyList) {
+        materialStore.assemblies = assemblyList.assemblies
+      }
+    } else {
+      const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(true)
+      if (assemblyList) {
+        materialStore.assemblies = assemblyList.assemblies
+      }
     }
+    
   } catch (error) {
     console.error('Error fetching assembly list:', error)
   }

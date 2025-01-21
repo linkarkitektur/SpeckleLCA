@@ -253,8 +253,6 @@ export default defineComponent({
     const materialType = ref('')
     const assemblyId = ref(crypto.randomUUID().toString())
     const codes = BSAB96
-
-    //const filteredProducts = ref<Product[] | Assembly[]>([])
     
     const filterParameters = settingsStore.materialSettings.filterParams
     const sortingParameters = settingsStore.materialSettings.sortingParams
@@ -267,6 +265,7 @@ export default defineComponent({
     // This is the assembly we are constructing
     const assemblyMaterials = ref<Product[]>([])
 
+    // TODO: Make a static list of categories as a type
     const categories = ref({
       materialTypes: [
         { label: 'Wood', value: 'wood', selected: false },

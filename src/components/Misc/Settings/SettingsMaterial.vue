@@ -28,6 +28,17 @@
         </dd>
       </div>
       <div class="pt-6 sm:flex">
+        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Fetch global assemblies</dt>
+        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+          <input
+            type="checkbox" 
+            class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"  
+            v-model="settingsStore.materialSettings.globalAssemblies" 
+          />
+          <UpdateButton @click="updateMaterial" />
+        </dd>
+      </div>
+      <div class="pt-6 sm:flex">
         <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Filter parameters</dt>
         <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
           <DropdownMulti
