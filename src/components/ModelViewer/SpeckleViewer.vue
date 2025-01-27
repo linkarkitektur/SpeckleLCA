@@ -110,17 +110,25 @@ const handleEscKey = (e: KeyboardEvent) => {
   }
 }
 
-// Resize handler for the viewer
-const handleResize = (entries: ResizeObserverEntry[]) => {
-  for (const entry of entries) {
-    const { width, height } = entry.contentRect
-    viewer?.resize()
-    if (viewer?.cameraHandler.activeCam.camera) {
-      viewer.cameraHandler.activeCam.camera.aspect = width / height
-      viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
+// Resize handler for the viewer with debounce
+const handleResize = (() => {
+  let timeout: number | null = null
+  return (entries: ResizeObserverEntry[]) => {
+    if (timeout) {
+      clearTimeout(timeout)
     }
+    timeout = window.setTimeout(() => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect
+        viewer?.resize()
+        if (viewer?.cameraHandler.activeCam.camera) {
+          viewer.cameraHandler.activeCam.camera.aspect = width / height
+          viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
+        }
+      }
+    }, 100)
   }
-}
+})()
 
 // Initialize and mount the viewer
 onMounted(async () => {

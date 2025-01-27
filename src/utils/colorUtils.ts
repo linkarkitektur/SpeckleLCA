@@ -83,36 +83,116 @@ export class ColorManager {
 
     return Math.sqrt(Math.pow(h1 - h2, 2) + Math.pow(s1 - s2, 2) + Math.pow(l1 - l2, 2))
   }
+  
+  // Helper function for interpolating between two HSL colors
+  private interpolateHSL(
+    [h1, s1, l1]: number[],
+    [h2, s2, l2]: number[],
+    t: number
+  ): number[] {
+    // Simple linear interpolation of each component
+    const h = h1 + (h2 - h1) * t
+    const s = s1 + (s2 - s1) * t
+    const l = l1 + (l2 - l1) * t
+    
+    // Return the interpolated HSL as [h, s, l]
+    return [h, s, l]
+  }
+  
+  /**
+   * Picks `count` distinct colors out of the base color list
+   * Returns them as HSL strings.
+   */
+  private pickDistinctFromBase(count: number): string[] {
+    // Convert each base color to HSL string
+    const baseHSLStrings = this.colors.map(c => this.hslToString(this.rgbToHsl(c)))
 
-  // Get 'count' most distinct colors from the list based on distance in HSL space
-  public getMostDistinctColors(count: number): string[] {
-    if (count >= this.colors.length) return this.colors.map(c => this.hslToString(this.rgbToHsl(c))) // Return all in HSL if needed
+    // If count >= baseColors, return everything
+    if (count >= baseHSLStrings.length) {
+      return baseHSLStrings
+    }
 
-    const distinctColors: string[] = [this.hslToString(this.rgbToHsl(this.colors[0]))] // Start with first color
-
-    // Find most distinct colors by maximizing distance in HSL space
+    // Otherwise, pick distinct
+    const distinctColors: string[] = [ baseHSLStrings[0] ] // start with first color
     for (let i = 1; i < count; i++) {
       let maxDistance = -1
       let nextColor = ''
 
-      for (const color of this.colors) {
-        if (!distinctColors.includes(this.hslToString(this.rgbToHsl(color)))) {
-          const minDistanceToSet = Math.min(
-            ...distinctColors.map(selectedColor => this.calculateColorDistanceHSL(this.hslToString(this.rgbToHsl(selectedColor)), color))
+      // Attempt to pick a color from baseHSLStrings that is farthest from the chosen set
+      for (const color of baseHSLStrings) {
+        if (!distinctColors.includes(color)) {
+          // measure min distance from the already picked set
+          const minDistToSet = Math.min(
+            ...distinctColors.map(selected =>
+              this.calculateColorDistanceHSL(selected, color)
+            )
           )
-          if (minDistanceToSet > maxDistance) {
-            maxDistance = minDistanceToSet
+          if (minDistToSet > maxDistance) {
+            maxDistance = minDistToSet
             nextColor = color
           }
         }
       }
-
-      distinctColors.push(this.hslToString(this.rgbToHsl(nextColor)))
+      distinctColors.push(nextColor)
     }
 
     return distinctColors
   }
 
+  /**
+   * Get 'count' most distinct colors from the list based on distance in HSL space
+   * If count is higher than color list we interpolate a new color in HSL space
+   * @param count amount of colors needed
+   * @returns list of HSL colors as strings
+   */
+  public getMostDistinctColors(count: number): string[] {
+    const baseSize = this.colors.length
+    
+    // If count is less than or equal to base colors, just pick from base colors
+    if (count <= baseSize) 
+      return this.pickDistinctFromBase(count) 
+
+    // Get all base colors
+    const allDistinct = this.pickDistinctFromBase(baseSize) 
+    // Convert each anchor color to numeric HSL
+    const anchorHSL = allDistinct.map(hslStr => {
+      const match = hslStr.match(/(\d+),\s*(\d+)%,\s*(\d+)%/)
+      if (match) {
+        const [_, hh, ss, ll] = match
+        return [Number(hh), Number(ss), Number(ll)]
+      }
+      return [0, 0, 0]
+    })
+
+    // Now produce 'count' colors by interpolating across anchorHSL
+    const interpolatedColors: string[] = []
+    const n = anchorHSL.length
+
+    // Simple linear interpolation across the entire array (n - 1) segments
+    for (let i = 0; i < count; i++) {
+      const fraction = i / (count - 1)
+      const segment = fraction * (n - 1)
+      const j = Math.floor(segment)
+      const localT = segment - j
+
+      if (j >= n - 1) {
+        // at the very end, use the last anchor color
+        interpolatedColors.push(this.hslToString(anchorHSL[n - 1]))
+      } else {
+        const interp = this.interpolateHSL(anchorHSL[j], anchorHSL[j + 1], localT)
+        // Round them if you want nice integers
+        interpolatedColors.push(
+          this.hslToString([
+            Math.round(interp[0]),
+            Math.round(interp[1]),
+            Math.round(interp[2])
+          ])
+        )
+      }
+    }
+    return interpolatedColors
+  }
+  
   // Get next color in HSL format
   public getNextColor(): string {
     return this.hslToString(this.rgbToHsl(this.colors[this.colorIndex++ % this.colors.length]))
