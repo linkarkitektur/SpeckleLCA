@@ -104,8 +104,7 @@ export default {
       () => {
         if (resultStore.reloadChartData)
           draw()
-      },
-      { deep: true }
+      }
     )
 
     return { 

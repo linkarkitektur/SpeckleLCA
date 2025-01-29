@@ -70,8 +70,7 @@ export default {
       () => props.data,
       () => {
         draw()
-      },
-      { deep: true }
+      }
     )
 
     return { svg, tooltip, container }

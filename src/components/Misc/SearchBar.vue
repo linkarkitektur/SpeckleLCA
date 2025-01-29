@@ -239,6 +239,23 @@ export default defineComponent({
       return dataToSort
     })
 
+    // Set sorting in material store
+    const setSortOption = (parameterName: string) => {
+      if (sorting.value.parameter === parameterName) {
+        sorting.value.direction = sorting.value.direction === 'asc' ? 'desc' : 'asc'
+      } else {
+        sorting.value.parameter = parameterName
+        sorting.value.direction = 'asc'
+      }
+    }
+
+    // Update filter options when DropdownMulti emits 'update:options'
+    const updateFilterOptions = (filterName: string, options: DropdownOption[]) => {
+      selectedFilters.value[filterName] = options
+        .filter((option) => option.selected)
+        .map((option) => option.value)
+    }
+    
     watch(
       () => sortedData.value,
       (newData) => {
@@ -261,32 +278,18 @@ export default defineComponent({
           const newMaterial: Product = await getSpecificEPD({ id: newVal })
           newMaterial.metaData.materialType = 'ManualEntry'
           materialStore.addMaterial(newMaterial)
+          // If we add a material from ID then we just put that in the list
           emit('update:data', [newMaterial])
         } catch (error) {
           console.error("Error fetching product by UUID:", error)
         }
         return
       } else {
+        // If the input is not a UUID, reset the manual mode and get whole list of Materials
         manualMode = false
       }
     })
     
-    // Set sorting in material store
-    const setSortOption = (parameterName: string) => {
-      if (sorting.value.parameter === parameterName) {
-        sorting.value.direction = sorting.value.direction === 'asc' ? 'desc' : 'asc'
-      } else {
-        sorting.value.parameter = parameterName
-        sorting.value.direction = 'asc'
-      }
-    }
-
-    // Update filter options when DropdownMulti emits 'update:options'
-    const updateFilterOptions = (filterName: string, options: DropdownOption[]) => {
-      selectedFilters.value[filterName] = options
-        .filter((option) => option.selected)
-        .map((option) => option.value)
-    }
 
     return {
       searchQuery,

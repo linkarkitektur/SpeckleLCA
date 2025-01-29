@@ -34,7 +34,7 @@
 	<subGroup
 		v-if="subGroupData.children && subGroupData.children.length && expand"
 		v-for="child in subGroupData.children"
-		v-bind:key="child"
+		v-bind:key="child.id"
 		:subGroup="child"
 		:depth="depth + 1"
 	/>

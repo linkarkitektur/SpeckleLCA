@@ -111,7 +111,7 @@ export default defineComponent({
     const settingsStore = useSettingsStore()
 
     const resultLogs = ref<ResultsLog[]>([])
-    const benchmarkParameter = ref<string>('parameters.speckle_type')
+    const benchmarkParameter = ref<string>('material.name')
 
     // Create a boolean array to track expansion state
     const expanded = reactive(resultLogs.value.map(() => false))
@@ -174,6 +174,8 @@ export default defineComponent({
       expanded[index] = !expanded[index]
     }
 
+    /**
+     * Watcher Removed, check if needed
     watch(graphParameters, (newGraphParameters) => {
       if (newGraphParameters.length > 0) {
         // If selectedResult is null or no longer matches an item in graphParameters, update it
@@ -194,7 +196,7 @@ export default defineComponent({
         dropdownName.value = 'Select a result'
       }
     })
-
+    */
     return {
       handleResultListSelection,
       toggleExpansion,

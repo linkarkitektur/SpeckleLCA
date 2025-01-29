@@ -59,14 +59,6 @@ const graphParameters = ref<dropdownItem[]>(
   }))
 )
 
-// Update the dropdown items when the result list changes
-const updateGraphDropdown = () => {
-  graphParameters.value = resultStore.resultList.map((result) => ({
-    name: result.displayName,
-    data: JSON.stringify(result),
-  }))
-}
-
 // Selected result
 const selectedResult = ref<ResultItem | null>(null)
 const dropdownName = ref(selectedResult.value ? selectedResult.value.displayName : 'Select a result')
@@ -129,7 +121,7 @@ const updateGraphProps = (chart: string = "") => {
   if (chart === "") chart = componentName.value
   switch (chart) {
     case "SelectablePieChart": {
-      let data: ChartData[]
+      let data: ChartData[] = []
       let options: ChartOptions = {
         aggregate: true,
         unit: "kgCO2e",
@@ -179,36 +171,11 @@ watch(() => projectStore.selectedObjects, () => {
   updateGraphProps()
 })
 
-watch(() => resultStore.resultList, () => {
-  updateGraphDropdown()
-})
-
 watch(selectedResult, (newValue) => {
   if (newValue) {
     dropdownName.value = newValue.displayName
     updateGraphProps()
   } else {
-    dropdownName.value = 'Select a result'
-  }
-})
-
-watch(graphParameters, (newGraphParameters) => {
-  if (newGraphParameters.length > 0) {
-    // If selectedResult is null or no longer matches an item in graphParameters, update it
-    if (
-      !selectedResult.value ||
-      !newGraphParameters.some(
-        (item) => item.name === selectedResult.value?.displayName
-      )
-    ) {
-      const parsedResult = JSON.parse(newGraphParameters[0].data) as ResultItem
-      selectedResult.value = parsedResult
-      // Update the dropdownName to reflect the new selection
-      dropdownName.value = parsedResult.displayName
-    }
-  } else {
-    // If graphParameters is empty, reset selectedResult and dropdownName
-    selectedResult.value = null
     dropdownName.value = 'Select a result'
   }
 })

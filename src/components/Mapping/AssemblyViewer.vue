@@ -174,8 +174,7 @@ export default defineComponent({
       () => props.materials,
       (newMaterials) => {
         localMaterials.value = [...newMaterials]
-      },
-      { deep: true }
+      }
     )
 
     return {

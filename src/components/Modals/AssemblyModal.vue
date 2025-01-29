@@ -374,8 +374,7 @@ export default defineComponent({
       if (newVal) {
         handleLoadAssembly(newVal)
       }
-    },
-    { deep: true })
+    })
 
     return {
       assemblyModalOpen,
