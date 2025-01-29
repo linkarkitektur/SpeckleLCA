@@ -6,7 +6,7 @@
 import type { Project } from '@/models/project'
 import type { ResponseObject, ResponseObjectStream } from '@/models/speckle'
 import type { GeometryObject, Quantity } from '@/models/geometryObject'
-import type { MetricUnits } from '@/models/material'
+import type { QuantityConversionSpec } from '@/models/material'
 
 import { selectedObjectsQuery } from '@/graphql/speckleQueries'
 import { speckleSelection } from '@/graphql/speckleVariables'
@@ -196,9 +196,14 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 
 	const objects: ResponseObject[] = input.data.stream.object.elements.objects
 
-	const modelObjects = objects.filter(
-		(obj) => obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk'
-	)
+	// Filter out some common support objects which we never want to filter expand this list if needed
+	const modelObjects = objects
+	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk')
+	.filter((obj) => obj.data.speckle_type !== 'Objects.Geometry.Mesh')
+	.filter((obj) => obj.data.speckle_type !== 'Base')
+	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.Collection')
+	.filter((obj) => obj.data.speckle_type !== 'Objects.Other.Material:Objects.Other.Revit.RevitMaterial')
+
 	const projectDetails = speckleStore.getProjectDetails
 	const version = speckleStore.getSelectedVersion
 
@@ -243,70 +248,78 @@ export function calculateQuantity(obj: ResponseObject) {
 		m2: 0,
 	}
 
-	// Initial parameters we search for, can be added upon should maybe be moved from here to a model file instead
-	// TODO create a populated interface for this
-	const searchObject = [
-		{
-			searchValue: 'area',
-			metric: 'm2',
-			mmConversion: 1000000
-		},
-		{
-			searchValue: 'volume',
-			metric: 'm3',
-			mmConversion: 1000000000
-		},
-		{
-			searchValue: 'length',
-			metric: 'm',
-			mmConversion: 1000
-		}
-	]
-
-	// Recursive search for key values in object properties
-	const searchNested = (
-		data: { [key: string]: any },
-		sObj: { searchValue: string; metric: string; mmConversion: number }
-	) => {
-		for (const key in data) {
-			if (Object.prototype.hasOwnProperty.call(data, key)) {
-				if (typeof data[key] === 'object' && data[key] !== null) {
-					// If the current property is an object, recursively search
-					searchNested(data[key], sObj)
-				} else if (
-					typeof data[key] === 'string' &&
-					data[key].toLowerCase() == sObj.searchValue
-				) {
-					// If the property is a string and matches the search value, set the quantity
-					let value = data[key]
-					if (typeof value === 'string') {
-						value = data['value']
-					}
-					quantity[sObj.metric] = value
-				} else if (key == sObj.searchValue) {
-					// If the property is a string and matches the search value, set the quantity
-					let value = data[key]
-
-					if (typeof value === 'string') {
-						value = data['value']
-					}
-					//TODO Make more conversions
-					if (data['units'] == 'mm') {
-						value = value / sObj.mmConversion
-					}
-
-					quantity[sObj.metric] = value
-				}
-			}	
-		}
+	// Conversions for different units, this could be moved outside of the function
+	const fieldMap: Record<string, QuantityConversionSpec> = {
+		area: { metric: 'm2', mmConversion: 1_000_000 },
+		volume: { metric: 'm3', mmConversion: 1_000_000_000 },
+		length: { metric: 'm', mmConversion: 1_000 },
 	}
 
-	// Start recursive search on the object
-	// TODO this should probably be optimized, could become slow on large projects or atleast add a loading bar
-	if (obj.data) {
-		searchObject.forEach((sObj) => {
-			searchNested(obj.data, sObj)
-		})
+	// IF no data, we just return the empty quantity
+	if (!obj.data) return quantity
+
+	function traverse(data: any) {
+		if (!data || typeof data !== 'object') return
+
+    for (const [key, val] of Object.entries(data)) {
+      // If val is an object, recurse deeper
+      if (val && typeof val === 'object') {
+        traverse(val)
+      } else {
+        // 1) Check if the key is something we care about
+        if (fieldMap[key.toLowerCase()]) {
+          const fieldSpec = fieldMap[key.toLowerCase()]
+          let numericValue = extractValue(data, val)
+
+          // Handle unit conversion if needed
+          if (data.units === 'mm') {
+            numericValue = numericValue / fieldSpec.mmConversion
+          }
+          quantity[fieldSpec.metric] = numericValue
+        }
+
+        // 2) Check if the *value* is a string we care about 
+        //    (like "area", "volume", "length")
+        if (typeof val === 'string') {
+          const lowerVal = val.toLowerCase()
+          if (fieldMap[lowerVal]) {
+            const fieldSpec = fieldMap[lowerVal]
+            let numericValue = extractValue(data, data.value)
+
+            if (data.units === 'mm') {
+              numericValue = numericValue / fieldSpec.mmConversion
+            }
+            quantity[fieldSpec.metric] = numericValue
+          }
+        }
+      }
+    }
 	}
+
+	/**
+	 * A small helper to safely extract the numeric value.
+	 */
+	function extractValue(obj: any, val: any): number {
+		if (typeof val === 'number') return val
+
+		// If we see a string but expect a number, 
+		if (typeof val === 'string') {
+			const num = parseFloat(val)
+			if (!isNaN(num)) return num
+
+			// fallback to obj.value if that’s how your data is structured
+			if (typeof obj.value === 'number') {
+				return obj.value
+			}
+		}
+
+		// fallback if nothing matched
+		return 0
+	}
+
+	// Traverse through the object if object has data
+	if (obj.data)
+		traverse(obj.data)
+
 	return quantity
 }

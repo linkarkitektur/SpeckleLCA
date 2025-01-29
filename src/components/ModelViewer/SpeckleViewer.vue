@@ -61,6 +61,7 @@ import {
   TransitionChild, 
   TransitionRoot 
 } from '@headlessui/vue'
+import { debounce } from 'lodash'
 
 // Store imports
 import { useSpeckleStore } from '@/stores/speckle'
@@ -129,6 +130,10 @@ const handleResize = (() => {
     }, 100)
   }
 })()
+
+const debouncedIsolateObjects = debounce((selectedUris: string[]) => {
+  speckleStore.isolateObjects(selectedUris)
+}, 100)
 
 // Initialize and mount the viewer
 onMounted(async () => {
@@ -218,7 +223,8 @@ onBeforeUnmount(() => {
 watch(
   () => selectedObjects.value,
   () => {
-    speckleStore.isolateObjects(projectStore.getSelectedObjectsURI())
+    const selectedUris = projectStore.getSelectedObjectsURI()
+    debouncedIsolateObjects(selectedUris)
   }
 )
 // function setObjectColorsByVolume() {}

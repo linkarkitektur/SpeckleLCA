@@ -86,6 +86,14 @@ export interface MaterialSortingParam {
 export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l" | "tonnes"
 
 /**
+ * Quantity conversions specification
+ */
+export interface QuantityConversionSpec {
+  metric: MetricUnits
+  mmConversion: number
+}
+
+/**
  * Extended impact categories for application
  * Array of possible impact categories to use, increase as needed
  */

@@ -8,7 +8,6 @@
       'rounded-lg bg-gray-200 p-4' : selectedBool == false,
     }"
     :style="activePage == 'Overview' && !renderMode ? { 'background-color': inGroups.color } : {}"
-    @click="selectSubGroup(inGroups, $event)"
   >
     <div class="flex pb-2 justify-between items-center">
       <div class="flex">
