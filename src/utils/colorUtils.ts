@@ -224,22 +224,6 @@ export function getFontColorForHSL(hsl: string): string {
   return lightness < 50 ? fontColors.white : fontColors.black
 }
 
-
-/**
- * Create a list of colors based on the number of objects
- * Rainbow style for now, we can limit this range later
- * @param n number of colors
- * @returns list of HSL colors
- */
-export function generateColors(n: number): string[] {
-  const colors: string[] = []
-  for (let i = 0; i < n; i++) {
-    const hue = Math.round(360 * i / n)
-    colors.push(`hsl(${hue}, 100%, 80%)`)
-  }
-  return colors
-}
-
 /**
  * Convert hsl to hex, https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex
  * @param h hue

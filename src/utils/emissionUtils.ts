@@ -92,7 +92,6 @@ export class EmissionCalculator {
   ): boolean {
     const impactCategory = this.settingsStore.calculationSettings.standardImpactCategory
     let matEmission: LifeCycleStageEmission = product.emission[impactCategory]
-
     // Check if we have the emission for the selected impact category, if not use gwp as fallback
     if (!product.emission[impactCategory]) {
       if (!product.emission['gwp'])

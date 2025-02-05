@@ -14,6 +14,7 @@ import { useSettingsStore } from "@/stores/settings"
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds
  * TODO: This needs a redo and optimisation
+ * TODO: Make this so that the users can see the changes during its applying them so the bars change in real time
  * @param mapping Mapping object to update towards project and material store
  */
 export function updateMapping(mapping: Mapping) {

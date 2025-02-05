@@ -21,23 +21,31 @@ function iterativeValueCheck(
   filterValue: any
 ): boolean | null {
   const stack = [obj]
+  
+  const visited = new WeakSet()
 
   while (stack.length > 0) {
     const current = stack.pop()
-
-    if (typeof current !== 'object' || current === null) {
+    
+    if (typeof current !== 'object' || current === null || visited.has(current)) {
       continue
     }
+    visited.add(current)
 
     for (const [key, value] of Object.entries(current)) {
-      // If we find the field
       if (key === field) {
-        // If it's an object with a 'value' property, compare that
-        if (value && typeof value === 'object' && 'value' in value) {
-          return comparisonFn(value.value, filterValue)
-        }
-        // Otherwise compare directly
+      // Handle primitive values first (most common case)
+      if (typeof value !== 'object' || value === null) {
         return comparisonFn(value, filterValue)
+      }
+      // Handle object cases
+      if ('value' in value) {
+        return comparisonFn(value.value, filterValue)
+      }
+      if ('name' in value) {
+        return comparisonFn(value.name, filterValue)
+      }
+      return comparisonFn(value, filterValue)
       }
 
       // If the property is an object, push it onto the stack
@@ -57,25 +65,36 @@ function iterativeValueCheck(
  * @param field Target field name
  * @returns The value of the field, or null if not found
  */
-function iterativeFieldSearch(obj: Record<string, any>, field: string): any | null {
+const fieldCache = new WeakMap<object, Map<string, any>>()
+
+export function iterativeFieldSearch(obj: Record<string, any>, field: string): any | null {
+  // Check cache first
+  if (fieldCache.has(obj)) {
+    const objCache = fieldCache.get(obj)!
+    if (objCache.has(field)) {
+      return objCache.get(field)!
+    }
+  } else {
+    fieldCache.set(obj, new Map())
+  }
+
   const stack = [obj]
+  const visited = new WeakSet()
+  let result: any | null = null
 
   while (stack.length > 0) {
     const current = stack.pop()
-
-    if (typeof current !== 'object' || current === null) {
+    
+    if (!current || typeof current !== 'object' || visited.has(current)) {
       continue
     }
+    visited.add(current)
 
-    // Go through all keys and values in the object
     for (const [key, value] of Object.entries(current)) {
-      // We found the field, return its value
       if (key === field) {
-        // If the value is an object, return its value property
-        if (value && typeof value === 'object' && 'value' in value) {
-          return value.value
-        }
-        return value
+        result = value?.value ?? value?.name ?? value
+        fieldCache.get(obj)!.set(field, result)
+        return result
       }
 
       if (typeof value === 'object' && value !== null) {
@@ -84,10 +103,11 @@ function iterativeFieldSearch(obj: Record<string, any>, field: string): any | nu
     }
   }
 
+  fieldCache.get(obj)!.set(field, null)
   return null
 }
 
-/**
+/**O
  * Generic function to add filters to a registry
  * @param name name of filter
  * @param filterFn function of filter always returns an array of groups
@@ -142,6 +162,12 @@ function createComparisonFilter (
   )
 }
 
+let totalIterative = 0
+export function printIterativeTime() {
+  console.log('Total iterative time:', totalIterative)
+  totalIterative = 0
+}
+
 /**
  * Exmaple of how filters are structured
  * Creates standardfilters
@@ -163,8 +189,11 @@ export function createStandardFilters() {
         if (!obj.parameters) throw new Error(`No parameters found for '${obj.id}'.`)
 
         // Search specified object iteratively for value, changed for recursive because 2x faster
+        const startIterative = performance.now()
         const fieldValue = iterativeFieldSearch(obj.parameters, field) || "No Data"
-        
+        const endIterative = performance.now()
+        totalIterative += endIterative - startIterative
+
         const pathName = getTextAfterLastDot(fieldValue)
         addObjToGroup(outGroup, obj, true, grp, pathName)
       }
@@ -202,4 +231,12 @@ function addObjToGroup(
       elements: [obj],
     }
   }
+}
+
+// Make internal functions exportable for tests
+export { 
+  iterativeValueCheck,
+  addFilter,
+  createComparisonFilter,
+  addObjToGroup
 }

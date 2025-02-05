@@ -1,4 +1,4 @@
-import { toRaw, isProxy } from 'vue'
+import { toRaw, isProxy, isReactive, isRef } from 'vue'
 
 import type { Product, Assembly } from '@/models/material'
 
@@ -8,30 +8,33 @@ import type { Product, Assembly } from '@/models/material'
  * @returns object without reactivity
  */
 export function deepToRaw<T>(obj: T): T {
+  // Base case: return if obj is null or not an object
   if (obj === null || typeof obj !== 'object') {
-    // Base case: return the value if it's not an object or array
     return obj
   }
 
-  if (Array.isArray(obj)) {
-    // If it's an array, iterate through the elements and deep convert
-    return obj.map((item) => deepToRaw(item)) as unknown as T
+  // If the value is a ref, unwrap it
+  if (isRef(obj)) {
+    return deepToRaw(obj.value) as unknown as T
   }
 
-  if (isProxy(obj)) {
-    // If the object is a reactive proxy, use toRaw to convert it
+  // If the object is reactive (or a proxy), get its raw version first
+  if (isReactive(obj) || isProxy(obj)) {
     obj = toRaw(obj)
   }
 
-  // If it's a plain object, iterate through keys and deep convert values
-  const result: any = {}
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      result[key] = deepToRaw(obj[key])
-    }
+  // Handle arrays: map each element recursively
+  if (Array.isArray(obj)) {
+    return obj.map((item) => deepToRaw(item)) as unknown as T
   }
 
-  return result as T
+  // Handle plain objects: iterate over own keys and deep convert each value
+  const rawObj: any = {}
+  Object.keys(obj).forEach((key) => {
+    rawObj[key] = deepToRaw(obj[key])
+  })
+
+  return rawObj as T
 }
 
 /**
@@ -66,7 +69,7 @@ export const getEnumEntries = (enumObj: any) => {
  * @param parameterSet Returns set of unique parameters
  */
 export function collectParameters(parameters: Record<string, any>, parameterSet: Set<string>) {
-  const guidOrHexRegex = /^(?:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{32})$/;
+  const guidOrHexRegex = /^(?:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{32})$/
 
   Object.keys(parameters).forEach((key) => {
     // Skip if the key is already in the set
@@ -92,7 +95,7 @@ export function collectParameters(parameters: Record<string, any>, parameterSet:
     }
 
     // Add the key to the set
-    parameterSet.add(key);
+    parameterSet.add(key)
 
     if (Array.isArray(value)) {
       // If it's an array, recursively process each object in the array
