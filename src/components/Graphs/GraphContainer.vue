@@ -59,6 +59,15 @@ const graphParameters = ref<dropdownItem[]>(
   }))
 )
 
+// Update graphdropdown with new results, this is called when a new result is added
+// Needed because this is done after the ui has been loaded, so we need to update the dropdown
+const updateGraphDropdown = () => {
+  graphParameters.value = resultStore.resultList.map((result) => ({
+    name: result.displayName,
+    data: JSON.stringify(result),
+  }))
+}
+
 // Selected result
 const selectedResult = ref<ResultItem | null>(null)
 const dropdownName = ref(selectedResult.value ? selectedResult.value.displayName : 'Select a result')
@@ -167,10 +176,18 @@ const updateGraphProps = (chart: string = "") => {
   
 }
 
+// Watchers
+// Update grahp for selected objects
 watch(() => projectStore.selectedObjects, () => {
   updateGraphProps()
 })
 
+// Update graph when new results get calculated
+watch(() => resultStore.resultList, () => {
+  updateGraphDropdown()
+})
+
+// Update graph when selecting a new result in dropdown
 watch(selectedResult, (newValue) => {
   if (newValue) {
     dropdownName.value = newValue.displayName
@@ -180,6 +197,8 @@ watch(selectedResult, (newValue) => {
   }
 })
 
+// Update graph when new result is passed as prop
+// This might not be needed, but it's here for now
 watch(() => props, () => {
   updateGraphProps()
 }), { deep : true }
