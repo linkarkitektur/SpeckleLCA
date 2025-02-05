@@ -38,3 +38,4 @@ package-lock.json
 serviceAccountKey.json
 codebase.md
 *.cpuprofile
+*.heapprofile
