@@ -36,20 +36,11 @@ export default defineConfig({
 	 * Test configuration for Vite.
 	 */
 	test: {
-		/**
-		 * Enable jest-like global test APIs.
-		 */
-		globals: true,
-		/**
-		 * Simulate DOM with happy-dom.
-		 * (requires installing happy-dom as a peer dependency)
-		 */
-		environment: 'happy-dom',
-		/**
-		 * Setup files for tests.
-		 */
-		setupFiles: ['/src/tests/setup/globalSetup.ts']
-	},
+    globals: true,         // Optional: allows using global test APIs (like `describe` and `it`)
+    environment: 'jsdom',  // Ensures a browser-like environment
+    // You can also specify include/exclude patterns:
+    // include: ['src/**/*.spec.{js,ts}']
+  },
 
 	/**
 	 * Build configuration for Vite.
