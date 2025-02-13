@@ -197,7 +197,8 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 	const objects: ResponseObject[] = input.data.stream.object.elements.objects
 
 	const materialObjects = objects
-		.filter((obj) => obj.data.speckle_type.includes('Objects.Other.Material'))
+		.filter((obj) => obj.data.speckle_type.includes('Objects.Other.Material') 
+			&& obj.data.speckle_type !== 'Objects.Other.MaterialQuantity')
 
 	// Filter out some common support objects which we never want to filter expand this list if needed
 	const modelObjects = objects
@@ -216,7 +217,7 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 		modelObjects.forEach((el) => {
 			let quantity: Quantity
 			// If this is a composite we split it into its parts and create new objects from them
-			if (el.data.speckle_type === 'Objects.Other.MaterialQuantity') {
+			if (el.data.materialQuantities) {
 				el.data.materialQuantities.forEach((mat) => {
 					quantity = quantityFromComposite(mat)
 					const name: string = el.data.name ? el.data.name : el.data.speckle_type
@@ -281,7 +282,7 @@ const FIELD_MAP: Record<string, QuantityConversionSpec> = {
  * @param field The field name (or its value) indicating what is being measured.
  * @param value The raw value to convert and assign.
  */
-function updateQuantityForField(obj: ResponseObject, quantity: Quantity, field: string, value: any) {
+function updateQuantityForField(obj: any, quantity: Quantity, field: string, value: any) {
 	const fieldSpec = FIELD_MAP[field.toLowerCase()]
 	if (!fieldSpec) return
 
@@ -337,6 +338,31 @@ function traverseObject(data: any, quantity: Quantity) {
 }
 
 /**
+ * A small helper to safely extract a numeric value.
+ *
+ * @param obj The object from which the value comes.
+ * @param val The value to attempt conversion on.
+ * @returns A number extracted from val or a fallback from obj.value.
+ */
+function extractValue(obj: any, val: any): number {
+	if (typeof val === 'number') return val
+
+	// If we see a string but expect a number, try parsing it.
+	if (typeof val === 'string') {
+		const num = parseFloat(val)
+		if (!isNaN(num)) return num
+
+		// Fallback to obj.value if that’s how your data is structured.
+		if (typeof obj.value === 'number') {
+			return obj.value
+		}
+	}
+
+	// Fallback if nothing matched.
+	return 0
+}
+
+/**
  * Calculates the quantity of different units in the given ResponseObject.
  *
  * @param obj The ResponseObject containing the data to calculate the quantity from.
@@ -372,29 +398,4 @@ export function quantityFromComposite(mat: any): Quantity {
 	}
 
 	return quantity
-}
-
-/**
- * A small helper to safely extract a numeric value.
- *
- * @param obj The object from which the value comes.
- * @param val The value to attempt conversion on.
- * @returns A number extracted from val or a fallback from obj.value.
- */
-function extractValue(obj: any, val: any): number {
-	if (typeof val === 'number') return val
-
-	// If we see a string but expect a number, try parsing it.
-	if (typeof val === 'string') {
-		const num = parseFloat(val)
-		if (!isNaN(num)) return num
-
-		// Fallback to obj.value if that’s how your data is structured.
-		if (typeof obj.value === 'number') {
-			return obj.value
-		}
-	}
-
-	// Fallback if nothing matched.
-	return 0
 }

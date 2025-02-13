@@ -84,6 +84,7 @@
 			 * @param {ProjectId} project - The project ID.
 			 * @returns {string} The embedded URL for the project.
 			 */
+			// TODO: Rename this to something more descriptive.
 			getEmbeddedUrl(project: ProjectId) {
 				const settingsStore = useSettingsStore()
 				const baseUrl = settingsStore.keySettings.speckleConfig.serverUrl

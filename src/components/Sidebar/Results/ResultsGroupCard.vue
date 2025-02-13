@@ -16,6 +16,7 @@
 <script lang="ts">
 	import { defineComponent, watch, ref, computed } from 'vue'
 	import type { NestedGroup } from '@/models/filters'
+import { addEmissions, emissionToNumber, sumEmissions } from '@/utils/resultUtils';
 
 	export default defineComponent({
 		name: 'ResultsGroupCard',
@@ -41,28 +42,35 @@
       let emissionText = 'Not calculated'
 
 			const totalEmission = computed(() => {
-				const emission = inGroups.value.objects.reduce(
-					(sum, obj) => {
-            if (!obj.results) {
-              emissionText = 'Not calculated'
-              return sum
-            }
-            const lastResult = obj.results[obj.results.length - 1];
-            if (lastResult && lastResult.emission) {
-              for (const impactCategory in lastResult.emission) {
-                for (const lifeCycleStage in lastResult.emission[impactCategory]) {
-                  sum += lastResult.emission[impactCategory][lifeCycleStage]
-                }
-              }
-            }
-            return sum / obj.quantity.m2
-          },
-          0
+				// Only include objects with valid results and a valid m2 quantity
+				const validObjects = inGroups.value.objects.filter(obj =>
+					obj.results && obj.results.length && obj.quantity?.m2
 				)
-        if (emission === 0) {
+
+				if (validObjects.length === 0) {
+					emissionText = 'Not calculated'
+					return 0
+				}
+
+				// Reduce to sum up emissions and area together
+				const { emissions, totalArea } = validObjects.reduce((acc, obj) => {
+					const lastResult = obj.results[obj.results.length - 1]
+					if (lastResult?.emission) {
+						acc.emissions.push(lastResult.emission)
+					}
+					acc.totalArea += obj.quantity.m2? obj.quantity.m2 : 1
+					return acc
+				}, { emissions: [], totalArea: 0 })
+
+
+				const aggregatedEmission = sumEmissions(emissions)
+				const totalEmissionNumber = emissionToNumber(aggregatedEmission)
+				const emissionPerSQM = totalArea > 0 ? totalEmissionNumber / totalArea : 0
+
+        if (emissionPerSQM === 0) 
           emissionText = 'Error calculating emissions'
-        }
-				return parseFloat(emission.toFixed(2))
+        
+				return parseFloat(emissionPerSQM.toFixed(2))
 			})
 
 			return {

@@ -33,16 +33,6 @@ export default defineConfig({
 	},
 
 	/**
-	 * Test configuration for Vite.
-	 */
-	test: {
-    globals: true,         // Optional: allows using global test APIs (like `describe` and `it`)
-    environment: 'jsdom',  // Ensures a browser-like environment
-    // You can also specify include/exclude patterns:
-    // include: ['src/**/*.spec.{js,ts}']
-  },
-
-	/**
 	 * Build configuration for Vite.
 	 */
 	build: {
@@ -70,6 +60,14 @@ export default defineConfig({
 				changeOrigin: true,
 				rewrite: (path) => {
 					return path.replace(/^\/SpeckleLCA\/api\/eco/, ''); // Removes the entire prefix
+				},
+				secure: true,
+			},
+			'/SpeckleLCA/api/boverket': {
+				target: 'https://api.boverket.se/klimatdatabas',
+				changeOrigin: true,
+				rewrite: (path) => {
+					return path.replace(/^\/SpeckleLCA\/api\/boverket/, ''); // Removes the entire prefix
 				},
 				secure: true,
 			},
