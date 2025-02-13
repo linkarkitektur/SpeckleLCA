@@ -13,6 +13,7 @@ export enum Source {
   Organisation,
   Revalu,
   ECOPortal,
+  Boverket,
 }
 
 

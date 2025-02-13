@@ -22,7 +22,7 @@ export interface CalculationSettings {
   buildingCode: {
     key: string,
     data: BuildingCodeItem[],
-  },
+  }
 }
 
 export interface MaterialSettings {

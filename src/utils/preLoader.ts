@@ -3,6 +3,7 @@ import { useMaterialStore } from '@/stores/material'
 
 import { getAssemblyList } from '@/utils/material'
 import { getRevaluBaseList, getRevaluCollections } from '@/models/revaluDataSource'
+import { getEPDList } from './EPDUtils'
 
 /**
  * Preload data needed for the dashboard view
@@ -18,6 +19,12 @@ export async function preloadDashboardData() {
 		getAssemblyList()
 		//getRevaluBaseList()
 		getRevaluCollections()
+
+    // Get list of products
+    const productList = await getEPDList()
+    for (const product of productList) {
+      materialStore.addMaterial(product)
+    }
 
     // Add more preload calls here if needed
     console.log('Dashboard data preloaded successfully.')

@@ -8,6 +8,8 @@ import { useSettingsStore } from '@/stores/settings'
 import { Source } from '@/models/material'
 import type { RevaluData, RevaluCollection, RevaluSingleCollection } from '@/models/revaluDataSource'
 import type { Product, Emission, LifeCycleStageEmission, Assembly } from '@/models/material'
+import { BoverketData } from '@/models/boverketDataSource'
+import { extractFirstNumber, splitAndNormalizeUnit } from './stringUtils'
 
 //import { convertIlcd } from 'epdx'
 
@@ -26,6 +28,55 @@ interface EPDService {
   updatePageIndex(params: any): any
   extractEPDData(data: any): Product | null
   extractEPDList(data: any): any[]
+}
+
+/** Class for fetching generic data from Boverket */
+class BoverketService implements EPDService {
+  createApiClient(): AxiosInstance {
+    return axios.create()
+  }
+
+  createListUrl(): string {
+    return 'api/boverket/v2/get-all-resources/senaste/sv/json'
+  }
+
+  extractEPDList(data: any): any[] {
+    const products: Product[] = []
+    
+    for(const resourceId in data.Resources) {
+      products.push(extractBoverketData(data.Resources[resourceId] as BoverketData))
+    }
+    return products
+  }
+
+  // Not using parameters
+  createListParams(): any {
+    return {}
+  }
+
+  // No specific epd support
+  createEPDUrl(epd: any): string {
+    return null
+  }  
+  createEPDParams() {
+    return null
+  }
+  extractEPDData(data: any): Product | null {
+    return null
+  }
+
+  // No collection support
+  createCollectionUrl(): string {
+    return null
+  }
+  createCollectionDetailsUrl(collectionId: string): string {
+    return null
+  }
+
+  // No traversing needed
+  updatePageIndex(params: any) {
+    return null
+  }
 }
 
 /**
@@ -161,6 +212,50 @@ class RevaluService implements EPDService {
   }
 }
 
+const extractBoverketData = (data: BoverketData) => {
+  // We take the first, maybe we have more in the future then we can make it smarter
+  // For now there is always only one
+  let conversion
+  // Some dont have conversions so we just put it as kg as is
+  if (!data.Conversions || data.Conversions.length === 0)
+    conversion = { Unit: "kg", Value: 1 }
+  else
+    conversion = data.Conversions[0]
+
+  const convertedUnit = splitAndNormalizeUnit(conversion.Unit)
+
+  const getEmissionValue = (code: string) => {
+    return (data.DataItems[0].DataValueItems
+      .find((item) => item.DataModuleCode.includes(code))
+      ?.Value ?? 0) * conversion.Value
+  }
+  const gwpEmissions: LifeCycleStageEmission = {} as LifeCycleStageEmission
+  gwpEmissions.a1a3 = getEmissionValue("A1-A3 Typical")
+  gwpEmissions.a4 = getEmissionValue("A4")
+  gwpEmissions.a5 = getEmissionValue("A5")
+
+  const productEmission: Emission = {
+    gwp: gwpEmissions,
+  }
+  
+  const product: Product = {
+    id: data.ResourceId.toString(),
+    name: data.Name,
+    description: data.TechnologicalApplicability,
+    referenceServiceLife: extractFirstNumber(data.RefServiceLifeNormal),
+    impactData: null,
+    quantity: 1,
+    unit: convertedUnit.denominator,
+    transport: null,
+    results: null,
+    emission: productEmission,
+    source: Source.Boverket,
+    metaData: { materialType: data.Categories[0].Text }
+  }
+
+  return product
+}
+
 /**
  * Extract ILCD data from the response
  * TODO: Implement lcaX conversion already made
@@ -286,6 +381,8 @@ function getEPDService(): EPDService {
       return new EcoPortalService()
     case Source.Revalu:
       return new RevaluService()
+    case Source.Boverket:
+      return new BoverketService()
     default:
       throw new Error('Unsupported EPD source')
   }
@@ -349,10 +446,15 @@ export async function getSpecificEPD(epd: any): Promise<Product | null> {
   const params = epdService.createEPDParams()
 
   try {
-    const response = await apiClient.get(url, { params })
-    const data = response.data
+    // If we have a URL run it otherwise just return the data since we probably have the correct version already
+    if (url !== null) {
+      const response = await apiClient.get(url, { params })
+      const data = response.data
 
-    return epdService.extractEPDData(data)
+      return epdService.extractEPDData(data)
+    } else {
+      return epd
+    }
   } catch (error) {
     console.error(`Error fetching EPD ${epd.uuid}:`, error)
     return null
