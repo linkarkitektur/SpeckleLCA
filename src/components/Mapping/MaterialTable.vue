@@ -27,6 +27,7 @@
           class="text-xs whitespace-no-wrap w-full flex hover:bg-gray-200"
           :data-item="JSON.stringify(element)"
           @dragstart="dragStart($event, element)"
+          @dragend="dragEnd($event)"
         >
           <td class="m-2 w-1/10">
             <component 
@@ -113,6 +114,10 @@ export default defineComponent({
       materialStore.setCurrentMapping(material)
     }
 
+    const dragEnd = (event: DragEvent) => {
+      materialStore.setCurrentMapping(null)
+    }
+
     const cloneItem = (item: Product) => {
       return { ...item }
     }
@@ -122,6 +127,7 @@ export default defineComponent({
       dragOptions,
       roundedEmissions,
       dragStart,
+      dragEnd,
       cloneItem,
       isAssembly
     }
