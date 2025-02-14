@@ -1,4 +1,4 @@
-import { Source } from '@/models/material'
+import { APISource } from '@/models/material'
 
 import type { GeometryObject } from '@/models/geometryObject'
 import type { Group } from '@/models/filters'
@@ -22,7 +22,7 @@ export const mockObjects: Record<string, GeometryObject> = {
       results: {},
       metaData: null,
       type: 'product',
-      source: Source.ECOPortal,
+      source: APISource.ECOPortal,
       emission: {
         gwp: {
           a1a3: 100,
@@ -87,7 +87,7 @@ export const mockObjects: Record<string, GeometryObject> = {
           results: {},
           metaData: null,
           type: 'product',
-          source: Source.ECOPortal,
+          source: APISource.ECOPortal,
           emission: {
             gwp_total: {
               a1a3: 200,

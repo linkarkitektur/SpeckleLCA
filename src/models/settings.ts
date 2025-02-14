@@ -3,7 +3,7 @@ import type { ExtendedImpactCategoryKey } from '@/models/material'
 import type { BuildingCodeItem } from '@/models/buildingCode'
 import type { MaterialFilterParam, MaterialSortingParam } from '@/models/material'
 
-import { Source } from '@/models/material'
+import { APISource } from '@/models/material'
 import { BSAB96 } from '@/models/buildingCode'
 
 /**
@@ -25,8 +25,13 @@ export interface CalculationSettings {
   }
 }
 
+/**
+ * Settings for material loading and filtering
+ */
 export interface MaterialSettings {
-  Source: Source
+  APISource: {
+    [key in APISource]: boolean
+  }
   includeCollections: boolean
   globalAssemblies: boolean
   filterParams: MaterialFilterParam[]
@@ -135,7 +140,13 @@ export const standardCalculationSettings: CalculationSettings = {
 }
 
 export const standardMaterialSettings: MaterialSettings = {
-  Source: Source.Revalu,
+  APISource: {
+    [APISource.Revalu]: true,
+    [APISource.Boverket]: true,
+    [APISource.ECOPortal]: false,
+    [APISource.LCAbyg]: true,
+    [APISource.Organisation]: false,
+  },
   includeCollections: true,
   globalAssemblies: false,
   filterParams: [

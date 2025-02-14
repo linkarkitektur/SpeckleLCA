@@ -7,11 +7,11 @@
       <div class="pt-6 sm:flex">
         <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Data source</dt>
         <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-          <Dropdown
-            :items="materialSources"
-            name="codes"
-            :dropdownName="Source[selectedSource]"
-            @selectedItem="handleSelectedItem"
+          <DropdownMulti
+            filterName="Data Sources"
+            displayName="Data Sources"
+            :options="sourceOptions"
+            @update:options="(options) => updateSourceOptions(options)"
           />
           <UpdateButton @click="updateMaterial" />
         </dd>
@@ -74,16 +74,20 @@ import { useSettingsStore } from '@/stores/settings'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 import type { DropdownOption } from '@/models/pageLogic'
 
-import { Source } from '@/models/material'
+import { APISource } from '@/models/material'
 import Dropdown from '../Dropdown.vue'
 import UpdateButton from './UpdateButton.vue'
 import DropdownMulti from '../DropdownMulti.vue'
 
+interface Option {
+  label: string
+  value: string
+  selected: boolean
+}
 
 export default defineComponent({
   name: 'SettingsMaterial',
   components: {
-    Dropdown,
     DropdownMulti,
     UpdateButton
   },
@@ -94,14 +98,26 @@ export default defineComponent({
 
     // Add sources for dropdown 
     const materialSources: dropdownItem[] = []
-    for (const source in Source) {
+    for (const source in APISource) {
       if (isNaN(Number(source))) 
         materialSources.push({ name: source })
     }
     
-    const selectedSource = ref(settingsStore.materialSettings.Source)
+    const selectedSources = ref(settingsStore.materialSettings.APISource)
     const selectedFilters = ref(settingsStore.materialSettings.filterParams)
     const selectedSortings = ref(settingsStore.materialSettings.sortingParams)
+
+    const sourceOptions = Object.entries(APISource)
+      .filter(([key]) => isNaN(Number(key)))
+      .map(([key, value]): Option => {
+        return {
+          value: key, // Use enum key as value
+          label: key, // Use enum key as label
+          selected: selectedSources.value[value] // Use enum value to check selection
+        }
+      })
+
+
 
     const filterOptions = filterParams.map((param) => {
       return {
@@ -118,10 +134,6 @@ export default defineComponent({
         selected: param.selected
       }
     })
-
-    const handleSelectedItem = (selectedItem: dropdownItem) => {
-      selectedSource.value = Source[selectedItem.name as keyof typeof Source]
-    }
 
     // Update filter options when DropdownMulti emits 'update:options'
     const updateFilterOptions = (options: DropdownOption[]) => {
@@ -142,23 +154,32 @@ export default defineComponent({
       })
     }
 
+    const updateSourceOptions = (options: Option[]) => {
+      const updatedSources = { ...selectedSources.value }
+      options.forEach(option => {
+        updatedSources[APISource[option.value as keyof typeof APISource]] = option.selected
+      })
+      selectedSources.value = updatedSources
+      settingsStore.materialSettings.APISource = updatedSources
+    }
+
     const updateMaterial = () => {
       settingsStore.updateEPDSource(selectedSource.value)
     }
 
   return { 
     materialSources,
-    selectedSource,
-    Source,
+    selectedSources,
     settingsStore,
     filterParams,
+    sourceOptions,
     filterOptions,
     sortingOptions,
     sortingParams,
-    handleSelectedItem,
     updateMaterial,
     updateFilterOptions,
-    updateSortingOptions
+    updateSortingOptions,
+    updateSourceOptions
     }
   },
 })

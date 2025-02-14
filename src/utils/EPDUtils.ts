@@ -5,7 +5,7 @@ import { delay } from '@/utils/math'
 
 import { useSettingsStore } from '@/stores/settings'
 
-import { Source } from '@/models/material'
+import { APISource } from '@/models/material'
 import type { RevaluData, RevaluCollection, RevaluSingleCollection } from '@/models/revaluDataSource'
 import type { Product, Emission, LifeCycleStageEmission, Assembly } from '@/models/material'
 import { BoverketData } from '@/models/boverketDataSource'
@@ -249,7 +249,7 @@ const extractBoverketData = (data: BoverketData) => {
     transport: null,
     results: null,
     emission: productEmission,
-    source: Source.Boverket,
+    source: APISource.Boverket,
     metaData: { materialType: data.Categories[0].Text }
   }
 
@@ -330,7 +330,7 @@ const extractILCDData = (data: any) => {
     results: null,
     metaData,
     emission,
-    source: Source.ECOPortal,
+    source: APISource.ECOPortal,
   }
   return product
 }
@@ -363,102 +363,123 @@ const extractRevaluData = (response: { body: RevaluData }, collection: string = 
     transport: null,
     results: null,
     emission,
-    source: Source.Revalu,
+    source: APISource.Revalu,
     metaData: { Collection: collection },
   }
   return product
 }
 
 /**
- * Checks projectstore and gets the relevant EPD service
- * @returns 
+ * Get EPD services based on enabled sources in settings.
  */
-function getEPDService(): EPDService {
+function getEPDServices(): EPDService[] {
   const settingsStore = useSettingsStore()
+  const services: EPDService[] = []
 
-  switch (settingsStore.materialSettings.Source) {
-    case Source.ECOPortal:
-      return new EcoPortalService()
-    case Source.Revalu:
-      return new RevaluService()
-    case Source.Boverket:
-      return new BoverketService()
-    default:
-      throw new Error('Unsupported EPD source')
+  Object.entries(settingsStore.materialSettings.APISource).forEach(([key, isEnabled]) => {
+    if (!isEnabled) return
+
+    const sourceIndex = Number(key)
+    switch (sourceIndex) {
+      case APISource.ECOPortal:
+        services.push(new EcoPortalService())
+        break
+      case APISource.Revalu:
+        services.push(new RevaluService())
+        break
+      case APISource.Boverket:
+        services.push(new BoverketService())
+        break
+      // Note: LCAbyg and Organisation services not implemented yet
+    }
+  })
+
+  if (services.length === 0) {
+    throw new Error('No EPD sources enabled in settings')
   }
+
+  return services
 }
 
 /**
- * Get all EPDs from chosen API
- * Acording to parameters, check API documentation for more information
- * @param parameters Key value pairs for the API call
- * @returns List of products with emission data
+ * Get EPDs from all enabled API sources.
  */
 export async function getEPDList(parameters: { [key: string]: string | string[] } = {}): Promise<Product[]> {
-  const epdService = getEPDService()
-  const EPDList: Product[] = []
-  const apiClient = epdService.createApiClient()
-  const baseUrl = epdService.createListUrl()
-  let params = epdService.createListParams()
+  const epdServices = getEPDServices()
+  const allEPDs: Product[] = []
 
-  params = { ...params, ...parameters }
+  // For each enabled service, fetch up to MAX_EPD_COUNT items
+  const results = await Promise.allSettled(
+    epdServices.map(async (service) => {
+      const EPDList: Product[] = []
+      const apiClient = service.createApiClient()
+      const baseUrl = service.createListUrl()
+      let params = { ...service.createListParams(), ...parameters }
 
-  await delay(1000)
+      await delay(1000)
 
-  while (EPDList.length < MAX_EPD_COUNT) {
-    try {
-      const response = await apiClient.get(baseUrl, { params })
-      const data = response.data
+      while (EPDList.length < MAX_EPD_COUNT) {
+        try {
+          const response = await apiClient.get(baseUrl, { params })
+          const epdListData = service.extractEPDList(response.data)
 
-      const epdListData = epdService.extractEPDList(data)
+          if (!epdListData || epdListData.length === 0) break
 
-      if (!epdListData || epdListData.length === 0) {
-        console.log('No more data to fetch')
-        break
-      }
+          for (const epd of epdListData) {
+            // Use the updated getSpecificEPD which now tries all services
+            const product = await getSpecificEPD(epd, service)
+            if (product) {
+              EPDList.push(product)
+            }
+          }
 
-      for (const epd of epdListData) {
-        const product = await getSpecificEPD(epd)
-        if (product) {
-          EPDList.push(product)
+          params = service.updatePageIndex(params)
+        } catch (error) {
+          console.error(`Error fetching EPDs from ${service.constructor.name}:`, error)
+          break
         }
       }
 
-      params = epdService.updatePageIndex(params)
-    } catch (error) {
-      console.error('Error fetching EPD list:', error)
-      break
-    }
-  }
+      return EPDList
+    })
+  )
 
-  return EPDList
+  // Merge results from all services
+  results.forEach((result) => {
+    if (result.status === 'fulfilled') {
+      allEPDs.push(...result.value)
+    }
+  })
+
+  return allEPDs
 }
 
 /**
- * Fetches a specific EPD
- * @param epd The EPD data containing uuid and nodeid for ecoportal.
- * @returns A Product with EPD data or null if an error occurs.
+ * Fetches a specific EPD by trying all enabled services in order.
+ * Returns the first valid Product found or null if none succeed.
  */
-export async function getSpecificEPD(epd: any): Promise<Product | null> {
-  const epdService = getEPDService()
-  const apiClient = epdService.createApiClient()
-  const url = epdService.createEPDUrl(epd)
-  const params = epdService.createEPDParams()
+export async function getSpecificEPD(epd: any, service: EPDService = new RevaluService()): Promise<Product | null> {
+  const apiClient = service.createApiClient()
+  const url = service.createEPDUrl(epd)
+  const params = service.createEPDParams()
 
   try {
-    // If we have a URL run it otherwise just return the data since we probably have the correct version already
+    // If a URL is provided, attempt to fetch the EPD details.
     if (url !== null) {
       const response = await apiClient.get(url, { params })
       const data = response.data
-
-      return epdService.extractEPDData(data)
+      const product = service.extractEPDData(data)
+      if (product) return product
     } else {
+      // If no URL is provided for this service, assume the provided epd is valid.
       return epd
     }
   } catch (error) {
-    console.error(`Error fetching EPD ${epd.uuid}:`, error)
-    return null
+    console.error(`Error fetching EPD ${epd.uuid} from ${service.constructor.name}:`, error)
+    // Continue to try the next service.
   }
+
+  return null
 }
 
 export function isAssembly(val: any): val is Assembly {
@@ -466,34 +487,39 @@ export function isAssembly(val: any): val is Assembly {
 }
 
 /**
- * Gets all collections from Revalu, and fetches all EPDs from them
- * Only available for Revalu for now, not sure if ECOportal has collections
- * @returns Products from collections converted to EPDx format
+ * Gets all collections from services that support collections.
+ * Only services with a non-null createCollectionUrl() are used.
  */
 export async function getCollection(): Promise<Product[]> {
-  const epdService = getEPDService()
-  const apiClient = epdService.createApiClient()
-  const url = epdService.createCollectionUrl()
+  const services = getEPDServices()
+  const allCollections: Product[] = []
 
-  try {
-    const collectionEpds: Product[] = []
-    const response = await apiClient.get(url)
-    const data = response.data.body.data as RevaluCollection[]
+  for (const service of services) {
+    const collectionUrl = service.createCollectionUrl()
+    // Skip services that do not support collections.
+    if (!collectionUrl) continue
 
-    for (const collection of data) {
-      const collectionDetailsUrl = epdService.createCollectionDetailsUrl(collection.collection_id)
-      const collectionResponse = await apiClient.get(collectionDetailsUrl)
+    const apiClient = service.createApiClient()
 
-      const collectionData = collectionResponse.data.body as RevaluSingleCollection
+    try {
+      const response = await apiClient.get(collectionUrl)
+      const collections = response.data.body.data as RevaluCollection[]
 
-      for (const product of collectionData.materials) {
-        collectionEpds.push(extractRevaluData({ body: product }, collection.collection_name))
+      for (const collection of collections) {
+        const detailsUrl = service.createCollectionDetailsUrl(collection.collection_id)
+        const detailsResponse = await apiClient.get(detailsUrl)
+        const collectionData = detailsResponse.data.body as RevaluSingleCollection
+
+        for (const productData of collectionData.materials) {
+          const product =
+            extractRevaluData({ body: productData }, collection.collection_name)
+          if (product) allCollections.push(product)
+        }
       }
+    } catch (error) {
+      console.error(`Error fetching Collections from ${service.constructor.name}:`, error)
     }
-    
-    return collectionEpds
-  } catch (error) {
-    console.error(`Error fetching Collections:`, error)
-    return null
   }
+  
+  return allCollections
 }
