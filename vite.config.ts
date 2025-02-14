@@ -33,25 +33,6 @@ export default defineConfig({
 	},
 
 	/**
-	 * Test configuration for Vite.
-	 */
-	test: {
-		/**
-		 * Enable jest-like global test APIs.
-		 */
-		globals: true,
-		/**
-		 * Simulate DOM with happy-dom.
-		 * (requires installing happy-dom as a peer dependency)
-		 */
-		environment: 'happy-dom',
-		/**
-		 * Setup files for tests.
-		 */
-		setupFiles: ['/src/tests/setup/globalSetup.ts']
-	},
-
-	/**
 	 * Build configuration for Vite.
 	 */
 	build: {
@@ -79,6 +60,14 @@ export default defineConfig({
 				changeOrigin: true,
 				rewrite: (path) => {
 					return path.replace(/^\/SpeckleLCA\/api\/eco/, ''); // Removes the entire prefix
+				},
+				secure: true,
+			},
+			'/SpeckleLCA/api/boverket': {
+				target: 'https://api.boverket.se/klimatdatabas',
+				changeOrigin: true,
+				rewrite: (path) => {
+					return path.replace(/^\/SpeckleLCA\/api\/boverket/, ''); // Removes the entire prefix
 				},
 				secure: true,
 			},

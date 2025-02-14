@@ -102,6 +102,15 @@ export class FilterRegistry {
 	getFilterNames(): string[] {
 		return Object.keys(this.filters)
 	}
+
+	/**
+	 * Check if filter exists in registry
+	 * @param name name of filter
+	 * @returns boolean if filter exists
+	 */
+	hasFilter(name: string): boolean {
+		return Object.hasOwn(this.filters, name)
+	}
 }
 
 /**

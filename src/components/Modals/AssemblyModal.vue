@@ -75,7 +75,7 @@
                       > NEW ASSEMBLY </button>
                       <SearchBar
                         :data="assemblyData"
-                        :filterParam="assemblyFilterParams"
+                        :filterParam="filterParameters"
                         :sortingParam="sortingParameters"
                         @update:data="handleFilteredAssemblyData"
                       />
@@ -130,7 +130,7 @@
                     </button>
                   </div>
                   <AssemblyViewer
-                    :materials="materials"
+                    :materials="assemblyMaterials"
                     @update:materials="updateMaterials"
                   />
                 </div>
@@ -153,8 +153,8 @@
                   >
                     <div class="relative mt-1 flex-1 px-4 sm:px-6">
                       <SearchBar
-                        :data="productData"
-                        :filterParam="productFilterParams"
+                        :data="combinedMaterials"
+                        :filterParam="filterParameters"
                         :sortingParam="sortingParameters"
                         @update:data="handleFilteredData"
                       />
@@ -174,7 +174,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref, watch, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import {
   Dialog,
@@ -193,6 +193,7 @@ import { useNavigationStore } from '@/stores/navigation'
 import { useMaterialStore } from '@/stores/material'
 import { useFirebaseStore } from '@/stores/firebase'
 import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settings'
 
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
 import AssemblyTable from '@/components/Mapping/AssemblyTable.vue'
@@ -234,8 +235,17 @@ export default defineComponent({
     const materialStore = useMaterialStore()
     const firebaseStore = useFirebaseStore()
     const projectStore = useProjectStore()
+    const settingsStore = useSettingsStore()
+
     const { assemblyModalOpen, assemblyTableShow } = storeToRefs(navStore)
     const { currentAssemby } = storeToRefs(materialStore)
+
+    const materials = storeToRefs(materialStore).materials
+    const assemblies = storeToRefs(materialStore).assemblies
+    const combinedMaterials = computed(() => [
+      ...materials.value,
+      ...assemblies.value,
+    ])
 
     const assemblyName = ref('')
     const assemblyDescription = ref('')
@@ -243,53 +253,19 @@ export default defineComponent({
     const materialType = ref('')
     const assemblyId = ref(crypto.randomUUID().toString())
     const codes = BSAB96
-
-    //const filteredProducts = ref<Product[] | Assembly[]>([])
     
-    const productFilterParams = [
-      {
-        paramName: 'metaData.materialType',
-        displayName: 'Material Type',
-      },
-      {
-        paramName: 'unit',
-        displayName: 'Unit',
-      },
-    ]
-    const assemblyFilterParams = [
-      {
-        paramName: 'category',
-        displayName: 'Category',
-      },
-      {
-        paramName: 'metaData.materialType',
-        displayName: 'Material Type',
-      },
-    ]
-
-    const sortingParameters = [
-      {
-        filterName: 'name',
-        displayName: 'Name',
-      },
-      {
-        filterName: 'unit',
-        displayName: 'Unit',
-      },
-      {
-        filterName: 'emission.gwp.a1a3',
-        displayName: 'Emission',
-      },
-    ]
-
+    const filterParameters = settingsStore.materialSettings.filterParams
+    const sortingParameters = settingsStore.materialSettings.sortingParams
+    
     const filteredProducts = ref<Product[]>([])
     const filteredAssemblies = ref<Assembly[]>([])
     const productData = materialStore.materials
     const { assemblies: assemblyData } = storeToRefs(materialStore)
 
     // This is the assembly we are constructing
-    const materials = ref<Product[]>([])
+    const assemblyMaterials = ref<Product[]>([])
 
+    // TODO: Make a static list of categories as a type
     const categories = ref({
       materialTypes: [
         { label: 'Wood', value: 'wood', selected: false },
@@ -326,7 +302,7 @@ export default defineComponent({
     }
 
     const updateMaterials = (newMaterials: Product[]) => {
-      materials.value = newMaterials
+      assemblyMaterials.value = newMaterials
     }
 
     const newAssembly = () => {
@@ -335,18 +311,18 @@ export default defineComponent({
       assemblyDescription.value = ''
       category.value = ''
       materialType.value = ''
-      materials.value = []
+      assemblyMaterials.value = []
 
       navStore.toggleAssemblyTable()
     }
 
     const saveAssembly = () => {
-      const products: Record<string, Product> = materials.value.reduce((acc, product) => {
+      const products: Record<string, Product> = assemblyMaterials.value.reduce((acc, product) => {
         acc[product.metaData.appId] = product
         return acc
       }, {})
 
-      const tempGeos: GeometryObject[] = materials.value.map(product =>
+      const tempGeos: GeometryObject[] = assemblyMaterials.value.map(product =>
         createGeometryFromProduct(product)
       )
 
@@ -389,7 +365,7 @@ export default defineComponent({
       category.value = assembly.category
       materialType.value = assembly.metaData.materialType
 
-      materials.value = Object.values(assembly.products)
+      assemblyMaterials.value = Object.values(assembly.products)
       
       navStore.toggleAssemblyTable()
     }
@@ -398,24 +374,23 @@ export default defineComponent({
       if (newVal) {
         handleLoadAssembly(newVal)
       }
-    },
-    { deep: true })
+    })
 
     return {
       assemblyModalOpen,
       assemblyTableShow,
       assemblyName,
       assemblyDescription,
-      productFilterParams,
-      assemblyFilterParams,
+      filterParameters,
       sortingParameters,
       filteredProducts,
       filteredAssemblies,
       categories,
       codes,
-      materials,
+      assemblyMaterials,
       productData,
       assemblyData,
+      combinedMaterials,
       closeModal,
       toggleAssemblyTable,
       updateFilterOptions,

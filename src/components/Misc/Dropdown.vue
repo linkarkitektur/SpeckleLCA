@@ -1,5 +1,5 @@
 <template>
-  <div class="relative inline-block text-left w-min">
+  <div class="relative inline-block text-left min-w-52">
     <div class="max-w-xs">
       <button
         @click="toggleDropdown"

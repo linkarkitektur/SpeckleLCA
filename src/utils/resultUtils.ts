@@ -400,7 +400,7 @@ export class ResultCalculator {
       }
       for (const phase in emission[impactCategory]) {
         if (!this.totalEmission[impactCategory][phase]) {
-          this.totalEmission[impactCategory][phase] = { amount: 0 }
+          this.totalEmission[impactCategory][phase] = 0
         }
         const emissionAmount = emission[impactCategory][phase] || 0
         const currentTotal = this.totalEmission[impactCategory][phase] || 0

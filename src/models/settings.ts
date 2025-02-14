@@ -1,6 +1,9 @@
 import type { LifeCycleStage } from "lcax"
 import type { ExtendedImpactCategoryKey } from '@/models/material'
 import type { BuildingCodeItem } from '@/models/buildingCode'
+import type { MaterialFilterParam, MaterialSortingParam } from '@/models/material'
+
+import { APISource } from '@/models/material'
 import { BSAB96 } from '@/models/buildingCode'
 
 /**
@@ -19,23 +22,25 @@ export interface CalculationSettings {
   buildingCode: {
     key: string,
     data: BuildingCodeItem[],
-  },
+  }
 }
 
+/**
+ * Settings for material loading and filtering
+ */
 export interface MaterialSettings {
-  epdSource: EPDSource
+  APISource: {
+    [key in APISource]: boolean
+  }
+  includeCollections: boolean
+  globalAssemblies: boolean
+  filterParams: MaterialFilterParam[]
+  sortingParams: MaterialSortingParam[]
 }
 
 export interface AppSettings {
   colorscheme: string
   area: number
-}
-
-export enum EPDSource {
-  EcoPortal,
-  Revalu,
-  LCAByg,
-  Other
 }
 
 export interface SettingView {
@@ -135,5 +140,52 @@ export const standardCalculationSettings: CalculationSettings = {
 }
 
 export const standardMaterialSettings: MaterialSettings = {
-  epdSource: EPDSource.Revalu
+  APISource: {
+    [APISource.Revalu]: true,
+    [APISource.Boverket]: true,
+    [APISource.ECOPortal]: false,
+    [APISource.LCAbyg]: true,
+    [APISource.Organisation]: false,
+  },
+  includeCollections: true,
+  globalAssemblies: false,
+  filterParams: [
+    {
+      paramName: 'metaData.Collection',
+      displayName: 'Revalu Collection',
+      selected: true
+    },
+    {
+      paramName: 'source',
+      displayName: 'Source',
+      selected: true
+    },
+    {
+      paramName: 'metaData.materialType',
+      displayName: 'Material Type',
+      selected: true
+    },
+    {
+      paramName: 'isAssembly',
+      displayName: 'Assembly',
+      selected: true
+    },
+  ],
+  sortingParams: [
+    {
+      filterName: 'name',
+      displayName: 'Name',
+      selected: true
+    },
+    {
+      filterName: 'unit',
+      displayName: 'Unit',
+      selected: true
+    },
+    {
+      filterName: 'emission.gwp.a1a3',
+      displayName: 'Emission',
+      selected: true
+    },
+  ]
 }

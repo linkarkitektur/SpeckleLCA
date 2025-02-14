@@ -41,14 +41,22 @@
 				<template #item="{ element, index }">
 					<div class="rounded-2xl bg-gray-200 mb-4 p-4 hover:cursor-move">
 						<div class="relative">
-							<button
-								v-if="index != editFilter"
-								aria-label="Edit filter"
-								class="absolute right-0 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
-								@click="toggleFilter(index)"
-							>
-								<PencilSquareIcon class="ml-2 h-5 w-5" />
-							</button>
+							<div v-if="index != editFilter">
+								<button
+									aria-label="Edit filter"
+									class="absolute right-0 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
+									@click="toggleFilter(index)"
+								>
+									<PencilSquareIcon class="ml-2 h-5 w-5" />
+								</button>
+								<button
+									aria-label="Remove filter"
+									class="absolute right-0 top-10 focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
+									@click="removeFilter(index)"
+								>
+									<MinusCircleIcon class="h-6 w-6" />
+								</button>
+							</div>
 							<button
 								v-else
 								aria-label="Edit filter"

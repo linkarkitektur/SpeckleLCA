@@ -6,7 +6,7 @@
 import type { Project } from '@/models/project'
 import type { ResponseObject, ResponseObjectStream } from '@/models/speckle'
 import type { GeometryObject, Quantity } from '@/models/geometryObject'
-import type { MetricUnits } from '@/models/material'
+import type { QuantityConversionSpec } from '@/models/material'
 
 import { selectedObjectsQuery } from '@/graphql/speckleQueries'
 import { speckleSelection } from '@/graphql/speckleVariables'
@@ -196,9 +196,18 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 
 	const objects: ResponseObject[] = input.data.stream.object.elements.objects
 
-	const modelObjects = objects.filter(
-		(obj) => obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk'
-	)
+	const materialObjects = objects
+		.filter((obj) => obj.data.speckle_type.includes('Objects.Other.Material') 
+			&& obj.data.speckle_type !== 'Objects.Other.MaterialQuantity')
+
+	// Filter out some common support objects which we never want to filter expand this list if needed
+	const modelObjects = objects
+	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk')
+	.filter((obj) => obj.data.speckle_type !== 'Objects.Geometry.Mesh')
+	.filter((obj) => obj.data.speckle_type !== 'Base')
+	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.Collection')
+	.filter((obj) => !obj.data.speckle_type.includes('Objects.Other.Material'))
+
 	const projectDetails = speckleStore.getProjectDetails
 	const version = speckleStore.getSelectedVersion
 
@@ -206,19 +215,42 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 		const geoObjects: GeometryObject[] = []
 
 		modelObjects.forEach((el) => {
-			const quantity = calculateQuantity(el)
+			let quantity: Quantity
+			// If this is a composite we split it into its parts and create new objects from them
+			if (el.data.materialQuantities) {
+				el.data.materialQuantities.forEach((mat) => {
+					quantity = quantityFromComposite(mat)
+					const name: string = el.data.name ? el.data.name : el.data.speckle_type
 
-			const name: string = el.data.name ? el.data.name : el.data.speckle_type
+					const matName = materialObjects.find((obj) => obj.id === mat.material.referencedId)?.data.name
 
-			const obj: GeometryObject = {
-				id: el.id,
-				name: name,
-				quantity: quantity,
-				parameters: el.data,
-				URI: el.id
+					const parameters = { ...el.data }
+					parameters.buildingMaterialName = matName
+
+					const obj: GeometryObject = {
+						id: el.id,
+						name: name,
+						quantity: quantity,
+						parameters: parameters,
+						URI: el.id
+					}
+
+					geoObjects.push(obj)
+				})
+			} else {
+				quantity = calculateQuantity(el)
+				const name: string = el.data.name ? el.data.name : el.data.speckle_type
+
+				const obj: GeometryObject = {
+					id: el.id,
+					name: name,
+					quantity: quantity,
+					parameters: el.data,
+					URI: el.id
+				}
+	
+				geoObjects.push(obj)
 			}
-
-			geoObjects.push(obj)
 		})
 
 		const project: Project = {
@@ -232,6 +264,104 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 	return null
 }
 
+/** 
+ * Field map for the different units we care about.
+ * TODO: Move this to model and make a type of it
+ */
+const FIELD_MAP: Record<string, QuantityConversionSpec> = {
+	area: { metric: 'm2', mmConversion: 1_000_000 },
+	volume: { metric: 'm3', mmConversion: 1_000_000_000 },
+	length: { metric: 'm', mmConversion: 1_000 },
+}
+
+/**
+ * Updates the provided quantity object for a given field.
+ *
+ * @param obj The current object containing the value and possibly a units property.
+ * @param quantity The quantity object to update.
+ * @param field The field name (or its value) indicating what is being measured.
+ * @param value The raw value to convert and assign.
+ */
+function updateQuantityForField(obj: any, quantity: Quantity, field: string, value: any) {
+	const fieldSpec = FIELD_MAP[field.toLowerCase()]
+	if (!fieldSpec) return
+
+	let numericValue = extractValue(obj, value)
+	if (obj.units === 'mm') {
+		numericValue = numericValue / fieldSpec.mmConversion
+	}
+	quantity[fieldSpec.metric] = numericValue
+}
+
+/**
+ * Processes a single key-value entry in an object.
+ *
+ * It checks:
+ * 1. If the key itself matches a field name we care about.
+ * 2. If the value (when it is a string) matches a field name.
+ *
+ * @param obj The object containing the entry.
+ * @param key The key from the entry.
+ * @param value The value from the entry.
+ * @param quantity The quantity object to update.
+ */
+function processEntry(obj: any, key: string, value: any, quantity: Quantity) {
+	// 1) Check if the key is something we care about.
+	if (FIELD_MAP[key.toLowerCase()]) {
+		updateQuantityForField(obj, quantity, key, value)
+	}
+
+	// 2) Check if the value (when it's a string) is a field we care about.
+	if (typeof value === 'string' && FIELD_MAP[value.toLowerCase()]) {
+		// Here, we assume the numeric value is stored in obj.value.
+		updateQuantityForField(obj, quantity, value, obj.value)
+	}
+}
+
+/**
+ * Recursively traverses an object to process all entries for quantity calculation.
+ *
+ * @param data The object (or sub-object) to traverse.
+ * @param quantity The quantity object to update.
+ */
+function traverseObject(data: any, quantity: Quantity) {
+	if (!data || typeof data !== 'object') return
+
+	for (const [key, value] of Object.entries(data)) {
+		// If the value is an object, traverse it recursively.
+		if (value && typeof value === 'object') {
+			traverseObject(value, quantity)
+		} else {
+			processEntry(data, key, value, quantity)
+		}
+	}
+}
+
+/**
+ * A small helper to safely extract a numeric value.
+ *
+ * @param obj The object from which the value comes.
+ * @param val The value to attempt conversion on.
+ * @returns A number extracted from val or a fallback from obj.value.
+ */
+function extractValue(obj: any, val: any): number {
+	if (typeof val === 'number') return val
+
+	// If we see a string but expect a number, try parsing it.
+	if (typeof val === 'string') {
+		const num = parseFloat(val)
+		if (!isNaN(num)) return num
+
+		// Fallback to obj.value if that’s how your data is structured.
+		if (typeof obj.value === 'number') {
+			return obj.value
+		}
+	}
+
+	// Fallback if nothing matched.
+	return 0
+}
+
 /**
  * Calculates the quantity of different units in the given ResponseObject.
  *
@@ -243,70 +373,29 @@ export function calculateQuantity(obj: ResponseObject) {
 		m2: 0,
 	}
 
-	// Initial parameters we search for, can be added upon should maybe be moved from here to a model file instead
-	// TODO create a populated interface for this
-	const searchObject = [
-		{
-			searchValue: 'area',
-			metric: 'm2',
-			mmConversion: 1000000
-		},
-		{
-			searchValue: 'volume',
-			metric: 'm3',
-			mmConversion: 1000000000
-		},
-		{
-			searchValue: 'length',
-			metric: 'm',
-			mmConversion: 1000
-		}
-	]
+	// If no data, return the empty quantity.
+	if (!obj.data) return quantity
 
-	// Recursive search for key values in object properties
-	const searchNested = (
-		data: { [key: string]: any },
-		sObj: { searchValue: string; metric: string; mmConversion: number }
-	) => {
-		for (const key in data) {
-			if (Object.prototype.hasOwnProperty.call(data, key)) {
-				if (typeof data[key] === 'object' && data[key] !== null) {
-					// If the current property is an object, recursively search
-					searchNested(data[key], sObj)
-				} else if (
-					typeof data[key] === 'string' &&
-					data[key].toLowerCase() == sObj.searchValue
-				) {
-					// If the property is a string and matches the search value, set the quantity
-					let value = data[key]
-					if (typeof value === 'string') {
-						value = data['value']
-					}
-					quantity[sObj.metric] = value
-				} else if (key == sObj.searchValue) {
-					// If the property is a string and matches the search value, set the quantity
-					let value = data[key]
+	traverseObject(obj.data, quantity)
+	return quantity
+}
 
-					if (typeof value === 'string') {
-						value = data['value']
-					}
-					//TODO Make more conversions
-					if (data['units'] == 'mm') {
-						value = value / sObj.mmConversion
-					}
-
-					quantity[sObj.metric] = value
-				}
-			}	
-		}
+/**
+ * Calculates the quantity from a composite material object.
+ *
+ * This version only processes the top-level keys (no recursion).
+ *
+ * @param mat The composite material object.
+ * @returns An object representing the quantity of different units.
+ */
+export function quantityFromComposite(mat: any): Quantity {
+	const quantity: Quantity = {
+		m2: 0,
 	}
 
-	// Start recursive search on the object
-	// TODO this should probably be optimized, could become slow on large projects or atleast add a loading bar
-	if (obj.data) {
-		searchObject.forEach((sObj) => {
-			searchNested(obj.data, sObj)
-		})
+	for (const [key, value] of Object.entries(mat)) {
+		processEntry(mat, key, value, quantity)
 	}
+
 	return quantity
 }

@@ -3,7 +3,7 @@ import { useSettingsStore } from '@/stores/settings'
 import { isAssembly } from '@/utils/EPDUtils'
 
 import type { GeometryObject } from '@/models/geometryObject'
-import type { LifeCycleStageEmission, Product, Emission } from '@/models/material'
+import type { LifeCycleStageEmission, Product, Emission, Assembly } from '@/models/material'
 import type { Results } from '@/models/result'
 
 /**
@@ -43,8 +43,7 @@ export class EmissionCalculator {
       const material = geo.material
 
       if (isAssembly(material)) {
-        const products = material.products
-        result = this.processAssembly(products, emissions, geo)
+        result = this.processAssembly(material as Assembly, emissions, geo)
       } else {
         result = this.processEPD(material as Product, emissions, geo)
       }
@@ -57,15 +56,14 @@ export class EmissionCalculator {
   }
 
   private processAssembly(
-    material: { materials?: Product[] },
+    assembly: Assembly,
     emissions: Emission,
     geo: GeometryObject
   ): boolean {
-    if (!material.materials) return false
-
-    for (const mat of material.materials) {
-      if (mat.emission) {
-        this.calculateMaterialEmissions(mat, emissions, geo)
+    const products = assembly.products
+    for (const [_, product] of Object.entries(products)) {
+      if (product.emission) {
+        this.calculateMaterialEmissions(product, emissions, geo)
       }
     }
     return true
@@ -88,18 +86,17 @@ export class EmissionCalculator {
   // Calculate the emissions of the material and add it to the emissions object
   // TODO this should calculate for all impact categories and then just show the relevant one, its other way around now.
   private calculateMaterialEmissions(
-    mat: Product,
+    product: Product,
     emissions: Emission,
     geo: GeometryObject
   ): boolean {
     const impactCategory = this.settingsStore.calculationSettings.standardImpactCategory
-    let matEmission: LifeCycleStageEmission = mat.emission[impactCategory]
-
+    let matEmission: LifeCycleStageEmission = product.emission[impactCategory]
     // Check if we have the emission for the selected impact category, if not use gwp as fallback
-    if (!mat.emission[impactCategory]) {
-      if (!mat.emission['gwp'])
+    if (!product.emission[impactCategory]) {
+      if (!product.emission['gwp'])
         return false
-      matEmission = mat.emission['gwp']
+      matEmission = product.emission['gwp']
     }
 
     // Check if we have the emission else add it as empty object
@@ -115,7 +112,7 @@ export class EmissionCalculator {
         let value = matEmission[phase]
         if (value === undefined) value = matEmission[phase]
         if (value !== null && !isNaN(Number(value))) {
-          const emissionValue = parseFloat(value as string) * geo.quantity[mat.unit]
+          const emissionValue = parseFloat(value as string) * geo.quantity[product.unit]
   
           if (!emissions[impactCategory][phase]) {
             emissions[impactCategory][phase] = 0

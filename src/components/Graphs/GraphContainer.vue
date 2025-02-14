@@ -59,7 +59,8 @@ const graphParameters = ref<dropdownItem[]>(
   }))
 )
 
-// Update the dropdown items when the result list changes
+// Update graphdropdown with new results, this is called when a new result is added
+// Needed because this is done after the ui has been loaded, so we need to update the dropdown
 const updateGraphDropdown = () => {
   graphParameters.value = resultStore.resultList.map((result) => ({
     name: result.displayName,
@@ -129,7 +130,7 @@ const updateGraphProps = (chart: string = "") => {
   if (chart === "") chart = componentName.value
   switch (chart) {
     case "SelectablePieChart": {
-      let data: ChartData[]
+      let data: ChartData[] = []
       let options: ChartOptions = {
         aggregate: true,
         unit: "kgCO2e",
@@ -175,14 +176,18 @@ const updateGraphProps = (chart: string = "") => {
   
 }
 
+// Watchers
+// Update grahp for selected objects
 watch(() => projectStore.selectedObjects, () => {
   updateGraphProps()
 })
 
+// Update graph when new results get calculated
 watch(() => resultStore.resultList, () => {
   updateGraphDropdown()
 })
 
+// Update graph when selecting a new result in dropdown
 watch(selectedResult, (newValue) => {
   if (newValue) {
     dropdownName.value = newValue.displayName
@@ -192,27 +197,8 @@ watch(selectedResult, (newValue) => {
   }
 })
 
-watch(graphParameters, (newGraphParameters) => {
-  if (newGraphParameters.length > 0) {
-    // If selectedResult is null or no longer matches an item in graphParameters, update it
-    if (
-      !selectedResult.value ||
-      !newGraphParameters.some(
-        (item) => item.name === selectedResult.value?.displayName
-      )
-    ) {
-      const parsedResult = JSON.parse(newGraphParameters[0].data) as ResultItem
-      selectedResult.value = parsedResult
-      // Update the dropdownName to reflect the new selection
-      dropdownName.value = parsedResult.displayName
-    }
-  } else {
-    // If graphParameters is empty, reset selectedResult and dropdownName
-    selectedResult.value = null
-    dropdownName.value = 'Select a result'
-  }
-})
-
+// Update graph when new result is passed as prop
+// This might not be needed, but it's here for now
 watch(() => props, () => {
   updateGraphProps()
 }), { deep : true }

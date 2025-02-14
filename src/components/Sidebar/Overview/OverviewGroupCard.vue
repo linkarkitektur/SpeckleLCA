@@ -21,13 +21,6 @@
 		setup(props) {
 			const inGroups = ref(props.groups)
 
-			watch(
-				() => props.groups,
-				(newValue) => {
-					inGroups.value = newValue
-				}
-			)
-
 			const totalArea = computed(() => {
 				const area = inGroups.value.objects.reduce(
 					(sum, obj) => sum + obj.quantity.m2,

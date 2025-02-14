@@ -38,7 +38,9 @@
   	>
       <GraphContainer />
 		</div>
-    <DetailBar />
+    <div v-if="Detailbar" id="Detailbar">
+      <DetailBar />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -59,6 +61,7 @@ import {
   TransitionChild, 
   TransitionRoot 
 } from '@headlessui/vue'
+import { debounce } from 'lodash'
 
 // Store imports
 import { useSpeckleStore } from '@/stores/speckle'
@@ -74,6 +77,14 @@ import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 
 // Type imports
 import type { SunLightConfiguration } from '@/models/speckle'
+
+// Props
+const props = withDefaults(defineProps<{
+  Detailbar?: boolean
+}>(), {
+  Detailbar: true,
+})
+
 
 // Variables and references
 let viewer: Viewer | null = null
@@ -100,17 +111,29 @@ const handleEscKey = (e: KeyboardEvent) => {
   }
 }
 
-// Resize handler for the viewer
-const handleResize = (entries: ResizeObserverEntry[]) => {
-  for (const entry of entries) {
-    const { width, height } = entry.contentRect
-    viewer?.resize()
-    if (viewer?.cameraHandler.activeCam.camera) {
-      viewer.cameraHandler.activeCam.camera.aspect = width / height
-      viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
+// Resize handler for the viewer with debounce
+const handleResize = (() => {
+  let timeout: number | null = null
+  return (entries: ResizeObserverEntry[]) => {
+    if (timeout) {
+      clearTimeout(timeout)
     }
+    timeout = window.setTimeout(() => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect
+        viewer?.resize()
+        if (viewer?.cameraHandler.activeCam.camera) {
+          viewer.cameraHandler.activeCam.camera.aspect = width / height
+          viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
+        }
+      }
+    }, 100)
   }
-}
+})()
+
+const debouncedIsolateObjects = debounce((selectedUris: string[]) => {
+  speckleStore.isolateObjects(selectedUris)
+}, 100)
 
 // Initialize and mount the viewer
 onMounted(async () => {
@@ -200,7 +223,8 @@ onBeforeUnmount(() => {
 watch(
   () => selectedObjects.value,
   () => {
-    speckleStore.isolateObjects(projectStore.getSelectedObjectsURI())
+    const selectedUris = projectStore.getSelectedObjectsURI()
+    debouncedIsolateObjects(selectedUris)
   }
 )
 // function setObjectColorsByVolume() {}

@@ -7,13 +7,11 @@ import type {
 	Filter,
 	NestedGroup
 } from '@/models/filters'
-import type { 
-	AppSettings 
-} from '@/models/settings'
 import type { Results } from '@/models/result'
 
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
+import { collectParameters } from '@/utils/dataUtils'
 
 
 /**
@@ -164,14 +162,8 @@ export const useProjectStore = defineStore({
 			if (this.currProject) {
 				const parameterSet: Set<string> = new Set()
 				this.currProject.geometry.forEach((geo) => {
-					Object.keys(geo.parameters).forEach((key) => {
-						if (
-							typeof geo.parameters[key] === 'string' ||
-							typeof geo.parameters[key] === 'number'
-						) {
-							parameterSet.add(key)
-						}
-					})
+					collectParameters(geo.parameters, parameterSet)
+
 					Object.keys(geo.quantity).forEach((key) => {
 						const quantityKey = key as keyof typeof geo.quantity
 						if (geo.quantity[quantityKey] !== 0 && geo.quantity[quantityKey] !== null) {
@@ -192,8 +184,8 @@ export const useProjectStore = defineStore({
 		 * @param geometryObject The geometry object to add.
 		 */
 		addGeometry(geometryObject: GeometryObject) {
-			this.currProject?.geometry.push(geometryObject)
-		},
+			this.currProject?.geometry.push(geometryObject)		
+		},	
 
 		/**
 		 * Removes a geometry object from the current project.

@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import * as d3 from 'd3'
-import { ref, reactive, onMounted, watch, onBeforeUnmount, type PropType } from 'vue'
+import { ref, reactive, onMounted, watch, onBeforeUnmount, type PropType, render } from 'vue'
 
 import { getValueColorFromGradient } from '@/utils/colorUtils'
 import { 
@@ -104,8 +104,7 @@ export default {
       () => {
         if (resultStore.reloadChartData)
           draw()
-      },
-      { deep: true }
+      }
     )
 
     return { 
@@ -251,6 +250,9 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
 
             resultStore.setReloadData(false)
             projectStore.setHighlightedLabel(d.data.label)
+
+            total.value = d.data.value
+            renderCenter()
             
             updateSelectedObjects(d.data.ids)
           }, 300)
@@ -285,6 +287,11 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
           }
         })
       })
+
+    // Add center text, can render different center based on options
+    const renderCenter = () => {
+      //Clear text
+      graph.selectAll('.center-text').remove()
 
       let centerElement
       switch (true) {
@@ -326,17 +333,36 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
           )
           break
       }
+    }
 
-      // Watch to see if highlightedLabel changes then change opacity of arcs
-      // TODO move this to common place with dataTable, and other graphs
-      watch(() => projectStore.highlightedLabel, (newLabel) => {
-        d3.selectAll('.arc path')
-          .transition()
-          .duration(200)
-          .style('opacity', arcData => {
-            return getTextAfterLastDot(arcData.data.label) === getTextAfterLastDot(newLabel) ? 1 : 0.1
-          })
+    renderCenter()
+
+    // Watch to see if highlightedLabel changes then change opacity of arcs
+    // TODO move this to common place with dataTable, and other graphs
+    watch(() => projectStore.highlightedLabel, (newLabel) => {
+      graph.selectAll('.arc path')
+        .transition()
+        .duration(200)
+        .style('opacity', arcData => {
+          if (getTextAfterLastDot(arcData.data.label) === getTextAfterLastDot(newLabel)) {
+            //TODO This should not be under opacity, this checks if we should recalc the center
+            total.value = arcData.data.value
+            renderCenter()
+            return 1
+          } else {
+            return 0.1
+          }
       })
+        
+    })
+
+    watch(
+      () => total.value,
+      () => {
+        renderCenter()
+      }
+    )
+
   }
   return { drawChart }
 }

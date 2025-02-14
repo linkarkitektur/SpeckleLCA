@@ -10,7 +10,7 @@
     />
     <span class="mr-2 text-xs">mm</span>
     <div
-      class="bar-content flex flex-col flex-none justify-center items-center text-white m-1 w-2/3 "
+      class="bar-content min-h-12 flex flex-col flex-none justify-center items-center text-white m-1 w-2/3 "
       :style="barStyle"
     >
       <span>{{ product.name }}</span>

@@ -7,11 +7,11 @@
     <NavbarComponent />
     <BenchmarkGrid />
     <div 
-      class="relative w-full h-[calc(100vh-4rem)] overflow-auto bg-white p-4 shadow-md rounded-md"
+      class="relative w-full h-[55vh] overflow-auto bg-white p-4 shadow-md rounded-md"
       id="renderParent"
     >
       <Suspense>
-        <SpeckleViewer />
+        <SpeckleViewer :Detailbar="false"/>
       </Suspense>
     </div>
   </div>

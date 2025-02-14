@@ -70,8 +70,7 @@ export default {
       () => props.data,
       () => {
         draw()
-      },
-      { deep: true }
+      }
     )
 
     return { svg, tooltip, container }
@@ -226,42 +225,48 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
   return { drawChart }
 }
 
-// Format the data (instead of using d3.stack()) and filter out 0 values:
-function groupDataFunc(data: ChartData[], total: { value: number }, options: ChartOptions = {}) {
-  let cumulative = 0;
-  let percent = 0;
-  let zeroPoint = 0;
+// Memoized data formatting with caching
+const groupedCache = ref<Record<string, { groupData: ChartData[], zeroPoint: number }>>({})
 
-  // Sort the data by value (negative first, then positive) and by label text
-  const sortedData = data.slice().sort((a, b) => {
-    if (a.value < 0 && b.value >= 0) return -1
-    if (a.value >= 0 && b.value < 0) return 1
-    if (a.value < 0 && b.value < 0) return a.label.localeCompare(b.label)
-    if (a.value >= 0 && b.value >= 0) return a.label.localeCompare(b.label)
-    return 0
+const groupDataFunc = (data: ChartData[], total: { value: number }, options: ChartOptions = {}) => {
+  const cacheKey = JSON.stringify({
+    labels: data.map(d => d.label),
+    values: data.map(d => d.value),
+    total: total.value,
+    unit: options.unit
   })
 
-  const _data: ChartData[] = sortedData.map(d => {
-    if (total.value !== 0) {
-      percent = (d.value / total.value) * 100
-    }
-    const tooltipContent = `${d.label}: ${d.value} ${options.unit || ' kg CO2e'}`
+  if (groupedCache.value[cacheKey]) {
+    return groupedCache.value[cacheKey]
+  }
+
+  let cumulative = 0
+  let zeroPoint = 0
+
+  // Sort data using more efficient numeric comparison
+  const sortedData = data.slice().sort((a, b) => {
+    const valueDiff = Math.sign(a.value) - Math.sign(b.value)
+    return valueDiff !== 0 ? valueDiff : a.label.localeCompare(b.label)
+  })
+
+  const _data = sortedData.map(d => {
+    const percent = total.value !== 0 ? (d.value / total.value) * 100 : 0
     const result = {
       value: d.value,
       cumulative: cumulative,
       label: d.label,
       percent: percent,
-      tooltipContent: tooltipContent
+      tooltipContent: `${d.label}: ${d.value} ${options.unit || ' kg CO2e'}`
     }
     cumulative += Math.abs(d.value)
-    return result;
+    return result
   }).filter(d => d.value !== 0)
 
-  // Calculate the zero point
-  const negativeSum = d3.sum(_data.filter(d => d.value < 0), d => Math.abs(d.value))
-  zeroPoint = negativeSum
-
-  return { groupData: _data, zeroPoint }
+  zeroPoint = d3.sum(_data.filter(d => d.value < 0), d => Math.abs(d.value))
+  
+  const result = { groupData: _data, zeroPoint }
+  groupedCache.value[cacheKey] = result
+  return result
 }
 </script>
 

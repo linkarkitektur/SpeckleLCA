@@ -15,7 +15,7 @@ import {
   createTooltip, 
   createMouseEventHandlers,
 } from '@/utils/chartUtils'
-import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModels'
+import type { ChartOptions, NestedChartData } from '@/models/chartModels'
 
 export default {
   name: 'DivergingStackedBar',
@@ -68,8 +68,7 @@ export default {
       () => props.data,
       () => {
         draw()
-      },
-      { deep: true }
+      }
     )
 
     return { svg, tooltip, container }

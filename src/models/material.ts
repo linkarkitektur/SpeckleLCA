@@ -7,12 +7,12 @@ import type {
 import type { FilterList } from './filters'
 
 // Material and Assembly interfaces
-
-export enum Source {
+export enum APISource {
   LCAbyg,
   Organisation,
   Revalu,
   ECOPortal,
+  Boverket,
 }
 
 
@@ -30,7 +30,8 @@ export type LifeCycleStageEmission = {
  */
 export interface Product extends LcaxProduct {
   emission: Emission
-  source: Source
+  materialFraction?: number
+  source: APISource
 }
 
 /**
@@ -65,23 +66,32 @@ export interface Mapping {
  * Filter parameters for material and assembly list.
  */
 export interface MaterialFilterParam {
-	name: string,
-	selected: boolean,
-	filterParamter: string
+	displayName: string,
+	paramName: string,
+  selected?: boolean
 }
 
 /**
  * Sorting option for material and assembly list.
  */
-export interface MaterialSortingOption {
-	parameter: string
-	direction: string
+export interface MaterialSortingParam {
+	filterName: string
+	displayName: string
+  selected?: boolean
 }
 
 /**
  * Units for materials and assemblies.
  */
 export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l" | "tonnes"
+
+/**
+ * Quantity conversions specification
+ */
+export interface QuantityConversionSpec {
+  metric: MetricUnits
+  mmConversion: number
+}
 
 /**
  * Extended impact categories for application

@@ -53,9 +53,9 @@ export default defineComponent({
       if (currDetailbar.value === StackedBarChart) {
         let data: ChartData[] = []
         if (projectStore.selectedObjects.length > 0) {
-          data = geometryToChartData(projectStore.selectedObjects, resultStore.activeParameter, true)
+          data = geometryToChartData(projectStore.selectedObjects, 'material.name', true)
         } else {
-          data = geometryToChartData(projectStore.currProject.geometry, resultStore.activeParameter, true)
+          data = geometryToChartData(projectStore.currProject.geometry, 'material.name', true)
         }
         
         componentProps.value = {
@@ -70,10 +70,6 @@ export default defineComponent({
 		watch(() => projectStore.selectedObjects, () => {
 			updateComponentProps()
 		})
-
-    watch(() => resultStore.activeParameter, () => {
-      updateComponentProps()
-    })
 
 		updateComponentProps()
 

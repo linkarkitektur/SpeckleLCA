@@ -4,7 +4,110 @@ import type { GeometryObject } from '@/models/geometryObject'
 import { useProjectStore } from '@/stores/main'
 import { useSpeckleStore } from '@/stores/speckle'
 import { getTextAfterLastDot } from '@/utils/stringUtils'
+
 /**
+ * Iteratively searches an object for the specified key and applies the comparison function to its value.
+ * Changed for recursive because 2x faster
+ * @param obj Object to search
+ * @param field The key whose value should be checked
+ * @param comparisonFn Function to compare the value of the key
+ * @param filterValue The value to compare against
+ * @returns boolean
+ */
+function iterativeValueCheck(
+  obj: Record<string, any>,
+  field: string,
+  comparisonFn: (a: any, b: any) => boolean,
+  filterValue: any
+): boolean | null {
+  const stack = [obj]
+  
+  const visited = new WeakSet()
+
+  while (stack.length > 0) {
+    const current = stack.pop()
+    
+    if (typeof current !== 'object' || current === null || visited.has(current)) {
+      continue
+    }
+    visited.add(current)
+
+    for (const [key, value] of Object.entries(current)) {
+      if (key === field) {
+      // Handle primitive values first (most common case)
+      if (typeof value !== 'object' || value === null) {
+        return comparisonFn(value, filterValue)
+      }
+      // Handle object cases
+      if ('value' in value) {
+        return comparisonFn(value.value, filterValue)
+      }
+      if ('name' in value) {
+        return comparisonFn(value.name, filterValue)
+      }
+      return comparisonFn(value, filterValue)
+      }
+
+      // If the property is an object, push it onto the stack
+      if (typeof value === 'object' && value !== null) {
+        stack.push(value)
+      }
+    }
+  }
+
+  // If we never found the field or matching condition
+  return false
+}
+
+/**
+ * Iteratively searches for the value of the specified field in an object.
+ * @param obj Object to search
+ * @param field Target field name
+ * @returns The value of the field, or null if not found
+ */
+const fieldCache = new WeakMap<object, Map<string, any>>()
+
+export function iterativeFieldSearch(obj: Record<string, any>, field: string): any | null {
+  // Check cache first
+  if (fieldCache.has(obj)) {
+    const objCache = fieldCache.get(obj)!
+    if (objCache.has(field)) {
+      return objCache.get(field)!
+    }
+  } else {
+    fieldCache.set(obj, new Map())
+  }
+
+  const stack = [obj]
+  const visited = new WeakSet()
+  let result: any | null = null
+
+  while (stack.length > 0) {
+    const current = stack.pop()
+    
+    if (!current || typeof current !== 'object' || visited.has(current)) {
+      continue
+    }
+    visited.add(current)
+
+    for (const [key, value] of Object.entries(current)) {
+      if (key === field) {
+        result = value?.value ?? value?.name ?? value
+        fieldCache.get(obj)!.set(field, result)
+        return result
+      }
+
+      if (typeof value === 'object' && value !== null) {
+        stack.push(value)
+      }
+    }
+  }
+
+  fieldCache.get(obj)!.set(field, null)
+  return null
+}
+
+/**O
  * Generic function to add filters to a registry
  * @param name name of filter
  * @param filterFn function of filter always returns an array of groups
@@ -38,25 +141,31 @@ function createComparisonFilter (
         // Go through each obj in group
         for (const obj of grp.elements) {
           // Check if parameter exists, if not hide object
-          if (!obj.parameters && remove) 
-            speckleStore.addHiddenObject(obj)            
-          // Search specified object for value
-          const objValue = obj.parameters[field]
-          if (objValue !== undefined) {
-            if (comparisonFn(objValue, filterValue))
-              addObjToGroup(outGroup, obj, true, grp, filterValue)
-            else if (remove)
-              speckleStore.addHiddenObject(obj)
-            else if (!remove)
-              addObjToGroup(outGroup, obj, false, grp, filterValue)
-          } else if (remove){
+          if (!obj.parameters && remove) {
             speckleStore.addHiddenObject(obj)
+            continue
+          }
+          // Search specified object iteratively for value, changed for recursive because 2x faster          
+          const matches = iterativeValueCheck(obj.parameters, field, comparisonFn, filterValue)
+
+          if (matches) {
+            addObjToGroup(outGroup, obj, true, grp, filterValue)
+          } else if (remove) {
+            speckleStore.addHiddenObject(obj)
+          } else if (!remove) {
+            addObjToGroup(outGroup, obj, false, grp, filterValue)
           }
         }
       }
       return Object.values(outGroup)
     }
   )
+}
+
+let totalIterative = 0
+export function printIterativeTime() {
+  console.log('Total iterative time:', totalIterative)
+  totalIterative = 0
 }
 
 /**
@@ -78,7 +187,13 @@ export function createStandardFilters() {
     for (const grp of inGroup) {
       for (const obj of grp.elements) {
         if (!obj.parameters) throw new Error(`No parameters found for '${obj.id}'.`)
-        const fieldValue = obj.parameters[field] || "No Data"
+
+        // Search specified object iteratively for value, changed for recursive because 2x faster
+        const startIterative = performance.now()
+        const fieldValue = iterativeFieldSearch(obj.parameters, field) || "No Data"
+        const endIterative = performance.now()
+        totalIterative += endIterative - startIterative
+
         const pathName = getTextAfterLastDot(fieldValue)
         addObjToGroup(outGroup, obj, true, grp, pathName)
       }
@@ -116,4 +231,12 @@ function addObjToGroup(
       elements: [obj],
     }
   }
+}
+
+// Make internal functions exportable for tests
+export { 
+  iterativeValueCheck,
+  addFilter,
+  createComparisonFilter,
+  addObjToGroup
 }

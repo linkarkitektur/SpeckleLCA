@@ -1,4 +1,4 @@
-import type { Mapping, MaterialFilterParam, Product } from "@/models/material"
+import type { Mapping, Product } from "@/models/material"
 import type { FilterList, NestedGroup } from "@/models/filters"
 import type { GeometryObject } from "@/models/geometryObject"
 import type { AssemblyList } from "@/models/firebase"
@@ -9,10 +9,12 @@ import { useSpeckleStore } from "@/stores/speckle"
 import { useFirebaseStore } from "@/stores/firebase"
 
 import { setMappingColorGroup, updateProjectGroups } from "@/utils/projectUtils"
+import { useSettingsStore } from "@/stores/settings"
 
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds
  * TODO: This needs a redo and optimisation
+ * TODO: Make this so that the users can see the changes during its applying them so the bars change in real time
  * @param mapping Mapping object to update towards project and material store
  */
 export function updateMapping(mapping: Mapping) {
@@ -108,35 +110,6 @@ export function mapMaterial(inGroup: NestedGroup) {
 }
 
 /**
- * Function to sort through materials and only return relevant based on param List
- * @param materials Materials to sort through
- * @param paramFilters Filters to apply
- * @returns List of products matching filtering criteria
- */
-export function applyParamFilters(materials: Product[], filters: MaterialFilterParam[]) {
-  const filteredList = materials
-
-  // Safety check if no filters are applied
-  if (!filters || filters.length === 0) {
-    return filteredList
-  }
-
-  // Go through all materials and check for filter inclusions
-  return materials.filter((material) => {
-    if (!material)
-      return false
-    
-    return filters.some((filter) => {
-      if (!filter.selected)
-        return false
-      // Helper function to get the property value if its hidden under metaData or similar so we can access directly
-      const paramValue = getNestedPropertyValue(material, filter.filterParamter)
-      return filter.name.includes(paramValue)
-    })
-  })
-}
-
-/**
  * Helper function to get nested property value from a string path
  * @param obj The object to extract the value from
  * @param path The path string (e.g., 'metaData.materialType')
@@ -228,12 +201,21 @@ export async function getAssemblyList() {
   const materialStore = useMaterialStore()
   const projectStore = useProjectStore()
   const firebaseStore = useFirebaseStore()
+  const settingsStore = useSettingsStore()
 
   try {
-    const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(projectStore.currProject.id)
-    if (assemblyList) {
-      materialStore.assemblies = assemblyList.assemblies
+    if (!settingsStore.materialSettings.globalAssemblies){
+      const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(projectStore.currProject.id)
+      if (assemblyList) {
+        materialStore.assemblies = assemblyList.assemblies
+      }
+    } else {
+      const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(true)
+      if (assemblyList) {
+        materialStore.assemblies = assemblyList.assemblies
+      }
     }
+    
   } catch (error) {
     console.error('Error fetching assembly list:', error)
   }

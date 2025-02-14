@@ -12,7 +12,7 @@ export interface Project {
 	geometry: GeometryObject[]
 	sqm?: number
 	projectType?: string
-	source?: string
+	softwareSource?: string
 	location?: string
 	results?: Results[]
 }

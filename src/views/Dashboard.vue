@@ -16,6 +16,10 @@
 		>
 			<Suspense>
 				<SpeckleViewer />
+
+				<template #fallback>
+					Loading...
+				</template>
 			</Suspense>
 		</div>
 		<Slideover />
