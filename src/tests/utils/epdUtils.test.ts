@@ -10,7 +10,7 @@ import {
 } from '@/utils/EPDUtils'
 import { createTestPinia } from '../setup/testUtils'
 import { useSettingsStore } from '@/stores/settings'
-import Source from '@/models/material'
+import APISource from '@/models/material'
 
 // Mock axios
 vi.mock('axios', () => ({
@@ -51,7 +51,7 @@ describe('EPDUtils', () => {
       const result = 
       extractRevaluData(mockRevaluData, 'TestCollection')
       expect(result.id).toBe('test-id')
-      expect(result.source).toBe(Source.Revalu)
+      expect(result.source).toBe(APISource.Revalu)
       expect(result.metaData.Collection).toBe('TestCollection')
     })
 
@@ -117,7 +117,13 @@ describe('EPDUtils', () => {
   describe('ECOPortal Service', () => {
     beforeEach(() => {
       const settingsStore = useSettingsStore()
-      settingsStore.materialSettings.Source = Source.ECOPortal
+      settingsStore.materialSettings.APISource = {
+        [APISource.Revalu]: true,
+        [APISource.Boverket]: true,
+        [APISource.ECOPortal]: false,
+        [APISource.LCAbyg]: true,
+        [APISource.Organisation]: false,
+      }
       settingsStore.keySettings.materialKeys.ecoPortal = 'test-key'
     })
 
@@ -141,14 +147,14 @@ describe('EPDUtils', () => {
 
       const result = extractILCDData(mockILCDData)
       expect(result.id).toBe('test-uuid')
-      expect(result.source).toBe(Source.ECOPortal)
+      expect(result.source).toBe(APISource.ECOPortal)
     })
   })
 
   describe('Error Handling', () => {
     it('should handle invalid EPD service', async () => {
       const settingsStore = useSettingsStore()
-      settingsStore.materialSettings.Source = 'invalid' as Source
+      settingsStore.materialSettings.APISource = 'invalid' as APISource
       
       await expect(getEPDList()).rejects.toThrow('Unsupported EPD source')
     })

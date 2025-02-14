@@ -1,4 +1,4 @@
-import { type Mapping, type Assembly, type Product, Source } from '@/models/material'
+import { type Mapping, type Assembly, type Product, APISource } from '@/models/material'
 import { defineStore } from 'pinia'
 import materialList from '@/tests/objects/materialList.json'
 import type { NestedGroup } from "@/models/filters"
@@ -108,7 +108,7 @@ export const useMaterialStore = defineStore({
             materialType: material["materialType"],
             Collection: material?.metaData?.Collection ?? "-",  // Check for metaData.Collection, set to "-" if it doesn't exist
         },
-          source: Source.LCAbyg
+          source: APISource.LCAbyg
         })) as any
 
         this.EPDList = this.materials

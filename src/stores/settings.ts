@@ -60,8 +60,8 @@ export const useSettingsStore = defineStore({
 		 * Updates the EPD source in the app settings.
 		 * @param epdSource The new EPD source.
 		 */
-		updateEPDSource(Source: MaterialSettings['Source']) {
-			this.materialSettings.Source = Source
+		updateEPDSource(APISource: MaterialSettings['APISource']) {
+			this.materialSettings.APISource = APISource
 		},
 
 		

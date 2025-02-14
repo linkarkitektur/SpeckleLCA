@@ -1,5 +1,5 @@
 import type { LifeCycleStageEmission } from "@/models/material"
-import { Source } from "@/models/material"
+import { APISource } from "@/models/material"
 import { useMaterialStore } from "@/stores/material"
 import { getCollection, getEPDList } from "@/utils/EPDUtils"
 
@@ -258,7 +258,7 @@ export const getRevaluBaseList = async() => {
 
     for (const product of products) {
       product.metaData = { materialType: StandardBuildingMaterialType[materialType] }
-      product.source = Source.Revalu
+      product.source = APISource.Revalu
       
       materialStore.addMaterial(product)
     }

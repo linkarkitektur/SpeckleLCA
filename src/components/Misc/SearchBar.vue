@@ -98,7 +98,7 @@ import { useMaterialStore } from '@/stores/material'
 import { getSpecificEPD } from '@/utils/EPDUtils'
 import { getNestedPropertyValue } from '@/utils/material'
 
-import { Source } from '@/models/material'
+import { APISource } from '@/models/material'
 import { getEnumEntries } from '@/utils/dataUtils'
 import { isAssembly } from '@/utils/EPDUtils'
 
@@ -165,7 +165,7 @@ export default defineComponent({
 
       // Manual check for source enum so we set name instead
       if (paramName === 'source') {
-        return getEnumEntries(Source).map((entry) => ({
+        return getEnumEntries(APISource).map((entry) => ({
           label: entry.label,
           value: entry.value,
           selected: selectedFilters.value[paramName]?.includes(entry.value),

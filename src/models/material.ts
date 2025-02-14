@@ -7,8 +7,7 @@ import type {
 import type { FilterList } from './filters'
 
 // Material and Assembly interfaces
-
-export enum Source {
+export enum APISource {
   LCAbyg,
   Organisation,
   Revalu,
@@ -32,7 +31,7 @@ export type LifeCycleStageEmission = {
 export interface Product extends LcaxProduct {
   emission: Emission
   materialFraction?: number
-  source: Source
+  source: APISource
 }
 
 /**
