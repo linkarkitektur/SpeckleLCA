@@ -20,7 +20,7 @@
 				class="flex absolute top-0 left-[40%] p-1 text-sm focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
 				@click="toggleAssemblyModal">
 					<p>Edit Assemblies</p>
-					<CakeIcon class="ml-2 h-5 w-5" />
+					<Square3Stack3DIcon class="ml-2 h-5 w-5" />
 			</button>
 		</div>
 		<Draggable
@@ -49,7 +49,12 @@
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { storeToRefs } from 'pinia'
-import { PencilSquareIcon, PlusCircleIcon, CakeIcon } from '@heroicons/vue/24/solid'
+import { 
+	PencilSquareIcon, 
+	PlusCircleIcon, 
+	Square3Stack3DIcon,
+	StopIcon
+ } from '@heroicons/vue/24/solid'
 
 import GroupCard from '@/components/Sidebar/GroupCard.vue'
 import Dropdown from '@/components/Misc/Dropdown.vue'
@@ -212,7 +217,7 @@ export default defineComponent({
 	components: {
 		PencilSquareIcon,
 		PlusCircleIcon,
-		CakeIcon,
+		Square3Stack3DIcon,
 		Draggable,
 		GroupCard,
 		Dropdown

@@ -36,7 +36,10 @@ class BoverketService implements EPDService {
   }
 
   createListUrl(): string {
-    return 'api/boverket/v2/get-all-resources/senaste/sv/json'
+    const apiListUrl = import.meta.env.MODE === 'development' 
+      ? '/SpeckleLCA/api/boverket/v2/get-all-resources/senaste/sv/json' 
+      : 'https://api.boverket.se/klimatdataba/v2/get-all-resources/senaste/sv/jsons'
+    return apiListUrl
   }
 
   extractEPDList(data: any): any[] {

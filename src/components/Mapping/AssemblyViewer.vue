@@ -24,7 +24,7 @@
     <Draggable
       v-if="localMaterials"
       v-model="localMaterials"
-      group="materials"
+      group="placedMaterials"
       item-key="metaData.appId"
       ghost-class="ghost"
       :animation="200"

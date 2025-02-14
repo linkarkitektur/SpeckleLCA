@@ -204,7 +204,6 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 	const modelObjects = objects
 	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk')
 	.filter((obj) => obj.data.speckle_type !== 'Objects.Geometry.Mesh')
-	.filter((obj) => obj.data.speckle_type !== 'Base')
 	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.Collection')
 	.filter((obj) => !obj.data.speckle_type.includes('Objects.Other.Material'))
 
@@ -305,16 +304,30 @@ function updateQuantityForField(obj: any, quantity: Quantity, field: string, val
  * @param value The value from the entry.
  * @param quantity The quantity object to update.
  */
-function processEntry(obj: any, key: string, value: any, quantity: Quantity) {
+function processEntry(
+	obj: any, 
+	key: string, 
+	value: any, 
+	quantity: Quantity,
+	processed: Set<string>
+) {
 	// 1) Check if the key is something we care about.
-	if (FIELD_MAP[key.toLowerCase()]) {
+	const fieldSpecKey = FIELD_MAP[key.toLowerCase()]
+	if (fieldSpecKey && !processed.has(fieldSpecKey.metric)) {
 		updateQuantityForField(obj, quantity, key, value)
+		processed.add(fieldSpecKey.metric)
 	}
 
 	// 2) Check if the value (when it's a string) is a field we care about.
-	if (typeof value === 'string' && FIELD_MAP[value.toLowerCase()]) {
-		// Here, we assume the numeric value is stored in obj.value.
-		updateQuantityForField(obj, quantity, value, obj.value)
+	if (typeof value === 'string') {
+		if (FIELD_MAP[value.toLowerCase()]) {
+			const fieldSpecVal = FIELD_MAP[value.toLowerCase()]
+			if (fieldSpecVal || !processed.has(fieldSpecVal.metric)) {
+				// Here, we assume the numeric value is stored in obj.value.
+				updateQuantityForField(obj, quantity, value, obj.value)
+				processed.add(fieldSpecVal.metric)
+			}
+		}
 	}
 }
 
@@ -324,15 +337,15 @@ function processEntry(obj: any, key: string, value: any, quantity: Quantity) {
  * @param data The object (or sub-object) to traverse.
  * @param quantity The quantity object to update.
  */
-function traverseObject(data: any, quantity: Quantity) {
+function traverseObject(data: any, quantity: Quantity, processed: Set<string>) {
 	if (!data || typeof data !== 'object') return
 
 	for (const [key, value] of Object.entries(data)) {
 		// If the value is an object, traverse it recursively.
 		if (value && typeof value === 'object') {
-			traverseObject(value, quantity)
+			traverseObject(value, quantity, processed)
 		} else {
-			processEntry(data, key, value, quantity)
+			processEntry(data, key, value, quantity, processed)
 		}
 	}
 }
@@ -376,7 +389,8 @@ export function calculateQuantity(obj: ResponseObject) {
 	// If no data, return the empty quantity.
 	if (!obj.data) return quantity
 
-	traverseObject(obj.data, quantity)
+	const processed = new Set<string>()
+	traverseObject(obj.data, quantity, processed)
 	return quantity
 }
 
@@ -393,8 +407,10 @@ export function quantityFromComposite(mat: any): Quantity {
 		m2: 0,
 	}
 
+	const processed = new Set<string>()
+
 	for (const [key, value] of Object.entries(mat)) {
-		processEntry(mat, key, value, quantity)
+		processEntry(mat, key, value, quantity, processed)
 	}
 
 	return quantity

@@ -3,18 +3,13 @@
   <table class="divide-y divide-gray-200 max-w-full block table-fixed">
     <thead class="w-full block">
       <tr class="w-full flex bg-gray-200 text-gray-700 text-left text-xs leading-4 font-medium uppercase tracking-wider whitespace-nowrap">
-        <th class="m-3 w-2/6">
-          Name
+        <th class="m-3 w-1/10">
+        <!-- Type ICON -->
         </th>
-        <th class="m-3 w-2/6">
-          Material type
-        </th>
-        <th class="m-3 w-1/6">
-          Unit
-        </th>
-        <th class="m-3 w-1/6">
-          Emission
-        </th>
+        <th class="m-3 w-2/6">Name</th>
+        <th class="m-3 w-2/6">Material type</th>
+        <th class="m-3 w-1/6">Unit</th>
+        <th class="m-3 w-1/6">Emission</th>
       </tr>
     </thead>
     <Draggable
@@ -33,8 +28,17 @@
           :data-item="JSON.stringify(element)"
           @dragstart="dragStart($event, element)"
         >
-          <td scope="row" class="m-2 w-2/6 line-clamp-3">{{ element.name }}</td>
-          <td v-if=element.metaData.materialType class="m-2 w-2/6">{{ element.metaData.materialType }}</td>
+          <td class="m-2 w-1/10">
+            <component 
+              :is="isAssembly(element) ? 'Square3Stack3DIcon' : 'StopIcon'" 
+              :class="[ 'h-5 w-5 text-green-800', !isAssembly(element) ? 'transform rotate-45' : '' ]"
+              :title="isAssembly(element) ? 'Assembly' : 'Product'"
+            />
+          </td>
+          <td class="m-2 w-2/6 line-clamp-3">{{ element.name }}</td>
+          <td v-if="element.metaData.materialType" class="m-2 w-2/6">
+            {{ element.metaData.materialType }}
+          </td>
           <td v-else class="m-2 w-2/6">Other</td>
           <td class="m-2 w-1/6">{{ element.unit }}</td>
           <td 
@@ -54,6 +58,12 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
+import { 
+  Square3Stack3DIcon,
+  StopIcon
+} from '@heroicons/vue/24/solid'
+
+import { isAssembly } from '@/utils/EPDUtils'
 import { useMaterialStore } from '@/stores/material'
 import type { Product, Assembly } from '@/models/material'
 
@@ -62,6 +72,8 @@ export default defineComponent({
   name: 'MaterialTable',
   components: {
     Draggable,
+    Square3Stack3DIcon,
+    StopIcon
   },
   props: {
     data: {
@@ -110,7 +122,8 @@ export default defineComponent({
       dragOptions,
       roundedEmissions,
       dragStart,
-      cloneItem
+      cloneItem,
+      isAssembly
     }
   },
 })
