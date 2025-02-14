@@ -164,7 +164,7 @@ export default defineComponent({
     }
 
     const updateMaterial = () => {
-      settingsStore.updateEPDSource(selectedSource.value)
+      //settingsStore.updateEPDSource(selectedSource.value)
     }
 
   return { 

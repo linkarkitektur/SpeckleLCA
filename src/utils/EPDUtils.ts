@@ -2,14 +2,13 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 
 import { delay } from '@/utils/math'
-
+import { extractFirstNumber, splitAndNormalizeUnit } from '@/utils/stringUtils'
 import { useSettingsStore } from '@/stores/settings'
-
 import { APISource } from '@/models/material'
+
 import type { RevaluData, RevaluCollection, RevaluSingleCollection } from '@/models/revaluDataSource'
 import type { Product, Emission, LifeCycleStageEmission, Assembly } from '@/models/material'
-import { BoverketData } from '@/models/boverketDataSource'
-import { extractFirstNumber, splitAndNormalizeUnit } from './stringUtils'
+import type { BoverketData } from '@/models/boverketDataSource'
 
 //import { convertIlcd } from 'epdx'
 
@@ -212,7 +211,7 @@ class RevaluService implements EPDService {
   }
 }
 
-const extractBoverketData = (data: BoverketData) => {
+export const extractBoverketData = (data: BoverketData) => {
   // We take the first, maybe we have more in the future then we can make it smarter
   // For now there is always only one
   let conversion
@@ -262,7 +261,7 @@ const extractBoverketData = (data: BoverketData) => {
  * @param data 
  * @returns 
  */
-const extractILCDData = (data: any) => {
+export const extractILCDData = (data: any) => {
   // Extract metaData
   const metaData: Record<string, string> = {}
   const classifications =
@@ -340,7 +339,7 @@ const extractILCDData = (data: any) => {
  * @param data 
  * @returns 
  */
-const extractRevaluData = (response: { body: RevaluData }, collection: string = "") => {
+export const extractRevaluData = (response: { body: RevaluData }, collection: string = "") => {
   const data = response.body
   const emission: Emission = {
     gwp: data.gwp,
