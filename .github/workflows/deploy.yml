@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     branches:
-      - UI-Improvements
+      - main
 
 jobs:
   deploy:
