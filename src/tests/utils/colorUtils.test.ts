@@ -3,7 +3,6 @@ import {
   ColorManager,
   baseColors,
   getFontColorForHSL,
-  generateColors,
   hslToHex,
   generateGradientColorScale,
   getValueColorFromGradient

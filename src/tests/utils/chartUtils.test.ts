@@ -14,7 +14,7 @@ import { createTestPinia } from '../setup/testUtils'
 import { useProjectStore } from '@/stores/main'
 
 import { mockObjects } from '../setup/testData'
-import { Project } from '@/models/project'
+import type { Project } from '@/models/project'
 
 describe('chartUtils', () => {
   beforeEach(() => {
