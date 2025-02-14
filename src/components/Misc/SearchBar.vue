@@ -131,7 +131,8 @@ export default defineComponent({
     ChevronUpIcon,
   },
   props: {
-    data: {
+    data:
+ {
       //This is set as Product Assembly, can be both
       type: Array as () => (Product | Assembly)[],
       required: true,
@@ -146,7 +147,7 @@ export default defineComponent({
     },
   },
   emits: ['update:data'],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const searchQuery = ref('')
     const selectedFilters = ref<Record<string, any[]>>({})
     const sorting = ref<{ parameter: string; direction: 'asc' | 'desc' }>({
@@ -175,8 +176,16 @@ export default defineComponent({
       // Check for Assembly filtering then we make custom entries
       if (paramName === 'isAssembly') {
         return [
-          { label: 'Assembly', value: 'assembly', selected: selectedFilters.value[paramName]?.includes('assembly') },
-          { label: 'Product', value: 'product', selected: selectedFilters.value[paramName]?.includes('product') },
+          {
+            label: 'Assembly',
+            value: 'assembly',
+            selected: selectedFilters.value[paramName]?.includes('assembly'),
+            },
+                      {
+            label: 'Product',
+            value: 'product',
+            selected: selectedFilters.value[paramName]?.includes('product'),
+          },
         ]
       }
 
@@ -198,33 +207,28 @@ export default defineComponent({
         // Search logic
         const matchesSearch = item.name
           .toLowerCase()
-          .includes(searchQuery.value.toLowerCase());
+          .includes(searchQuery.value.toLowerCase())
 
-        // Parameter matching logic
+        // General parameter matching excluding the assembly filter
         const matchesFilters = Object.entries(selectedFilters.value).every(
           ([key, selectedOptions]) => {
-            if (selectedOptions.length === 0) return true;
+            if (key === 'isAssembly') return true // handle separately
+            if (selectedOptions.length === 0) return true
 
-            const value = getNestedPropertyValue(item, key);
-            return selectedOptions.includes(value);
+            const value = getNestedPropertyValue(item, key)
+            return selectedOptions.includes(value)
           }
         )
         
-        let isAssemblyMatch = true
-        // More custom check for assembly logic
-        if (selectedFilters.value.isAssembly) {
+        // Custom Assembly filtering
+        const assemblyFilter = selectedFilters.value['isAssembly'] || []
           const itemType = isAssembly(item) ? 'assembly' : 'product'
-          isAssemblyMatch =
-            selectedFilters.value.isAssembly.length === 0 ||
-            selectedFilters.value.isAssembly.includes(itemType)
-        } 
-
-
+          const isAssemblyMatch =
+            assemblyFilter.length === 0 || assemblyFilter.includes(itemType)
+        
         return matchesSearch && matchesFilters && isAssemblyMatch
       })
     })
-
-    
 
     const sortedData = computed(() => {
       const dataToSort = [...filteredData.value]
@@ -259,8 +263,7 @@ export default defineComponent({
     watch(
       () => sortedData.value,
       (newData) => {
-        if (!manualMode)
-          emit('update:data', newData)
+        if (!manualMode) emit('update:data', newData)
       },
       { immediate: true }
     )
@@ -281,7 +284,7 @@ export default defineComponent({
           // If we add a material from ID then we just put that in the list
           emit('update:data', [newMaterial])
         } catch (error) {
-          console.error("Error fetching product by UUID:", error)
+          console.error('Error fetching product by UUID:', error)
         }
         return
       } else {
@@ -289,7 +292,6 @@ export default defineComponent({
         manualMode = false
       }
     })
-    
 
     return {
       searchQuery,
