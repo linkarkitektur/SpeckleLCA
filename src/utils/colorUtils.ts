@@ -267,3 +267,14 @@ export function getValueColorFromGradient(value: number, min: number, max: numbe
   const normalizedValue = (value - min) / (max - min)
   return chroma.scale([startColor, endColor])(normalizedValue).hex()
 }
+
+/**
+ * Lightens a hex color by the given amount.
+ * @param hex The original hex color (e.g. "#95C92C")
+ * @param amount The amount to lighten the color; typical values are between 0 and 2.
+ *               (e.g. 1 gives a moderate brighten, 2 gives a stronger effect)
+ * @returns The lightened hex color.
+ */
+export function lightenHexColor(hex: string, amount: number): string {
+  return chroma(hex).brighten(amount).hex();
+}
