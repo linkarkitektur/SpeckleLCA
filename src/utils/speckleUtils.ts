@@ -191,6 +191,11 @@ export async function getObjectParameters(
 	})
 }
 
+/**
+ * Main conversion and import function
+ * @param input 
+ * @returns 
+ */
 export function convertObjects(input: ResponseObjectStream): Project | null {
 	const speckleStore = useSpeckleStore()
 
@@ -221,7 +226,7 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 					quantity = quantityFromComposite(mat)
 					const name: string = el.data.name ? el.data.name : el.data.speckle_type
 
-					const matName = materialObjects.find((obj) => obj.id === mat.material.referencedId)?.data.name
+					const matName = materialObjects.find((obj) => obj.id === mat.material?.referencedId)?.data.name
 
 					const parameters = { ...el.data }
 					parameters.buildingMaterialName = matName
@@ -269,6 +274,7 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
  */
 const FIELD_MAP: Record<string, QuantityConversionSpec> = {
 	area: { metric: 'm2', mmConversion: 1_000_000 },
+	surfaceArea: { metric: 'm2', mmConversion: 1_000_000 },
 	volume: { metric: 'm3', mmConversion: 1_000_000_000 },
 	length: { metric: 'm', mmConversion: 1_000 },
 }

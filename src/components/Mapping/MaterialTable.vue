@@ -32,7 +32,7 @@
           <td class="m-2 w-1/10">
             <component 
               :is="isAssembly(element) ? 'Square3Stack3DIcon' : 'StopIcon'" 
-              :class="[ 'h-5 w-5 text-green-800', !isAssembly(element) ? 'transform rotate-45' : '' ]"
+              :class="[ 'h-5 w-5', !isAssembly(element) ? 'transform rotate-45 text-green-800' : 'text-orange-600' ]"
               :title="isAssembly(element) ? 'Assembly' : 'Product'"
             />
           </td>

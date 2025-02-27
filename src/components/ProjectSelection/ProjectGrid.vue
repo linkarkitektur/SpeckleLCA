@@ -12,13 +12,12 @@
 				class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
 			>
 				<li
-					v-for="project in projectsWithRandomNumbers"
+					v-for="project in projects"
 					:key="project.name"
 					class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
 				>
 					<!-- Project Iterator. -->
-					<div class="flex flex-1 flex-col p-8">
-						<iframe :src="getEmbeddedUrl(project)"></iframe>
+					<div class="flex flex-1 flex-col p-8 min-h-40">
 						<button @click="openVersionModal(project)">
 							<dd class="text-sm text-gray-500">{{ project.name }}</dd>
 							<dd class="mt-3">
@@ -38,7 +37,7 @@
 								<a
 									class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-green-900 text-center"
 								>
-									{{ project.randomNumber }} kg-co² / m²
+									{{ project.emissionSqm }} kg-co² / m²
 								</a>
 							</div>
 
@@ -59,15 +58,17 @@
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, onMounted, ref } from 'vue'
+	import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 	
 	import VersionSelectionModal from '@/components/ProjectSelection/VersionSelectionModal.vue'
 
 	import { useNavigationStore } from '@/stores/navigation'
-	import { useSettingsStore } from '@/stores/settings'
 	import { useSpeckleStore } from '@/stores/speckle'
+	import { useFirebaseStore } from '@/stores/firebase'
+	import { useSettingsStore } from '@/stores/settings'
 
 	import type { ProjectId } from '@/models/speckle'
+	import { emissionToNumber, getResultLogEmissions } from '@/utils/resultUtils'
 
 	/**
 	 * Component for displaying a grid of projects.
@@ -78,48 +79,64 @@
 			VersionSelectionModal
 		},
 		methods: {
-			/**
-			 * Returns the embedded URL for a given project.
-			 *
-			 * @param {ProjectId} project - The project ID.
-			 * @returns {string} The embedded URL for the project.
-			 */
-			// TODO: Rename this to something more descriptive.
-			getEmbeddedUrl(project: ProjectId) {
-				const settingsStore = useSettingsStore()
-				const baseUrl = settingsStore.keySettings.speckleConfig.serverUrl
-				const streamId = project.id
-
-				return `${baseUrl}/projects/${project.id}/models/${project.latestModelId}#embed=%7B%22isEnabled%22%3Atrue%2C%22isTransparent%22%3Atrue%2C%22hideControls%22%3Atrue%2C%22hideSelectionInfo%22%3Atrue%2C%22noScroll%22%3Atrue%7D`
-			}
 		},
 		setup() {
 			const speckleStore = useSpeckleStore()
 			const navStore = useNavigationStore()
+			const firebaseStore = useFirebaseStore()
+			const settingsStore = useSettingsStore()
 
 			const versionModalOpen = ref(false)
 
 			const selectedProjectId = ref('')
 			const selectedProjectName = ref('')
 
-			const projectsWithRandomNumbers = computed(() => {
-				if (!speckleStore.allProjects) return []
-				return speckleStore.allProjects.map(project => {
-					const randomNumber = Math.floor(Math.random() * 60) + 40
-					const percentageDifference = ((randomNumber - 75) / 75) * 100
+			const projectsData = ref([])
 
-					const differenceText =
-						percentageDifference > 0
-							? `${Math.abs(percentageDifference).toFixed(1)}% above threshold`
-							: `${Math.abs(percentageDifference).toFixed(1)}% below threshold`
+			const updateProjects = async () => {
+				if (!speckleStore.allProjects) {
+					projectsData.value = []
+					return
+				}
+				
+				const projectResults = await Promise.all(speckleStore.allProjects.map(async project => {
+					const resultLog = await firebaseStore.fetchResults(project.id).then((logs) => {
+						if (logs.length > 0)
+							return logs[0] // Just return first log
+						else 
+							return null
+					})
 
-					return {
-						...project,
-						randomNumber,
-						differenceText
+					if (resultLog) {
+						const emission = getResultLogEmissions(resultLog, 'material.name')
+						const emissionSqm = Math.round(emissionToNumber(emission) / settingsStore.appSettings.area) || 0
+
+						const percentageDifference = ((300 - emissionSqm) / 300) * 100
+
+						const differenceText =
+							percentageDifference > 0
+								? `${Math.abs(percentageDifference).toFixed(1)}% below threshold`
+								: `${Math.abs(percentageDifference).toFixed(1)}% above threshold`
+
+						return {
+							...project,
+							emissionSqm,
+							differenceText
+						}
+					} else {
+						return {
+							...project,
+							emissionSqm: 0,
+							differenceText: "No results"
+						}
 					}
-				})
-			})
+				}))
+
+				projectsData.value = projectResults
+			}
+
+			const projects = computed(() => projectsData.value
+			)
 
 			const formatDate = (dateString) => {
 				const date = new Date(dateString);
@@ -149,14 +166,19 @@
 			const openSlideOver = () => {
 				navStore.toggleSlideover()
 			}
+
 			onMounted(speckleStore.updateProjects)
+
+			watch(() => speckleStore.allProjects, () => {
+				updateProjects()
+			})
 
 			return {
 				speckleStore,
 				versionModalOpen,
 				selectedProjectId,
 				selectedProjectName,
-				projectsWithRandomNumbers,
+				projects,
 				formatDate,
 				openVersionModal,
 				closeVersionModal,
