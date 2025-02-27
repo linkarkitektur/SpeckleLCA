@@ -4,7 +4,7 @@
     <Menu as="div" class="relative mr-10 mt-2 items-center">
       <div>
         <MenuButton
-          class="relative flex styled-element hoverable pressable"
+          class="relative flex styled-element hoverable-sm pressable"
         >
           <span class="absolute -inset-1.5" />
           <span class="sr-only">Open user menu</span>

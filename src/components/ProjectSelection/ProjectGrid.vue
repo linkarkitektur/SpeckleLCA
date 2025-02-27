@@ -1,6 +1,6 @@
 <template>
 	<div class="flex-1 p-6">
-		<div class="bg-white p-4 shadow-md rounded-md">
+		<div class="bg-white p-4">
 			<VersionSelectionModal
 				:show="versionModalOpen"
 				:projectId="selectedProjectId"
@@ -20,10 +20,10 @@
 					<!-- Project Iterator. -->
 					<div class="flex flex-1 flex-col p-8 min-h-40">
 						<button @click="openVersionModal(project)">
-							<dd class="text-sm font-lexend">{{ project.name }}</dd>
+							<dd class="">{{ project.name }}</dd>
 							<dd class="mt-3">
 								<span 
-									class="inline-flex items-center styled-element hoverable-sm bg-white"
+									class="p-1 inline-flex items-center styled-element hoverable-sm bg-white font-mono text-sm"
 								> 
 									{{ formatDate(project.updatedAt) }} 
 								</span>
@@ -33,10 +33,10 @@
 
 					<!-- Stats. -->
 					<div>
-						<div class="-mt-px flex">
+						<div class="-mt-px flex font-mono">
 							<div class="flex w-0 flex-1">
 								<a
-									class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-green-900 text-center"
+									class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 py-4 font-semibold text-green-900 text-center"
 								>
 									{{ project.emissionSqm }} kg-co² / m²
 								</a>
@@ -44,7 +44,7 @@
 
 							<div class="-ml-px flex w-0 flex-1">
 								<a
-									class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-800 text-center"
+									class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 py-4 font-semibold text-gray-800 text-center"
 								>
 									{{ project.differenceText }}
 								</a>
