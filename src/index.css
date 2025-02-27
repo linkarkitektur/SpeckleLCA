@@ -2,7 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Stylings */
+@layer components {
+  /* Base styling */
+  .styled-element {
+    @apply border-black border-2 rounded-md font-lexend;
+  }
 
+  /* Hover effect */
+  .hoverable {
+    @apply transition-all hover:shadow-none hover:translate-x-2 hover:translate-y-2 shadow-[8px_8px_0px_rgba(0,0,0,1)]
+           ease-in-out delay-150 duration-300;
+  }
+
+  /* Small Hover effect */
+  .hoverable-sm {
+    @apply transition-all ease-in-out delay-100 duration-200 
+            shadow-[4px_4px_0px_rgba(0,0,0,1)] 
+            hover:shadow-none hover:translate-x-1 hover:translate-y-1;
+  }
+
+  /* Pressed state */
+  .pressable {
+    @apply focus:outline-2 focus:outline-offset-2 focus:outline-black 
+           focus:translate-x-2 focus:translate-y-2 focus:shadow-none 
+           active:outline-2 active:outline-offset-2 active:outline-black 
+           active:translate-x-2 active:translate-y-2 active:shadow-none;
+  }
+}
+
+/* Utility */
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari, and Opera */
   .scrollbar-hide::-webkit-scrollbar {
@@ -13,4 +42,11 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+}
+
+/* Fonts */
+@theme {
+  --font-lexend: "Lexend Mega", sans-serif;
+  --font-number: "Major Mono Display", Mono;
+  --font-bread: "Merriweather", serif;
 }

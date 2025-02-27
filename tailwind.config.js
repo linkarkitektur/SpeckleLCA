@@ -8,7 +8,13 @@ module.exports = {
     './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        lexend: ['"Lexend Mega"', 'sans-serif'],
+        number: ['"Major Mono Display"', 'monospace'],
+        bread: ['Merriweather', 'serif'],
+      },
+    },
   },
   variants: {
     extend: {},
