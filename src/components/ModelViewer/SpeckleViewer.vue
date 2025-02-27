@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO: This is supposed to fade in and out when resizing the viewer. Not working correctly currently -->
   <TransitionRoot as="template" :show="fadeOut">
     <TransitionChild
       as="template"
@@ -30,10 +29,9 @@
     </div>
 
     <div class="flex h-full w-full bg-gray-50 -z-10" id="renderer" />
-    <!-- TODO This should be full height and positioned correctly from the graph itself just placed in the right corner -->
     <!-- Only show in dashboard view -->
     <div
-    	class="absolute h-1/3 mx-auto top-4 right-4 align-right justify-center z-20 overflow-visible"
+    	class="absolute h-full mx-auto top-4 right-4 align-right justify-center z-20 overflow-visible"
       v-if="navigationStore.activePage !== 'Benchmark'"
   	>
       <GraphContainer />
@@ -46,10 +44,15 @@
 <script setup lang="ts">
 // External imports
 import { 
-  DefaultViewerParams,
   Viewer,
+  DefaultViewerParams,
+  SpeckleLoader,
+  UrlHelper,
+  SelectionExtension,
+  CameraController,
+  FilteringExtension,
   ViewerEvent,
-  type SelectionEvent 
+  SelectionEvent,
 } from '@speckle/viewer'
 import { 
   onMounted, 
@@ -74,9 +77,6 @@ import { storeToRefs } from 'pinia'
 import DetailBar from '@/components/DetailBar/DetailBar.vue'
 import RenderToggle from '@/components/Misc/RenderToggle.vue'
 import GraphContainer from '@/components/Graphs/GraphContainer.vue'
-
-// Type imports
-import type { SunLightConfiguration } from '@/models/speckle'
 
 // Props
 const props = withDefaults(defineProps<{
@@ -108,6 +108,7 @@ speckleStore.setToken(token)
 const handleEscKey = (e: KeyboardEvent) => {
   if (e.key.toLowerCase() === 'escape') {
     projectStore.clearSelectedGroup()
+    //viewer.getExtension(FilteringExtension).resetFilters()
   }
 }
 
@@ -119,14 +120,7 @@ const handleResize = (() => {
       clearTimeout(timeout)
     }
     timeout = window.setTimeout(() => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect
-        viewer?.resize()
-        if (viewer?.cameraHandler.activeCam.camera) {
-          viewer.cameraHandler.activeCam.camera.aspect = width / height
-          viewer.cameraHandler.activeCam.camera.updateProjectionMatrix()
-        }
-      }
+      viewer?.resize()
     }, 100)
   }
 })()
@@ -151,19 +145,9 @@ onMounted(async () => {
     console.log('Initialized viewer successfully!')
   }
 
-  const lightConfig: SunLightConfiguration = {
-    enabled: true,
-    intensity: 10,
-    castShadow: false,
-    color: 0xffffff,
-    indirectLightIntensity: 50,
-    elevation: 1,
-    azimuth: 0.5,
-    radius: 50
-  }
-
-  viewer.setLightConfiguration(lightConfig)
-  // viewer.sectionBoxOn()
+  viewer.createExtension(CameraController)
+  const selectExt = viewer.createExtension(SelectionExtension)
+  viewer.createExtension(FilteringExtension)
 
   resizeObserver.value = new ResizeObserver(handleResize)
   resizeObserver.value.observe(renderParent)
@@ -173,35 +157,26 @@ onMounted(async () => {
   if (!speckleStore.selectedProject || !speckleStore.selectedVersion) {
     throw new Error('No project or version selected!')
   }
-  const url = `${serverUrl}/streams/${speckleStore.selectedProject.id}/objects/${speckleStore.selectedVersion.referencedObject}`
-  await viewer.loadObject(url, token, true, true)
 
-  let selection: string[] = []
-  viewer.on(ViewerEvent.ObjectClicked, (selectionInfo: SelectionEvent) => {
-    if (selectionInfo) {
-      // Object was clicked. Check if its in hidden objects then highlight it
-      let id
-      const hiddenIds = new Set(speckleStore.hiddenObjects.map(obj => obj.id))
-      for(let hit of selectionInfo.hits) {
-        if (!hiddenIds.has(hit.object.id)) {
-          id = hit.object.id
-          break
-        }
-      }
+  const urls = await UrlHelper.getResourceUrls(`${serverUrl}/streams/${speckleStore.selectedProject.id}/objects/${speckleStore.selectedVersion.referencedObject}`)
+  for (const url of urls) {
+    const loader = new SpeckleLoader(viewer.getWorldTree(), url, "")
+    await viewer.loadObject(loader, true)
+  }
 
-      if (selectionInfo.event.shiftKey) selection.push(id)
-      else selection = [id]
-
-      projectStore.setObjectsByURI(selection)
-    } else {
-      // No object clicked. Restore selection from group.
+  viewer.on(ViewerEvent.ObjectClicked, (selection: SelectionEvent) => {
+    if (!selection || !selection.hits.length) {
       projectStore.setObjectsFromGroup()
-
-      if (projectStore.selectedObjects.length === 0) viewer.resetHighlight()
-      else viewer.highlightObjects(projectStore.getSelectedObjectsURI(), true)
+      return
     }
-  })
+    const selectRaw = selectExt.getSelectedObjects()
+    const objIds = selectRaw.map(obj => {
+      return obj.id as string
+    })
 
+    projectStore.setObjectsByURI(objIds)
+  })
+  
   /**
    * Keep the selection and highlights until change is made elsewhere.
    * 
@@ -227,5 +202,4 @@ watch(
     debouncedIsolateObjects(selectedUris)
   }
 )
-// function setObjectColorsByVolume() {}
 </script>

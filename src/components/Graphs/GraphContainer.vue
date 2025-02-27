@@ -1,13 +1,15 @@
 <template>
-  <!-- TODO Change this to use a wrapper component so we dont use v-if but instead the leftModule logic -->
-  <Dropdown
-    v-if="navigationStore.activePage === 'Results'"
-    :items="graphParameters"
-    name="graphParameter"
-    :dropdownName="dropdownName"
-    @selectedItem="handleResultListSelection"
-  />
-  <component :is="leftModule" v-bind="graphProps"/>
+  <div class="flex flex-col items-start">
+    <!-- TODO Change this to use a wrapper component so we dont use v-if but instead the leftModule logic -->
+    <Dropdown
+      v-if="navigationStore.activePage === 'Results'"
+      :items="graphParameters"
+      name="graphParameter"
+      :dropdownName="dropdownName"
+      @selectedItem="handleResultListSelection"
+    />
+    <component :is="leftModule" v-bind="graphProps" class="mt-0"/>
+  </div>
 </template>
 
 <script setup lang="ts">

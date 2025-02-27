@@ -73,6 +73,11 @@ export default {
       if (svg.value && tooltip.value && container.value) {
         drawChart(svg.value, tooltip.value, container.value)
         //Update container size
+        if (options.width > options.height)
+          options.height = options.width
+        else
+          options.width = options.height
+        
         container.value.style.width = `${options.width}px`
         container.value.style.height = `${options.height}px`
       }
