@@ -3,27 +3,12 @@
 	<SettingsModal />
 
 	<!-- Main content area -->
-	<Navbar />
+	<ShortNavbar />
 	<ProjectGrid />
 </template>
 
-<script>
+<script setup lang="ts">
 import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue'
-import Navbar from '@/components/Navbar.vue'
-import SettingsModal from '@/components/Modals/SettingsModal.vue';
-
-	/**
-	 * The project selection view.
-	 * This component represents the project selection view of the application.
-	 */
-	export default {
-		name: 'ProjectSelectionView',
-		components: {
-			Navbar,
-			ProjectGrid,
-			SettingsModal
-		},
-		setup() {
-		}
-	}
+import SettingsModal from '@/components/Modals/SettingsModal.vue'
+import ShortNavbar from '@/components/Misc/ShortNavbar.vue'
 </script>
