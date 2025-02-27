@@ -52,8 +52,8 @@ import {
   CameraController,
   FilteringExtension,
   ViewerEvent,
-  SelectionEvent,
 } from '@speckle/viewer'
+import type { SelectionEvent } from '@speckle/viewer'
 import { 
   onMounted, 
   watch, 

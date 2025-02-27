@@ -8,7 +8,9 @@
       :dropdownName="dropdownName"
       @selectedItem="handleResultListSelection"
     />
-    <component :is="leftModule" v-bind="graphProps" class="mt-0"/>
+    <div :v-if="leftModule">
+      <component :is="leftModule" v-bind="graphProps" class="mt-0"/>
+    </div>
   </div>
 </template>
 
@@ -18,7 +20,8 @@ import {
   watch, 
   ref,
   computed,
-  defineProps
+  defineProps,
+  defineComponent
 } from 'vue'
 
 // Store imports
@@ -27,7 +30,6 @@ import { useResultStore } from '@/stores/result'
 import { useProjectStore } from '@/stores/main'
 
 // Components imports
-import ViewerControls from '@/components/ModelViewer/ViewerControls.vue'
 import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
 import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
 import Dropdown from '@/components/Misc/Dropdown.vue'
@@ -52,6 +54,9 @@ const props = defineProps<{
   resultItem?: ResultItem
 }>()
 
+const EmptyComponent = defineComponent({
+  template: "<div></div>", // Renders nothing if leftModule is empty
+})
 
 // Dropdown items from resultList
 const graphParameters = ref<dropdownItem[]>(
@@ -90,7 +95,7 @@ const leftModule = computed(() => {
   switch (navigationStore.activePage) {
     case 'Overview':
     case 'Mapping':
-      return ViewerControls
+      return EmptyComponent
     case 'Results':
       if (navigationStore.sideBarShow) {
         updateGraphProps("SelectablePieChart")
@@ -107,13 +112,13 @@ const leftModule = computed(() => {
       updateGraphProps("SelectablePieChart")
       return SelectablePieChart
     default:
-      return null
+      return EmptyComponent
   }
 })
 
 // We remap these so we can get the name of the component
 const componentNames = new Map([
-  [ViewerControls, 'ViewerControls'],
+  [EmptyComponent, 'EmptyComponent'],
   [SelectablePieChart, 'SelectablePieChart'],
   [DivergingStackedBar, 'DivergingStackedBar']
 ])
