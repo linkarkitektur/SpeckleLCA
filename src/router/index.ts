@@ -8,7 +8,7 @@ import Benchmark from '@/views/Benchmark.vue'
 import NotFound from '@/views/NotFound.vue'
 import TestZone from '@/views/TestZone.vue'
 import ReportPage from '@/views/ReportPage.vue'
-
+import ProjectOverview from '@/views/ProjectOverview.vue'
 
 import LoginComponent from '@/components/SpeckleLogin.vue'
 
@@ -16,6 +16,7 @@ import { useSpeckleStore } from '@/stores/speckle'
 import { logMessageToSentry } from '@/utils/monitoring'
 import { useSettingsStore } from '@/stores/settings'
 import { useNavigationStore } from '@/stores/navigation'
+
 
 /**
  * The router instance for the application.
@@ -60,6 +61,16 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         title: 'Project Selection',
+        icon: '',
+      },
+    },
+    {
+      path: '/overview',
+      name: 'Overview',
+      component: ProjectOverview,
+      meta: {
+        requiresAuth: true,
+        title: 'Project Overview',
         icon: '',
       },
     },
