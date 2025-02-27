@@ -32,7 +32,7 @@ import {
 	speckleLogOut,
 	getLatestModel
 } from '@/utils/speckleUtils' // TODO Is this the right import in the wider structure?
-import { Viewer } from '@speckle/viewer'
+import { FilteringExtension, Viewer } from '@speckle/viewer'
 import { defineStore } from 'pinia'
 import type { NestedGroup } from '@/models/filters'
 import type { GeometryObject } from '@/models/geometryObject'
@@ -414,7 +414,7 @@ export const useSpeckleStore = defineStore({
 		setColorGroups(colorGroups: ColorGroup[]) {
 			this.colorGroups = colorGroups
 			if (!this.renderMode)
-				this.viewer?.setUserObjectColors(colorGroups)
+				this.viewer?.getExtension(FilteringExtension).setUserObjectColors(colorGroups)
 		},
 
 		/**
@@ -485,8 +485,9 @@ export const useSpeckleStore = defineStore({
 		},
 
 		isolateObjects(objectIds: string[]) {
-			this.viewer?.resetFilters()
-			this.viewer?.isolateObjects(objectIds, null, true, true)
+			const filtering = this.viewer?.getExtension(FilteringExtension)
+			filtering.resetFilters
+			filtering.isolateObjects(objectIds, null, true, true)
 			
 			if (objectIds.length > 0 && !this.renderMode) {
 				//Find all color groups relevant for ids
@@ -504,10 +505,10 @@ export const useSpeckleStore = defineStore({
 					color: colorMap.get(id)
 				})).filter(group => group.color !== undefined)
 				
-				this.viewer?.setUserObjectColors(relevantColorGroups)
+				filtering.setUserObjectColors(relevantColorGroups)
 			} else {
 				if (!this.renderMode)
-					this.viewer?.setUserObjectColors(this.colorGroups)
+					filtering.setUserObjectColors(this.colorGroups)
 				//if (!this.showHiddenObjects)
 					//this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
 			}
@@ -519,16 +520,17 @@ export const useSpeckleStore = defineStore({
 		 */
 		hideUnusedObjects(objectIds: string[]) {
 			if (!this.showHiddenObjects)
-				this.viewer?.hideObjects(objectIds, null, false, false)
+				this.viewer?.getExtension(FilteringExtension).hideObjects(objectIds, null, false, false)
 		},
 
 		/**
 		 * Reset filters and colors to base state
 		 */
 		async resetUnusedObjects() {
-			this.viewer?.resetFilters()
+			const filtering = this.viewer?.getExtension(FilteringExtension)
+			filtering.resetFilters()
 			if (!this.renderMode)
-				this.viewer?.setUserObjectColors(this.colorGroups)
+				filtering.setUserObjectColors(this.colorGroups)
 		},
 
 		/**
@@ -548,7 +550,7 @@ export const useSpeckleStore = defineStore({
 			this.showHiddenObjects = !this.showHiddenObjects
 			this.resetUnusedObjects()
 			if (!this.showHiddenObjects)
-				this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
+				this.viewer?.getExtension(FilteringExtension).hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
 			//This is just to refresh the viewer
 			this.viewer?.resize()
 		}
