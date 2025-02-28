@@ -1,10 +1,14 @@
 <template>
-	<!-- Modal area -->
-	<SettingsModal />
+	<div class="fixed inset-0 min-h-screen min-w-screen h-full w-full
+		bg-[#e4ecec] pattern-dots pattern-black pattern-bg-transparent pattern-size-4 -z-10" style="--pattern-opacity: 0.2;"></div>
+  <div class="relative z-0">
+		<!-- Modal area -->
+		<SettingsModal />
 
-	<!-- Main content area -->
-	<ShortNavbar />
-	<ProjectGrid />
+		<!-- Main content area -->
+		<ShortNavbar />
+		<ProjectGrid />
+	</div>
 </template>
 
 <script setup lang="ts">
