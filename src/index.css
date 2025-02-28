@@ -22,6 +22,14 @@
             hover:shadow-none hover:translate-x-1 hover:translate-y-1;
   }
 
+  /* Smallest Hover effect */
+  .hoverable-xs {
+    @apply transition-all ease-in-out duration-150 
+           shadow-[2px_2px_0px_rgba(0,0,0,1)] 
+           hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] 
+           hover:translate-x-0.5 hover:translate-y-0.5;
+  }
+
   /* Pressed state */
   .pressable {
     @apply focus:outline-2 focus:outline-offset-2 focus:outline-black 
