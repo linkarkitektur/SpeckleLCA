@@ -11,6 +11,7 @@ export const useNavigationStore = defineStore({
 	state: () => {
 		return {
 			activePage: 'Projects' as string, // The current page
+			activeColor: '#e4ecec' as string,
 			slideoverOpen: false,
 			editName: null as string | null,
 			groupModalOpen: false,
@@ -32,6 +33,14 @@ export const useNavigationStore = defineStore({
 		 */
 		setActivePage(page: string) {
 			this.activePage = page
+		},
+
+		/**
+		 * Sets the active color
+		 * @param color 
+		 */
+		setActiveColor(color: string) {
+			this.activeColor = color
 		},
 
 		/**
