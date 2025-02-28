@@ -18,6 +18,7 @@ export const useNavigationStore = defineStore({
 			mappingModalOpen: false,
 			loading: false,
 			groupColorMode: false,
+			detailBarShow: true,
 			sideBarShow: true,
 			saveModalOpen: false,
 			assemblyModalOpen: false,

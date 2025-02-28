@@ -65,7 +65,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/overview/:id',
+      path: '/overview',
       name: 'Overview',
       component: ProjectOverview,
       props: true,
