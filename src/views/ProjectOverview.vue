@@ -49,21 +49,14 @@
           :items="versionNames"
           @selectedItem="handleSelectedItem"
           name="Model"
-          dropdownName="Select a Model"
-          class="py-3"
-        />
-
-        <Dropdown
-          :items="versionNames"
-          name="Version"
-          dropdownName="Select a version"
+          dropdownName="Select version"
           class="py-3"
         />
 
         <button
           type="button"
-          class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-3 my-3 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-          @click="loadProject"
+          class="inline-flex min-w-52 justify-center rounded-md bg-green-600 px-3 py-3 my-3 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+          @click="selectProject"
         >
           Load this version
         </button>
@@ -111,13 +104,17 @@ import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
 import { useNavigationStore } from '@/stores/navigation'
 import { useSpeckleStore } from '@/stores/speckle'
 
+import { loadProject } from '@/utils/speckleUtils'
+import router from '@/router'
+
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
-import type { Version, ResponseObjectStream } from '@/models/speckle'
 
 const navStore = useNavigationStore()
 const speckleStore = useSpeckleStore()
 const contentVisible = ref(false)
 const backgroundVisible = ref(false)
+//This is to check if we actually changed version and should load it again or just use the one loaded
+const changedVersion = ref(false)
 
 // Start background flash
 onMounted(() => {
@@ -130,6 +127,9 @@ onMounted(() => {
       contentVisible.value = true
     }, 150)
   }, 150)
+
+  // Lazyload the latest version in the background
+  loadProject(false)
 })
 
 /**
@@ -160,50 +160,26 @@ const handleSelectedItem = (selectedItem: dropdownItem) => {
     (obj) => obj.id === selectedItem.data
   )
 
+  // Set that we changed to another version manually so we have to load it
+  changedVersion.value = true
   if (version) speckleStore.setSelectedVersion(version)
 }
 
 /**
- * Load version into the project store and navigating to a project view
- * TODO: This should definately be its own utils residing in SpeckleUtils
+ * Loads project when button pressed either its lazyloaded already or we load it from scratch
  */
-const loadProject = async () => {
-  let version: Version
-
-  if (speckleStore.getProjectDetails) {
-    // Try to find the project version in the store.
-    const versionFound =
-      speckleStore.getProjectDetails.stream.commits.items.find(
-        (obj) => obj.id === speckleStore.getSelectedVersion?.id
-      )
-
-    // If the version was found, set the version and update the store.
-    if (versionFound) {
-      version = versionFound
-      speckleStore.setSelectedVersion(version)
-    } else {
-      const latestVersion = speckleStore.getProjectDetails.stream.commits.items[0]
-      speckleStore.setSelectedVersion(latestVersion)
-    }
+const selectProject = () => {
+  // If version changed we load it otherwise just route it
+  if (changedVersion.value) {
+    loadProject(true)
   } else {
-    console.error('Project store object is undefined.')
+    navStore.setActivePage('Filtering') 
+    router.push({ 
+      name: 'Dashboard'
+    })
   }
 
-  navStore.toggleLoading()
 
-  const objects: ResponseObjectStream = await speckleStore.getObjects() // Attempt to get project objects from Speckle.
-  const project: Project | null = convertObjects(objects) // Convert objects to a project class, can be null.
-
-  // If project is not null, create it in the project store.
-  if (project) {
-    projectStore.createNewProject(project)
-  } else {
-    console.error('Could not create project from Speckle.')
-  }
-
-  navigationStore.setActivePage('Overview')
-  navigationStore.toggleLoading()
-  router.push('/dashboard')
 }
 
 const threshold = 100

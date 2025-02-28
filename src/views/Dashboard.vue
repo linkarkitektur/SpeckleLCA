@@ -12,7 +12,7 @@
 		<Navbar />
 		<Sidebar />
 		<div 
-			class="relative inset-y-16 w-full h-[calc(100vh-4rem)] bg-gray-100 overflow-auto" 
+			class="absolute inset-y-16 w-full h-[calc(100vh-4rem)] overflow-auto" 
 			id="renderParent"
 		>
 			<Suspense>
@@ -24,15 +24,21 @@
 			</Suspense>
 		</div>
 		<Slideover />
+		<div v-if="navStore.detailBarShow" id="Detailbar">
+      <DetailBar />
+    </div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { watch } from 'vue'
+
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import Slideover from '@/components/SlideOver/Sliderover.vue'
 import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 import Navbar from '@/components/Misc/Navbar.vue'
+import DetailBar from '@/components/DetailBar/DetailBar.vue'
+
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import { useSpeckleStore } from '@/stores/speckle'
@@ -69,7 +75,7 @@ preloadDashboardData()
 // Watch for changes in the active page and update viewer colors
 // TODO: Have this in the navStore instead?
 watch(() => navStore.activePage , (newVal) => {
-	if(newVal === 'Overview') {
+	if(newVal === 'Filtering') {
 		updateProjectGroups(true)
 		const tree =	projectStore.getGroupTree()?.children
 		speckleStore.calculateGroupColors(tree)
