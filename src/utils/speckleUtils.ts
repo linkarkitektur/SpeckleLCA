@@ -4,7 +4,7 @@
  * @packageDocumentation
  */
 import type { Project } from '@/models/project'
-import type { ResponseObject, ResponseObjectStream } from '@/models/speckle'
+import type { ResponseObject, ResponseObjectStream, Version } from '@/models/speckle'
 import type { GeometryObject, Quantity } from '@/models/geometryObject'
 import type { QuantityConversionSpec } from '@/models/material'
 
@@ -23,7 +23,10 @@ import { reportErrorToSentry } from './monitoring'
 
 import { useSpeckleStore } from '@/stores/speckle'
 import { useSettingsStore } from '@/stores/settings'
+import { useNavigationStore } from '@/stores/navigation'
+import { useProjectStore } from '@/stores/main'
 
+import router from '@/router'
 
 export const APP_NAME = 'SpeckLCA'
 
@@ -189,6 +192,57 @@ export async function getObjectParameters(
 		objectId: objectId,
 		selection: selection
 	})
+}
+
+/**
+ * Load selected or most recent version into the project store and navigating to dashboard view
+ * @param reRoute If we should reroute to the dashboard page or not, set to false for lazyload
+ */
+export async function loadProject(reRoute: boolean) {
+	const speckleStore = useSpeckleStore()
+	const navStore = useNavigationStore()
+	const projectStore = useProjectStore()
+
+  let version: Version
+	if (reRoute)
+		navStore.toggleLoading()
+
+  if (speckleStore.getProjectDetails) {
+    // Try to find the project version in the store.
+    const versionFound =
+      speckleStore.getProjectDetails.stream.commits.items.find(
+        (obj) => obj.id === speckleStore.getSelectedVersion?.id
+      )
+
+    // If the version was found, set the version and update the store.
+    if (versionFound) {
+      version = versionFound
+      speckleStore.setSelectedVersion(version)
+    } else {
+      const latestVersion = speckleStore.getProjectDetails.stream.commits.items[0]
+      speckleStore.setSelectedVersion(latestVersion)
+    }
+  } else {
+    console.error('Project store object is undefined.')
+  }
+
+ // Attempt to get project objects from Speckle and then convert them.
+  const objects: ResponseObjectStream = await speckleStore.getObjects()
+  const project: Project | null = convertObjects(objects)
+
+  // If project is not null, create it in the project store.
+  if (project) {
+    projectStore.createNewProject(project)
+  } else {
+    console.error('Could not create project from Speckle.')
+  }
+
+	// Switch to dashboard view
+	if (reRoute) {
+		navStore.setActivePage('Filtering')
+		navStore.toggleLoading()
+		router.push('/dashboard')
+	}
 }
 
 /**

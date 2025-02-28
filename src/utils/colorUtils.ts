@@ -276,5 +276,17 @@ export function getValueColorFromGradient(value: number, min: number, max: numbe
  * @returns The lightened hex color.
  */
 export function lightenHexColor(hex: string, amount: number): string {
-  return chroma(hex).brighten(amount).hex();
+  return chroma(hex).brighten(amount).hex()
+}
+
+/**
+ * Lightens a hsl color by the given amount.
+ * @param hex The original hsl color (e.g. "#95C92C")
+ * @param amount The amount to lighten the color; typical values are between 0 and 2.
+ *               (e.g. 1 gives a moderate brighten, 2 gives a stronger effect)
+ * @returns The lightened hsl color.
+ */
+export function lightenHSLColor(hsl: string, amount: number): string {
+  const brightend = chroma(hsl).brighten(amount).hsl()
+  return `hsl(${Math.round(brightend[0] || 0)}, ${Math.round(brightend[1] * 100)}%, ${Math.round(brightend[2] * 100)}%)`
 }
