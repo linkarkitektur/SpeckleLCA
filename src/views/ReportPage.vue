@@ -1,6 +1,6 @@
 <template>
   <!-- Navbar -->
-  <NavbarComponent class="print:hidden" />
+  <Navbar class="print:hidden" />
   <div 
     :class="['result-report', isA4Mode ? 'a4-print' : '']"
     class="
@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 // Import required components
-import NavbarComponent from '@/components/Navbar.vue'
+import Navbar from '@/components/Misc/Navbar.vue'
 import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 import DataTable from '@/components/Graphs/DataTable.vue'

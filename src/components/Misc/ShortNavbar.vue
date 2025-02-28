@@ -1,6 +1,15 @@
 <template>
-  <div id="nav" class="h-16 navbar-component flex justify-end">
+  <div id="nav" class="h-16 short-navbar-component flex items-center justify-between px-10 relative z-30">
     <!-- Profile dropdown -->
+    <div class="flex flex-shrink-0 items-center">
+      <img
+        class="h-12 w-auto"
+        :src="logo"
+        alt="Your Company"
+        style="shape-rendering: geometricPrecision; filter: drop-shadow(4px 4px 0 black);"
+      />
+    </div>
+    <!-- Profile picture and dropdown -->
     <Menu as="div" class="relative mr-10 mt-2 items-center">
       <div>
         <MenuButton
@@ -77,6 +86,8 @@ import {
 } from '@headlessui/vue'
 import { useSpeckleStore } from '@/stores/speckle'
 import { useNavigationStore } from '@/stores/navigation'
+
+import logo from '@/assets/icons/logo.svg'
 
 const speckleStore = useSpeckleStore()
 const navigationStore = useNavigationStore()
