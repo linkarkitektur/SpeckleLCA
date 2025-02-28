@@ -40,7 +40,7 @@
                   <span class="absolute -inset-1.5" />
                   <span class="sr-only">Open user menu</span>
                   <img
-                    class="h-12 w-12"
+                    class="h-14 w-14"
                     :src="speckleStore.user?.avatar"
                     alt=""
                   />
@@ -135,7 +135,8 @@ const toggleSettingsModal = () => {
 
 const steps: Step[] = [
   { name: 'Projects', href: '/projects' },
-  { name: 'Overview', href: '/dashboard' },
+  { name: 'Overview', href: '/overview' },
+  { name: 'Filtering', href: '/dashboard' },
   { name: 'Mapping', href: '/dashboard' },
   { name: 'Results', href: '/dashboard' },
   { name: 'Benchmark', href: '/benchmark' },

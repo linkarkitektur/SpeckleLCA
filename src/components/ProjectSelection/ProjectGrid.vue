@@ -169,6 +169,7 @@ const startTransition = async (project: ProjectId, color: string) => {
 
   // Complete transition and navigate
   setTimeout(() => {
+    navStore.setActivePage('Overview') 
     router.push({ 
       name: 'Overview', 
       params: { 

@@ -1,4 +1,12 @@
 <template>
+  <!-- Background with dots pattern -->
+  <div 
+    class="fixed inset-0 w-full h-full pattern-dots pattern-black pattern-bg-transparent pattern-size-4 -z-20"
+    :style="{
+      backgroundColor: navStore.activeColor,
+      '--pattern-opacity': '0.5'
+    }"
+  ></div>
   <TransitionRoot as="template" :show="fadeOut">
     <TransitionChild
       as="template"
@@ -12,12 +20,13 @@
       <div class="fixed w-full h-full bg-gray-500 bg-opacity-75 transition-opacity z-30" />
     </TransitionChild>
   </TransitionRoot>
-    <div class="absolute text-sm select-none left-4">
+    <div class="absolute font-mono text-md select-none left-1/3">
       <RenderToggle />
-      <h3 class="font-semibold leading-5 text-gray-400 border-b border-gray-300 pb-2">
+      <!--
+      <h3 class="font-semibold leading-5 text-black border-b border-gray-300 pb-2">
         Controls
       </h3>
-      <p class="py-1.5 font-light leading-6 text-gray-400">
+      <p class="py-1.5 font-light leading-6 text-black">
         Use the toolbar below to interact with the model.<br />
         <i>Clear Selection</i>: Esc<br />
         <i>Select</i>: Left Click<br />
@@ -26,19 +35,17 @@
         <i>Move</i>: W,A,S,D<br />
         <i>Zoom</i>: Scroll Wheel<br />
       </p>
+      -->
     </div>
 
-    <div class="flex h-full w-full bg-gray-50 -z-10" id="renderer" />
+    <div class="flex h-full w-full bg-transparent -z-10" id="renderer" />
     <!-- Only show in dashboard view -->
     <div
     	class="absolute h-full mx-auto top-4 right-4 align-right justify-center z-20 overflow-visible"
-      v-if="navigationStore.activePage !== 'Benchmark'"
+      v-if="navStore.activePage !== 'Benchmark'"
   	>
       <GraphContainer />
 		</div>
-    <div v-if="Detailbar" id="Detailbar">
-      <DetailBar />
-    </div>
 </template>
 
 <script setup lang="ts">
@@ -74,17 +81,9 @@ import { useNavigationStore } from '@/stores/navigation'
 import { storeToRefs } from 'pinia'
 
 // Component imports
-import DetailBar from '@/components/DetailBar/DetailBar.vue'
 import RenderToggle from '@/components/Misc/RenderToggle.vue'
 import GraphContainer from '@/components/Graphs/GraphContainer.vue'
-
-// Props
-const props = withDefaults(defineProps<{
-  Detailbar?: boolean
-}>(), {
-  Detailbar: true,
-})
-
+import { TransparentBackgroundExtension } from '@/extensions/TransparentBackgroundExtension'
 
 // Variables and references
 let viewer: Viewer | null = null
@@ -94,7 +93,7 @@ const { selectedObjects } = storeToRefs(projectStore)
 
 const speckleStore = useSpeckleStore()
 const settingsStore = useSettingsStore()
-const navigationStore = useNavigationStore()
+const navStore = useNavigationStore()
 const serverUrl = settingsStore.keySettings.speckleConfig.serverUrl
 const token = ""
 const resizeObserver = ref<ResizeObserver | null>(null)
@@ -138,7 +137,7 @@ onMounted(async () => {
 
   viewer = new Viewer(container, DefaultViewerParams)
   await viewer.init()
-
+  
   if (!viewer) {
     throw new Error('Failed to initialize viewer!')
   } else {
