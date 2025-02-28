@@ -32,10 +32,16 @@
 
   /* Pressed state */
   .pressable {
-    @apply focus:outline-2 focus:outline-offset-2 focus:outline-black 
+    @apply focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-black 
            focus:translate-x-2 focus:translate-y-2 focus:shadow-none 
-           active:outline-2 active:outline-offset-2 active:outline-black 
+           active:outline active:outline-2 active:outline-offset-2 active:outline-black 
            active:translate-x-2 active:translate-y-2 active:shadow-none;
+  }
+
+  /* Active state, for manual control */
+  .styled-active {
+    @apply outline outline-2 outline-offset-2 outline-black 
+           translate-x-2 translate-y-2 shadow-none;
   }
 }
 
@@ -44,11 +50,13 @@
   /* Hide scrollbar for Chrome, Safari, and Opera */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+    -webkit-overflow-scrolling: touch;
   }
   /* Hide scrollbar for IE, Edge, and Firefox */
   .scrollbar-hide {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+    -webkit-overflow-scrolling: touch;
   }
 }
 
