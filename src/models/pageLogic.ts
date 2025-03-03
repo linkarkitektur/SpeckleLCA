@@ -8,3 +8,14 @@ export interface DropdownOption {
   value: string
   selected: boolean
 }
+
+export type PageType = 'Projects' | 'Overview' | 'Filtering' | 'Mapping' | 'Results' | 'Benchmark' | 'Report'
+
+export interface NavigationButtonConfig {
+  text: SlideoverFunction
+  icon: any
+  action: string
+  showOn: PageType[]
+}
+
+export type SlideoverFunction = 'Edit Filters' | 'Show Materials' | 'Edit Mapping' | 'Edit Assemblies' | 'Save Results' | 'Export Results'
