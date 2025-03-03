@@ -5,8 +5,10 @@ import { useSettingsStore } from '@/stores/settings'
 import { getAssemblyList } from '@/utils/material'
 import { getRevaluBaseList, getRevaluCollections } from '@/models/revaluDataSource'
 import { getEPDList } from './EPDUtils'
+import { createStandardFilters } from './filterUtils'
 
 import { APISource } from '@/models/material'
+import { FilterRegistry } from '@/models/filters'
 
 /**
  * Preload data needed for the dashboard view
@@ -16,8 +18,22 @@ export async function preloadDashboardData() {
   const materialStore = useMaterialStore()
   const settingsStore = useSettingsStore()
 
+
+  /**
+   * Set the standard filters for the project, this is mostly for testing
+   * should be a popup or something better later on
+   */
+  const setStandardFilters = () => {
+    //Create new filterregistry, maybe store this in the projectStore?
+    const registry = new FilterRegistry()
+    projectStore.setFilterRegistry(registry)
+    createStandardFilters()
+  }
+
+
   try {
     await projectStore.getAvailableParameterList()
+    await setStandardFilters()
 
     if(settingsStore.materialSettings.APISource[APISource.LCAbyg])
       await materialStore.materialsFromJson()
