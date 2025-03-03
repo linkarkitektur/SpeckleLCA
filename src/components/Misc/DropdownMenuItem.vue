@@ -4,8 +4,12 @@
       :class="[
         'flex items-center justify-between px-4 py-2 text-sm cursor-pointer',
         selectedItem === item.name ? 'font-bold underline' : '',
-        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
       ]"
+      :style="{ 
+        backgroundColor: active || selectedItem === item.name 
+          ? darkenHSLColor(navStore.activeColor, 0.5) 
+          : navStore.activeColor 
+      }"
       @click="handleSelect"
       @mouseenter="active = true"
       @mouseleave="active = false"
@@ -27,52 +31,45 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import { ChevronRightIcon } from '@heroicons/vue/20/solid'
+import { useNavigationStore } from '@/stores/navigation'
 
-export default defineComponent({
-  name: 'DropdownMenuItem',
-  components: {
-    ChevronRightIcon,
-    DropdownMenuItem: () => import('./DropdownMenuItem.vue'),
-  },
-  props: {
-    item: {
-      type: Object as () => dropdownItem,
-      required: true,
-    },
-    selectedItem: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props, { emit }) {
-    const isOpen = ref(false)
-    const active = ref(false)
-    const hasChildren = props.item.children && props.item.children.length > 0
-
-    const handleSelect = () => {
-      if (hasChildren) {
-        isOpen.value = !isOpen.value
-      } else {
-        emit('select', props.item)
-      }
-    }
-
-    return {
-      isOpen,
-      active,
-      hasChildren,
-      handleSelect,
-    }
-  },
-})
+import { darkenHSLColor } from '@/utils/colorUtils'
 
 export interface dropdownItem {
   name: string
   data?: string
   children?: dropdownItem[]
+}
+
+interface Props {
+  item: dropdownItem
+  selectedItem: string
+}
+
+const navStore = useNavigationStore()
+
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  (e: 'select', item: dropdownItem): void
+}>()
+
+// Reactive state
+const isOpen = ref(false)
+const active = ref(false)
+
+// Computed properties
+const hasChildren = computed(() => props.item.children && props.item.children.length > 0)
+
+// Methods
+const handleSelect = () => {
+  if (hasChildren.value) {
+    isOpen.value = !isOpen.value
+  } else {
+    emit('select', props.item)
+  }
 }
 </script>
 
@@ -81,8 +78,8 @@ export interface dropdownItem {
 .fade-leave-active {
   transition: opacity 0.2s;
 }
-.fade-enter-from,
-.fade-leave-to {
+.fade-leave-to,
+.fade-enter-from {
   opacity: 0;
 }
 </style>

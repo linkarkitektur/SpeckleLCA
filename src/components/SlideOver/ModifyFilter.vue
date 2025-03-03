@@ -12,31 +12,33 @@
       @end="drag = false"
     >
       <template #item="{ element, index }">
-        <div class="styled-element hoverable pressable p-4" 
+        <div class="styled-element hoverable-sm pressable p-4" 
           :class="{'styled-active' : index === editFilter, 'scale-[0.99] rotate-1': drag  }"
+          :style="{ backgroundColor: navStore.activeColor }"
 				>         
 					 <div class="relative">
             <!-- Edit/Remove Buttons -->
             <div v-if="index !== editFilter" class="absolute right-2 top-2 flex flex-col gap-2">
               <button
-                class="text-gray-700 hover:text-gray-800 p-1"
+                class="p-1 styled-element hoverable-xs bg-neutral-100"
                 @click="toggleFilter(index)"
               >
-                <PencilSquareIcon class="h-5 w-5" />
+                <PencilSquareIcon class="h-4 w-4" />
               </button>
               <button
-                class="text-red-600 hover:text-red-500 p-1"
+                class="p-1 styled-element hoverable-xs mb-2 bg-neutral-100"
                 @click="removeFilter(index)"
               >
-                <MinusCircleIcon class="h-5 w-5" />
+                <MinusCircleIcon class="h-4 w-4" />
               </button>
             </div>
             <button
               v-else
-              class="absolute right-2 top-2 text-gray-700 hover:text-gray-800 p-1 z-50"
+              class="absolute right-2 top-2 p-1 styled-element hoverable-xs z-50 bg-neutral-100"
+              :style="{ backgroundColor: navStore.activeColor }"
               @click="toggleFilter(index)"
             >
-              <XMarkIcon class="h-5 w-5" />
+              <XMarkIcon class="h-4 w-4" />
             </button>
           </div>
 
@@ -59,13 +61,13 @@
             <input 
               v-model="element.value" 
               placeholder="Filter value..."
-              class="w-full p-2 border rounded-md"
+              class="p-2 styled-element font-mono bg-neutral-100"
             />
             <div class="flex items-center gap-2">
               <input 
                 v-model="element.remove" 
                 type="checkbox"
-                class="h-4 w-4 rounded border-gray-300"
+                class="h-4 w-4 styled-element hoverable-xs bg-neutral-100"
               />
               <label>Remove false results</label>
             </div>
@@ -74,20 +76,21 @@
           <!-- View Mode -->
           <div v-else class="space-y-2">
             <p class="font-semibold">{{ element.name }}</p>
-            <p class="text-gray-600">{{ element.field }}</p>
-            <p class="text-gray-600">{{ element.value }}</p>
+            <p class="text-gray-600 font-mono text-sm">{{ element.field }}</p>
+            <p class="text-gray-600 font-mono text-sm">{{ element.value }}</p>
           </div>
         </div>
       </template>
     </Draggable>
 
     <!-- Add Filter Button -->
-    <div class="flex justify-center mt-6">
+    <div class="flex justify-center mt-4 mb-4 ">
       <button 
         @click="addNewFilter"
-        class="p-2 text-green-600 hover:text-green-500 transition-colors"
+        class="p-1 styled-element hoverable-xs"
+        :style="{ backgroundColor: navStore.activeColor }"
       >
-        <PlusCircleIcon class="h-10 w-10" />
+        <PlusCircleIcon class="h-6 w-6" />
       </button>
     </div>
   </div>

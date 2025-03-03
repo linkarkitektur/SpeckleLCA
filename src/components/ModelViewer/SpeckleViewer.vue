@@ -1,12 +1,5 @@
 <template>
   <!-- Background with dots pattern -->
-  <div 
-    class="fixed inset-0 w-full h-full pattern-dots pattern-black pattern-bg-transparent pattern-size-4 -z-20"
-    :style="{
-      backgroundColor: navStore.activeColor,
-      '--pattern-opacity': '0.5'
-    }"
-  ></div>
   <TransitionRoot as="template" :show="fadeOut">
     <TransitionChild
       as="template"
@@ -20,7 +13,7 @@
       <div class="fixed w-full h-full bg-gray-500 bg-opacity-75 transition-opacity z-30" />
     </TransitionChild>
   </TransitionRoot>
-    <div class="absolute font-mono text-md select-none left-1/3">
+    <div class="absolute font-mono text-md select-none left-1/3 z-40">
       <RenderToggle />
       <!--
       <h3 class="font-semibold leading-5 text-black border-b border-gray-300 pb-2">

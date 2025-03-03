@@ -8,32 +8,35 @@
         'outline-2 outline-offset-2 outline-black translate-x-2 translate-y-2 shadow-none' : selectedBool, 
         '' : selectedBool == false,
       }"
-      :style="{ backgroundColor: inGroups.color }"
+      :style="{ backgroundColor: inGroups.color, color: fontColor }"
       @click="toggleExpand"
     >
       <section 
-        class="relative flex items-center justify-between w-full min-h-22 text-black cursor-pointer"
+        class="relative flex items-center justify-between w-full min-h-12 text-black cursor-pointer"
       >
         <!-- Group Name -->
-        <div class="absolute w-full items-center top-3 left-0 rounded-br-lg">
-          <div class="flex justify-center text-xl leading-none font-black">{{ inGroups.name }}</div>
+        <div class="absolute w-full items-center top-2 left-0 rounded-br-lg text-sm">
+          <div class="flex justify-center text-xl leading-none font-semibold">{{ inGroups.name }}</div>
         </div>
         <!-- Left Side Info -->
-        <div class="flex flex-col items-start h-full pl-3 pt-8 pb-4 font-mono">
-          <div class="text-l leading-none pt-2">{{ leftInfo }}</div>
+        <div class="flex flex-col items-start h-full pl-2 pt-6 pb-3 font-mono font-light">
+          <div class="text-sm leading-none pt-1 truncate max-w-40" :title="leftInfo">
+            {{ leftInfo }}
+          </div>
         </div>
         <!-- Right Side Info -->
-        <div class="flex flex-col items-end h-full pr-3 pt-8 pb-4 font-mono">
-          <div>
-            <div class="text-l leading-none pt-2">{{ rightInfo }}</div>
+        <div class="flex flex-col items-end h-full pr-2 pt-6 pb-3 font-mono font-light">
+          <div class="text-sm leading-none pt-1 truncate max-w-40" :title="rightInfo">
+            {{ rightInfo }}
           </div>
         </div>
       </section>
       
       <!-- Lower Section -->
       <section class="w-full">
-        <div class="relative flex items-center justify-center min-w-full h-16 p-3 styled-element bg-neutral-100 z-10">
-          <!-- Dynamic content goes here this was sent through props before maybe we do it in here instead? -->
+        <div class="relative flex items-center justify-center min-w-full h-10 styled-element bg-neutral-100 z-10">
+            <!-- Component determined by currGroupTotal -->
+            <component :is="currGroupTotal" :groups="inGroups" v-if="currGroupTotal" class="font-light text-sm"/>
           <slot name="dynamic-content" />
         </div> 
       </section>
@@ -46,13 +49,13 @@
                 transition-all delay-150 duration-300 ease-in-out z-30" 
         :class="{ 'rotate-180': isExpanded }"
         :style="{
-          right: '-34px',
-          bottom: '-34px',
+          right: '-19px',
+          bottom: '-19px',
           width: 0,
           height: 0,
-          borderLeft: '34px solid transparent',
-          borderRight: '34px solid transparent',
-          borderTop: '66px solid black'
+          borderLeft: '19px solid transparent',
+          borderRight: '19px solid transparent',
+          borderTop: '26px solid black'
         }"
       ></div>
       <div 
@@ -62,13 +65,13 @@
                 transition-all delay-150 duration-300 ease-in-out z-40" 
         :class="{ 'rotate-180': isExpanded }"
         :style="{
-          right: '-30px',
-          bottom: '-30px',
+          right: '-15px',
+          bottom: '-15px',
           width: 0,
           height: 0,
-          borderLeft: '30px solid transparent',
-          borderRight: '30px solid transparent',
-          borderTop: `60px solid ${inGroups.color}`
+          borderLeft: '15px solid transparent',
+          borderRight: '15px solid transparent',
+          borderTop: `20px solid ${inGroups.color}`
         }"
       ></div>
     </div>
@@ -83,10 +86,10 @@
       leave-from-class="transform translate-y-0 opacity-100"
       leave-to-class="transform -translate-y-4 opacity-0"
     >
-      <div v-if="isExpanded" class="w-full relative z-10 scale-x-95 origin-top-right mt-2">
+      <div v-if="isExpanded" class="w-full relative z-10 scale-x-95 origin-top-right">
       <GroupCard
         v-for="(children, index) in inGroups.children"
-        class="pt-8"
+        class="pt-6"
         :key="index"
         :groups="children"
       />
@@ -100,16 +103,15 @@
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 
 import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
-import OverviewIconAction from '@/components/Sidebar/Overview/OverviewIconAction.vue'
 import MaterialGroupCard from '@/components/Sidebar/Mapping/MaterialGroupCard.vue'
-import MaterialIconAction from '@/components/Sidebar/Mapping/MaterialIconAction.vue'
-import ResultIconAction from '@/components/Sidebar/Results/ResultIconAction.vue'
 import ResultsGroupCard from '@/components/Sidebar/Results/ResultsGroupCard.vue'
 
 import type { NestedGroup } from '@/models/filters'
+
+import { getMappedMaterial } from '@/utils/material'
+
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
-import { useSpeckleStore } from '@/stores/speckle'
 import { storeToRefs } from 'pinia'
 import { getFontColorForHSL, lightenHSLColor } from '@/utils/colorUtils'
 
@@ -128,8 +130,6 @@ const props = defineProps<Props>()
 // Store initialization
 const projectStore = useProjectStore()
 const navStore = useNavigationStore()
-const speckleStore = useSpeckleStore()
-
 // Reactive refs
 const isExpanded = ref(false)
 const toggleExpand = () => {
@@ -138,8 +138,7 @@ const toggleExpand = () => {
 }
 
 // Store refs
-const { editName, activePage } = storeToRefs(navStore)
-const { renderMode } = storeToRefs(speckleStore)
+const { activePage } = storeToRefs(navStore)
 const { selectedGroup } = storeToRefs(projectStore)
 
 // Computed properties
@@ -147,7 +146,7 @@ const inGroups = computed(() => ({
   ...props.groups,
   children: props.groups.children.map(child => ({
     ...child,
-    color: lightenHSLColor(props.groups.color, 1)
+    color: lightenHSLColor(props.groups.color, 0.2)
   }))
 }))
 
@@ -160,22 +159,12 @@ const selectedBool = computed(() => {
 
 const fontColor = computed(() => {
   if (inGroups.value && inGroups.value.color) {
-    if (activePage.value === "Filtering" && !renderMode.value) {
+    if (activePage.value === "Filtering") {
       return getFontColorForHSL(inGroups.value.color)
     }
     return 'text-gray-700'
   }
   return 'text-gray-700'
-})
-
-const currGroupValue = computed(() => {
-  switch (activePage.value) {
-    case "Filtering": return "Elements"
-    case "Mapping": return "Material"
-    case "Results":
-    case "Benchmark": return "Co<sup>2<sup>"
-    default: return null
-  }
 })
 
 const currGroupTotal = computed(() => {
@@ -188,20 +177,25 @@ const currGroupTotal = computed(() => {
   }
 })
 
-const currIconAction = computed(() => {
+const leftInfo = computed(() => {
   switch (activePage.value) {
-    case "Filtering": return OverviewIconAction
-    case "Mapping": return MaterialIconAction
-    case "Results": return ResultIconAction
+    case "Filtering": return inGroups.value.objects.length + " Elements"
+    case "Mapping": return "Material"
+    case "Results": return "Area"
     case "Benchmark": return null
-    default: return null
-  }
+    default: return "dummy"
+  } 
 })
 
-// TODO: Compute this based on current page
-const leftInfo = "Dummy"
-const rightInfo =  "Dummy"
-
+const rightInfo = computed(() => {
+  switch (activePage.value) {
+    case "Filtering": return inGroups.value.objects.length + " Elements"
+    case "Mapping": return getMappedMaterial(inGroups.value.objects).name
+    case "Results": return "100 m2"
+    case "Benchmark": return null
+    default: return "dummy"
+  } 
+})
 // OnMounted and unMounted effects
 // Event handler for Escape key so we deselect the group visually as well
 const handleEscKey = (e: KeyboardEvent) => {

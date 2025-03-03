@@ -1,18 +1,37 @@
 <template>
-  <div class="w-full flex flex-col items-center">
-    <div class="w-full flex"> 
-      <div class="transition-all ease-out duration-1000 h-10 rounded-sm bg-green-300 justify-center flex items-center opacity-80 right-0 text-gray-600" :style="{ width: percentMapped + '%' }">
+  <div class="w-full flex flex-col items-center h-10 relative overflow-hidden">
+    <!-- Progress bars container -->
+    <div class="w-full h-full flex absolute top-0 overflow-hidden styled-element"> 
+      <!-- Mapped items (green) -->
+      <div 
+        class="transition-all ease-out duration-1000 h-full bg-green-300 justify-center flex items-center opacity-80" 
+        :style="{ width: percentMapped + '%' }"
+      >
       </div>
-      <div class="transition-all ease-out duration-1000 w-1 h-8 m-1 rounded-full bg-white border-transparent border-r opacity-50"></div>
-      <div class="transition-all ease-out duration-1000 top-0 left-0 h-10 rounded-sm bg-red-300 justify-center flex items-center opacity-80" :style="{ width: (100 - percentMapped) + '%' }">
+
+      <!-- Divider -->
+      <div 
+        class="transition-all ease-out duration-1000 w-0.5 h-6 my-2 bg-white opacity-50"
+      >
+      </div>
+
+      <!-- Unmapped items (red) -->
+      <div 
+        class="transition-all ease-out duration-1000 h-full bg-red-300 justify-center flex items-center opacity-80" 
+        :style="{ width: (100 - percentMapped) + '%' }"
+      >
       </div>
     </div>
-    <div class="mt-1 flex w-full items-center justify-between text-xs">
-      <div class="text-gray-600 left-0">Mapped</div>
-      <label class="text-center text-l">
-        {{ percentMapped }}%
-      </label>
-      <div class="text-gray-600 right-0">Not mapped</div>
+
+    <!-- Text overlay -->
+    <div class="absolute bottom-0 w-full z-10 styled-element">
+      <div class="flex w-full items-center justify-between text-xs px-2 bg-neutral-100 bg-opacity-90">
+        <div class="text-gray-600">Mapped</div>
+        <label class="text-center text-l font-medium">
+          {{ percentMapped }}%
+        </label>
+        <div class="text-gray-600">Not mapped</div>
+      </div>
     </div>
   </div>
 </template>

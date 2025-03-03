@@ -2,16 +2,17 @@
   <Popover as="div" class="relative inline-block text-left">
     <div>
       <PopoverButton 
-        class="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+        class="group inline-flex items-center justify-center text-xs styled-element p-1 hoverable-xs"
+        :style="{ backgroundColor: navStore.activeColor }"
       >
         <span>{{ displayName }}</span>
         <span 
-          class="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700"
+          class="ml-1 border-l border-black p-1 text-xs font-mono"
         >
           {{ selectedCount === 0 ? 'All' : selectedCount }}
         </span>
         <ChevronDownIcon 
-          class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" 
+          class="mr-1 ml-1 h-4 w-4 " 
           aria-hidden="true" 
         />
       </PopoverButton>
@@ -53,10 +54,11 @@
   </Popover>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
+import { useNavigationStore } from '@/stores/navigation'
 
 export interface Option {
   label: string
@@ -64,46 +66,29 @@ export interface Option {
   selected: boolean
 }
 
-export default defineComponent({
-  name: 'DropdownMulti',
-  components: {
-    Popover,
-    PopoverButton,
-    PopoverPanel,
-    ChevronDownIcon,
-  },
-  props: {
-    filterName: {
-      type: String,
-      required: true,
-    },
-    displayName: {
-      type: String,
-      required: true,
-    },
-    options: {
-      type: Array as () => Option[],
-      required: true,
-    },
-  },
-  emits: ['update:options'],
-  setup(props, { emit }) {
-    // Compute the number of selected options
-    const selectedCount = computed(() => {
-      return props.options.filter(option => option.selected).length
-    })
+// Props
+interface Props {
+  filterName: string
+  displayName: string
+  options: Option[]
+}
 
-    // Toggle selection of an option
-    const toggleSelection = (index: number) => {
-      const updatedOptions = [...props.options]
-      updatedOptions[index].selected = !updatedOptions[index].selected
-      emit('update:options', updatedOptions)
-    }
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  'update:options': [Option[]]
+}>()
 
-    return {
-      selectedCount,
-      toggleSelection,
-    }
-  },
-})
+const navStore = useNavigationStore()
+
+// Computed
+const selectedCount = computed(() => 
+  props.options.filter(option => option.selected).length
+)
+
+// Methods
+const toggleSelection = (index: number) => {
+  const updatedOptions = [...props.options]
+  updatedOptions[index].selected = !updatedOptions[index].selected
+  emit('update:options', updatedOptions)
+}
 </script>

@@ -3,13 +3,13 @@
   <div id="nav" class="h-16 navbar-component">
     <Disclosure as="nav" class="fixed w-full z-50">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 justify-between">   
+        <div class="relative flex h-12 justify-between">   
           <div
             class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
           >
           <div class="flex flex-shrink-0 items-center">
             <img
-              class="h-12 w-auto"
+              class="h-10 w-auto"
               :src="logo"
               alt="Your Company"
               style="shape-rendering: geometricPrecision; filter: drop-shadow(4px 4px 0 black);"
@@ -19,7 +19,7 @@
               <a v-for="step in steps" 
                 :key="step.name" 
                 :class="[
-                  'inline-flex px-4 items-center styled-element hoverable-xs font-black select-none cursor-pointer transition-colors duration-150 ease-in-out',
+                  'inline-flex px-4 items-center styled-element hoverable-xs font-semibold select-none cursor-pointer transition-colors duration-150 ease-in-out',
                   step.name == navigationStore.activePage ? 'text-white bg-black border-white shadow-white' : 'bg-neutral-100',
                 ]"
                 @click="handleNavigation(step)"
@@ -40,7 +40,7 @@
                   <span class="absolute -inset-1.5" />
                   <span class="sr-only">Open user menu</span>
                   <img
-                    class="h-14 w-14"
+                    class="h-10 w-10"
                     :src="speckleStore.user?.avatar"
                     alt=""
                   />
@@ -111,7 +111,7 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/vue'
-import type { Step } from '@/models/pageLogic'
+import type { Step, PageType } from '@/models/pageLogic'
 import { useSpeckleStore } from '@/stores/speckle'
 import { useNavigationStore } from '@/stores/navigation'
 import router from '@/router'
@@ -122,7 +122,7 @@ const speckleStore = useSpeckleStore()
 const navigationStore = useNavigationStore()
 
 const handleNavigation = (step: Step) => {
-  navigationStore.setActivePage(step.name) // Set the active page in the store
+  navigationStore.setActivePage(step.name as PageType) // Set the active page in the store
   const currentRoute = router.currentRoute.value
   if (currentRoute.path !== step.href) {
     router.push(step.href);

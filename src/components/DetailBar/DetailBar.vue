@@ -1,7 +1,7 @@
 <template>
-	<div
-		id="DetailBar"
-		class="absolute flex bottom-0 z-10 left-1/2 -translate-x-1/2 w-1/3 h-24 mb-8 rounded-2xl bg-gray-500 bg-opacity-10 border border-gray-400 border-opacity-50"
+  <div
+    id="DetailBar"
+    class="absolute flex bottom-0 z-10 w-1/5 h-24 mb-8 styled-element bg-neutral-100 hoverable-sm"
 	>
 		<div class="flex w-full items-center justify-center">
 			<component :is="currDetailbar" v-bind="componentProps" />
