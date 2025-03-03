@@ -13,6 +13,7 @@ module.exports = {
         lexend: ['"Lexend Mega"', 'sans-serif'],
         number: ['"Major Mono Display"', 'monospace'],
         bread: ['Merriweather', 'serif'],
+        poppins: ['Poppins', 'serif']
       },
     },
     patterns: {
