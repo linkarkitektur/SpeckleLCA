@@ -16,6 +16,13 @@
   }
 
   /* Small Hover effect */
+  .hoverable-md {
+    @apply transition-all ease-in-out delay-100 duration-200
+            shadow-[6px_6px_0px_rgba(0,0,0,1)] 
+            hover:shadow-none hover:translate-x-1.5 hover:translate-y-1.5;
+  }
+
+  /* Small Hover effect */
   .hoverable-sm {
     @apply transition-all ease-in-out delay-100 duration-200
             shadow-[4px_4px_0px_rgba(0,0,0,1)] 

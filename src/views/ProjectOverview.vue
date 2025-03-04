@@ -55,7 +55,8 @@
 
         <button
           type="button"
-          class="inline-flex min-w-52 justify-center rounded-md bg-green-600 px-3 py-3 my-3 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+          class="inline-flex min-w-52 justify-center px-3 py-3 my-3 styled-element hoverable-sm pressable"
+          :style="{backgroundColor: navStore.activeColor}"
           @click="selectProject"
         >
           Load this version
