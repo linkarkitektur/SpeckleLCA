@@ -57,9 +57,6 @@ const handleButtonClick = (button: NavigationButtonConfig) => {
     case 'toggleSlideover':
       navStore.setSlideoverFunction(button.text)
       break
-    case 'toggleAssemblyModal':
-      navStore.toggleAssemblyModal()
-      break
   }
 }
 

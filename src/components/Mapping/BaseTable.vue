@@ -30,72 +30,62 @@
   </table>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, type PropType } from 'vue'
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
-import { useMaterialStore } from '@/stores/material'
 import type { Product, Assembly } from '@/models/material'
 
-export default defineComponent({
-  name: 'BaseTable',
-  components: {
-    Draggable
-  },
-  props: {
-    data: {
-      type: Array as PropType<(Product | Assembly)[]>,
-      required: true
-    }
-  },
-  setup(props, { emit }) {
-    const materialStore = useMaterialStore()
-    const items = computed(() => props.data)
+// Props
+interface Props {
+  data: (Product | Assembly)[]
+}
 
-    const dragOptions = ref({
-      animation: 200,
-      group: 'materials',
-      disabled: false,
-      ghostClass: 'ghost',
-      handle: '.handle'
-    })
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  dragStart: [item: Product | Assembly]
+  dragEnd: []
+  doubleClick: [item: Product | Assembly]
+}>()
 
-    const roundedEmissions = computed(() => {
-      if (!items.value) return []
-      
-      return items.value.map((item: Product | Assembly) => {
-        const value = item.emission?.gwp?.a1a3 ?? 0
-        const roundedValue = parseFloat((Number(value) || 0).toFixed(2))
-        
-        return {
-          value: roundedValue,
-          isPositive: roundedValue > 0
-        }
-      })
-    })
 
-    const cloneItem = (item: Product | Assembly) => ({ ...item })
+// Reactive state
+const items = computed(() => props.data)
 
-    const onDragStart = (event: DragEvent, item: Product | Assembly) => {
-      emit('dragStart', item)
-    }
-
-    const onDragEnd = (event: DragEvent) => {
-      emit('dragEnd')
-    }
-
-    const onDoubleClick = (item: Product | Assembly) => {
-      emit('doubleClick', item)
-    }
-
-    return {
-      items,
-      dragOptions,
-      roundedEmissions,
-      cloneItem,
-      onDragStart,
-      onDragEnd,
-      onDoubleClick
-    }
-  }
+const dragOptions = ref({
+  animation: 200,
+  group: 'materials',
+  disabled: false,
+  ghostClass: 'ghost',
+  handle: '.handle'
 })
+
+// Computed
+const roundedEmissions = computed(() => {
+  if (!items.value) return []
+  
+  return items.value.map((item: Product | Assembly) => {
+    const value = item.emission?.gwp?.a1a3 ?? 0
+    const roundedValue = parseFloat((Number(value) || 0).toFixed(2))
+    
+    return {
+      value: roundedValue,
+      isPositive: roundedValue > 0
+    }
+  })
+})
+
+// Methods
+const cloneItem = (item: Product | Assembly) => ({ ...item })
+
+const onDragStart = (event: DragEvent, item: Product | Assembly) => {
+  emit('dragStart', item)
+}
+
+const onDragEnd = (event: DragEvent) => {
+  emit('dragEnd')
+}
+
+const onDoubleClick = (item: Product | Assembly) => {
+  emit('doubleClick', item)
+}
 </script>

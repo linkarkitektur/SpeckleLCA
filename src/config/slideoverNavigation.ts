@@ -1,7 +1,6 @@
 import { 
   PencilSquareIcon, 
   Square3Stack3DIcon,
-  DocumentArrowDownIcon,
   DocumentCheckIcon
 } from '@heroicons/vue/24/solid'
 
@@ -32,7 +31,7 @@ export const sidebarButtons: NavigationButtonConfig[] = [
   {
     text: 'Edit Assemblies',
     icon: Square3Stack3DIcon,
-    action: 'toggleAssemblyModal',
+    action: 'toggleSlideover',
     showOn: ['Mapping']
   },
   {

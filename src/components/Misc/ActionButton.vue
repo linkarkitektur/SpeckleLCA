@@ -19,7 +19,7 @@ const navStore = useNavigationStore()
 
 defineProps<{
   text: string
-  icon: any
+  icon?: any
   ariaLabel?: string
 }>()
 

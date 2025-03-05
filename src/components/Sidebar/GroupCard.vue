@@ -3,20 +3,21 @@
     <div 
       tabindex="1"
       id="groupCard"
-      class="relative isolate z-20 styled-element hoverable pressable w-3/4"
+      class="relative isolate z-20 styled-element hoverable pressable w-3/4 dropArea bg-neutral-100"
       :class="{
         'outline-2 outline-offset-2 outline-black translate-x-2 translate-y-2 shadow-none' : selectedBool, 
-        '' : selectedBool == false,
       }"
-      :style="{ backgroundColor: inGroups.color, color: fontColor }"
+      :style="{ color: fontColor }"
       @click="toggleExpand"
+      @drop="onDrop"
+      @dragover.prevent
     >
       <section 
         class="relative flex items-center justify-between w-full min-h-12 text-black cursor-pointer"
       >
         <!-- Group Name -->
-        <div class="absolute w-full items-center top-2 left-0 rounded-br-lg text-sm">
-          <div class="flex justify-center text-xl leading-none font-semibold">{{ inGroups.name }}</div>
+        <div class="absolute w-full items-center top-2 left-0 rounded-br-lg">
+          <div class="flex justify-center leading-none font-semibold">{{ inGroups.name }}</div>
         </div>
         <!-- Left Side Info -->
         <div class="flex flex-col items-start h-full pl-2 pt-6 pb-3 font-mono font-light">
@@ -108,7 +109,7 @@ import ResultsGroupCard from '@/components/Sidebar/Results/ResultsGroupCard.vue'
 
 import type { NestedGroup } from '@/models/filters'
 
-import { getMappedMaterial } from '@/utils/material'
+import { getMappedMaterial, mapMaterial } from '@/utils/material'
 
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
@@ -196,6 +197,14 @@ const rightInfo = computed(() => {
     default: return "dummy"
   } 
 })
+
+// Add drop handler
+const onDrop = () => {
+  if (inGroups.value) {
+    mapMaterial(inGroups.value)
+  }
+}
+
 // OnMounted and unMounted effects
 // Event handler for Escape key so we deselect the group visually as well
 const handleEscKey = (e: KeyboardEvent) => {

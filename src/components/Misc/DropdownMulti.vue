@@ -2,7 +2,7 @@
   <Popover as="div" class="relative inline-block text-left">
     <div>
       <PopoverButton 
-        class="group inline-flex items-center justify-center text-xs styled-element p-1 hoverable-xs"
+        class="group inline-flex items-center justify-center text-sm styled-element p-1 hoverable-sm"
         :style="{ backgroundColor: navStore.activeColor }"
       >
         <span>{{ displayName }}</span>
@@ -12,7 +12,7 @@
           {{ selectedCount === 0 ? 'All' : selectedCount }}
         </span>
         <ChevronDownIcon 
-          class="mr-1 ml-1 h-4 w-4 " 
+          class="mr-1 ml-1 h-4 w-4 text-black" 
           aria-hidden="true" 
         />
       </PopoverButton>
@@ -27,7 +27,8 @@
       leave-to-class="transform opacity-0 scale-95"
     >
       <PopoverPanel 
-        class="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute right-0 z-10 mt-2 origin-top-right styled-element p-1"
+        :style="{ backgroundColor: navStore.activeColor }"
       >
         <form class="space-y-4">
           <div 
@@ -35,14 +36,13 @@
             :key="option.value" 
             class="flex items-center"
           >
-            <input
+
+            <CheckBox
               :id="`filter-${filterName}-${optionIdx}`"
               :name="`${filterName}[]`"
               :value="option.value"
-              type="checkbox"
-              class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
               :checked="option.selected"
-              @change="toggleSelection(optionIdx)"
+              @update:checked="toggleSelection(optionIdx)"
             />
             <label :for="`filter-${filterName}-${optionIdx}`" class="pl-2 text-sm text-gray-700">
               {{ option.label }}
@@ -59,6 +59,8 @@ import { computed } from 'vue'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 import { useNavigationStore } from '@/stores/navigation'
+
+import CheckBox from './CheckBox.vue'
 
 export interface Option {
   label: string

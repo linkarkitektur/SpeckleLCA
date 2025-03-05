@@ -1,16 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="relative inline-block text-left min-w-52">
+  <div class="relative inline-block text-left min-w-30">
     <div class="max-w-xs">
       <button
         @click="toggleDropdown"
-        class="inline-flex w-full justify-between px-6 py-1 text-sm truncate max-w-80 styled-element hoverable-sm pressable-light"
+        class="inline-flex w-full justify-between px-6 py-1 text-sm truncate max-w-80 styled-element hoverable-sm"
         :style="{ backgroundColor: navStore.activeColor}"
       >
         <div class="flex items-center space-x-2 truncate">
           {{ selectedItem }}
         </div>
-        <ChevronDownIcon class="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+        <ChevronDownIcon class="-mr-1 h-5 w-5 text-black" aria-hidden="true" />
       </button>
     </div>
 

@@ -14,19 +14,20 @@
       <template #item="{ element, index }">
         <div class="styled-element hoverable-sm pressable p-4" 
           :class="{'styled-active' : index === editFilter, 'scale-[0.99] rotate-1': drag  }"
-          :style="{ backgroundColor: navStore.activeColor }"
 				>         
 					 <div class="relative">
             <!-- Edit/Remove Buttons -->
             <div v-if="index !== editFilter" class="absolute right-2 top-2 flex flex-col gap-2">
               <button
                 class="p-1 styled-element hoverable-xs bg-neutral-100"
+                :style="{ backgroundColor: navStore.activeColor }"
                 @click="toggleFilter(index)"
               >
                 <PencilSquareIcon class="h-4 w-4" />
               </button>
               <button
                 class="p-1 styled-element hoverable-xs mb-2 bg-neutral-100"
+                :style="{ backgroundColor: navStore.activeColor }"                
                 @click="removeFilter(index)"
               >
                 <MinusCircleIcon class="h-4 w-4" />

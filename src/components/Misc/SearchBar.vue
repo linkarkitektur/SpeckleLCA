@@ -12,71 +12,11 @@
     <section aria-labelledby="filter-heading">
       <div class="flex items-top justify-between mb-4">
         <!-- Sort Menu -->
-        <Menu as="div" class="relative inline-block text-left">
-          <div>
-            <MenuButton 
-              class="group inline-flex justify-center text-xs styled-element hoverable-xs p-1  mr-4"
-              :style="{ backgroundColor: navStore.activeColor }"
-            >
-              Sort
-              <ChevronDownIcon 
-                class="-mr-1 ml-1 h-3 w-3 flex-shrink-0" 
-                aria-hidden="true" 
-              />
-            </MenuButton>
-          </div>
-
-          <Transition 
-            enter-active-class="transition ease-out duration-100" 
-            enter-from-class="transform opacity-0 scale-95" 
-            enter-to-class="transform opacity-100 scale-100" 
-            leave-active-class="transition ease-in duration-75" 
-            leave-from-class="transform opacity-100 scale-100" 
-            leave-to-class="transform opacity-0 scale-95"
-          >
-            <MenuItems 
-              class="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
-            >
-              <div class="py-1">
-                <MenuItem 
-                  v-for="sortingParam in props.sortingParam" 
-                  :key="sortingParam.displayName" 
-                  v-slot="{ active }"
-                >
-                  <div 
-                    class="group flex justify-between w-full px-4 py-2 text-sm font-medium text-gray-900 cursor-pointer"
-                    :class="[active ? 'bg-gray-100' : '', sortingParam.filterName === sorting.parameter ? 'underline' : '']"
-                    @click="setSortOption(sortingParam.filterName)"
-                  >
-                    {{ sortingParam.displayName }}
-                    <a v-if="sortingParam.filterName === sorting.parameter">
-                      <ChevronUpIcon
-                        v-if="sorting.direction === 'asc' && !active"
-                        class="-ml-1 mr-1 h-4 w-4 flex-shrink-0 text-gray-400 group-hover:text-gray-900"
-                        aria-hidden="true"
-                      />
-                      <ChevronDownIcon
-                        v-else-if="sorting.direction === 'desc' && !active"
-                        class="-ml-1 mr-1 h-4 w-4 flex-shrink-0 text-gray-400 group-hover:text-gray-900"
-                        aria-hidden="true"
-                      />
-                      <ChevronDownIcon
-                        v-else-if="sorting.direction === 'asc'"
-                        class="-ml-1 mr-1 h-4 w-4 flex-shrink-0 text-gray-400 group-hover:text-gray-900"
-                        aria-hidden="true"
-                      />
-                      <ChevronDownIcon
-                        v-else
-                        class="-ml-1 mr-1 h-4 w-4 flex-shrink-0 text-gray-400 group-hover:text-gray-900 transform rotate-180"
-                        aria-hidden="true"
-                      />
-                    </a>
-                  </div>
-                </MenuItem>
-              </div>
-            </MenuItems>
-          </Transition>
-        </Menu>
+        <Dropdown
+          :items="sortItems"
+          dropdownName="Sort"
+          @selectedItem="handleSortSelection"
+        />
 
         <!-- Filter Dropdowns -->
         <PopoverGroup class="flex space-x-4">
@@ -102,15 +42,13 @@ import { getNestedPropertyValue } from '@/utils/material'
 import { getEnumEntries } from '@/utils/dataUtils'
 
 import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
   PopoverGroup,
 } from '@headlessui/vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid'
 import DropdownMulti from '@/components/Misc/DropdownMulti.vue'
+import Dropdown from './Dropdown.vue'
 
+import type { dropdownItem } from './Dropdown.vue'
 import type { Assembly, Product } from '@/models/material'
 import type { DropdownOption } from '@/models/pageLogic'
 import type { Option } from '@/components/Misc/DropdownMulti.vue'
@@ -130,6 +68,7 @@ const emit = defineEmits<{
 }>()
 
 const navStore = useNavigationStore()
+
 
 // Reactive state
 const searchQuery = ref('')
@@ -188,6 +127,18 @@ const getOptionsForParameter = (paramName: string): Option[] => {
 }
 
 // Computed
+const sortItems = computed(() => 
+  props.sortingParam.map(param => ({
+    name: param.displayName,
+    data: param.filterName,
+    icon: sorting.value.parameter === param.filterName 
+      ? sorting.value.direction === 'asc' 
+        ? ChevronUpIcon 
+        : ChevronDownIcon
+      : undefined
+  }))
+)
+
 const filteredData = computed(() => {
   return props.data.filter((item) => {
     const matchesSearch = item.name
@@ -227,6 +178,12 @@ const sortedData = computed(() => {
 })
 
 // Methods
+const handleSortSelection = (item: dropdownItem) => {
+  if (item.data) {
+    setSortOption(item.data)
+  }
+}
+
 const setSortOption = (parameterName: string) => {
   if (sorting.value.parameter === parameterName) {
     sorting.value.direction = sorting.value.direction === 'asc' ? 'desc' : 'asc'

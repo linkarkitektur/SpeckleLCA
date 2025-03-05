@@ -6,77 +6,89 @@
 @layer components {
   /* Base styling */
   .styled-element {
-    @apply border-black border-2 rounded-md font-poppins font-semibold;
+    @apply border-black border-2 rounded-md font-poppins font-semibold uppercase;
   }
 
-  /* Hover effect */
+  /* Data styling */
+  .styled-data {
+    
+  }
+  
+  /* Just the hover styling with hover functions */
+  .hoverable-styling {
+    @apply shadow-[4px_4px_0px_rgba(0,0,0,1)]
+  }
+
+  /* Base hover effect that others will extend */
+  .hoverable-base {
+    @apply transition-all ease-in-out hover:shadow-none
+           delay-100 duration-300;
+  }
+  
+  /* Hover effects with different sizes */
   .hoverable {
-    @apply transition-all hover:shadow-none hover:translate-x-2 hover:translate-y-2 shadow-[8px_8px_0px_rgba(0,0,0,1)]
-           ease-in-out delay-150 duration-300;
+    @apply hoverable-base
+           shadow-[8px_8px_0px_rgba(0,0,0,1)]
+           hover:translate-x-2 hover:translate-y-2;
   }
 
-  /* Small Hover effect */
   .hoverable-md {
-    @apply transition-all ease-in-out delay-100 duration-200
-            shadow-[6px_6px_0px_rgba(0,0,0,1)] 
-            hover:shadow-none hover:translate-x-1.5 hover:translate-y-1.5;
+    @apply hoverable-base 
+           shadow-[6px_6px_0px_rgba(0,0,0,1)]
+           hover:translate-x-1.5 hover:translate-y-1.5;
   }
 
-  /* Small Hover effect */
   .hoverable-sm {
-    @apply transition-all ease-in-out delay-100 duration-200
-            shadow-[4px_4px_0px_rgba(0,0,0,1)] 
-            hover:shadow-none hover:translate-x-1 hover:translate-y-1;
+    @apply hoverable-base
+           shadow-[4px_4px_0px_rgba(0,0,0,1)]
+           hover:translate-x-1 hover:translate-y-1;
   }
 
-  /* Smallest Hover effect */
   .hoverable-xs {
-    @apply transition-all ease-in-out duration-150
-           shadow-[2px_2px_0px_rgba(0,0,0,1)] 
-           hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] 
+    @apply hoverable-base
+           shadow-[2px_2px_0px_rgba(0,0,0,1)]
+           hover:shadow-[1px_1px_0px_rgba(0,0,0,1)]
            hover:translate-x-0.5 hover:translate-y-0.5;
   }
 
-  /* Pressed state */
+  /* Base pressable styles */
+  .pressable-base {
+    @apply focus:translate-x-2 focus:translate-y-2 focus:shadow-none
+           active:translate-x-2 active:translate-y-2 active:shadow-none;
+  }
+
   .pressable {
-    @apply focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-black 
-           focus:translate-x-2 focus:translate-y-2 focus:shadow-none 
-           active:outline active:outline-2 active:outline-offset-2 active:outline-black 
-           active:translate-x-2 active:translate-y-2 active:shadow-none;
+    @apply pressable-base
+           focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-black
+           active:outline active:outline-2 active:outline-offset-2 active:outline-black;
   }
 
-  /* Pressed state, no outline */
   .pressable-light {
-    @apply focus:translate-x-2 focus:translate-y-2 focus:shadow-none 
-           active:translate-x-2 active:translate-y-2 active:shadow-none;
+    @apply pressable-base;
   }
 
-  /* Active state, for manual control */
   .styled-active {
-    @apply outline outline-2 outline-offset-2 outline-black 
+    @apply outline outline-2 outline-offset-2 outline-black
            translate-x-2 translate-y-2 shadow-none;
   }
 }
 
 /* Utility */
 @layer utilities {
-  /* Hide scrollbar for Chrome, Safari, and Opera */
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  /* Hide scrollbar for IE, Edge, and Firefox */
   .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    -webkit-overflow-scrolling: touch;
+    @apply [-ms-overflow-style:none] [scrollbar-width:none] [-webkit-overflow-scrolling:touch];
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
-/* Fonts */
-@theme {
-  --font-lexend: "Lexend Mega", sans-serif;
-  --font-number: "Major Mono Display", Mono;
-  --font-bread: "Merriweather", serif;
-  --font-poppins: "Poppins", sans-serif;
+/* Theme configuration */
+@layer base {
+  :root {
+    --font-lexend: "Lexend Mega", sans-serif;
+    --font-number: "Major Mono Display", Mono;
+    --font-bread: "Merriweather", serif;
+    --font-poppins: "Poppins", sans-serif;
+  }
 }

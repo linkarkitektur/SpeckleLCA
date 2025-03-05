@@ -7,8 +7,7 @@
   <!-- Dot pattern overlay -->
   <div 
     class="fixed inset-0 w-full h-full pattern-dots pattern-black pattern-bg-transparent pattern-size-4"
-    :style="{backgroundColor: navStore.activeColor}"
-    style="--pattern-opacity: 0.2;"
+    style="--pattern-opacity: 0.1;"
   ></div>
   
   <!-- Main content -->
@@ -18,8 +17,8 @@
   >
 
     <Navbar />
-    <div class="grid grid-cols-5 grid-rows-4 gap-10 min-h-[calc(100vh-5rem)] overflow-hidden p-4">
-      <div class="col-span-4 row-span-1 p-4 flex items-center justify-center bg-neutral-100 styled-element">
+    <div class="grid grid-cols-5 grid-rows-4 gap-10 h-[calc(100vh-5rem)] overflow-hidden p-4">
+      <div class="col-span-4 row-span-1 p-4 flex items-center justify-center bg-neutral-100 styled-element hoverable-styling">
         <div class="absolute flex self-center top-24 z-100 text-2xl font-bold">
           <h1>ProjectName</h1>
         </div>
@@ -30,20 +29,24 @@
         </div>
       </div>
 
-      <div class="col-span-2 row-span-2 p-4 flex items-center bg-neutral-100 styled-element">
+      <div class="col-span-2 row-span-2 p-4 flex items-center bg-neutral-100 styled-element hoverable-styling">
         <DivergingStackedBar :data="dummyData" />
       </div>
 
-      <div class="col-span-2 row-span-2 p-4 flex items-center bg-neutral-100 styled-element">
-        <SelectablePieChart :data="dummyFlatData" />
+      <div class="col-span-2 row-span-2 p-4 flex items-center bg-neutral-100 styled-element hoverable-styling">
+        <div class="flex items-center justify-center w-full h-full">
+          <div class="aspect-square h-full">
+            <SelectablePieChart :data="dummyFlatData" />
+          </div>
+        </div>
       </div>
 
-      <div class="col-span-4 row-span-1 p-4 flex items-center bg-neutral-100 styled-element">
+      <div class="col-span-4 row-span-1 p-4 flex items-center bg-neutral-100 styled-element hoverable-styling">
         <!-- Optional extra content or leave empty -->
         <p>Additional Content</p>
       </div>
 
-      <div class="col-span-1 col-start-5 row-start-1 row-end-5 p-4 flex flex-col bg-neutral-100 styled-element">
+      <div class="col-span-1 col-start-5 row-start-1 row-end-5 p-6 flex flex-col bg-neutral-100 styled-element hoverable-styling">
         <h2 class="text-xl font-bold mb-2">Project Settings</h2>
         <Dropdown
           :items="versionNames"
@@ -53,15 +56,12 @@
           class="py-3"
         />
 
-        <button
-          type="button"
-          class="inline-flex min-w-52 justify-center px-3 py-3 my-3 styled-element hoverable-sm pressable"
-          :style="{backgroundColor: navStore.activeColor}"
-          @click="selectProject"
-        >
-          Load this version
-        </button>
-
+        <ActionButton
+          text="Load this version"
+          @onClick="selectProject"
+          class="mb-6"
+        />
+        
         <p>Settings content here...</p>
 
         <div class="flex items-center my-3">
@@ -97,6 +97,7 @@ import type { ChartData, ChartOptions } from '@/models/chartModels'
 
 // Component imports
 import Dropdown from '@/components/Misc/Dropdown.vue'
+import ActionButton from '@/components/Misc/ActionButton.vue'
 import Navbar from '@/components/Misc/Navbar.vue'
 import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
