@@ -261,11 +261,22 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 		.filter((obj) => obj.data.speckle_type.includes('Objects.Other.Material') 
 			&& obj.data.speckle_type !== 'Objects.Other.MaterialQuantity')
 
-	// Filter out some common support objects which we never want to filter expand this list if needed
-	const modelObjects = objects
-	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk')
-	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.Collection')
-	.filter((obj) => !obj.data.speckle_type.includes('Objects.Other.Material'))
+	// Filter out some common support objects which we never want to filter
+	// Expand this list if needed
+	const modelObjects = objects.filter((obj) => {
+		// Remove the displayValue key if it exists as an array
+		if (Array.isArray(obj.data.displayValue)) {
+			delete obj.data.displayValue
+		}
+		// Remove closure
+		if (obj.data.__closure)
+			delete obj.data.__closure
+		
+		// Apply your filtering criteria
+		return obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk'
+			&& obj.data.speckle_type !== 'Speckle.Core.Models.Collection'
+			&& !obj.data.speckle_type.includes('Objects.Other.Material')
+	})
 
 	const projectDetails = speckleStore.getProjectDetails
 	const version = speckleStore.getSelectedVersion
@@ -298,7 +309,8 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 						name: name,
 						quantity: quantity,
 						parameters: parameters,
-						URI: el.id
+						URI: el.id,
+						subPart: true
 					}
 
 					geoObjects.push(obj)
@@ -320,7 +332,8 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 					name: name,
 					quantity: quantity,
 					parameters: parameters,
-					URI: el.id
+					URI: el.id,
+					subPart: false
 				}
 	
 				geoObjects.push(obj)

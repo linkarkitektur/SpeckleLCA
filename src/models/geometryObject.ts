@@ -11,6 +11,7 @@ export interface GeometryObject {
 	quantity: Quantity
 	material?: Product | Assembly
 	results?: Results[] // List of results if multiple runs are made.
+	subPart?: boolean // If this object is the result of either a manual split or a model with modeled material layers
 	parameters: {
 		[k: string]: string
 	}
