@@ -29,7 +29,7 @@
             <dd class="">{{ project.name }}</dd>
             <dd class="mt-3">
               <span 
-                class="p-1 inline-flex items-center styled-element hoverable-sm bg-white font-mono text-sm"
+                class="p-1 inline-flex items-center styled-element hoverable-sm bg-white styled-data text-sm"
               > 
                 {{ formatDate(project.updatedAt) }} 
               </span>
@@ -39,7 +39,7 @@
 
         <!-- Stats. -->
         <div>
-          <div class="-mt-px flex font-mono">
+          <div class="-mt-px flex styled-data">
             <div class="flex w-0 flex-1">
               <a
                 class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 py-4 font-semibold text-green-900 text-center"

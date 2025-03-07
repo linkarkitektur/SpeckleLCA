@@ -15,7 +15,7 @@
               style="shape-rendering: geometricPrecision; filter: drop-shadow(4px 4px 0 black);"
             />
           </div>
-            <div class="ml-10 mt-2 flex space-x-10">
+            <div class="mt-2 flex space-x-10">
               <a v-for="step in steps" 
                 :key="step.name" 
                 :class="[

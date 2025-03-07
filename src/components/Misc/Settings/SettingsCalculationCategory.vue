@@ -1,33 +1,37 @@
 <template>
   <div>
-    <h2 class="text-base/7 font-semibold text-gray-900">Saved calculation settings</h2>
-    <p class="mt-1 text-sm/6 text-gray-500">Saved settings for a certain certification, changes settings below.</p>
+    <h2 class="styled-header">Saved calculation settings</h2>
+    <p class="mt-1 styled-text">Saved settings for a certain certification, changes settings below.</p>
 
-    <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm/6">
-      <div class="pt-6 sm:flex">
-        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Saved settings/certification</dt>
-        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+    <dl class="mt-6 space-y-6 border-t border-black">
+      <div class="pt-6 ">
+        <dt class="styled-text mr-6">Saved settings/certification</dt>
+        <dd class="mt-1 flex justify-between gap-x-6">
           <Dropdown
             :items="savedSettings"
             name="calculationSettings"
             :dropdownName="currentSetting.name"
             @selectedItem="handleSelectedItem"
           />
-          <p class="font-medium text-gray-900">Name</p>
+          <p class="styled-text">Name</p>
           <input 
             type="text" 
             v-model="currentSetting.name" 
             class="w-full border p-2 rounded-md"
           />
-          <UpdateButton label="Save" @click="saveSettings" />
+          <ActionButton
+            text="Save"
+            @onClick="saveSettings"
+          />
         </dd>
       </div>
     </dl>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+<script setup lang="ts">
+import { ref, reactive, computed } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import { useSettingsStore } from '@/stores/settings'
 import { useProjectStore } from '@/stores/main'
@@ -38,82 +42,77 @@ import type { CalculationSettingsLog } from '@/models/firebase'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 import Dropdown from '@/components/Misc/Dropdown.vue'
-import UpdateButton from './UpdateButton.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 
-// TODO: Add general settings here!
-export default defineComponent({
-  name: 'SettingsImpactCategory',
-  components: {
-    Dropdown,
-    UpdateButton
-  },
-  setup() {
-  const settingsStore = useSettingsStore()
-  const projectStore = useProjectStore()
-  const firebaseStore = useFirebaseStore()
+const settingsStore = useSettingsStore()
+const projectStore = useProjectStore()
+const firebaseStore = useFirebaseStore()
 
-  const impactCategory = ref(settingsStore.calculationSettings.standardImpactCategory)
-  const includedStages = ref(settingsStore.calculationSettings.includedStages)
-  const buildingCode = ref(settingsStore.calculationSettings.buildingCode)
+// Use storeToRefs to maintain reactivity
+const { calculationSettings } = storeToRefs(settingsStore)
 
-  const savedSettings: dropdownItem[] = []
-  // Create dummy settings before we load
-  let projectId = "generic"
-  if (projectStore.currProject?.id)
-    projectId = projectStore.currProject.id
+// Make these refs from the reactive store
+const impactCategory = computed(() => calculationSettings.value.standardImpactCategory)
+const includedStages = computed(() => calculationSettings.value.includedStages)
+const buildingCode = computed(() => calculationSettings.value.buildingCode)
 
-  const currentSetting= reactive<CalculationSettingsLog>({
-    name: 'Pick your settings',
-    projectId: projectId,
-    date: new Date(),
-    settings: {
-      standardImpactCategory: impactCategory.value,
-      includedStages: includedStages.value,
-      buildingCode: buildingCode.value
-    }
-  })
+const savedSettings: dropdownItem[] = []
+let projectId = projectStore.currProject?.id || "generic"
 
-  const handleSelectedItem = (selectedItem: dropdownItem) => {
-    const data = JSON.parse(selectedItem.data) as CalculationSettings
-    
-    currentSetting.name = selectedItem.name
-    settingsStore.updateIncludedStages(data.includedStages)
-    settingsStore.updateStandardImpactCategory(data.standardImpactCategory)
-    settingsStore.updateBuildingCode(data.buildingCode)
+const currentSetting = reactive<CalculationSettingsLog>({
+  name: 'Pick your settings',
+  projectId: projectId,
+  date: new Date(),
+  settings: {
+    standardImpactCategory: impactCategory.value,
+    includedStages: includedStages.value,
+    buildingCode: buildingCode.value
   }
-
-  const fetchDropdownItems = async () => {
-    const settings: CalculationSettingsLog[] = await firebaseStore.fetchCalculationSettings(currentSetting.projectId).finally()
-    
-    if (settings) {
-      settings.map((setting) => {
-        savedSettings.push({ 
-          name: setting.name, 
-          data: JSON.stringify(setting.settings)
-        })
-      })
-      
-    }
-  }
-
-  fetchDropdownItems()
-
-  const saveSettings = () => {
-    const settings: CalculationSettings = {
-      standardImpactCategory: impactCategory.value,
-      includedStages: includedStages.value,
-      buildingCode: buildingCode.value
-    }
-
-    firebaseStore.addCalculationSettings(currentSetting.projectId, settings, currentSetting.name)
-  }
-
-  return { 
-    savedSettings,
-    currentSetting,
-    handleSelectedItem,
-    saveSettings
-    }
-  },
 })
+
+const handleSelectedItem = async (selectedItem: dropdownItem) => {
+  const data = JSON.parse(selectedItem.data) as CalculationSettings
+  
+  currentSetting.name = selectedItem.name
+  
+  // Update store in sequence
+  await settingsStore.updateStandardImpactCategory(data.standardImpactCategory)
+  await settingsStore.updateIncludedStages(data.includedStages)
+  await settingsStore.updateBuildingCode(data.buildingCode)
+  
+  // Update current settings
+  currentSetting.settings = {
+    standardImpactCategory: data.standardImpactCategory,
+    includedStages: data.includedStages,
+    buildingCode: data.buildingCode
+  }
+}
+
+const fetchDropdownItems = async () => {
+  const settings: CalculationSettingsLog[] = await firebaseStore.fetchCalculationSettings(currentSetting.projectId).finally()
+  
+  if (settings) {
+    settings.map((setting) => {
+      savedSettings.push({ 
+        name: setting.name, 
+        data: JSON.stringify(setting.settings)
+      })
+    })
+    
+  }
+}
+
+fetchDropdownItems()
+
+const saveSettings = () => {
+  const settings: CalculationSettings = {
+    standardImpactCategory: impactCategory.value,
+    includedStages: includedStages.value,
+    buildingCode: buildingCode.value
+  }
+  
+  currentSetting.settings = settings
+  firebaseStore.addCalculationSettings(currentSetting.projectId, settings, currentSetting.name)
+}
+
 </script>

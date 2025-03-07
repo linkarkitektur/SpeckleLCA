@@ -20,7 +20,7 @@
           :title="isAssembly(element) ? 'Assembly' : 'Product'"
         />
       </td>
-      <td class="m-2 w-2/6 line-clamp-3">{{ element.name }}</td>
+      <td class="m-2 w-2/6 line-clamp-3 text-sm">{{ element.name }}</td>
       <td v-if="element.metaData.materialType" class="m-2 w-2/6">
         {{ element.metaData.materialType }}
       </td>

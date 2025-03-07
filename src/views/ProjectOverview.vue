@@ -97,7 +97,7 @@ import type { ChartData, ChartOptions } from '@/models/chartModels'
 
 // Component imports
 import Dropdown from '@/components/Misc/Dropdown.vue'
-import ActionButton from '@/components/Misc/ActionButton.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 import Navbar from '@/components/Misc/Navbar.vue'
 import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'

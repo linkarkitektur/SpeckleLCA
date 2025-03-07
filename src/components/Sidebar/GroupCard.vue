@@ -20,13 +20,13 @@
           <div class="flex justify-center leading-none font-semibold">{{ inGroups.name }}</div>
         </div>
         <!-- Left Side Info -->
-        <div class="flex flex-col items-start h-full pl-2 pt-6 pb-3 font-mono font-light">
+        <div class="flex flex-col items-start h-full pl-2 pt-6 pb-3 styled-data">
           <div class="text-sm leading-none pt-1 truncate max-w-40" :title="leftInfo">
             {{ leftInfo }}
           </div>
         </div>
         <!-- Right Side Info -->
-        <div class="flex flex-col items-end h-full pr-2 pt-6 pb-3 font-mono font-light">
+        <div class="flex flex-col items-end h-full pr-2 pt-6 pb-3 styled-data">
           <div class="text-sm leading-none pt-1 truncate max-w-40" :title="rightInfo">
             {{ rightInfo }}
           </div>
@@ -36,45 +36,20 @@
       <!-- Lower Section -->
       <section class="w-full">
         <div class="relative flex items-center justify-center min-w-full h-10 styled-element bg-neutral-100 z-10">
-            <!-- Component determined by currGroupTotal -->
+       <!-- Component determined by currGroupTotal -->
             <component :is="currGroupTotal" :groups="inGroups" v-if="currGroupTotal" class="font-light text-sm"/>
           <slot name="dynamic-content" />
         </div> 
       </section>
 
       <!-- Triangle indicators -->
-      <div 
-        v-if="inGroups.children.length"
-        class="absolute translate-x-0 translate-y-0 group-hover:translate-x-2 group-hover:translate-y-2
-                group-focus-within:translate-x-2 group-focus-within:translate-y-2
-                transition-all delay-150 duration-300 ease-in-out z-30" 
+      <div
+        v-if="inGroups.children.length" 
+        class="absolute right-[-15px] bottom-[-15px] origin-center z-40"
         :class="{ 'rotate-180': isExpanded }"
-        :style="{
-          right: '-19px',
-          bottom: '-19px',
-          width: 0,
-          height: 0,
-          borderLeft: '19px solid transparent',
-          borderRight: '19px solid transparent',
-          borderTop: '26px solid black'
-        }"
-      ></div>
-      <div 
-        v-if="inGroups.children.length"
-        class="absolute translate-x-0 translate-y-0 group-hover:translate-x-2 group-hover:translate-y-2
-                group-focus-within:translate-x-2 group-focus-within:translate-y-2
-                transition-all delay-150 duration-300 ease-in-out z-40" 
-        :class="{ 'rotate-180': isExpanded }"
-        :style="{
-          right: '-15px',
-          bottom: '-15px',
-          width: 0,
-          height: 0,
-          borderLeft: '15px solid transparent',
-          borderRight: '15px solid transparent',
-          borderTop: `20px solid ${inGroups.color}`
-        }"
-      ></div>
+      >
+        <BaseChevron :inner-color="inGroups.color" />
+      </div>
     </div>
 
     <!-- Subgroups -->
@@ -106,6 +81,8 @@ import { onMounted, onUnmounted, ref, computed } from 'vue'
 import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
 import MaterialGroupCard from '@/components/Sidebar/Mapping/MaterialGroupCard.vue'
 import ResultsGroupCard from '@/components/Sidebar/Results/ResultsGroupCard.vue'
+
+import BaseChevron from '../Base/BaseChevron.vue'
 
 import type { NestedGroup } from '@/models/filters'
 

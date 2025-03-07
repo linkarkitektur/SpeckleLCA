@@ -7,7 +7,7 @@
       >
         <span>{{ displayName }}</span>
         <span 
-          class="ml-1 border-l border-black p-1 text-xs font-mono"
+          class="ml-1 border-l border-black p-1 text-xs styled-data"
         >
           {{ selectedCount === 0 ? 'All' : selectedCount }}
         </span>
@@ -60,7 +60,7 @@ import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 import { useNavigationStore } from '@/stores/navigation'
 
-import CheckBox from './CheckBox.vue'
+import CheckBox from '../Base/CheckBox.vue'
 
 export interface Option {
   label: string

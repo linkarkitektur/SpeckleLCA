@@ -34,7 +34,7 @@ import { sidebarButtons } from '@/config/slideoverNavigation'
 
 import GroupList from '@/components/Sidebar/GroupList.vue'
 import Dropdown from '@/components/Misc/Dropdown.vue'
-import ActionButton from '@/components/Misc/ActionButton.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 
 import { useNavigationStore } from '@/stores/navigation'
 

@@ -1,5 +1,5 @@
 <template>
-	<p class="text-center font-mono">{{ totalArea }} m<sup>2</sup></p>
+	<p class="text-center styled-data">{{ totalArea }} m<sup>2</sup></p>
 </template>
 
 <script lang="ts">

@@ -1,27 +1,27 @@
 <template>
   <div>
-     <h2 class="text-base/7 font-semibold text-gray-900">Impact category</h2>
-     <p class="mt-1 text-sm/6 text-gray-500">Set what impact category you want to calculate for.</p>
+     <h2 class="styled-header">Impact category</h2>
+     <p class="mt-1 styled-text">Set what impact category you want to calculate for.</p>
 
-     <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm/6">
-      <div class="pt-6 sm:flex">
-         <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Standard impactCategory</dt>
+     <dl class="mt-6 space-y-6 border-t border-black">
+      <div class="pt-6">
+         <dt class="styled-text">Standard impactCategory</dt>
          <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
           <Dropdown
             :items="impactCategoryList"
             name="codes"
             :dropdownName="impactCategory"
             @selectedItem="handleSelectedItem"
+            class="w-48"
           />
-           <UpdateButton @click="updateImpactCategory" />
          </dd>
        </div>
      </dl>
    </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
 import { extendedImpactCategoryKeys } from '@/models/material'
 
@@ -29,45 +29,28 @@ import type { ExtendedImpactCategoryKey } from '@/models/material'
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 import Dropdown from '@/components/Misc/Dropdown.vue'
-import UpdateButton from '@/components/Misc/Settings/UpdateButton.vue'
 import { storeToRefs } from 'pinia'
 
-// TODO: Add general settings here!
-export default defineComponent({
-  name: 'SettingsImpactCategory',
-  components: {
-    Dropdown,
-    UpdateButton,
-  },
-  setup() {
-  const settingsStore = useSettingsStore()
-  
-  const { calculationSettings } = storeToRefs(settingsStore)
-  const impactCategory = ref(settingsStore.calculationSettings.standardImpactCategory)
+const settingsStore = useSettingsStore()
 
-  const impactCategoryList: dropdownItem[] = []
-  extendedImpactCategoryKeys.map((key) => {
-    impactCategoryList.push({ name: key })
-  })
+const { calculationSettings } = storeToRefs(settingsStore)
+const impactCategory = ref(settingsStore.calculationSettings.standardImpactCategory)
 
-  const updateImpactCategory = () => {
-    settingsStore.updateStandardImpactCategory(impactCategory.value)
-  }
+const impactCategoryList: dropdownItem[] = []
+extendedImpactCategoryKeys.map((key) => {
+  impactCategoryList.push({ name: key })
+})
 
-  const handleSelectedItem = (selectedItem: dropdownItem) => {
-    impactCategory.value = selectedItem.name as ExtendedImpactCategoryKey
-  }
-  
-  watch(() => calculationSettings.value.standardImpactCategory, (newValue) => {
-    impactCategory.value = newValue
-  })
+const updateImpactCategory = () => {
+  settingsStore.updateStandardImpactCategory(impactCategory.value)
+}
 
-  return { 
-    impactCategory,
-    impactCategoryList,
-    updateImpactCategory,
-    handleSelectedItem
-  }
-  },
+const handleSelectedItem = (selectedItem: dropdownItem) => {
+  impactCategory.value = selectedItem.name as ExtendedImpactCategoryKey
+  updateImpactCategory()
+}
+
+watch(() => calculationSettings.value.standardImpactCategory, (newValue) => {
+  impactCategory.value = newValue
 })
 </script>

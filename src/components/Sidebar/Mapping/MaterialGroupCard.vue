@@ -24,13 +24,13 @@
     </div>
 
     <!-- Text overlay -->
-    <div class="absolute bottom-0 w-full z-10 styled-element">
-      <div class="flex w-full items-center justify-between text-xs px-2 bg-neutral-100 bg-opacity-90">
-        <div class="text-gray-600">Mapped</div>
-        <label class="text-center text-l font-medium">
+    <div class="absolute bottom-0 w-full z-10 styled-element styled-data">
+      <div class="flex w-full items-center justify-between text-sm px-2 bg-neutral-100 bg-opacity-90">
+        <div class="text-black">Mapped</div>
+        <label class="text-center">
           {{ percentMapped }}%
         </label>
-        <div class="text-gray-600">Not mapped</div>
+        <div class="text-black">Not mapped</div>
       </div>
     </div>
   </div>

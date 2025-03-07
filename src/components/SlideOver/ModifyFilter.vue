@@ -62,7 +62,7 @@
             <input 
               v-model="element.value" 
               placeholder="Filter value..."
-              class="p-2 styled-element font-mono bg-neutral-100"
+              class="p-2 styled-element styled-data bg-neutral-100"
             />
             <div class="flex items-center gap-2">
               <input 
@@ -77,8 +77,8 @@
           <!-- View Mode -->
           <div v-else class="space-y-2">
             <p class="font-semibold">{{ element.name }}</p>
-            <p class="text-gray-600 font-mono text-sm">{{ element.field }}</p>
-            <p class="text-gray-600 font-mono text-sm">{{ element.value }}</p>
+            <p class="text-black styled-data text-sm">{{ element.field }}</p>
+            <p class="text-black styled-data text-sm">{{ element.value }}</p>
           </div>
         </div>
       </template>

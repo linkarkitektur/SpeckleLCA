@@ -9,9 +9,8 @@
     @apply border-black border-2 rounded-md font-poppins font-semibold uppercase;
   }
 
-  /* Data styling */
-  .styled-data {
-    
+  .styled-table {
+    @apply styled-element border-0 border-r border-b border-black
   }
   
   /* Just the hover styling with hover functions */
@@ -28,8 +27,8 @@
   /* Hover effects with different sizes */
   .hoverable {
     @apply hoverable-base
-           shadow-[8px_8px_0px_rgba(0,0,0,1)]
-           hover:translate-x-2 hover:translate-y-2;
+           shadow-[6px_6px_0px_rgba(0,0,0,1)]
+           hover:translate-x-1.5 hover:translate-y-1.5;
   }
 
   .hoverable-md {
@@ -70,6 +69,23 @@
   .styled-active {
     @apply outline outline-2 outline-offset-2 outline-black
            translate-x-2 translate-y-2 shadow-none;
+  }
+
+  /* Font stylings */
+  .styled-text {
+    @apply font-poppins text-black
+  }
+
+  .styled-header {
+    @apply styled-text font-semibold uppercase
+  }
+
+  .styled-bread {
+    @apply font-bread text-black normal-case
+  }
+
+  .styled-data {
+    @apply font-mono font-light normal-case
   }
 }
 

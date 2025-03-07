@@ -1,7 +1,7 @@
 <template>
-  <table class="divide-y divide-gray-200 max-w-full block table-fixed">
+  <table class="max-w-full block table-fixed">
     <thead class="w-full block">
-      <tr class="w-full flex bg-gray-200 text-gray-700 text-left text-xs leading-4 font-medium uppercase tracking-wider whitespace-nowrap">
+      <tr class="w-full flex text-left text-xs leading-4 font-medium uppercase tracking-wider whitespace-nowrap styled-element styled-data">
         <slot name="header-columns"></slot>
       </tr>
     </thead>
@@ -9,7 +9,7 @@
       v-if="items"
       :list="items"
       :options="dragOptions"
-      class="bg-gray-100 divide-y divide-gray-300 max-w-full block table-fixed hover:cursor-move"
+      class="bg-neutral-100 divide-y divide-black max-w-full block table-fixed hover:cursor-move"
       tag="tbody"
       item-key="id"
       :group="{ name: 'materials', pull: 'clone', put: false }"
@@ -17,7 +17,7 @@
     >
       <template #item="{ element, index }">
         <tr 
-          class="text-xs whitespace-no-wrap w-full flex hover:bg-gray-200"
+          class="whitespace-no-wrap w-full flex hover:bg-neutral-200 styled-data text-sm"
           :data-item="JSON.stringify(element)"
           @dragstart="onDragStart($event, element)"
           @dragend="onDragEnd($event)"
