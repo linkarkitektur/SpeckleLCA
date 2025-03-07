@@ -1,12 +1,12 @@
 <template>
   <div>
-     <h2 class="text-base/7 font-semibold text-gray-900">Material Settings</h2>
-     <p class="mt-1 text-sm/6 text-gray-500">Material and assembly settings, sources and filterings.</p>
+     <h2 class="styled-header">Material Settings</h2>
+     <p class="mt-1 styled-text">Material and assembly settings, sources and filterings.</p>
 
-     <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm/6">
-      <div class="pt-6 sm:flex">
-        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Data source</dt>
-        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+     <dl class="mt-6 space-y-6 divide-y divide-black border-t border-black">
+      <div class="pt-6 ">
+        <dt>Data source</dt>
+        <dd class="mt-1 flex justify-between gap-x-6 ">
           <DropdownMulti
             filterName="Data Sources"
             displayName="Data Sources"
@@ -15,9 +15,9 @@
           />
         </dd>
       </div>
-      <div class="pt-6 sm:flex">
-        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Include Collections</dt>
-        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+      <div class="pt-6 ">
+        <dt>Include Collections</dt>
+        <dd>
           <CheckBox
             id="includeCollections"
             name="includeCollections"
@@ -26,9 +26,9 @@
           />
         </dd>
       </div>
-      <div class="pt-6 sm:flex">
-        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Fetch global assemblies</dt>
-        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+      <div class="pt-6">
+        <dt>Fetch global assemblies</dt>
+        <dd>
           <CheckBox
             id="globalAssemblies"
             name="globalAssemblies"
@@ -37,9 +37,9 @@
           />
         </dd>
       </div>
-      <div class="pt-6 sm:flex">
-        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Filter parameters</dt>
-        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+      <div class="pt-6 ">
+        <dt>Filter parameters</dt>
+        <dd>
           <DropdownMulti
             filterName="Filter parameters"
             displayName="Filter parameters"
@@ -48,9 +48,9 @@
           />
         </dd>
       </div>
-      <div class="pt-6 sm:flex">
-        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Sorting parameters</dt>
-        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+      <div class="pt-6">
+        <dt>Sorting parameters</dt>
+        <dd>
           <DropdownMulti
             filterName="Sorting parameters"
             displayName="Sorting parameters"

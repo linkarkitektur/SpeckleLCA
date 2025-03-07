@@ -3,7 +3,7 @@
     <!-- Scrollable content -->
     <div class="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
       <Draggable
-        v-if="refTree"
+        v-if="refTree && refTree.length"
         :list="refTree"
         :group="refTree"
         item-key="id"
@@ -56,18 +56,28 @@ const addGroup = () => {
 	navStore.toggleGroupModal()
 }
 
+const ensureGroupColors = (groups: NestedGroup[]) => {
+  if (!groups?.length) return
+  
+  try {
+    speckleStore.calculateGroupColors(groups)
+  } catch (error) {
+    console.error('Error calculating group colors:', error)
+  }
+}
+
 onMounted(() => {
 	updateProjectGroups(true)
-	refTree.value = projectStore.getGroupTree()?.children
-	speckleStore.calculateGroupColors(refTree.value)
+	refTree.value = projectStore.getGroupTree()?.children || []
+	ensureGroupColors(refTree.value)
 })
 
 watch(
 	() => filterRegistry.value?.filterCallStack,
 	() => {
 		updateProjectGroups(true)
-		refTree.value = projectStore.getGroupTree()?.children
-		speckleStore.calculateGroupColors(refTree.value)
+		refTree.value = projectStore.getGroupTree()?.children || []
+		ensureGroupColors(refTree.value)
 		speckleStore.hideUnusedObjects(speckleStore.hiddenObjects.map(obj => obj.id))
 	}
 )

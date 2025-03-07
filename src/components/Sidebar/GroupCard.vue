@@ -7,7 +7,6 @@
       :class="{
         'outline-2 outline-offset-2 outline-black translate-x-2 translate-y-2 shadow-none' : selectedBool, 
       }"
-      :style="{ color: fontColor }"
       @click="toggleExpand"
       @drop="onDrop"
       @dragover.prevent
@@ -78,9 +77,9 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 
-import OverviewGroupCard from '@/components/Sidebar/Overview/OverviewGroupCard.vue'
-import MaterialGroupCard from '@/components/Sidebar/Mapping/MaterialGroupCard.vue'
-import ResultsGroupCard from '@/components/Sidebar/Results/ResultsGroupCard.vue'
+import OverviewGroupCard from '@/components/Sidebar/FilteringGroupCard.vue'
+import MaterialGroupCard from '@/components/Sidebar/MaterialGroupCard.vue'
+import ResultsGroupCard from '@/components/Sidebar/ResultsGroupCard.vue'
 
 import BaseChevron from '../Base/BaseChevron.vue'
 
@@ -135,14 +134,15 @@ const selectedBool = computed(() => {
   return false
 })
 
+// Deprecated, use if cards have color
 const fontColor = computed(() => {
   if (inGroups.value && inGroups.value.color) {
     if (activePage.value === "Filtering") {
       return getFontColorForHSL(inGroups.value.color)
     }
-    return 'text-gray-700'
+    return 'text-black'
   }
-  return 'text-gray-700'
+  return 'text-black'
 })
 
 const currGroupTotal = computed(() => {

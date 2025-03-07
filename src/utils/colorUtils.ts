@@ -52,12 +52,12 @@ export class ColorManager {
 
   /**
    * Switch color set dynamically
-   * @param setName 'base' | 'pantone' | other future sets
+   * @param setName 'base' | 'pastels'
    */
   public switchColorSet(setName: string): void {
     if (this.colorSets[setName]) {
       this.activeSet = setName
-      this.colorIndex = 0 // Reset color index when switching
+      this.colorIndex = 0
     } else {
       console.warn(`Color set "${setName}" does not exist.`)
     }
@@ -85,7 +85,9 @@ export class ColorManager {
    */
   public getMostDistinctColors(count: number): string[] {
     const colors = this.getCurrentColors()
-    if (count >= colors.length) return colors
+    // IF we need more colors than we have we interpolate them
+    if (count > colors.length)
+      return interpolateColors(colors, count)
     
     // Convert colors to HSL for comparison
     const distinctColors: string[] = [colors[0]]
@@ -171,6 +173,44 @@ export class ColorManager {
 }
 
 /**
+ * Interpolates additional colors between existing ones to reach desired count
+ * @param colors Original array of HSL colors
+ * @param targetCount Desired number of colors
+ * @returns Array of HSL colors with interpolated values
+ */
+export function interpolateColors(colors: string[], targetCount: number): string[] {
+  if (colors.length >= targetCount) return colors
+  if (colors.length === 0) return []
+  if (colors.length === 1) return Array(targetCount).fill(colors[0])
+
+  const result: string[] = []
+  // Calculate how many segments we need between each pair of colors
+  const segmentsNeeded = Math.ceil(targetCount / (colors.length - 1))
+
+  for (let i = 0; i < colors.length - 1; i++) {
+    const color1 = colors[i]
+    const color2 = colors[i + 1]
+
+    // Add the first color
+    result.push(color1)
+
+    // Create segments between colors
+    for (let j = 1; j < segmentsNeeded && result.length < targetCount; j++) {
+      const ratio = j / segmentsNeeded
+      const interpolated = chroma.mix(color1, color2, ratio, 'hsl').hsl()
+      result.push(`hsl(${Math.round(interpolated[0] || 0)}, ${Math.round(interpolated[1] * 100)}%, ${Math.round(interpolated[2] * 100)}%)`)
+    }
+  }
+
+  // Add the last color if we haven't reached the target count
+  if (result.length < targetCount) {
+    result.push(colors[colors.length - 1])
+  }
+
+  return result.slice(0, targetCount)
+}
+
+/**
  * Checks the lightness of the color and returns the appropriate font color
  * @param hsl HSL color string
  * @returns 
@@ -247,24 +287,46 @@ export function lightenHexColor(hex: string, amount: number): string {
 
 /**
  * Lightens a hsl color by the given amount.
- * @param hex The original hsl color (e.g. "#95C92C")
- * @param amount The amount to lighten the color; typical values are between 0 and 2.
- *               (e.g. 1 gives a moderate brighten, 2 gives a stronger effect)
+ * @param hsl The original HSL color (e.g. "hsl(120, 50%, 50%)")
+ * @param amount The amount to lighten the color
  * @returns The lightened hsl color.
  */
 export function lightenHSLColor(hsl: string, amount: number): string {
-  const brightend = chroma(hsl).brighten(amount).hsl()
-  return `hsl(${Math.round(brightend[0] || 0)}, ${Math.round(brightend[1] * 100)}%, ${Math.round(brightend[2] * 100)}%)`
+  try {
+    // Parse HSL values from string
+    const matches = hsl.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/)
+    if (!matches) {
+      throw new Error('Invalid HSL format')
+    }
+
+    const brightened = chroma(hsl).brighten(amount).hsl()
+    
+    return `hsl(${Math.round(brightened[0] || 0)}, ${Math.round(brightened[1] * 100)}%, ${Math.round(brightened[2] * 100)}%)`
+  } catch (error) {
+    console.error('Error in lightenHSLColor:', error)
+    return hsl 
+  }
 }
 
 /**
  * Darkens a hsl color by the given amount.
- * @param hex The original hsl color (e.g. "#95C92C")
- * @param amount The amount to darken the color; typical values are between 0 and 2.
- *               (e.g. 1 gives a moderate darken, 2 gives a stronger effect)
+ * @param hsl The original HSL color (e.g. "hsl(120, 50%, 50%)")
+ * @param amount The amount to darken the color
  * @returns The darkened hsl color.
  */
 export function darkenHSLColor(hsl: string, amount: number): string {
-  const brightend = chroma(hsl).darken(amount).hsl()
-  return `hsl(${Math.round(brightend[0] || 0)}, ${Math.round(brightend[1] * 100)}%, ${Math.round(brightend[2] * 100)}%)`
+  try {
+    // Parse HSL values from string
+    const matches = hsl.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/)
+    if (!matches) {
+      throw new Error('Invalid HSL format')
+    }
+
+    const darkened = chroma(hsl).darken(amount).hsl()
+    
+    return `hsl(${Math.round(darkened[0] || 0)}, ${Math.round(darkened[1] * 100)}%, ${Math.round(darkened[2] * 100)}%)`
+  } catch (error) {
+    console.error('Error in darkenHSLColor:', error)
+    return hsl
+  }
 }

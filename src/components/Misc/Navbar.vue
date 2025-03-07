@@ -15,19 +15,19 @@
               style="shape-rendering: geometricPrecision; filter: drop-shadow(4px 4px 0 black);"
             />
           </div>
-            <div class="mt-2 flex space-x-10">
-              <a v-for="step in steps" 
-                :key="step.name" 
-                :class="[
-                  'inline-flex px-4 items-center styled-element hoverable-xs font-semibold select-none cursor-pointer transition-colors duration-150 ease-in-out',
-                  step.name == navigationStore.activePage ? 'text-white bg-black border-white shadow-white' : 'bg-neutral-100',
-                ]"
-                @click="handleNavigation(step)"
-              >
-                {{ step.name }}
-              </a>
-            </div>
+          <div class="mt-2 flex space-x-10 ml-10">
+            <a v-for="step in steps" 
+              :key="step.name" 
+              :class="[
+                'inline-flex px-4 items-center styled-element hoverable-xs font-semibold select-none cursor-pointer transition-colors duration-150 ease-in-out',
+                step.name == navigationStore.activePage ? 'text-white bg-black border-white shadow-white' : 'bg-neutral-100',
+              ]"
+              @click="handleNavigation(step)"
+            >
+              {{ step.name }}
+            </a>
           </div>
+        </div>
           <div
             class="absolute inset-y-0 right-0 flex items-center pr-2"
           >
