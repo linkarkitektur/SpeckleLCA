@@ -21,7 +21,6 @@ export function getTextAfterLastDot(text: string): string {
   if (typeof text !== 'string') {
     return text
   }
-
   const lastIndex = text.lastIndexOf('.')
   if (lastIndex !== -1) {
       return text.substring(lastIndex + 1)

@@ -28,6 +28,8 @@ import { useProjectStore } from '@/stores/main'
 
 import router from '@/router'
 
+import { getTextAfterLastDot } from './stringUtils'
+
 export const APP_NAME = 'SpeckLCA'
 
 export const TOKEN = `${APP_NAME}.AuthToken`
@@ -262,7 +264,6 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 	// Filter out some common support objects which we never want to filter expand this list if needed
 	const modelObjects = objects
 	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk')
-	.filter((obj) => obj.data.speckle_type !== 'Objects.Geometry.Mesh')
 	.filter((obj) => obj.data.speckle_type !== 'Speckle.Core.Models.Collection')
 	.filter((obj) => !obj.data.speckle_type.includes('Objects.Other.Material'))
 
@@ -283,6 +284,13 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 					const matName = materialObjects.find((obj) => obj.id === mat.material?.referencedId)?.data.name
 
 					const parameters = { ...el.data }
+
+					// Sanitize speckle_type
+					if (parameters.speckle_type) {
+						const sanitizedType = getTextAfterLastDot(parameters.speckle_type)
+						parameters.speckle_type = sanitizedType
+					}
+
 					parameters.buildingMaterialName = matName
 
 					const obj: GeometryObject = {
@@ -299,11 +307,19 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 				quantity = calculateQuantity(el)
 				const name: string = el.data.name ? el.data.name : el.data.speckle_type
 
+				const parameters = { ...el.data }
+				
+				// Sanitize speckle_type
+				if (parameters.speckle_type) {
+					const sanitizedType = getTextAfterLastDot(parameters.speckle_type)
+					parameters.speckle_type = sanitizedType
+				}
+
 				const obj: GeometryObject = {
 					id: el.id,
 					name: name,
 					quantity: quantity,
-					parameters: el.data,
+					parameters: parameters,
 					URI: el.id
 				}
 	
