@@ -1,17 +1,22 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
 	<!-- Modal area -->
 	<NewGroupModal />
-  <MaterialMappingModal />
-	<SaveFilterModal />
-	<AssemblyModal />
 	<SettingsModal />
+
+	<div 
+    class="fixed inset-0 w-full h-full pattern-dots pattern-black pattern-bg-transparent pattern-size-4 -z-20"
+    :style="{
+      '--pattern-opacity': '0.1'
+    }"
+  ></div>
 
   <!-- App area -->
 	<div class="flex">
-		<NavbarComponent />
+		<Navbar />
 		<Sidebar />
 		<div 
-			class="relative inset-y-16 w-full h-[calc(100vh-4rem)] bg-gray-100 overflow-auto" 
+			class="absolute inset-y-16 w-full h-[calc(100vh-4rem)] overflow-auto" 
 			id="renderParent"
 		>
 			<Suspense>
@@ -23,15 +28,21 @@
 			</Suspense>
 		</div>
 		<Slideover />
+		<div v-if="navStore.detailBarShow" id="Detailbar">
+      <DetailBar />
+    </div>
 	</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { watch } from 'vue'
+
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import Slideover from '@/components/SlideOver/Sliderover.vue'
 import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
-import NavbarComponent from '@/components/Navbar.vue'
+import Navbar from '@/components/Base/Navbar.vue'
+import DetailBar from '@/components/DetailBar/DetailBar.vue'
+
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import { useSpeckleStore } from '@/stores/speckle'
@@ -48,9 +59,6 @@ import { preloadDashboardData } from '@/utils/preLoader'
 
 // Modals
 import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
-import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
-import SaveFilterModal from '@/components/Modals/SaveFilterModal.vue'
-import AssemblyModal from '@/components/Modals/AssemblyModal.vue'
 import SettingsModal from '@/components/Modals/SettingsModal.vue'
 
 
@@ -58,54 +66,35 @@ import SettingsModal from '@/components/Modals/SettingsModal.vue'
  * Dashboard view.
  * This component represents the main dashboard view of the application.
  */
-export default {
-	name: 'DashboardView',
-	components: {
-		NavbarComponent,
-		SpeckleViewer,
-		Sidebar,
-		Slideover,
-		NewGroupModal,
-		MaterialMappingModal,
-		SaveFilterModal, 
-		AssemblyModal,
-		SettingsModal,
-	},
-	setup() {
-		//Load materials from the store on startup
-		const navStore = useNavigationStore()
-		const projectStore = useProjectStore()
-		const speckleStore = useSpeckleStore()
+const navStore = useNavigationStore()
+const projectStore = useProjectStore()
+const speckleStore = useSpeckleStore()
 
-		// Preload all needed resources
-		preloadDashboardData()
+// Preload all needed resources
+preloadDashboardData()
 
-		// Watch for changes in the active page and update viewer colors
-		// TODO: Have this in the navStore instead?
-		watch(() => navStore.activePage , (newVal) => {
-			if(newVal === 'Overview') {
-				updateProjectGroups(true)
-				const tree =	projectStore.getGroupTree()?.children
-				speckleStore.calculateGroupColors(tree)
-			} else if(newVal === 'Mapping') {
-				const mappingColors = setMappingColorGroup()
-				speckleStore.setColorGroups(mappingColors)
-			} else if(newVal === 'Results') {
-				// Trigger calc for project
-				const calculator = new EmissionCalculator()
-				calculator.calculateEmissions()
+// Watch for changes in the active page and update viewer colors
+// TODO: Have this in the navStore instead?
+watch(() => navStore.activePage , (newVal) => {
+	if(newVal === 'Filtering') {
+		updateProjectGroups(true)
+		const tree =	projectStore.getGroupTree()?.children
+		speckleStore.calculateGroupColors(tree)
+	} else if(newVal === 'Mapping') {
+		const mappingColors = setMappingColorGroup()
+		speckleStore.setColorGroups(mappingColors)
+	} else if(newVal === 'Results') {
+		// Trigger calc for project
+		const calculator = new EmissionCalculator()
+		calculator.calculateEmissions()
 
-				const resCalc = new ResultCalculator()
-				resCalc.aggregate()
-				
-				const resultsColors = setResultsColorGroup()
-				speckleStore.setColorGroups(resultsColors)
-			} else if(newVal === 'Benchmark') {
-				console.log("Benchmark page - No graphics to update")
-			}
-		})
-
-		return {}
+		const resCalc = new ResultCalculator()
+		resCalc.aggregate()
+		
+		const resultsColors = setResultsColorGroup()
+		speckleStore.setColorGroups(resultsColors)
+	} else if(newVal === 'Benchmark') {
+		console.log("Benchmark page - No graphics to update")
 	}
-}
+})
 </script>

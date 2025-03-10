@@ -1,29 +1,18 @@
 <template>
-	<!-- Modal area -->
-	<SettingsModal />
+	<div class="fixed inset-0 min-h-screen min-w-screen h-full w-full
+						  pattern-dots pattern-black pattern-bg-transparent pattern-size-4 -z-10" style="--pattern-opacity: 0.1;"></div>
+  <div class="relative z-0">
+		<!-- Modal area -->
+		<SettingsModal />
 
-	<!-- Main content area -->
-	<Navbar />
-	<ProjectGrid />
+		<!-- Main content area -->
+		<ShortNavbar />
+		<ProjectGrid />
+	</div>
 </template>
 
-<script>
+<script setup lang="ts">
 import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue'
-import Navbar from '@/components/Navbar.vue'
-import SettingsModal from '@/components/Modals/SettingsModal.vue';
-
-	/**
-	 * The project selection view.
-	 * This component represents the project selection view of the application.
-	 */
-	export default {
-		name: 'ProjectSelectionView',
-		components: {
-			Navbar,
-			ProjectGrid,
-			SettingsModal
-		},
-		setup() {
-		}
-	}
+import SettingsModal from '@/components/Modals/SettingsModal.vue'
+import ShortNavbar from '@/components/Base/ShortNavbar.vue'
 </script>

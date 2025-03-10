@@ -1,6 +1,6 @@
 <template>
   <!-- Navbar -->
-  <NavbarComponent class="print:hidden" />
+  <Navbar class="print:hidden" />
   <div 
     :class="['result-report', isA4Mode ? 'a4-print' : '']"
     class="
@@ -76,11 +76,11 @@
 
 <script setup lang="ts">
 // Import required components
-import NavbarComponent from '@/components/Navbar.vue'
+import Navbar from '@/components/Base/Navbar.vue'
 import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 import DataTable from '@/components/Graphs/DataTable.vue'
-import Dropdown from '@/components/Misc/Dropdown.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
 
 // Import stores
 import { useSettingsStore } from '@/stores/settings'
@@ -91,7 +91,7 @@ import { useProjectStore } from '@/stores/main'
 import { ref, computed } from 'vue'
 
 // Import Types
-import type { dropdownItem } from '@/components/Misc/DropdownMenuItem.vue'
+import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 import type { ResultItem } from '@/models/result'
 
 // Stores

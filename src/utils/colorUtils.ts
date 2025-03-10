@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import chroma from 'chroma-js'
 
 export const baseColors = {
@@ -14,114 +15,88 @@ const fontColors = {
 }
 
 export class ColorManager {
-  // List of Link colors
-  private colors: string[] = [
-    'rgb(153,128,119)',
-    'rgb(199,151,129)',
-    'rgb(187,167,137)',
-    'rgb(205,197,177)',
-    'rgb(224,222,197)',
-    'rgb(194,207,179)',
-    'rgb(173,183,167)',
-    'rgb(160,167,159)',
-    'rgb(140,144,145)',
-    'rgb(62,85,100)',
-    'rgb(106,119,134)',
-    'rgb(150,151,170)',
-    'rgb(111,85,101)',
-    'rgb(128,106,109)'
-  ]
-
+  // Define multiple color sets
+  private colorSets: { [key: string]: string[] } = {
+    base: [
+      'hsl(14, 23%, 53%)',
+      'hsl(22, 33%, 64%)',
+      'hsl(25, 24%, 63%)',
+      'hsl(37, 26%, 75%)',
+      'hsl(50, 35%, 83%)',
+      'hsl(42, 21%, 73%)',
+      'hsl(84, 11%, 69%)',
+      'hsl(70, 4%, 63%)',
+      'hsl(204, 3%, 56%)',
+      'hsl(209, 23%, 32%)',
+      'hsl(211, 21%, 47%)',
+      'hsl(232, 12%, 63%)',
+      'hsl(340, 14%, 38%)',
+      'hsl(330, 17%, 46%)'
+    ],  
+    pastels: [
+      'hsl(140, 37%, 75%)', 
+      'hsl(165, 31%, 80%)', 
+      'hsl(44, 84%, 83%)',  
+      'hsl(26, 56%, 77%)',  
+      'hsl(0, 35%, 74%)',   
+      'hsl(221, 24%, 76%)', 
+      'hsl(156, 21%, 79%)', 
+      'hsl(30, 36%, 83%)',  
+      'hsl(27, 60%, 89%)',  
+      'hsl(187, 25%, 89%)'  
+    ]
+  }
+  
+  private activeSet: string = 'pastels'
   private colorIndex: number = 0
 
-  // Converts 'rgb(r,g,b)' to an array [r, g, b]
-  private rgbStringToArray(rgb: string): number[] {
-    const result = rgb.match(/\d+/g)
-    return result ? result.map(Number) : [0, 0, 0]
-  }
-
-  // Convert RGB to HSL
-  private rgbToHsl(rgb: string): number[] {
-    const [r, g, b] = this.rgbStringToArray(rgb).map(v => v / 255)
-
-    const max = Math.max(r, g, b)
-    const min = Math.min(r, g, b)
-    // eslint-disable-next-line prefer-const
-    let h: number = 0, s: number, l: number = (max + min) / 2
-
-    if (max === min) {
-      h = s = 0 // achromatic
-    } else {
-      const d = max - min
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
-      switch (max) {
-        case r: 
-          h = (g - b) / d + (g < b ? 6 : 0) 
-          break
-        case g: 
-          h = (b - r) / d + 2 
-          break
-        case b: 
-          h = (r - g) / d + 4 
-          break
-      }
-      h /= 6
-    }
-
-    return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)]
-  }
-
-  // Convert HSL to string format
-  private hslToString(hsl: number[]): string {
-    return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
-  }
-
-  // Helper function to calculate Euclidean distance in HSL space
-  private calculateColorDistanceHSL(color1: string, color2: string): number {
-    const [h1, s1, l1] = this.rgbToHsl(color1)
-    const [h2, s2, l2] = this.rgbToHsl(color2)
-
-    return Math.sqrt(Math.pow(h1 - h2, 2) + Math.pow(s1 - s2, 2) + Math.pow(l1 - l2, 2))
-  }
-  
-  // Helper function for interpolating between two HSL colors
-  private interpolateHSL(
-    [h1, s1, l1]: number[],
-    [h2, s2, l2]: number[],
-    t: number
-  ): number[] {
-    // Simple linear interpolation of each component
-    const h = h1 + (h2 - h1) * t
-    const s = s1 + (s2 - s1) * t
-    const l = l1 + (l2 - l1) * t
-    
-    // Return the interpolated HSL as [h, s, l]
-    return [h, s, l]
-  }
-  
   /**
-   * Picks `count` distinct colors out of the base color list
-   * Returns them as HSL strings.
+   * Switch color set dynamically
+   * @param setName 'base' | 'pastels'
    */
-  private pickDistinctFromBase(count: number): string[] {
-    // Convert each base color to HSL string
-    const baseHSLStrings = this.colors.map(c => this.hslToString(this.rgbToHsl(c)))
-
-    // If count >= baseColors, return everything
-    if (count >= baseHSLStrings.length) {
-      return baseHSLStrings
+  public switchColorSet(setName: string): void {
+    if (this.colorSets[setName]) {
+      this.activeSet = setName
+      this.colorIndex = 0
+    } else {
+      console.warn(`Color set "${setName}" does not exist.`)
     }
+  }
 
-    // Otherwise, pick distinct
-    const distinctColors: string[] = [ baseHSLStrings[0] ] // start with first color
+  /**
+   * Get colors from the active set
+   */
+  private getCurrentColors(): string[] {
+    return this.colorSets[this.activeSet]
+  }
+
+  /**
+   * Get the next color from the active color set
+   */
+  public getNextColor(): string {
+    const colors = this.getCurrentColors()
+    const color = colors[this.colorIndex % colors.length]
+    this.colorIndex++
+    return color
+  }
+
+  /**
+   * Get 'count' distinct colors from the active set based on HSL distance
+   */
+  public getMostDistinctColors(count: number): string[] {
+    const colors = this.getCurrentColors()
+    // IF we need more colors than we have we interpolate them
+    if (count > colors.length)
+      return interpolateColors(colors, count)
+    
+    // Convert colors to HSL for comparison
+    const distinctColors: string[] = [colors[0]]
     for (let i = 1; i < count; i++) {
       let maxDistance = -1
       let nextColor = ''
 
-      // Attempt to pick a color from baseHSLStrings that is farthest from the chosen set
-      for (const color of baseHSLStrings) {
+      for (const color of colors) {
         if (!distinctColors.includes(color)) {
-          // measure min distance from the already picked set
           const minDistToSet = Math.min(
             ...distinctColors.map(selected =>
               this.calculateColorDistanceHSL(selected, color)
@@ -140,68 +115,99 @@ export class ColorManager {
   }
 
   /**
-   * Get 'count' most distinct colors from the list based on distance in HSL space
-   * If count is higher than color list we interpolate a new color in HSL space
-   * @param count amount of colors needed
-   * @returns list of HSL colors as strings
+   * Converts 'rgb(r,g,b)' to an array [r, g, b]
    */
-  public getMostDistinctColors(count: number): string[] {
-    const baseSize = this.colors.length
-    
-    // If count is less than or equal to base colors, just pick from base colors
-    if (count <= baseSize) 
-      return this.pickDistinctFromBase(count) 
+  private rgbStringToArray(rgb: string): number[] {
+    const result = rgb.match(/\d+/g)
+    return result ? result.map(Number) : [0, 0, 0]
+  }
 
-    // Get all base colors
-    const allDistinct = this.pickDistinctFromBase(baseSize) 
-    // Convert each anchor color to numeric HSL
-    const anchorHSL = allDistinct.map(hslStr => {
-      const match = hslStr.match(/(\d+),\s*(\d+)%,\s*(\d+)%/)
-      if (match) {
-        const [_, hh, ss, ll] = match
-        return [Number(hh), Number(ss), Number(ll)]
+  /**
+   * Convert RGB to HSL
+   */
+  private rgbToHsl(rgb: string): number[] {
+    const [r, g, b] = this.rgbStringToArray(rgb).map(v => v / 255)
+    const max = Math.max(r, g, b)
+    const min = Math.min(r, g, b)
+    let h = 0, s, l = (max + min) / 2
+
+    if (max === min) {
+      h = s = 0 // Achromatic
+    } else {
+      const d = max - min
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+      switch (max) {
+        case r: 
+          h = (g - b) / d + (g < b ? 6 : 0) 
+          break
+        case g: 
+          h = (b - r) / d + 2 
+          break
+        case b: 
+          h = (r - g) / d + 4 
+          break      
       }
-      return [0, 0, 0]
-    })
-
-    // Now produce 'count' colors by interpolating across anchorHSL
-    const interpolatedColors: string[] = []
-    const n = anchorHSL.length
-
-    // Simple linear interpolation across the entire array (n - 1) segments
-    for (let i = 0; i < count; i++) {
-      const fraction = i / (count - 1)
-      const segment = fraction * (n - 1)
-      const j = Math.floor(segment)
-      const localT = segment - j
-
-      if (j >= n - 1) {
-        // at the very end, use the last anchor color
-        interpolatedColors.push(this.hslToString(anchorHSL[n - 1]))
-      } else {
-        const interp = this.interpolateHSL(anchorHSL[j], anchorHSL[j + 1], localT)
-        // Round them if you want nice integers
-        interpolatedColors.push(
-          this.hslToString([
-            Math.round(interp[0]),
-            Math.round(interp[1]),
-            Math.round(interp[2])
-          ])
-        )
-      }
+      h /= 6
     }
-    return interpolatedColors
-  }
-  
-  // Get next color in HSL format
-  public getNextColor(): string {
-    return this.hslToString(this.rgbToHsl(this.colors[this.colorIndex++ % this.colors.length]))
+    return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)]
   }
 
-  // Reset color index to start rotation again
+  /**
+   * Calculate Euclidean distance in HSL space
+   */
+  private calculateColorDistanceHSL(color1: string, color2: string): number {
+    const [h1, s1, l1] = this.rgbToHsl(color1)
+    const [h2, s2, l2] = this.rgbToHsl(color2)
+
+    return Math.sqrt(
+      Math.pow(h1 - h2, 2) + Math.pow(s1 - s2, 2) + Math.pow(l1 - l2, 2)
+    )
+  }
+
+  /**
+   * Reset color index to restart rotation
+   */
   public resetColorIndex(index: number = 0): void {
     this.colorIndex = index
   }
+}
+
+/**
+ * Interpolates additional colors between existing ones to reach desired count
+ * @param colors Original array of HSL colors
+ * @param targetCount Desired number of colors
+ * @returns Array of HSL colors with interpolated values
+ */
+export function interpolateColors(colors: string[], targetCount: number): string[] {
+  if (colors.length >= targetCount) return colors
+  if (colors.length === 0) return []
+  if (colors.length === 1) return Array(targetCount).fill(colors[0])
+
+  const result: string[] = []
+  // Calculate how many segments we need between each pair of colors
+  const segmentsNeeded = Math.ceil(targetCount / (colors.length - 1))
+
+  for (let i = 0; i < colors.length - 1; i++) {
+    const color1 = colors[i]
+    const color2 = colors[i + 1]
+
+    // Add the first color
+    result.push(color1)
+
+    // Create segments between colors
+    for (let j = 1; j < segmentsNeeded && result.length < targetCount; j++) {
+      const ratio = j / segmentsNeeded
+      const interpolated = chroma.mix(color1, color2, ratio, 'hsl').hsl()
+      result.push(`hsl(${Math.round(interpolated[0] || 0)}, ${Math.round(interpolated[1] * 100)}%, ${Math.round(interpolated[2] * 100)}%)`)
+    }
+  }
+
+  // Add the last color if we haven't reached the target count
+  if (result.length < targetCount) {
+    result.push(colors[colors.length - 1])
+  }
+
+  return result.slice(0, targetCount)
 }
 
 /**
@@ -276,5 +282,51 @@ export function getValueColorFromGradient(value: number, min: number, max: numbe
  * @returns The lightened hex color.
  */
 export function lightenHexColor(hex: string, amount: number): string {
-  return chroma(hex).brighten(amount).hex();
+  return chroma(hex).brighten(amount).hex()
+}
+
+/**
+ * Lightens a hsl color by the given amount.
+ * @param hsl The original HSL color (e.g. "hsl(120, 50%, 50%)")
+ * @param amount The amount to lighten the color
+ * @returns The lightened hsl color.
+ */
+export function lightenHSLColor(hsl: string, amount: number): string {
+  try {
+    // Parse HSL values from string
+    const matches = hsl.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/)
+    if (!matches) {
+      throw new Error('Invalid HSL format')
+    }
+
+    const brightened = chroma(hsl).brighten(amount).hsl()
+    
+    return `hsl(${Math.round(brightened[0] || 0)}, ${Math.round(brightened[1] * 100)}%, ${Math.round(brightened[2] * 100)}%)`
+  } catch (error) {
+    console.error('Error in lightenHSLColor:', error)
+    return hsl 
+  }
+}
+
+/**
+ * Darkens a hsl color by the given amount.
+ * @param hsl The original HSL color (e.g. "hsl(120, 50%, 50%)")
+ * @param amount The amount to darken the color
+ * @returns The darkened hsl color.
+ */
+export function darkenHSLColor(hsl: string, amount: number): string {
+  try {
+    // Parse HSL values from string
+    const matches = hsl.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/)
+    if (!matches) {
+      throw new Error('Invalid HSL format')
+    }
+
+    const darkened = chroma(hsl).darken(amount).hsl()
+    
+    return `hsl(${Math.round(darkened[0] || 0)}, ${Math.round(darkened[1] * 100)}%, ${Math.round(darkened[2] * 100)}%)`
+  } catch (error) {
+    console.error('Error in darkenHSLColor:', error)
+    return hsl
+  }
 }

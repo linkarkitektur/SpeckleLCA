@@ -110,3 +110,17 @@ export function collectParameters(parameters: Record<string, any>, parameterSet:
     }
   })
 }
+
+/**
+ * Chunks an array into smaller pieces of nested arrays
+ * @param array 
+ * @param chunkSize 
+ * @returns chunkedArray
+ */
+export function chunkArray(array: any[], chunkSize: number) {
+  const result = []
+  for (let i = 0; i < array.length; i += chunkSize) {
+    result.push(array.slice(i, i + chunkSize))
+  }
+  return result
+}

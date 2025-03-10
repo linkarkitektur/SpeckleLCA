@@ -1,83 +1,79 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <button
-    v-if="!sideBarShow"
-    @click="toggleSideBar" 
-    class="absolute top-1/2 pt-16 left-2 transform -translate-y-1/2 mr-2 z-50"
-  >
-    <ChevronRightIcon class="w-6 h-6 opacity-50" />
-  </button>
-  <TransitionRoot as="template" :show="sideBarShow">
-    <div 
-      class="relative mt-16 z-40 flex h-[calc(100vh-4rem)] w-1/2 flex-col"
-    >
-      <TransitionChild
-        as="template"
-        enter="transform transition ease-in-out duration-500 sm:duration-700"
-        enter-from="-translate-x-full"
-        enter-to="translate-x-0"
-        leave="transform transition ease-in-out duration-500 sm:duration-700"
-        leave-from="translate-x-0"
-        leave-to="-translate-x-full"
-      >
-        <div 
-          class="flex grow h-[calc(100vh-12rem)] flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pt-4"
-        >
-          <button
-            v-if="sideBarShow"
-            @click="toggleSideBar" 
-            class="absolute top-1/2 -right-8 transform -translate-y-1/2 mr-2 opacity-50"
-          >
-            <ChevronLeftIcon class="w-6 h-6" />
-          </button>
-          <GroupList />
-        </div>
-      </TransitionChild>
+  <div class="relative mt-20 z-40 flex h-[calc(100vh-5rem)] w-2/5 flex-col px-6">
+    <!-- Buttons and dropdown area -->
+    <div class="flex-none px-2 py-2 overflow-visible">
+      <div class="flex h-8 space-x-4">
+        <Dropdown
+          :items="dropdownItems"
+          :dropdownName="dropdownName"
+          @selectedItem="handleSelected"
+        />
+
+        <ActionButton
+          v-for="button in visibleButtons"
+          :key="button.text"
+          :text="button.text"
+          :icon="button.icon"
+          @onClick="handleButtonClick(button)"
+        />
+
+      </div>
     </div>
-  </TransitionRoot>
+
+    <!-- Groupings list-->
+    <div class="flex grow h-full flex-col gap-y-4 overflow-y-auto">
+      <GroupList />
+    </div>
+  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import {  
-  TransitionChild, 
-  TransitionRoot 
-} from '@headlessui/vue'
+<script setup lang="ts">
+import { computed, watch } from 'vue'
+import { sidebarButtons } from '@/config/slideoverNavigation'
 
-import { 
-  ChevronRightIcon, 
-  ChevronLeftIcon 
-} from '@heroicons/vue/24/solid'
+import GroupList from '@/components/Sidebar/GroupList.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 
 import { useNavigationStore } from '@/stores/navigation'
 
-import GroupList from '@/components/Sidebar/GroupList.vue'
+import { useFetchDropdownItems } from '@/composables/useFetchDropdownItems'
+import { useHandleSelected } from '@/composables/useHandleSelected'
 
-import { storeToRefs } from 'pinia'
+import type { NavigationButtonConfig } from '@/models/pageLogic'
 
-export default defineComponent({
-  name: 'SideBar',
-  components: {
-    GroupList,
-    TransitionChild, 
-    TransitionRoot,
-    ChevronLeftIcon,
-    ChevronRightIcon
-  },
-  setup() {
-    const navStore = useNavigationStore()
-    const { sideBarShow } = storeToRefs(navStore)
+// Store initialization
+const navStore = useNavigationStore()
 
-    const toggleSideBar = () => {
-      navStore.toggleSideBar()
-    }
-    
-    return {
-      sideBarShow,
-      toggleSideBar
-    }
+// Compute visible buttons for current page
+const visibleButtons = computed(() => 
+  sidebarButtons.filter(button => button.showOn.includes(navStore.activePage))
+)
+
+// Button click handler
+const handleButtonClick = (button: NavigationButtonConfig) => {
+  switch(button.action) {
+    case 'toggleSlideover':
+      navStore.setSlideoverFunction(button.text)
+      break
   }
-  
-})
+}
+
+// Initialize dropdown functionality
+const { dropdownItems, dropdownName, fetchDropdownItems } = useFetchDropdownItems()
+
+// Initialize selection handler
+const { handleSelected } = useHandleSelected()
+
+// Watch for page changes to update dropdown items
+watch(
+  () => navStore.activePage,
+  () => {
+    fetchDropdownItems()
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>

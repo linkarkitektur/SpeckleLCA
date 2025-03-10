@@ -134,7 +134,7 @@ import { useSettingsStore } from '@/stores/settings'
 
 import icon from '@/assets/icons/logo.svg'
 import appScreenshot from '@/assets/images/AppPicture3D.png'
-import SettingsModal from '../Modals/SettingsModal.vue'
+import SettingsModal from '@/components/Modals/SettingsModal.vue'
 
 export default defineComponent({
   name: 'HeroComponent',

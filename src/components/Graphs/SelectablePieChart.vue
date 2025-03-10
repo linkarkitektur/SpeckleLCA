@@ -19,7 +19,6 @@ import {
   createMouseEventHandlers,
   createBaseChart,
 } from '@/utils/chartUtils'
-import { getTextAfterLastDot } from '@/utils/stringUtils'
 
 import { truncateText } from '@/utils/stringUtils'
 import { roundNumber } from '@/utils/math'
@@ -349,7 +348,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
         .transition()
         .duration(200)
         .style('opacity', arcData => {
-          if (getTextAfterLastDot(arcData.data.label) === getTextAfterLastDot(newLabel)) {
+          if (arcData.data.label === newLabel) {
             //TODO This should not be under opacity, this checks if we should recalc the center
             total.value = arcData.data.value
             renderCenter()

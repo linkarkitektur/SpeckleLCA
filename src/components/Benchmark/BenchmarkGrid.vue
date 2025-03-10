@@ -79,7 +79,7 @@
 </template>
 
 <script lang="ts">
-import Dropdown from '@/components/Misc/Dropdown.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
 import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 import DataTable from '@/components/Graphs/DataTable.vue'
 
@@ -92,7 +92,7 @@ import { defineComponent, ref, reactive, computed, watch } from 'vue'
 
 import type { ResultItem } from '@/models/result'
 import type { ResultsLog } from '@/models/firebase'
-import type { dropdownItem } from '@/components/Misc/DropdownMenuItem.vue'
+import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 
 import { getResultLogEmissions, emissionToNumber } from '@/utils/resultUtils'
 

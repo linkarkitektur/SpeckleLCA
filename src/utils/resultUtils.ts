@@ -4,7 +4,6 @@ import { useSettingsStore } from '@/stores/settings'
 
 import { getNestedPropertyValue } from '@/utils/material'
 import { DefaultResultList } from '@/models/result'
-import { getTextAfterLastDot } from '@/utils/stringUtils'
 
 import type { GroupedResults } from '@/models/result'
 import type { ChartData, NestedChartData } from '@/models/chartModels'
@@ -123,7 +122,7 @@ export function resultItemToNestedChartData (resultItem: ResultItem): NestedChar
       }))
   
       nestedChartData.push({
-        label: getTextAfterLastDot(groupedResult.parameter),
+        label: groupedResult.parameter,
         value: topLevelArray
       })
       continue
@@ -147,7 +146,7 @@ export function resultItemToNestedChartData (resultItem: ResultItem): NestedChar
     }
 
     nestedChartData.push({
-      label: getTextAfterLastDot(groupedResult.parameter),
+      label: groupedResult.parameter,
       value: nestedDataArray
     })
   }
@@ -162,14 +161,10 @@ export function resultItemToNestedChartData (resultItem: ResultItem): NestedChar
  * @param impactCategory Impact category to get results for
  */
 function groupedResultToChartData(groupedResult: GroupedResults, groupedData: Map<string, ChartData>, impactCategory: ExtendedImpactCategoryKey): void {
-  let objectName = groupedResult.parameter
+  const objectName = groupedResult.parameter
   const emissionData = groupedResult.data.emission
 
   if (!objectName || !emissionData) return null
-
-  // Fix for Speckletype names
-  if ((objectName.split('.').length - 1) > 2 )
-    objectName = getTextAfterLastDot(objectName)
 
   if (!groupedData.has(objectName)) {
     const entry: ChartData = {

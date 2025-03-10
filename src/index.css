@@ -2,15 +2,119 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@layer utilities {
-  /* Hide scrollbar for Chrome, Safari, and Opera */
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+/* Stylings */
+@layer components {
+  /* Base styling */
+  .styled-element {
+    @apply border-black border-2 rounded-md font-poppins font-semibold uppercase;
   }
-  /* Hide scrollbar for IE, Edge, and Firefox */
+
+  .styled-table {
+    @apply styled-element border-0 border-r border-b border-black
+  }
+  
+  /* Just the hover styling with hover functions */
+  .hoverable-styling {
+    @apply shadow-[4px_4px_0px_rgba(0,0,0,1)]
+  }
+
+  /* Base hover effect that others will extend */
+  .hoverable-base {
+    @apply transition-all ease-in-out hover:shadow-none
+           delay-100 duration-300;
+  }
+  
+  /* Hover effects with different sizes */
+  .hoverable {
+    @apply hoverable-base
+           shadow-[6px_6px_0px_rgba(0,0,0,1)]
+           hover:translate-x-1.5 hover:translate-y-1.5;
+  }
+
+  .hoverable-md {
+    @apply hoverable-base 
+           shadow-[6px_6px_0px_rgba(0,0,0,1)]
+           hover:translate-x-1.5 hover:translate-y-1.5;
+  }
+
+  .hoverable-sm {
+    @apply hoverable-base
+           shadow-[4px_4px_0px_rgba(0,0,0,1)]
+           hover:translate-x-1 hover:translate-y-1;
+  }
+
+  .hoverable-xs {
+    @apply hoverable-base
+           shadow-[2px_2px_0px_rgba(0,0,0,1)]
+           hover:shadow-[1px_1px_0px_rgba(0,0,0,1)]
+           hover:translate-x-0.5 hover:translate-y-0.5;
+  }
+
+  /* Base pressable styles */
+  .pressable-base {
+    @apply focus:translate-x-2 focus:translate-y-2 focus:shadow-none
+           active:translate-x-2 active:translate-y-2 active:shadow-none;
+  }
+
+  .pressable-focus {
+    @apply focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-black
+           active:outline active:outline-2 active:outline-offset-2 active:outline-black;
+  }
+
+  .pressable {
+    @apply pressable-base
+           focus:outline focus:outline-offset-2 focus:outline-black
+           active:outline active:outline-offset-2 active:outline-black;
+  }
+
+  .pressable-light {
+    @apply pressable-base;
+  }
+
+  .styled-active {
+    @apply outline outline-2 outline-offset-2 outline-black
+           translate-x-2 translate-y-2 shadow-none;
+  }
+
+  /* Font stylings */
+  .styled-text {
+    @apply font-poppins text-black font-normal normal-case
+  }
+
+  .styled-header {
+    @apply styled-text font-semibold uppercase
+  }
+
+  .styled-bread {
+    @apply font-bread text-black normal-case
+  }
+
+  .styled-data {
+    @apply font-mono font-light normal-case
+  }
+
+  /* Settings styles */
+  .settings-list {
+    @apply styled-text mt-6 space-y-6 divide-y divide-black border-t border-black
+  }
+}
+
+/* Utility */
+@layer utilities {
   .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    @apply [-ms-overflow-style:none] [scrollbar-width:none] [-webkit-overflow-scrolling:touch];
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+/* Theme configuration */
+@layer base {
+  :root {
+    --font-lexend: "Lexend Mega", sans-serif;
+    --font-number: "Major Mono Display", Mono;
+    --font-bread: "Merriweather", serif;
+    --font-poppins: "Poppins", sans-serif;
   }
 }

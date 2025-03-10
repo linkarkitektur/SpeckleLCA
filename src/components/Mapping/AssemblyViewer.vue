@@ -5,6 +5,7 @@
     <Draggable
       :list="[]"
       group="materials"
+      item-key="id"
       class="add-bar relative w-11/12 flex items-center justify-center h-10 pr-60 pl-60 mb-2 border-2 border-dashed"
       :class="isDragging ? 'border-green-600' : 'border-gray-400'"
       @change="onDropAtStart"
@@ -47,6 +48,7 @@
     <Draggable
       :list="[]"
       group="materials"
+      item-key="id"
       class="add-bar relative w-11/12 flex items-center justify-center h-10 mt-2 border-2 border-dashed"
       :class="isDragging ? 'border-green-600' : 'border-gray-400'"
       @change="onDropAtEnd"

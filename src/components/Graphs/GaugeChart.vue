@@ -10,7 +10,6 @@
 <script lang="ts">
 import * as d3 from 'd3'
 import { ref, reactive, onMounted, watch, onBeforeUnmount, type PropType } from 'vue'
-import { lightenHexColor } from '@/utils/colorUtils'
 
 // (Optional) Reuse your existing utility functions for tooltips, color, watchers, etc.
 import {
@@ -24,6 +23,7 @@ import { useProjectStore } from '@/stores/main'
 
 // Adjust these imports/types to match your actual code base
 import type { ChartData, ChartOptions } from '@/models/chartModels'
+import { lightenHSLColor } from '@/utils/colorUtils'
 
 export default {
   name: 'ArcProgressBar',
@@ -155,7 +155,7 @@ function ArcProgressChart(data: ChartData[], options: ChartOptions = {}) {
   let arcValue = maxValue
   if (currentValue > maxValue) {
     arcValue = currentValue
-    color = '#d57057'
+    color = 'hsl(11.9, 60%, 58.82%)'
   }
     
 
@@ -219,7 +219,7 @@ function ArcProgressChart(data: ChartData[], options: ChartOptions = {}) {
     arcGroup.append('path')
       .attr('class', 'arc-shadow')
       .attr('d', shadowArcPath || '')
-      .attr('fill', lightenHexColor(bgColor, 0.5)) 
+      .attr('fill', lightenHSLColor(bgColor, 0.5)) 
       .attr('opacity', 0.5)  
 
     arcGroup.append('path')
@@ -230,7 +230,7 @@ function ArcProgressChart(data: ChartData[], options: ChartOptions = {}) {
     const shadowArc = arcGroup.append('path')
       .attr('class', 'arc-shadow')
       .attr('d', shadowArcPath || '')
-      .attr('fill', lightenHexColor(color, 2))
+      .attr('fill', lightenHSLColor(color, 2))
       .attr('opacity', 0.5)  
 
     // e) Foreground arc (progress)

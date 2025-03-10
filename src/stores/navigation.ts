@@ -1,3 +1,4 @@
+import type { PageType, SlideoverFunction } from '@/models/pageLogic'
 import { defineStore } from 'pinia'
 
 /**
@@ -10,16 +11,18 @@ export const useNavigationStore = defineStore({
 	id: 'navigationStore',
 	state: () => {
 		return {
-			activePage: 'Projects' as string, // The current page
+			activePage: 'Projects' as PageType, // The current page
+			activeColor: '#e4ecec' as string,
 			slideoverOpen: false,
+			slideoverFunction: 'Edit Filters' as SlideoverFunction,
 			editName: null as string | null,
 			groupModalOpen: false,
 			mappingModalOpen: false,
 			loading: false,
 			groupColorMode: false,
+			detailBarShow: true,
 			sideBarShow: true,
 			saveModalOpen: false,
-			assemblyModalOpen: false,
 			assemblyTableShow: false,
 			settingsModalOpen: false,
 
@@ -30,9 +33,26 @@ export const useNavigationStore = defineStore({
 		 * Set the application that is being used in the application view
 		 * @param page page that is currently active in the application view
 		 */
-		setActivePage(page: string) {
+		setActivePage(page: PageType) {
 			this.activePage = page
 		},
+
+		/**
+		 * Sets the active color
+		 * @param color 
+		 */
+		setActiveColor(color: string) {
+			this.activeColor = color
+		},
+
+		/**
+     * Sets the slideover function and opens the slideover
+     * @param func The function to set for the slideover
+     */
+				setSlideoverFunction(func: SlideoverFunction) {
+					this.slideoverFunction = func
+					this.slideoverOpen = true
+				},
 
 		/**
 		 * Toggle slideover where its present on the app
@@ -96,13 +116,6 @@ export const useNavigationStore = defineStore({
 		 */
 		toggleSaveModal() {
 			this.saveModalOpen = !this.saveModalOpen
-		},
-
-		/**
-		 * Toggle assembly modal on the app
-		 */
-		toggleAssemblyModal() {
-			this.assemblyModalOpen = !this.assemblyModalOpen
 		},
 
 		/**

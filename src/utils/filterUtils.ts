@@ -3,7 +3,6 @@ import type { GeometryObject } from '@/models/geometryObject'
 
 import { useProjectStore } from '@/stores/main'
 import { useSpeckleStore } from '@/stores/speckle'
-import { getTextAfterLastDot } from '@/utils/stringUtils'
 
 /**
  * Iteratively searches an object for the specified key and applies the comparison function to its value.
@@ -194,7 +193,7 @@ export function createStandardFilters() {
         const endIterative = performance.now()
         totalIterative += endIterative - startIterative
 
-        const pathName = getTextAfterLastDot(fieldValue)
+        const pathName = fieldValue
         addObjToGroup(outGroup, obj, true, grp, pathName)
       }
     }

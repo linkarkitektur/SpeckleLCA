@@ -1,261 +1,204 @@
 <template>
-	<div
-		class="flex relative h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl"
-	>
-		<div class="px-4 sm:px-6">
-			<div class="flex items-start justify-between">
-				<DialogTitle class="text-base font-semibold leading-6 text-gray-900">
-					Group edit
-				</DialogTitle>
-				<div class="ml-3 flex h-7 items-center">
-					<button
-						type="button"
-						class="relative rounded-md mr-4 bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-						@click="toggleSaveModal()"
-					>
-						<span class="absolute -inset-2.5" />
-						<span class="sr-only"> Save filters </span>
-						<BookmarkIcon class="h-6 w-6" aria-hidden="true" />
-					</button>
-					<button
-						type="button"
-						class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-						@click="toggleSlideover()"
-					>
-						<span class="absolute -inset-2.5" />
-						<span class="sr-only"> Close panel </span>
-						<XMarkIcon class="h-6 w-6" aria-hidden="true" />
-					</button>
-				</div>
-			</div>
-		</div>
-		<div class="relative mt-6 flex-1 p-4 sm:px-6 overflow-auto">
-			<Draggable
-				v-if="callStack"
-				:list="callStack"
-				:group="callStack"
-				item-key="index"
-				ghost-class="ghost"
-				:animation="200"
-			>
-				<template #item="{ element, index }">
-					<div class="rounded-2xl bg-gray-200 mb-4 p-4 hover:cursor-move">
-						<div class="relative">
-							<div v-if="index != editFilter">
-								<button
-									aria-label="Edit filter"
-									class="absolute right-0 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
-									@click="toggleFilter(index)"
-								>
-									<PencilSquareIcon class="ml-2 h-5 w-5" />
-								</button>
-								<button
-									aria-label="Remove filter"
-									class="absolute right-0 top-10 focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
-									@click="removeFilter(index)"
-								>
-									<MinusCircleIcon class="h-6 w-6" />
-								</button>
-							</div>
-							<button
-								v-else
-								aria-label="Edit filter"
-								class="absolute right-0 focus:outline-none focus:shadow-outline text-gray-700 hover:text-gray-800"
-								@click="toggleFilter(index)"
-							>
-								<XMarkIcon class="ml-2 h-5 w-5" />
-							</button>
-						</div>
-						<div v-if="index == editFilter">
-							<p class="pt-2">
-								<Dropdown
-									v-if="filterNames"
-									:items="filterNames"
-									:dropdownName="element.name"
-									@selectedItem="(item) => handleSelectedName(item, index)"
-								/>
-							</p>
-							<p class="pt-2">
-								<Dropdown
-									v-if="parameterNames"
-									:v-model="element.field"
-									:items="parameterNames"
-									:dropdownName="element.field"
-									@selectedItem="(item) => handleSelectedField(item, index)"
-								/>
-							</p>
-							<p class="pt-2">
-								<input v-model="element.value" placeholder="edit me" />
-							</p>
-							<p>
-								<input v-model="element.remove" type="checkbox" />
-								<label> Remove false results</label>
-							</p>
-							<button
-								aria-label="Remove filter"
-								class="pt-2 focus:outline-none focus:shadow-outline text-red-600 hover:text-red-500"
-								@click="removeFilter(index)"
-							>
-								<MinusCircleIcon class="h-6 w-6" />
-							</button>
-						</div>
-						<div v-else>
-							<p>
-								<label
-									class="ml-2 text-gray-700 font-semibold font-sans tracking-wide"
-								>
-									{{ element.name }}
-								</label>
-							</p>
-							<p>
-								<label
-									class="ml-2 text-gray-700 font-semibold font-sans tracking-wide"
-								>
-									{{ element.field }}
-								</label>
-							</p>
-							<p>
-								<label
-									class="ml-2 text-gray-700 font-semibold font-sans tracking-wide"
-								>
-									{{ element.value }}
-								</label>
-							</p>
-						</div>
-					</div>
-				</template>
-			</Draggable>
-			<div class="pt-10 grid place-items-center">
-				<button @click="addNewFilter">
-					<PlusCircleIcon
-						class="h-10 w-10 text-green-600 hover:text-green-500"
-					/>
-				</button>
-			</div>
-		</div>
-	</div>
+  <div class="relative flex-1 px-4">
+    <Draggable
+      v-if="callStack"
+      :list="callStack"
+      :group="callStack"
+      item-key="index"
+      ghost-class="ghost"
+      :animation="200"
+      class="space-y-4"
+      @start="drag = true"
+      @end="drag = false"
+    >
+      <template #item="{ element, index }">
+        <div class="styled-element hoverable-sm pressable p-4" 
+          :class="{'styled-active' : index === editFilter, 'scale-[0.99] rotate-1': drag  }"
+				>         
+					 <div class="relative">
+            <!-- Edit/Remove Buttons -->
+            <div v-if="index !== editFilter" class="absolute right-2 top-2 flex flex-col gap-2">
+              <button
+                class="p-1 styled-element hoverable-xs bg-neutral-100"
+                :style="{ backgroundColor: navStore.activeColor }"
+                @click="toggleFilter(index)"
+              >
+                <PencilSquareIcon class="h-4 w-4" />
+              </button>
+              <button
+                class="p-1 styled-element hoverable-xs mb-2 bg-neutral-100"
+                :style="{ backgroundColor: navStore.activeColor }"                
+                @click="removeFilter(index)"
+              >
+                <MinusCircleIcon class="h-4 w-4" />
+              </button>
+            </div>
+            <button
+              v-else
+              class="absolute right-2 top-2 p-1 styled-element hoverable-xs z-50 bg-neutral-100"
+              :style="{ backgroundColor: navStore.activeColor }"
+              @click="toggleFilter(index)"
+            >
+              <XMarkIcon class="h-4 w-4" />
+            </button>
+          </div>
+
+          <!-- Edit Mode -->
+          <div v-if="index === editFilter" class="space-y-4">
+            <Dropdown
+              v-if="filterNames"
+              :items="filterNames"
+              :dropdownName="element.name"
+              @selectedItem="(item) => handleSelectedName(item, index)"
+              class="w-full"
+            />
+            <Dropdown
+              v-if="parameterNames"
+              :items="parameterNames"
+              :dropdownName="element.field"
+              @selectedItem="(item) => handleSelectedField(item, index)"
+              class="w-full"
+            />
+            <input 
+              v-model="element.value" 
+              placeholder="Filter value..."
+              class="p-2 styled-element styled-data bg-neutral-100"
+            />
+            <div class="flex items-center gap-2">
+              <CheckBox
+                name="False"
+                id="False"
+                :checked="element.remove"
+                @update:checked="(newVal) => element.remove = newVal"
+              />
+              <label>Remove false results</label>
+            </div>
+          </div>
+
+          <!-- View Mode -->
+          <div v-else class="space-y-2">
+            <p class="font-semibold">{{ element.name }}</p>
+            <p class="text-black styled-data text-sm">{{ element.field }}</p>
+            <p class="text-black styled-data text-sm">{{ element.value }}</p>
+          </div>
+        </div>
+      </template>
+    </Draggable>
+
+    <!-- Add Filter Button -->
+    <div class="flex justify-center mt-4 mb-4 ">
+      <button 
+        @click="addNewFilter"
+        class="p-1 styled-element hoverable-xs"
+        :style="{ backgroundColor: navStore.activeColor }"
+      >
+        <PlusCircleIcon class="h-6 w-6" />
+      </button>
+    </div>
+  </div>
 </template>
 
-<script lang="ts">
-	import { defineComponent, ref } from 'vue'
-	import Draggable from 'vuedraggable'
-	import Dropdown, { type dropdownItem } from '@/components/Misc/Dropdown.vue'
-	import { DialogTitle } from '@headlessui/vue'
-	import { XMarkIcon } from '@heroicons/vue/24/outline'
-	import {
-		PencilSquareIcon,
-		PlusCircleIcon,
-		MinusCircleIcon,
-		BookmarkIcon,
-	} from '@heroicons/vue/24/solid'
-	import { useProjectStore } from '@/stores/main'
+<script setup lang="ts">
+import { ref, onUnmounted } from 'vue'
+import Draggable from 'vuedraggable'
+import Dropdown from '@/components/Base/Dropdown.vue'
+import CheckBox from '@/components/Base/CheckBox.vue'
+
+import { XMarkIcon } from '@heroicons/vue/24/outline'
+import {
+  PencilSquareIcon,
+  PlusCircleIcon,
+  MinusCircleIcon,
+} from '@heroicons/vue/24/solid'
+import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
-	export default defineComponent({
-		name: 'ModifyFilter',
-		components: {
-			DialogTitle,
-			Draggable,
-			Dropdown,
-			XMarkIcon,
-			PencilSquareIcon,
-			PlusCircleIcon,
-			MinusCircleIcon,
-			BookmarkIcon
-		},
-		setup() {
-			const navStore = useNavigationStore()
-			const projectStore = useProjectStore()
+// TODO: Check if we want style of drag for all draggables in the future!
 
-			const toggleSlideover = () => {
-				projectStore.updateRegistryStack('test', callStack.value)
-				navStore.toggleSlideover()
-			}
+// Store initialization
+const projectStore = useProjectStore()
+const navStore = useNavigationStore()
 
-			const editFilter = ref(-1)
+// Reactive state
+const editFilter = ref(-1)
+const callStack = ref(projectStore.getRegistryStack())
+const drag = ref(false)
 
-			const filterNames: dropdownItem[] = projectStore
-				.getFilterNames()
-				.map((el: string) => ({
-					name: el,
-					data: ''
-				}))
-				.sort((a, b) => a.name.localeCompare(b.name))
+// Computed dropdown items
+const filterNames = projectStore
+  .getFilterNames()
+  .map((el: string) => ({ name: el, data: '' }))
+  .sort((a, b) => a.name.localeCompare(b.name))
 
-			const parameterNames: dropdownItem[] = projectStore
-				.getAvailableParameterList()
-				.map((el: string) => ({
-					name: el,
-					data: ''
-				}))
-				.sort((a, b) => a.name.localeCompare(b.name))
+const parameterNames = projectStore
+  .getAvailableParameterList()
+  .map((el: string) => ({ name: el, data: '' }))
+  .sort((a, b) => a.name.localeCompare(b.name))
 
-			const callStack = ref(projectStore.getRegistryStack())
+// Methods
+const handleSelectedName = (selectedItem: dropdownItem, index: number) => {
+  callStack.value[index].name = selectedItem.name
+}
 
-			/**
-			 * Sets the selected name of the filter from dropdown selected
-			 * @param selectedItem
-			 * @param index of the item in the callstack
-			 */
-			const handleSelectedName = (
-				selectedItem: dropdownItem,
-				index: number
-			) => {
-				callStack.value[index].name = selectedItem.name
-			}
+const handleSelectedField = (selectedItem: dropdownItem, index: number) => {
+  callStack.value[index].field = selectedItem.name
+}
 
-			/**
-			 * Sets the selected field to filter on from dropdown selected
-			 * @param selectedItem
-			 * @param index of the item in the callstack
-			 */
-			const handleSelectedField = (
-				selectedItem: dropdownItem,
-				index: number
-			) => {
-				callStack.value[index].field = selectedItem.name
-			}
+const addNewFilter = () => {
+  callStack.value.push({
+    name: filterNames[0].name,
+    field: parameterNames[0].name,
+    value: '',
+    remove: false
+  })
+}
 
-			const addNewFilter = () => {
-				callStack.value.push({
-					name: filterNames[0].name,
-					field: parameterNames[0].name
-				})
-			}
+const removeFilter = (index: number) => {
+  if (index > -1) {
+    callStack.value.splice(index, 1)
+  }
+  editFilter.value = -1
+}
 
-			const removeFilter = (index: number) => {
-				if (index > -1) {
-					callStack.value.splice(index, 1)
-				}
-				editFilter.value = -1
-			}
+const toggleFilter = (index: number) => {
+  editFilter.value = editFilter.value !== index ? index : -1
+}
 
-			const toggleFilter = (index: number) => {
-				if (editFilter.value != index) {
-					editFilter.value = index
-				} else {
-					editFilter.value = -1
-				}
-			}
-
-			const toggleSaveModal = () => {
-				projectStore.updateRegistryStack('test', callStack.value)
-				navStore.toggleSaveModal()
-			}
-
-			return {
-				toggleSlideover,
-				toggleSaveModal,
-				handleSelectedName,
-				handleSelectedField,
-				addNewFilter,
-				removeFilter,
-				toggleFilter,
-				filterNames,
-				parameterNames,
-				editFilter,
-				callStack
-			}
-		}
-	})
+// Update store when component unmounts
+onUnmounted(() => {
+  projectStore.updateRegistryStack('test', callStack.value)
+})
 </script>
+
+<style scoped>
+.ghost {
+  opacity: 0.5;
+  background: #e2e8f0;
+  transform: rotate(3deg) scale(0.98);
+  transition: transform 0.2s ease-in-out;
+}
+
+.sortable-drag {
+  opacity: 0;
+}
+
+.sortable-chosen {
+  background: #f8fafc;
+}
+
+/* Add slide animation for reordering */
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+/* Optional: add some hover effects */
+.styled-element {
+  transform-origin: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.styled-element:hover {
+  transform: translateY(-2px);
+}
+</style>
