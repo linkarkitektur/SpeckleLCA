@@ -60,7 +60,7 @@ import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 import { useNavigationStore } from '@/stores/navigation'
 
-import CheckBox from '../Base/CheckBox.vue'
+import CheckBox from '@/components/Base/CheckBox.vue'
 
 export interface Option {
   label: string

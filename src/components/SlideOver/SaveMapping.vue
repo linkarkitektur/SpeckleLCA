@@ -41,8 +41,8 @@ import { useNavigationStore } from '@/stores/navigation'
 import { useMaterialStore } from '@/stores/material'
 import { useFirebaseStore } from '@/stores/firebase'
 import type { Mapping } from '@/models/material'
-import InputText from '../Base/InputText.vue'
-import ActionButton from '../Base/ActionButton.vue'
+import InputText from '@/components/Base/InputText.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 
 const navStore = useNavigationStore()
 const projectStore = useProjectStore()

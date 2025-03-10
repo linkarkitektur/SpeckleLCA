@@ -81,7 +81,7 @@ import OverviewGroupCard from '@/components/Sidebar/FilteringGroupCard.vue'
 import MaterialGroupCard from '@/components/Sidebar/MaterialGroupCard.vue'
 import ResultsGroupCard from '@/components/Sidebar/ResultsGroupCard.vue'
 
-import BaseChevron from '../Base/BaseChevron.vue'
+import BaseChevron from '@/components/Base/BaseChevron.vue'
 
 import type { NestedGroup } from '@/models/filters'
 

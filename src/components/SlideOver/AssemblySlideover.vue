@@ -166,8 +166,8 @@ import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import type { DropdownOption } from '@/models/pageLogic'
 import type { Assembly, Product } from '@/models/material'
 import type { GeometryObject } from '@/models/geometryObject'
-import InputText from '../Base/InputText.vue'
-import ActionButton from '../Base/ActionButton.vue'
+import InputText from '@/components/Base/InputText.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 
 // Store initialization
 const navStore = useNavigationStore()

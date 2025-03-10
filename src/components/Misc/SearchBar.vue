@@ -45,15 +45,15 @@ import {
 } from '@headlessui/vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid'
 import DropdownMulti from '@/components/Base/DropdownMulti.vue'
-import Dropdown from '../Base/Dropdown.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
 
-import type { dropdownItem } from '../Base/Dropdown.vue'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import type { Assembly, Product } from '@/models/material'
 import type { DropdownOption } from '@/models/pageLogic'
 import type { Option } from '@/components/Base/DropdownMulti.vue'
 import { APISource } from '@/models/material'
 import { useNavigationStore } from '@/stores/navigation'
-import InputText from '../Base/InputText.vue'
+import InputText from '@/components/Base/InputText.vue'
 
 // Props
 interface Props {

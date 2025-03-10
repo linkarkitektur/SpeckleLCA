@@ -40,8 +40,8 @@ import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import { useFirebaseStore } from '@/stores/firebase'
 import type { Filter, FilterList } from '@/models/filters'
-import InputText from '../Base/InputText.vue'
-import ActionButton from '../Base/ActionButton.vue'
+import InputText from '@/components/Base/InputText.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 
 const navStore = useNavigationStore()
 const projectStore = useProjectStore()

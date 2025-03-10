@@ -62,9 +62,9 @@ import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import { useFirebaseStore } from '@/stores/firebase'
 import { useResultStore } from '@/stores/result'
-import InputText from '../Base/InputText.vue'
+import InputText from '@/components/Base/InputText.vue'
 import CheckBox from '@/components/Base/CheckBox.vue'
-import ActionButton from '../Base/ActionButton.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 
 const navStore = useNavigationStore()
 const projectStore = useProjectStore()
