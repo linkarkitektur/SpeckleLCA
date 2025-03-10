@@ -14,5 +14,5 @@
 <script setup lang="ts">
 import ProjectGrid from '@/components/ProjectSelection/ProjectGrid.vue'
 import SettingsModal from '@/components/Modals/SettingsModal.vue'
-import ShortNavbar from '@/components/Misc/ShortNavbar.vue'
+import ShortNavbar from '@/components/Base/ShortNavbar.vue'
 </script>

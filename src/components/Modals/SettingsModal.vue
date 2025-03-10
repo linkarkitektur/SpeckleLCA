@@ -66,21 +66,21 @@ import { UserCircleIcon, FingerPrintIcon, CalculatorIcon, CubeTransparentIcon } 
 
 import { useNavigationStore } from '@/stores/navigation'
 
-import SettingsSidebar from '@/components/Misc/Settings/SettingsSidebar.vue'
+import SettingsSidebar from '@/components/Settings/SettingsSidebar.vue'
 
-import SettingsGeneral from '@/components/Misc/Settings/SettingsGeneral.vue'
+import SettingsGeneral from '@/components/Settings/SettingsGeneral.vue'
 
-import SettingsMaterial from '@/components/Misc/Settings/SettingsMaterial.vue'
+import SettingsMaterial from '@/components/Settings/SettingsMaterial.vue'
 
-import SettingsCalculationCategory from '@/components/Misc/Settings/SettingsCalculationCategory.vue'
-import SettingsImpactCategory from '@/components/Misc/Settings/SettingsImpactCategory.vue'
-import SettingsLifecycleStages from '@/components/Misc/Settings/SettingsLifecycleStages.vue'
-import SettingsBuildingCodes from '@/components/Misc/Settings/SettingsBuildingCodes.vue'
+import SettingsCalculationCategory from '@/components/Settings/SettingsCalculationCategory.vue'
+import SettingsImpactCategory from '@/components/Settings/SettingsImpactCategory.vue'
+import SettingsLifecycleStages from '@/components/Settings/SettingsLifecycleStages.vue'
+import SettingsBuildingCodes from '@/components/Settings/SettingsBuildingCodes.vue'
 
-import SettingsFirebase from '@/components/Misc/Settings/SettingsFirebase.vue'
-import SettingsSpeckle from '@/components/Misc/Settings/SettingsSpeckle.vue'
-import SettingsMaterialKeys from '@/components/Misc/Settings/SettingsMaterialKeys.vue'
-import SettingsGithub from '@/components/Misc/Settings/SettingsGithub.vue'
+import SettingsFirebase from '@/components/Settings/SettingsFirebase.vue'
+import SettingsSpeckle from '@/components/Settings/SettingsSpeckle.vue'
+import SettingsMaterialKeys from '@/components/Settings/SettingsMaterialKeys.vue'
+import SettingsGithub from '@/components/Settings/SettingsGithub.vue'
 
 import type { SettingView } from '@/models/settings'
 
