@@ -61,3 +61,12 @@ export function splitAndNormalizeUnit(unit: string): { numerator: string; denomi
     denominator: normalizedDenominator,
   }
 }
+
+/**
+ * Small UUID checker, we use this for the search bar
+ * @param str String to check
+ * @returns true or false
+ */
+export function isUUID(str: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str)
+}
