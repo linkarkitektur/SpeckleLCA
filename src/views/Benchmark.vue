@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { watch } from 'vue'
-import Navbar from '@/components/Misc/Navbar.vue'
+import Navbar from '@/components/Base/Navbar.vue'
 import BenchmarkGrid from '@/components/Benchmark/BenchmarkGrid.vue'
 import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 

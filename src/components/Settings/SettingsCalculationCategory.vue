@@ -39,9 +39,9 @@ import { useFirebaseStore } from '@/stores/firebase'
 
 import type { CalculationSettings } from '@/models/settings'
 import type { CalculationSettingsLog } from '@/models/firebase'
-import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
-import Dropdown from '@/components/Misc/Dropdown.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
 import InputText from '@/components/Base/InputText.vue'
 

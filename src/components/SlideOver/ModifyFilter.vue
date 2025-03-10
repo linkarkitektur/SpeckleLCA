@@ -101,7 +101,7 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
 import Draggable from 'vuedraggable'
-import Dropdown from '@/components/Misc/Dropdown.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
 import CheckBox from '@/components/Base/CheckBox.vue'
 
 import { XMarkIcon } from '@heroicons/vue/24/outline'
@@ -112,7 +112,7 @@ import {
 } from '@heroicons/vue/24/solid'
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
-import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
 // TODO: Check if we want style of drag for all draggables in the future!
 

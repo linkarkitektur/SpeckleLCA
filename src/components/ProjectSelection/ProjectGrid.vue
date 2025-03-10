@@ -152,7 +152,7 @@ const formatDate = (dateString) => {
 	const hh = String(date.getHours()).padStart(2, '0');
 	const min = String(date.getMinutes()).padStart(2, '0');
 	return `${yy}-${mm}-${dd} : ${hh}:${min}`;
-};
+}
 
 // Updated transition function
 const startTransition = async (project: ProjectId, color: string) => {
@@ -163,7 +163,7 @@ const startTransition = async (project: ProjectId, color: string) => {
   // Start flash sequence
   backgroundVisible.value = true
   
-  // Load data during the black flash
+  // Load data during the flash
   await speckleStore.updateProjectVersions(project.id, 100, null)
   navStore.setActiveColor(color)
 

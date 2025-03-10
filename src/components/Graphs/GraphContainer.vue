@@ -32,7 +32,7 @@ import { useProjectStore } from '@/stores/main'
 // Components imports
 import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
 import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
-import Dropdown from '@/components/Misc/Dropdown.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
 
 // Utility imports
 import { 
@@ -42,7 +42,7 @@ import {
   } from '@/utils/resultUtils'
 
 // Type imports
-import type { dropdownItem } from '@/components/Misc/DropdownMenuItem.vue'
+import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModels'
 import type { ResultItem } from '@/models/result'
 

@@ -4,7 +4,7 @@ import { useFirebaseStore } from '@/stores/firebase'
 import { useSpeckleStore } from '@/stores/speckle'
 
 import type { MappingLog, ResultsLog, FilterLog } from '@/models/firebase'
-import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
 export function useFetchDropdownItems() {
   const navStore = useNavigationStore()

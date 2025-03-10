@@ -40,7 +40,7 @@ import { watch } from 'vue'
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import Slideover from '@/components/SlideOver/Sliderover.vue'
 import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
-import Navbar from '@/components/Misc/Navbar.vue'
+import Navbar from '@/components/Base/Navbar.vue'
 import DetailBar from '@/components/DetailBar/DetailBar.vue'
 
 import { useProjectStore } from '@/stores/main'

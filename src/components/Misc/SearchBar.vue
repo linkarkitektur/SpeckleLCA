@@ -44,13 +44,13 @@ import {
   PopoverGroup,
 } from '@headlessui/vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid'
-import DropdownMulti from '@/components/Misc/DropdownMulti.vue'
-import Dropdown from './Dropdown.vue'
+import DropdownMulti from '@/components/Base/DropdownMulti.vue'
+import Dropdown from '../Base/Dropdown.vue'
 
-import type { dropdownItem } from './Dropdown.vue'
+import type { dropdownItem } from '../Base/Dropdown.vue'
 import type { Assembly, Product } from '@/models/material'
 import type { DropdownOption } from '@/models/pageLogic'
-import type { Option } from '@/components/Misc/DropdownMulti.vue'
+import type { Option } from '@/components/Base/DropdownMulti.vue'
 import { APISource } from '@/models/material'
 import { useNavigationStore } from '@/stores/navigation'
 import InputText from '../Base/InputText.vue'

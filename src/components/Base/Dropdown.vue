@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
-import DropdownMenuItem from '@/components/Misc/DropdownMenuItem.vue'
+import DropdownMenuItem from '@/components/Base/DropdownMenuItem.vue'
 import { useNavigationStore } from '@/stores/navigation'
 
 export interface dropdownItem {

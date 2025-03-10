@@ -66,10 +66,10 @@ import { storeToRefs } from 'pinia'
 import { useSettingsStore } from '@/stores/settings'
 
 import type { BuildingCodeItem } from '@/models/buildingCode'
-import type { dropdownItem } from '@/components/Misc/DropdownMenuItem.vue'
+import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 import { buildingCodes } from '@/models/buildingCode'
 
-import Dropdown from '@/components/Misc/Dropdown.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
 import CheckBox from '@/components/Base/CheckBox.vue'
 import { chunkArray } from '@/utils/dataUtils'
 

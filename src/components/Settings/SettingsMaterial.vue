@@ -68,12 +68,12 @@ import { ref } from 'vue'
 
 import { useSettingsStore } from '@/stores/settings'
 
-import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import type { DropdownOption } from '@/models/pageLogic'
 
 import { APISource } from '@/models/material'
 import CheckBox from '@/components/Base/CheckBox.vue'
-import DropdownMulti from '../DropdownMulti.vue'
+import DropdownMulti from '../../Base/DropdownMulti.vue'
 
 interface Option {
   label: string

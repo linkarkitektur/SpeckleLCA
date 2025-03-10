@@ -1,9 +1,4 @@
 <template>
-  <!-- Base colored background -->
-  <div 
-    class="fixed inset-0 w-full h-full bg-opacity-20"
-  ></div>
-
   <!-- Dot pattern overlay -->
   <div 
     class="fixed inset-0 w-full h-full pattern-dots pattern-black pattern-bg-transparent pattern-size-4"
@@ -19,8 +14,10 @@
     <Navbar />
     <div class="grid grid-cols-5 grid-rows-4 gap-10 h-[calc(100vh-5rem)] overflow-hidden p-4">
       <div class="col-span-4 row-span-1 p-4 flex items-center justify-center bg-neutral-100 styled-element hoverable-styling">
-        <div class="absolute flex self-center top-24 z-100 text-2xl font-bold">
-          <h1>ProjectName</h1>
+        <div class="absolute flex self-center top-24 z-100">
+          <h1 class="styled-header"> UNDER CONSTRUCTION <br>
+            LOAD PROJECT TO THE RIGHT 
+          </h1>
         </div>
         <div class="flex w-full mt-10">
           <StackedBarChart 
@@ -53,16 +50,14 @@
           @selectedItem="handleSelectedItem"
           name="Model"
           dropdownName="Select version"
-          class="py-3"
+          class="py-3 w-full"
         />
 
         <ActionButton
-          text="Load this version"
+          text="Load Project"
           @onClick="selectProject"
-          class="mb-6"
+          class="mb-6 w-full"
         />
-        
-        <p>Settings content here...</p>
 
         <div class="flex items-center my-3">
           <dt class="font-medium text-gray-900">Area</dt>
@@ -85,9 +80,9 @@ import { dummyData, dummyFlatData } from '@/models/chartModels'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
 
 // Component imports
-import Dropdown from '@/components/Misc/Dropdown.vue'
+import Dropdown from '@/components/Base/Dropdown.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
-import Navbar from '@/components/Misc/Navbar.vue'
+import Navbar from '@/components/Base/Navbar.vue'
 import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
 import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
@@ -99,12 +94,14 @@ import { useSettingsStore } from '@/stores/settings'
 import { loadProject } from '@/utils/speckleUtils'
 import router from '@/router'
 
-import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import InputText from '@/components/Base/InputText.vue'
+import { useProjectStore } from '@/stores/main'
 
 const navStore = useNavigationStore()
 const speckleStore = useSpeckleStore()
 const settingsStore = useSettingsStore()
+const projectStore = useProjectStore()
 
 const contentVisible = ref(false)
 const backgroundVisible = ref(false)

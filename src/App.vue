@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <PacmanLoader />
     <router-view />
   </div>
 </template>
@@ -9,7 +8,6 @@
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { logMessageToSentry } from './utils/monitoring'
-import PacmanLoader from '@/components/Misc/PacmanLoader.vue'
 
 const route = useRoute()
 
