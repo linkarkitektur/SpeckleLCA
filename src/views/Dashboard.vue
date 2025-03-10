@@ -2,9 +2,6 @@
 <template>
 	<!-- Modal area -->
 	<NewGroupModal />
-  <MaterialMappingModal />
-	<SaveFilterModal />
-	<AssemblyModal />
 	<SettingsModal />
 
 	<div 
@@ -62,9 +59,6 @@ import { preloadDashboardData } from '@/utils/preLoader'
 
 // Modals
 import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
-import MaterialMappingModal from '@/components/Mapping/MaterialMappingModal.vue'
-import SaveFilterModal from '@/components/Modals/SaveFilterModal.vue'
-import AssemblyModal from '@/components/Modals/AssemblyModal.vue'
 import SettingsModal from '@/components/Modals/SettingsModal.vue'
 
 
