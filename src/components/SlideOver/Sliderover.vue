@@ -66,6 +66,7 @@ import SaveMapping from '@/components/SlideOver/SaveMapping.vue'
 import SaveResults from '@/components/SlideOver/SaveResults.vue'
 import MaterialSlideover from './MaterialSlideover.vue'
 import AssemblySlideover from './AssemblySlideover.vue'
+import SaveFilters from './SaveFilters.vue'
 
 const navStore = useNavigationStore()
 
@@ -81,6 +82,11 @@ const slideoverConfig = computed((): SlideoverConfig => {
         component: ModifyFilter,
         width: 'w-1/3'
       }
+    case "Save Filter":
+      return {
+        component: SaveFilters,
+        width: 'w-1/4'
+      }
     case 'Show Materials': 
       return {
         component: MaterialSlideover,
@@ -95,6 +101,11 @@ const slideoverConfig = computed((): SlideoverConfig => {
       return {
         component: AssemblySlideover,
         width: 'w-full'
+      }
+    case 'Save Mapping':
+      return {
+        component: SaveMapping,
+        width: 'w-1/4'
       }
     case 'Export Results':
     case 'Save Results':

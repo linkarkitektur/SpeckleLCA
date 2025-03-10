@@ -1,10 +1,9 @@
 <template>
   <div class="p-2">
-    <input
-      type="text"
+    <InputText
+      id="searchBar"
       v-model="searchQuery"
       placeholder="Search..."
-      class="w-full border p-1 rounded-md"
     />
   </div>
   
@@ -54,6 +53,7 @@ import type { DropdownOption } from '@/models/pageLogic'
 import type { Option } from '@/components/Misc/DropdownMulti.vue'
 import { APISource } from '@/models/material'
 import { useNavigationStore } from '@/stores/navigation'
+import InputText from '../Base/InputText.vue'
 
 // Props
 interface Props {
@@ -66,9 +66,6 @@ const props = defineProps<Props>()
 const emit = defineEmits<{
   'update:data': [(Product | Assembly)[]]
 }>()
-
-const navStore = useNavigationStore()
-
 
 // Reactive state
 const searchQuery = ref('')

@@ -65,10 +65,11 @@
               class="p-2 styled-element styled-data bg-neutral-100"
             />
             <div class="flex items-center gap-2">
-              <input 
-                v-model="element.remove" 
-                type="checkbox"
-                class="h-4 w-4 styled-element hoverable-xs bg-neutral-100"
+              <CheckBox
+                name="False"
+                id="False"
+                :checked="element.remove"
+                @update:checked="(newVal) => element.remove = newVal"
               />
               <label>Remove false results</label>
             </div>
@@ -101,6 +102,8 @@
 import { ref, onUnmounted } from 'vue'
 import Draggable from 'vuedraggable'
 import Dropdown from '@/components/Misc/Dropdown.vue'
+import CheckBox from '@/components/Base/CheckBox.vue'
+
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import {
   PencilSquareIcon,

@@ -37,13 +37,15 @@
         <div
           class="relative mt-1 flex-1 px-4 sm:px-6"
         >
-          <button
-            @click="newAssembly"
-            class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-          > NEW ASSEMBLY </button>
+          <ActionButton
+            key="newAssembly"
+            text="New Assembly"
+            @onClick="newAssembly"
+            class="w-full"
+          />
           <SearchBar
             :data="assemblies"
-            :filterParam="filterParameters"
+            :filterParam="assemblyFilters"
             :sortingParam="sortingParameters"
             @update:data="handleFilteredAssemblyData"
           />
@@ -57,27 +59,23 @@
     <div class="w-3/5 h-full">
       <div class="flex flex-row justify-between">
         <div>
-          <label for="assemblyName" class="block text-sm font-medium text-gray-700">Assembly Name</label>
-          <input
-            type="text"
+          <label for="assemblyName" class="block styled-text">Assembly Name</label>
+          <InputText
             id="assemblyName"
             v-model="assemblyName"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="Enter assembly name"
           />
         </div>
         <div>
-          <label for="assemblyDescription" class="block text-sm font-medium text-gray-700">Assembly Description</label>
-          <input
-            type="text"
+          <label for="assemblyDescription" class="block styled-text">Assembly Description</label>
+          <InputText
             id="assemblyDescription"
             v-model="assemblyDescription"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="Enter assembly description"
           />
         </div>
         <div>
-          <label for="assemblyCode" class="block text-sm font-medium text-gray-700">Assembly Code</label>
+          <label for="assemblyCode" class="block styled-text">Assembly Code</label>
           <Dropdown
             :items="codes"
             @selectedItem="handleSelectedItem"
@@ -85,7 +83,7 @@
           />
         </div>
         <div>
-          <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+          <label for="category" class="block styled-text">Category</label>
           <DropdownMulti
             filterName="materialTypes"
             displayName="Material Types"
@@ -168,6 +166,8 @@ import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 import type { DropdownOption } from '@/models/pageLogic'
 import type { Assembly, Product } from '@/models/material'
 import type { GeometryObject } from '@/models/geometryObject'
+import InputText from '../Base/InputText.vue'
+import ActionButton from '../Base/ActionButton.vue'
 
 // Store initialization
 const navStore = useNavigationStore()
@@ -200,6 +200,11 @@ const assemblyMaterials = ref<Product[]>([])
 const codes = BSAB96
 const filterParameters = settingsStore.materialSettings.filterParams
 const sortingParameters = settingsStore.materialSettings.sortingParams
+const assemblyFilters = [{
+  paramName: 'metaData.materialType',
+  displayName: 'Material Type',
+  selected: true
+}]
 
 const categories = ref({
   materialTypes: [

@@ -67,24 +67,13 @@
         <div class="flex items-center my-3">
           <dt class="font-medium text-gray-900">Area</dt>
           <dd class="ml-4 flex-1">
-            <input
-              type="text"
+            <InputText
+              id="Area"
+              v-model="settingsStore.appSettings.area"
               placeholder="Unit"
-              class="w-full border p-2 rounded-md"
             />
           </dd>
         </div>
-
-        <div class="flex items-center my-3">
-          <dt class="font-medium text-gray-900">Include Collections</dt>
-          <dd class="ml-4">
-            <input
-              type="checkbox" 
-              class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-            />
-          </dd>
-        </div>
-
       </div>
     </div>
   </div>
@@ -105,14 +94,18 @@ import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
 
 import { useNavigationStore } from '@/stores/navigation'
 import { useSpeckleStore } from '@/stores/speckle'
+import { useSettingsStore } from '@/stores/settings'
 
 import { loadProject } from '@/utils/speckleUtils'
 import router from '@/router'
 
 import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
+import InputText from '@/components/Base/InputText.vue'
 
 const navStore = useNavigationStore()
 const speckleStore = useSpeckleStore()
+const settingsStore = useSettingsStore()
+
 const contentVisible = ref(false)
 const backgroundVisible = ref(false)
 //This is to check if we actually changed version and should load it again or just use the one loaded
