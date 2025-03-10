@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <LoadScreen />
     <router-view />
   </div>
 </template>
@@ -8,6 +9,8 @@
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { logMessageToSentry } from './utils/monitoring'
+
+import LoadScreen from '@/components/Misc/LoadScreen.vue'
 
 const route = useRoute()
 
