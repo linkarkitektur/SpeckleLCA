@@ -1,4 +1,5 @@
-import { Extension, IViewer, UpdateFlags } from '@speckle/viewer'
+import { Extension, UpdateFlags } from '@speckle/viewer'
+import type { IViewer } from '@speckle/viewer'
 
 // TODO: Add custom viewmode this is not doing anything now
 export class TransparentBackgroundExtension extends Extension {
