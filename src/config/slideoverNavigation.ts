@@ -17,8 +17,20 @@ export const sidebarButtons: NavigationButtonConfig[] = [
     showOn: ['Filtering']
   },
   {
+    text: 'Save Filter',
+    icon: DocumentCheckIcon,
+    action: 'toggleSlideover',
+    showOn: ['Filtering']
+  },
+  {
     text: 'Show Materials',
     icon: MapIcon,
+    action: 'toggleSlideover',
+    showOn: ['Mapping']
+  },
+  {
+    text: 'Save Mapping',
+    icon: DocumentCheckIcon,
     action: 'toggleSlideover',
     showOn: ['Mapping']
   },

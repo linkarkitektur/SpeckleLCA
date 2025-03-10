@@ -23,7 +23,6 @@ export const useNavigationStore = defineStore({
 			detailBarShow: true,
 			sideBarShow: true,
 			saveModalOpen: false,
-			assemblyModalOpen: false,
 			assemblyTableShow: false,
 			settingsModalOpen: false,
 
@@ -117,13 +116,6 @@ export const useNavigationStore = defineStore({
 		 */
 		toggleSaveModal() {
 			this.saveModalOpen = !this.saveModalOpen
-		},
-
-		/**
-		 * Toggle assembly modal on the app
-		 */
-		toggleAssemblyModal() {
-			this.assemblyModalOpen = !this.assemblyModalOpen
 		},
 
 		/**

@@ -18,4 +18,4 @@ export interface NavigationButtonConfig {
   showOn: PageType[]
 }
 
-export type SlideoverFunction = 'Edit Filters' | 'Show Materials' | 'Edit Mapping' | 'Edit Assemblies' | 'Save Results' | 'Export Results'
+export type SlideoverFunction = 'Edit Filters' | 'Save Filter' | 'Show Materials' | 'Edit Mapping' | 'Edit Assemblies' | 'Save Mapping' | 'Save Results' | 'Export Results'
