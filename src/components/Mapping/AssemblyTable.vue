@@ -28,38 +28,23 @@
   </BaseTable>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import BaseTable from './BaseTable.vue'
 import { useMaterialStore } from '@/stores/material'
 import type { Assembly } from '@/models/material'
 
-export default defineComponent({
-  name: 'AssemblyTable',
-  components: {
-    BaseTable
-  },
-  props: {
-    data: {
-      type: Array as () => Assembly[],
-      required: true
-    }
-  },
-  setup() {
-    const materialStore = useMaterialStore()
+// Define props
+defineProps<{
+  data: Assembly[]
+}>()
 
-    const handleDragStart = (assembly: Assembly) => {
-      materialStore.setCurrentAssembly(assembly)
-    }
+const materialStore = useMaterialStore()
 
-    const loadAssembly = (assembly: Assembly) => {
-      materialStore.setCurrentAssembly(assembly)
-    }
+const handleDragStart = (assembly: Assembly) => {
+  materialStore.setCurrentAssembly(assembly)
+}
 
-    return {
-      handleDragStart,
-      loadAssembly
-    }
-  }
-})
+const loadAssembly = (assembly: Assembly) => {
+  materialStore.setCurrentAssembly(assembly)
+}
 </script>

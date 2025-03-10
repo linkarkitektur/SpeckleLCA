@@ -93,7 +93,7 @@ const handleResultListSelection = (selectedItem: dropdownItem) => {
 // Computed property for dynamic component
 const leftModule = computed(() => {
   switch (navigationStore.activePage) {
-    case 'Fitlering':
+    case 'Filtering':
     case 'Mapping':
       return EmptyComponent
     case 'Results':

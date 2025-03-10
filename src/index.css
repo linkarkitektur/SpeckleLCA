@@ -56,10 +56,15 @@
            active:translate-x-2 active:translate-y-2 active:shadow-none;
   }
 
+  .pressable-focus {
+    @apply focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-black
+           active:outline active:outline-2 active:outline-offset-2 active:outline-black;
+  }
+
   .pressable {
     @apply pressable-base
-           focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-black
-           active:outline active:outline-2 active:outline-offset-2 active:outline-black;
+           focus:outline focus:outline-offset-2 focus:outline-black
+           active:outline active:outline-offset-2 active:outline-black;
   }
 
   .pressable-light {
@@ -73,7 +78,7 @@
 
   /* Font stylings */
   .styled-text {
-    @apply font-poppins text-black
+    @apply font-poppins text-black font-normal normal-case
   }
 
   .styled-header {
@@ -86,6 +91,11 @@
 
   .styled-data {
     @apply font-mono font-light normal-case
+  }
+
+  /* Settings styles */
+  .settings-list {
+    @apply styled-text mt-6 space-y-6 divide-y divide-black border-t border-black
   }
 }
 

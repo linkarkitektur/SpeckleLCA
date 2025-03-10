@@ -32,7 +32,7 @@ const props = defineProps({
   },
   knobClasses: {
     type: String,
-    default: 'pointer-events-none relative inline-block h-7 w-7 transform rounded-sm transition ease-in-out'
+    default: 'pointer-events-none relative ml-[1px] styled-element inline-block h-7 w-7 transform transition ease-in-out'
   },
   iconWrapperClasses: {
     type: String,
@@ -48,12 +48,12 @@ const handleClick = () => {
 }
 
 const toggleStyle = computed(() => ({
-  backgroundColor: props.active ? props.activeColor : props.inactiveColor,
+  backgroundColor: props.active ? props.activeColor : "white",
   transition: `background-color ${props.transitionDuration} ease-in-out`
 }))
 
 const knobStyle = computed(() => ({
-  transform: props.active ? 'translateX(2.1rem) translateY(0.05rem)' : 'translateX(0) translateY(0.05rem)',
+  transform: props.active ? 'translateX(2rem) translateY(0.05rem)' : 'translateX(0) translateY(0.05rem)',
   backgroundColor: props.active ? props.inactiveColor : props.activeColor,
   transition: `transform ${props.transitionDuration} ease-in-out`
 }))
