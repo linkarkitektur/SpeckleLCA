@@ -1,72 +1,52 @@
 <template>
   <div>
-     <h2 class="text-base/7 font-semibold text-gray-900">Speckle</h2>
-     <p class="mt-1 text-sm/6 text-gray-500">Add secret and app id from Speckle approved apps</p>
+    <h2 class="styled-header">Speckle</h2>
+    <p class="mt-1 styled-text">Add secret and app id from Speckle approved apps</p>
 
-     <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm/6">
+    <dl class="settings-list">
       <div class="pt-6 sm:flex">
-         <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Speckle Server</dt>
-         <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-           <input
-             type="text"
-             v-model="speckleSettings.serverUrl"
-             placeholder="Speckle Server"
-             class="w-full border p-2 rounded-md"
-           />
-           <UpdateButton @click="updateSpeckleSettings" />
-         </dd>
-       </div>
-       <div class="pt-6 sm:flex">
-         <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Speckle Id</dt>
-         <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-           <input
-             type="text"
-             v-model="speckleSettings.id"
-             placeholder="Speckle id"
-             class="w-full border p-2 rounded-md"
-           />
-           <UpdateButton @click="updateSpeckleSettings" />
-         </dd>
-       </div>
-       <div class="pt-6 sm:flex">
-         <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Speckle Secret</dt>
-         <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-           <input
-             type="text"
-             v-model="speckleSettings.secret"
-             placeholder="Speckle secret"
-             class="w-full border p-2 rounded-md"
-           />
-           <UpdateButton @click="updateSpeckleSettings" />
-         </dd>
-       </div>
-     </dl>
-   </div>
+        <dt class="w-64 pr-6">Speckle Server</dt>
+        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+          <InputText
+            id="serverUrl"
+            name="serverUrl"
+            v-model="speckleSettings.serverUrl"
+            placeholder="Speckle Server"
+          />
+        </dd>
+      </div>
+      <div class="pt-6 sm:flex">
+        <dt class="w-64 pr-6">Speckle Id</dt>
+        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+          <InputText
+            id="speckleId"
+            name="speckleId"
+            v-model="speckleSettings.id"
+            placeholder="Speckle id"
+          />
+        </dd>
+      </div>
+      <div class="pt-6 sm:flex">
+        <dt class="w-64 pr-6">Speckle Secret</dt>
+        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+          <InputText
+            id="speckleSecret"
+            name="speckleSecret"
+            v-model="speckleSettings.secret"
+            placeholder="Speckle secret"
+          />
+        </dd>
+      </div>
+    </dl>
+  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
-import UpdateButton from '@/components/Misc/Settings/UpdateButton.vue'
+import InputText from '@/components/Base/InputText.vue'
 
-export default defineComponent({
- name: 'SettingsSpeckle',
- components: {
-   UpdateButton
- },
- setup() {
-   const settingsStore = useSettingsStore()
+const settingsStore = useSettingsStore()
 
-   const speckleSettings = ref(settingsStore.keySettings.speckleConfig)
-
-   const updateSpeckleSettings = () => {
-    settingsStore.updateSpeckleSettings(speckleSettings.value)
-   }
-   
-   return { 
-     speckleSettings,
-     updateSpeckleSettings
-   }
- },
-})
+const speckleSettings = ref(settingsStore.keySettings.speckleConfig)
 </script>

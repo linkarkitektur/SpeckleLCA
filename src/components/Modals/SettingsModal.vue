@@ -15,9 +15,9 @@
         />
       </TransitionChild>
 
-      <div class="fixed justify-center items-center inset-0 left-[12.5%] z-50 p-10 w-screen h-screen">
+      <div class="fixed justify-center items-center inset-0 left-[10%] z-50 p-10 w-screen h-screen">
         <div
-          class="w-3/4 flex flex-col items-end justify-center p-4 text-center sm:items-center sm:p-0 h-full"
+          class="w-4/5 flex flex-col items-end justify-center p-4 text-center sm:items-center sm:p-0 h-full"
         >
           <TransitionChild
             as="template"
@@ -29,12 +29,12 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all min-w-full h-full sm:my-8 sm:max-w-sm sm:p-6"
+              class="transform styled-element hoverable-styling bg-neutral-100 px-4 pb-4 pt-5 text-left transition-all min-w-full h-full sm:my-8 sm:max-w-sm sm:p-6"
             >
               <div class="flex pb-2 h-full justify-between">
                 <SettingsSidebar :setting-views="settingViews" @view-changed="setView" />
 
-                <div class="px-4 py-16 flex-auto h-full overflow-y-scroll">
+                <div class="px-8 py-16 flex-auto h-full overflow-y-scroll">
                   <div class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
                     <component
                       v-for="(Component, index) in currentViewComponents"

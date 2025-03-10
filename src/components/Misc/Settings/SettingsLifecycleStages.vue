@@ -19,7 +19,7 @@
                 :checked="group.selected"
                 @update:checked="(newVal) => toggleGroup(group, newVal)"
               />
-              <span class="font-bold text-lg">
+              <span class="styled-data font-bold">
                 {{ group.label }}
               </span>
             </label>
@@ -37,7 +37,7 @@
                   :checked="stage.selected"
                   @update:checked="(newVal) => checkGroupSelection(group, stage, newVal)"
                 />
-                <span>{{ stage.name }}</span>
+                <span class="styled-data">{{ stage.name }}</span>
               </label>
             </div>
           </td>

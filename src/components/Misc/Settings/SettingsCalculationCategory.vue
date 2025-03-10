@@ -3,21 +3,21 @@
     <h2 class="styled-header">Saved calculation settings</h2>
     <p class="mt-1 styled-text">Saved settings for a certain certification, changes settings below.</p>
 
-    <dl class="mt-6 space-y-6 border-t border-black">
-      <div class="pt-6 ">
-        <dt class="styled-text mr-6">Saved settings/certification</dt>
-        <dd class="mt-1 flex justify-between gap-x-6">
+    <dl class="settings-list">
+      <div class="pt-6 sm:flex">
+        <dt class="mr-6">Saved settings/certification</dt>
+        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
           <Dropdown
             :items="savedSettings"
             name="calculationSettings"
             :dropdownName="currentSetting.name"
             @selectedItem="handleSelectedItem"
           />
-          <p class="styled-text">Name</p>
-          <input 
-            type="text" 
+          <p>Name</p>
+          <InputText 
+            id="saveName"
             v-model="currentSetting.name" 
-            class="w-full border p-2 rounded-md"
+            placeholder="saved settings"
           />
           <ActionButton
             text="Save"
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useSettingsStore } from '@/stores/settings'
@@ -43,6 +43,7 @@ import type { dropdownItem } from '@/components/Misc/Dropdown.vue'
 
 import Dropdown from '@/components/Misc/Dropdown.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
+import InputText from '@/components/Base/InputText.vue'
 
 const settingsStore = useSettingsStore()
 const projectStore = useProjectStore()

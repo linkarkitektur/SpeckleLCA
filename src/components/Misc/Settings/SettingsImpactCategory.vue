@@ -1,12 +1,12 @@
 <template>
   <div>
-     <h2 class="styled-header">Impact category</h2>
-     <p class="mt-1 styled-text">Set what impact category you want to calculate for.</p>
+    <h2 class="styled-header">Impact category</h2>
+    <p class="mt-1 styled-text">Set what impact category you want to calculate for.</p>
 
-     <dl class="mt-6 space-y-6 border-t border-black">
-      <div class="pt-6">
-         <dt class="styled-text">Standard impactCategory</dt>
-         <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+    <dl class="settings-list">
+      <div class="pt-6 sm:flex">
+        <dt class="w-64 pr-6">Standard impactCategory</dt>
+        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
           <Dropdown
             :items="impactCategoryList"
             name="codes"
@@ -14,10 +14,10 @@
             @selectedItem="handleSelectedItem"
             class="w-48"
           />
-         </dd>
-       </div>
-     </dl>
-   </div>
+        </dd>
+      </div>
+    </dl>
+  </div>
 </template>
 
 <script setup lang="ts">

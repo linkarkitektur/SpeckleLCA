@@ -1,120 +1,94 @@
 <template>
    <div>
-      <h2 class="text-base/7 font-semibold text-gray-900">Firebase</h2>
-      <p class="mt-1 text-sm/6 text-gray-500">This is cached in your local storage, but always have caution in what you share.</p>
+      <h2 class="styled-header">Firebase</h2>
+      <p class="mt-1 styled-text">This is cached in your local storage, but always have caution in what you share.</p>
 
-      <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm/6">
+      <dl class="settings-list">
         <div class="pt-6 sm:flex">
-          <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Firebase Key</dt>
+          <dt class="w-64 pr-6">Firebase Key</dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <input
-              type="text"
+            <InputText
+              id="apiKey"
+              name="apiKey"
               v-model="firebaseSettings.apiKey"
               placeholder="Firebase Key"
-              class="w-full border p-2 rounded-md"
             />
-            <UpdateButton @click="updateFirebaseSettings" />
           </dd>
         </div>
-        <div class="pt-6 sm:flex">
-          <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">App id</dt>
+        <div class="pt-6 flex">
+          <dt class="w-64 pr-6">App id</dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <input
-              type="text"
+            <InputText
+              id="appId"
+              name="appId"
               v-model="firebaseSettings.appId"
-              placeholder="Firebase Key"
-              class="w-full border p-2 rounded-md"
+              placeholder="App Id"
             />
-            <UpdateButton @click="updateFirebaseSettings" />
           </dd>
         </div>
-        <div class="pt-6 sm:flex">
-          <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Authentication domain</dt>
+        <div class="pt-6 flex">
+          <dt class="w-64 pr-6">Authentication domain</dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <input
-              type="text"
+            <InputText
+              id="authDomain"
+              name="authDomain"
               v-model="firebaseSettings.authDomain"
-              placeholder="Firebase Key"
-              class="w-full border p-2 rounded-md"
+              placeholder="Auth Domain"
             />
-            <UpdateButton @click="updateFirebaseSettings" />
           </dd>
         </div>
         <div class="pt-6 sm:flex">
-          <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Measurement id</dt>
+          <dt class="w-64 pr-6">Measurement id</dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <input
-              type="text"
+            <InputText
+              id="measureId"
+              name="measureId"
               v-model="firebaseSettings.measurementId"
-              placeholder="Firebase Key"
-              class="w-full border p-2 rounded-md"
+              placeholder="Measurement Id"
             />
-            <UpdateButton @click="updateFirebaseSettings" />
           </dd>
         </div>
         <div class="pt-6 sm:flex">
-          <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Sender id</dt>
+          <dt class="w-64 pr-6">Sender id</dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <input
-              type="text"
+            <InputText
+              id="senderId"
+              name="senderId"
               v-model="firebaseSettings.messagingSenderId"
-              placeholder="Firebase Key"
-              class="w-full border p-2 rounded-md"
+              placeholder="Sender Id"
             />
-            <UpdateButton @click="updateFirebaseSettings" />
           </dd>
         </div>
         <div class="pt-6 sm:flex">
-          <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Project id</dt>
+          <dt class="w-64 pr-6">Project id</dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <input
-              type="text"
+            <InputText
+              id="ProjectId"
               v-model="firebaseSettings.projectId"
-              placeholder="Firebase Key"
-              class="w-full border p-2 rounded-md"
+              placeholder="Project Id"
             />
-            <UpdateButton @click="updateFirebaseSettings" />
           </dd>
         </div>
         <div class="pt-6 sm:flex">
-          <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">StorageBucket id</dt>
+          <dt class="w-64 pr-6">StorageBucket id</dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <input
-              type="text"
+            <InputText
+              id="StorageId"
               v-model="firebaseSettings.storageBucket"
-              placeholder="Firebase Key"
-              class="w-full border p-2 rounded-md"
+              placeholder="BucketId"
             />
-            <UpdateButton @click="updateFirebaseSettings" />
           </dd>
         </div>
       </dl>
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
-import UpdateButton from '@/components/Misc/Settings/UpdateButton.vue'
+import InputText from '@/components/Base/InputText.vue'
 
-export default defineComponent({
-  name: 'SettingsFirebase',
-  components: {
-    UpdateButton
-  },
-  setup() {
-    const settingsStore = useSettingsStore()
+const settingsStore = useSettingsStore()
 
-    const firebaseSettings = ref(settingsStore.keySettings.firebaseConfig)
-
-    const updateFirebaseSettings = () => {
-      settingsStore.updateFirebaseSettings(firebaseSettings.value)
-    }
-    
-    return { 
-      firebaseSettings,
-      updateFirebaseSettings
-    }
-  },
-})
+const firebaseSettings = ref(settingsStore.keySettings.firebaseConfig)
 </script>
