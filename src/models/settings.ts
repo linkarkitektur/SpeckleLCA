@@ -107,7 +107,7 @@ export const standardKeySettings: KeySettings = {
   },
   githubApiKey: null,
   firebaseConfig: {
-    apiKey: null,
+    apiKey: 'AIzaSyB7JP_Nx3PpMBUjnCcXdoYDxAMAHwx43fU',
     authDomain: "specklca.firebaseapp.com",
     projectId: "specklca",
     storageBucket: "specklca.appspot.com",

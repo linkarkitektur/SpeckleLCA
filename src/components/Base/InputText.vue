@@ -23,6 +23,7 @@ const props = defineProps<{
   name?: string
   modelValue: string | number
   placeholder?: string
+  type?: 'text' | 'number'
   width?: string
 }>()
 
@@ -34,7 +35,7 @@ const emit = defineEmits<{
 const name = computed(() => props.name ?? props.id)
 const widthClass = computed(() => props.width ?? 'w-full')
 const isNumber = computed(() => typeof props.modelValue === 'number')
-const inputType = computed(() => isNumber.value ? 'number' : 'text')
+const inputType = computed(() => props.type)
 
 // Methods
 const handleInput = (event: Event) => {
