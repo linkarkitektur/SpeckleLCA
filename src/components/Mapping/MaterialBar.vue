@@ -140,7 +140,7 @@ watch(
 
     if (typeof newColor === 'string') {
       newHexColor = newColor
-    } else if (typeof newColor === 'object' && newColor !== null && 'hex' in newColor) {
+    } else if (hasHex(newColor)) {
       newHexColor = newColor.hex as string
     } else {
       newHexColor = props.product.metaData.color
