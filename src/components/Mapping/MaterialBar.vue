@@ -102,12 +102,8 @@ const barStyle = computed(() => {
   
   if (typeof color.value === 'string') {
     backgroundColor = color.value
-  } else if (typeof color.value === 'object' && color.value !== null) {
-    if ('hex' in color.value && typeof color.value.hex === 'string') {
-      backgroundColor = color.value.hex
-    } else {
-      backgroundColor = props.product.metaData.color
-    }
+  } else if (hasHex(color.value)) {
+    backgroundColor = color.value.hex
   } else {
     backgroundColor = props.product.metaData.color
   }
@@ -122,6 +118,11 @@ const barStyle = computed(() => {
 const toggleColorPicker = () => {
   showColorPicker.value = !showColorPicker.value
 }
+
+function hasHex(c: any): c is { hex: string } {
+  return c && typeof c === 'object' && 'hex' in c && typeof c.hex === 'string'
+}
+
 
 // Watchers
 watch(
