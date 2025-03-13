@@ -216,22 +216,23 @@ export const useSpeckleStore = defineStore({
 		
 				for (const el of data.streams.items) {
 					const model: ModelResponseObject = await getLatestModel(el.id)
-
-		
-					const proj: ProjectId = {
-						name: el.name,
-						id: el.id,
-						updatedAt: el.updatedAt,
-						latestModelId: model.data.project.models.items[0].id
+					// Check for empty projects with no models or versions
+					if (model.data.project.models.items.length > 0) {
+						const proj: ProjectId = {
+							name: el.name,
+							id: el.id,
+							updatedAt: el.updatedAt,
+							latestModelId: model.data.project.models.items[0].id
+						}
+			
+						projects.push(proj)
 					}
-		
-					projects.push(proj)
 				}
 		
 				// Directly assign the array to your state, no $patch needed
 				this.allProjects = projects
 			} catch (err: any) {
-				logMessageToSentry(err as string, 'info')
+				console.warn("Failed updating projects from Speckle")
 			}
 		},
 		
