@@ -104,6 +104,9 @@ export class EmissionCalculator {
       emissions[impactCategory] = {} as LifeCycleStageEmission
     }
 
+    // Get material fraction or default to 100%
+    const materialFraction = product.materialFraction ? product.materialFraction / 100 : 1
+
     for (const phase in matEmission) {
       // Check if the phase is included in the calculation settings, if not skip it
       if (this.settingsStore.calculationSettings.includedStages.relevantStages.some(
@@ -111,8 +114,10 @@ export class EmissionCalculator {
       ){
         let value = matEmission[phase]
         if (value === undefined) value = matEmission[phase]
+        
+        // Take the emissions, quantity of the unit and material fraction and multiply them
         if (value !== null && !isNaN(Number(value))) {
-          const emissionValue = parseFloat(value as string) * geo.quantity[product.unit]
+          const emissionValue = parseFloat(value as string) * geo.quantity[product.unit] * materialFraction
   
           if (!emissions[impactCategory][phase]) {
             emissions[impactCategory][phase] = 0

@@ -48,11 +48,12 @@ export const useMaterialStore = defineStore({
      * @param assembly
      */
     addAssembly(assembly: Assembly) {
+      // Check if it already exists
       const index = this.assemblies.findIndex((el) => el.id === assembly.id)
       if (index !== -1) {
-        this.assemblies[index] = assembly;
+        this.assemblies[index] = assembly
       } else {
-        this.assemblies.push(assembly);
+        this.assemblies.push(assembly)
       }
     },
 

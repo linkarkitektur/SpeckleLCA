@@ -114,8 +114,6 @@ import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
-// TODO: Check if we want style of drag for all draggables in the future!
-
 // Store initialization
 const projectStore = useProjectStore()
 const navStore = useNavigationStore()

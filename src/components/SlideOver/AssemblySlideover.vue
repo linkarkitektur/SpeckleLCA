@@ -4,16 +4,18 @@
     <button
       v-if="!assemblyTableShow"
       @click="toggleAssemblyTable"
-      class="absolute top-1/2 pt-16 left-2 transform -translate-y-1/2 mr-2 z-50"
+      class="absolute top-1/2 pt-10 left-0 transform -translate-y-1/2 z-50 -rotate-90 origin-left   
+             active:rotate-90 active:origin-right transition-all duration-200 hover:animate-pulse"
     >
-      <ChevronRightIcon class="w-6 h-6 opacity-50" />
+      <BaseChevron :inner-color="navStore.activeColor"/>
     </button>
     <button
       v-if="assemblyTableShow"
       @click="toggleAssemblyTable"
-      class="absolute top-1/2 -right-2 transform -translate-y-1/2 mr-2 opacity-50 z-50"
+      class="absolute right-0 pt-10 transform -translate-y-1/2 z-50 rotate-90 origin-right
+             active:-rotate-90 active:origin-left transition-all duration-200 hover:animate-pulse"
     >
-      <ChevronLeftIcon class="w-6 h-6" />
+      <BaseChevron :inner-color="navStore.activeColor"/>
     </button>
 
     <!-- Assembly Table with Transition -->
@@ -91,9 +93,14 @@
             @update:options="updateFilterOptions('materialTypes', $event)"
           />
         </div>
-        <button @click="saveAssembly" class="save-button">
-          <BookmarkIcon class="h-6 w-6" aria-hidden="true" />
-        </button>
+        <div class="flex flex-col justify-end ml-2">
+          <ActionButton
+            text="Save Assembly"
+            :icon="BookmarkIcon"
+            @onClick="saveAssembly"
+          />
+        </div>
+
       </div>
       <AssemblyViewer
         :materials="assemblyMaterials"
@@ -155,7 +162,9 @@ import AssemblyTable from '@/components/Mapping/AssemblyTable.vue'
 import AssemblyViewer from '@/components/Mapping/AssemblyViewer.vue'
 import DropdownMulti from '@/components/Base/DropdownMulti.vue'
 import Dropdown from '@/components/Base/Dropdown.vue'
-import SearchBar from '@/components/Misc/SearchBar.vue'
+import SearchBar from '@/components/Mapping/SearchBar.vue'
+import InputText from '@/components/Base/InputText.vue'
+import ActionButton from '@/components/Base/ActionButton.vue'
 
 // Utils and types
 import { BSAB96 } from '@/models/buildingCode'
@@ -166,8 +175,7 @@ import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import type { DropdownOption } from '@/models/pageLogic'
 import type { Assembly, Product } from '@/models/material'
 import type { GeometryObject } from '@/models/geometryObject'
-import InputText from '@/components/Base/InputText.vue'
-import ActionButton from '@/components/Base/ActionButton.vue'
+import BaseChevron from '../Base/BaseChevron.vue'
 
 // Store initialization
 const navStore = useNavigationStore()

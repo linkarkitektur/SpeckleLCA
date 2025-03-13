@@ -204,18 +204,23 @@ export async function getAssemblyList() {
   const settingsStore = useSettingsStore()
 
   try {
-    if (!settingsStore.materialSettings.globalAssemblies){
-      const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(projectStore.currProject.id)
-      if (assemblyList) {
-        materialStore.assemblies = assemblyList.assemblies
-      }
-    } else {
+    // First load project assemblies
+    const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(projectStore.currProject.id)
+    if (assemblyList) {
+      assemblyList.assemblies.forEach(assembly => {
+        materialStore.addAssembly(assembly)
+      })
+    }
+    // Then load global assemblies
+    // TODO: Add Global assembly database in firebase
+    if (settingsStore.materialSettings.globalAssemblies) {
       const assemblyList: AssemblyList = await firebaseStore.fetchAssemblyList(true)
       if (assemblyList) {
-        materialStore.assemblies = assemblyList.assemblies
+        assemblyList.assemblies.forEach(assembly => {
+          materialStore.addAssembly(assembly)
+        })
       }
     }
-    
   } catch (error) {
     console.error('Error fetching assembly list:', error)
   }

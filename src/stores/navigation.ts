@@ -12,7 +12,7 @@ export const useNavigationStore = defineStore({
 	state: () => {
 		return {
 			activePage: 'Projects' as PageType, // The current page
-			activeColor: '#e4ecec' as string,
+			activeColor: 'hsl(180, 17%, 90%)' as string,
 			slideoverOpen: false,
 			slideoverFunction: 'Edit Filters' as SlideoverFunction,
 			editName: null as string | null,

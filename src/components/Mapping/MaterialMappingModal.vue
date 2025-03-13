@@ -101,7 +101,7 @@ import { useSettingsStore } from '@/stores/settings'
 
 import MappingCard from '@/components/Mapping/MaterialMappingCard.vue'
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
-import SearchBar from '@/components/Misc/SearchBar.vue'
+import SearchBar from '@/components/Mapping/SearchBar.vue'
 
 import type { NestedGroup } from '@/models/filters'
 import type { Product, Assembly } from '@/models/material'

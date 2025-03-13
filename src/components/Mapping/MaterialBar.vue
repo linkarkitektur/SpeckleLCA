@@ -3,14 +3,22 @@
     :key="product.metaData.appId"
     class="material-bar flex items-center justify-center flex-none"
   >
-    <input
-      type="number"
-      v-model.number="thickness"
-      class="w-1/12 h-min border-none p-0 text-center focus:outline-none focus:ring-0 focus:ring-offset-0"
+    <InputText
+      id="percent"
+      v-model="percent"
+      placeholder=100
+      width="w-[5%]"
     />
-    <span class="mr-2 text-xs">mm</span>
+    <span class="mx-1 styled-data text-xs">%</span>
+    <InputText
+      id="thickness"
+      v-model="thickness"
+      placeholder=50
+      width="w-1/12"
+    />
+    <span class="mx-1 styled-data text-xs">mm</span>
     <div
-      class="bar-content min-h-12 flex flex-col flex-none justify-center items-center text-white m-1 w-2/3 "
+      class="bar-content min-h-12 flex flex-col flex-none justify-center items-center styled-element hoverable-sm styled-data m-1 w-2/3 "
       :style="barStyle"
     >
       <span>{{ product.name }}</span>
@@ -37,110 +45,112 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, ref, watch } from 'vue'
-import type { Ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import { PaintBrushIcon, MinusCircleIcon } from '@heroicons/vue/20/solid'
 import { Sketch } from '@ckpack/vue-color'
-import type { ColorInput } from '@ctrl/tinycolor'
 
+import InputText from '@/components/Base/InputText.vue'
+
+import type { ColorInput } from '@ctrl/tinycolor'
 import type { Product } from '@/models/material'
 
-export default defineComponent({
-  name: 'MaterialBar',
-  components: {
-    PaintBrushIcon,
-    MinusCircleIcon,
-    Sketch
+// Props & Emits
+interface Props {
+  product: Product
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  'update:thickness': [{ appId: string; thickness: number }]
+  'update:percent': [{ appId: string, percent: number }]
+  'update:color': [{ appId: string; color: string }]
+  'delete': []
+}>()
+
+// State
+const showColorPicker = ref(false)
+const color = ref<ColorInput>(props.product.metaData.color)
+
+// Computed
+const thickness = computed({
+  get() {
+    return parseInt(props.product.metaData.thickness)
   },
-  props: {
-    product: {
-      type: Object as () => Product,
-      required: true,
-    },
-  },
-  emits: ['update:thickness', 'update:color', 'delete'],
-  setup(props, { emit }) {
-    const showColorPicker = ref(false)
-    const color: Ref<ColorInput> = ref(props.product.metaData.color)
-
-    const thickness = computed({
-      get() {
-        return parseInt(props.product.metaData.thickness)
-      },
-      set(value) {
-        emit('update:thickness', {
-          appId: props.product.metaData.appId,
-          thickness: value,
-        })
-      },
+  set(value) {
+    emit('update:thickness', {
+      appId: props.product.metaData.appId,
+      thickness: value,
     })
-
-    const barStyle = computed(() => {
-      let backgroundColor: string
-      
-      if (typeof color.value === 'string') {
-        backgroundColor = color.value
-      } else if (typeof color.value === 'object' && color.value !== null) {
-        if ('hex' in color.value && typeof color.value === 'string') {
-          backgroundColor = color.value
-        } else {
-          backgroundColor = props.product.metaData.color
-        }
-      } else {
-        backgroundColor = props.product.metaData.color
-      }
-
-      return {
-        height: `${props.product.metaData.height}px`,
-        backgroundColor,
-      }
-    })
-
-    const toggleColorPicker = () => {
-      showColorPicker.value = !showColorPicker.value
-    }
-
-    watch(
-      () => props.product.metaData.color,
-      (newColor) => {
-        color.value = newColor
-      },
-      { immediate: true }
-    )
-
-    watch(
-      () => color.value,
-      (newColor: ColorInput) => {
-        let newHexColor: string
-
-        if (typeof newColor === 'string') {
-          newHexColor = newColor
-        } else if (typeof newColor === 'object' && newColor !== null) {
-          if ('hex' in newColor && typeof newColor === 'string') {
-            newHexColor = newColor
-          } else {
-            newHexColor = props.product.metaData.color
-          }
-        } else {
-          newHexColor = props.product.metaData.color 
-        }
-
-        emit('update:color', {
-          appId: props.product.metaData.appId,
-          color: newHexColor,
-        })
-      },
-      { deep: true }
-    )
-
-    return { 
-      barStyle, 
-      thickness,
-      color,
-      showColorPicker,
-      toggleColorPicker, 
-    }
   },
 })
+
+const percent = computed({
+  get() {
+    return Math.round(props.product.materialFraction)
+  },
+  set(value) {
+    emit('update:percent', {
+      appId: props.product.metaData.appId,
+      percent: value
+    })
+  }
+})
+
+const barStyle = computed(() => {
+  let backgroundColor: string
+  
+  if (typeof color.value === 'string') {
+    backgroundColor = color.value
+  } else if (hasHex(color.value)) {
+    backgroundColor = color.value.hex
+  } else {
+    backgroundColor = props.product.metaData.color
+  }
+
+  return {
+    height: `${props.product.metaData.height}px`,
+    backgroundColor,
+  }
+})
+
+// Methods
+const toggleColorPicker = () => {
+  showColorPicker.value = !showColorPicker.value
+}
+
+function hasHex(c: any): c is { hex: string } {
+  return c && typeof c === 'object' && 'hex' in c && typeof c.hex === 'string'
+}
+
+
+// Watchers
+watch(
+  () => props.product.metaData.color,
+  (newColor) => {
+    color.value = newColor
+  },
+  { immediate: true }
+)
+
+watch(
+  () => color.value,
+  (newColor: ColorInput) => {
+    let newHexColor: string
+
+    if (typeof newColor === 'string') {
+      newHexColor = newColor
+    } else if (hasHex(newColor)) {
+      newHexColor = newColor.hex as string
+    } else {
+      newHexColor = props.product.metaData.color
+    }
+
+    emit('update:color', {
+      appId: props.product.metaData.appId,
+      color: newHexColor,
+    })
+  },
+  { deep: true }
+)
 </script>

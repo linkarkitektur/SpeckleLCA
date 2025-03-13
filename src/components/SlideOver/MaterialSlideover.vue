@@ -18,7 +18,7 @@ import { storeToRefs } from 'pinia'
 import { useMaterialStore } from '@/stores/material'
 import { useSettingsStore } from '@/stores/settings'
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
-import SearchBar from '@/components/Misc/SearchBar.vue'
+import SearchBar from '@/components/Mapping/SearchBar.vue'
 import type { Product, Assembly } from '@/models/material'
 
 const materialStore = useMaterialStore()
@@ -30,10 +30,12 @@ const filteredMaterial = ref<(Product | Assembly)[]>([])
 const filterParameters = settingsStore.materialSettings.filterParams
 const sortingParameters = settingsStore.materialSettings.sortingParams
 
-const combinedMaterials = computed(() => [
+const combinedMaterials = computed(() => {
+  return [
   ...materials.value,
   ...assemblies.value,
-])
+]
+})
 
 const handleFilteredData = (newData: (Product | Assembly)[]) => {
   filteredMaterial.value = newData
