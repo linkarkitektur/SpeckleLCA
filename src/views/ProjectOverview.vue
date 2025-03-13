@@ -66,6 +66,7 @@
               id="Area"
               v-model="settingsStore.appSettings.area"
               placeholder="Unit"
+              type="number"
             />
           </dd>
         </div>

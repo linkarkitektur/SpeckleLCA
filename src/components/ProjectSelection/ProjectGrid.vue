@@ -38,23 +38,27 @@
         </div>
 
         <!-- Stats. -->
-        <div>
-          <div class="-mt-px flex styled-data">
-            <div class="flex w-0 flex-1">
-              <a
-                class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 py-4 font-semibold text-green-900 text-center"
-              >
+        <div class="-mt-px flex styled-data">
+          <div class="flex w-0 flex-1">
+            <a class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 py-4 text-center">
+              <template v-if="project.isLoading">
+                <span class="animate-pulse">Loading...</span>
+              </template>
+              <template v-else>
                 {{ project.emissionSqm }} kg-co² / m²
-              </a>
-            </div>
+              </template>
+            </a>
+          </div>
 
-            <div class="-ml-px flex w-0 flex-1">
-              <a
-                class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 py-4 font-semibold text-gray-800 text-center"
-              >
+          <div class="-ml-px flex w-0 flex-1">
+            <a class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 py-4 text-center">
+              <template v-if="project.isLoading">
+                <span class="animate-pulse">Loading...</span>
+              </template>
+              <template v-else>
                 {{ project.differenceText }}
-              </a>
-            </div>
+              </template>
+            </a>
           </div>
         </div>
       </li>
@@ -86,58 +90,71 @@ const navStore = useNavigationStore()
 const selectedProjectId = ref('')
 const selectedProjectName = ref('')
 
-const projectsData = ref([])
-
 // Transition state
 const activeColor = ref('')
-
 // Flash transition state
 const backgroundVisible = ref(false)
 
-const updateProjects = async () => {
-	if (!speckleStore.allProjects) {
-		projectsData.value = []
-		return
-	}
-	
-	const projectResults = await Promise.all(speckleStore.allProjects.map(async project => {
-		const resultLog = await firebaseStore.fetchResults(project.id).then((logs) => {
-			if (logs.length > 0)
-				return logs[0] // Just return first log
-			else 
-				return null
-		})
+const projectsData = ref([])
 
-		if (resultLog) {
-			const emission = getResultLogEmissions(resultLog, 'material.name')
-			const emissionSqm = Math.round(emissionToNumber(emission) / settingsStore.appSettings.area) || 0
+// Add new loading state tracking
+const loadingResults = ref(new Set())
 
-			const percentageDifference = ((300 - emissionSqm) / 300) * 100
+const updateProjects = () => {
+  if (!speckleStore.allProjects) {
+    projectsData.value = []
+    return
+  }
+  
+  // Initialize projects with loading state
+  projectsData.value = speckleStore.allProjects.map(project => ({
+    ...project,
+    emissionSqm: 0,
+    differenceText: "Loading...",
+    isLoading: true
+  }))
 
-			const differenceText =
-				percentageDifference > 0
-					? `${Math.abs(percentageDifference).toFixed(1)}% below threshold`
-					: `${Math.abs(percentageDifference).toFixed(1)}% above threshold`
+  // Fetch results for each project separately
+  speckleStore.allProjects.forEach(async (project, index) => {
+    loadingResults.value.add(project.id)
+    
+    // Just return last log
+    const resultLog = await firebaseStore.fetchResults(project.id).then((logs) => {
+      return logs.length > 0 ? logs[0] : null
+    })
 
-			return {
-				...project,
-				emissionSqm,
-				differenceText
-			}
-		} else {
-			return {
-				...project,
-				emissionSqm: 0,
-				differenceText: "No results"
-			}
-		}
-	}))
+    if (resultLog) {
+      const emission = getResultLogEmissions(resultLog, 'material.name')
+      // Check for appSettings
+      const area: number = isNaN(settingsStore.appSettings.area) ? 0 : settingsStore.appSettings.area
+      const totalEmission = emissionToNumber(emission)
+      const emissionSqm = Math.round(totalEmission / area) || 0
+      const percentageDifference = ((300 - emissionSqm) / 300) * 100
+      const differenceText = percentageDifference > 0
+        ? `${Math.abs(percentageDifference).toFixed(1)}% below threshold`
+        : `${Math.abs(percentageDifference).toFixed(1)}% above threshold`
 
-	projectsData.value = projectResults
+      // Update specific project in the array
+      projectsData.value[index] = {
+        ...projectsData.value[index],
+        emissionSqm,
+        differenceText,
+        isLoading: false
+      }
+    } else {
+      projectsData.value[index] = {
+        ...projectsData.value[index],
+        emissionSqm: 0,
+        differenceText: "No results",
+        isLoading: false
+      }
+    }
+    
+    loadingResults.value.delete(project.id)
+  })
 }
 
-const projects = computed(() => projectsData.value
-)
+const projects = computed(() => projectsData.value)
 
 const projectColors = computed(() => {
 	const clrManager = new ColorManager()
