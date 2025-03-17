@@ -53,29 +53,40 @@ export interface NestedChartData {
   value: ChartData[]
 }
 
+/**
+ * Pattern Options for charts diagonal hatching
+ */
+export interface PatternOptions {
+  size?: number
+  rotation?: number
+  lineWidth?: number
+  opacity?: number
+  fill?: boolean
+}
+
 export const dummyData: NestedChartData[] = [
   {
     label: "Group A",
     value: [
-      { label: "Phase 1", value: -25, ids: ["a1", "a2"] },
-      { label: "Phase 2", value: 35, ids: ["a3"] },
-      { label: "Phase 3", value: -15, ids: ["a4"] }
+      { label: "Phase 1", value: 2500, ids: ["a1", "a2"] },
+      { label: "Phase 2", value: -450, ids: ["a3"] },
+      { label: "Phase 3", value: 400, ids: ["a4"] }
     ]
   },
   {
     label: "Group B",
     value: [
-      { label: "Phase 1", value: -10, ids: ["b1"] },
-      { label: "Phase 2", value: 20, ids: ["b2", "b3"] },
-      { label: "Phase 3", value: -5, ids: ["b4"] }
+      { label: "Phase 1", value: -250, ids: ["b1"] },
+      { label: "Phase 2", value: 500, ids: ["b2", "b3"] },
+      { label: "Phase 3", value: 1300, ids: ["b4"] }
     ]
   },
   {
     label: "Group C",
     value: [
-      { label: "Phase 1", value: -30, ids: ["c1"] },
-      { label: "Phase 2", value: 40, ids: ["c2", "c3"] },
-      { label: "Phase 3", value: -10, ids: ["c4"] }
+      { label: "Phase 1", value: -300, ids: ["c1"] },
+      { label: "Phase 2", value: 900, ids: ["c2", "c3"] },
+      { label: "Phase 3", value: 750, ids: ["c4"] }
     ]
   }
 ]

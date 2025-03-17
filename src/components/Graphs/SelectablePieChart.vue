@@ -1,13 +1,20 @@
 <template>
-  <div ref="container" class="w-full h-full justify-items-center relative">
-    <svg ref="svg" class="h-full w-full pt-4"></svg>
-    <div ref="tooltip" class="absolute flex z-50 bg-white border-solid border-2 border-gray-300 rounded-5 p-5 opacity-0 pointer-events-none"></div>
+  <div ref="container" class="relative w-full h-full">
+    <!-- Clipped circle container -->
+    <div :style="circleStyle" class="absolute styled-element hoverable-styling rounded-full overflow-hidden">
+      <svg ref="svg" class="w-full h-full"></svg>
+    </div>
+    <!-- Tooltip -->
+    <div 
+      ref="tooltip" 
+      class="styled-element hoverable-xs absolute z-50 p-2 bg-neutral-100 opacity-0 pointer-events-none transition-opacity duration-200"
+    />
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as d3 from 'd3'
-import { ref, reactive, onMounted, watch, onBeforeUnmount, type PropType, render } from 'vue'
+import { ref, reactive, onMounted, watch, onBeforeUnmount, nextTick, type PropType, render } from 'vue'
 
 import { getValueColorFromGradient } from '@/utils/colorUtils'
 import { 
@@ -18,106 +25,126 @@ import {
   createTooltip,
   createMouseEventHandlers,
   createBaseChart,
+  createDiagonalPattern,
+  chartBaseStyle,
 } from '@/utils/chartUtils'
 
 import { truncateText } from '@/utils/stringUtils'
 import { roundNumber } from '@/utils/math'
-import type { ChartData, ChartOptions } from '@/models/chartModels'
+import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModels'
 import { useResultStore } from '@/stores/result'
 import { useProjectStore } from '@/stores/main'
 
-export default {
-  name: 'SelectablePieChart',
-  props: {
-    data: {
-      type: Array as PropType<ChartData[]>,
-      required: false
-    },
-    options: {
-      type: Object as PropType<ChartOptions>,
-      default: () => ({})
-    }
-  },
-  setup(props) {
-    const resultStore = useResultStore()
+// Props
+interface Props {
+  data?: ChartData[]
+  options?: ChartOptions
+}
 
-    const svg = ref<SVGSVGElement | null>(null)
-    const tooltip = ref<HTMLDivElement | null>(null)
-    const container = ref<HTMLDivElement | null>(null)
-    
-    //Clear so we dont get overlaps
-    const clearSVG = () => {
-      if (svg.value) {
-        // Clear all children of the SVG element
-        while (svg.value.firstChild) {
-          svg.value.removeChild(svg.value.firstChild)
-        }
-      }
-    }
+const props = withDefaults(defineProps<Props>(), {
+  data: () => [],
+  options: () => ({})
+})
 
-    //Draw the chart
-    const draw = () => {   
-      clearSVG()
+// Store
+const resultStore = useResultStore()
 
-      //When spreading the options it will overwrite the width and height if provided
-      const options: ChartOptions = { 
-        width: svg.value ? svg.value.clientWidth : 0, 
-        height: svg.value ? svg.value.clientHeight : 0, 
-        ...props.options 
-      }
+// Refs
+const svg = ref<SVGSVGElement | null>(null)
+const tooltip = ref<HTMLDivElement | null>(null)
+const container = ref<HTMLDivElement | null>(null)
+const circleStyle = ref({})
 
-      const data: ChartData[] = props.data
-
-      const { drawChart } = SelectablePieChart(data, options)
-      if (svg.value && tooltip.value && container.value) {
-        drawChart(svg.value, tooltip.value, container.value)
-        //Update container size
-        if (options.width > options.height)
-          options.height = options.width
-        else
-          options.width = options.height
-        
-        container.value.style.width = `${options.width}px`
-        container.value.style.height = `${options.height}px`
-      }
-    }
-
-    const onKeydown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        resultStore.setReloadData(true)
-        draw()
-      }
-    }
-
-    onMounted(() => {
-      draw()
-      // Handle resize with ResizeObserver
-      const resizeObserver = new ResizeObserver(draw)
-      resizeObserver.observe(svg.value)
-
-      document.addEventListener('keydown', onKeydown)
-    })
-
-    onBeforeUnmount(() => {
-      document.removeEventListener('keydown', onKeydown)
-    })
-
-    //Watch for props changes
-    watch(
-      () => props.data,
-      () => {
-        if (resultStore.reloadChartData)
-          draw()
-      }
-    )
-
-    return { 
-      svg, 
-      tooltip, 
-      container,
+//Clear so we dont get overlaps
+const clearSVG = () => {
+  if (svg.value) {
+    // Clear all children of the SVG element
+    while (svg.value.firstChild) {
+      svg.value.removeChild(svg.value.firstChild)
     }
   }
 }
+
+// Dynamic div size to smallest dimension
+const updateCircleSize = () => {
+  if (container.value) {
+    const containerWidth = container.value.clientWidth
+    const containerHeight = container.value.clientHeight
+    const size = Math.max(containerWidth, containerHeight)
+    circleStyle.value = {
+      width: `${size}px`,
+      height: `${size}px`,
+      // Center the circle within the container:
+      top: `${(containerHeight - size) / 2}px`,
+      left: `${(containerWidth - size) / 2}px`,
+    }
+  }
+}
+
+
+//Draw the chart
+const draw = () => {   
+  clearSVG()
+
+  //When spreading the options it will overwrite the width and height if provided
+  const options: ChartOptions = { 
+    width: svg.value ? svg.value.clientWidth : 0, 
+    height: svg.value ? svg.value.clientHeight : 0, 
+    ...props.options 
+  }
+
+  const data: ChartData[] = props.data
+
+  const { drawChart } = SelectablePieChart(data, options)
+  if (svg.value && tooltip.value && container.value) {
+    drawChart(svg.value, tooltip.value, container.value)
+  }
+}
+
+const onKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    resultStore.setReloadData(true)
+    draw()
+  }
+}
+
+onMounted(async () => {
+  await nextTick() // ensure the container is rendered
+  updateCircleSize()
+
+  if (!svg.value) {
+    console.warn('SVG element not found')
+    return
+  }
+
+  draw()
+  
+  // Create ResizeObserver
+  const resizeObserver = new ResizeObserver(() => {
+    updateCircleSize()
+    draw()
+  })
+  
+  if (svg.value) {
+    resizeObserver.observe(svg.value)
+    console.log('Observer attached to SVG')
+  }
+
+  document.addEventListener('keydown', onKeydown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', onKeydown)
+})
+
+//Watch for props changes
+watch(
+  () => props.data,
+  () => {
+    if (resultStore.reloadChartData)
+      draw()
+  }
+)
 
 function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const resultStore = useResultStore()
@@ -125,13 +152,12 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   // Setup options and default settings
   const width = ref(options.width || 400)
   const height = ref(options.height || 400)
-  const margin = reactive(options.margin || { top: 20, right: 20, bottom: 20, left: 20 })
 
   const total = ref(d3.sum(data, d => d.value))
   const groupData = ref(groupDataFunc(data, total, options))
 
-  const w = width.value - margin.left - margin.right
-  const h = height.value - margin.top - margin.bottom
+  const w = width.value
+  const h = height.value 
 
   //Graphic settings
   const innerRadius = options.innerRadius || 40 // Set this bigger than 0 for a donut chart
@@ -139,8 +165,6 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   const labelRadius = (innerRadius * 0.2 + outerRadius * 0.7)
 
   const stroke = options.stroke || innerRadius > 0 ? "none" : "white" 
-  const strokeWidth = options.strokeWidth || 1
-  const strokeLinejoin = "miter"
   const padAngle = stroke === "none" ? 1 / outerRadius : 0.02
   const maxTextLength = 12
 
@@ -164,51 +188,15 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
     // Mouse event handlers
     const { mouseover, mousemove, mouseleave } = createMouseEventHandlers(tooltipDiv, containerElement)
 
-    const addTextWithTooltip = (textElement: d3.Selection<SVGTextElement, ChartData, SVGGElement, unknown>) => {
-      textElement
-        .on("mouseover", function(this: SVGTextElement, event, d) {
-          mouseover(event, d.data)
-          d3.select(this).style("font-weight", "normal")
-          if (d.data.value > 0) {
-            d3.select(this.parentNode!
-            .querySelector<SVGPathElement>('path'))
-            .style("stroke", "black")
-            .style("opacity", 1)
-          } else {
-            d3.select(this.parentNode!
-            .querySelector<SVGPathElement>('path'))
-              .style("stroke", "black")
-              .style("opacity", 0.6)
-          }
-        })
-        .on("mousemove", function(this: SVGTextElement, event, d) {
-          mousemove(event, d.data)
-        })
-        .on("mouseleave", function(this: SVGTextElement, event, d) {
-          mouseleave(event, d.data)
-          d3.select(this).style("font-weight", "normal")
-          if (d.data.value > 0) {
-            d3.select(this.parentNode!
-            .querySelector<SVGPathElement>('path'))
-            .style('stroke', stroke)
-            .style("opacity", 0.8)
-          } else {
-            d3.select(this.parentNode!
-            .querySelector<SVGPathElement>('path'))
-            .style('stroke', 'black')
-            .style('stroke-dasharray', '5,5')
-            .style("opacity", 0.4)
-          }
-        })
-    }
-
     const arcs = d3.pie()
       .padAngle(padAngle)
       .sort(null)
       .value(d => Math.abs(d.graphValue))(groupData.value.map(d => ({ ...d })))
+    
     const arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius)
+    // Negative Offset Deprecated
     // Negative values are drawn with a thicker stroke and a dashed line so we have to offset it slightly to compensate
-    const arcNegative = d3.arc().innerRadius(innerRadius + (strokeWidth*3/2)).outerRadius(outerRadius - (strokeWidth*3/2))
+    // const arcNegative = d3.arc().innerRadius(innerRadius + (strokeWidth*3/2)).outerRadius(outerRadius - (strokeWidth*3/2))
     const arcLabel = d3.arc().innerRadius(labelRadius).outerRadius(labelRadius)
 
     // Graph join
@@ -221,15 +209,20 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
 
     // Add the arcs
     join.append("path") 
-      .attr("stroke",  ({ data: { value }, index }) => (value > 0 ? stroke : colors.value[index])) // Colored stroke on negative value
-      .attr("stroke-width", ({ data: { value } }) => (value > 0 ? strokeWidth : strokeWidth * 3)) // Thick stroke width on negative value
-      .attr("stroke-linejoin", strokeLinejoin)
-      .attr("pointer-events", "all")
-      .attr("cursor", "pointer")
-      .style('stroke-dasharray', ({ data: { value } }) => (value > 0 ? '0' : '5,5')) // Dashed stroke on negative value
-      .style("opacity", 0.8) // Opacity on negative value
-      .attr("fill", ({ data: { value }, index }) => (value > 0 ? colors.value[index] : 'none' ))// Remove fill on negative values
-      .attr("d", d => d.data.value > 0 ? arc(d) : arcNegative(d))
+      .call(chartBaseStyle)
+      .attr("d", d => arc(d))
+      // Different fill on negative values
+      .attr("fill", function(d, i) {
+        const patternOptions: PatternOptions = {
+          size: 8,
+          lineWidth: 3,
+          fill: d.data.value > 0
+        }
+        const patternId = createDiagonalPattern(graph, d.data.label, colors.value[i], patternOptions)
+
+        return `url(#${patternId})`
+      })
+
       .on("mouseover", function(event, d) {
         mouseover(event, d.data)
       })
@@ -266,8 +259,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
     // Add the value texts
     join.append("text")
       .attr("transform", d => `translate(${arcLabel.centroid(d)})`)
-      .attr("font-family", "sans-serif")
-      .attr("font-size", 10)
+      .attr("class", "styled-data")
       .attr("cursor", "pointer")
       .attr("text-anchor", "middle")
       .each(function(d) {
@@ -281,13 +273,11 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
         
         adjustedLines.forEach((line, i) => {
           if (!isSmallArc) {
-            addTextWithTooltip(
-              self.append("tspan")
-                .attr("x", 0)
-                .attr("y", `${i * 1.1}em`)
-                .attr("font-weight", i ? null : "bold")
-                .text(line)
-            )
+            self.append("tspan")
+              .attr("x", 0)
+              .attr("y", `${i * 1.1}em`)
+              .attr("font-weight", i ? null : "bold")
+              .text(line)
           }
         })
       })
@@ -397,16 +387,3 @@ function groupDataFunc(data: ChartData[], total: { value: number }, options: Cha
 }
 
 </script>
-
-<style>
-.tooltip {
-  pointer-events: none;
-  position: absolute;
-  background-color: white;
-  border: 1px solid gray;
-  padding: 10px;
-  border-radius: 5px;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-</style>
