@@ -1,6 +1,30 @@
 # Link IO SpeckLCA App
 
-This template should help get you started developing with Vue 3 in Vite.
+## App Showcase
+### Select a project
+![image](https://github.com/user-attachments/assets/24e27acb-74c8-4db0-88df-343ca320cd35)
+
+### Overview its performance 
+![image](https://github.com/user-attachments/assets/a8d508a9-1080-4917-93b0-cd69820e02fe)
+
+### Dynamically filter it
+
+https://github.com/user-attachments/assets/75fb0fa9-10af-4f63-954f-f2f895274cfc
+
+### Map your materials
+
+https://github.com/user-attachments/assets/29a3d245-447a-46fd-98ee-8f340335654a
+
+### Immediate results
+
+https://github.com/user-attachments/assets/0ab4f148-6b54-424b-acf3-8d64a3879a73
+
+### Play with your 3d model
+
+![image](https://github.com/user-attachments/assets/bef01ae3-c540-4a01-8256-d28d1d3ac681)
+
+
+# Installation guide for Starting with contributions
 
 ## Recommended IDE Setup
 
