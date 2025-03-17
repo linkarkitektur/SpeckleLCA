@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-start">
+  <div class="flex flex-col items-end">
     <!-- TODO Change this to use a wrapper component so we dont use v-if but instead the leftModule logic -->
     <Dropdown
       v-if="navigationStore.activePage === 'Results'"
@@ -8,7 +8,7 @@
       :dropdownName="dropdownName"
       @selectedItem="handleResultListSelection"
     />
-    <div :v-if="leftModule">
+    <div v-if="leftModule" class="mt-56 min-w-[calc(30vh)]">
       <component :is="leftModule" v-bind="graphProps" class="mt-0"/>
     </div>
   </div>

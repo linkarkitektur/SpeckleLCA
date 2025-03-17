@@ -162,7 +162,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
   //Graphic settings
   const innerRadius = options.innerRadius || 40 // Set this bigger than 0 for a donut chart
   const outerRadius = Math.min(w, h) / 2
-  const labelRadius = (innerRadius * 0.2 + outerRadius * 0.7)
+  const labelRadius = (innerRadius * 0.2 + outerRadius * 0.6)
 
   const stroke = options.stroke || innerRadius > 0 ? "none" : "white" 
   const padAngle = stroke === "none" ? 1 / outerRadius : 0.02
@@ -262,6 +262,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
       .attr("class", "styled-data")
       .attr("cursor", "pointer")
       .attr("text-anchor", "middle")
+      .style("font-size", "0.75em")
       .each(function(d) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -276,7 +277,7 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
             self.append("tspan")
               .attr("x", 0)
               .attr("y", `${i * 1.1}em`)
-              .attr("font-weight", i ? null : "bold")
+              .attr("class", i == 0 ? "styled-header" : "styled-data")
               .text(line)
           }
         })
