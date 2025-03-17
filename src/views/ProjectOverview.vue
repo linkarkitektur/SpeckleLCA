@@ -19,7 +19,7 @@
             LOAD PROJECT TO THE RIGHT 
           </h1>
         </div>
-        <div class="flex w-full mt-10">
+        <div class="flex w-full pt-2 h-5/6">
           <StackedBarChart 
             :data="barData" 
             :options="barOptions"/>
@@ -27,7 +27,7 @@
       </div>
 
       <div class="col-span-2 row-span-2 p-4 flex items-center bg-neutral-100 styled-element hoverable-styling">
-        <DivergingStackedBar :data="dummyData" />
+        <VerticalBarChart :data="dummyData" />
       </div>
 
       <div class="col-span-2 row-span-2 p-4 flex items-center bg-neutral-100 styled-element hoverable-styling">
@@ -98,11 +98,11 @@ import router from '@/router'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import InputText from '@/components/Base/InputText.vue'
 import { useProjectStore } from '@/stores/main'
+import VerticalBarChart from '@/components/Graphs/VerticalBarChart.vue'
 
 const navStore = useNavigationStore()
 const speckleStore = useSpeckleStore()
 const settingsStore = useSettingsStore()
-const projectStore = useProjectStore()
 
 const contentVisible = ref(false)
 const backgroundVisible = ref(false)
@@ -176,7 +176,7 @@ const selectProject = () => {
 }
 
 const threshold = 100
-const currentValue = ref(90)
+const currentValue = ref(150)
 const remaining = computed(() => threshold - currentValue.value)
 
 // Chart data
@@ -191,14 +191,7 @@ const barData = computed<ChartData[]>(() => [
   }
 ])
 
-// Chart options
-const barColor = computed(() => currentValue.value > threshold ? "#C7A685" : "#A4B07E")
-
 const barOptions = computed<ChartOptions>(() => ({
-  unit: "kgCo2/m2",
-  colors: [
-    currentValue.value > threshold ? "#D5CD86" : barColor.value, 
-    currentValue.value > threshold ? barColor.value : "#D5CD86"
-  ]
+  unit: "kgCo2/m2"
 }))
 </script>
