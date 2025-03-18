@@ -6,6 +6,9 @@ export const baseColors = {
   primaryYellow: 'hsl(44, 84%, 83%)',
   primaryRed: 'hsl(0, 35%, 74%)',
   primaryGrey: 'hsl(0, 0%, 87%)',
+  modelRed: 'hsl(0, 40%, 60%)',
+  modelGreen: 'hsl(100, 40%, 60%)',
+  modelYellow: 'hsl(60, 40%, 60%)'
 }
 
 const fontColors = {
