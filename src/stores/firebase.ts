@@ -29,14 +29,15 @@ import type {
   MappingLog,
   ResultsLog,
   AssemblyList,
-  CalculationSettingsLog
+  CalculationSettingsLog,
+  ProjectSettingsLog
 } from '@/models/firebase'
 
 import { 
   deepToRaw,
   removeUndefinedFields
  } from '@/utils/dataUtils'
-import type { CalculationSettings } from '@/models/settings'
+import type { CalculationSettings, ProjectSettings } from '@/models/settings'
 
 export const useFirebaseStore = defineStore('firebase', {
   state: () => ({
@@ -401,6 +402,74 @@ export const useFirebaseStore = defineStore('firebase', {
           await setDoc(docRef, assemblyList)
         } else {
           await addDoc(collection(db, 'projectAssemblies'), assemblyList);
+        }
+      } catch (error: any) {
+        this.error = error.message
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Fetches project settings, should only return one but if multiple we return the one with the newest date
+     * @param projectId 
+     * @returns 
+     */
+    async fetchProjectSettings(projectId: string): Promise<ProjectSettingsLog | null> {
+      this.loading = true
+      this.error = null
+
+      try {
+        const q = query(
+          collection(db, 'projectSettings'),
+          where('projectId', '==', projectId)
+        )
+
+        const snapshot = await getDocs(q)
+        
+        if (!snapshot.empty) {
+            const settings = snapshot.docs
+              .map(doc => doc.data() as ProjectSettingsLog)
+              .sort((a, b) => b.date.getTime() - a.date.getTime())[0]
+            return settings
+        } else {
+          return null
+        }
+      } catch (error: any) {
+        this.error = error.message
+        return null
+      } finally {
+        this.loading = false
+      }
+    },
+
+    /**
+     * Add new projectsettings for id or overwrite existing with the new ones
+     * @param projectId Id for project
+     * @param settings settings to update with
+     */
+    async addProjectSettings(projectId: string, settings: ProjectSettings) {
+      this.loading = true
+      this.error = null
+      try {
+        // First we search and see if we find one with the projectId already
+        const querySnapshot = await getDocs(
+          query(collection(db, 'projectSettings'), 
+          where('projectId', '==', projectId))
+        )
+
+        const settingsLog: ProjectSettingsLog = {
+          projectId: projectId,
+          settings: settings,
+          date: new Date(),
+        }
+
+        // We overwrite it if we found one or add a new
+        if (!querySnapshot.empty) {
+          const docRef = querySnapshot.docs[0].ref
+          await setDoc(docRef, settingsLog)
+        } else {
+          await addDoc(collection(db, 'projectSettings'), settingsLog)
         }
       } catch (error: any) {
         this.error = error.message

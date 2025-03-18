@@ -1,7 +1,7 @@
 import type { FilterList } from '@/models/filters'
 import type { Assembly, Mapping } from '@/models/material'
 import type { ResultList } from '@/models/result'
-import type { CalculationSettings } from '@/models/settings'
+import type { CalculationSettings, ProjectSettings } from '@/models/settings'
 
 
 export interface FilterLog {
@@ -34,5 +34,11 @@ export interface CalculationSettingsLog {
   projectId: string
   name: string
   settings: CalculationSettings
+  date: Date
+}
+
+export interface ProjectSettingsLog {
+  projectId: string
+  settings: ProjectSettings
   date: Date
 }

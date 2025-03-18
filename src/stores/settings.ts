@@ -5,22 +5,25 @@ import {
 	standardCalculationSettings, 
 	standardKeySettings,
 	standardMaterialSettings,
+	standardProjectSettings,
 } from '@/models/settings'
 import type { 
 	AppSettings,
 	CalculationSettings,
 	KeySettings,
 	MaterialSettings,
+	ProjectSettings
  } from '@/models/settings'
 
 export const useSettingsStore = defineStore({
 	id: 'settingsStore',
 	state: () => {
 		return {
-			appSettings: standardAppSettings as AppSettings, // Application settings
-			calculationSettings: standardCalculationSettings as CalculationSettings, // Calculation settings
-			keySettings: standardKeySettings as KeySettings, // Key settings
-			materialSettings: standardMaterialSettings as MaterialSettings // Material settings
+			projectSettings: standardProjectSettings as ProjectSettings, 
+			appSettings: standardAppSettings as AppSettings, 
+			calculationSettings: standardCalculationSettings as CalculationSettings,
+			keySettings: standardKeySettings as KeySettings,
+			materialSettings: standardMaterialSettings as MaterialSettings
 		}
 	},
 	// Save the store to local storage so we dont have to create new settings every time
@@ -31,7 +34,14 @@ export const useSettingsStore = defineStore({
     }
 	},
 	actions: {
-		
+		/**
+		 * Updates projectsettings directly
+		 * @param projectSettings 
+		 */
+		updateProjectSettings(projectSettings: ProjectSettings) {
+			this.projectSettings = projectSettings
+		},
+
 		/**
 		 * Updates the firebase configuration in the app settings.
 		 * @param firebaseConfig The new firebase configuration.
@@ -91,10 +101,6 @@ export const useSettingsStore = defineStore({
 		 */
 		updateBuildingCode(buildingCode: CalculationSettings['buildingCode']) {
 			this.calculationSettings.buildingCode = buildingCode
-		},
-
-		updateArea(area: AppSettings['area']) {
-			this.appSettings.area = area
 		},
 	}
 })

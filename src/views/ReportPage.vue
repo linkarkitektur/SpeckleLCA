@@ -108,7 +108,7 @@ const includedPhases = ref(
   .map(stage => stage.stage)
   .join(', ')
 )
-const editableText = ref(`Area: ${settingsStore.appSettings.area} m²\nIncluded Phases: ${includedPhases.value}`)
+const editableText = ref(`Area: ${settingsStore.projectSettings.area} m²\nIncluded Phases: ${includedPhases.value}`)
 const selectedResultItem = ref(resultStore.resultList[0])
 const phaseOptions = computed(() =>
   resultStore.resultList.map((item) => ({

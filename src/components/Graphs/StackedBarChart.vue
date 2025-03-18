@@ -272,7 +272,11 @@ function stackedBarChart(data: ChartData[], options: ChartOptions = {}) {
 // Memoized data formatting with caching
 const groupedCache = ref<Record<string, { groupData: ChartData[], zeroPoint: number }>>({})
 
-const groupDataFunc = (data: ChartData[], total: { value: number }, options: ChartOptions = {}) => {
+const groupDataFunc = (
+  data: ChartData[], 
+  total: { value: number }, 
+  options: ChartOptions = {}
+) : { groupData: ChartData[], zeroPoint: number } => {
   const cacheKey = JSON.stringify({
     labels: data.map(d => d.label),
     values: data.map(d => d.value),

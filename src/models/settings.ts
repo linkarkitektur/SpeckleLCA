@@ -16,6 +16,9 @@ export interface KeySettings {
   speckleConfig: SpeckleConfig
 }
 
+/**
+ * Settings for how we do the emission calculations
+ */
 export interface CalculationSettings {
   includedStages: IncludedStages
   standardImpactCategory: ExtendedImpactCategoryKey
@@ -38,10 +41,22 @@ export interface MaterialSettings {
   sortingParams: MaterialSortingParam[]
 }
 
+/**
+ * General application settings
+ */
 export interface AppSettings {
   colorscheme: string
-  area: number
 }
+
+/**
+ * Settings for specific project
+ * This loads from firebase for the project
+ */
+export interface ProjectSettings {
+  area: number
+  threshold: number
+}
+
 
 export interface SettingView {
   name: string,
@@ -49,7 +64,9 @@ export interface SettingView {
   current: boolean
 }
 
-
+/**
+ * Speckle configuration, to change what server you are using
+ */
 interface SpeckleConfig {
   serverUrl: string
   id: string
@@ -58,7 +75,7 @@ interface SpeckleConfig {
 
 /**
  * Configuration for firebase, this is using an auto creation of users to the project
- * TODO: Check if this is the best way or move to Speckle
+ * TODO: Check if this is the best way or move everything to Speckle
  */
 interface FirebaseConfig {
   apiKey: string
@@ -89,12 +106,18 @@ interface IncludedStages {
 }
 
 /**
+ * Default settings for all projects, we could make one for each country but not needed I think
+ */
+export const standardProjectSettings: ProjectSettings = {
+  area: 100,
+  threshold: 300
+}
+
+/**
  * Default settings for the application
- * TODO Move the project specific settings to a seperate interface?
  */
 export const standardAppSettings: AppSettings = {
   colorscheme: 'light',
-  area: 1000
 }
 
 /**
