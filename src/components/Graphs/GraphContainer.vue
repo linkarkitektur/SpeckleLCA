@@ -1,14 +1,27 @@
 <template>
-  <div class="flex flex-col items-end">
+  <div class="h-full w-full flex flex-col">
     <!-- TODO Change this to use a wrapper component so we dont use v-if but instead the leftModule logic -->
-    <Dropdown
-      v-if="navigationStore.activePage === 'Results'"
-      :items="graphParameters"
-      name="graphParameter"
-      :dropdownName="dropdownName"
-      @selectedItem="handleResultListSelection"
-    />
-    <div v-if="leftModule" class="mt-56 min-w-[calc(30vh)]">
+    <div 
+      class="items-end mb-10"
+      v-if="navigationStore.activePage === 'Results'"  
+    >
+      <Dropdown
+        :items="graphParameters"
+        name="graphParameter"
+        :dropdownName="dropdownName"
+        @selectedItem="handleResultListSelection"
+      />
+    </div>
+    <div 
+      v-if="leftModule" 
+      class="w-full h-full"
+      :style="{
+        minWidth: minW, 
+        maxWidth: maxW, 
+        maxHeight: maxH,
+        minHeight: minH
+      }"
+    >
       <component :is="leftModule" v-bind="graphProps" class="mt-0"/>
     </div>
   </div>
@@ -39,20 +52,33 @@ import {
   geometryToChartData,
   geometryToNestedChartData,
   resultItemToChartData,
+  resultItemToNestedChartData,
   } from '@/utils/resultUtils'
 
 // Type imports
 import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModels'
 import type { ResultItem } from '@/models/result'
+import VerticalBarChart from './VerticalBarChart.vue'
+import StackedBarChart from './StackedBarChart.vue'
 
 const navigationStore = useNavigationStore()
 const resultStore = useResultStore()
 const projectStore = useProjectStore()
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   resultItem?: ResultItem
-}>()
+  graph?: string
+  minW?: string
+  maxW?: string
+  maxH?: string
+  minH?: string
+}>(), {
+  minW: 'calc(35vh)',
+  maxW: 'calc(35vh)',
+  maxH: 'calc(35vh)',
+  minH: 'calc(35vh)',
+})
 
 const EmptyComponent = defineComponent({
   template: "<div></div>", // Renders nothing if leftModule is empty
@@ -92,6 +118,22 @@ const handleResultListSelection = (selectedItem: dropdownItem) => {
 
 // Computed property for dynamic component
 const leftModule = computed(() => {
+  if (props.graph) {
+    switch (props.graph) {
+      case 'VerticalBarChart':
+        updateGraphProps("VerticalBarChart")
+        return VerticalBarChart
+      case 'PieChart':
+        updateGraphProps("SelectablePieChart")
+        return SelectablePieChart
+      case 'DivergingStackedBar':
+        updateGraphProps("DivergingStackedBar")
+        return DivergingStackedBar
+      case 'StackedBarChart':
+        updateGraphProps("StackedBarChart")
+        return StackedBarChart
+    }
+  }
   switch (navigationStore.activePage) {
     case 'Filtering':
     case 'Mapping':
@@ -136,7 +178,8 @@ const graphProps = ref<{ data: ChartData[] | NestedChartData[], options: ChartOp
 const updateGraphProps = (chart: string = "") => {
   if (chart === "") chart = componentName.value
   switch (chart) {
-    case "SelectablePieChart": {
+    case "SelectablePieChart":
+    case "StackedBarChart": {
       let data: ChartData[] = []
       let options: ChartOptions = {
         aggregate: true,
@@ -162,15 +205,18 @@ const updateGraphProps = (chart: string = "") => {
       }
       break
     }
-    case "DivergingStackedBar": {
-      console.log("Selected result: ", selectedResult.value)
+    case "DivergingStackedBar":
+    case "VerticalBarChart": {
       let data: NestedChartData[]
       let options: ChartOptions = {
         aggregate: true,
         unit: "kgCO2e",
       }
-
-      data = geometryToNestedChartData(projectStore.currProject.geometry, selectedResult.value.parameter)
+      if (selectedResult.value) {
+        data = geometryToNestedChartData(projectStore.currProject.geometry, selectedResult.value.parameter)
+      } else {
+        data = resultItemToNestedChartData(props.resultItem)
+      }
       graphProps.value = {
         data,
         options,

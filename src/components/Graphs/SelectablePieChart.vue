@@ -259,10 +259,9 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
     // Add the value texts
     join.append("text")
       .attr("transform", d => `translate(${arcLabel.centroid(d)})`)
-      .attr("class", "styled-data")
+      .attr("class", "styled-data z-50 pointer-events-none text-xs")
       .attr("cursor", "pointer")
       .attr("text-anchor", "middle")
-      .style("font-size", "0.75em")
       .each(function(d) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

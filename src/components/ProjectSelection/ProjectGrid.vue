@@ -78,6 +78,7 @@ import { emissionToNumber, getResultLogEmissions } from '@/utils/resultUtils'
 import { ColorManager } from '@/utils/colorUtils'
 import router from '@/router'
 import { useNavigationStore } from '@/stores/navigation'
+import { useProjectStore } from '@/stores/main'
 
 /**
  * Component for displaying a grid of projects.
@@ -86,6 +87,7 @@ const speckleStore = useSpeckleStore()
 const firebaseStore = useFirebaseStore()
 const settingsStore = useSettingsStore()
 const navStore = useNavigationStore()
+const projectStore = useProjectStore()
 
 const selectedProjectId = ref('')
 const selectedProjectName = ref('')
@@ -123,13 +125,20 @@ const updateProjects = () => {
       return logs.length > 0 ? logs[0] : null
     })
 
+    const projectSettingsLog = await firebaseStore.fetchProjectSettings(project.id)
+    if (projectSettingsLog) 
+      settingsStore.updateProjectSettings(projectSettingsLog.settings)
+
+    const area: number = settingsStore.projectSettings.area
+    const threshold: number = settingsStore.projectSettings.threshold
+
     if (resultLog) {
       const emission = getResultLogEmissions(resultLog, 'material.name')
       // Check for appSettings
-      const area: number = isNaN(settingsStore.appSettings.area) ? 0 : settingsStore.appSettings.area
+
       const totalEmission = emissionToNumber(emission)
       const emissionSqm = Math.round(totalEmission / area) || 0
-      const percentageDifference = ((300 - emissionSqm) / 300) * 100
+      const percentageDifference = ((threshold - emissionSqm) / threshold) * 100
       const differenceText = percentageDifference > 0
         ? `${Math.abs(percentageDifference).toFixed(1)}% below threshold`
         : `${Math.abs(percentageDifference).toFixed(1)}% above threshold`
@@ -182,6 +191,7 @@ const startTransition = async (project: ProjectId, color: string) => {
   
   // Load data during the flash
   await speckleStore.updateProjectVersions(project.id, 100, null)
+  await projectStore.updateProjectInformation(project)
   navStore.setActiveColor(color)
 
   // Complete transition and navigate

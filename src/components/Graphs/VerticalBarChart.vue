@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="relative w-full h-full min-h-0 flex flex-row gap-4">
+  <div ref="container" class="relative w-full h-full flex flex-row gap-4 items-center">
     <!-- Axes container -->
     <div class="absolute inset-0">
       <svg ref="axesSvg" class="w-full h-full">
@@ -10,10 +10,11 @@
 
     <!-- Bars with div styling -->
     <div 
-      v-for="(group, index) in groupNames" 
+      v-for="(group, index) in groupNames"
       :key="group"
       class="h-full flex relative"
       :style="{width: `${svgWidth[index]}px`, marginLeft: index === 0 ? `${margin.left + 10}px` : '0px'}"
+      
     >
       <div 
         class="styled-element hoverable-styling overflow-hidden h-full" 
@@ -22,21 +23,28 @@
           transform: `translateY(${zeroOffsets[index]}px)`
         }"
       >
+        <svg ref="barSvgs" class="w-full h-full"></svg>
+      </div>
+      <div 
+        class="relative w-full h-full -left-5" 
+        :style="{ 
+          height: `${svgHeights[index]}px`,
+          transform: `translateY(${zeroOffsets[index]}px)`
+        }"
+      >
         <label
-          class="absolute -rotate-90 whitespace-nowrap styled-header"
+          v-if="svgHeights[index] > 0"
+          class="absolute whitespace-nowrap styled-header pointer-events-none text-xs bg-neutral-100 bg-opacity-60 px-1 rounded-lg"
           :style="{
             left: '50%',
             top: '50%',
-            transform: 'translateY(-50%) translateX(-50%) rotate(-90deg)'
+            transform: 'translateY(-50%) translateX(-50%) rotate(-50deg)'
           }"
         >
-          {{ group }}
+          {{ group.length > 12 ? group.substring(0, 12) + '..' : group }}
         </label>
-        <svg 
-          :ref="el => { if (el) barSvgs[index] = el as SVGSVGElement }"
-          class="w-full h-full"
-        ></svg>
       </div>
+      
     </div>
 
     <!-- Tooltip -->
@@ -49,7 +57,7 @@
 
 <script setup lang="ts">
 import * as d3 from 'd3'
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { getValueColorFromGradient } from '@/utils/colorUtils'
 import { 
   createTooltip, 
@@ -60,7 +68,10 @@ import {
 import type { ChartOptions, NestedChartData, PatternOptions } from '@/models/chartModels'
 import { roundNumber } from '@/utils/math'
 
-const props = defineProps<{ data?: NestedChartData[], options?: ChartOptions }>()
+const props = defineProps<{ 
+  data?: NestedChartData[], 
+  options?: ChartOptions 
+}>()
 
 const container = ref<HTMLDivElement | null>(null)
 const tooltip = ref<HTMLDivElement | null>(null)
@@ -75,26 +86,37 @@ const margin = props.options?.margin? props.options?.margin : {
   left: 60
 }
 
-const groupNames = computed(() => props.data?.map(d => d.label) || [])
+const sortedData = computed(() => {
+  return (props.data || []).slice().sort((a, b) => {
+    const totalA = d3.sum(a.value, d => Math.abs(d.value))
+    const totalB = d3.sum(b.value, d => Math.abs(d.value))
+    return totalB - totalA
+  })
+})
+
+
+const groupNames = computed(() => sortedData.value.map(d => d.label) || [])
 
 // Create computed properties for container and available width calculations:
-const containerHeight = computed(() => container.value ? container.value.clientHeight : 0)
-const availableHeight = computed(() => containerHeight.value - 50)
+const containerHeight = computed(() => {
+  return container.value ? container.value.clientHeight : 0
+})
+const availableHeight = computed(() => containerHeight.value - 20)
 
 const globalTotal = computed(() => 
-  d3.max(props.data?.map(group => 
+  d3.max(sortedData.value?.map(group => 
     d3.sum(group.value, d => Math.abs(d.value))
   )) || 0
 )
 
 const zeroOffsets = computed(() => {
-  if (!props.data) return []
+  if (!sortedData.value) return []
 
-  const maxPositive = d3.max(props.data.map(group => 
+  const maxPositive = d3.max(sortedData.value.map(group => 
     d3.sum(group.value.filter(d => d.value > 0), d => Math.abs(d.value))
   )) || 0
 
-  return props.data.map(group => {
+  return sortedData.value.map(group => {
     const positiveSum = d3.sum(group.value.filter(d => d.value > 0), d => Math.abs(d.value))
     const total = d3.sum(group.value, d => Math.abs(d.value))
     const scale = total / globalTotal.value
@@ -118,7 +140,7 @@ const svgWidth = computed(() => {
 const draw = () => {   
   barSvgs.value.forEach(svg => svg.innerHTML = '')
 
-  const data = props.data || []
+  const data = sortedData.value || []
   svgHeights.value = new Array(data.length).fill(0)
 
   // Draw axes first
@@ -128,7 +150,8 @@ const draw = () => {
     if (!svg) return
     const height = calculateGroupHeight(data[index])
     svgHeights.value[index] = height
-    drawBarGroup(svg, data[index])
+    if (height > 0)
+      drawBarGroup(svg, data[index])
   })
 }
 
@@ -152,7 +175,6 @@ const drawAxes = (data: NestedChartData[]) => {
     const sumNegative = d3.min(data, group => 
       d3.sum(group.value.filter(d => d.value < 0), d => d.value)
     ) || 0
-
 
     // Create scales
     const xScale = d3.scaleBand()
@@ -255,16 +277,32 @@ const drawBarGroup = (svg: SVGSVGElement, groupData: NestedChartData) => {
 const calculateGroupHeight = (groupData: NestedChartData) => {
   if (!groupData?.value?.length) return 0
   const total = d3.sum(groupData.value, d => Math.abs(d.value))
-  return Math.max(100, (total / globalTotal.value) * (availableHeight.value))
+  return (total / globalTotal.value) * (availableHeight.value)
 }
 
-onMounted(() => {
-  draw()
-  const resizeObserver = new ResizeObserver(draw)
-  if (container.value) {
-    resizeObserver.observe(container.value)
-  }
+onMounted(async () => {
+  // Wait for nextTick so the divs have formed.
+  await nextTick()
+  console.log('barSvgs:', barSvgs.value)
+  requestAnimationFrame(() => {
+    draw()
+    const resizeObserver = new ResizeObserver(draw)
+    if (container.value) {
+      resizeObserver.observe(container.value)
+    }
+  })
 })
 
-watch(() => props.data, draw)
+// Watchers
+watch(props.data, () => {
+  nextTick(() => {
+    draw()
+  })
+})
+
+watch(groupNames, () => {
+  nextTick(() => {
+    draw()
+  })
+})
 </script>

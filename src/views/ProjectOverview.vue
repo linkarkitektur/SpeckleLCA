@@ -14,11 +14,6 @@
     <Navbar />
     <div class="grid grid-cols-5 grid-rows-4 gap-10 h-[calc(100vh-5rem)] overflow-hidden p-4">
       <div class="col-span-4 row-span-1 p-4 flex items-center justify-center bg-neutral-100 styled-element hoverable-styling">
-        <div class="absolute flex self-center top-24 z-100">
-          <h1 class="styled-header"> UNDER CONSTRUCTION <br>
-            LOAD PROJECT TO THE RIGHT 
-          </h1>
-        </div>
         <div class="flex w-full pt-2 h-5/6">
           <StackedBarChart 
             :data="barData" 
@@ -26,91 +21,114 @@
         </div>
       </div>
 
-      <div class="col-span-2 row-span-2 p-4 flex items-center bg-neutral-100 styled-element hoverable-styling">
-        <VerticalBarChart :data="dummyData" />
+      <div class="col-span-2 row-span-2 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
+        <h class="styled-header pb-2"> Emissions by element type</h>
+        <GraphContainer
+          graph="VerticalBarChart"
+          :result-item="categoryResults"
+          minW="calc(40vh)"
+          maxW="calc(40vh)"
+        />
       </div>
 
-      <div class="col-span-2 row-span-2 p-4 flex items-center bg-neutral-100 styled-element hoverable-styling">
+      <div class="col-span-2 row-span-2 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
+        <h class="styled-header pb-2"> Emissions by material category</h>
         <div class="flex items-center justify-center w-full h-full">
           <div class="aspect-square h-full">
-            <SelectablePieChart :data="dummyFlatData" />
+            <GraphContainer
+              graph="PieChart"
+              :result-item="materialTypeResults"
+            />
           </div>
         </div>
       </div>
 
-      <div class="col-span-4 row-span-1 p-4 flex items-center bg-neutral-100 styled-element hoverable-styling">
-        <!-- Optional extra content or leave empty -->
-        <p>Additional Content</p>
+      <div class="col-span-4 row-span-1 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
+        <h class="styled-header pb-2"> Emissions by material</h>
+        <GraphContainer
+          graph="VerticalBarChart"
+          :result-item="hotSpotResults"
+          maxH="calc(15vh)"
+          minH="calc(15vh)"
+          minW="calc(100vh)"
+          maxW="calc(100vh)"
+        />
       </div>
 
       <div class="col-span-1 col-start-5 row-start-1 row-end-5 p-6 flex flex-col bg-neutral-100 styled-element hoverable-styling">
-        <h2 class="text-xl font-bold mb-2">Project Settings</h2>
-        <Dropdown
-          :items="versionNames"
-          @selectedItem="handleSelectedItem"
-          name="Model"
-          dropdownName="Select version"
-          class="py-3 w-full"
-        />
-
-        <ActionButton
-          text="Load Project"
-          @onClick="selectProject"
-          class="mb-6 w-full"
-        />
-
-        <div class="flex items-center my-3">
-          <dt class="font-medium text-gray-900">Area</dt>
-          <dd class="ml-4 flex-1">
-            <InputText
-              id="Area"
-              v-model="settingsStore.appSettings.area"
-              placeholder="Unit"
-              type="number"
-            />
-          </dd>
-        </div>
+        <SettingsProjectOverview />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, watch } from 'vue'
 import { dummyData, dummyFlatData } from '@/models/chartModels'
 import type { ChartData, ChartOptions } from '@/models/chartModels'
 
 // Component imports
-import Dropdown from '@/components/Base/Dropdown.vue'
-import ActionButton from '@/components/Base/ActionButton.vue'
 import Navbar from '@/components/Base/Navbar.vue'
 import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
-import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
-import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
-
-import { useNavigationStore } from '@/stores/navigation'
-import { useSpeckleStore } from '@/stores/speckle'
-import { useSettingsStore } from '@/stores/settings'
+import SettingsProjectOverview from '@/components/Settings/SettingsProjectOverview.vue'
 
 import { loadProject } from '@/utils/speckleUtils'
-import router from '@/router'
-
-import type { dropdownItem } from '@/components/Base/Dropdown.vue'
-import InputText from '@/components/Base/InputText.vue'
+import { useFirebaseStore } from '@/stores/firebase'
 import { useProjectStore } from '@/stores/main'
-import VerticalBarChart from '@/components/Graphs/VerticalBarChart.vue'
+import { ResultsLog } from '@/models/firebase'
+import { useSettingsStore } from '@/stores/settings'
+import { emissionToNumber, getResultLogEmissions } from '@/utils/resultUtils'
 
-const navStore = useNavigationStore()
-const speckleStore = useSpeckleStore()
+import GraphContainer from '@/components/Graphs/GraphContainer.vue'
+
+// stores
+const firebaseStore = useFirebaseStore()
+const projectStore = useProjectStore()
 const settingsStore = useSettingsStore()
 
+// refs
 const contentVisible = ref(false)
 const backgroundVisible = ref(false)
-//This is to check if we actually changed version and should load it again or just use the one loaded
-const changedVersion = ref(false)
+const resultLog = ref<ResultsLog>()
 
-// Start background flash
-onMounted(() => {
+const nameParameter = ref<string>('material.name')
+const speckleParameter = ref<string>('parameters.speckle_type')
+const materialTypeParameter = ref<string>('material.metaData.materialType')
+
+// Computed 
+const hotSpotResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === nameParameter.value))
+const categoryResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === speckleParameter.value))
+const materialTypeResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === materialTypeParameter.value))
+
+const remaining = computed(() => settingsStore.projectSettings.threshold - emissionSqmName.value)
+
+const emissionSqmName = computed(() => {
+  if (resultLog.value) {
+    const emission = getResultLogEmissions(resultLog.value, nameParameter.value)
+    return Math.round(emissionToNumber(emission) / (settingsStore.projectSettings.area))
+  } else {
+    return 0
+  }
+})
+
+// Chart data
+const barData = computed<ChartData[]>(() => [
+  {
+    label: " Spent",
+    value: emissionSqmName.value,
+  },
+  {
+    label: "Remaining",
+    value: remaining.value
+  }
+])
+
+const barOptions = computed<ChartOptions>(() => ({
+  unit: "kgCo2/m2"
+}))
+
+// Start background flash and fetch results
+onMounted(async () => {
   // Start with black overlay
   setTimeout(() => {
     // Fade out black overlay to reveal colored background
@@ -121,77 +139,10 @@ onMounted(() => {
     }, 150)
   }, 150)
 
+  const results = await firebaseStore.fetchResults(projectStore.currProject.id)
+  resultLog.value = results[0]
+  
   // Lazyload the latest version in the background
   loadProject(false)
 })
-
-/**
- *  Return the extracted names from all available versions of the project to be used in dropdown
- */
-const versionNames = computed(() => {
-  let versions: dropdownItem[] = []
-
-  speckleStore.getAllVersions?.forEach((el) => {
-    if (typeof el.message === 'string') {
-      const item: dropdownItem = {
-        name: el.message,
-        data: el.id
-      }
-
-      versions.push(item)
-    }
-  })
-  return versions
-})
-
-/**
- * Sets the selected version from dropdown selected
- * @param selectedItem
- */
-const handleSelectedItem = (selectedItem: dropdownItem) => {
-  const version = speckleStore.getAllVersions?.find(
-    (obj) => obj.id === selectedItem.data
-  )
-
-  // Set that we changed to another version manually so we have to load it
-  changedVersion.value = true
-  if (version) speckleStore.setSelectedVersion(version)
-}
-
-/**
- * Loads project when button pressed either its lazyloaded already or we load it from scratch
- */
-const selectProject = () => {
-  // If version changed we load it otherwise just route it
-  if (changedVersion.value) {
-    loadProject(true)
-  } else {
-    navStore.setActivePage('Filtering') 
-    router.push({ 
-      name: 'Dashboard'
-    })
-  }
-
-
-}
-
-const threshold = 100
-const currentValue = ref(150)
-const remaining = computed(() => threshold - currentValue.value)
-
-// Chart data
-const barData = computed<ChartData[]>(() => [
-  {
-    label: "Spent",
-    value: currentValue.value,
-  },
-  {
-    label: "Threshold",
-    value: remaining.value
-  }
-])
-
-const barOptions = computed<ChartOptions>(() => ({
-  unit: "kgCo2/m2"
-}))
 </script>
