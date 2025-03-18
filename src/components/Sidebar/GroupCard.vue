@@ -34,11 +34,13 @@
       
       <!-- Lower Section -->
       <section class="w-full">
-        <div class="relative flex items-center justify-center min-w-full h-10 styled-element bg-neutral-100 z-10">
-       <!-- Component determined by currGroupTotal -->
-            <component :is="currGroupTotal" :groups="inGroups" v-if="currGroupTotal" class="font-light text-sm"/>
-          <slot name="dynamic-content" />
-        </div> 
+        <div class="rounded-lg overflow-hidden">
+          <div class="relative flex items-center justify-center min-w-full h-10 border-t-2 border-black bg-neutral-100 z-10">
+        <!-- Component determined by currGroupTotal -->
+              <component :is="currGroupTotal" :groups="inGroups" v-if="currGroupTotal" class="font-light text-sm"/>
+            <slot name="dynamic-content" />
+          </div> 
+        </div>
       </section>
 
       <!-- Triangle indicators -->
