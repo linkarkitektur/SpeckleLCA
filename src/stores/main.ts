@@ -12,6 +12,7 @@ import type { Results } from '@/models/result'
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 import { collectParameters } from '@/utils/dataUtils'
+import { ProjectId } from '@/models/speckle'
 
 
 /**
@@ -99,6 +100,24 @@ export const useProjectStore = defineStore({
 		 */
 		updateProject(project: Project) {
 			this.currProject = project
+		},
+
+		/**
+		 * Updates the current project with a new id and name if we have no project we create a empty one and populate
+		 * @param projectId 
+		 */
+		updateProjectInformation(projectId: ProjectId) {
+			if (!this.currProject) {
+				this.currProject = {
+					name: projectId.name,
+					id: projectId.id,
+					description: projectId.name,
+					geometry: []
+				}
+			} else {
+				this.currProject.id = projectId.id
+				this.currProject.name = projectId.name
+			}
 		},
 
 		/**

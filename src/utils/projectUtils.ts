@@ -204,7 +204,7 @@ export function setResultsColorGroup(objects: GeometryObject[] = null, colorRang
       const sizeFactor = object ? Math.log10(object.quantity.m2 + 1) : 1
       const normalisedEmissions = (emissionToNumber(emission) / object.quantity.m2) * sizeFactor
       //Calculate the color based on the gwp value
-      const color = getValueColorFromGradient(normalisedEmissions, 0, 200)
+      const color = getValueColorFromGradient(normalisedEmissions, 0, 200, baseColors.modelGreen, baseColors.modelYellow, baseColors.modelRed)
       groups.push({ objectIds: [object.id], color: color })
     } else {
       //No result mapped set color to grey
@@ -222,9 +222,9 @@ export function setMappingColorGroup(objects: GeometryObject[] = null) {
   const projectStore = useProjectStore()
   //Create two groups for the mapping colors, one red and one green and move objects between them to match if mapped materials or not
   const greenGroup: { objectIds: string[], color: string } = 
-    { objectIds: [], color: baseColors.primaryGreen }
+    { objectIds: [], color: baseColors.modelGreen }
   const redGroup: { objectIds: string[], color: string } =
-    { objectIds: [], color: baseColors.primaryRed }
+    { objectIds: [], color: baseColors.modelRed }
 
   if (!objects) {
     //Get all objects from the project
