@@ -75,7 +75,7 @@ import SettingsProjectOverview from '@/components/Settings/SettingsProjectOvervi
 import { loadProject } from '@/utils/speckleUtils'
 import { useFirebaseStore } from '@/stores/firebase'
 import { useProjectStore } from '@/stores/main'
-import { ResultsLog } from '@/models/firebase'
+import type { ResultsLog } from '@/models/firebase'
 import { useSettingsStore } from '@/stores/settings'
 import { resultLogToAdjustedEmission } from '@/utils/resultUtils'
 

@@ -75,7 +75,7 @@ import { loadProject } from '@/utils/speckleUtils'
 import router from '@/router'
 
 import type { dropdownItem } from '../Base/DropdownMenuItem.vue'
-import { ProjectSettingsLog } from '@/models/firebase'
+import type { ProjectSettingsLog } from '@/models/firebase'
 import { useFirebaseStore } from '@/stores/firebase'
 import CheckBox from '../Base/CheckBox.vue'
 

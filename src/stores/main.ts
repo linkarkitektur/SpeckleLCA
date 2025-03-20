@@ -12,7 +12,7 @@ import type { Results } from '@/models/result'
 import { createNestedObject } from '@/utils/projectUtils'
 import { logMessageToSentry } from '@/utils/monitoring'
 import { collectParameters } from '@/utils/dataUtils'
-import { ProjectId } from '@/models/speckle'
+import type { ProjectId } from '@/models/speckle'
 
 
 /**
