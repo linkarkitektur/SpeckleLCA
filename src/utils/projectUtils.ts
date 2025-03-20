@@ -183,10 +183,7 @@ export function setResultsColorGroup(objects: GeometryObject[] = null, colorRang
 
   return groups
 
-  function assignColorGroup(object: GeometryObject) {
-    const settingsStore = useSettingsStore()
-    const resultStore = useResultStore()
-    
+  function assignColorGroup(object: GeometryObject) {   
     if (object && object.results) {
       // Calculate the resultlist for the object
       // TODO: Check if this is super inefficient nice to have it gathered into one function for all results
@@ -204,7 +201,7 @@ export function setResultsColorGroup(objects: GeometryObject[] = null, colorRang
       const sizeFactor = object ? Math.log10(object.quantity.m2 + 1) : 1
       const normalisedEmissions = (emissionToNumber(emission) / object.quantity.m2) * sizeFactor
       //Calculate the color based on the gwp value
-      const color = getValueColorFromGradient(normalisedEmissions, 0, 200, baseColors.modelGreen, baseColors.modelYellow, baseColors.modelRed)
+      const color = getValueColorFromGradient(normalisedEmissions, 0, 0.1, baseColors.modelGreen, baseColors.modelYellow, baseColors.modelRed)
       groups.push({ objectIds: [object.id], color: color })
     } else {
       //No result mapped set color to grey

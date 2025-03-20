@@ -8,9 +8,10 @@ import { DefaultResultList } from '@/models/result'
 import type { GroupedResults } from '@/models/result'
 import type { ChartData, NestedChartData } from '@/models/chartModels'
 import type { GeometryObject, Quantity } from '@/models/geometryObject'
-import type { ExtendedImpactCategoryKey, Emission, LifeCycleStageEmission, MetricUnits } from '@/models/material'
+import type { Emission, LifeCycleStageEmission, MetricUnits } from '@/models/material'
 import type { ResultItem, ResultList } from '@/models/result'
 import type { ResultsLog } from '@/models/firebase'
+import { roundNumber } from './math'
 
 /**
  * Converter of geometry object results into aggregated ChartData for specific LifeCycleStages (LCS)
@@ -50,19 +51,17 @@ export function geometryToLCSChartData(objects: GeometryObject[], impactCategory
  * @returns ChartData array for use with charts such as stackedBar
  */
 export function resultItemToLCSChartData(resultItem: ResultItem): ChartData[] {
-  const settingsStore = useSettingsStore()
-  const impactCategory = settingsStore.calculationSettings.standardImpactCategory
   const groupedData = new Map<string, ChartData>()
 
   if (!resultItem?.data) return []
   // Go through each selected object and get aggregated labels and emission data
   for (const groupedResult of resultItem.data) {
-    groupedResultToLCSChartData(groupedResult, groupedData, impactCategory)
+    groupedResultToLCSChartData(groupedResult, groupedData)
   }
 
   const data: ChartData[] = Array.from(groupedData, ([material, { value, ids }]) => ({
     label: material,
-    value: Math.round(value),
+    value: roundNumber(value, 2),
     ids: ids
   }))
 
@@ -75,19 +74,17 @@ export function resultItemToLCSChartData(resultItem: ResultItem): ChartData[] {
  * @returns ChartData array for use with charts such as pie, bar chart etc
  */
 export function resultItemToChartData (resultItem: ResultItem): ChartData[] {
-  const settingsStore = useSettingsStore()
-  const impactCategory = settingsStore.calculationSettings.standardImpactCategory
   const groupedData = new Map<string, ChartData>()
 
   if (!resultItem?.data) return []
   // Go through each selected object and get aggregated labels and emission data
   for (const groupedResult of resultItem.data) {
-    groupedResultToChartData(groupedResult, groupedData, impactCategory)
+    groupedResultToChartData(groupedResult, groupedData)
   }
   
   const data: ChartData[] = Array.from(groupedData, ([material, { value, ids }]) => ({
     label: material,
-    value: Math.round(value),
+    value: roundNumber(value, 2),
     ids: ids
   }))
 
@@ -101,9 +98,6 @@ export function resultItemToChartData (resultItem: ResultItem): ChartData[] {
  * @returns NestedChartData array for use with charts such as diverging stacked bar chart
  */
 export function resultItemToNestedChartData (resultItem: ResultItem): NestedChartData[] {
-  const settingsStore = useSettingsStore()
-  const impactCategory = settingsStore.calculationSettings.standardImpactCategory
-  
   if (!resultItem?.data) return []
 
   const nestedChartData: NestedChartData[] = []
@@ -111,7 +105,7 @@ export function resultItemToNestedChartData (resultItem: ResultItem): NestedChar
   for (const groupedResult of resultItem.data) {
     // For each top-level grouped result, we gather its ChartData
     const topLevelData = new Map<string, ChartData>()
-    groupedResultToChartData(groupedResult, topLevelData, impactCategory)
+    groupedResultToChartData(groupedResult, topLevelData)
 
     // If no nested data, we can still return a NestedChartData with just the top-level data
     if (!groupedResult.nested || groupedResult.nested.length === 0) {
@@ -133,7 +127,7 @@ export function resultItemToNestedChartData (resultItem: ResultItem): NestedChar
 
     for (const nestedResult of groupedResult.nested) {
       const nestedResultMap = new Map<string, ChartData>()
-      groupedResultToChartData(nestedResult, nestedResultMap, impactCategory)
+      groupedResultToChartData(nestedResult, nestedResultMap)
 
       // Each nested result might have multiple entries, append them:
       for (const [label, data] of nestedResultMap) {
@@ -158,9 +152,8 @@ export function resultItemToNestedChartData (resultItem: ResultItem): NestedChar
  * Helper function to convert a single grouped result into a chart data
  * @param groupedResult Grouped result to convert
  * @param groupedData Map to store the grouped data
- * @param impactCategory Impact category to get results for
  */
-function groupedResultToChartData(groupedResult: GroupedResults, groupedData: Map<string, ChartData>, impactCategory: ExtendedImpactCategoryKey): void {
+function groupedResultToChartData(groupedResult: GroupedResults, groupedData: Map<string, ChartData>): void {
   const objectName = groupedResult.parameter
   const emissionData = groupedResult.data.emission
 
@@ -177,9 +170,7 @@ function groupedResultToChartData(groupedResult: GroupedResults, groupedData: Ma
 
   const materialData = groupedData.get(objectName)!
 
-  for (const lifeCycleStage in groupedResult.data.emission[impactCategory]) {
-    materialData.value += groupedResult.data.emission[impactCategory][lifeCycleStage]
-  }
+  materialData.value = emissionToNumber(emissionData)
 
   materialData.ids.push(... groupedResult.data.geoId) 
 }
@@ -191,7 +182,13 @@ function groupedResultToChartData(groupedResult: GroupedResults, groupedData: Ma
  * @param groupedData Map to store the grouped data
  * @param impactCategory Impact category to get results for
  */
-function groupedResultToLCSChartData(groupedResult: GroupedResults, groupedData: Map<string, ChartData>, impactCategory: ExtendedImpactCategoryKey): void {
+function groupedResultToLCSChartData(groupedResult: GroupedResults, groupedData: Map<string, ChartData> ): void {
+  const settingsStore = useSettingsStore()
+  const impactCategory = settingsStore.calculationSettings.standardImpactCategory
+
+  const area = settingsStore.projectSettings.area
+  const lifespan = settingsStore.projectSettings.lifespan
+  
   const emissionData = groupedResult.data.emission
 
   if (!emissionData) return null
@@ -208,7 +205,12 @@ function groupedResultToLCSChartData(groupedResult: GroupedResults, groupedData:
 
     const materialData = groupedData.get(lifeCycleStage)!
 
-    materialData.value += groupedResult.data.emission[impactCategory][lifeCycleStage]
+    // Here we only care about stage, since we are splitting data on stage
+    if (settingsStore.projectSettings.emissionPerYear)
+      materialData.value += groupedResult.data.emission[impactCategory][lifeCycleStage] / area / lifespan
+    else
+      materialData.value += groupedResult.data.emission[impactCategory][lifeCycleStage] / area
+
     materialData.ids.push(... groupedResult.data.geoId) 
   }
 }
@@ -254,23 +256,36 @@ export function geometryToNestedChartData(objects: GeometryObject[], chartParame
  * @param emission Emission object to convert to number
  * @returns Number for category and included phases in settings
  */
-export function emissionToNumber(emission: Emission): number {
+export function emissionToNumber(emission: Emission, perArea: boolean = true): number {
   const settingsStore = useSettingsStore()
+
   const impactCategory = settingsStore.calculationSettings.standardImpactCategory
-  const includedPhases = settingsStore.calculationSettings.includedStages
+  const includedStages = settingsStore.calculationSettings.includedStages
+  const area = settingsStore.projectSettings.area
+  const lifeSpan = settingsStore.projectSettings.lifespan
   
   let total = 0
 
   // Only go through relevant ImpactCategory
-  for (const phase in emission[impactCategory]) {
+  for (const stage in emission[impactCategory]) {
     // Find the relevant stage object for the current phase
-    const relevantStage = includedPhases.relevantStages.find(
-      (stageObj) => stageObj.stage === phase
+    const relevantStage = includedStages.relevantStages.find(
+      (stageObj) => stageObj.stage === stage
     )
   
     // If the stage exists and is included, add its emission to the total
     if (relevantStage && relevantStage.included) {
-      total += emission[impactCategory][phase]
+      if (perArea) {
+        if (settingsStore.projectSettings.emissionPerYear)
+          total += emission[impactCategory][stage] / area / lifeSpan
+        else
+          total += emission[impactCategory][stage] / area
+      } else {
+        if (settingsStore.projectSettings.emissionPerYear)
+          total += emission[impactCategory][stage] / lifeSpan
+        else
+          total += emission[impactCategory][stage]
+      }
     }
   }  
 
@@ -299,6 +314,14 @@ export function sumEmissions(emissions: Emission[]): Emission {
   return emissions.reduce((accumulatedEmission, currentEmission) => {
     return addEmissions(accumulatedEmission, currentEmission)
   }, {})
+}
+
+export function resultLogToAdjustedEmission(
+  resultLog: ResultsLog,
+  parameter: string
+) : number {
+  const emission = getResultLogEmissions(resultLog, parameter)
+  return roundNumber(emissionToNumber(emission), 2) 
 }
 
 /**
