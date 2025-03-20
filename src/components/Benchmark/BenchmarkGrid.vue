@@ -139,10 +139,13 @@ const aggregatedEmission = computed(() => {
   })
 })
 
+// If we do it per year then we divide with lifespan
 const aggregatedSQMEmission = computed(() => {
   return resultLogs.value.map((log: ResultsLog) => {
     const emission = getResultLogEmissions(log, benchmarkParameter.value)
-    return Math.round(emissionToNumber(emission) / (settingsStore.projectSettings.area))
+    return Math.round(
+      emissionToNumber(emission) / (settingsStore.projectSettings.area)) 
+      / (settingsStore.projectSettings.emissionPerYear ? settingsStore.projectSettings.lifespan : 1)
   })
 })
 

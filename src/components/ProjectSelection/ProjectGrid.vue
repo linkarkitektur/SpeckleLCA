@@ -45,7 +45,7 @@
                 <span class="animate-pulse">Loading...</span>
               </template>
               <template v-else>
-                {{ project.emissionSqm }} kg-co² / m²
+                {{ project.emissionSqm }} {{ project.unit }}
               </template>
             </a>
           </div>
@@ -128,7 +128,7 @@ const updateProjects = () => {
     const projectSettingsLog = await firebaseStore.fetchProjectSettings(project.id)
     if (projectSettingsLog) 
       settingsStore.updateProjectSettings(projectSettingsLog.settings)
-
+    
     const area: number = settingsStore.projectSettings.area
     const threshold: number = settingsStore.projectSettings.threshold
 
@@ -137,8 +137,12 @@ const updateProjects = () => {
       // Check for appSettings
 
       const totalEmission = emissionToNumber(emission)
-      const emissionSqm = Math.round(totalEmission / area) || 0
+      // Check if we calculate per year or not
+      const emissionSqm = Math.round(
+        totalEmission / area
+      ) / (settingsStore.projectSettings.emissionPerYear ? settingsStore.projectSettings.lifespan : 1) || 0
       const percentageDifference = ((threshold - emissionSqm) / threshold) * 100
+      const unit = settingsStore.projectSettings.emissionPerYear ? 'kg-co²/m²/year' : 'kg-co²/m²'
       const differenceText = percentageDifference > 0
         ? `${Math.abs(percentageDifference).toFixed(1)}% below threshold`
         : `${Math.abs(percentageDifference).toFixed(1)}% above threshold`
@@ -148,14 +152,16 @@ const updateProjects = () => {
         ...projectsData.value[index],
         emissionSqm,
         differenceText,
-        isLoading: false
+        isLoading: false,
+        unit
       }
     } else {
       projectsData.value[index] = {
         ...projectsData.value[index],
         emissionSqm: 0,
-        differenceText: "No results",
-        isLoading: false
+        differenceText: "No result",
+        isLoading: false,
+        unit: ""
       }
     }
     

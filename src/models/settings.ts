@@ -55,6 +55,8 @@ export interface AppSettings {
 export interface ProjectSettings {
   area: number
   threshold: number
+  lifespan: number
+  emissionPerYear: boolean
 }
 
 
@@ -110,7 +112,9 @@ interface IncludedStages {
  */
 export const standardProjectSettings: ProjectSettings = {
   area: 100,
-  threshold: 300
+  threshold: 300,
+  lifespan: 50,
+  emissionPerYear: false
 }
 
 /**

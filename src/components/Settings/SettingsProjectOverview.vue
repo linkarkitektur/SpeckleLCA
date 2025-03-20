@@ -19,21 +19,43 @@
       <InputText
         id="Area"
         v-model="settingsStore.projectSettings.area"
-        placeholder="Unit"
+        placeholder=100
         type="number"
       />
     </dd>
   </div>
   <div class="flex items-center my-3">
-    <dt class="styled-header w-32">CO2/m2 Threshold</dt>
+    <dt class="styled-header w-32">Threshold</dt>
     <dd class="ml-4 flex-1">
       <InputText
         id="Threshold"
         v-model="settingsStore.projectSettings.threshold"
-        placeholder="Unit"
+        placeholder=300
         type="number"
       />
       </dd>
+  </div>
+  <div class="flex items-center my-3">
+    <dt class="styled-header w-32">Lifespan</dt>
+    <dd class="ml-4 flex-1">
+      <InputText
+        id="Lifespan"
+        v-model="settingsStore.projectSettings.lifespan"
+        placeholder=50
+        type="number"
+      />
+      </dd>
+  </div>
+  <div class="flex items-center my-3">
+    <dt class="styled-header w-32">Emissions/Year</dt>
+    <dd class="ml-4 flex-1">
+      <CheckBox
+        id="emissionPerYear"
+        name="emissionPerYear"
+        :checked="settingsStore.projectSettings.emissionPerYear"
+        @update:checked="(newVal) => settingsStore.projectSettings.emissionPerYear = newVal"
+      />
+    </dd>
   </div>
 </template>
 
@@ -55,6 +77,7 @@ import router from '@/router'
 import type { dropdownItem } from '../Base/DropdownMenuItem.vue'
 import { ProjectSettingsLog } from '@/models/firebase'
 import { useFirebaseStore } from '@/stores/firebase'
+import CheckBox from '../Base/CheckBox.vue'
 
 const settingsStore = useSettingsStore()
 const speckleStore = useSpeckleStore()

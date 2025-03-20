@@ -102,10 +102,13 @@ const materialTypeResults = computed(() => resultLog.value?.resultList.find(res 
 
 const remaining = computed(() => settingsStore.projectSettings.threshold - emissionSqmName.value)
 
+// If we do it per year then we divide with lifespan
 const emissionSqmName = computed(() => {
   if (resultLog.value) {
     const emission = getResultLogEmissions(resultLog.value, nameParameter.value)
-    return Math.round(emissionToNumber(emission) / (settingsStore.projectSettings.area))
+    return Math.round(
+      emissionToNumber(emission) / (settingsStore.projectSettings.area)) 
+      / (settingsStore.projectSettings.emissionPerYear ? settingsStore.projectSettings.lifespan : 1)
   } else {
     return 0
   }
@@ -123,9 +126,11 @@ const barData = computed<ChartData[]>(() => [
   }
 ])
 
-const barOptions = computed<ChartOptions>(() => ({
-  unit: "kgCo2/m2"
-}))
+const barOptions = computed<ChartOptions>(() => {
+  if (settingsStore.projectSettings.emissionPerYear)
+    return { unit: "kg CO2/m2/year" }
+  return { unit: "kg CO2/m2" }
+})
 
 // Start background flash and fetch results
 onMounted(async () => {

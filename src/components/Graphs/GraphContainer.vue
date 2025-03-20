@@ -183,7 +183,7 @@ const updateGraphProps = (chart: string = "") => {
       let data: ChartData[] = []
       let options: ChartOptions = {
         aggregate: true,
-        unit: "kgCO2e",
+        unit: "kg CO2e",
       }
       if (!projectStore.selectedObjects.length) {
         if (selectedResult.value) {
@@ -210,7 +210,7 @@ const updateGraphProps = (chart: string = "") => {
       let data: NestedChartData[]
       let options: ChartOptions = {
         aggregate: true,
-        unit: "kgCO2e",
+        unit: "kg CO2e",
       }
       if (selectedResult.value) {
         data = geometryToNestedChartData(projectStore.currProject.geometry, selectedResult.value.parameter)
