@@ -25,7 +25,7 @@
     </dd>
   </div>
   <div class="flex items-center my-3">
-    <dt class="styled-header w-32">Threshold</dt>
+    <dt class="styled-header w-32">Budget</dt>
     <dd class="ml-4 flex-1">
       <InputText
         id="Threshold"

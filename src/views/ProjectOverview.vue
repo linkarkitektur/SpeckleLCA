@@ -77,7 +77,7 @@ import { useFirebaseStore } from '@/stores/firebase'
 import { useProjectStore } from '@/stores/main'
 import { ResultsLog } from '@/models/firebase'
 import { useSettingsStore } from '@/stores/settings'
-import { emissionToNumber, getResultLogEmissions } from '@/utils/resultUtils'
+import { resultLogToAdjustedEmission } from '@/utils/resultUtils'
 
 import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 
@@ -105,10 +105,7 @@ const remaining = computed(() => settingsStore.projectSettings.threshold - emiss
 // If we do it per year then we divide with lifespan
 const emissionSqmName = computed(() => {
   if (resultLog.value) {
-    const emission = getResultLogEmissions(resultLog.value, nameParameter.value)
-    return Math.round(
-      emissionToNumber(emission) / (settingsStore.projectSettings.area)) 
-      / (settingsStore.projectSettings.emissionPerYear ? settingsStore.projectSettings.lifespan : 1)
+    return resultLogToAdjustedEmission(resultLog.value, nameParameter.value)
   } else {
     return 0
   }

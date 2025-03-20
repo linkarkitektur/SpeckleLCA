@@ -94,7 +94,7 @@ import type { ResultItem } from '@/models/result'
 import type { ResultsLog } from '@/models/firebase'
 import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 
-import { getResultLogEmissions, emissionToNumber } from '@/utils/resultUtils'
+import { getResultLogEmissions, emissionToNumber, resultLogToAdjustedEmission } from '@/utils/resultUtils'
 
 const resultStore = useResultStore()
 const firebaseStore = useFirebaseStore()
@@ -142,10 +142,7 @@ const aggregatedEmission = computed(() => {
 // If we do it per year then we divide with lifespan
 const aggregatedSQMEmission = computed(() => {
   return resultLogs.value.map((log: ResultsLog) => {
-    const emission = getResultLogEmissions(log, benchmarkParameter.value)
-    return Math.round(
-      emissionToNumber(emission) / (settingsStore.projectSettings.area)) 
-      / (settingsStore.projectSettings.emissionPerYear ? settingsStore.projectSettings.lifespan : 1)
+    return resultLogToAdjustedEmission(log, benchmarkParameter.value)
   })
 })
 

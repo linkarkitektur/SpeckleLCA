@@ -79,6 +79,7 @@ import { ColorManager } from '@/utils/colorUtils'
 import router from '@/router'
 import { useNavigationStore } from '@/stores/navigation'
 import { useProjectStore } from '@/stores/main'
+import { roundNumber } from '@/utils/math'
 
 /**
  * Component for displaying a grid of projects.
@@ -129,7 +130,6 @@ const updateProjects = () => {
     if (projectSettingsLog) 
       settingsStore.updateProjectSettings(projectSettingsLog.settings)
     
-    const area: number = settingsStore.projectSettings.area
     const threshold: number = settingsStore.projectSettings.threshold
 
     if (resultLog) {
@@ -138,9 +138,7 @@ const updateProjects = () => {
 
       const totalEmission = emissionToNumber(emission)
       // Check if we calculate per year or not
-      const emissionSqm = Math.round(
-        totalEmission / area
-      ) / (settingsStore.projectSettings.emissionPerYear ? settingsStore.projectSettings.lifespan : 1) || 0
+      const emissionSqm = roundNumber(totalEmission, 2)
       const percentageDifference = ((threshold - emissionSqm) / threshold) * 100
       const unit = settingsStore.projectSettings.emissionPerYear ? 'kg-co²/m²/year' : 'kg-co²/m²'
       const differenceText = percentageDifference > 0

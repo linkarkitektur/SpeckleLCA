@@ -27,7 +27,7 @@
         <!-- Right Side Info -->
         <div class="flex flex-col items-end h-full pr-2 pt-6 pb-3 styled-data">
           <div class="text-sm leading-none pt-1 truncate max-w-40" :title="rightInfo">
-            {{ rightInfo }}
+            {{ rightInfo }}m<sup>2</sup>
           </div>
         </div>
       </section>
@@ -93,6 +93,7 @@ import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
 import { storeToRefs } from 'pinia'
 import { getFontColorForHSL, lightenHSLColor } from '@/utils/colorUtils'
+import { roundNumber } from '@/utils/math'
 
 // Add defineOptions to inherit attrs
 defineOptions({
@@ -171,10 +172,18 @@ const rightInfo = computed(() => {
   switch (activePage.value) {
     case "Filtering": return inGroups.value.objects.length + " Elements"
     case "Mapping": return getMappedMaterial(inGroups.value.objects).name
-    case "Results": return "100 m2"
+    case "Results": return totalArea.value
     case "Benchmark": return null
     default: return "dummy"
   } 
+})
+
+// TotalArea of the objects within
+const totalArea = computed(() => {
+  return roundNumber(inGroups.value.objects
+    .map(obj => obj.quantity.m2 || 0)
+    .reduce((a, b) => a + b, 0)
+    , 2).toString()
 })
 
 // Add drop handler
