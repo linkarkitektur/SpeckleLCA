@@ -1,8 +1,18 @@
 import * as d3 from "d3"
 import { roundNumber} from "@/utils/math"
-import type { ChartData, ChartOptions } from '@/models/chartModels'
+import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModels'
+import type { Selection } from 'd3'
 
 import { useProjectStore } from "@/stores/main"
+
+export const chartBaseStyle = (selection: Selection<any, unknown, null, undefined>) => {
+  return selection
+    .attr("stroke", 'black') // Colored stroke on negative value
+    .attr('stroke-width', 1)
+    .attr("stroke-linejoin", 'miter')
+    .attr("pointer-events", "all")
+    .attr("cursor", "pointer")
+}
 
 /**
  * For use with aggregate charts, places the total value in the center of the chart
@@ -15,21 +25,20 @@ import { useProjectStore } from "@/stores/main"
  */
 export function aggregateCenter(graph: d3.Selection<SVGElement>, total: number , w: number, h: number, unit: string) {
   const textElement = graph.append("text")
-        .attr("class", "center-text")
+        .attr("class", "styled-header")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
         .attr("x", w / 2)
         .attr("y", h / 2)
-        .style("font-weight", "bold")
       
       textElement.append("tspan")
         .text(roundNumber(total, 1))
-        .classed("text-md", true)
+        .classed("styled-header", true)
         .attr("x", w / 2)
         .attr("dy", "-0.2em")
       textElement.append("tspan")
         .text(unit)
-        .classed("text-xs", true)
+        .classed("styled-data", true)
         .attr("x", w / 2)
         .attr("dy", "1.2em")
   return textElement
@@ -49,21 +58,20 @@ export function spanPercentCenter(graph: d3.Selection<SVGElement>, span: number[
   const result = checkValuesInSpan(value, span[0], span[1])
   const spanPercent = calculatePercent(result, graphValue)
   const textElement = graph.append("text")
-    .attr("class", "center-text")
+    .attr("class", "styled-header")
     .attr("text-anchor", "middle")
     .attr("dy", "0.35em")
     .attr("x", w / 2)
     .attr("y", h / 2)
-    .style("font-weight", "bold")
   
   textElement.append("tspan")
     .text(`${span[0]} - ${span[1]}`)
-    .classed("text-md", true)
+    .classed("styled-header", true)
     .attr("x", w / 2)
     .attr("dy", "-0.2em")
   textElement.append("tspan")
     .text(`${spanPercent}%`)
-    .classed("text-md", true)
+    .classed("styled-data", true)
     .attr("x", w / 2)
     .attr("dy", "1.2em")
   return textElement
@@ -86,16 +94,15 @@ export function spanPercentCenter(graph: d3.Selection<SVGElement>, span: number[
 
 export function parameterCenter(graph: d3.Selection<SVGElement>, parameterValue: number, total: number, w: number, h: number) {
   const textElement = graph.append("text")
-    .attr("class", "center-text")
+    .attr("class", "styled-header")
     .attr("text-anchor", "middle")
     .attr("dy", "0.35em")
     .attr("x", w / 2)
     .attr("y", h / 2)
-    .style("font-weight", "bold")
   
   textElement.append("tspan")
     .text(parameterValue)
-    .classed("text-md", true)
+    .classed("styled-data", true)
     .attr("x", w / 2)
     .attr("dy", "-0.2em")
   return textElement
@@ -138,6 +145,7 @@ export function createBaseChart(options: ChartOptions, containerElement: HTMLEle
  */
 export function createTooltip(tooltipElement: HTMLDivElement) {
   return d3.select(tooltipElement)
+    .classed('styled-data hoverable-xs', true)
     .style('position', 'absolute')
     .style('background-color', 'white')
     .style('border', 'solid')
@@ -155,19 +163,27 @@ export function createTooltip(tooltipElement: HTMLDivElement) {
  */
 export function createMouseEventHandlers(tooltipDiv: d3.Selection<HTMLDivElement, unknown, null, undefined>, container: HTMLElement) {
   function mouseover(event: MouseEvent, data: any) {
+    const element = d3.select(event.currentTarget)
+    const ogStroke = element.style('stroke')
+    const ogStrokeWidth = element.style('stroke-width')
+    
+    // Store original stroke color
+    element.attr('data-original-stroke', ogStroke)
+    element.attr('data-original-stroke-width', ogStrokeWidth)
+
     tooltipDiv.style('opacity', 1)
     d3.select(event.currentTarget)
       .style('stroke', 'black')
-      .style('opacity', 1)
+      .style('stroke-width', '3')
+      .style('z-index', '9999')
   }
 
   function mousemove(event: MouseEvent, data: any) {
-    const [mouseX, mouseY] = d3.pointer(event, container)
     const containerRect = container.getBoundingClientRect()
     const tooltipRect = tooltipDiv.node()!.getBoundingClientRect()
 
-    let left = mouseX + 15
-    let top = mouseY - 28
+    let left = (event.clientX - containerRect.left) + 15
+    let top = (event.clientY - containerRect.top) - 28
 
     // Adjust left and top to keep the tooltip within the container
     if (left + tooltipRect.width > containerRect.width) {
@@ -190,10 +206,15 @@ export function createMouseEventHandlers(tooltipDiv: d3.Selection<HTMLDivElement
   }
 
   function mouseleave(event: MouseEvent, data: any) {
+    const element = d3.select(event.currentTarget)
+    const ogStroke = element.attr('data-original-stroke')
+    const ogStrokeWidth = element.attr('data-original-stroke-width')
+
     tooltipDiv.style('opacity', 0)
     d3.select(event.currentTarget)
-      .style('stroke', null)
-      .style('opacity', 0.8)
+      .style('stroke', ogStroke)
+      .style('stroke-width', ogStrokeWidth)
+      .attr('data-original-stroke', null)
   }
 
   return { mouseover, mousemove, mouseleave }
@@ -216,4 +237,71 @@ export function groupChartData(data: ChartData[], totalValue: number) {
       percent,
     }
   }).filter((d) => d.value !== 0)
+}
+
+/**
+ * Diagonal fill pattern for charts
+ * @param graph SVG element as selection
+ * @param id custom id for pattern 
+ * @param color color to set
+ * @param options See PatternOptions
+ * @returns defs to be attached to SVG
+ */
+export function createDiagonalPattern(
+  svg: Selection<SVGElement, unknown, null, undefined>,
+  id: string,
+  color: string,
+  options: PatternOptions = {}
+) {
+  const {
+    size = 8,
+    rotation = 45,
+    lineWidth = 2,
+    opacity = 1,
+    fill = true
+  } = options
+
+  // Ensure we have valid inputs
+  if (!svg || !id || !color) {
+    console.warn('Invalid inputs for pattern creation')
+    return ''
+  }
+
+  // Create safe pattern ID
+  const safeId = id.replace(/[^a-zA-Z0-9-]/g, '-')
+  const patternId = `pattern-${safeId}`
+
+  // Check if pattern already exists
+  if (svg.select(`#${patternId}`).size() > 0) {
+    return patternId
+  }
+  // Define pattern
+  const defs = svg.append('defs')
+  const pattern = defs.append('pattern')
+    .attr('id', patternId)
+    .attr('patternUnits', 'userSpaceOnUse')
+    .attr('width', size)
+    .attr('height', size)
+    .attr('patternTransform', `rotate(${rotation})`)
+    
+  // Add pattern line
+  pattern.append('line')
+    .attr('x1', 0)
+    .attr('y1', 0)
+    .attr('x2', 0)
+    .attr('y2', size)
+    .attr('stroke', color)
+    //.attr('fill', color)
+    .attr('stroke-width', lineWidth)
+    .attr('opacity', opacity)
+
+  if (fill) {
+    pattern.append('rect')
+    .attr('width', size)
+    .attr('height', size)
+    .attr('fill', color)
+    .attr('opacity', opacity)
+  }
+    
+  return patternId
 }

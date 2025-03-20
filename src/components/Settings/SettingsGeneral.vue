@@ -50,6 +50,6 @@ import CheckBox from '@/components/Base/CheckBox.vue'
 const settingsStore = useSettingsStore()
 
 const generalSettings = ref({
-  area: settingsStore.appSettings.area
+  area: settingsStore.projectSettings.area
 })
 </script>

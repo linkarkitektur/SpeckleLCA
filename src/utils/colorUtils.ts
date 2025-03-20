@@ -2,11 +2,13 @@
 import chroma from 'chroma-js'
 
 export const baseColors = {
-  primaryGreen: '#95C92C',
-  secondaryGreen: '#B5E655',
-  primaryRed: '#F06000',
-  secondaryRed: '#FF8F00',
-  primaryGrey: '#E0E0E0',
+  primaryGreen: 'hsl(140, 37%, 75%)',
+  primaryYellow: 'hsl(44, 84%, 83%)',
+  primaryRed: 'hsl(0, 35%, 74%)',
+  primaryGrey: 'hsl(0, 0%, 87%)',
+  modelRed: 'hsl(0, 40%, 60%)',
+  modelGreen: 'hsl(100, 40%, 60%)',
+  modelYellow: 'hsl(60, 40%, 60%)'
 }
 
 const fontColors = {
@@ -256,8 +258,13 @@ export function hslToHex(h: number, s: number, l: number) {
  * @param endColor optional otherwise it uses primaryRed
  * @returns 
  */
-export function generateGradientColorScale(numColors: number, startColor: string = baseColors.primaryGreen, endColor: string = baseColors.primaryRed) {
-  return chroma.scale([startColor, endColor]).mode('lab').colors(numColors)
+export function generateGradientColorScale(
+  numColors: number, 
+  startColor: string = baseColors.primaryGreen, 
+  endColor: string = baseColors.primaryRed, 
+  midColor: string = baseColors.primaryYellow
+) {
+  return chroma.scale([startColor, midColor, endColor]).mode('lab').colors(numColors)
 }
 
 /**
@@ -269,9 +276,16 @@ export function generateGradientColorScale(numColors: number, startColor: string
  * @param max maximum value for interpolation
  * @returns 
  */
-export function getValueColorFromGradient(value: number, min: number, max: number, startColor: string = baseColors.primaryGreen, endColor: string = baseColors.primaryRed) {
+export function getValueColorFromGradient(
+  value: number, 
+  min: number, 
+  max: number, 
+  startColor: string = baseColors.primaryGreen, 
+  endColor: string = baseColors.primaryRed, 
+  midColor: string = baseColors.primaryYellow
+) {
   const normalizedValue = (value - min) / (max - min)
-  return chroma.scale([startColor, endColor])(normalizedValue).hex()
+  return chroma.scale([startColor, midColor, endColor])(normalizedValue).hex()
 }
 
 /**

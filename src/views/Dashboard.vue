@@ -3,13 +3,7 @@
 	<!-- Modal area -->
 	<NewGroupModal />
 	<SettingsModal />
-
-	<div 
-    class="fixed inset-0 w-full h-full pattern-dots pattern-black pattern-bg-transparent pattern-size-4 -z-20"
-    :style="{
-      '--pattern-opacity': '0.1'
-    }"
-  ></div>
+	<StandardBackground />
 
   <!-- App area -->
 	<div class="flex">
@@ -42,6 +36,7 @@ import Slideover from '@/components/SlideOver/Sliderover.vue'
 import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 import Navbar from '@/components/Base/Navbar.vue'
 import DetailBar from '@/components/DetailBar/DetailBar.vue'
+import StandardBackground from '@/components/Misc/StandardBackground.vue'
 
 import { useProjectStore } from '@/stores/main'
 import { useNavigationStore } from '@/stores/navigation'
