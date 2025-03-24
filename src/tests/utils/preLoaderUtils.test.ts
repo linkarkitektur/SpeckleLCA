@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { preloadDashboardData } from '@/utils/preLoader'
+import { preloadDashboardData } from '@/services/preLoader'
 import { createTestPinia } from '../setup/testUtils'
 import { useProjectStore } from '@/stores/projectStore'
 import { useMaterialStore } from '@/stores/materialStore'

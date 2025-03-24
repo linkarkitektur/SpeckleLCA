@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from 'vue'
-import { dummyData, dummyFlatData } from '@/models/chartModel'
+import { dummyData, dummyFlatData } from '@/config/chartDataConfig'
 import type { ChartData, ChartOptions } from '@/models/chartModel'
 
 // Component imports
