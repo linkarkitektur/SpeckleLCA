@@ -46,8 +46,7 @@
           <!-- Content -->
           <div class="relative flex-1 px-4 pt-4 bg-neutral-100 overflow-auto scrollbar-hide">
             <component 
-              :is="slideoverConfig.component" 
-              @close="toggleSlideover" 
+              :is="slideoverConfig.component"
             />
           </div>
         </div>
@@ -59,14 +58,15 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 import ModifyFilter from '@/components/SlideOver/ModifyFilter.vue'
 import SaveMapping from '@/components/SlideOver/SaveMapping.vue'
 import SaveResults from '@/components/SlideOver/SaveResults.vue'
-import MaterialSlideover from './MaterialSlideover.vue'
-import AssemblySlideover from './AssemblySlideover.vue'
-import SaveFilters from './SaveFilters.vue'
+import MaterialSlideover from '@/components/SlideOver/MaterialSlideover.vue'
+import AssemblySlideover from '@/components/SlideOver/AssemblySlideover.vue'
+import SaveFilters from '@/components/SlideOver/SaveFilters.vue'
+import ExportResults from '@/components/SlideOver/ExportResults.vue'
 
 const navStore = useNavigationStore()
 
@@ -108,6 +108,10 @@ const slideoverConfig = computed((): SlideoverConfig => {
         width: 'w-1/4'
       }
     case 'Export Results':
+      return {
+        component: ExportResults,
+        width: 'w-1/4'
+      }
     case 'Save Results':
       return {
         component: SaveResults,
