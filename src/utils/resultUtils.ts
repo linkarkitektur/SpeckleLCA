@@ -221,11 +221,21 @@ function groupedResultToLCSChartData(groupedResult: GroupedResults, groupedData:
  * @param chartParameter Parameter to convert into chartdata
  * @returns Chartdata for given parameter
  */
-export function geometryToChartData(objects: GeometryObject[], chartParameter: string, LCSData: boolean = false): ChartData[] {
+export function geometryToChartData(objects: GeometryObject[], chartParameter: string, LCSData: boolean = false, newResList: boolean = false): ChartData[] {
   // Create result aggregator and calculator
   const resCalc = new ResultCalculator(objects)
+
+  // If we get a resultItem in we use that parameter and structure to calculate the new resultList
+  if (newResList)
+    resCalc.setResultListProperties([{ 
+    parameter: chartParameter,
+    displayName: chartParameter,
+    data: []
+  }])
+
+  // Calc the results
   resCalc.aggregate(false, true)
-  
+
   const resultItem = resCalc.resultList.find((item) => item.parameter === chartParameter)
 
   // If we are calculating for LCS, we need to convert the data differently

@@ -78,14 +78,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import { useProjectStore } from '@/stores/projectStore'
 import { useNavigationStore } from '@/stores/navigationStore'
 import { useFirebaseStore } from '@/stores/firebaseStore'
 import { useResultStore } from '@/stores/resultStore'
+
 import InputText from '@/components/Base/InputText.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
 import Draggable from 'vuedraggable'
 import DropdownSearchable from '@/components/Base/DropdownSearchable.vue'
+
 import { PlusCircleIcon, MinusCircleIcon } from '@heroicons/vue/24/solid'
 import { ResultCalculator } from '@/utils/resultUtils'
 
@@ -93,6 +96,7 @@ import type { ResultItem } from '@/models/resultModel'
 
 const navStore = useNavigationStore()
 const projectStore = useProjectStore()
+const resultStore = useResultStore()
 const firebaseStore = useFirebaseStore()
 
 const formData = ref({
@@ -137,6 +141,7 @@ const saveData = () => {
   resCalc.aggregate(false, true)
 
   firebaseStore.addResultList(projectStore.currProject.id, resCalc.resultList, formData.value.name)
+  resultStore.setResultList(resCalc.resultList)
   navStore.toggleSlideover()
 }
 </script>
