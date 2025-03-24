@@ -77,18 +77,22 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import Draggable from 'vuedraggable'
+import { PlusCircleIcon, MinusCircleIcon } from '@heroicons/vue/24/solid'
+
 import CheckBox from '@/components/Base/CheckBox.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
 import DropdownSearchable from '@/components/Base/DropdownSearchable.vue'
-import { ExportConfig, ExportFormat } from '@/models/exportModel'
+
+import { ExportFormat } from '@/models/exportModel'
 import { ExportManager } from '@/utils/exportUtils'
-import { useProjectStore } from '@/stores/projectStore'
-import Draggable from 'vuedraggable'
-import Dropdown from '@/components/Base/Dropdown.vue'
-import { PlusCircleIcon, MinusCircleIcon } from '@heroicons/vue/24/solid'
-import { useNavigationStore } from '@/stores/navigationStore'
-import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import { ResultCalculator } from '@/utils/resultUtils'
+
+import { useProjectStore } from '@/stores/projectStore'
+import { useNavigationStore } from '@/stores/navigationStore'
+
+import type { ExportConfig } from '@/models/exportModel'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
 
 const projectStore = useProjectStore()
