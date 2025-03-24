@@ -10,7 +10,7 @@
 import DropDown from '@/components/Base/Dropdown.vue'
 import DivergingStackedBar from '@/components/Graphs/DivergingStackedBar.vue'
 import GaugeChart from '@/components/Graphs/GaugeChart.vue';
-import { BSAB96 } from '@/models/buildingCode'
+import { BSAB96 } from '@/models/buildingCodeModel'
 
 export default {
   components: { 

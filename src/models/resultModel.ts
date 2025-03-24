@@ -1,5 +1,5 @@
-import type { Emission } from '@/models/material'
-import type { Quantity } from '@/models/geometryObject'
+import type { Emission } from '@/models/materialModel'
+import type { Quantity } from '@/models/geometryModel'
 
 /**
  * Grouped results interface to store the results grouped by a parameter
@@ -39,7 +39,7 @@ export const DefaultResultList: ResultList = [
   { parameter: 'parameters.category', displayName: 'Category', data: [] },
   { parameter: 'material.name', displayName: 'Material', data: [] },
   { parameter: 'material.metaData.materialType', displayName: 'Material Type', data: [] },
-  { parameter: 'BSABCodes', displayName: 'BSAB Codes', data: [] },
+  { parameter: 'parameters.code', displayName: 'BSAB Codes', data: [] },
   { parameter: 'parameters.speckle_type', displayName: 'Speckle Type', data: [] },
 ]
 

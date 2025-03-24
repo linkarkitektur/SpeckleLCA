@@ -1,14 +1,14 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 
-import { delay } from '@/utils/math'
+import { delay } from '@/utils/mathUtils'
 import { extractFirstNumber, splitAndNormalizeUnit } from '@/utils/stringUtils'
-import { useSettingsStore } from '@/stores/settings'
-import { APISource } from '@/models/material'
+import { useSettingsStore } from '@/stores/settingStore'
+import { APISource } from '@/models/materialModel'
 
-import type { RevaluData, RevaluCollection, RevaluSingleCollection } from '@/models/revaluDataSource'
-import type { Product, Emission, LifeCycleStageEmission, Assembly } from '@/models/material'
-import type { BoverketData } from '@/models/boverketDataSource'
+import type { RevaluData, RevaluCollection, RevaluSingleCollection } from '@/models/revaluModel'
+import type { Product, Emission, LifeCycleStageEmission, Assembly } from '@/models/materialModel'
+import type { BoverketData } from '@/models/boverketModel'
 
 //import { convertIlcd } from 'epdx'
 

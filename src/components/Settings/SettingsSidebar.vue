@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import ActionButton from '@/components/Base/ActionButton.vue';
-import type { SettingView } from '@/models/settings'
+import type { SettingView } from '@/models/settingModel'
 
 const props = defineProps<{
   settingViews: SettingView[]

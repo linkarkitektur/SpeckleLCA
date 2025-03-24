@@ -1,7 +1,7 @@
-import { type Mapping, type Assembly, type Product, APISource } from '@/models/material'
+import { type Mapping, type Assembly, type Product, APISource } from '@/models/materialModel'
 import { defineStore } from 'pinia'
 import materialList from '@/tests/objects/materialList.json'
-import type { NestedGroup } from "@/models/filters"
+import type { NestedGroup } from "@/models/filterModel"
 
 export const useMaterialStore = defineStore({
   id: 'materialStore',

@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/projectStore'
 
 import { 
 	Chart as ChartJS,
@@ -22,8 +22,8 @@ import {
 } from 'chart.js'
 import { Bar } from 'vue-chartjs'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-import type { Emission } from '@/models/material'
-import type { GeometryObject } from '@/models/geometryObject'
+import type { Emission } from '@/models/materialModel'
+import type { GeometryObject } from '@/models/geometryModel'
 
 ChartJS.register(
 	Title,

@@ -17,12 +17,12 @@ import {
   createMouseEventHandlers,
 } from '@/utils/chartUtils'
 
-import { roundNumber } from '@/utils/math'
-import { useResultStore } from '@/stores/result'
-import { useProjectStore } from '@/stores/main'
+import { roundNumber } from '@/utils/mathUtils'
+import { useResultStore } from '@/stores/resultStore'
+import { useProjectStore } from '@/stores/projectStore'
 
 // Adjust these imports/types to match your actual code base
-import type { ChartData, ChartOptions } from '@/models/chartModels'
+import type { ChartData, ChartOptions } from '@/models/chartModel'
 import { lightenHSLColor } from '@/utils/colorUtils'
 
 export default {

@@ -1,8 +1,8 @@
-import { APISource } from '@/models/material'
+import { APISource } from '@/models/materialModel'
 
-import type { GeometryObject } from '@/models/geometryObject'
-import type { Group } from '@/models/filters'
-import type { Product, Assembly, } from '@/models/material'
+import type { GeometryObject } from '@/models/geometryModel'
+import type { Group } from '@/models/filterModel'
+import type { Product, Assembly, } from '@/models/materialModel'
 
 export const mockObjects: Record<string, GeometryObject> = {
   simple: {

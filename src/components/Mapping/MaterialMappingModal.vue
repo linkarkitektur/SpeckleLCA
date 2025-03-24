@@ -79,17 +79,17 @@ import { storeToRefs } from 'pinia'
 
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
-import { useProjectStore } from '@/stores/main'
-import { useNavigationStore } from '@/stores/navigation'
-import { useMaterialStore } from '@/stores/material'
-import { useSettingsStore } from '@/stores/settings'
+import { useProjectStore } from '@/stores/projectStore'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useMaterialStore } from '@/stores/materialStore'
+import { useSettingsStore } from '@/stores/settingStore'
 
 import MappingCard from '@/components/Mapping/MaterialMappingCard.vue'
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
 import SearchBar from '@/components/Mapping/SearchBar.vue'
 
-import type { NestedGroup } from '@/models/filters'
-import type { Product, Assembly } from '@/models/material'
+import type { NestedGroup } from '@/models/filterModel'
+import type { Product, Assembly } from '@/models/materialModel'
 
 const navStore = useNavigationStore()
 const projectStore = useProjectStore()

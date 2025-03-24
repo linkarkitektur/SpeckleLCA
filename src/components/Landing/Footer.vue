@@ -47,7 +47,7 @@
 		VideoCameraIcon
 	} from '@heroicons/vue/20/solid'
 
-	import { useNavigationStore } from '@/stores/navigation'
+	import { useNavigationStore } from '@/stores/navigationStore'
 
 	export default defineComponent({
 		name: 'FooterComponent',

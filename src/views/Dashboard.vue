@@ -38,9 +38,9 @@ import Navbar from '@/components/Base/Navbar.vue'
 import DetailBar from '@/components/DetailBar/DetailBar.vue'
 import StandardBackground from '@/components/Misc/StandardBackground.vue'
 
-import { useProjectStore } from '@/stores/main'
-import { useNavigationStore } from '@/stores/navigation'
-import { useSpeckleStore } from '@/stores/speckle'
+import { useProjectStore } from '@/stores/projectStore'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useSpeckleStore } from '@/stores/speckleStore'
 
 // Utils
 import { 
@@ -50,7 +50,7 @@ import {
 } from '@/utils/projectUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
 import { ResultCalculator } from '@/utils/resultUtils'
-import { preloadDashboardData } from '@/utils/preLoader'
+import { preloadDashboardData } from '@/services/preLoader'
 
 // Modals
 import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'

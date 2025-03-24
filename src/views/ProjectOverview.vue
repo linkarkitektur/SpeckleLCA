@@ -64,8 +64,8 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from 'vue'
-import { dummyData, dummyFlatData } from '@/models/chartModels'
-import type { ChartData, ChartOptions } from '@/models/chartModels'
+import { dummyData, dummyFlatData } from '@/models/chartModel'
+import type { ChartData, ChartOptions } from '@/models/chartModel'
 
 // Component imports
 import Navbar from '@/components/Base/Navbar.vue'
@@ -73,13 +73,14 @@ import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 import SettingsProjectOverview from '@/components/Settings/SettingsProjectOverview.vue'
 
 import { loadProject } from '@/utils/speckleUtils'
-import { useFirebaseStore } from '@/stores/firebase'
-import { useProjectStore } from '@/stores/main'
-import type { ResultsLog } from '@/models/firebase'
-import { useSettingsStore } from '@/stores/settings'
+import { useFirebaseStore } from '@/stores/firebaseStore'
+import { useProjectStore } from '@/stores/projectStore'
+import type { ResultsLog } from '@/models/firebaseModel'
+import { useSettingsStore } from '@/stores/settingStore'
 import { resultLogToAdjustedEmission } from '@/utils/resultUtils'
 
 import GraphContainer from '@/components/Graphs/GraphContainer.vue'
+import { roundNumber } from '@/utils/mathUtils'
 
 // stores
 const firebaseStore = useFirebaseStore()
@@ -100,14 +101,14 @@ const hotSpotResults = computed(() => resultLog.value?.resultList.find(res => re
 const categoryResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === speckleParameter.value))
 const materialTypeResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === materialTypeParameter.value))
 
-const remaining = computed(() => settingsStore.projectSettings.threshold - emissionSqmName.value)
+const remaining = computed(() => roundNumber(settingsStore.projectSettings.threshold - emissionSqmName.value, 2))
 
 // If we do it per year then we divide with lifespan
 const emissionSqmName = computed(() => {
   if (resultLog.value) {
     return resultLogToAdjustedEmission(resultLog.value, nameParameter.value)
   } else {
-    return 0
+    return 0 
   }
 })
 

@@ -53,7 +53,7 @@
 
 <script lang="ts">
 	import { defineComponent, computed } from 'vue'
-	import { useSpeckleStore } from '@/stores/speckle'
+	import { useSpeckleStore } from '@/stores/speckleStore'
 
 	export default defineComponent({
 		name: 'LoginComponent',

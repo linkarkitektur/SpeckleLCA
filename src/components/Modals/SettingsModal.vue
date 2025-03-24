@@ -64,7 +64,7 @@ import {
 } from '@headlessui/vue'
 import { UserCircleIcon, FingerPrintIcon, CalculatorIcon, CubeTransparentIcon } from '@heroicons/vue/20/solid'
 
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 import SettingsSidebar from '@/components/Settings/SettingsSidebar.vue'
 
@@ -82,7 +82,7 @@ import SettingsSpeckle from '@/components/Settings/SettingsSpeckle.vue'
 import SettingsMaterialKeys from '@/components/Settings/SettingsMaterialKeys.vue'
 import SettingsGithub from '@/components/Settings/SettingsGithub.vue'
 
-import type { SettingView } from '@/models/settings'
+import type { SettingView } from '@/models/settingModel'
 
 export default defineComponent({
   name: 'SettingsModal',

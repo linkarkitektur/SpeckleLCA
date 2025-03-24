@@ -1,14 +1,14 @@
-import { useProjectStore } from '@/stores/main'
-import { useMaterialStore } from '@/stores/material'
-import { useSettingsStore } from '@/stores/settings'
+import { useProjectStore } from '@/stores/projectStore'
+import { useMaterialStore } from '@/stores/materialStore'
+import { useSettingsStore } from '@/stores/settingStore'
 
-import { getAssemblyList } from '@/utils/material'
-import { getRevaluBaseList, getRevaluCollections } from '@/models/revaluDataSource'
-import { getEPDList } from './EPDUtils'
-import { createStandardFilters } from './filterUtils'
+import { getAssemblyList } from '@/utils/materialUtils'
+import { getRevaluBaseList, getRevaluCollections } from '@/models/revaluModel'
+import { getEPDList } from '@/utils/EPDUtils'
+import { createStandardFilters } from '@/utils/filterUtils'
 
-import { APISource } from '@/models/material'
-import { FilterRegistry } from '@/models/filters'
+import { APISource } from '@/models/materialModel'
+import { FilterRegistry } from '@/models/filterModel'
 
 /**
  * Preload data needed for the dashboard view

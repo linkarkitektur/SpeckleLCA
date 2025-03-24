@@ -11,10 +11,10 @@ import {
   groupChartData
 } from '@/utils/chartUtils'
 import { createTestPinia } from '../setup/testUtils'
-import { useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/projectStore'
 
 import { mockObjects } from '../setup/testData'
-import type { Project } from '@/models/project'
+import type { Project } from '@/models/projectModel'
 
 describe('chartUtils', () => {
   beforeEach(() => {

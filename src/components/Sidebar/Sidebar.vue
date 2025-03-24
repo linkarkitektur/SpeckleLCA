@@ -30,18 +30,18 @@
 
 <script setup lang="ts">
 import { computed, watch } from 'vue'
-import { sidebarButtons } from '@/config/slideoverNavigation'
+import { sidebarButtons } from '@/config/slideoverNavigationConfig'
 
 import GroupList from '@/components/Sidebar/GroupList.vue'
 import Dropdown from '@/components/Base/Dropdown.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
 
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 import { useFetchDropdownItems } from '@/composables/useFetchDropdownItems'
 import { useHandleSelected } from '@/composables/useHandleSelected'
 
-import type { NavigationButtonConfig } from '@/models/pageLogic'
+import type { NavigationButtonConfig } from '@/models/pageModel'
 
 // Store initialization
 const navStore = useNavigationStore()

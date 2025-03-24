@@ -53,7 +53,7 @@ import { Sketch } from '@ckpack/vue-color'
 import InputText from '@/components/Base/InputText.vue'
 
 import type { ColorInput } from '@ctrl/tinycolor'
-import type { Product } from '@/models/material'
+import type { Product } from '@/models/materialModel'
 
 // Props & Emits
 interface Props {

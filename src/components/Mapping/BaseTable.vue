@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import Draggable from 'vuedraggable'
-import type { Product, Assembly } from '@/models/material'
+import type { Product, Assembly } from '@/models/materialModel'
 
 // Props
 interface Props {

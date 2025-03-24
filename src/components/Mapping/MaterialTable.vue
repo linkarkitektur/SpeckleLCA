@@ -43,8 +43,8 @@ import { defineComponent } from 'vue'
 import BaseTable from './BaseTable.vue'
 import { Square3Stack3DIcon, StopIcon } from '@heroicons/vue/24/solid'
 import { isAssembly } from '@/utils/EPDUtils'
-import { useMaterialStore } from '@/stores/material'
-import type { Product, Assembly } from '@/models/material'
+import { useMaterialStore } from '@/stores/materialStore'
+import type { Product, Assembly } from '@/models/materialModel'
 
 export default defineComponent({
   name: 'MaterialTable',

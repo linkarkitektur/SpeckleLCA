@@ -1,9 +1,9 @@
-import type { NestedGroup, Filter, Group } from '@/models/filters'
-import type { GeometryObject } from '@/models/geometryObject'
+import type { NestedGroup, Filter, Group } from '@/models/filterModel'
+import type { GeometryObject } from '@/models/geometryModel'
 
-import { useProjectStore } from '@/stores/main'
-import { useResultStore } from '@/stores/result'
-import { useSettingsStore } from '@/stores/settings'
+import { useProjectStore } from '@/stores/projectStore'
+import { useResultStore } from '@/stores/resultStore'
+import { useSettingsStore } from '@/stores/settingStore'
 import { 
   baseColors, 
   getValueColorFromGradient,
@@ -198,6 +198,7 @@ export function setResultsColorGroup(objects: GeometryObject[] = null, colorRang
       const emission = sumEmissions(emissionList)
 
       // We use a log10 scale, I think it makes sense
+      // TODO: Remake this since we are using emission based on BTA and lifespan now so need to recalculate this to work
       const sizeFactor = object ? Math.log10(object.quantity.m2 + 1) : 1
       const normalisedEmissions = (emissionToNumber(emission) / object.quantity.m2) * sizeFactor
       //Calculate the color based on the gwp value

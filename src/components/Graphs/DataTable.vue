@@ -42,9 +42,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { emissionToNumber } from '@/utils/resultUtils'
-import { useProjectStore } from '@/stores/main'
+import { useProjectStore } from '@/stores/projectStore'
 import type { PropType } from 'vue'
-import type { ResultItem, GroupedResults } from '@/models/result'
+import type { ResultItem, GroupedResults } from '@/models/resultModel'
 
 const props = defineProps({
   resultItem: {

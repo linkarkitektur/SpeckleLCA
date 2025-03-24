@@ -11,9 +11,9 @@
 
 <script setup lang="ts">
 import { defineComponent, computed, watch, ref } from 'vue'
-import { useProjectStore } from '@/stores/main'
-import { useNavigationStore } from '@/stores/navigation'
-import { useResultStore } from '@/stores/result'
+import { useProjectStore } from '@/stores/projectStore'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useResultStore } from '@/stores/resultStore'
 
 import OverviewBar from '@/components/DetailBar/OverviewBar.vue'
 import MaterialBar from '@/components/DetailBar/MaterialBar.vue'
@@ -22,8 +22,8 @@ import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 
 import { geometryToChartData } from '@/utils/resultUtils'
 
-import type { GeometryObject } from '@/models/geometryObject'
-import type { ChartData } from '@/models/chartModels'
+import type { GeometryObject } from '@/models/geometryModel'
+import type { ChartData } from '@/models/chartModel'
 
 const navStore = useNavigationStore()
 const projectStore = useProjectStore()

@@ -36,8 +36,8 @@
 import { storeToRefs } from 'pinia'
 import ToggleSwitch from '@/components/Base/BaseToggle.vue'
 import { HomeIcon, EyeIcon } from '@heroicons/vue/20/solid'
-import { useSpeckleStore } from '@/stores/speckle'
-import { useNavigationStore } from '@/stores/navigation'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 const speckleStore = useSpeckleStore()
 const navStore = useNavigationStore()

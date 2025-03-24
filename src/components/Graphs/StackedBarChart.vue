@@ -29,7 +29,7 @@ import { ref, reactive, onMounted, watch, computed } from 'vue'
 import chroma from 'chroma-js'
 import { createTooltip, createMouseEventHandlers, createDiagonalPattern, chartBaseStyle } from '@/utils/chartUtils'
 import { getValueColorFromGradient } from '@/utils/colorUtils'
-import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModels'
+import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModel'
 
 // Props with defaults
 interface Props {

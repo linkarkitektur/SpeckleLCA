@@ -30,10 +30,10 @@ import {
 } from '@/utils/chartUtils'
 
 import { truncateText } from '@/utils/stringUtils'
-import { roundNumber } from '@/utils/math'
-import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModels'
-import { useResultStore } from '@/stores/result'
-import { useProjectStore } from '@/stores/main'
+import { roundNumber } from '@/utils/mathUtils'
+import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModel'
+import { useResultStore } from '@/stores/resultStore'
+import { useProjectStore } from '@/stores/projectStore'
 
 // Props
 interface Props {

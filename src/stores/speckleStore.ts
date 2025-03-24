@@ -17,9 +17,9 @@ import type {
 	Version,
 	ColorGroup,
 	ModelResponseObject
-} from '@/models/speckle'
+} from '@/models/speckleModel'
 import router from '@/router'
-import { logMessageToSentry } from '@/utils/monitoring'
+import { logMessageToSentry } from '@/utils/monitoringUtils'
 import { updateGroupColors } from '@/utils/projectUtils'
 import { hslToHex } from '@/utils/colorUtils'
 import {
@@ -34,8 +34,8 @@ import {
 } from '@/utils/speckleUtils' // TODO Is this the right import in the wider structure?
 import { FilteringExtension, Viewer } from '@speckle/viewer'
 import { defineStore } from 'pinia'
-import type { NestedGroup } from '@/models/filters'
-import type { GeometryObject } from '@/models/geometryObject'
+import type { NestedGroup } from '@/models/filterModel'
+import type { GeometryObject } from '@/models/geometryModel'
 
 /**
  * The `useSpeckleStore` is a store that manages the state and actions related to the Speckle integration.

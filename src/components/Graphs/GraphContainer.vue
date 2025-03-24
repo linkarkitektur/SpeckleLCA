@@ -38,9 +38,9 @@ import {
 } from 'vue'
 
 // Store imports
-import { useNavigationStore } from '@/stores/navigation'
-import { useResultStore } from '@/stores/result'
-import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useResultStore } from '@/stores/resultStore'
+import { useProjectStore } from '@/stores/projectStore'
 
 // Components imports
 import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
@@ -57,8 +57,8 @@ import {
 
 // Type imports
 import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
-import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModels'
-import type { ResultItem } from '@/models/result'
+import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModel'
+import type { ResultItem } from '@/models/resultModel'
 import VerticalBarChart from './VerticalBarChart.vue'
 import StackedBarChart from './StackedBarChart.vue'
 

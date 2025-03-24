@@ -69,17 +69,17 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 
-import { useSpeckleStore } from '@/stores/speckle'
-import { useFirebaseStore } from '@/stores/firebase'
-import { useSettingsStore } from '@/stores/settings'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { useFirebaseStore } from '@/stores/firebaseStore'
+import { useSettingsStore } from '@/stores/settingStore'
 
-import type { ProjectId } from '@/models/speckle'
+import type { ProjectId } from '@/models/speckleModel'
 import { emissionToNumber, getResultLogEmissions } from '@/utils/resultUtils'
 import { ColorManager } from '@/utils/colorUtils'
 import router from '@/router'
-import { useNavigationStore } from '@/stores/navigation'
-import { useProjectStore } from '@/stores/main'
-import { roundNumber } from '@/utils/math'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { roundNumber } from '@/utils/mathUtils'
 
 /**
  * Component for displaying a grid of projects.

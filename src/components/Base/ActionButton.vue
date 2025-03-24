@@ -1,5 +1,6 @@
 <template>
   <button
+    type="button"
     :aria-label="ariaLabel"
     class="relative flex items-center justify-center whitespace-nowrap p-2 h-8 text-sm styled-element hoverable-sm pressable"
     @click="$emit('onClick')"
@@ -13,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 const navStore = useNavigationStore()
 

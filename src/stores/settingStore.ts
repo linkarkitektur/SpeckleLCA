@@ -6,14 +6,14 @@ import {
 	standardKeySettings,
 	standardMaterialSettings,
 	standardProjectSettings,
-} from '@/models/settings'
+} from '@/models/settingModel'
 import type { 
 	AppSettings,
 	CalculationSettings,
 	KeySettings,
 	MaterialSettings,
 	ProjectSettings
- } from '@/models/settings'
+ } from '@/models/settingModel'
 
 export const useSettingsStore = defineStore({
 	id: 'settingsStore',

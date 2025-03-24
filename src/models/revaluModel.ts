@@ -1,6 +1,6 @@
-import type { LifeCycleStageEmission } from "@/models/material"
-import { APISource } from "@/models/material"
-import { useMaterialStore } from "@/stores/material"
+import type { LifeCycleStageEmission } from "@/models/materialModel"
+import { APISource } from "@/models/materialModel"
+import { useMaterialStore } from "@/stores/materialStore"
 import { getCollection, getEPDList } from "@/utils/EPDUtils"
 
 /**

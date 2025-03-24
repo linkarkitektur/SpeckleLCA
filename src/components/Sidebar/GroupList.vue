@@ -37,13 +37,13 @@ import {
 
 import GroupCard from '@/components/Sidebar/GroupCard.vue'
 
-import { useProjectStore } from '@/stores/main'
-import { useNavigationStore } from '@/stores/navigation'
+import { useProjectStore } from '@/stores/projectStore'
+import { useNavigationStore } from '@/stores/navigationStore'
 
-import { useSpeckleStore } from '@/stores/speckle'
+import { useSpeckleStore } from '@/stores/speckleStore'
 import { updateProjectGroups } from '@/utils/projectUtils'
 
-import type { NestedGroup } from '@/models/filters'
+import type { NestedGroup } from '@/models/filterModel'
 
 const projectStore = useProjectStore()
 const navStore = useNavigationStore()

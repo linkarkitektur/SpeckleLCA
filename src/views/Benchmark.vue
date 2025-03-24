@@ -25,7 +25,7 @@ import BenchmarkGrid from '@/components/Benchmark/BenchmarkGrid.vue'
 import SpeckleViewer from '@/components/ModelViewer/SpeckleViewer.vue'
 
 // Stores
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 // Modals
 import SettingsModal from '@/components/Modals/SettingsModal.vue'

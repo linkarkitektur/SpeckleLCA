@@ -84,8 +84,8 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/vue'
-import { useSpeckleStore } from '@/stores/speckle'
-import { useNavigationStore } from '@/stores/navigation'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 import logo from '@/assets/icons/logo.svg'
 

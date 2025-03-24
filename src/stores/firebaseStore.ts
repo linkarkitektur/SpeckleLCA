@@ -3,7 +3,7 @@ import { db } from '@/firebase'
 import type {
 	FilterRegistry,
   FilterList
-} from '@/models/filters'
+} from '@/models/filterModel'
 import { 
   collection, 
   addDoc,
@@ -19,11 +19,11 @@ import {
 import type { 
   Mapping,
   Assembly
-} from '@/models/material'
+} from '@/models/materialModel'
 import type { 
   Results, 
   ResultList
-} from '@/models/result'
+} from '@/models/resultModel'
 import type {
   FilterLog,
   MappingLog,
@@ -31,13 +31,13 @@ import type {
   AssemblyList,
   CalculationSettingsLog,
   ProjectSettingsLog
-} from '@/models/firebase'
+} from '@/models/firebaseModel'
 
 import { 
   deepToRaw,
   removeUndefinedFields
  } from '@/utils/dataUtils'
-import type { CalculationSettings, ProjectSettings } from '@/models/settings'
+import type { CalculationSettings, ProjectSettings } from '@/models/settingModel'
 
 export const useFirebaseStore = defineStore('firebase', {
   state: () => ({

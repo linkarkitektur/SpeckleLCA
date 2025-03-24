@@ -1,6 +1,6 @@
-import type { GeometryObject } from './geometryObject'
-import type { Emission } from './material'
-import type { Results } from './result'
+import type { GeometryObject } from './geometryModel'
+import type { Emission } from './materialModel'
+import type { Results } from './resultModel'
 
 /**
  * Project interface, stores all geometry and metadata of the project.

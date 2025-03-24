@@ -22,10 +22,10 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useSettingsStore } from '@/stores/settings'
-import { extendedImpactCategoryKeys } from '@/models/material'
+import { useSettingsStore } from '@/stores/settingStore'
+import { extendedImpactCategoryKeys } from '@/models/materialModel'
 
-import type { ExtendedImpactCategoryKey } from '@/models/material'
+import type { ExtendedImpactCategoryKey } from '@/models/materialModel'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
 import Dropdown from '@/components/Base/Dropdown.vue'

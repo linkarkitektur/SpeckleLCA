@@ -7,7 +7,7 @@
 
 <script lang="ts">
 	import { defineComponent, computed } from 'vue'
-	import { useProjectStore } from '@/stores/main'
+	import { useProjectStore } from '@/stores/projectStore'
 
 	export default defineComponent({
 		name: 'OverviewBar',

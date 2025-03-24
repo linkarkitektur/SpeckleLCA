@@ -65,8 +65,8 @@ import {
   createDiagonalPattern,
   chartBaseStyle
 } from '@/utils/chartUtils'
-import type { ChartOptions, NestedChartData, PatternOptions } from '@/models/chartModels'
-import { roundNumber } from '@/utils/math'
+import type { ChartOptions, NestedChartData, PatternOptions } from '@/models/chartModel'
+import { roundNumber } from '@/utils/mathUtils'
 
 const props = defineProps<{ 
   data?: NestedChartData[], 

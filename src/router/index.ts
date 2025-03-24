@@ -12,10 +12,10 @@ import ProjectOverview from '@/views/ProjectOverview.vue'
 
 import LoginComponent from '@/components/SpeckleLogin.vue'
 
-import { useSpeckleStore } from '@/stores/speckle'
-import { logMessageToSentry } from '@/utils/monitoring'
-import { useSettingsStore } from '@/stores/settings'
-import { useNavigationStore } from '@/stores/navigation'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { logMessageToSentry } from '@/utils/monitoringUtils'
+import { useSettingsStore } from '@/stores/settingStore'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 
 /**

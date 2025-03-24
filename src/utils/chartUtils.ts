@@ -1,9 +1,9 @@
 import * as d3 from "d3"
-import { roundNumber} from "@/utils/math"
-import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModels'
+import { roundNumber} from "@/utils/mathUtils"
+import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModel'
 import type { Selection } from 'd3'
 
-import { useProjectStore } from "@/stores/main"
+import { useProjectStore } from "@/stores/projectStore"
 
 export const chartBaseStyle = (selection: Selection<any, unknown, null, undefined>) => {
   return selection

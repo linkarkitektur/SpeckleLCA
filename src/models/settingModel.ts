@@ -1,10 +1,10 @@
 import type { LifeCycleStage } from "lcax"
-import type { ExtendedImpactCategoryKey } from '@/models/material'
-import type { BuildingCodeItem } from '@/models/buildingCode'
-import type { MaterialFilterParam, MaterialSortingParam } from '@/models/material'
+import type { ExtendedImpactCategoryKey } from '@/models/materialModel'
+import type { BuildingCodeItem } from '@/models/buildingCodeModel'
+import type { MaterialFilterParam, MaterialSortingParam } from '@/models/materialModel'
 
-import { APISource } from '@/models/material'
-import { BSAB96 } from '@/models/buildingCode'
+import { APISource } from '@/models/materialModel'
+import { BSAB96 } from '@/models/buildingCodeModel'
 
 /**
  * Settings for external connections such as API keys and configurations

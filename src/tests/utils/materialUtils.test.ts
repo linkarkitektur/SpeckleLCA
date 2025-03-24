@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { updateMapping, clearMapping } from '@/utils/material'
+import { updateMapping, clearMapping } from '@/utils/materialUtils'
 import { createTestPinia } from '../setup/testUtils'
-import { useProjectStore } from '@/stores/main'
-import { useMaterialStore } from '@/stores/material'
+import { useProjectStore } from '@/stores/projectStore'
+import { useMaterialStore } from '@/stores/materialStore'
 import { mockObjects } from '@/tests/setup/testData'
 
-import type { Project } from '@/models/project'
+import type { Project } from '@/models/projectModel'
 /**
 describe('material', () => {
   beforeEach(() => {

@@ -4,7 +4,7 @@ import {
   DocumentCheckIcon
 } from '@heroicons/vue/24/solid'
 
-import type { PageType, NavigationButtonConfig } from '@/models/pageLogic'
+import type { PageType, NavigationButtonConfig } from '@/models/pageModel'
 import { MapIcon, PaperAirplaneIcon } from '@heroicons/vue/20/solid'
 
 export const pages: PageType[] = ['Filtering', 'Mapping', 'Results', 'Benchmark']

@@ -1,18 +1,18 @@
 import { defineStore } from 'pinia'
-import type { GeometryObject } from '@/models/geometryObject'
-import type { Project } from '@/models/project'
+import type { GeometryObject } from '@/models/geometryModel'
+import type { Project } from '@/models/projectModel'
 import type {
 	FilterRegistry,
 	Group,
 	Filter,
 	NestedGroup
-} from '@/models/filters'
-import type { Results } from '@/models/result'
+} from '@/models/filterModel'
+import type { Results } from '@/models/resultModel'
 
 import { createNestedObject } from '@/utils/projectUtils'
-import { logMessageToSentry } from '@/utils/monitoring'
-import { collectParameters } from '@/utils/dataUtils'
-import type { ProjectId } from '@/models/speckle'
+import { logMessageToSentry } from '@/utils/monitoringUtils'
+import { collectParameterPaths, collectParameters } from '@/utils/dataUtils'
+import type { ProjectId } from '@/models/speckleModel'
 
 
 /**
@@ -177,20 +177,26 @@ export const useProjectStore = defineStore({
 		 * TODO: Run this lazy on load of projects
 		 * @returns array of available parameters
 		 */
-		getAvailableParameterList() {
+		getAvailableParameterList(paths: boolean = false) {
 			if (this.currProject) {
 				const parameterSet: Set<string> = new Set()
 				this.currProject.geometry.forEach((geo) => {
-					collectParameters(geo.parameters, parameterSet)
+					if (paths) {
+						collectParameterPaths(geo, parameterSet)
+					} else {
+						collectParameters(geo.parameters, parameterSet)
 
-					Object.keys(geo.quantity).forEach((key) => {
-						const quantityKey = key as keyof typeof geo.quantity
-						if (geo.quantity[quantityKey] !== 0 && geo.quantity[quantityKey] !== null) {
-							parameterSet.add(key)
-							geo.parameters[key] =
-								geo.quantity[key as keyof typeof geo.quantity].toString()
-						}
-					})
+						// We add quanity manually
+						Object.keys(geo.quantity).forEach((key) => {
+							const quantityKey = key as keyof typeof geo.quantity
+							if (geo.quantity[quantityKey] !== 0 && geo.quantity[quantityKey] !== null) {
+								parameterSet.add(key)
+								geo.parameters[key] =
+									geo.quantity[key as keyof typeof geo.quantity].toString()
+							}
+						})
+					}
+					
 				})
 				return Array.from(parameterSet)
 			} else {
