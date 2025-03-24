@@ -208,10 +208,10 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 
-import { useProjectStore } from '@/stores/main'
-import { useNavigationStore } from '@/stores/navigation'
-import type { Group } from '@/models/filters'
-import type { GeometryObject } from '@/models/geometryObject'
+import { useProjectStore } from '@/stores/projectStore'
+import { useNavigationStore } from '@/stores/navigationStore'
+import type { Group } from '@/models/filterModel'
+import type { GeometryObject } from '@/models/geometryModel'
 
 export default defineComponent({
   name: 'NewGroupModal',

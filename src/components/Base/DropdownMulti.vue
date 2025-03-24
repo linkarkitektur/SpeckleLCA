@@ -58,7 +58,7 @@
 import { computed } from 'vue'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 import CheckBox from '@/components/Base/CheckBox.vue'
 

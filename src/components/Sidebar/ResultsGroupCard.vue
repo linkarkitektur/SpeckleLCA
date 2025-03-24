@@ -15,9 +15,9 @@
 
 <script setup lang="ts">
 import { watch, ref, computed } from 'vue'
-import type { NestedGroup } from '@/models/filters'
+import type { NestedGroup } from '@/models/filterModel'
 import { emissionToNumber, sumEmissions } from '@/utils/resultUtils';
-import { roundNumber } from '@/utils/math';
+import { roundNumber } from '@/utils/mathUtils';
 
 const props = defineProps<{ groups: NestedGroup }>()
 

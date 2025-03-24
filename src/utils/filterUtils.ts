@@ -1,8 +1,8 @@
-import type { Group } from '@/models/filters'
-import type { GeometryObject } from '@/models/geometryObject'
+import type { Group } from '@/models/filterModel'
+import type { GeometryObject } from '@/models/geometryModel'
 
-import { useProjectStore } from '@/stores/main'
-import { useSpeckleStore } from '@/stores/speckle'
+import { useProjectStore } from '@/stores/projectStore'
+import { useSpeckleStore } from '@/stores/speckleStore'
 
 /**
  * Iteratively searches an object for the specified key and applies the comparison function to its value.
@@ -161,12 +161,6 @@ function createComparisonFilter (
   )
 }
 
-let totalIterative = 0
-export function printIterativeTime() {
-  console.log('Total iterative time:', totalIterative)
-  totalIterative = 0
-}
-
 /**
  * Exmaple of how filters are structured
  * Creates standardfilters
@@ -188,11 +182,7 @@ export function createStandardFilters() {
         if (!obj.parameters) throw new Error(`No parameters found for '${obj.id}'.`)
 
         // Search specified object iteratively for value, changed for recursive because 2x faster
-        const startIterative = performance.now()
         const fieldValue = iterativeFieldSearch(obj.parameters, field) || "No Data"
-        const endIterative = performance.now()
-        totalIterative += endIterative - startIterative
-
         const pathName = fieldValue
         addObjToGroup(outGroup, obj, true, grp, pathName)
       }

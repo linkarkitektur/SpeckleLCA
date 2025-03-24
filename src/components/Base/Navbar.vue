@@ -111,9 +111,9 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/vue'
-import type { Step, PageType } from '@/models/pageLogic'
-import { useSpeckleStore } from '@/stores/speckle'
-import { useNavigationStore } from '@/stores/navigation'
+import type { Step, PageType } from '@/models/pageModel'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { useNavigationStore } from '@/stores/navigationStore'
 import router from '@/router'
 
 import logo from '@/assets/icons/logo.svg'

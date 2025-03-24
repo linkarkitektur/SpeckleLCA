@@ -30,13 +30,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { useMaterialStore } from '@/stores/material'
+import { useMaterialStore } from '@/stores/materialStore'
 
-import type { NestedGroup } from '@/models/filters'
-import { useProjectStore } from '@/stores/main'
-import { useSpeckleStore } from '@/stores/speckle'
-import { getMappedMaterial } from '@/utils/material'
-import { mapMaterial } from '@/utils/material'
+import type { NestedGroup } from '@/models/filterModel'
+import { useProjectStore } from '@/stores/projectStore'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { getMappedMaterial } from '@/utils/materialUtils'
+import { mapMaterial } from '@/utils/materialUtils'
 
 export default defineComponent({
   name: 'MappingCard',

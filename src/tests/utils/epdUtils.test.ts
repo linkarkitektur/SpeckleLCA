@@ -8,8 +8,8 @@ import {
   getSpecificEPD
 } from '@/utils/EPDUtils'
 import { createTestPinia } from '../setup/testUtils'
-import { useSettingsStore } from '@/stores/settings'
-import { APISource } from '@/models/material'
+import { useSettingsStore } from '@/stores/settingStore'
+import { APISource } from '@/models/materialModel'
 
 // Mock axios
 /**

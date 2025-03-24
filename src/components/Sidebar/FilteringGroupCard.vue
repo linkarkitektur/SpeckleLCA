@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { NestedGroup } from '@/models/filters'
+import type { NestedGroup } from '@/models/filterModel'
 
 
 const props = defineProps({

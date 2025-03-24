@@ -38,43 +38,25 @@
   </BaseTable>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import BaseTable from './BaseTable.vue'
+<script setup lang="ts">
+import { defineProps } from 'vue'
+import BaseTable from '@/components/Mapping/BaseTable.vue'
 import { Square3Stack3DIcon, StopIcon } from '@heroicons/vue/24/solid'
 import { isAssembly } from '@/utils/EPDUtils'
-import { useMaterialStore } from '@/stores/material'
-import type { Product, Assembly } from '@/models/material'
+import { useMaterialStore } from '@/stores/materialStore'
+import type { Product, Assembly } from '@/models/materialModel'
 
-export default defineComponent({
-  name: 'MaterialTable',
-  components: {
-    BaseTable,
-    Square3Stack3DIcon,
-    StopIcon
-  },
-  props: {
-    data: {
-      type: Array as () => (Product | Assembly)[],
-      required: true
-    }
-  },
-  setup() {
-    const materialStore = useMaterialStore()
+const props = defineProps<{
+  data: (Product | Assembly)[]
+}>()
 
-    const handleDragStart = (material: Product) => {
-      materialStore.setCurrentMapping(material)
-    }
+const materialStore = useMaterialStore()
 
-    const handleDragEnd = () => {
-      materialStore.setCurrentMapping(null)
-    }
+function handleDragStart(material: Product) {
+  materialStore.setCurrentMapping(material)
+}
 
-    return {
-      handleDragStart,
-      handleDragEnd,
-      isAssembly
-    }
-  }
-})
+function handleDragEnd() {
+  materialStore.setCurrentMapping(null)
+}
 </script>

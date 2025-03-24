@@ -66,18 +66,18 @@ import Dropdown from '@/components/Base/Dropdown.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
 import InputText from '@/components/Base/InputText.vue'
 
-import { useSettingsStore } from '@/stores/settings'
-import { useSpeckleStore } from '@/stores/speckle'
-import { useNavigationStore } from '@/stores/navigation'
-import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settingStore'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useProjectStore } from '@/stores/projectStore'
 
 import { loadProject } from '@/utils/speckleUtils'
 import router from '@/router'
 
-import type { dropdownItem } from '../Base/DropdownMenuItem.vue'
-import type { ProjectSettingsLog } from '@/models/firebase'
-import { useFirebaseStore } from '@/stores/firebase'
-import CheckBox from '../Base/CheckBox.vue'
+import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
+import type { ProjectSettingsLog } from '@/models/firebaseModel'
+import { useFirebaseStore } from '@/stores/firebaseStore'
+import CheckBox from '@/components/Base/CheckBox.vue'
 
 const settingsStore = useSettingsStore()
 const speckleStore = useSpeckleStore()

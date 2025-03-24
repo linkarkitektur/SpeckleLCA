@@ -1,17 +1,17 @@
-import { useResultStore } from '@/stores/result'
-import { useProjectStore } from '@/stores/main'
-import { useSettingsStore } from '@/stores/settings'
+import { useResultStore } from '@/stores/resultStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useSettingsStore } from '@/stores/settingStore'
 
-import { getNestedPropertyValue } from '@/utils/material'
-import { DefaultResultList } from '@/models/result'
+import { getNestedPropertyValue } from '@/utils/materialUtils'
+import { roundNumber } from './mathUtils'
+import { DefaultResultList } from '@/models/resultModel'
 
-import type { GroupedResults } from '@/models/result'
-import type { ChartData, NestedChartData } from '@/models/chartModels'
-import type { GeometryObject, Quantity } from '@/models/geometryObject'
-import type { Emission, LifeCycleStageEmission, MetricUnits } from '@/models/material'
-import type { ResultItem, ResultList } from '@/models/result'
-import type { ResultsLog } from '@/models/firebase'
-import { roundNumber } from './math'
+import type { GroupedResults } from '@/models/resultModel'
+import type { ChartData, NestedChartData } from '@/models/chartModel'
+import type { GeometryObject, Quantity } from '@/models/geometryModel'
+import type { Emission, LifeCycleStageEmission, MetricUnits } from '@/models/materialModel'
+import type { ResultItem, ResultList } from '@/models/resultModel'
+import type { ResultsLog } from '@/models/firebaseModel'
 
 /**
  * Converter of geometry object results into aggregated ChartData for specific LifeCycleStages (LCS)
@@ -39,7 +39,7 @@ export function geometryToLCSChartData(objects: GeometryObject[], impactCategory
 
   const data: ChartData[] = Array.from(groupedData, ([lifeCycleStage, value]) => ({
     label: lifeCycleStage,
-    value: Math.round(value)
+    value: roundNumber(value, 2)
   }))
 
   return data
@@ -111,7 +111,7 @@ export function resultItemToNestedChartData (resultItem: ResultItem): NestedChar
     if (!groupedResult.nested || groupedResult.nested.length === 0) {
       const topLevelArray: ChartData[] = Array.from(topLevelData, ([label, { value, ids }]) => ({
         label: label,
-        value: Math.round(value),
+        value: roundNumber(value, 2),
         ids: ids
       }))
   
@@ -133,7 +133,7 @@ export function resultItemToNestedChartData (resultItem: ResultItem): NestedChar
       for (const [label, data] of nestedResultMap) {
         nestedDataArray.push({
           label,
-          value: Math.round(data.value),
+          value: roundNumber(data.value, 2),
           ids: data.ids
         })
       }
@@ -221,11 +221,21 @@ function groupedResultToLCSChartData(groupedResult: GroupedResults, groupedData:
  * @param chartParameter Parameter to convert into chartdata
  * @returns Chartdata for given parameter
  */
-export function geometryToChartData(objects: GeometryObject[], chartParameter: string, LCSData: boolean = false): ChartData[] {
+export function geometryToChartData(objects: GeometryObject[], chartParameter: string, LCSData: boolean = false, newResList: boolean = false): ChartData[] {
   // Create result aggregator and calculator
   const resCalc = new ResultCalculator(objects)
+
+  // If we get a resultItem in we use that parameter and structure to calculate the new resultList
+  if (newResList)
+    resCalc.setResultListProperties([{ 
+    parameter: chartParameter,
+    displayName: chartParameter,
+    data: []
+  }])
+
+  // Calc the results
   resCalc.aggregate(false, true)
-  
+
   const resultItem = resCalc.resultList.find((item) => item.parameter === chartParameter)
 
   // If we are calculating for LCS, we need to convert the data differently
@@ -380,13 +390,16 @@ export class ResultCalculator {
     ...item,
     data: [],
   }))
+  
+  // If provided group results based on a chain of parameters, othersie calc for all parameters in provided resultList
+  public groupByChain: string[] | null = null
 
   /**
-   * @param geos Geometry objects to aggregate emissions on if left empty it will do it on whole project
+   * @param geos Geometry objects to aggregate emissions on.
+   *             If left empty it will do it on the whole project.
    */
   constructor(geos: GeometryObject[] = []) {
     this.geos = geos
-    // If no geometry sent do it on whole project
     if (geos.length === 0) {
       const projectStore = useProjectStore()
       if (projectStore.currProject) {
@@ -395,13 +408,27 @@ export class ResultCalculator {
     }
   }
 
+  // Setter to specify a grouping chain
+  public setGroupingChain(chain: string[]): void {
+    this.groupByChain = chain
+  }
+
+  // Setter to specifiy resultlist
+  public setResultListProperties(resItems: ResultItem[]){
+    this.resultList = resItems
+  }
+
   // Main function to aggregate emissions
   public aggregate(save: Boolean = true, calcResultList = true): void {
     this.geos.forEach(geo => {
       if (geo.results) {
         this.aggregateTotalEmissions(geo.results[geo.results.length - 1].emission)
         if (calcResultList) {
-          this.aggregateEmissionsForResultList(geo)
+          if (this.groupByChain && this.groupByChain.length > 0) {
+            this.aggregateEmissionsForResultChain(geo)
+          } else {
+            this.aggregateEmissionsForResultList(geo)
+          }
         }
       }
     })
@@ -409,6 +436,7 @@ export class ResultCalculator {
     if (save)
       this.saveResults()
   }
+
 
   // Get the total emission
   private aggregateTotalEmissions(emission: Emission): void {
@@ -424,6 +452,75 @@ export class ResultCalculator {
         const currentTotal = this.totalEmission[impactCategory][phase] || 0
         this.totalEmission[impactCategory][phase] = currentTotal + emissionAmount
       }
+    }
+  }
+
+  /**
+   * aggregate emissions based on an array (chain) of parameters
+   * @param geo geo to calc
+   */
+  private aggregateEmissionsForResultChain(geo: GeometryObject): void {
+    const chain = this.groupByChain!
+    const geoEmission = geo.results[geo.results.length - 1].emission
+    const geoQuantity = geo.quantity
+
+    // Use the chain as the key; for example: "parameters.category -> material.metaData.materialType -> material.name"
+    const chainKey = chain.join(' -> ')
+    let resultItem = this.resultList.find(item => item.parameter === chainKey)
+    if (!resultItem) {
+      resultItem = {
+        parameter: chainKey,
+        displayName: chain[chain.length - 1],
+        data: []
+      }
+      this.resultList.push(resultItem)
+    }
+
+    // Recursively aggregate emissions into nested groupings
+    this.recursiveAggregate(resultItem.data, chain, geo, geoEmission, geoQuantity)
+  }
+
+  // Recursive helper to aggregate emission data along a chain of parameters.
+  private recursiveAggregate(
+    groupings: GroupedResults[],
+    chain: string[],
+    geo: GeometryObject,
+    geoEmission: Emission,
+    geoQuantity: any
+  ): void {
+    if (chain.length === 0) return
+
+    const currentParam = chain[0]
+    const paramValue = getNestedPropertyValue(geo, currentParam) || 'undefined'
+
+    // Find or create a grouping at this level
+    let grouping = groupings.find(grp => grp.parameter === paramValue)
+    if (!grouping) {
+      grouping = {
+        parameter: paramValue,
+        quantity: geoQuantity,
+        data: {
+          emission: {} as Emission,
+          geoId: []
+        },
+        nested: []
+      }
+      groupings.push(grouping)
+    }
+
+    // Aggregate emissions and quantities at the current level:
+    grouping.data.emission = addEmissions(grouping.data.emission, geoEmission)
+    grouping.quantity = addQuantity(grouping.quantity, geoQuantity)
+    if (!grouping.data.geoId.includes(geo.id)) {
+      grouping.data.geoId.push(geo.id)
+    }
+
+    // Recurse to next parameter in the chain, if any
+    if (chain.length > 1) {
+      if (!grouping.nested) {
+        grouping.nested = []
+      }
+      this.recursiveAggregate(grouping.nested!, chain.slice(1), geo, geoEmission, geoQuantity)
     }
   }
 

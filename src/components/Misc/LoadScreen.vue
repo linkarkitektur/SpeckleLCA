@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/navigationStore'
 import { storeToRefs } from 'pinia'
 
 const navigationStore = useNavigationStore()

@@ -6,6 +6,7 @@
       v-if="navigationStore.activePage === 'Results'"  
     >
       <Dropdown
+        class="w-full"
         :items="graphParameters"
         name="graphParameter"
         :dropdownName="dropdownName"
@@ -38,9 +39,9 @@ import {
 } from 'vue'
 
 // Store imports
-import { useNavigationStore } from '@/stores/navigation'
-import { useResultStore } from '@/stores/result'
-import { useProjectStore } from '@/stores/main'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useResultStore } from '@/stores/resultStore'
+import { useProjectStore } from '@/stores/projectStore'
 
 // Components imports
 import SelectablePieChart from '@/components/Graphs/SelectablePieChart.vue'
@@ -57,15 +58,12 @@ import {
 
 // Type imports
 import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
-import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModels'
-import type { ResultItem } from '@/models/result'
-import VerticalBarChart from './VerticalBarChart.vue'
-import StackedBarChart from './StackedBarChart.vue'
+import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModel'
+import type { ResultItem } from '@/models/resultModel'
+import VerticalBarChart from '@/components/Graphs/VerticalBarChart.vue'
+import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 
-const navigationStore = useNavigationStore()
-const resultStore = useResultStore()
-const projectStore = useProjectStore()
-
+// Props
 const props = withDefaults(defineProps<{
   resultItem?: ResultItem
   graph?: string
@@ -75,11 +73,17 @@ const props = withDefaults(defineProps<{
   minH?: string
 }>(), {
   minW: 'calc(35vh)',
+  minH: 'calc(35vh)',
   maxW: 'calc(35vh)',
   maxH: 'calc(35vh)',
-  minH: 'calc(35vh)',
 })
 
+// Stores
+const navigationStore = useNavigationStore()
+const resultStore = useResultStore()
+const projectStore = useProjectStore()
+
+// Fallback
 const EmptyComponent = defineComponent({
   template: "<div></div>", // Renders nothing if leftModule is empty
 })
@@ -197,7 +201,7 @@ const updateGraphProps = (chart: string = "") => {
         }
       } else {
         if (!selectedResult.value) return
-        data = geometryToChartData(projectStore.selectedObjects, selectedResult.value.parameter)
+        data = geometryToChartData(projectStore.selectedObjects, selectedResult.value.parameter, false, true)
         graphProps.value = {
           data,
           options,

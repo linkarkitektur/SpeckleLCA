@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { ChevronRightIcon } from '@heroicons/vue/20/solid'
-import { useNavigationStore } from '@/stores/navigation'
+import { useNavigationStore } from '@/stores/navigationStore'
 
 import { darkenHSLColor } from '@/utils/colorUtils'
 

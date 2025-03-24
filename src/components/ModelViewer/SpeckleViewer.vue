@@ -53,10 +53,10 @@ import {
 import { debounce } from 'lodash'
 
 // Store imports
-import { useSpeckleStore } from '@/stores/speckle'
-import { useSettingsStore } from '@/stores/settings'
-import { useProjectStore } from '@/stores/main'
-import { useNavigationStore } from '@/stores/navigation'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { useSettingsStore } from '@/stores/settingStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useNavigationStore } from '@/stores/navigationStore'
 import { storeToRefs } from 'pinia'
 
 // Component imports

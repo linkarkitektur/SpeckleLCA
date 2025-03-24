@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { EmissionCalculator } from '@/utils/emissionUtils'
 import { createTestPinia } from '../setup/testUtils'
 import { mockObjects } from '../setup/testData'
-import { useSettingsStore } from '@/stores/settings'
+import { useSettingsStore } from '@/stores/settingStore'
 
 describe('emissionUtils', () => {
   beforeEach(() => {

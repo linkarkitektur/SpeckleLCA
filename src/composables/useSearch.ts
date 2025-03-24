@@ -1,9 +1,9 @@
 import { ref, computed } from 'vue'
-import type { Assembly, Product } from '@/models/material'
+import type { Assembly, Product } from '@/models/materialModel'
 import { isAssembly } from '@/utils/EPDUtils'
-import { getNestedPropertyValue } from '@/utils/material'
+import { getNestedPropertyValue } from '@/utils/materialUtils'
 import { getEnumEntries } from '@/utils/dataUtils'
-import { APISource } from '@/models/material'
+import { APISource } from '@/models/materialModel'
 import type { Option } from '@/components/Base/DropdownMulti.vue'
 
 export function useSearch(initialData: (Product | Assembly)[]) {

@@ -23,6 +23,10 @@
             <div class="h-[20vh]">
               <GraphContainer 
                 :resultItem="displayResultList[index]"
+                maxH="calc(30vh)"
+                maxW="calc(30vh)"
+                minH="calc(20vh)"
+                minW="calc(20vh)"
               />
             </div>
             <dd class="mt-3">
@@ -83,15 +87,15 @@ import Dropdown from '@/components/Base/Dropdown.vue'
 import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 import DataTable from '@/components/Graphs/DataTable.vue'
 
-import { useResultStore } from '@/stores/result'
-import { useFirebaseStore } from '@/stores/firebase'
-import { useProjectStore } from '@/stores/main'
-import { useSettingsStore } from '@/stores/settings'
+import { useResultStore } from '@/stores/resultStore'
+import { useFirebaseStore } from '@/stores/firebaseStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useSettingsStore } from '@/stores/settingStore'
 
 import { ref, reactive, computed, onMounted } from 'vue'
 
-import type { ResultItem } from '@/models/result'
-import type { ResultsLog } from '@/models/firebase'
+import type { ResultItem } from '@/models/resultModel'
+import type { ResultsLog } from '@/models/firebaseModel'
 import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 
 import { getResultLogEmissions, emissionToNumber, resultLogToAdjustedEmission } from '@/utils/resultUtils'

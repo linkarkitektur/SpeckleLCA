@@ -9,10 +9,10 @@ import {
 } from '@/utils/filterUtils'
 import { createTestPinia } from '../setup/testUtils'
 import { mockObjects, mockGroups, mockFilterValues } from '../setup/testData'
-import { useProjectStore } from '@/stores/main'
-import { FilterRegistry } from '@/models/filters'
+import { useProjectStore } from '@/stores/projectStore'
+import { FilterRegistry } from '@/models/filterModel'
 
-import type { Group } from '@/models/filters'
+import type { Group } from '@/models/filterModel'
 
 describe('filterUtils', () => {
   beforeEach(() => {

@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import type { NestedGroup } from '@/models/filters'
+import type { NestedGroup } from '@/models/filterModel'
 
 export default defineComponent({
   name: 'OverviewBar',

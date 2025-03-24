@@ -3,10 +3,10 @@
  *
  * @packageDocumentation
  */
-import type { Project } from '@/models/project'
-import type { ResponseObject, ResponseObjectStream, Version } from '@/models/speckle'
-import type { GeometryObject, Quantity } from '@/models/geometryObject'
-import type { QuantityConversionSpec } from '@/models/material'
+import type { Project } from '@/models/projectModel'
+import type { ResponseObject, ResponseObjectStream, Version } from '@/models/speckleModel'
+import type { GeometryObject, Quantity } from '@/models/geometryModel'
+import type { QuantityConversionSpec } from '@/models/materialModel'
 
 import { selectedObjectsQuery } from '@/graphql/speckleQueries'
 import { speckleSelection } from '@/graphql/speckleVariables'
@@ -19,12 +19,10 @@ import {
 	modelIdQuery
 } from '@/graphql/speckleQueries'
 
-import { reportErrorToSentry } from './monitoring'
-
-import { useSpeckleStore } from '@/stores/speckle'
-import { useSettingsStore } from '@/stores/settings'
-import { useNavigationStore } from '@/stores/navigation'
-import { useProjectStore } from '@/stores/main'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { useSettingsStore } from '@/stores/settingStore'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useProjectStore } from '@/stores/projectStore'
 
 import router from '@/router'
 
@@ -131,7 +129,6 @@ export async function speckleFetch(
 		} catch (err) {
 			const msg = 'API call failed!'
 
-			reportErrorToSentry(err as Error)
 			console.error(msg, err)
 
 			return Promise.reject(msg)

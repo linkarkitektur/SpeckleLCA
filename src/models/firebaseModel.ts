@@ -1,7 +1,7 @@
-import type { FilterList } from '@/models/filters'
-import type { Assembly, Mapping } from '@/models/material'
-import type { ResultList } from '@/models/result'
-import type { CalculationSettings, ProjectSettings } from '@/models/settings'
+import type { FilterList } from '@/models/filterModel'
+import type { Assembly, Mapping } from '@/models/materialModel'
+import type { ResultList } from '@/models/resultModel'
+import type { CalculationSettings, ProjectSettings } from '@/models/settingModel'
 
 
 export interface FilterLog {

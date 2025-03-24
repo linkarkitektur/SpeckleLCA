@@ -33,12 +33,12 @@
 import { reactive, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
-import { useSettingsStore } from '@/stores/settings'
-import { useProjectStore } from '@/stores/main'
-import { useFirebaseStore } from '@/stores/firebase'
+import { useSettingsStore } from '@/stores/settingStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useFirebaseStore } from '@/stores/firebaseStore'
 
-import type { CalculationSettings } from '@/models/settings'
-import type { CalculationSettingsLog } from '@/models/firebase'
+import type { CalculationSettings } from '@/models/settingModel'
+import type { CalculationSettingsLog } from '@/models/firebaseModel'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
 import Dropdown from '@/components/Base/Dropdown.vue'

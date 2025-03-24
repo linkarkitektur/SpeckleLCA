@@ -52,7 +52,7 @@
               @selectedItem="(item) => handleSelectedName(item, index)"
               class="w-full"
             />
-            <Dropdown
+            <DropdownSearchable
               v-if="parameterNames"
               :items="parameterNames"
               :dropdownName="element.field"
@@ -110,9 +110,10 @@ import {
   PlusCircleIcon,
   MinusCircleIcon,
 } from '@heroicons/vue/24/solid'
-import { useProjectStore } from '@/stores/main'
-import { useNavigationStore } from '@/stores/navigation'
+import { useProjectStore } from '@/stores/projectStore'
+import { useNavigationStore } from '@/stores/navigationStore'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
+import DropdownSearchable from '@/components/Base/DropdownSearchable.vue'
 
 // Store initialization
 const projectStore = useProjectStore()

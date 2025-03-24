@@ -1,10 +1,10 @@
-import { useProjectStore } from '@/stores/main'
-import { useSettingsStore } from '@/stores/settings'
+import { useProjectStore } from '@/stores/projectStore'
+import { useSettingsStore } from '@/stores/settingStore'
 import { isAssembly } from '@/utils/EPDUtils'
 
-import type { GeometryObject } from '@/models/geometryObject'
-import type { LifeCycleStageEmission, Product, Emission, Assembly } from '@/models/material'
-import type { Results } from '@/models/result'
+import type { GeometryObject } from '@/models/geometryModel'
+import type { LifeCycleStageEmission, Product, Emission, Assembly } from '@/models/materialModel'
+import type { Results } from '@/models/resultModel'
 
 /**
  * EmissionCalculator class to calculate the emissions of geometry objects if none sent calculate for all

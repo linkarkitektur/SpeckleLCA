@@ -15,11 +15,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useMaterialStore } from '@/stores/material'
-import { useSettingsStore } from '@/stores/settings'
+import { useMaterialStore } from '@/stores/materialStore'
+import { useSettingsStore } from '@/stores/settingStore'
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
 import SearchBar from '@/components/Mapping/SearchBar.vue'
-import type { Product, Assembly } from '@/models/material'
+import type { Product, Assembly } from '@/models/materialModel'
 
 const materialStore = useMaterialStore()
 const settingsStore = useSettingsStore()

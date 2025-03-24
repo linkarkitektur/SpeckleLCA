@@ -63,11 +63,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useSettingsStore } from '@/stores/settings'
+import { useSettingsStore } from '@/stores/settingStore'
 
-import type { BuildingCodeItem } from '@/models/buildingCode'
+import type { BuildingCodeItem } from '@/models/buildingCodeModel'
 import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
-import { buildingCodes } from '@/models/buildingCode'
+import { buildingCodes } from '@/models/buildingCodeModel'
 
 import Dropdown from '@/components/Base/Dropdown.vue'
 import CheckBox from '@/components/Base/CheckBox.vue'

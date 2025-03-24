@@ -66,12 +66,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { useSettingsStore } from '@/stores/settings'
+import { useSettingsStore } from '@/stores/settingStore'
 
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
-import type { DropdownOption } from '@/models/pageLogic'
+import type { DropdownOption } from '@/models/pageModel'
 
-import { APISource } from '@/models/material'
+import { APISource } from '@/models/materialModel'
 import CheckBox from '@/components/Base/CheckBox.vue'
 import DropdownMulti from '@/components/Base/DropdownMulti.vue'
 

@@ -1,12 +1,12 @@
-import { useNavigationStore } from '@/stores/navigation'
-import { useProjectStore } from '@/stores/main'
-import { useResultStore } from '@/stores/result'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useResultStore } from '@/stores/resultStore'
 
-import { updateMapping } from '@/utils/material'
+import { updateMapping } from '@/utils/materialUtils'
 
-import type { FilterList } from '@/models/filters'
-import type { Mapping } from '@/models/material'
-import type { ResultList } from '@/models/result'
+import type { FilterList } from '@/models/filterModel'
+import type { Mapping } from '@/models/materialModel'
+import type { ResultList } from '@/models/resultModel'
 
 export function useHandleSelected() {
   const navStore = useNavigationStore()

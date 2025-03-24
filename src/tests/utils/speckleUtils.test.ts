@@ -5,7 +5,7 @@ import {
   getUserData 
 } from '@/utils/speckleUtils'
 import { createTestPinia } from '../setup/testUtils'
-import { useSpeckleStore } from '@/stores/speckle'
+import { useSpeckleStore } from '@/stores/speckleStore'
 
 /** 
 describe('speckleUtils', () => {

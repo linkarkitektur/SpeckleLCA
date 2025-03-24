@@ -6,8 +6,8 @@ import {
 } from '@/utils/projectUtils'
 import { createTestPinia } from '../setup/testUtils'
 import { mockGroups, mockObjects } from '../setup/testData'
-import { useProjectStore } from '@/stores/main'
-import { FilterRegistry } from '@/models/filters'
+import { useProjectStore } from '@/stores/projectStore'
+import { FilterRegistry } from '@/models/filterModel'
 
 describe('projectUtils', () => {
   beforeEach(() => {

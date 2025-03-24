@@ -2,11 +2,11 @@ import { defineStore } from 'pinia'
 
 import type { 
   ResultList,
-} from '@/models/result'
+} from '@/models/resultModel'
 
-import { DefaultResultList } from '@/models/result'
+import { DefaultResultList } from '@/models/resultModel'
 
-import type { Results } from '@/models/result'
+import type { Results } from '@/models/resultModel'
 
 /**
  * Defines the result store, which is used to store the results of the calculations

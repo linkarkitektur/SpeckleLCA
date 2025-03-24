@@ -83,16 +83,16 @@ import DataTable from '@/components/Graphs/DataTable.vue'
 import Dropdown from '@/components/Base/Dropdown.vue'
 
 // Import stores
-import { useSettingsStore } from '@/stores/settings'
-import { useResultStore } from '@/stores/result'
-import { useProjectStore } from '@/stores/main'
+import { useSettingsStore } from '@/stores/settingStore'
+import { useResultStore } from '@/stores/resultStore'
+import { useProjectStore } from '@/stores/projectStore'
 
 // Import Vue
 import { ref, computed } from 'vue'
 
 // Import Types
 import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
-import type { ResultItem } from '@/models/result'
+import type { ResultItem } from '@/models/resultModel'
 
 // Stores
 const settingsStore = useSettingsStore()

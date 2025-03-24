@@ -1,4 +1,4 @@
-import type { GeometryObject } from './geometryObject'
+import type { GeometryObject } from '@/models/geometryModel'
 
 /**
  * Filters done in correct sequencing with arguments to be used for each step

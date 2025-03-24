@@ -4,7 +4,7 @@ import type {
 	Assembly as LcaxAssembly,
 	Product as LcaxProduct 
 } from 'lcax'
-import type { FilterList } from './filters'
+import type { FilterList } from '@/models/filterModel'
 
 // Material and Assembly interfaces
 export enum APISource {

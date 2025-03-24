@@ -34,7 +34,7 @@
 // Imports
 import { computed, watch } from 'vue'
 import { PopoverGroup } from '@headlessui/vue'
-import { useMaterialStore } from '@/stores/material'
+import { useMaterialStore } from '@/stores/materialStore'
 import { getSpecificEPD } from '@/utils/EPDUtils'
 
 // Base components
@@ -44,8 +44,8 @@ import Dropdown from '@/components/Base/Dropdown.vue'
 
 // Types
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
-import type { Assembly, Product } from '@/models/material'
-import type { DropdownOption } from '@/models/pageLogic'
+import type { Assembly, Product } from '@/models/materialModel'
+import type { DropdownOption } from '@/models/pageModel'
 
 // Composables
 import { useSearch } from '@/composables/useSearch'

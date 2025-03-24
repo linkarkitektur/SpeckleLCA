@@ -78,8 +78,8 @@ import { ref, watch, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import { PlusCircleIcon } from '@heroicons/vue/20/solid'
 import MaterialBar from '@/components/Mapping/MaterialBar.vue'
-import { useMaterialStore } from '@/stores/material'
-import type { Product } from '@/models/material'
+import { useMaterialStore } from '@/stores/materialStore'
+import type { Product } from '@/models/materialModel'
 
 // Props & Emits
 interface Props {

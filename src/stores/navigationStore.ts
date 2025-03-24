@@ -1,4 +1,4 @@
-import type { PageType, SlideoverFunction } from '@/models/pageLogic'
+import type { PageType, SlideoverFunction } from '@/models/pageModel'
 import { defineStore } from 'pinia'
 
 /**

@@ -52,9 +52,9 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useSettingsStore } from '@/stores/settings'
+import { useSettingsStore } from '@/stores/settingStore'
 import CheckBox from '@/components/Base/CheckBox.vue'
-import { LifeCycleStages } from '@/models/material'
+import { LifeCycleStages } from '@/models/materialModel'
 import { chunkArray } from '@/utils/dataUtils'
 
 const settingsStore = useSettingsStore()

@@ -1,15 +1,15 @@
-import type { Mapping, Product } from "@/models/material"
-import type { FilterList, NestedGroup } from "@/models/filters"
-import type { GeometryObject } from "@/models/geometryObject"
-import type { AssemblyList } from "@/models/firebase"
+import type { Mapping, Product } from "@/models/materialModel"
+import type { FilterList, NestedGroup } from "@/models/filterModel"
+import type { GeometryObject } from "@/models/geometryModel"
+import type { AssemblyList } from "@/models/firebaseModel"
 
-import { useProjectStore } from "@/stores/main"
-import { useMaterialStore } from "@/stores/material"
-import { useSpeckleStore } from "@/stores/speckle"
-import { useFirebaseStore } from "@/stores/firebase"
+import { useProjectStore } from "@/stores/projectStore"
+import { useMaterialStore } from "@/stores/materialStore"
+import { useSpeckleStore } from "@/stores/speckleStore"
+import { useFirebaseStore } from "@/stores/firebaseStore"
 
 import { setMappingColorGroup, updateProjectGroups } from "@/utils/projectUtils"
-import { useSettingsStore } from "@/stores/settings"
+import { useSettingsStore } from "@/stores/settingStore"
 
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds

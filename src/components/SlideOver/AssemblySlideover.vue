@@ -150,11 +150,11 @@ import {
 } from '@heroicons/vue/24/solid'
 
 // Store imports
-import { useNavigationStore } from '@/stores/navigation'
-import { useMaterialStore } from '@/stores/material'
-import { useFirebaseStore } from '@/stores/firebase'
-import { useProjectStore } from '@/stores/main'
-import { useSettingsStore } from '@/stores/settings'
+import { useNavigationStore } from '@/stores/navigationStore'
+import { useMaterialStore } from '@/stores/materialStore'
+import { useFirebaseStore } from '@/stores/firebaseStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useSettingsStore } from '@/stores/settingStore'
 
 // Component imports
 import MaterialTable from '@/components/Mapping/MaterialTable.vue'
@@ -167,15 +167,15 @@ import InputText from '@/components/Base/InputText.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
 
 // Utils and types
-import { BSAB96 } from '@/models/buildingCode'
+import { BSAB96 } from '@/models/buildingCodeModel'
 import { ResultCalculator } from '@/utils/resultUtils'
 import { EmissionCalculator } from '@/utils/emissionUtils'
-import { createGeometryFromProduct } from '@/utils/material'
+import { createGeometryFromProduct } from '@/utils/materialUtils'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
-import type { DropdownOption } from '@/models/pageLogic'
-import type { Assembly, Product } from '@/models/material'
-import type { GeometryObject } from '@/models/geometryObject'
-import BaseChevron from '../Base/BaseChevron.vue'
+import type { DropdownOption } from '@/models/pageModel'
+import type { Assembly, Product } from '@/models/materialModel'
+import type { GeometryObject } from '@/models/geometryModel'
+import BaseChevron from '@/components/Base/BaseChevron.vue'
 
 // Store initialization
 const navStore = useNavigationStore()

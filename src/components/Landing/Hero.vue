@@ -130,7 +130,7 @@
 import { ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { defineComponent, ref, onMounted } from 'vue'
 
-import { useSettingsStore } from '@/stores/settings'
+import { useSettingsStore } from '@/stores/settingStore'
 
 import icon from '@/assets/icons/logo.svg'
 import appScreenshot from '@/assets/images/AppPicture3D.png'

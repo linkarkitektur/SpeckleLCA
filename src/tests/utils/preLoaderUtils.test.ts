@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { preloadDashboardData } from '@/utils/preLoader'
+import { preloadDashboardData } from '@/services/preLoader'
 import { createTestPinia } from '../setup/testUtils'
-import { useProjectStore } from '@/stores/main'
-import { useMaterialStore } from '@/stores/material'
-import { getAssemblyList } from '@/utils/material'
-import { getRevaluCollections } from '@/models/revaluDataSource'
+import { useProjectStore } from '@/stores/projectStore'
+import { useMaterialStore } from '@/stores/materialStore'
+import { getAssemblyList } from '@/utils/materialUtils'
+import { getRevaluCollections } from '@/models/revaluModel'
 
 // Mock external functions
 vi.mock('@/utils/material', () => ({

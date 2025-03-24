@@ -85,7 +85,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useSettingsStore } from '@/stores/settings'
+import { useSettingsStore } from '@/stores/settingStore'
 import InputText from '@/components/Base/InputText.vue'
 
 const settingsStore = useSettingsStore()

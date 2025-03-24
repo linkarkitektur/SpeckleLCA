@@ -27,10 +27,18 @@
           v-if="isOpen"
           class="fixed z-50 origin-top-left styled-element"
           :style="dropdownStyles"
-        >
+        > 
+        <!-- Searchbar -->
+          <div class="p-2 styled-element">
+            <InputText
+              id="searchBar"
+              v-model="searchTerm"
+              placeholder="Search..."
+            />
+          </div>
           <div class="py-1 max-h-60 overflow-y-auto">
             <DropdownMenuItem
-              v-for="item in items"
+              v-for="item in filteredItems"
               :key="item.name"
               :item="item"
               :selectedItem="selectedItem"
@@ -44,10 +52,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch, nextTick, computed } from 'vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import DropdownMenuItem from '@/components/Base/DropdownMenuItem.vue'
 import { useNavigationStore } from '@/stores/navigationStore'
+import InputText from '@/components/Base/InputText.vue'
 
 export interface dropdownItem {
   name: string
@@ -73,12 +82,21 @@ const emit = defineEmits<{
 const selectedItem = ref(props.dropdownName)
 const isOpen = ref(false)
 const dropdownButton = ref<HTMLElement | null>(null)
+const searchTerm = ref('')
 
 const dropdownStyles = ref({
   top: '0px',
   left: '0px',
   width: 'auto',
   backgroundColor: navStore.activeColor
+})
+
+// Computed property for filtered dropdown items
+const filteredItems = computed(() => {
+  if (!searchTerm.value) return props.items
+  return props.items.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
 })
 
 const select = (item: dropdownItem) => {

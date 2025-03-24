@@ -12,8 +12,8 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { useProjectStore } from '@/stores/main'
-import { getMappedMaterial } from '@/utils/material'
+import { useProjectStore } from '@/stores/projectStore'
+import { getMappedMaterial } from '@/utils/materialUtils'
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
