@@ -13,7 +13,6 @@ import ProjectOverview from '@/views/ProjectOverview.vue'
 import LoginComponent from '@/components/SpeckleLogin.vue'
 
 import { useSpeckleStore } from '@/stores/speckleStore'
-import { logMessageToSentry } from '@/utils/monitoringUtils'
 import { useSettingsStore } from '@/stores/settingStore'
 import { useNavigationStore } from '@/stores/navigationStore'
 
@@ -143,17 +142,17 @@ const beforeEachGuard = async (to: RouteLocationNormalized) => {
     // If the access code is not set, return to the home page.
     await speckleStore.exchangeAccessCodes(accessCode)
       .then(() => {
-        logMessageToSentry('Access code exchange was successful', 'info');
+        console.warn('Access code exchange was successful', 'info');
         return { name: 'Projects' }
       })
       .catch(() => {
-        logMessageToSentry('Access code exchange failed', 'warning');
+        console.warn('Access code exchange failed', 'warning');
         return { name: 'Home' }
       });
   }
   // Fetch if the user is authenticated.
   await speckleStore.updateUser().then(() => {
-    logMessageToSentry("Updated current user to: " + speckleStore.getUserInfo?.name, 'info');
+    console.warn("Updated current user to: " + speckleStore.getUserInfo?.name, 'info');
   }).then(() => {
     // If the route requires authentication and the user is not authenticated, return to the login page.
     if (to.meta.requiresAuth && !speckleStore.isAuthenticated) {

@@ -56,7 +56,7 @@ import { ref, watch, nextTick, computed } from 'vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import DropdownMenuItem from '@/components/Base/DropdownMenuItem.vue'
 import { useNavigationStore } from '@/stores/navigationStore'
-import InputText from './InputText.vue'
+import InputText from '@/components/Base/InputText.vue'
 
 export interface dropdownItem {
   name: string

@@ -175,7 +175,7 @@ import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import type { DropdownOption } from '@/models/pageModel'
 import type { Assembly, Product } from '@/models/materialModel'
 import type { GeometryObject } from '@/models/geometryModel'
-import BaseChevron from '../Base/BaseChevron.vue'
+import BaseChevron from '@/components/Base/BaseChevron.vue'
 
 // Store initialization
 const navStore = useNavigationStore()

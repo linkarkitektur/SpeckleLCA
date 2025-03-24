@@ -19,7 +19,6 @@ import type {
 	ModelResponseObject
 } from '@/models/speckleModel'
 import router from '@/router'
-import { logMessageToSentry } from '@/utils/monitoringUtils'
 import { updateGroupColors } from '@/utils/projectUtils'
 import { hslToHex } from '@/utils/colorUtils'
 import {
@@ -198,7 +197,7 @@ export const useSpeckleStore = defineStore({
 					state.serverInfo = data.serverInfo
 				})
 			} catch (err: any) {
-				logMessageToSentry(err as string, 'info')
+				console.error(err)
 			}
 		},
 
@@ -294,7 +293,7 @@ export const useSpeckleStore = defineStore({
 					state.modelsAndVersions = modelVers
 				})
 			} catch (err: any) {
-				logMessageToSentry(err as string, 'info')
+				console.error(err)
 			}
 		},
 
@@ -316,7 +315,7 @@ export const useSpeckleStore = defineStore({
 					return null
 				}
 			} catch (err: any) {
-				logMessageToSentry(err as string, 'info')
+				console.error(err)
 			}
 		},
 

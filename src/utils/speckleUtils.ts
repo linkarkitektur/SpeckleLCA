@@ -19,8 +19,6 @@ import {
 	modelIdQuery
 } from '@/graphql/speckleQueries'
 
-import { reportErrorToSentry } from './monitoringUtils'
-
 import { useSpeckleStore } from '@/stores/speckleStore'
 import { useSettingsStore } from '@/stores/settingStore'
 import { useNavigationStore } from '@/stores/navigationStore'
@@ -131,7 +129,6 @@ export async function speckleFetch(
 		} catch (err) {
 			const msg = 'API call failed!'
 
-			reportErrorToSentry(err as Error)
 			console.error(msg, err)
 
 			return Promise.reject(msg)

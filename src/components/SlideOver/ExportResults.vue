@@ -79,7 +79,7 @@
 import { ref, onMounted } from 'vue'
 import CheckBox from '@/components/Base/CheckBox.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
-import DropdownSearchable from '../Base/DropdownSearchable.vue'
+import DropdownSearchable from '@/components/Base/DropdownSearchable.vue'
 import { ExportConfig, ExportFormat } from '@/models/exportModel'
 import { ExportManager } from '@/utils/exportUtils'
 import { useProjectStore } from '@/stores/projectStore'

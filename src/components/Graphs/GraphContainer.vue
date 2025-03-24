@@ -59,8 +59,8 @@ import {
 import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 import type { ChartData, ChartOptions, NestedChartData } from '@/models/chartModel'
 import type { ResultItem } from '@/models/resultModel'
-import VerticalBarChart from './VerticalBarChart.vue'
-import StackedBarChart from './StackedBarChart.vue'
+import VerticalBarChart from '@/components/Graphs/VerticalBarChart.vue'
+import StackedBarChart from '@/components/Graphs/StackedBarChart.vue'
 
 const navigationStore = useNavigationStore()
 const resultStore = useResultStore()

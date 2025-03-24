@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseTable from './BaseTable.vue'
+import BaseTable from '@/components/Mapping/BaseTable.vue'
 import { useMaterialStore } from '@/stores/materialStore'
 import type { Assembly } from '@/models/materialModel'
 

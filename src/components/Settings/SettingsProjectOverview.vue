@@ -74,10 +74,10 @@ import { useProjectStore } from '@/stores/projectStore'
 import { loadProject } from '@/utils/speckleUtils'
 import router from '@/router'
 
-import type { dropdownItem } from '../Base/DropdownMenuItem.vue'
+import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 import type { ProjectSettingsLog } from '@/models/firebaseModel'
 import { useFirebaseStore } from '@/stores/firebaseStore'
-import CheckBox from '../Base/CheckBox.vue'
+import CheckBox from '@/components/Base/CheckBox.vue'
 
 const settingsStore = useSettingsStore()
 const speckleStore = useSpeckleStore()

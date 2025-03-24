@@ -10,7 +10,6 @@ import type {
 import type { Results } from '@/models/resultModel'
 
 import { createNestedObject } from '@/utils/projectUtils'
-import { logMessageToSentry } from '@/utils/monitoringUtils'
 import { collectParameterPaths, collectParameters } from '@/utils/dataUtils'
 import type { ProjectId } from '@/models/speckleModel'
 
@@ -400,7 +399,6 @@ export const useProjectStore = defineStore({
 			} else {
 				const msg =
 					'No groups found to create tree structure in current project.'
-				logMessageToSentry(msg, 'info')
 				console.log(msg)
 			}
 
