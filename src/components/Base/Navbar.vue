@@ -140,6 +140,7 @@ const steps: Step[] = [
   { name: 'Mapping', href: '/dashboard' },
   { name: 'Results', href: '/dashboard' },
   { name: 'Benchmark', href: '/benchmark' },
-  { name: 'Report', href: '/report' },
+  // TODO: Make proper report page
+  // { name: 'Report', href: '/report' },
 ]
 </script>

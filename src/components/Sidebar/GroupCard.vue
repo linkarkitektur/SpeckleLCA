@@ -187,7 +187,7 @@ const totalArea = computed(() => {
 })
 
 // Add drop handler
-const onDrop = () => {
+const onDrop = async () => {
   if (inGroups.value) {
     mapMaterial(inGroups.value)
   }

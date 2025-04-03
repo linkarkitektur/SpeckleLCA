@@ -285,7 +285,8 @@ function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
     // Add center text, can render different center based on options
     const renderCenter = () => {
       //Clear text
-      graph.selectAll('.center-text').remove()
+      const selection = graph.selectAll('.center-text')
+      selection.remove()
 
       let centerElement
       switch (true) {

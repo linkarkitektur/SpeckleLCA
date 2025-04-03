@@ -239,9 +239,50 @@ export async function loadProject(reRoute: boolean) {
 	// Switch to dashboard view
 	if (reRoute) {
 		navStore.setActivePage('Filtering')
-		navStore.toggleLoading()
 		router.push('/dashboard')
 	}
+}
+
+interface FilteredObjects {
+	materialObjects: ResponseObject[];
+	modelObjects: ResponseObject[];
+}
+
+/**
+ * Helper function to convertObjects filters them based on source application and removes extra information.
+ * @param objects 
+ * @param sourceApplication 
+ * @returns Filtered and cleaned objects
+ */
+function filterObjects(objects: ResponseObject[], sourceApplication: string): FilteredObjects {
+	const materialObjects = objects.filter((obj) =>
+			obj.data.speckle_type.includes('Objects.Other.Material') && 
+			obj.data.speckle_type !== 'Objects.Other.MaterialQuantity'
+	)
+
+	const modelObjects = objects.filter((obj) => {
+			// Remove the displayValue key if it exists as an array
+			if (Array.isArray(obj.data.displayValue)) {
+					delete obj.data.displayValue;
+			}
+			// Remove closure
+			if (obj.data.__closure) delete obj.data.__closure;
+
+			// Remove meshes and lines from Archicad and Revit
+			if ((sourceApplication.includes('Archicad') || sourceApplication.includes('Revit')) &&
+					(obj.data.speckle_type === 'Objects.Geometry.Mesh' ||
+					 obj.data.speckle_type === 'Objects.Geometry.Line' ||
+					 obj.data.speckle_type === 'Objects.BuiltElements.GridLine')) {
+					return false;
+			}
+
+			// Apply general filtering
+			return obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk' &&
+						 obj.data.speckle_type !== 'Speckle.Core.Models.Collection' &&
+						 !obj.data.speckle_type.includes('Objects.Other.Material');
+	});
+
+	return { materialObjects, modelObjects };
 }
 
 /**
@@ -251,29 +292,11 @@ export async function loadProject(reRoute: boolean) {
  */
 export function convertObjects(input: ResponseObjectStream): Project | null {
 	const speckleStore = useSpeckleStore()
+	const sourceApplication = speckleStore.selectedVersion.sourceApplication
 
 	const objects: ResponseObject[] = input.data.stream.object.elements.objects
 
-	const materialObjects = objects
-		.filter((obj) => obj.data.speckle_type.includes('Objects.Other.Material') 
-			&& obj.data.speckle_type !== 'Objects.Other.MaterialQuantity')
-
-	// Filter out some common support objects which we never want to filter
-	// Expand this list if needed
-	const modelObjects = objects.filter((obj) => {
-		// Remove the displayValue key if it exists as an array
-		if (Array.isArray(obj.data.displayValue)) {
-			delete obj.data.displayValue
-		}
-		// Remove closure
-		if (obj.data.__closure)
-			delete obj.data.__closure
-		
-		// Apply your filtering criteria
-		return obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk'
-			&& obj.data.speckle_type !== 'Speckle.Core.Models.Collection'
-			&& !obj.data.speckle_type.includes('Objects.Other.Material')
-	})
+	const { materialObjects, modelObjects } = filterObjects(objects, sourceApplication);
 
 	const projectDetails = speckleStore.getProjectDetails
 	const version = speckleStore.getSelectedVersion

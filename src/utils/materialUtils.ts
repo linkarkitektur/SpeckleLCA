@@ -71,7 +71,7 @@ export function clearMapping() {
  * Also sets the color groups for the speckle store and updates the color groups
  * @param inGroup nested group to map materials on
  */
-export function mapMaterial(inGroup: NestedGroup) {
+export async function mapMaterial(inGroup: NestedGroup) {
   const materialStore = useMaterialStore()
   const projectStore = useProjectStore()
   const speckleStore = useSpeckleStore()
@@ -87,23 +87,24 @@ export function mapMaterial(inGroup: NestedGroup) {
       steps: []
     }
     materialStore.mapping = newMapping
-    materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
+    await materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
   } else {
     // If the filter list is not in the mapping, add it
     if (!materialStore.mapping.filters.includes(currFilterList)) {
       materialStore.mapping.filters.push(currFilterList)
     }
-    materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
+    await materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
   }
 
-  // Apply materials to all objects in the group
-  // TODO: I think this should be an automated function from the Step we added or moved to addStep instead
-  inGroup.objects.forEach(obj => {
-    if (materialStore.currentMapping != null) {
-      obj.material = materialStore.currentMapping
-      materialStore.updateMappingMaterial(obj.URI, materialStore.currentMapping)
-    }
-  })
+  if (materialStore.currentMapping != null) {
+    await Promise.all(
+      inGroup.objects.map((obj) => {
+        obj.material = materialStore.currentMapping
+        return materialStore.updateMappingMaterial(obj.URI, materialStore.currentMapping)
+      })
+    )
+  }
+
 
   const mappingColors = setMappingColorGroup()
   speckleStore.setColorGroups(mappingColors)

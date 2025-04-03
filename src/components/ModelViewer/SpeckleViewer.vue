@@ -1,5 +1,14 @@
 <template>
-  <!-- Background with dots pattern -->
+  <!-- Neobrutalist loading overlay -->
+  <div v-if="isLoading" class="absolute inset-0 flex flex-col items-center justify-center z-50">
+    <div 
+      class="p-4 border-4 styled-element hoverable-styling animate-pulse"
+      :style="{ backgroundColor: navStore.activeColor }"
+    >
+      <HomeIcon class="w-16 h-16 text-black" />
+    </div>
+  </div>
+
   <TransitionRoot as="template" :show="fadeOut">
     <TransitionChild
       as="template"
@@ -13,18 +22,20 @@
       <div class="fixed w-full h-full bg-gray-500 bg-opacity-75 transition-opacity z-30" />
     </TransitionChild>
   </TransitionRoot>
-    <div class="absolute styled-data text-md select-none top-16 left-1/3 z-40">
-      <RenderToggle />
-    </div>
+  
+  <div class="absolute styled-data text-md select-none top-16 left-1/3 z-40">
+    <RenderToggle />
+  </div>
 
-    <div class="flex h-full w-full bg-transparent -z-10" id="renderer" />
-    <!-- Only show in dashboard view -->
-    <div
-    	class="absolute h-full mx-auto top-4 right-4 align-right justify-center z-20 overflow-visible"
-      v-if="navStore.activePage !== 'Benchmark'"
-  	>
-      <GraphContainer />
-		</div>
+  <div class="flex h-full w-full bg-transparent -z-10" id="renderer" />
+  
+  <!-- Only show in dashboard view -->
+  <div
+    class="absolute h-full mx-auto top-4 right-4 align-right justify-center z-20 overflow-visible"
+    v-if="navStore.activePage !== 'Benchmark'"
+  >
+    <GraphContainer />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +62,7 @@ import {
   TransitionRoot 
 } from '@headlessui/vue'
 import { debounce } from 'lodash'
+import { HomeIcon } from '@heroicons/vue/20/solid'
 
 // Store imports
 import { useSpeckleStore } from '@/stores/speckleStore'
@@ -77,6 +89,7 @@ const serverUrl = settingsStore.keySettings.speckleConfig.serverUrl
 const token = ""
 const resizeObserver = ref<ResizeObserver | null>(null)
 const fadeOut = ref(false)
+const isLoading = ref(true)
 
 speckleStore.setServerUrl(serverUrl)
 speckleStore.setToken(token)
@@ -154,16 +167,10 @@ onMounted(async () => {
 
     projectStore.setObjectsByURI(objIds)
   })
-  
-  /**
-   * Keep the selection and highlights until change is made elsewhere.
-   * 
-   * // Clear the `selectedObjects` and `view` on a mouse out event.
-   * window.onmouseout = function () {
-   *   projectStore.clearSelectedObjects()
-   *   viewer.resetHighlight()
-   * }
-   */
+
+  // Remove the loading indicator once all objects are loaded
+  isLoading.value = false
+
 })
 
 // Clean up on component unmount

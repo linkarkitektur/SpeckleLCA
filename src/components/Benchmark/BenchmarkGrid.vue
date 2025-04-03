@@ -20,13 +20,13 @@
 					<!-- Project Iterator. -->
 					<div class="flex flex-1 flex-col p-8">
             <dd class="text-m text text-gray-500">{{ resultLog.name }}</dd>
-            <div class="h-[20vh]">
+            <div class="h-[30vh] ml-44">
               <GraphContainer 
                 :resultItem="displayResultList[index]"
                 maxH="calc(30vh)"
                 maxW="calc(30vh)"
-                minH="calc(20vh)"
-                minW="calc(20vh)"
+                minH="calc(30vh)"
+                minW="calc(30vh)"
               />
             </div>
             <dd class="mt-3">
