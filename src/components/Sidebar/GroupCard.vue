@@ -7,7 +7,13 @@
       :class="{
         'outline-2 outline-offset-2 outline-black translate-x-2 translate-y-2 shadow-none' : selectedBool, 
       }"
+      :group="{ name: 'refTree', pull: 'clone', put: false }"
+      :clone="cloneItem"
+      draggable="true"
+      @dragstart="onDragStart($event, inGroups)"
+      @dragend="onDragEnd($event)"
       @click="toggleExpand"
+      @dblclick.stop="toggleEdit(inGroups)"
       @drop="onDrop"
       @dragover.prevent
     >
@@ -85,7 +91,7 @@ import ResultsGroupCard from '@/components/Sidebar/ResultsGroupCard.vue'
 
 import BaseChevron from '@/components/Base/BaseChevron.vue'
 
-import type { NestedGroup } from '@/models/filterModel'
+import type { Group, NestedGroup } from '@/models/filterModel'
 
 import { getMappedMaterial, mapMaterial } from '@/utils/materialUtils'
 
@@ -106,6 +112,13 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  dragStart: [item: NestedGroup]
+  dragEnd: []
+  doubleClick: [item: NestedGroup]
+}>()
+
 
 // Store initialization
 const projectStore = useProjectStore()
@@ -137,16 +150,21 @@ const selectedBool = computed(() => {
   return false
 })
 
-// Deprecated, use if cards have color
-const fontColor = computed(() => {
-  if (inGroups.value && inGroups.value.color) {
-    if (activePage.value === "Filtering") {
-      return getFontColorForHSL(inGroups.value.color)
-    }
-    return 'text-black'
-  }
-  return 'text-black'
-})
+// Methods
+const cloneItem = (item: NestedGroup) => ({ ...item })
+
+const onDragStart = (event: DragEvent, item: NestedGroup) => {
+  emit('dragStart', item)
+  event.dataTransfer?.setData('application/json', JSON.stringify(item))
+}
+
+const onDragEnd = (event: DragEvent) => {
+  emit('dragEnd')
+}
+
+const onDoubleClick = (item: NestedGroup) => {
+  emit('doubleClick', item)
+}
 
 const currGroupTotal = computed(() => {
   switch (activePage.value) {
@@ -191,6 +209,11 @@ const onDrop = async () => {
   if (inGroups.value) {
     mapMaterial(inGroups.value)
   }
+}
+
+// Toggles the group slideout and sends current group
+const toggleEdit = (group: NestedGroup) => {
+  console.log(group)
 }
 
 // OnMounted and unMounted effects

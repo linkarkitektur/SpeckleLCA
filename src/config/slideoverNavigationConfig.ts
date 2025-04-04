@@ -1,7 +1,8 @@
 import { 
   PencilSquareIcon, 
   Square3Stack3DIcon,
-  DocumentCheckIcon
+  DocumentCheckIcon,
+  UserGroupIcon
 } from '@heroicons/vue/24/solid'
 
 import type { PageType, NavigationButtonConfig } from '@/models/pageModel'
@@ -19,6 +20,12 @@ export const sidebarButtons: NavigationButtonConfig[] = [
   {
     text: 'Save Filter',
     icon: DocumentCheckIcon,
+    action: 'toggleSlideover',
+    showOn: ['Filtering']
+  },
+  {
+    text: 'Edit Groups',
+    icon: UserGroupIcon,
     action: 'toggleSlideover',
     showOn: ['Filtering']
   },
