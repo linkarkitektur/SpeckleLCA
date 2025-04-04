@@ -1,6 +1,6 @@
 <template>
   <!-- Neobrutalist loading overlay -->
-  <div v-if="isLoading" class="absolute inset-0 flex flex-col items-center justify-center z-50">
+  <div v-if="isLoading" class="absolute inset-0 flex flex-col items-center justify-center z-50 pointer-events-none">
     <div 
       class="p-4 border-4 styled-element hoverable-styling animate-pulse"
       :style="{ backgroundColor: navStore.activeColor }"

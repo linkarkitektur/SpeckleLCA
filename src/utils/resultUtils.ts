@@ -486,7 +486,7 @@ export class ResultCalculator {
     chain: string[],
     geo: GeometryObject,
     geoEmission: Emission,
-    geoQuantity: any
+    geoQuantity: Quantity
   ): void {
     if (chain.length === 0) return
 

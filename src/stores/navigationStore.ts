@@ -49,10 +49,10 @@ export const useNavigationStore = defineStore({
      * Sets the slideover function and opens the slideover
      * @param func The function to set for the slideover
      */
-				setSlideoverFunction(func: SlideoverFunction) {
-					this.slideoverFunction = func
-					this.slideoverOpen = true
-				},
+		setSlideoverFunction(func: SlideoverFunction) {
+			this.slideoverFunction = func
+			this.slideoverOpen = true
+		},
 
 		/**
 		 * Toggle slideover where its present on the app

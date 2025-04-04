@@ -6,6 +6,7 @@
     :placeholder="placeholder"
     :type="inputType"
     :step="isNumber ? '1' : undefined"
+    autocomplete="off"
     :class="[
       widthClass,
       'p-1 styled-element styled-data pressable-focus focus:ring-2 focus:ring-black',
