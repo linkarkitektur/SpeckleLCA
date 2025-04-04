@@ -21,6 +21,7 @@ export interface Filter {
 	field: string
 	value?: string
 	remove?: boolean
+	advanced?: boolean
 }
 
 /**

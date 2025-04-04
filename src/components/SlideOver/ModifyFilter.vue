@@ -12,7 +12,7 @@
       @end="drag = false"
     >
       <template #item="{ element, index }">
-        <div class="styled-element hoverable-sm pressable p-4" 
+        <div class="styled-element hoverable-sm p-4" 
           :class="{'styled-active' : index === editFilter, 'scale-[0.99] rotate-1': drag  }"
 				>         
 					 <div class="relative">
@@ -53,8 +53,7 @@
               class="w-full"
             />
             <DropdownSearchable
-              v-if="parameterNames"
-              :items="parameterNames"
+              :items="element.advanced ? parameterNames : simpleParameterNames"
               :dropdownName="element.field"
               @selectedItem="(item) => handleSelectedField(item, index)"
               class="w-full"
@@ -72,6 +71,23 @@
                 @update:checked="(newVal) => element.remove = newVal"
               />
               <label>Remove false results</label>
+            </div>
+            <div class="flex items-center gap-2">
+              <BaseToggle
+                :active="element.advanced"
+                label="Toggle Advanced"
+                :activeColor="navStore.activeColor"
+                inactiveColor="#000"
+                @change="() => toggleAdvanced(index)"
+              >      
+                <template #inactive>
+                  <AdjustmentsHorizontalIcon class="h-4 w-4" style="color: black;" />
+                </template>
+                <template #active>
+                  <AdjustmentsHorizontalIcon class="h-4 w-4" style="color: var(--nav-active-color);" />
+                </template>
+              </BaseToggle>
+              <label>Advanced mode</label>
             </div>
           </div>
 
@@ -109,11 +125,14 @@ import {
   PencilSquareIcon,
   PlusCircleIcon,
   MinusCircleIcon,
+  AdjustmentsHorizontalIcon
 } from '@heroicons/vue/24/solid'
 import { useProjectStore } from '@/stores/projectStore'
 import { useNavigationStore } from '@/stores/navigationStore'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import DropdownSearchable from '@/components/Base/DropdownSearchable.vue'
+import BaseToggle from '../Base/BaseToggle.vue'
+import { SimpleParameters } from '@/models/geometryModel'
 
 // Store initialization
 const projectStore = useProjectStore()
@@ -131,9 +150,21 @@ const filterNames = projectStore
   .sort((a, b) => a.name.localeCompare(b.name))
 
 const parameterNames = projectStore
-  .getAvailableParameterList()
+  .getAvailableParameterList(true)
   .map((el: string) => ({ name: el, data: '' }))
   .sort((a, b) => a.name.localeCompare(b.name))
+
+// Dynamically generate simpleParameterNames from SimpleParameters interface
+const simpleParameterDefaults: SimpleParameters = {
+  category: '',
+  type: '',
+  code: '',
+  materialName: '',
+  m: 0,
+  m2: 0,
+  m3: 0,
+}
+const simpleParameterNames = Object.keys(simpleParameterDefaults).map(key => ({ name: key, data: '' }))
 
 // Methods
 const handleSelectedName = (selectedItem: dropdownItem, index: number) => {
@@ -141,7 +172,15 @@ const handleSelectedName = (selectedItem: dropdownItem, index: number) => {
 }
 
 const handleSelectedField = (selectedItem: dropdownItem, index: number) => {
-  callStack.value[index].field = selectedItem.name
+  // If we are adding from the simple selection we add the full path while still displaying the reduced one
+  if (!callStack.value[index].advanced)
+    callStack.value[index].field = "simpleParameters." + selectedItem.name
+  else
+    callStack.value[index].field = selectedItem.name
+}
+
+const toggleAdvanced = (index: number) => {
+  callStack.value[index].advanced = !callStack.value[index].advanced
 }
 
 const addNewFilter = () => {
@@ -149,7 +188,8 @@ const addNewFilter = () => {
     name: filterNames[0].name,
     field: parameterNames[0].name,
     value: '',
-    remove: false
+    remove: false,
+    advanced: false
   })
 }
 

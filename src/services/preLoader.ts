@@ -32,7 +32,6 @@ export async function preloadDashboardData() {
 
 
   try {
-    await projectStore.getAvailableParameterList()
     await setStandardFilters()
 
     if(settingsStore.materialSettings.APISource[APISource.LCAbyg])
