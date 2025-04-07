@@ -208,7 +208,7 @@ export const useProjectStore = defineStore({
 		 * @param geometryObject The geometry object to add.
 		 */
 		addGeometry(geometryObject: GeometryObject) {
-			this.currProject?.geometry.push(geometryObject)		
+			this.currProject?.geometry.push(geometryObject)
 		},	
 
 		/**

@@ -377,11 +377,12 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
  * TODO: Fix the materialQuantity sub group
  */
 export function createSimpleParameters(
-		object: ResponseObject, 
-		materialObjects: ResponseObject[],
-		quantity: Quantity, 
-		sourceApplication: string, 
-	subMember: any = null): SimpleParameters {
+	object: ResponseObject, 
+	materialObjects: ResponseObject[],
+	quantity: Quantity, 
+	sourceApplication: string, 
+	subMember: any = null): SimpleParameters 
+{
 	const settingsStore = useSettingsStore()
   if (sourceApplication.includes('Revit')) {
 		// Fallback to speckle_type
@@ -408,7 +409,68 @@ export function createSimpleParameters(
 		const m3 = quantity.m3 || 0  
 
 		return { category, type, code, materialName, m, m2, m3 }
+	} 
+	if (sourceApplication.includes('Archicad')) {
+		// Fallback to speckle_type
+		const category = object.data?.elementType || getTextAfterLastDot(object.data.speckle_type)
+		const type = object.data?.compositeName || object.data?.profileName || object.data?.layer
+		// Find relevant buildingCode, this needs to be adapted
+		const buildingCode = settingsStore.calculationSettings.buildingCode
+		const code = iterativeKeySearchIncludes(object, buildingCode.key)
+
+		const materialObject = subMember ? subMember : object.data
+		let materialName = ""
+		if (materialObject.material) {
+				if (subMember) {
+						// When subMember exists, try grabbing from material.name
+						if (materialObject.material.name) {
+								materialName = materialObject.material.name
+						} else {
+								materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+						}
+				} else {
+						// When no subMember, try grabbing from buildingMaterialName
+						if (materialObject.buildingMaterialName) {
+								materialName = materialObject.buildingMaterialName
+						} else {
+								materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+						}
+				}
+		} else {
+				materialName = ""
+		}
+
+		const m = quantity.m || 0
+		const m2 = quantity.m2 || 0
+		const m3 = quantity.m3 || 0  
+
+		return { category, type, code, materialName, m, m2, m3 }
 	}
+	// For everything else we expect it to mimic the Revit structure
+	// Fallback to speckle_type
+	const category = object.data?.category || getTextAfterLastDot(object.data.speckle_type)
+	const type = object.data?.type || ""
+	// TODO: New building code search, might slow down to much. Needs benchmarking!
+	const buildingCode = settingsStore.calculationSettings.buildingCode
+	const code = iterativeKeySearchIncludes(object, buildingCode.key)
+
+	const materialObject = subMember ? subMember : object.data
+	let materialName = ""
+	if (materialObject.material) {
+		if (materialObject.material.name) {
+			materialName = materialObject.material.name
+		} else {
+			materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+		} 
+	} else {
+		materialName = ""
+	}
+
+	const m = quantity.m || 0
+	const m2 = quantity.m2 || 0
+	const m3 = quantity.m3 || 0  
+
+	return { category, type, code, materialName, m, m2, m3 }
 }
 
 /** 
