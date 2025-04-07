@@ -283,7 +283,6 @@ const calculateGroupHeight = (groupData: NestedChartData) => {
 onMounted(async () => {
   // Wait for nextTick so the divs have formed.
   await nextTick()
-  console.log('barSvgs:', barSvgs.value)
   requestAnimationFrame(() => {
     draw()
     const resizeObserver = new ResizeObserver(draw)
