@@ -30,7 +30,7 @@ export function updateMapping(mapping: Mapping) {
       //Find the filter from the mapping and apply it to the project
       const filterList = mapping.filters.find(filter => filter.id == step.filterId);
       projectStore.updateRegistryStack(filterList.name, filterList.callStack)
-      updateProjectGroups(true)
+      updateProjectGroups()
 
       lastId = step.filterId
     }
@@ -63,7 +63,7 @@ export function clearMapping() {
     geo.material = null
   })
 
-  updateProjectGroups(true)
+  updateProjectGroups()
 }
 
 /**
@@ -190,6 +190,15 @@ export function createGeometryFromProduct(product: Product): GeometryObject {
       thickness: product.metaData.thickness ? product.metaData.thickness: "0",
       color: product.metaData.color ? product.metaData.color: "#ffffff",
     },
+    simpleParameters: {
+      category: "",
+      type: "",
+      materialName: "",
+      code: "",
+      m: 0,
+      m2: 0,
+      m3: 0
+    }
   } 
 
   return geo

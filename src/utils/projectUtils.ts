@@ -64,60 +64,54 @@ export function createNestedObject(data: Group[]): NestedGroup {
  * Calculate the groups based on the filters and the project
  * @param reCalc 
  */
-export function updateProjectGroups(reCalc: boolean) {
+export function updateProjectGroups() {
   const projectStore = useProjectStore()
   let groups: Group[] = []
-  // First time running we need to define the groups from scratch
-  if (reCalc) {
-    //Create geometry objects from the project
-    const geo: GeometryObject[] = []
-    projectStore.currProject?.geometry.forEach((element) => {
-      geo.push(element)
-    })
+  
+  //Create geometry objects from the project
+  const geo: GeometryObject[] = []
+  projectStore.currProject?.geometry.forEach((element) => {
+    geo.push(element)
+  })
 
-    //Root for the group, this should not be needed
-    groups = [
-      {
-        id: 'test',
-        name: 'root',
-        path: ['root'],
-        elements: geo,
-        color: 'hsl(151, 100%, 50%)'
-      }
-    ]
-
-    //Go through each filter and iterate over them
-    let reverseStack: Filter[] = []
-    if (projectStore.filterRegistry)
-      reverseStack = projectStore.filterRegistry.filterCallStack.callStack
-
-    reverseStack.forEach((el) => {
-      if (el.value) {
-        groups = projectStore.filterRegistry?.callFilter(
-          `${el.name}`,
-          groups,
-          `${el.field}`,
-          `${el.value}`,
-          el.remove
-        )
-      } else {
-        groups = projectStore.filterRegistry?.callFilter(
-          `${el.name}`,
-          groups,
-          `${el.field}`
-        )
-      }
-
-      //Remove root in path since we had to add it
-      groups.forEach((element) => {
-        if (element.path[0] === 'root') element.path.splice(0, 1)
-      })
-    })
-  } else {
-    if (projectStore.projectGroups) {
-      groups = projectStore.projectGroups
+  //Root for the group, this should not be needed
+  groups = [
+    {
+      id: 'test',
+      name: 'root',
+      path: ['root'],
+      elements: geo,
+      color: 'hsl(151, 100%, 50%)'
     }
-  }
+  ]
+
+  //Go through each filter and iterate over them
+  let reverseStack: Filter[] = []
+  if (projectStore.filterRegistry)
+    reverseStack = projectStore.filterRegistry.filterCallStack.callStack
+
+  reverseStack.forEach((el) => {
+    if (el.value) {
+      groups = projectStore.filterRegistry?.callFilter(
+        `${el.name}`,
+        groups,
+        `${el.field}`,
+        `${el.value}`,
+        el.remove
+      )
+    } else {
+      groups = projectStore.filterRegistry?.callFilter(
+        `${el.name}`,
+        groups,
+        `${el.field}`
+      )
+    }
+
+    //Remove root in path since we had to add it
+    groups.forEach((element) => {
+      if (element.path[0] === 'root') element.path.splice(0, 1)
+    })
+  })
 
   groups.sort((a, b) => b.elements.length - a.elements.length)
 

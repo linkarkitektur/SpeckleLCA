@@ -115,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue'
+import { ref, onUnmounted, watch } from 'vue'
 import Draggable from 'vuedraggable'
 import Dropdown from '@/components/Base/Dropdown.vue'
 import CheckBox from '@/components/Base/CheckBox.vue'
@@ -133,6 +133,7 @@ import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import DropdownSearchable from '@/components/Base/DropdownSearchable.vue'
 import BaseToggle from '../Base/BaseToggle.vue'
 import { SimpleParameters } from '@/models/geometryModel'
+import { updateProjectGroups } from '@/utils/projectUtils'
 
 // Store initialization
 const projectStore = useProjectStore()
@@ -207,6 +208,7 @@ const toggleFilter = (index: number) => {
 // Update store when component unmounts
 onUnmounted(() => {
   projectStore.updateRegistryStack('test', callStack.value)
+  updateProjectGroups()
 })
 </script>
 

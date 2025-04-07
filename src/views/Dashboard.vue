@@ -79,7 +79,7 @@ onMounted(async () => {
 // TODO: Have this in the navStore instead?
 watch(() => navStore.activePage , (newVal) => {
 	if(newVal === 'Filtering') {
-		updateProjectGroups(true)
+		updateProjectGroups()
 		const tree =	projectStore.getGroupTree()?.children
 		speckleStore.calculateGroupColors(tree)
 	} else if(newVal === 'Mapping') {
