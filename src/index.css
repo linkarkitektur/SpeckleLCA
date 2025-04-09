@@ -86,7 +86,7 @@
   }
 
   .styled-bread {
-    @apply font-bread text-black normal-case
+    @apply font-bread font-normal text-black normal-case
   }
 
   .styled-data {

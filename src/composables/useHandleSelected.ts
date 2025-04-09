@@ -7,6 +7,7 @@ import { updateMapping } from '@/utils/materialUtils'
 import type { FilterList } from '@/models/filterModel'
 import type { Mapping } from '@/models/materialModel'
 import type { ResultList } from '@/models/resultModel'
+import { updateProjectGroups } from '@/utils/projectUtils'
 
 export function useHandleSelected() {
   const navStore = useNavigationStore()
@@ -19,6 +20,8 @@ export function useHandleSelected() {
         case 'Filtering': {
           const filterList = JSON.parse(item.data) as FilterList
           projectStore.updateRegistryStack(filterList.name, filterList.callStack)
+          
+          updateProjectGroups()
           break
         } 
         case 'Mapping': {

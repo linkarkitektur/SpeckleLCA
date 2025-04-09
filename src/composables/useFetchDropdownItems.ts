@@ -43,7 +43,9 @@ export function useFetchDropdownItems() {
           dropdownItems.value.push(
             ...projectFilters.map((log: FilterLog) => ({
               name: log.stackName,
-              data: JSON.stringify(log.filterCallStack),
+              // Old naming convention
+              // TODO: Clean up all saved filters and make them follow new naming conventions 
+              data: JSON.stringify(log.filterList || (log as any).filterCallStack),
             }))
           )
         }
@@ -51,7 +53,8 @@ export function useFetchDropdownItems() {
           dropdownItems.value.push(
             ...genericFilter.map((log: FilterLog) => ({
               name: log.stackName,
-              data: JSON.stringify(log.filterCallStack),
+              // Old naming convention
+              data: JSON.stringify(log.filterList || (log as any).filterCallStack),
             }))
           )
         }

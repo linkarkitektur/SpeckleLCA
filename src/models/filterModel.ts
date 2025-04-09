@@ -7,6 +7,7 @@ export interface FilterList {
 	name: string
 	id: string
 	callStack: Filter[]
+	customGeo?: CustomGeo[]
 }
 
 /**
@@ -21,6 +22,18 @@ export interface Filter {
 	field: string
 	value?: string
 	remove?: boolean
+	advanced?: boolean
+}
+
+/**
+ * Interface for customly added geometry which can be bound to another group path to fetch quantities from
+ * Need to add filterList so we know how we came to that path.
+ */
+export interface CustomGeo {
+	geoObj: GeometryObject
+	percentage?: number
+	linkedQuantId?: string
+	linkGeoId?: string
 }
 
 /**
@@ -45,7 +58,7 @@ export class FilterRegistry {
 		[filterName: string]: Function
 	} = {}
 
-	public filterCallStack: FilterList = {
+	public filterList: FilterList = {
 		name: '',
 		id: '',
 		callStack: []

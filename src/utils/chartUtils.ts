@@ -25,22 +25,22 @@ export const chartBaseStyle = (selection: Selection<any, unknown, null, undefine
  */
 export function aggregateCenter(graph: d3.Selection<SVGElement>, total: number , w: number, h: number, unit: string) {
   const textElement = graph.append("text")
-        .attr("class", "styled-header")
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em")
-        .attr("x", w / 2)
-        .attr("y", h / 2)
-      
-      textElement.append("tspan")
-        .text(roundNumber(total, 1))
-        .classed("styled-header", true)
-        .attr("x", w / 2)
-        .attr("dy", "-0.2em")
-      textElement.append("tspan")
-        .text(unit)
-        .classed("styled-data", true)
-        .attr("x", w / 2)
-        .attr("dy", "1.2em")
+    .attr("class", "center-text styled-header")
+    .attr("text-anchor", "middle")
+    .attr("dy", "0.35em")
+    .attr("x", w / 2)
+    .attr("y", h / 2)
+
+  textElement.append("tspan")
+    .text(roundNumber(total, 1))
+    .classed("styled-header", true)
+    .attr("x", w / 2)
+    .attr("dy", "-0.2em")
+  textElement.append("tspan")
+    .text(unit)
+    .classed("styled-data", true)
+    .attr("x", w / 2)
+    .attr("dy", "1.2em")
   return textElement
 }
 
@@ -58,7 +58,7 @@ export function spanPercentCenter(graph: d3.Selection<SVGElement>, span: number[
   const result = checkValuesInSpan(value, span[0], span[1])
   const spanPercent = calculatePercent(result, graphValue)
   const textElement = graph.append("text")
-    .attr("class", "styled-header")
+    .attr("class", "center-text styled-header")
     .attr("text-anchor", "middle")
     .attr("dy", "0.35em")
     .attr("x", w / 2)
@@ -94,7 +94,7 @@ export function spanPercentCenter(graph: d3.Selection<SVGElement>, span: number[
 
 export function parameterCenter(graph: d3.Selection<SVGElement>, parameterValue: number, total: number, w: number, h: number) {
   const textElement = graph.append("text")
-    .attr("class", "styled-header")
+    .attr("class", "center-text styled-header")
     .attr("text-anchor", "middle")
     .attr("dy", "0.35em")
     .attr("x", w / 2)

@@ -399,7 +399,7 @@ export const useSpeckleStore = defineStore({
 				}
 				// Create group object with hex color
 				const group = {
-					objectIds: element.objects.map(obj => obj.URI),
+					objectIds: element.objects.map(obj => obj.URI[0]),
 					color: color
 				}
 				groups.push(group)
@@ -413,8 +413,10 @@ export const useSpeckleStore = defineStore({
 		 */
 		setColorGroups(colorGroups: ColorGroup[]) {
 			this.colorGroups = colorGroups
-			if (!this.renderMode)
+			if (!this.renderMode) {
+				this.viewer?.getExtension(FilteringExtension).resetFilters()
 				this.viewer?.getExtension(FilteringExtension).setUserObjectColors(colorGroups)
+			}
 		},
 
 		/**
@@ -486,8 +488,8 @@ export const useSpeckleStore = defineStore({
 
 		isolateObjects(objectIds: string[]) {
 			const filtering = this.viewer?.getExtension(FilteringExtension)
-			filtering.resetFilters
-			filtering.isolateObjects(objectIds, null, true, true)
+			filtering.resetFilters()
+			filtering.isolateObjects(objectIds, null, true, false)
 			
 			if (objectIds.length > 0 && !this.renderMode) {
 				//Find all color groups relevant for ids

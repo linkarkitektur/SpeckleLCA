@@ -62,7 +62,7 @@ export const streamSearchQuery = `
  * @description GraphQL query to fetch the latest streams.
  */
 export const latestStreamsQuery = `query {
-    streams(limit: 10){
+    streams(limit: 50){
         cursor
         totalCount
         items {

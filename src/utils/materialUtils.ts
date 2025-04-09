@@ -30,7 +30,7 @@ export function updateMapping(mapping: Mapping) {
       //Find the filter from the mapping and apply it to the project
       const filterList = mapping.filters.find(filter => filter.id == step.filterId);
       projectStore.updateRegistryStack(filterList.name, filterList.callStack)
-      updateProjectGroups(true)
+      updateProjectGroups()
 
       lastId = step.filterId
     }
@@ -63,7 +63,7 @@ export function clearMapping() {
     geo.material = null
   })
 
-  updateProjectGroups(true)
+  updateProjectGroups()
 }
 
 /**
@@ -71,12 +71,12 @@ export function clearMapping() {
  * Also sets the color groups for the speckle store and updates the color groups
  * @param inGroup nested group to map materials on
  */
-export function mapMaterial(inGroup: NestedGroup) {
+export async function mapMaterial(inGroup: NestedGroup) {
   const materialStore = useMaterialStore()
   const projectStore = useProjectStore()
   const speckleStore = useSpeckleStore()
 
-  const currFilterList: FilterList = projectStore.filterRegistry.filterCallStack
+  const currFilterList: FilterList = projectStore.filterRegistry.filterList
 
   // If no mapping exists, create a new one and then add the step
   if (materialStore.mapping == null) {
@@ -87,23 +87,24 @@ export function mapMaterial(inGroup: NestedGroup) {
       steps: []
     }
     materialStore.mapping = newMapping
-    materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
+    await Promise.all(
+      inGroup.objects.map((obj) => {
+        obj.material = materialStore.currentMapping
+      })
+    )
+    await materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
   } else {
     // If the filter list is not in the mapping, add it
     if (!materialStore.mapping.filters.includes(currFilterList)) {
       materialStore.mapping.filters.push(currFilterList)
     }
-    materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
+    await Promise.all(
+      inGroup.objects.map((obj) => {
+        obj.material = materialStore.currentMapping
+      })
+    )
+    await materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
   }
-
-  // Apply materials to all objects in the group
-  // TODO: I think this should be an automated function from the Step we added or moved to addStep instead
-  inGroup.objects.forEach(obj => {
-    if (materialStore.currentMapping != null) {
-      obj.material = materialStore.currentMapping
-      materialStore.updateMappingMaterial(obj.URI, materialStore.currentMapping)
-    }
-  })
 
   const mappingColors = setMappingColorGroup()
   speckleStore.setColorGroups(mappingColors)
@@ -189,6 +190,15 @@ export function createGeometryFromProduct(product: Product): GeometryObject {
       thickness: product.metaData.thickness ? product.metaData.thickness: "0",
       color: product.metaData.color ? product.metaData.color: "#ffffff",
     },
+    simpleParameters: {
+      category: "",
+      type: "",
+      materialName: "",
+      code: "",
+      m: 0,
+      m2: 0,
+      m3: 0
+    }
   } 
 
   return geo

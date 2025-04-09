@@ -5,7 +5,7 @@
  */
 import type { Project } from '@/models/projectModel'
 import type { ResponseObject, ResponseObjectStream, Version } from '@/models/speckleModel'
-import type { GeometryObject, Quantity } from '@/models/geometryModel'
+import type { GeometryObject, Quantity, SimpleParameters } from '@/models/geometryModel'
 import type { QuantityConversionSpec } from '@/models/materialModel'
 
 import { selectedObjectsQuery } from '@/graphql/speckleQueries'
@@ -27,6 +27,7 @@ import { useProjectStore } from '@/stores/projectStore'
 import router from '@/router'
 
 import { getTextAfterLastDot } from './stringUtils'
+import { iterativeKeySearchIncludes } from './filterUtils'
 
 export const APP_NAME = 'SpeckLCA'
 
@@ -239,9 +240,51 @@ export async function loadProject(reRoute: boolean) {
 	// Switch to dashboard view
 	if (reRoute) {
 		navStore.setActivePage('Filtering')
-		navStore.toggleLoading()
 		router.push('/dashboard')
 	}
+}
+
+interface FilteredObjects {
+	materialObjects: ResponseObject[]
+	modelObjects: ResponseObject[]
+}
+
+/**
+ * Helper function to convertObjects filters them based on source application and removes extra information.
+ * @param objects 
+ * @param sourceApplication 
+ * @returns Filtered and cleaned objects
+ */
+function filterObjects(objects: ResponseObject[], sourceApplication: string): FilteredObjects {
+	const materialObjects = objects.filter((obj) =>
+			obj.data.speckle_type.includes('Objects.Other.Material') && 
+			obj.data.speckle_type !== 'Objects.Other.MaterialQuantity'
+	)
+
+	const modelObjects = objects.filter((obj) => {
+			// Remove the displayValue key if it exists as an array
+			if (Array.isArray(obj.data.displayValue)) {
+					delete obj.data.displayValue
+			}
+			// Remove closure
+			if (obj.data.__closure) delete obj.data.__closure
+
+			// Remove meshes and lines from Archicad and Revit
+			if ((sourceApplication.includes('Archicad') || sourceApplication.includes('Revit')) &&
+					(obj.data.speckle_type === 'Objects.Geometry.Mesh' ||
+					 obj.data.speckle_type === 'Objects.Geometry.Line' ||
+					 obj.data.speckle_type === 'Objects.BuiltElements.GridLine' ||
+					obj.data.speckle_type ==='Objects.BuiltElements.View')) {
+					return false
+			}
+
+			// Apply general filtering
+			return obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk' &&
+						 obj.data.speckle_type !== 'Speckle.Core.Models.Collection' &&
+						 !obj.data.speckle_type.includes('Objects.Other.Material')
+	})
+
+	return { materialObjects, modelObjects }
 }
 
 /**
@@ -251,29 +294,11 @@ export async function loadProject(reRoute: boolean) {
  */
 export function convertObjects(input: ResponseObjectStream): Project | null {
 	const speckleStore = useSpeckleStore()
+	const sourceApplication = speckleStore.selectedVersion.sourceApplication
 
 	const objects: ResponseObject[] = input.data.stream.object.elements.objects
 
-	const materialObjects = objects
-		.filter((obj) => obj.data.speckle_type.includes('Objects.Other.Material') 
-			&& obj.data.speckle_type !== 'Objects.Other.MaterialQuantity')
-
-	// Filter out some common support objects which we never want to filter
-	// Expand this list if needed
-	const modelObjects = objects.filter((obj) => {
-		// Remove the displayValue key if it exists as an array
-		if (Array.isArray(obj.data.displayValue)) {
-			delete obj.data.displayValue
-		}
-		// Remove closure
-		if (obj.data.__closure)
-			delete obj.data.__closure
-		
-		// Apply your filtering criteria
-		return obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk'
-			&& obj.data.speckle_type !== 'Speckle.Core.Models.Collection'
-			&& !obj.data.speckle_type.includes('Objects.Other.Material')
-	})
+	const { materialObjects, modelObjects } = filterObjects(objects, sourceApplication);
 
 	const projectDetails = speckleStore.getProjectDetails
 	const version = speckleStore.getSelectedVersion
@@ -287,9 +312,7 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 			if (el.data.materialQuantities) {
 				el.data.materialQuantities.forEach((mat) => {
 					quantity = quantityFromComposite(mat)
-					const name: string = el.data.name ? el.data.name : el.data.speckle_type
-
-					const matName = materialObjects.find((obj) => obj.id === mat.material?.referencedId)?.data.name
+					const name: string = el.data.name ? el.data.name : getTextAfterLastDot(el.data.speckle_type)
 
 					const parameters = { ...el.data }
 
@@ -299,15 +322,14 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 						parameters.speckle_type = sanitizedType
 					}
 
-					parameters.buildingMaterialName = matName
-
 					const obj: GeometryObject = {
 						id: el.id,
 						name: name,
 						quantity: quantity,
 						parameters: parameters,
-						URI: el.id,
-						subPart: true
+						URI: [el.id],
+						subPart: true,
+						simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication, mat)
 					}
 
 					geoObjects.push(obj)
@@ -329,8 +351,9 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 					name: name,
 					quantity: quantity,
 					parameters: parameters,
-					URI: el.id,
-					subPart: false
+					URI: [el.id],
+					subPart: false,
+					simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication)
 				}
 	
 				geoObjects.push(obj)
@@ -346,6 +369,108 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 		return project
 	}
 	return null
+}
+
+/**
+ * Creates a SimpleParameters object from a full object and all materialObjects from the file
+ * Add any specific software adaptations here
+ * TODO: Fix the materialQuantity sub group
+ */
+export function createSimpleParameters(
+	object: ResponseObject, 
+	materialObjects: ResponseObject[],
+	quantity: Quantity, 
+	sourceApplication: string, 
+	subMember: any = null): SimpleParameters 
+{
+	const settingsStore = useSettingsStore()
+  if (sourceApplication.includes('Revit')) {
+		// Fallback to speckle_type
+		const category = object.data?.category || getTextAfterLastDot(object.data.speckle_type)
+		const type = object.data?.type || ""
+		// TODO: New building code search, might slow down to much. Needs benchmarking!
+		const buildingCode = settingsStore.calculationSettings.buildingCode
+		const code = iterativeKeySearchIncludes(object, buildingCode.key)
+
+		const materialObject = subMember ? subMember : object.data
+		let materialName = ""
+		if (materialObject.material) {
+			if (materialObject.material.name) {
+				materialName = materialObject.material.name
+			} else {
+				materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+			} 
+		} else {
+			materialName = ""
+		}
+
+		const m = quantity.m || 0
+		const m2 = quantity.m2 || 0
+		const m3 = quantity.m3 || 0  
+
+		return { category, type, code, materialName, m, m2, m3 }
+	} 
+	if (sourceApplication.includes('Archicad')) {
+		// Fallback to speckle_type
+		const category = object.data?.elementType || getTextAfterLastDot(object.data.speckle_type)
+		const type = object.data?.compositeName || object.data?.profileName || object.data?.layer
+		// Find relevant buildingCode, this needs to be adapted
+		const buildingCode = settingsStore.calculationSettings.buildingCode
+		const code = iterativeKeySearchIncludes(object, buildingCode.key)
+
+		const materialObject = subMember ? subMember : object.data
+		let materialName = ""
+		if (materialObject.material) {
+				if (subMember) {
+						// When subMember exists, try grabbing from material.name
+						if (materialObject.material.name) {
+								materialName = materialObject.material.name
+						} else {
+								materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+						}
+				} else {
+						// When no subMember, try grabbing from buildingMaterialName
+						if (materialObject.buildingMaterialName) {
+								materialName = materialObject.buildingMaterialName
+						} else {
+								materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+						}
+				}
+		} else {
+				materialName = ""
+		}
+
+		const m = quantity.m || 0
+		const m2 = quantity.m2 || 0
+		const m3 = quantity.m3 || 0  
+
+		return { category, type, code, materialName, m, m2, m3 }
+	}
+	// For everything else we expect it to mimic the Revit structure
+	// Fallback to speckle_type
+	const category = object.data?.category || getTextAfterLastDot(object.data.speckle_type)
+	const type = object.data?.type || ""
+	// TODO: New building code search, might slow down to much. Needs benchmarking!
+	const buildingCode = settingsStore.calculationSettings.buildingCode
+	const code = iterativeKeySearchIncludes(object, buildingCode.key)
+
+	const materialObject = subMember ? subMember : object.data
+	let materialName = ""
+	if (materialObject.material) {
+		if (materialObject.material.name) {
+			materialName = materialObject.material.name
+		} else {
+			materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+		} 
+	} else {
+		materialName = ""
+	}
+
+	const m = quantity.m || 0
+	const m2 = quantity.m2 || 0
+	const m3 = quantity.m3 || 0  
+
+	return { category, type, code, materialName, m, m2, m3 }
 }
 
 /** 

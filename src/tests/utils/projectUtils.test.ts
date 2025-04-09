@@ -45,7 +45,7 @@ describe('projectUtils', () => {
         geometry: [mockObjects.simple]
       })
 
-      updateProjectGroups(true)
+      updateProjectGroups()
       expect(projectStore.projectGroups).toBeDefined()
     })
   })

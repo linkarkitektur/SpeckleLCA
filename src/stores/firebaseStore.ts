@@ -58,7 +58,7 @@ export const useFirebaseStore = defineStore('firebase', {
         const newStack: FilterLog = {
           projectId: projectId,
           stackName: stackName,
-          filterCallStack: filterRegistry.filterCallStack,
+          filterList: filterRegistry.filterList,
           date: new Date(),
         }
         await addDoc(collection(db, 'projectFilters'), newStack)
@@ -82,7 +82,7 @@ export const useFirebaseStore = defineStore('firebase', {
         const newStack: FilterLog = {
           projectId: projectId,
           stackName: stackName,
-          filterCallStack: filterList,
+          filterList: filterList,
           date: new Date(),
         }
         await addDoc(collection(db, 'projectFilters'), newStack)

@@ -15,6 +15,7 @@ import {
   sumEmissions,
   emissionToNumber
 } from '@/utils/resultUtils'
+import { calculateLinkedQuantities } from './filterUtils'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -64,65 +65,74 @@ export function createNestedObject(data: Group[]): NestedGroup {
  * Calculate the groups based on the filters and the project
  * @param reCalc 
  */
-export function updateProjectGroups(reCalc: boolean) {
+export function updateProjectGroups() {
   const projectStore = useProjectStore()
   let groups: Group[] = []
-  // First time running we need to define the groups from scratch
-  if (reCalc) {
-    //Create geometry objects from the project
-    const geo: GeometryObject[] = []
-    projectStore.currProject?.geometry.forEach((element) => {
-      geo.push(element)
-    })
+  
+  //Create geometry objects from the project
+  const geo = projectStore.currProject.geometry
 
-    //Root for the group, this should not be needed
-    groups = [
-      {
-        id: 'test',
-        name: 'root',
-        path: ['root'],
-        elements: geo,
-        color: 'hsl(151, 100%, 50%)'
-      }
-    ]
-
-    //Go through each filter and iterate over them
-    let reverseStack: Filter[] = []
-    if (projectStore.filterRegistry)
-      reverseStack = projectStore.filterRegistry.filterCallStack.callStack
-
-    reverseStack.forEach((el) => {
-      if (el.value) {
-        groups = projectStore.filterRegistry?.callFilter(
-          `${el.name}`,
-          groups,
-          `${el.field}`,
-          `${el.value}`,
-          el.remove
-        )
-      } else {
-        groups = projectStore.filterRegistry?.callFilter(
-          `${el.name}`,
-          groups,
-          `${el.field}`
-        )
-      }
-
-      //Remove root in path since we had to add it
-      groups.forEach((element) => {
-        if (element.path[0] === 'root') element.path.splice(0, 1)
-      })
-    })
-  } else {
-    if (projectStore.projectGroups) {
-      groups = projectStore.projectGroups
+  //Root for the group, this should not be needed
+  groups = [
+    {
+      id: 'test',
+      name: 'root',
+      path: ['root'],
+      elements: geo,
+      color: 'hsl(151, 100%, 50%)'
     }
-  }
+  ]
+
+  //Go through each filter and iterate over them
+  let reverseStack: Filter[] = []
+  if (projectStore.filterRegistry)
+    reverseStack = projectStore.filterRegistry.filterList.callStack
+
+  reverseStack.forEach((el) => {
+    if (el.value) {
+      groups = projectStore.filterRegistry?.callFilter(
+        `${el.name}`,
+        groups,
+        `${el.field}`,
+        `${el.value}`,
+        el.remove
+      )
+    } else {
+      groups = projectStore.filterRegistry?.callFilter(
+        `${el.name}`,
+        groups,
+        `${el.field}`
+      )
+    }
+
+    //Remove root in path since we had to add it
+    groups.forEach((element) => {
+      if (element.path[0] === 'root') element.path.splice(0, 1)
+    })
+  })
 
   groups.sort((a, b) => b.elements.length - a.elements.length)
 
   //Update groups
   projectStore.updateGroups(groups)
+  
+  // Load in and link all custom geometries now that we have tree structure
+  const customGeoList = projectStore.filterRegistry.filterList.customGeo
+  if (customGeoList) {
+    const tree = projectStore.getGroupTree()
+
+    for (const customGeo of customGeoList) {
+      // Skip if geometry already exists
+      if (projectStore.currProject.geometry.some(geo => geo.id === customGeo.geoObj.id))
+        continue
+
+      const match = tree.children.find(child => child.id === customGeo.linkedQuantId)
+      if (match) {
+        customGeo.geoObj.quantity = calculateLinkedQuantities(match, customGeo.percentage)
+      }
+      projectStore.addGeometry(customGeo.geoObj)
+    }
+  }
 }
 
 /**
@@ -247,7 +257,7 @@ export function setMappingColorGroup(objects: GeometryObject[] = null) {
     if (object && object.material) {
       //Add the object to the green group
       greenGroup.objectIds.push(object.id)
-    } else {
+    } else if (!greenGroup.objectIds.includes(object.id)) {
       //No material mapped
       redGroup.objectIds.push(object.id)
     }

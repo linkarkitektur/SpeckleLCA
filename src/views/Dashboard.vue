@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue'
+import { watch, onMounted, nextTick } from 'vue'
 
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import Slideover from '@/components/SlideOver/Sliderover.vue'
@@ -53,7 +53,6 @@ import { ResultCalculator } from '@/utils/resultUtils'
 import { preloadDashboardData } from '@/services/preLoader'
 
 // Modals
-import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
 import SettingsModal from '@/components/Modals/SettingsModal.vue'
 
 
@@ -68,11 +67,18 @@ const speckleStore = useSpeckleStore()
 // Preload all needed resources
 preloadDashboardData()
 
+onMounted(async () => {
+  // Wait for DOM updates and Suspense to resolve if needed
+  await nextTick()
+  // When all elements have loaded, explicitly set loading to false
+  navStore.loading = false
+})
+
 // Watch for changes in the active page and update viewer colors
 // TODO: Have this in the navStore instead?
 watch(() => navStore.activePage , (newVal) => {
 	if(newVal === 'Filtering') {
-		updateProjectGroups(true)
+		updateProjectGroups()
 		const tree =	projectStore.getGroupTree()?.children
 		speckleStore.calculateGroupColors(tree)
 	} else if(newVal === 'Mapping') {

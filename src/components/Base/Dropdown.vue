@@ -25,6 +25,7 @@
       >
         <div
           v-if="isOpen"
+          ref="dropdownContent"
           class="fixed z-50 origin-top-left styled-element"
           :style="dropdownStyles"
         >
@@ -44,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import DropdownMenuItem from '@/components/Base/DropdownMenuItem.vue'
 import { useNavigationStore } from '@/stores/navigationStore'
@@ -73,6 +74,7 @@ const emit = defineEmits<{
 const selectedItem = ref(props.dropdownName)
 const isOpen = ref(false)
 const dropdownButton = ref<HTMLElement | null>(null)
+const dropdownContent = ref<HTMLElement | null>(null)
 
 const dropdownStyles = ref({
   top: '0px',
@@ -90,7 +92,6 @@ const select = (item: dropdownItem) => {
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value
   if (isOpen.value) {
-  
     nextTick(() => {
       if (dropdownButton.value) {
         const rect = dropdownButton.value.getBoundingClientRect()
@@ -104,6 +105,26 @@ const toggleDropdown = () => {
     })
   }
 }
+
+// Close dropdown when clicking outside
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  if (
+    dropdownButton.value &&
+    !dropdownButton.value.contains(target) &&
+    dropdownContent.value &&
+    !dropdownContent.value.contains(target)
+  ) {
+    isOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside, true)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside, true)
+})
 
 // Watch for changes in dropdownName
 watch(

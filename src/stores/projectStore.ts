@@ -5,7 +5,8 @@ import type {
 	FilterRegistry,
 	Group,
 	Filter,
-	NestedGroup
+	NestedGroup,
+	CustomGeo
 } from '@/models/filterModel'
 import type { Results } from '@/models/resultModel'
 
@@ -24,7 +25,7 @@ export const useProjectStore = defineStore({
 		return {
 			currProject: null as Project | null, // The current project being worked on
 			projectGroups: null as Group[] | null, // Groups that have been created for geometry objects
-			filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterCallStack
+			filterRegistry: null as FilterRegistry | null, // Filterregistry with current filters and filterList
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
 			selectedObjects: [] as GeometryObject[], // GeometryObjects that are currently selected
 			highlightedLabel: null as string | null, // Label that is currently highlighted
@@ -134,12 +135,42 @@ export const useProjectStore = defineStore({
 		 */
 		updateRegistryStack(name: string, callStack: Filter[]) {
 			if (this.filterRegistry)
-				this.filterRegistry.filterCallStack = {
+				this.filterRegistry.filterList = {
 					id: crypto.randomUUID(),
 					name: name,
-					callStack: callStack
+					callStack: callStack,
+					customGeo: this.filterRegistry.filterList.customGeo
 				}
-				
+		},
+
+		/**
+		 * Add step to callstack to add custom geometry with its bindings
+		 * @param geo 
+		 */
+		addCustomGeoToStack(geo: CustomGeo) {
+			if (this.filterRegistry)
+				if(this.filterRegistry.filterList.customGeo)
+					this.filterRegistry.filterList.customGeo.push(geo)
+				else
+					this.filterRegistry.filterList.customGeo = [geo]
+		},
+
+		/**
+		 * Remove custom geometry from the stack
+		 */
+		removeCustomGeoFromStack(geo: CustomGeo) {
+			if (!this.filterRegistry?.filterList.customGeo) return
+
+			const index = this.filterRegistry.filterList.customGeo.findIndex(
+				item => item.geoObj.id === geo.geoObj.id
+			)
+
+			if (index === -1) return
+
+			this.filterRegistry.filterList.customGeo.splice(index, 1)
+			
+			// Also remove the geometry from our current project
+			this.removeGeometry(geo.geoObj.id)
 		},
 
 		/**
@@ -149,7 +180,7 @@ export const useProjectStore = defineStore({
 		 */
 		getRegistryStack(): Filter[] {
 			if (this.filterRegistry !== null)
-				return this.filterRegistry.filterCallStack.callStack
+				return this.filterRegistry.filterList.callStack
 			else
 				return [
 					{
@@ -208,7 +239,7 @@ export const useProjectStore = defineStore({
 		 * @param geometryObject The geometry object to add.
 		 */
 		addGeometry(geometryObject: GeometryObject) {
-			this.currProject?.geometry.push(geometryObject)		
+			this.currProject?.geometry.push(geometryObject)
 		},	
 
 		/**
@@ -339,8 +370,8 @@ export const useProjectStore = defineStore({
 		setObjectsByURI(uri: string[]) {
 			const objects = this.currProject.geometry
 			const foundObjects = objects?.filter((obj) => {
-				return uri.includes(obj.URI as string)
-			})
+        return Array.isArray(obj.URI) && obj.URI.some((u) => uri.includes(u))
+    })
 			this.selectedObjects = foundObjects
 		},
 
@@ -376,9 +407,9 @@ export const useProjectStore = defineStore({
 		 * returns only the URI of the selected objects in the project
 		 * @returns 
 		 */
-		getSelectedObjectsURI() {
+		getSelectedObjectsURI(): string[] {
 			if (this.selectedObjects) {
-				return this.selectedObjects.map((obj) => obj.URI as string)
+				return this.selectedObjects.flatMap((obj) => obj.URI as string[])
 			} else {
 				return []
 			}

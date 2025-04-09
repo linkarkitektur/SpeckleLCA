@@ -17,76 +17,36 @@
         </template>
       </Draggable>
 
-      <!-- Add group button -->
-      <div class="p-10 grid place-items-center">
-        <button @click="addGroup">
-          <PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500" />
-        </button>
-      </div>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { watch, computed } from 'vue'
 import Draggable from 'vuedraggable'
-import { storeToRefs } from 'pinia'
-import { 
-	PlusCircleIcon
- } from '@heroicons/vue/24/solid'
 
 import GroupCard from '@/components/Sidebar/GroupCard.vue'
 
 import { useProjectStore } from '@/stores/projectStore'
-import { useNavigationStore } from '@/stores/navigationStore'
 
 import { useSpeckleStore } from '@/stores/speckleStore'
-import { updateProjectGroups } from '@/utils/projectUtils'
-
-import type { NestedGroup } from '@/models/filterModel'
 
 const projectStore = useProjectStore()
-const navStore = useNavigationStore()
 const speckleStore = useSpeckleStore()
 
-const { filterRegistry, projectGroups } = storeToRefs(projectStore)
-const refTree = ref<NestedGroup[]>([])
-
-const addGroup = () => {
-	navStore.toggleGroupModal()
-}
-
-const ensureGroupColors = (groups: NestedGroup[]) => {
-  if (!groups?.length) return
-  
-  try {
-    speckleStore.calculateGroupColors(groups)
-  } catch (error) {
-    console.error('Error calculating group colors:', error)
-  }
-}
-
-onMounted(() => {
-	updateProjectGroups(true)
-	refTree.value = projectStore.getGroupTree()?.children || []
-	ensureGroupColors(refTree.value)
+const refTree = computed(() => {
+  const tree = projectStore.getGroupTree()
+  return tree?.children || []
 })
 
-watch(
-	() => filterRegistry.value?.filterCallStack,
-	() => {
-		updateProjectGroups(true)
-		refTree.value = projectStore.getGroupTree()?.children || []
-		ensureGroupColors(refTree.value)
-		speckleStore.hideUnusedObjects(speckleStore.hiddenObjects.map(obj => obj.id))
-	}
-)
-
-watch(
-	projectGroups,
-	() => {
-		updateProjectGroups(false)
-	},
-	{ deep: true }
-)
+// Watch group colors on change of refTree
+watch(refTree, (newTree) => {
+  if (newTree?.length) {
+    try {
+      speckleStore.calculateGroupColors(newTree)
+    } catch (error) {
+      console.error('Error calculating group colors:', error)
+    }
+  }
+}, { immediate: true })
 </script>

@@ -7,7 +7,7 @@ import type { CalculationSettings, ProjectSettings } from '@/models/settingModel
 export interface FilterLog {
   projectId: string
   stackName: string
-  filterCallStack: FilterList
+  filterList: FilterList
   date: Date
 }
 
