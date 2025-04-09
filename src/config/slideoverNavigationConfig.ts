@@ -6,7 +6,7 @@ import {
 } from '@heroicons/vue/24/solid'
 
 import type { PageType, NavigationButtonConfig } from '@/models/pageModel'
-import { MapIcon, PaperAirplaneIcon } from '@heroicons/vue/20/solid'
+import { MapIcon, PaperAirplaneIcon, PlusIcon } from '@heroicons/vue/20/solid'
 
 export const pages: PageType[] = ['Filtering', 'Mapping', 'Results', 'Benchmark']
 
@@ -18,26 +18,20 @@ export const sidebarButtons: NavigationButtonConfig[] = [
     showOn: ['Filtering']
   },
   {
+    text: 'Add Group',
+    icon: PlusIcon,
+    action: 'toggleSlideover',
+    showOn: ['Filtering']
+  },
+  {
     text: 'Save Filter',
     icon: DocumentCheckIcon,
     action: 'toggleSlideover',
     showOn: ['Filtering']
   },
   {
-    text: 'Edit Groups',
-    icon: UserGroupIcon,
-    action: 'toggleSlideover',
-    showOn: ['Filtering']
-  },
-  {
     text: 'Show Materials',
     icon: MapIcon,
-    action: 'toggleSlideover',
-    showOn: ['Mapping']
-  },
-  {
-    text: 'Save Mapping',
-    icon: DocumentCheckIcon,
     action: 'toggleSlideover',
     showOn: ['Mapping']
   },
@@ -50,6 +44,12 @@ export const sidebarButtons: NavigationButtonConfig[] = [
   {
     text: 'Edit Assemblies',
     icon: Square3Stack3DIcon,
+    action: 'toggleSlideover',
+    showOn: ['Mapping']
+  },
+  {
+    text: 'Save Mapping',
+    icon: DocumentCheckIcon,
     action: 'toggleSlideover',
     showOn: ['Mapping']
   },
