@@ -53,7 +53,6 @@ import { ResultCalculator } from '@/utils/resultUtils'
 import { preloadDashboardData } from '@/services/preLoader'
 
 // Modals
-import NewGroupModal from '@/components/Sidebar/NewGroupModal.vue'
 import SettingsModal from '@/components/Modals/SettingsModal.vue'
 
 

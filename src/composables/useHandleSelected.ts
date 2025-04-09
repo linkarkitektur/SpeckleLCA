@@ -20,6 +20,7 @@ export function useHandleSelected() {
         case 'Filtering': {
           const filterList = JSON.parse(item.data) as FilterList
           projectStore.updateRegistryStack(filterList.name, filterList.callStack)
+          
           updateProjectGroups()
           break
         } 

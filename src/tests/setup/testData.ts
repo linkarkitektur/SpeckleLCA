@@ -59,7 +59,7 @@ export const mockObjects: Record<string, GeometryObject> = {
   complex: {
     id: 'test-id-2',
     name: 'Complex Object',
-    URI: 'speckle://objects/test',
+    URI: ['speckle://objects/test'],
     quantity: {
       m2: 50,
       m3: 25

@@ -17,12 +17,6 @@
         </template>
       </Draggable>
 
-      <!-- Add group button -->
-      <div class="p-10 grid place-items-center">
-        <button @click="addGroup">
-          <PlusCircleIcon class="h-10 w-10 text-green-600 hover:text-green-500" />
-        </button>
-      </div>
     </div>
   </nav>
 </template>
@@ -30,33 +24,20 @@
 <script setup lang="ts">
 import { watch, computed } from 'vue'
 import Draggable from 'vuedraggable'
-import { storeToRefs } from 'pinia'
-import { 
-	PlusCircleIcon
- } from '@heroicons/vue/24/solid'
 
 import GroupCard from '@/components/Sidebar/GroupCard.vue'
 
 import { useProjectStore } from '@/stores/projectStore'
-import { useNavigationStore } from '@/stores/navigationStore'
 
 import { useSpeckleStore } from '@/stores/speckleStore'
-import { updateProjectGroups } from '@/utils/projectUtils'
 
 const projectStore = useProjectStore()
-const navStore = useNavigationStore()
 const speckleStore = useSpeckleStore()
-
-const { projectGroups } = storeToRefs(projectStore)
 
 const refTree = computed(() => {
   const tree = projectStore.getGroupTree()
   return tree?.children || []
 })
-
-const addGroup = () => {
-	navStore.toggleGroupModal()
-}
 
 // Watch group colors on change of refTree
 watch(refTree, (newTree) => {

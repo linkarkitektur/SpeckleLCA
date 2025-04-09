@@ -327,7 +327,7 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 						name: name,
 						quantity: quantity,
 						parameters: parameters,
-						URI: el.id,
+						URI: [el.id],
 						subPart: true,
 						simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication, mat)
 					}
@@ -351,7 +351,7 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 					name: name,
 					quantity: quantity,
 					parameters: parameters,
-					URI: el.id,
+					URI: [el.id],
 					subPart: false,
 					simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication)
 				}

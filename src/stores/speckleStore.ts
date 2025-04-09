@@ -399,7 +399,7 @@ export const useSpeckleStore = defineStore({
 				}
 				// Create group object with hex color
 				const group = {
-					objectIds: element.objects.map(obj => obj.URI),
+					objectIds: element.objects.map(obj => obj.URI[0]),
 					color: color
 				}
 				groups.push(group)

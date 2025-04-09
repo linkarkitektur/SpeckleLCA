@@ -91,14 +91,14 @@ import ResultsGroupCard from '@/components/Sidebar/ResultsGroupCard.vue'
 
 import BaseChevron from '@/components/Base/BaseChevron.vue'
 
-import type { Group, NestedGroup } from '@/models/filterModel'
+import type { NestedGroup } from '@/models/filterModel'
 
 import { getMappedMaterial, mapMaterial } from '@/utils/materialUtils'
 
 import { useProjectStore } from '@/stores/projectStore'
 import { useNavigationStore } from '@/stores/navigationStore'
 import { storeToRefs } from 'pinia'
-import { getFontColorForHSL, lightenHSLColor } from '@/utils/colorUtils'
+import { lightenHSLColor } from '@/utils/colorUtils'
 import { roundNumber } from '@/utils/mathUtils'
 
 // Add defineOptions to inherit attrs

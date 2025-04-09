@@ -67,7 +67,7 @@ import MaterialSlideover from '@/components/SlideOver/MaterialSlideover.vue'
 import AssemblySlideover from '@/components/SlideOver/AssemblySlideover.vue'
 import SaveFilters from '@/components/SlideOver/SaveFilters.vue'
 import ExportResults from '@/components/SlideOver/ExportResults.vue'
-import EditGroup from '@/components/SlideOver/EditGroup.vue'
+import EditGroup from '@/components/SlideOver/AddGroup.vue'
 
 const navStore = useNavigationStore()
 
@@ -88,7 +88,7 @@ const slideoverConfig = computed((): SlideoverConfig => {
         component: SaveFilters,
         width: 'w-1/4'
       }
-    case "Edit Groups":
+    case "Add Group":
       return {
         component: EditGroup,
         width: 'w-1/3'

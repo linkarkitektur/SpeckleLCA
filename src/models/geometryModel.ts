@@ -7,7 +7,7 @@ import type { Results } from '@/models/resultModel'
 export interface GeometryObject {
 	id: string // UUID
 	name: string
-	URI?: string // Link to geometry.
+	URI?: string[] // Links to geometry.
 	quantity: Quantity
 	material?: Product | Assembly
 	results?: Results[] // List of results if multiple runs are made.
