@@ -15,6 +15,7 @@ import {
   sumEmissions,
   emissionToNumber
 } from '@/utils/resultUtils'
+import { calculateLinkedQuantities } from './filterUtils'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -69,10 +70,7 @@ export function updateProjectGroups() {
   let groups: Group[] = []
   
   //Create geometry objects from the project
-  const geo: GeometryObject[] = []
-  projectStore.currProject?.geometry.forEach((element) => {
-    geo.push(element)
-  })
+  const geo = projectStore.currProject.geometry
 
   //Root for the group, this should not be needed
   groups = [
@@ -88,7 +86,7 @@ export function updateProjectGroups() {
   //Go through each filter and iterate over them
   let reverseStack: Filter[] = []
   if (projectStore.filterRegistry)
-    reverseStack = projectStore.filterRegistry.filterCallStack.callStack
+    reverseStack = projectStore.filterRegistry.filterList.callStack
 
   reverseStack.forEach((el) => {
     if (el.value) {
@@ -117,6 +115,24 @@ export function updateProjectGroups() {
 
   //Update groups
   projectStore.updateGroups(groups)
+  
+  // Load in and link all custom geometries now that we have tree structure
+  const customGeoList = projectStore.filterRegistry.filterList.customGeo
+  if (customGeoList) {
+    const tree = projectStore.getGroupTree()
+
+    for (const customGeo of customGeoList) {
+      // Skip if geometry already exists
+      if (projectStore.currProject.geometry.some(geo => geo.id === customGeo.geoObj.id))
+        continue
+
+      const match = tree.children.find(child => child.id === customGeo.linkedQuantId)
+      if (match) {
+        customGeo.geoObj.quantity = calculateLinkedQuantities(match, customGeo.percentage)
+      }
+      projectStore.addGeometry(customGeo.geoObj)
+    }
+  }
 }
 
 /**
@@ -241,7 +257,7 @@ export function setMappingColorGroup(objects: GeometryObject[] = null) {
     if (object && object.material) {
       //Add the object to the green group
       greenGroup.objectIds.push(object.id)
-    } else {
+    } else if (!greenGroup.objectIds.includes(object.id)) {
       //No material mapped
       redGroup.objectIds.push(object.id)
     }

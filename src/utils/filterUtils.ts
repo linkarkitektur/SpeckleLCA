@@ -1,9 +1,10 @@
-import type { Group } from '@/models/filterModel'
-import type { GeometryObject } from '@/models/geometryModel'
+import type { Group, NestedGroup } from '@/models/filterModel'
+import type { GeometryObject, Quantity } from '@/models/geometryModel'
 
 import { useProjectStore } from '@/stores/projectStore'
 import { useSpeckleStore } from '@/stores/speckleStore'
 import { getNestedPropertyValue } from './materialUtils'
+import { roundNumber } from './mathUtils'
 
 /**
  * Iteratively searches an object for the specified key and applies the comparison function to its value.
@@ -280,6 +281,44 @@ function addObjToGroup(
       path: paths,
       elements: [obj],
     }
+  }
+}
+
+/**
+ * Calculate linked quantities for geometry linked to group from the grouplist
+ * @param linkedGroup 
+ * @param percentage 
+ * @returns 
+ */
+export function calculateLinkedQuantities(linkedGroup: NestedGroup, percentage: number): Quantity {
+  let M = 0,
+      M2 = 0,
+      M3 = 0,
+      KG = 0,
+      PCS = 0
+  const processedParents = new Set<string>()
+
+  linkedGroup.objects.forEach((obj) => {
+      const key = obj.id
+      if (!processedParents.has(key)) {
+          M += obj.quantity.m || 0
+          M2 += obj.quantity.m2 || 0
+          KG += obj.quantity.kg || 0
+          processedParents.add(key)
+      }
+      // Always add the cubic value since that is still relevant
+      M3 += obj.quantity.m3 || 0
+      PCS += 1
+  })
+
+  const multiplier = percentage / 100
+
+  return {
+      m: roundNumber(M * multiplier, 2),
+      m2: roundNumber(M2 * multiplier, 2),
+      m3: roundNumber(M3 * multiplier, 2),
+      kg: roundNumber(KG * multiplier, 2),
+      pcs: roundNumber(PCS * multiplier, 0)
   }
 }
 

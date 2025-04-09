@@ -76,7 +76,7 @@ export async function mapMaterial(inGroup: NestedGroup) {
   const projectStore = useProjectStore()
   const speckleStore = useSpeckleStore()
 
-  const currFilterList: FilterList = projectStore.filterRegistry.filterCallStack
+  const currFilterList: FilterList = projectStore.filterRegistry.filterList
 
   // If no mapping exists, create a new one and then add the step
   if (materialStore.mapping == null) {
@@ -87,24 +87,24 @@ export async function mapMaterial(inGroup: NestedGroup) {
       steps: []
     }
     materialStore.mapping = newMapping
+    await Promise.all(
+      inGroup.objects.map((obj) => {
+        obj.material = materialStore.currentMapping
+      })
+    )
     await materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
   } else {
     // If the filter list is not in the mapping, add it
     if (!materialStore.mapping.filters.includes(currFilterList)) {
       materialStore.mapping.filters.push(currFilterList)
     }
-    await materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
-  }
-
-  if (materialStore.currentMapping != null) {
     await Promise.all(
       inGroup.objects.map((obj) => {
         obj.material = materialStore.currentMapping
-        return materialStore.updateMappingMaterial(obj.URI, materialStore.currentMapping)
       })
     )
+    await materialStore.addStep(inGroup, materialStore.currentMapping, currFilterList.id)
   }
-
 
   const mappingColors = setMappingColorGroup()
   speckleStore.setColorGroups(mappingColors)
