@@ -20,7 +20,9 @@
         <PlusCircleIcon class="-mr-1 h-5 w-5 text-black opacity-100" aria-hidden="true" />
       </template>
       <template #item>
-        <!-- Empty template -->
+        <div>
+          <!-- Empty template -->
+        </div>
       </template>
     </Draggable>
 
@@ -36,15 +38,17 @@
       class="flex flex-col justify-center w-full"
     >
       <template #item="{ element, index }">
-        <MaterialBar
-          :key="element.metaData.appId"
-          class="hover:cursor-move"
-          :product="element"
-          @update:thickness="updateMaterialThickness"
-          @update:percent="updateMaterialPercent"
-          @update:color="updateMaterialColor"
-          @delete="deleteMaterial(index)"
-        />
+        <div>
+          <MaterialBar
+            :key="element.metaData.appId"
+            class="hover:cursor-move"
+            :product="element"
+            @update:thickness="updateMaterialThickness"
+            @update:percent="updateMaterialPercent"
+            @update:color="updateMaterialColor"
+            @delete="deleteMaterial(index)"
+          />
+        </div>
       </template>
     </Draggable>
 
@@ -67,7 +71,9 @@
         <PlusCircleIcon class="-mr-1 h-5 w-5 text-black" aria-hidden="true" />
       </template>
       <template #item>
-        <!-- Empty template -->
+        <div>
+          <!-- Empty template -->
+        </div>
       </template>
     </Draggable>
   </div>
