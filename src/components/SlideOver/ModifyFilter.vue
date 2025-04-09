@@ -153,12 +153,13 @@ import {
 } from '@heroicons/vue/24/solid'
 import { useProjectStore } from '@/stores/projectStore'
 import { useNavigationStore } from '@/stores/navigationStore'
-import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 import DropdownSearchable from '@/components/Base/DropdownSearchable.vue'
 import BaseToggle from '../Base/BaseToggle.vue'
-import { SimpleParameters } from '@/models/geometryModel'
 import { updateProjectGroups } from '@/utils/projectUtils'
-import { CustomGeo } from '@/models/filterModel'
+
+import type { SimpleParameters } from '@/models/geometryModel'
+import type { dropdownItem } from '@/components/Base/Dropdown.vue'
+import type { CustomGeo } from '@/models/filterModel'
 
 // Store initialization
 const projectStore = useProjectStore()

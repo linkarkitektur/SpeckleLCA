@@ -54,12 +54,30 @@ export const mockObjects: Record<string, GeometryObject> = {
     parameters: {
       type: 'wall',
       nestedValue: 'nestedValue'
-    }
+    },
+    simpleParameters: {
+      category: '',
+      type: '',
+      code: '',
+      materialName: '',
+      m: 0,
+      m2: 0,
+      m3: 0
+    },
   },
   complex: {
     id: 'test-id-2',
     name: 'Complex Object',
     URI: ['speckle://objects/test'],
+    simpleParameters: {
+      category: '',
+      type: '',
+      code: '',
+      materialName: '',
+      m: 0,
+      m2: 0,
+      m3: 0
+    },
     quantity: {
       m2: 50,
       m3: 25
@@ -150,13 +168,31 @@ export const mockObjects: Record<string, GeometryObject> = {
     quantity: {
       m: 5
     },
-    parameters: {}
+    parameters: {},
+    simpleParameters: {
+      category: '',
+      type: '',
+      code: '',
+      materialName: '',
+      m: 0,
+      m2: 0,
+      m3: 0
+    },
   },
   empty: {
     id: 'test-id-6',
     name: 'Empty',
     quantity: {},
-    parameters: {}
+    parameters: {},
+    simpleParameters: {
+      category: '',
+      type: '',
+      code: '',
+      materialName: '',
+      m: 0,
+      m2: 0,
+      m3: 0
+    },
   },
   withSpecialChars: {
     id: 'test-id-4',
@@ -166,7 +202,16 @@ export const mockObjects: Record<string, GeometryObject> = {
       'field.with.dots': 'value',
       'field-with-dashes': 'value2',
       'field with spaces': 'value3'
-    }
+    },
+    simpleParameters: {
+      category: '',
+      type: '',
+      code: '',
+      materialName: '',
+      m: 0,
+      m2: 0,
+      m3: 0
+    },
   }
 }
 
@@ -182,6 +227,15 @@ export const mockInvalidObject: GeometryObject = {
   parameters: null,
   name: null,
   quantity: null,
+  simpleParameters: {
+    category: '',
+    type: '',
+    code: '',
+    materialName: '',
+    m: 0,
+    m2: 0,
+    m3: 0
+  },
 }
 
 export const mockGroups = {
