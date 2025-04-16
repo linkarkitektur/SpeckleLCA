@@ -232,7 +232,7 @@
   <div class="flex items-center justify-end gap-x-6 mb-4">
     <ActionButton
       text="Cancel"
-      @on-click="navStore.toggleSlideover"
+      @on-click="cancel"
     />
     <ActionButton
       text="Save"
@@ -274,6 +274,46 @@ const formData = ref({
 const linkedGroup = ref<NestedGroup | null>(null)
 const linkedGeo = ref<NestedGroup | null>(null)
 const percentage = ref(100)
+const id = ref<string>(crypto.randomUUID())
+
+// Add props for edit mode
+const props = defineProps<{
+  editMode?: boolean
+  customGeoData?: CustomGeo
+}>()
+
+// Initialize form data with existing values if in edit mode
+if (props.editMode && props.customGeoData) {
+  const geo = props.customGeoData.geoObj
+  formData.value = {
+    name: geo.name,
+    category: geo.simpleParameters.category,
+    type: geo.simpleParameters.type,
+    code: geo.simpleParameters.code,
+    material: geo.simpleParameters.materialName,
+    M: geo.quantity.m,
+    M2: geo.quantity.m2,
+    M3: geo.quantity.m3,
+    KG: geo.quantity.kg,
+    TONES: geo.quantity.tonnes,
+    PCS: geo.quantity.pcs,
+  }
+  const tree = projectStore.getGroupTree()
+  
+  // Set linked data if exists
+  if (props.customGeoData.linkedQuantId) {
+    linkedGroup.value = projectStore.searchTree(tree, props.customGeoData.linkedQuantId)
+    percentage.value = props.customGeoData.percentage || 100
+  }
+  
+  if (props.customGeoData.linkGeoId) {
+    linkedGeo.value = projectStore.searchTree(tree, props.customGeoData.linkGeoId)
+  }
+
+  id.value = props.customGeoData.geoObj.id
+}
+
+const emit = defineEmits(['close'])
 
 // For quantities
 const handleDrop = (event: DragEvent) => {
@@ -349,10 +389,11 @@ const unlinkGroup = () => {
 
 const saveData = () => {
   //Create a new geometry object which we append all the quantities to
+  const URI = linkedGeo.value ? linkedGeo.value.objects.flatMap(obj => obj.URI) : []
   const geoObj: GeometryObject = {
-    id: crypto.randomUUID(),
+    id: id.value,
     name: formData.value.name,
-    URI: linkedGeo.value.objects.flatMap(obj => obj.URI),
+    URI: URI,
     quantity: {
       m: formData.value.M,
       m2: formData.value.M2,
@@ -390,12 +431,24 @@ const saveData = () => {
   }
 
   // Add to filters with geometry information and group info
-  projectStore.addCustomGeoToStack(customGeo)
-
+  if (props.editMode) {
+    projectStore.updateCustomGeo(customGeo)
+    emit('close')
+  } else {
+    projectStore.addCustomGeoToStack(customGeo)
+    navStore.toggleSlideover()
+  }
+  
   resetForm()
-  projectStore.addGeometry(geoObj)
-  navStore.toggleSlideover()
   updateProjectGroups()
+}
+
+const cancel = () => {
+  if (props.editMode) {
+    emit('close')
+  } else {
+    navStore.toggleSlideover()
+  }
 }
 
 watch(percentage, () => {

@@ -13,8 +13,6 @@ import { useSettingsStore } from "@/stores/settingStore"
 
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds
- * TODO: This needs a redo and optimisation
- * TODO: Make this so that the users can see the changes during its applying them so the bars change in real time
  * @param mapping Mapping object to update towards project and material store
  */
 export function updateMapping(mapping: Mapping) {
@@ -29,13 +27,14 @@ export function updateMapping(mapping: Mapping) {
     if (lastId != step.filterId) {
       //Find the filter from the mapping and apply it to the project
       const filterList = mapping.filters.find(filter => filter.id == step.filterId);
-      projectStore.updateRegistryStack(filterList.name, filterList.callStack)
+      projectStore.updateRegistryStack(filterList.name, filterList.callStack, filterList.customGeo)
       updateProjectGroups()
 
       lastId = step.filterId
     }
     //Search and find the group that we are updating
-    const group = projectStore.getGroupById(step.nestedGroupId)
+    const path = step.nestedGroupId.includes('|') ? step.nestedGroupId.split('|') : [step.nestedGroupId]
+    const group = projectStore.getGroupByPath(path)
     
     if (group == null) {
       return

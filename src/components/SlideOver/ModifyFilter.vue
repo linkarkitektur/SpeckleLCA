@@ -101,30 +101,6 @@
       </template>
     </Draggable>
 
-    <!-- Custom Geometry Section -->
-    <div v-if="customGeoList.length" class="mt-4">
-      <h3 class="font-semibold mb-2">Custom Geometries</h3>
-      <div 
-        v-for="(customGeo) in customGeoList" 
-        :key="customGeo.geoObj.id" 
-        class="styled-element hoverable-sm p-4 flex justify-between items-center"
-      >
-        <div>
-          <p class="font-semibold">ID: {{ customGeo.geoObj.name }}</p>
-          <p class="text-sm text-black">
-            {{ customGeo.geoObj.quantity.m2 || 'No quantities' }}
-          </p>
-        </div>
-        <button
-          class="p-1 styled-element hoverable-xs bg-neutral-100"
-          :style="{ backgroundColor: navStore.activeColor }"
-          @click="removeCustomGeo(customGeo)"
-        >
-          <MinusCircleIcon class="h-4 w-4" />
-        </button>
-      </div>
-    </div>
-
     <!-- Add Filter Button -->
     <div class="flex justify-center mt-4 mb-4 ">
       <button 
@@ -135,6 +111,55 @@
         <PlusCircleIcon class="h-6 w-6" />
       </button>
     </div>
+
+    <!-- Custom Geometry Section -->
+    <div v-if="customGeoList.length" class="mt-4">
+      <h3 class="font-semibold mb-2">Custom Geometries</h3>
+      <div 
+        v-for="(customGeo) in customGeoList"
+        :key="customGeo.geoObj.id" 
+      >
+        <!-- Container -->
+        <div 
+          class="styled-element hoverable-sm p-4 justify-between items-center"
+        >
+          <!-- Show AddGroup when editing -->
+          <AddGroup 
+            v-if="editGeo === customGeo.geoObj.id"
+            :editMode="true"
+            :customGeoData="customGeo"
+            @close="toggleEditGeo(null)"
+          />
+          <!-- Normal mode -->
+          <div v-else>
+            <div class="flex justify-between items-center">
+              <div>
+              <p class="font-semibold">ID: {{ customGeo.geoObj.name }}</p>
+              <p class="text-sm text-black">
+                {{ customGeo.geoObj.quantity.m2 || 'No quantities' }}
+              </p>
+              </div>
+              <div class="flex gap-2">
+              <button
+                class="p-1 styled-element hoverable-xs bg-neutral-100"
+                :style="{ backgroundColor: navStore.activeColor }"
+                @click="toggleEditGeo(customGeo.geoObj.id)"
+              >
+                <PencilSquareIcon class="h-4 w-4" />
+              </button>
+              <button
+                class="p-1 styled-element hoverable-xs bg-neutral-100"
+                :style="{ backgroundColor: navStore.activeColor }"
+                @click="removeCustomGeo(customGeo)"
+              >
+                <MinusCircleIcon class="h-4 w-4" />
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -143,6 +168,7 @@ import { ref, onUnmounted, computed } from 'vue'
 import Draggable from 'vuedraggable'
 import Dropdown from '@/components/Base/Dropdown.vue'
 import CheckBox from '@/components/Base/CheckBox.vue'
+import AddGroup from './AddGroup.vue'
 
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import {
@@ -167,6 +193,7 @@ const navStore = useNavigationStore()
 
 // Reactive state
 const editFilter = ref(-1)
+const editGeo = ref<string | null>(null)
 const callStack = ref(projectStore.getRegistryStack())
 const drag = ref(false)
 
@@ -241,9 +268,13 @@ const removeCustomGeo = (geo: CustomGeo) => {
   }
 }
 
+const toggleEditGeo = (geoId: string | null) => {
+  editGeo.value = geoId
+}
+
 // Update store when component unmounts
 onUnmounted(() => {
-  projectStore.updateRegistryStack('test', callStack.value)
+  projectStore.updateRegistryStack('test', callStack.value, customGeoList.value)
   updateProjectGroups()
 })
 </script>
