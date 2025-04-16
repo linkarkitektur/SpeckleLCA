@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
 	<!-- Modal area -->
-	<NewGroupModal />
 	<SettingsModal />
 	<StandardBackground />
 
@@ -75,7 +74,6 @@ onMounted(async () => {
 })
 
 // Watch for changes in the active page and update viewer colors
-// TODO: Have this in the navStore instead?
 watch(() => navStore.activePage , (newVal) => {
 	if(newVal === 'Filtering') {
 		updateProjectGroups()
