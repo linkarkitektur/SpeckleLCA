@@ -22,17 +22,17 @@
       </div>
 
       <div class="col-span-2 row-span-2 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
-        <h class="styled-header pb-2"> Emissions by element type</h>
+        <h2 class="styled-header pb-2">Emissions by code</h2>
         <GraphContainer
           graph="VerticalBarChart"
           :result-item="categoryResults"
-          minW="calc(40vh)"
-          maxW="calc(40vh)"
+          minW="calc(70vh)"
+          maxW="calc(70vh)"
         />
       </div>
 
       <div class="col-span-2 row-span-2 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
-        <h class="styled-header pb-2"> Emissions by material category</h>
+        <h2 class="styled-header pb-2">Emissions by material category</h2>
         <div class="flex items-center justify-center w-full h-full">
           <div class="aspect-square h-full">
             <GraphContainer
@@ -44,14 +44,14 @@
       </div>
 
       <div class="col-span-4 row-span-1 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
-        <h class="styled-header pb-2"> Emissions by material</h>
+        <h2 class="styled-header pb-2">Emissions by material</h2>
         <GraphContainer
           graph="VerticalBarChart"
           :result-item="hotSpotResults"
           maxH="calc(15vh)"
           minH="calc(15vh)"
-          minW="calc(100vh)"
-          maxW="calc(100vh)"
+          minW="calc(140vh)"
+          maxW="calc(140vh)"
         />
       </div>
 
@@ -93,7 +93,7 @@ const backgroundVisible = ref(false)
 const resultLog = ref<ResultsLog>()
 
 const nameParameter = ref<string>('material.name')
-const speckleParameter = ref<string>('parameters.speckle_type')
+const speckleParameter = ref<string>('simpleParameters.code')
 const materialTypeParameter = ref<string>('material.metaData.materialType')
 
 // Computed 
