@@ -3,7 +3,7 @@
 	"semi": false,
 	"singleQuote": true,
 	"useTabs": true,
-	"tabWidth": 2,
+	"tabWidth": 1,
 	"vueIndentScriptAndStyle": true,
 	"embeddedLanguageFormatting": "auto",
 	"printWidth": 80,
