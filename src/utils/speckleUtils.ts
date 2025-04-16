@@ -288,93 +288,179 @@ function filterObjects(objects: ResponseObject[], sourceApplication: string): Fi
 }
 
 /**
- * Main conversion and import function
- * @param input 
- * @returns 
+ * Calculate area from height and width if available
+ * @param data The object to check for height and width
+ * @param units The units of the measurements
+ * @returns Area in square meters or 0 if dimensions not found
+ */
+function calculateAreaFromDimensions(data: any): number {
+	let height = 0
+	let width = 0
+
+	// Look for height and width in the main object first
+	if (data.height !== undefined) {
+		height = extractValue(data, data.height)
+		if (data.units === 'mm') {
+			height = height / 1000 // Convert to meters
+		}
+	}
+	if (data.width !== undefined) {
+		width = extractValue(data, data.width)
+		if (data.units === 'mm') {
+			width = width / 1000 // Convert to meters
+		}
+	}
+
+	// If not found in main object, look one level deep in parameters or properties
+	if (!height || !width) {
+		const parameterObjects = [data.parameters, data.properties].filter(Boolean)
+		for (const params of parameterObjects) {
+			if (params.height !== undefined && !height) {
+				height = extractValue(params, params.height)
+				if (params.units === 'mm') {
+					height = height / 1000
+				}
+			}
+			if (params.width !== undefined && !width) {
+				width = extractValue(params, params.width)
+				if (params.units === 'mm') {
+					width = width / 1000
+				}
+			}
+			if (height && width) break
+		}
+	}
+
+	return height && width ? height * width : 0
+}
+
+/**
+ * Converts Speckle stream objects into a Project structure
+ * @param input The ResponseObjectStream containing Speckle objects
+ * @returns A Project object or null if conversion fails
  */
 export function convertObjects(input: ResponseObjectStream): Project | null {
+	// Get store references and source application
 	const speckleStore = useSpeckleStore()
 	const sourceApplication = speckleStore.selectedVersion.sourceApplication
 
+	// Extract and filter objects from the input stream
 	const objects: ResponseObject[] = input.data.stream.object.elements.objects
-
 	const { materialObjects, modelObjects } = filterObjects(objects, sourceApplication);
 
 	const projectDetails = speckleStore.getProjectDetails
 	const version = speckleStore.getSelectedVersion
 
-	if (projectDetails && version) {
-		const geoObjects: GeometryObject[] = []
+	if (!projectDetails || !version) return null
 
-		modelObjects.forEach((el) => {
-			let quantity: Quantity
-			// If this is a composite we split it into its parts and create new objects from them
-			if (el.data.materialQuantities) {
-				el.data.materialQuantities.forEach((mat) => {
-					quantity = quantityFromComposite(mat)
-					const name: string = el.data.name ? el.data.name : getTextAfterLastDot(el.data.speckle_type)
+	const geoObjects: GeometryObject[] = []
 
-					const parameters = { ...el.data }
-
-					// Sanitize speckle_type
-					if (parameters.speckle_type) {
-						const sanitizedType = getTextAfterLastDot(parameters.speckle_type)
-						parameters.speckle_type = sanitizedType
-					}
-
-					const obj: GeometryObject = {
-						id: el.id,
-						name: name,
-						quantity: quantity,
-						parameters: parameters,
-						URI: [el.id],
-						subPart: true,
-						simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication, mat)
-					}
-
-					geoObjects.push(obj)
-				})
-			} else {
-				quantity = calculateQuantity(el)
-				const name: string = el.data.name ? el.data.name : el.data.speckle_type
-
-				const parameters = { ...el.data }
-				
-				// Sanitize speckle_type
-				if (parameters.speckle_type) {
-					const sanitizedType = getTextAfterLastDot(parameters.speckle_type)
-					parameters.speckle_type = sanitizedType
-				}
-
-				const obj: GeometryObject = {
-					id: el.id,
-					name: name,
-					quantity: quantity,
-					parameters: parameters,
-					URI: [el.id],
-					subPart: false,
-					simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication)
-				}
-	
-				geoObjects.push(obj)
-			}
-		})
-
-		const project: Project = {
-			name: projectDetails.stream.name,
-			id: projectDetails.stream.id,
-			description: version.message,
-			geometry: geoObjects
+	// Process each model object
+	modelObjects.forEach((el) => {
+		if (el.data.materialQuantities) {
+			// Handle objects with material quantities (composite objects)
+			processCompositeObject(el, materialObjects, sourceApplication, geoObjects)
+		} else {
+			// Handle simple objects
+			processSimpleObject(el, materialObjects, sourceApplication, geoObjects)
 		}
-		return project
+	})
+
+	// Create and return the final project
+	return {
+		name: projectDetails.stream.name,
+		id: projectDetails.stream.id,
+		description: version.message,
+		geometry: geoObjects
+}
+}
+
+/**
+ * Process a composite object that has material quantities
+ */
+function processCompositeObject(
+	el: ResponseObject,
+	materialObjects: ResponseObject[],
+	sourceApplication: string,
+	geoObjects: GeometryObject[]
+) {
+	el.data.materialQuantities.forEach((mat) => {
+		const quantity = quantityFromComposite(mat)
+		const name: string = el.data.name ? el.data.name : getTextAfterLastDot(el.data.speckle_type)
+
+		// Calculate area from dimensions if m2 is not available
+		if (!quantity.m2) {
+			const areaFromDimensions = calculateAreaFromDimensions(el.data)
+			if (areaFromDimensions > 0) {
+				quantity.m2 = areaFromDimensions
+			}
+		}
+
+		// Prepare and sanitize parameters
+		const parameters = { ...el.data }
+		if (parameters.speckle_type) {
+			parameters.speckle_type = getTextAfterLastDot(parameters.speckle_type)
+		}
+
+		// Create and add geometry object
+		const obj: GeometryObject = {
+			id: el.id,
+			name: name,
+			quantity: quantity,
+			parameters: parameters,
+			URI: [el.id],
+			subPart: true,
+			simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication, mat)
+		}
+
+		geoObjects.push(obj)
+	})
+}
+
+/**
+ * Process a simple object without material quantities
+ */
+function processSimpleObject(
+	el: ResponseObject,
+	materialObjects: ResponseObject[],
+	sourceApplication: string,
+	geoObjects: GeometryObject[]
+) {
+	const quantity = calculateQuantity(el)
+	
+	// Calculate area from dimensions if m2 is not available
+	if (!quantity.m2) {
+		const areaFromDimensions = calculateAreaFromDimensions(el.data)
+		if (areaFromDimensions > 0) {
+			quantity.m2 = areaFromDimensions
+		}
 	}
-	return null
+
+	const name: string = el.data.name ? el.data.name : el.data.speckle_type
+	const parameters = { ...el.data }
+
+	// Sanitize speckle_type
+	if (parameters.speckle_type) {
+		parameters.speckle_type = getTextAfterLastDot(parameters.speckle_type)
+	}
+
+	// Create and add geometry object
+	const obj: GeometryObject = {
+		id: el.id,
+		name: name,
+		quantity: quantity,
+		parameters: parameters,
+		URI: [el.id],
+		subPart: false,
+		simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication)
+	}
+
+	geoObjects.push(obj)
 }
 
 /**
  * Creates a SimpleParameters object from a full object and all materialObjects from the file
  * Add any specific software adaptations here
- * TODO: Fix the materialQuantity sub group
  */
 export function createSimpleParameters(
 	object: ResponseObject, 
@@ -421,23 +507,23 @@ export function createSimpleParameters(
 		const materialObject = subMember ? subMember : object.data
 		let materialName = ""
 		if (materialObject.material) {
-				if (subMember) {
-						// When subMember exists, try grabbing from material.name
-						if (materialObject.material.name) {
-								materialName = materialObject.material.name
-						} else {
-								materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
-						}
+			if (subMember) {
+				// When subMember exists, try grabbing from material.name
+				if (materialObject.material.name) {
+					materialName = materialObject.material.name
 				} else {
-						// When no subMember, try grabbing from buildingMaterialName
-						if (materialObject.buildingMaterialName) {
-								materialName = materialObject.buildingMaterialName
-						} else {
-								materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
-						}
+					materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
 				}
+			} else {
+				// When no subMember, try grabbing from buildingMaterialName
+				if (materialObject.buildingMaterialName) {
+					materialName = materialObject.buildingMaterialName
+				} else {
+					materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+				}
+			}
 		} else {
-				materialName = ""
+			materialName = ""
 		}
 
 		const m = quantity.m || 0
@@ -475,7 +561,6 @@ export function createSimpleParameters(
 
 /** 
  * Field map for the different units we care about.
- * TODO: Move this to model and make a type of it
  */
 const FIELD_MAP: Record<string, QuantityConversionSpec> = {
 	area: { metric: 'm2', mmConversion: 1_000_000 },
@@ -597,7 +682,6 @@ export function calculateQuantity(obj: ResponseObject) {
 		m2: 0,
 	}
 
-	// If no data, return the empty quantity.
 	if (!obj.data) return quantity
 
 	const processed = new Set<string>()

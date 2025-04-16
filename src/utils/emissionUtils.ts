@@ -61,9 +61,20 @@ export class EmissionCalculator {
     geo: GeometryObject
   ): boolean {
     const products = assembly.products
-    for (const [_, product] of Object.entries(products)) {
+    for (const product of Object.values(products)) {
+      // Create a deep copy of the geometry object for this calculation
+      const tempGeo: GeometryObject = {
+        ...geo,
+        quantity: { ...geo.quantity },
+        parameters: { ...geo.parameters },
+        simpleParameters: { ...geo.simpleParameters }
+      }
+      
+      // Calculate m3 from m2 and thickness for this assembly product
+      tempGeo.quantity.m3 = tempGeo.quantity.m2 * (parseFloat(product.metaData.thickness) / 1000)
+
       if (product.emission) {
-        this.calculateMaterialEmissions(product, emissions, geo)
+        this.calculateMaterialEmissions(product, emissions, tempGeo)
       }
     }
     return true
@@ -84,7 +95,6 @@ export class EmissionCalculator {
   }
 
   // Calculate the emissions of the material and add it to the emissions object
-  // TODO this should calculate for all impact categories and then just show the relevant one, its other way around now.
   private calculateMaterialEmissions(
     product: Product,
     emissions: Emission,
