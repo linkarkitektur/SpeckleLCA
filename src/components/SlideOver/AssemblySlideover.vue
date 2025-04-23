@@ -77,20 +77,19 @@
           />
         </div>
         <div>
+          <label for="category" class="block styled-text">Category</label>
+          <InputText
+            id="Category"
+            v-model="materialType"
+            placeholder="Enter material type"
+          />
+        </div>
+        <div>
           <label for="assemblyCode" class="block styled-text">Assembly Code</label>
           <Dropdown
             :items="codes"
             @selectedItem="handleSelectedItem"
             name="codes"
-          />
-        </div>
-        <div>
-          <label for="category" class="block styled-text">Category</label>
-          <DropdownMulti
-            filterName="materialTypes"
-            displayName="Material Types"
-            :options="categories.materialTypes"
-            @update:options="updateFilterOptions('materialTypes', $event)"
           />
         </div>
         <div class="flex flex-col justify-end ml-2">
@@ -274,8 +273,6 @@ const saveAssembly = () => {
 
   const resCalc = new ResultCalculator(tempGeos)
   resCalc.aggregate(false)
-
-  materialType.value = categories.value.materialTypes.find(type => type.selected)?.value || ''
 
   const assembly: Assembly = {
     id: assemblyId.value,
