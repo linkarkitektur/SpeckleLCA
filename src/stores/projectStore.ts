@@ -133,13 +133,13 @@ export const useProjectStore = defineStore({
 		 * names and values
 		 * @param callStack list of Filters
 		 */
-		updateRegistryStack(name: string, callStack: Filter[]) {
+		updateRegistryStack(name: string, callStack: Filter[], customGeo: CustomGeo[]) {
 			if (this.filterRegistry)
 				this.filterRegistry.filterList = {
 					id: crypto.randomUUID(),
 					name: name,
 					callStack: callStack,
-					customGeo: this.filterRegistry.filterList.customGeo
+					customGeo: customGeo
 				}
 		},
 
@@ -292,6 +292,31 @@ export const useProjectStore = defineStore({
 			} else {
 				return null
 			}
+		},
+
+		/**
+		 * Returns a group from a path
+		 * @param path 
+		 * @returns Group | null
+		 */
+		getGroupByPath(path: string[]): Group | null {
+			if (!this.projectGroups) {
+				return null
+			}
+
+			return this.projectGroups.find((group) => {
+				// Check if the group's path includes all elements of the input path in order
+				let currentIndex = 0
+				for (const pathSegment of path) {
+					// Find the next occurrence of the current path segment
+					const segmentIndex = group.path.indexOf(pathSegment, currentIndex)
+					if (segmentIndex === -1) {
+						return false
+					}
+					currentIndex = segmentIndex + 1
+				}
+				return true
+			}) || null
 		},
 
 		/**
@@ -454,5 +479,43 @@ export const useProjectStore = defineStore({
 		findResultIndexById(id: string) {
 			return this.currProject?.geometry.findIndex((item) => item.id === id)
 		},
+
+		/**
+		 * Find nestedGroup from the tree by id
+		 * @param node NestedGroup to search from
+		 * @param id Id to search tree for
+		 * @returns Nested group or null
+		 */
+		searchTree(node: NestedGroup, id: string): NestedGroup | null {
+			if (node.id === id) return node
+			
+			if (node.children) {
+				for (const child of node.children) {
+					const found = this.searchTree(child, id)
+					if (found) return found
+				}
+			}
+			return null
+		},
+
+		/**
+		 * Updates an existing custom geometry
+		 * @param updatedGeo The updated custom geometry
+		 */
+		updateCustomGeo(updatedGeo: CustomGeo) {
+			if (!this.filterRegistry?.filterList.customGeo) return
+			
+			const index = this.filterRegistry.filterList.customGeo.findIndex(
+				geo => geo.geoObj.id === updatedGeo.geoObj.id
+			)
+			
+			if (index === -1) return
+			
+			// Update the custom geo in the filter registry
+			this.filterRegistry.filterList.customGeo[index] = updatedGeo
+			
+			// Also update the geometry in the project
+			this.updateGeometry(updatedGeo.geoObj, updatedGeo.geoObj.id)
+		}
 	}
 })

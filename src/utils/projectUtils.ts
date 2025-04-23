@@ -15,7 +15,7 @@ import {
   sumEmissions,
   emissionToNumber
 } from '@/utils/resultUtils'
-import { calculateLinkedQuantities } from './filterUtils'
+import { calculateLinkedGeo, calculateLinkedQuantities } from './filterUtils'
 
 /**
  * Creates a nested object from an array of Group objects.
@@ -26,39 +26,82 @@ import { calculateLinkedQuantities } from './filterUtils'
  * @returns A NestedGroup object representing the nested structure.
  */
 export function createNestedObject(data: Group[]): NestedGroup {
-  const nestedObject: NestedGroup = {
+  const PATH_SEPARATOR = '|' // Using pipe character as it's unlikely to appear in level names
+  
+  const root: NestedGroup = {
     name: 'root',
     objects: [],
-    id: crypto.randomUUID(),
+    id: 'root',
     children: [],
   }
 
+  // Use a Map to cache nodes by their full path for O(1) lookups
+  const nodeMap = new Map<string, NestedGroup>()
+  nodeMap.set('root', root)
+
   data.forEach(entry => {
-    let currentLevel = nestedObject
-
-    //TODO Change this to map instead for performance so we dont use find
+    let fullPath = ''
+    
     entry.path.forEach(level => {
-      let existingLevel = currentLevel.children.find(
-        child => child.name === level
-      )
-
-      if (!existingLevel) {
-        existingLevel = {
-          color: entry.color,  
-          name: level, 
-          objects: [], 
-          id: entry.id,
-          children: [] 
+      // Build the full path for this level using the safe separator
+      fullPath = fullPath ? `${fullPath}${PATH_SEPARATOR}${level}` : level
+      
+      // If we haven't seen this path before, create a new node
+      if (!nodeMap.has(fullPath)) {
+        const newNode: NestedGroup = {
+          color: entry.color,
+          name: level,
+          objects: [],
+          id: fullPath,
+          children: []
         }
-        currentLevel.children.push(existingLevel)
+        
+        // Add to parent's children
+        const lastSeparatorIndex = fullPath.lastIndexOf(PATH_SEPARATOR)
+        const parentPath = lastSeparatorIndex !== -1 ? fullPath.substring(0, lastSeparatorIndex) : ''
+        const parent = parentPath ? nodeMap.get(parentPath) : root
+        
+        // Safety check to ensure parent exists
+        if (!parent) {
+          console.warn(`Parent node not found for path: ${fullPath}`)
+          nodeMap.set(fullPath, newNode)
+          root.children.push(newNode)
+        }
+        
+        parent.children.push(newNode)
+        nodeMap.set(fullPath, newNode)
       }
-
-      existingLevel.objects.push(...entry.elements)
-      currentLevel = existingLevel
+      
+      // Add elements to this level's objects
+      const currentNode = nodeMap.get(fullPath)
+      if (currentNode) {
+        currentNode.objects.push(...entry.elements)
+      }
     })
   })
 
-  return nestedObject
+  return root
+}
+
+/**
+ * Finds a node in the tree by following a path of IDs separated by '|'
+ * @param tree The root node to start searching from
+ * @param path The path string with IDs separated by '|'
+ * @returns The found NestedGroup or undefined if not found
+ */
+function findNodeByPath(tree: NestedGroup, path: string): NestedGroup | undefined {
+  const pathParts = path.split('|')
+  let currentNode: NestedGroup | undefined = tree
+  let currentPath = null
+  
+  for (const part of pathParts) {
+    currentPath = currentPath ? currentPath + '|' + part : part
+    if (!currentNode?.children) return undefined
+    currentNode = currentNode.children.find(child => child.id === currentPath)
+    if (!currentNode) return undefined
+  }
+  
+  return currentNode
 }
 
 /**
@@ -117,19 +160,32 @@ export function updateProjectGroups() {
   projectStore.updateGroups(groups)
   
   // Load in and link all custom geometries now that we have tree structure
-  const customGeoList = projectStore.filterRegistry.filterList.customGeo
+  const customGeoList = projectStore.filterRegistry?.filterList.customGeo
   if (customGeoList) {
     const tree = projectStore.getGroupTree()
+    if (!tree) return
 
     for (const customGeo of customGeoList) {
       // Skip if geometry already exists
       if (projectStore.currProject.geometry.some(geo => geo.id === customGeo.geoObj.id))
         continue
 
-      const match = tree.children.find(child => child.id === customGeo.linkedQuantId)
-      if (match) {
-        customGeo.geoObj.quantity = calculateLinkedQuantities(match, customGeo.percentage)
+      // Get quantities - traverse the full path
+      if (customGeo.linkedQuantId) {
+        const quantMatch = findNodeByPath(tree, customGeo.linkedQuantId)
+        if (quantMatch) {
+          customGeo.geoObj.quantity = calculateLinkedQuantities(quantMatch, customGeo.percentage)
+        }
       }
+
+      // Get related object URIs - traverse the full path
+      if (customGeo.linkGeoId) {
+        const geoMatch = findNodeByPath(tree, customGeo.linkGeoId)
+        if (geoMatch) {
+          customGeo.geoObj.URI = calculateLinkedGeo(geoMatch)
+        }
+      }
+      
       projectStore.addGeometry(customGeo.geoObj)
     }
   }

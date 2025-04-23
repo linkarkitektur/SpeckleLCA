@@ -70,11 +70,12 @@ const updateCircleSize = () => {
   if (container.value) {
     const containerWidth = container.value.clientWidth
     const containerHeight = container.value.clientHeight
-    const size = Math.max(containerWidth, containerHeight)
+    // Use the minimum dimension to ensure the circle fits within the container
+    const size = Math.min(containerWidth, containerHeight)
     circleStyle.value = {
       width: `${size}px`,
       height: `${size}px`,
-      // Center the circle within the container:
+      // Center the circle within the container
       top: `${(containerHeight - size) / 2}px`,
       left: `${(containerWidth - size) / 2}px`,
     }

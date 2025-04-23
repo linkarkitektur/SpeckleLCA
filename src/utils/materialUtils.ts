@@ -13,8 +13,6 @@ import { useSettingsStore } from "@/stores/settingStore"
 
 /**
  * Updates from a selected mapping to a new one, with all materials and objectIds
- * TODO: This needs a redo and optimisation
- * TODO: Make this so that the users can see the changes during its applying them so the bars change in real time
  * @param mapping Mapping object to update towards project and material store
  */
 export function updateMapping(mapping: Mapping) {
@@ -29,13 +27,14 @@ export function updateMapping(mapping: Mapping) {
     if (lastId != step.filterId) {
       //Find the filter from the mapping and apply it to the project
       const filterList = mapping.filters.find(filter => filter.id == step.filterId);
-      projectStore.updateRegistryStack(filterList.name, filterList.callStack)
+      projectStore.updateRegistryStack(filterList.name, filterList.callStack, filterList.customGeo)
       updateProjectGroups()
 
       lastId = step.filterId
     }
     //Search and find the group that we are updating
-    const group = projectStore.getGroupById(step.nestedGroupId)
+    const path = step.nestedGroupId.includes('|') ? step.nestedGroupId.split('|') : [step.nestedGroupId]
+    const group = projectStore.getGroupByPath(path)
     
     if (group == null) {
       return
@@ -234,4 +233,63 @@ export async function getAssemblyList() {
   } catch (error) {
     console.error('Error fetching assembly list:', error)
   }
+}
+
+export function reduceMapping(mapping: Mapping): Mapping {
+  // Create a new mapping object with the same ID and name
+  const reducedMapping: Mapping = {
+    id: mapping.id,
+    name: mapping.name,
+    filters: [],
+    steps: []
+  }
+
+  // For each filter in the mapping, create a reduced version
+  // that only contains essential information
+  const processedFilters = new Set<string>()
+  mapping.steps.forEach(step => {
+    if (!processedFilters.has(step.filterId)) {
+      const originalFilter = mapping.filters.find(f => f.id === step.filterId)
+      if (originalFilter) {
+        // Create a minimal filter with only necessary information
+        const reducedFilter: FilterList = {
+          id: originalFilter.id,
+          name: originalFilter.name,
+          callStack: originalFilter.callStack,
+          // Only include customGeo if it exists and is necessary
+          customGeo: originalFilter.customGeo?.map(geo => ({
+            geoObj: {
+              id: geo.geoObj.id,
+              name: geo.geoObj.name,
+              quantity: geo.geoObj.quantity,
+              parameters: {},  
+              simpleParameters: {
+                category: "",
+                type: "",
+                materialName: "",
+                code: "",
+                m: 0,
+                m2: 0,
+                m3: 0
+              }
+            },
+            percentage: geo.percentage,
+            linkedQuantId: geo.linkedQuantId,
+            linkGeoId: geo.linkGeoId
+          }))
+        }
+        reducedMapping.filters.push(reducedFilter)
+        processedFilters.add(step.filterId)
+      }
+    }
+  })
+
+  // Copy steps but ensure we only reference the material name and type
+  reducedMapping.steps = mapping.steps.map(step => ({
+    filterId: step.filterId,
+    nestedGroupId: step.nestedGroupId,
+    material: step.material
+  }))
+
+  return reducedMapping
 }

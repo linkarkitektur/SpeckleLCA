@@ -19,7 +19,7 @@ export function useHandleSelected() {
       switch (navStore.activePage) {
         case 'Filtering': {
           const filterList = JSON.parse(item.data) as FilterList
-          projectStore.updateRegistryStack(filterList.name, filterList.callStack)
+          projectStore.updateRegistryStack(filterList.name, filterList.callStack, filterList.customGeo)
           
           updateProjectGroups()
           break

@@ -13,46 +13,43 @@
 
     <Navbar />
     <div class="grid grid-cols-5 grid-rows-4 gap-10 h-[calc(100vh-5rem)] overflow-hidden p-4">
-      <div class="col-span-4 row-span-1 p-4 flex items-center justify-center bg-neutral-100 styled-element hoverable-styling">
-        <div class="flex w-full pt-2 h-5/6">
+      <div class="col-span-4 row-span-1 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling">
+        <h2 class="styled-header pb-2">Project Overview</h2>
+        <div class="flex-1 min-h-[120px]">
           <StackedBarChart 
             :data="barData" 
             :options="barOptions"/>
         </div>
       </div>
 
-      <div class="col-span-2 row-span-2 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
-        <h class="styled-header pb-2"> Emissions by element type</h>
-        <GraphContainer
-          graph="VerticalBarChart"
-          :result-item="categoryResults"
-          minW="calc(40vh)"
-          maxW="calc(40vh)"
-        />
-      </div>
-
-      <div class="col-span-2 row-span-2 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
-        <h class="styled-header pb-2"> Emissions by material category</h>
-        <div class="flex items-center justify-center w-full h-full">
-          <div class="aspect-square h-full">
-            <GraphContainer
-              graph="PieChart"
-              :result-item="materialTypeResults"
-            />
-          </div>
+      <div class="col-span-2 row-span-2 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling">
+        <h2 class="styled-header pb-2">Emissions by code</h2>
+        <div class="flex-1 aspect-square">
+          <GraphContainer
+            graph="VerticalBarChart"
+            :result-item="categoryResults"
+          />
         </div>
       </div>
 
-      <div class="col-span-4 row-span-1 p-4 flex flex-col items-center bg-neutral-100 styled-element hoverable-styling">
-        <h class="styled-header pb-2"> Emissions by material</h>
-        <GraphContainer
-          graph="VerticalBarChart"
-          :result-item="hotSpotResults"
-          maxH="calc(15vh)"
-          minH="calc(15vh)"
-          minW="calc(100vh)"
-          maxW="calc(100vh)"
-        />
+      <div class="col-span-2 row-span-2 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling">
+        <h2 class="styled-header pb-2">Emissions by material category</h2>
+        <div class="flex-1 aspect-square">
+          <GraphContainer
+            graph="PieChart"
+            :result-item="materialTypeResults"
+          />
+        </div>
+      </div>
+
+      <div class="col-span-4 row-span-1 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling">
+        <h2 class="styled-header pb-2">Emissions by material</h2>
+        <div class="flex-1">
+          <GraphContainer
+            graph="VerticalBarChart"
+            :result-item="hotSpotResults"
+          />
+        </div>
       </div>
 
       <div class="col-span-1 col-start-5 row-start-1 row-end-5 p-6 flex flex-col bg-neutral-100 styled-element hoverable-styling">
@@ -93,7 +90,7 @@ const backgroundVisible = ref(false)
 const resultLog = ref<ResultsLog>()
 
 const nameParameter = ref<string>('material.name')
-const speckleParameter = ref<string>('parameters.speckle_type')
+const speckleParameter = ref<string>('simpleParameters.code')
 const materialTypeParameter = ref<string>('material.metaData.materialType')
 
 // Computed 
@@ -113,16 +110,24 @@ const emissionSqmName = computed(() => {
 })
 
 // Chart data
-const barData = computed<ChartData[]>(() => [
-  {
-    label: " Spent",
-    value: emissionSqmName.value,
-  },
-  {
-    label: "Remaining",
-    value: remaining.value
-  }
-])
+const barData = computed<ChartData[]>(() => {
+  const spent = emissionSqmName.value || 0
+  const rem = remaining.value || 0
+  return [
+    {
+      label: "Spent",
+      value: spent,
+      ids: [],
+      graphValue: spent
+    },
+    {
+      label: "Remaining",
+      value: rem,
+      ids: [],
+      graphValue: rem
+    }
+  ]
+})
 
 const barOptions = computed<ChartOptions>(() => {
   if (settingsStore.projectSettings.emissionPerYear)

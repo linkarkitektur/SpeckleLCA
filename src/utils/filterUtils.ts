@@ -296,6 +296,8 @@ export function calculateLinkedQuantities(linkedGroup: NestedGroup, percentage: 
       M3 = 0,
       KG = 0,
       PCS = 0
+
+  // This is to check if we have any sublayers such as a wall that is split on material layers in the model
   const processedParents = new Set<string>()
 
   linkedGroup.objects.forEach((obj) => {
@@ -306,7 +308,7 @@ export function calculateLinkedQuantities(linkedGroup: NestedGroup, percentage: 
           KG += obj.quantity.kg || 0
           processedParents.add(key)
       }
-      // Always add the cubic value since that is still relevant
+      // Always add volume since this is for sub layers
       M3 += obj.quantity.m3 || 0
       PCS += 1
   })
@@ -316,10 +318,26 @@ export function calculateLinkedQuantities(linkedGroup: NestedGroup, percentage: 
   return {
       m: roundNumber(M * multiplier, 2),
       m2: roundNumber(M2 * multiplier, 2),
-      m3: roundNumber(M3 * multiplier, 2),
+      m3: roundNumber(M2 * multiplier, 2),
       kg: roundNumber(KG * multiplier, 2),
       pcs: roundNumber(PCS * multiplier, 0)
   }
+}
+
+/**
+ * Calculate the geometry binding for linked geometry
+ * @param linkedGroup 
+ * @returns list of URI
+ */
+export function calculateLinkedGeo(linkedGroup: NestedGroup): string[] {
+  const ids: string[] = []
+
+  // Get all uris of the object and add them to the custom geo
+  for (const obj of linkedGroup.objects) {
+    ids.push(...obj.URI)
+  }
+
+  return ids
 }
 
 // Make internal functions exportable for tests

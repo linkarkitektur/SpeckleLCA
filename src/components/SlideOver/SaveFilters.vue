@@ -54,7 +54,8 @@ const saveData = () => {
   const filterList: FilterList = {
     id: crypto.randomUUID(),
     name: formData.value.name,
-    callStack: filters
+    callStack: filters,
+    customGeo: projectStore.filterRegistry.filterList.customGeo
   }
   firebaseStore.addFilterList(projectStore.currProject.id, filterList, formData.value.name)
   navStore.toggleSlideover()

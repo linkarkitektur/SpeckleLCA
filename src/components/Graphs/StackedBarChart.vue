@@ -1,12 +1,12 @@
 <template>
   <div ref="container" class="relative w-full h-full flex flex-col">
     <!-- Labels above -->
-    <div class="w-full flex-none h-[30%]">
+    <div class="w-full flex-none h-[25%]">
       <svg ref="topLabels" class="w-full h-full"></svg>
     </div>
 
     <!-- Main graph with rounded corners -->
-    <div class="styled-element hoverable-styling overflow-hidden w-full flex-auto h-[40%]">
+    <div class="styled-element hoverable-styling overflow-hidden w-full">
       <svg ref="svg" class="w-full h-full"></svg>
     </div>
 
