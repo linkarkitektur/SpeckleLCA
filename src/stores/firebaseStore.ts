@@ -14,14 +14,12 @@ import {
   limit, 
   getDocs,
   writeBatch,
-  doc
 } from 'firebase/firestore'
 import type { 
   Mapping,
   Assembly
 } from '@/models/materialModel'
 import type { 
-  Results, 
   ResultList
 } from '@/models/resultModel'
 import type {
@@ -71,6 +69,7 @@ export const useFirebaseStore = defineStore('firebase', {
 
     /**
      * Saves the current filter state to the database, with a timestamp
+     * If a filter with the same name exists (case-insensitive), it will be overwritten
      * @param projectId projectId which usually is the streamID from speckle
      * @param filterRegistry current loaded filterRegistry
      * @param stackName name of the filter state, eg. Archicad walls 
@@ -79,13 +78,35 @@ export const useFirebaseStore = defineStore('firebase', {
       this.loading = true
       this.error = null
       try {
+        // Convert name to lowercase for case-insensitive comparison
+        const nameLower = stackName.toLowerCase()
+
+        // Get all filters for the project
+        const projectQuery = query(
+          collection(db, 'projectFilters'),
+          where('projectId', '==', projectId)
+        )
+        const projectSnapshot = await getDocs(projectQuery)
+
+        // Check for existing filter with same name (case-insensitive)
+        const existingDoc = projectSnapshot.docs.find(
+          doc => doc.data().stackName.toLowerCase() === nameLower
+        )
+
         const newStack: FilterLog = {
           projectId: projectId,
           stackName: stackName,
           filterList: filterList,
           date: new Date(),
         }
-        await addDoc(collection(db, 'projectFilters'), newStack)
+
+        if (existingDoc) {
+          // Update existing filter
+          await setDoc(existingDoc.ref, newStack)
+        } else {
+          // Create new filter
+          await addDoc(collection(db, 'projectFilters'), newStack)
+        }
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -157,6 +178,7 @@ export const useFirebaseStore = defineStore('firebase', {
 
     /**
      * Adds mapping to the firebase DB to save the current mapping progress
+     * If a mapping with the same name exists (case-insensitive), it will be overwritten
      * @param projectId projectId which usually is the streamID from speckle
      * @param mapping mapping to save
      */
@@ -168,13 +190,35 @@ export const useFirebaseStore = defineStore('firebase', {
       const cleanedMapping = removeUndefinedFields(rawMapping)
 
       try {
+        // Convert name to lowercase for case-insensitive comparison
+        const nameLower = name.toLowerCase()
+
+        // First get all mappings for the project
+        const projectQuery = query(
+          collection(db, 'mappings'),
+          where('projectId', '==', projectId)
+        )
+        const projectSnapshot = await getDocs(projectQuery)
+
+        // Check for existing mapping with same name (case-insensitive)
+        const existingDoc = projectSnapshot.docs.find(
+          doc => doc.data().name.toLowerCase() === nameLower
+        )
+
         const mappingLog: MappingLog = {
           projectId: projectId,
           mapping: cleanedMapping,
           date: new Date(),
           name: name,
         }
-        await addDoc(collection(db, 'mappings'), mappingLog)
+
+        if (existingDoc) {
+          // Update existing mapping
+          await setDoc(existingDoc.ref, mappingLog)
+        } else {
+          // Create new mapping
+          await addDoc(collection(db, 'mappings'), mappingLog)
+        }
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -248,6 +292,7 @@ export const useFirebaseStore = defineStore('firebase', {
 
     /**
      * Adds results to the firebase DB to save the current results, only saving aggregated results
+     * If a result with the same name exists (case-insensitive), it will be overwritten
      * To get object based results reload the mappings and recalculate
      * @param projectId projectId which usually is the streamID from speckle
      * @param results aggregated results from geometry objects
@@ -256,13 +301,35 @@ export const useFirebaseStore = defineStore('firebase', {
       this.loading = true
       this.error = null
       try {
+        // Convert name to lowercase for case-insensitive comparison
+        const nameLower = name.toLowerCase()
+
+        // Get all results for the project
+        const projectQuery = query(
+          collection(db, 'resultLists'),
+          where('projectId', '==', projectId)
+        )
+        const projectSnapshot = await getDocs(projectQuery)
+
+        // Check for existing result with same name (case-insensitive)
+        const existingDoc = projectSnapshot.docs.find(
+          doc => doc.data().name.toLowerCase() === nameLower
+        )
+
         const resultsLog: ResultsLog = {
           name: name,
           projectId: projectId,
           resultList: resultList,
           date: new Date(),
         }
-        await addDoc(collection(db, 'resultLists'), resultsLog)
+
+        if (existingDoc) {
+          // Update existing result
+          await setDoc(existingDoc.ref, resultsLog)
+        } else {
+          // Create new result
+          await addDoc(collection(db, 'resultLists'), resultsLog)
+        }
       } catch (error: any) {
         this.error = error.message
       } finally {
@@ -521,8 +588,9 @@ export const useFirebaseStore = defineStore('firebase', {
 
     /**
      * Adds a calculation setting to the database
-     * @param projectId 
-     * @param setting 
+     * If a setting with the same name exists (case-insensitive), it will be overwritten
+     * @param projectId projectId which usually is the streamID from speckle
+     * @param setting setting to save
      */
     async addCalculationSettings(projectId: string, setting: CalculationSettings, name: string) {
       this.loading = true
@@ -532,13 +600,35 @@ export const useFirebaseStore = defineStore('firebase', {
         if (!setting) 
           return null
 
+        // Convert name to lowercase for case-insensitive comparison
+        const nameLower = name.toLowerCase()
+
+        // Get all calculation settings for the project
+        const projectQuery = query(
+          collection(db, 'calculationSettings'),
+          where('projectId', '==', projectId)
+        )
+        const projectSnapshot = await getDocs(projectQuery)
+
+        // Check for existing setting with same name (case-insensitive)
+        const existingDoc = projectSnapshot.docs.find(
+          doc => doc.data().name.toLowerCase() === nameLower
+        )
+
         const settingLog: CalculationSettingsLog = {
           projectId: projectId,
           settings: setting,
           date: new Date(),
           name: name
         }
-        await addDoc(collection(db, 'calculationSettings'), settingLog);
+
+        if (existingDoc) {
+          // Update existing setting
+          await setDoc(existingDoc.ref, settingLog)
+        } else {
+          // Create new setting
+          await addDoc(collection(db, 'calculationSettings'), settingLog)
+        }
       } catch (error: any) {
         this.error = error.message
       } finally {

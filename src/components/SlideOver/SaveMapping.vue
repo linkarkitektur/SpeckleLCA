@@ -41,6 +41,7 @@ import { useFirebaseStore } from '@/stores/firebaseStore'
 import type { Mapping } from '@/models/materialModel'
 import InputText from '@/components/Base/InputText.vue'
 import ActionButton from '@/components/Base/ActionButton.vue'
+import { reduceMapping } from '@/utils/materialUtils'
 
 const navStore = useNavigationStore()
 const projectStore = useProjectStore()
@@ -53,7 +54,8 @@ const formData = ref({
 
 const saveData = () => {
   const mapping: Mapping = materialStore.getCurrentMapping()
-  firebaseStore.addMapping(projectStore.currProject.id, mapping, formData.value.name)
+  const reducedMapping = reduceMapping(mapping)
+  firebaseStore.addMapping(projectStore.currProject.id, reducedMapping, formData.value.name)
   navStore.toggleSlideover()
 }
 </script>
