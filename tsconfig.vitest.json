@@ -1,6 +1,5 @@
 {
   "extends": "./tsconfig.app.json",
-  "exclude": [],
   "files": [
     "src/tests/objects/testObjects.json" // Add your JSON file here
   ]
