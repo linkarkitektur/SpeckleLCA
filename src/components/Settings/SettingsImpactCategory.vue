@@ -25,11 +25,11 @@ import { ref, watch } from 'vue'
 import { useSettingsStore } from '@/stores/settingStore'
 import { extendedImpactCategoryKeys } from '@/models/materialModel'
 
-import type { ExtendedImpactCategoryKey } from '@/models/materialModel'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 
 import Dropdown from '@/components/Base/Dropdown.vue'
 import { storeToRefs } from 'pinia'
+import type { ImpactCategoryKey } from 'lcax'
 
 const settingsStore = useSettingsStore()
 
@@ -46,7 +46,7 @@ const updateImpactCategory = () => {
 }
 
 const handleSelectedItem = (selectedItem: dropdownItem) => {
-  impactCategory.value = selectedItem.name as ExtendedImpactCategoryKey
+  impactCategory.value = selectedItem.name as ImpactCategoryKey
   updateImpactCategory()
 }
 

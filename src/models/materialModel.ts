@@ -1,5 +1,5 @@
 import type { 
-	LifeCycleStage, 
+	LifeCycleModule,
 	ImpactCategoryKey, 
 	Assembly as LcaxAssembly,
 	Product as LcaxProduct 
@@ -17,12 +17,12 @@ export enum APISource {
 
 
 export type Emission = Partial<{
-	[impactCategory in ExtendedImpactCategoryKey]: 
+	[impactCategory in ImpactCategoryKey]:
 		LifeCycleStageEmission
 }>
 
 export type LifeCycleStageEmission = {
-	[lifecycleStage in LifeCycleStage]: number
+	[lifecycleStage in LifeCycleModule]: number
 }
 
 /**
@@ -40,6 +40,7 @@ export interface Product extends LcaxProduct {
 export interface Assembly extends Omit<LcaxAssembly, 'products'> {
 	products: Record<string, Product>
 	emission: Emission
+	category: string
 }
 
 /**
@@ -97,19 +98,18 @@ export interface QuantityConversionSpec {
  * Extended impact categories for application
  * Array of possible impact categories to use, increase as needed
  */
-export type ExtendedImpactCategoryKey = 'gwp_total' | 'gwp_fossil' | 'gwp_biogenic' | 'gwp_LULUC' | ImpactCategoryKey
-export const extendedImpactCategoryKeys: readonly ExtendedImpactCategoryKey[] = [
+//export type ExtendedImpactCategoryKey = 'gwp_total' | 'gwp_fossil' | 'gwp_biogenic' | 'gwp_LULUC' | ImpactCategoryKey
+export const extendedImpactCategoryKeys = [
   'gwp',
-  'gwp_total',
-  'gwp_fossil',
-  'gwp_biogenic',
-  'gwp_LULUC',
+  'gwp_fos',
+  'gwp_bio',
+  'gwp_lul',
   'odp',
   'ap',
   'pocp',
 ] as const
 
-export const LifeCycleStages: readonly LifeCycleStage[] = [
+export const LifeCycleStages: readonly LifeCycleModule[] = [
   'a1a3',
   'a4',
   'a5',
