@@ -2,11 +2,11 @@
   <div
     id="DetailBar"
     class="absolute flex bottom-0 left-[35%] z-10 w-2/5 h-28 mb-8 px-2 styled-element bg-neutral-100 hoverable-styling"
-	>
-		<div class="flex w-full items-center justify-center">
-			<component :is="currDetailbar" v-bind="componentProps" />
-		</div>
-	</div>
+  >
+    <div class="flex w-full h-full items-center justify-center">
+      <component :is="currDetailbar" v-bind="componentProps" />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -50,7 +50,11 @@ const updateComponentProps = () => {
     }
     
     componentProps.value = {
-      data: data,
+      data,
+      options: {
+        aggregate: true,
+        unit: "kg CO2e"
+      }
     }
   }
   else {

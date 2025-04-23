@@ -1,8 +1,7 @@
 <template>
   <div class="h-full w-full flex flex-col">
-    <!-- TODO Change this to use a wrapper component so we dont use v-if but instead the leftModule logic -->
     <div 
-      class="items-end mb-10"
+      class="mb-4"
       v-if="navigationStore.activePage === 'Results'"  
     >
       <Dropdown
@@ -15,15 +14,9 @@
     </div>
     <div 
       v-if="leftModule" 
-      class="w-full h-full"
-      :style="{
-        minWidth: minW, 
-        maxWidth: maxW, 
-        maxHeight: maxH,
-        minHeight: minH
-      }"
+      class="flex-1 min-h-0"
     >
-      <component :is="leftModule" v-bind="graphProps" class="mt-0"/>
+      <component :is="leftModule" v-bind="graphProps"/>
     </div>
   </div>
 </template>

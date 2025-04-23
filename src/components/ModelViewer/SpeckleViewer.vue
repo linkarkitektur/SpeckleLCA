@@ -31,10 +31,12 @@
   
   <!-- Only show in dashboard view -->
   <div
-    class="absolute h-full mx-auto top-4 right-4 align-right justify-center z-20 overflow-visible"
+    class="absolute inset-y-0 right-0 w-1/4 top-4 pr-4"
     v-if="navStore.activePage !== 'Benchmark'"
   >
-    <GraphContainer />
+    <div class="h-1/2 w-full">
+      <GraphContainer />
+    </div>
   </div>
 </template>
 
