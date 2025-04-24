@@ -1,8 +1,8 @@
 import type { 
-	LifeCycleStage, 
-	ImpactCategoryKey, 
-	Assembly as LcaxAssembly,
-	Product as LcaxProduct 
+  LifeCycleStage, 
+  ImpactCategoryKey, 
+  Assembly as LcaxAssembly,
+  Product as LcaxProduct 
 } from 'lcax'
 import type { FilterList } from '@/models/filterModel'
 
@@ -15,6 +15,61 @@ export enum APISource {
   Boverket,
 }
 
+export enum EnergyType {
+  Electricity = 'electricity',
+  DistrictHeating = 'district_heating',
+  GasPipeline = 'gas_pipeline'
+}
+
+export interface EmissionFactorRecord {
+  year: number
+  factors: {
+    [key in EnergyType]: number
+  }
+}
+
+export const DanishEmissionFactors: EmissionFactorRecord[] = [
+  {
+    year: 2023,
+    factors: {
+      [EnergyType.Electricity]: 0.187,
+      [EnergyType.DistrictHeating]: 0.105,
+      [EnergyType.GasPipeline]: 0.225
+    }
+  },
+  {
+    year: 2025,
+    factors: {
+      [EnergyType.Electricity]: 0.135,
+      [EnergyType.DistrictHeating]: 0.0878,
+      [EnergyType.GasPipeline]: 0.189
+    }
+  },
+  {
+    year: 2030,
+    factors: {
+      [EnergyType.Electricity]: 0.0470,
+      [EnergyType.DistrictHeating]: 0.0713,
+      [EnergyType.GasPipeline]: 0.105
+    }
+  },
+  {
+    year: 2035,
+    factors: {
+      [EnergyType.Electricity]: 0.0414,
+      [EnergyType.DistrictHeating]: 0.0688,
+      [EnergyType.GasPipeline]: 0.105
+    }
+  },
+  {
+    year: 2040,
+    factors: {
+      [EnergyType.Electricity]: 0.0403,
+      [EnergyType.DistrictHeating]: 0.0680,
+      [EnergyType.GasPipeline]: 0.105
+    }
+  }
+]
 
 export type Emission = Partial<{
 	[impactCategory in ExtendedImpactCategoryKey]: 
@@ -32,6 +87,7 @@ export interface Product extends LcaxProduct {
   emission: Emission
   materialFraction?: number
   source: APISource
+  lifespan?: number  // Danish B4 lifespan in years
 }
 
 /**
