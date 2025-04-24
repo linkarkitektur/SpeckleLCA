@@ -35,11 +35,15 @@ export const useSettingsStore = defineStore({
 	},
 	actions: {
 		/**
-		 * Updates projectsettings directly
+		 * Updates projectsettings directly with migration for old settings
 		 * @param projectSettings 
 		 */
 		updateProjectSettings(projectSettings: ProjectSettings) {
-			this.projectSettings = projectSettings
+			// Create merged settings with defaults for backward compatibility
+			this.projectSettings = {
+				...standardProjectSettings,
+				...projectSettings,
+			}
 		},
 
 		/**

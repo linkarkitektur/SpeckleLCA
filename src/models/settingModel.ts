@@ -3,7 +3,7 @@ import type { ExtendedImpactCategoryKey } from '@/models/materialModel'
 import type { BuildingCodeItem } from '@/models/buildingCodeModel'
 import type { MaterialFilterParam, MaterialSortingParam } from '@/models/materialModel'
 
-import { APISource } from '@/models/materialModel'
+import { APISource, EnergyType } from '@/models/materialModel'
 import { BSAB96 } from '@/models/buildingCodeModel'
 
 /**
@@ -57,6 +57,8 @@ export interface ProjectSettings {
   threshold: number
   lifespan: number
   emissionPerYear: boolean
+  electricityConsumption: number | null // kWh/m²/year
+  energyType: EnergyType | null
 }
 
 
@@ -114,7 +116,9 @@ export const standardProjectSettings: ProjectSettings = {
   area: 100,
   threshold: 300,
   lifespan: 50,
-  emissionPerYear: false
+  emissionPerYear: false,
+  electricityConsumption: null,
+  energyType: null
 }
 
 /**
@@ -152,11 +156,9 @@ export const standardKeySettings: KeySettings = {
 export const standardCalculationSettings: CalculationSettings = {
   includedStages: {
     relevantStages: [
-      { included: true, stage: "a1a3" as LifeCycleStage }, // Manufacturing
-      { included: true, stage: "a4" as LifeCycleStage }, // Transport
-      { included: true, stage: "a5" as LifeCycleStage }, // Assembly
-      { included: true, stage: "b1" as LifeCycleStage }, // Use
-      { included: true, stage: "c1" as LifeCycleStage }, // End of life
+      { included: true, stage: "a1a3" as LifeCycleStage },
+      { included: true, stage: "a4" as LifeCycleStage },
+      { included: true, stage: "a5" as LifeCycleStage },
     ]
   },
   standardImpactCategory: 'gwp',
