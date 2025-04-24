@@ -12,7 +12,7 @@ export default defineConfig(async () => {
     await viteConfig,
     {
       test: {
-        include: ['src/tests/**/*.{spec,test}.{js,ts,jsx,tsx}'],
+        include: ['src/tests/**/*.{spec,test,ts}'],
         environment: 'happy-dom',
         setupFiles: ['/src/tests/setup/globalSetup.ts'],
         coverage: {

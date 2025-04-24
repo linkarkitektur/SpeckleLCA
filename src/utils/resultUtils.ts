@@ -555,7 +555,7 @@ export class ResultCalculator {
     if (!grouping) {
       grouping = {
         parameter: paramValue,
-        quantity: geoQuantity,
+        quantity: {},
         data: {
           emission: {} as Emission,
           geoId: []
@@ -603,7 +603,7 @@ export class ResultCalculator {
         if (!groupedResult) {
           groupedResult = {
             parameter: paramValue,
-            quantity: geoQuantity,
+            quantity: {},
             data: {
               emission: {} as Emission,
               geoId: [],
