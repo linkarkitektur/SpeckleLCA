@@ -26,6 +26,8 @@ export interface CalculationSettings {
     key: string,
     data: BuildingCodeItem[],
   }
+  // Controls whether B4 is calculated from A1-A3, A4, A5 or from EPD
+  replaceB4WithProductionStages: boolean  
 }
 
 /**
@@ -165,7 +167,8 @@ export const standardCalculationSettings: CalculationSettings = {
   buildingCode: {
     key: 'BSAB96',
     data: BSAB96
-  }
+  },
+  replaceB4WithProductionStages: false
 }
 
 export const standardMaterialSettings: MaterialSettings = {

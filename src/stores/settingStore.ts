@@ -88,7 +88,10 @@ export const useSettingsStore = defineStore({
 		 * @param includedStages The new included stages.
 		 */
 		updateIncludedStages(includedStages: CalculationSettings['includedStages']) {
-			this.calculationSettings.includedStages = includedStages
+			this.calculationSettings.includedStages = {
+				...standardCalculationSettings.includedStages,
+				...includedStages
+			}
 		},
 
 		/**
@@ -96,7 +99,7 @@ export const useSettingsStore = defineStore({
 		 * @param standardImpactCategory The new standard impact category.
 		 */
 		updateStandardImpactCategory(standardImpactCategory: CalculationSettings['standardImpactCategory']) {
-			this.calculationSettings.standardImpactCategory = standardImpactCategory
+			this.calculationSettings.standardImpactCategory = standardImpactCategory || standardCalculationSettings.standardImpactCategory
 		},
 
 		/**
@@ -104,7 +107,28 @@ export const useSettingsStore = defineStore({
 		 * @param buildingCode The new building code.
 		 */
 		updateBuildingCode(buildingCode: CalculationSettings['buildingCode']) {
-			this.calculationSettings.buildingCode = buildingCode
+			this.calculationSettings.buildingCode = {
+				...standardCalculationSettings.buildingCode,
+				...buildingCode
+			}
+		},
+
+		/**
+		 * Updates whether B4 should be calculated from production stages
+		 */
+		updateReplaceB4Setting(replaceB4: boolean) {
+			this.calculationSettings.replaceB4WithProductionStages = replaceB4 ?? standardCalculationSettings.replaceB4WithProductionStages
+		},
+
+		/**
+		 * Updates all calculation settings at once with failsafe defaults
+		 * @param settings The new calculation settings
+		 */
+		updateCalculationSettings(settings: CalculationSettings) {
+			this.calculationSettings = {
+				...standardCalculationSettings,
+				...settings
+			}
 		},
 	}
 })

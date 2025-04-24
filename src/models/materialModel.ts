@@ -87,6 +87,7 @@ export interface Product extends LcaxProduct {
   emission: Emission
   materialFraction?: number
   source: APISource
+  lifespan?: number  // Danish B4 lifespan in years
 }
 
 /**
