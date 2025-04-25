@@ -21,7 +21,7 @@ describe('Full Workflow Test', () => {
   it('should load project and convert objects correctly', async () => {
     setupSpeckleStore()
     
-    // Load project
+    // 1. Load project
     await loadProject(false)
 
     // Get projectStore directly
@@ -64,15 +64,15 @@ describe('Full Workflow Test', () => {
   })
 
   it('should process objects through filtering workflow', async () => {
-    // Set up speckle store and load project first
+    // 1. Set up speckle store and load project first
     setupSpeckleStore()
     await loadProject(false)
     
-    // Set up filter registry
+    // 2. Set up filter registry
     const registry = new FilterRegistry()
     const projectStore = setupFilterRegistry(registry)
 
-    // Apply filters and update groups
+    // 3. Apply filters and update groups
     updateProjectGroups()
     const tree = projectStore.getGroupTree()
     
@@ -125,7 +125,7 @@ describe('Full Workflow Test', () => {
   })
 
   it('should execute complete workflow from load to material mapping', async () => {
-    // 1. Setup stores
+    // Setup stores
     setupSpeckleStore()
     setupMaterialStore()
     
@@ -133,7 +133,7 @@ describe('Full Workflow Test', () => {
     const settingsStore = useSettingsStore()
     settingsStore.updateCalculationSettings(standardCalculationSettings)
     
-    // 2. Load and convert objects
+    // 1. Load and convert objects
     await loadProject(false)
     const projectStore = useProjectStore()
     
@@ -141,27 +141,25 @@ describe('Full Workflow Test', () => {
     expect(projectStore.currProject).toBeDefined()
     expect(projectStore.currProject.geometry.length).toBe(11)
     
-    // 3. Set up filtering
+    // 2. Set up filtering
     const registry = new FilterRegistry()
     setupFilterRegistry(registry)
     
-    // 4. Apply filters and get groups
+    // 3. Apply filters and get groups
     updateProjectGroups()
     const tree = projectStore.getGroupTree()
     expect(tree).toBeDefined()
 
-    // 5. Create mapping steps for each category
+    // 4. Create mapping steps and apply them
     const mockMapping = setupMapping()
-
-    // 6. Apply mapping
     updateMapping(mockMapping)
 
-    // 7. Calculate emissions
+    // 5. Calculate emissions
     const calculator = new EmissionCalculator()
     const emissionResults = calculator.calculateEmissions()
     expect(emissionResults).toBe(true)
 
-    // 8. Verify emission results
+    // Verify emission results
     // Verify emission calculations for concrete walls
     const wallGroup = tree.children.find(g => g.name === 'Walls')
     const wallEmissions = wallGroup.objects.map(el => el.results[el.results.length - 1])
@@ -184,6 +182,7 @@ describe('Full Workflow Test', () => {
     expect(columnEmissions[1].emission.gwp.a4).toBe(10 * 3.2) // Transport emission * volume (10 * 3.2)
     
     // Verify emission calculations for steel beam
+    // Later steps should overwrite the initial wood material
     const beamGroup = tree.children.find(g => g.name === 'Beams')
     const steelBeam = beamGroup.objects.find(el => 
       el.simpleParameters.materialName === 'Steel')
@@ -202,7 +201,7 @@ describe('Full Workflow Test', () => {
   })
 
   it('should execute complete workflow from load to results aggregation', async () => {
-    // 1. Setup stores
+    // Setup stores
     setupSpeckleStore()
     setupMaterialStore()
     
@@ -210,33 +209,33 @@ describe('Full Workflow Test', () => {
     const settingsStore = useSettingsStore()
     settingsStore.updateCalculationSettings(standardCalculationSettings)
     
-    // 2. Load and convert objects
+    // 1. Load and convert objects
     await loadProject(false)
     const projectStore = useProjectStore()
     
-    // 3. Set up filtering
+    // 2. Set up filtering
     const registry = new FilterRegistry()
     setupFilterRegistry(registry)
     
-    // 4. Apply filters and get groups
+    // 3. Apply filters and get groups
     updateProjectGroups()
     const tree = projectStore.getGroupTree()
     
-    // 5. Create and apply mapping
+    // 4. Create and apply mapping
     const mockMapping = setupMapping()
     updateMapping(mockMapping)
 
-    // 6. Calculate emissions
+    // 5. Calculate emissions
     const calculator = new EmissionCalculator()
     const emissionResults = calculator.calculateEmissions()
     expect(emissionResults).toBe(true)
 
-    // 7. Aggregate results
+    // 6. Aggregate results
     const resultStore = useResultStore()
     const resultCalculator = new ResultCalculator()
     resultCalculator.aggregate()
 
-    // 8. Verify result aggregation
+    // Verify result aggregation
     const aggregatedResults = resultStore.resultList
 
     // Check category grouping
@@ -267,38 +266,42 @@ describe('Full Workflow Test', () => {
   })
 
   it('should convert results to chart data formats', async () => {
-    // 1. Setup and run through the full workflow first
+    // Setup and run through the full workflow first
     setupSpeckleStore()
     setupMaterialStore()
     const settingsStore = useSettingsStore()
     settingsStore.updateCalculationSettings(standardCalculationSettings)
     
+    // 1. Load and convert objects
     await loadProject(false)
     const projectStore = useProjectStore()
     
+    // 2. Set up filtering
     const registry = new FilterRegistry()
     setupFilterRegistry(registry)
+
+    // 3. Apply filters and get groups
     updateProjectGroups()
     const tree = projectStore.getGroupTree()
     
-    // Map materials
+    // 4. Create and apply mapping
     const mockMapping = setupMapping()
     updateMapping(mockMapping)
     
-    // Calculate emissions
+    // 5. Calculate emissions
     const calculator = new EmissionCalculator()
     calculator.calculateEmissions()
     
-    // 2. Aggregate results
+    // 6. Aggregate results
     const resultStore = useResultStore()
     const resultCalculator = new ResultCalculator()
     resultCalculator.aggregate()
     const aggregatedResults = resultStore.resultList
 
-    // 3. Convert category results to flat chart data
+    // 7. Convert category results to flat chart data
     const categoryResults = aggregatedResults.find(r => r.parameter === 'parameters.category')
     const flatChartData = resultItemToChartData(categoryResults)
-    
+
     // Verify flat chart data structure
     expect(flatChartData).toBeDefined()
     expect(flatChartData.length).toBeGreaterThan(0)
@@ -315,7 +318,7 @@ describe('Full Workflow Test', () => {
     expect(wallsData).toBeDefined()
     expect(wallsData.value).toBe(18.15) // (100 + 10) * 16.5 / 100 (Project Area) = 18.15 kg CO2e / m2
 
-    // 4. Convert lifecycle results to nested chart data
+    // 8. Convert lifecycle results to nested chart data
     const lifecycleResults = aggregatedResults.find(r => r.parameter === 'lifeCycleStages')
     const nestedChartData = resultItemToNestedChartData(lifecycleResults)
 
@@ -356,35 +359,38 @@ describe('Full Workflow Test', () => {
   })
 
   it('should export results to JSON format', async () => {
-    // 1. Setup and calculate results first
+    // Setup stores
     setupSpeckleStore()
     setupMaterialStore()
     const settingsStore = useSettingsStore()
     settingsStore.updateCalculationSettings(standardCalculationSettings)
     
+    // 1. Load project
     await loadProject(false)
     const projectStore = useProjectStore()
     
-    // Set up filtering and mapping
+    // 2. Set up filtering
     const registry = new FilterRegistry()
     setupFilterRegistry(registry)
+
+    // 3. Update groups and filters
     updateProjectGroups()
     const tree = projectStore.getGroupTree()
     
-    // Map materials
+    // 4. Map materials
     const mockMapping = setupMapping()
     updateMapping(mockMapping)
     
-    // Calculate emissions
+    // 5. Calculate emissions
     const calculator = new EmissionCalculator()
     calculator.calculateEmissions()
     
-    // 2. Set up result calculation with parameter chain
+    // 6. Set up result calculation with parameter chain
     const resultCalculator = new ResultCalculator()
     resultCalculator.setGroupingChain(['parameters.category', 'material.name'])
     resultCalculator.aggregate()
 
-    // 3. Export to JSON
+    // 7. Export to JSON
     const config = {
       format: ExportFormat.JSON
     }
@@ -393,7 +399,7 @@ describe('Full Workflow Test', () => {
     // Call private exportToJSON method to verify data structure
     const jsonData = exporter['exportToJSON']()
 
-    // 4. Verify JSON structure
+    // Verify JSON structure
     expect(jsonData).toBeDefined()
     expect(Array.isArray(jsonData)).toBe(true)
     expect(jsonData.length).toBeGreaterThan(0)
