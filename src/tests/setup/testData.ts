@@ -1,261 +1,392 @@
 import { APISource } from '@/models/materialModel'
-
 import type { GeometryObject } from '@/models/geometryModel'
 import type { Group } from '@/models/filterModel'
-import type { Product, Assembly, } from '@/models/materialModel'
+import type { Product, Assembly, Mapping } from '@/models/materialModel'
+import type { ResponseObject, ResponseObjectStream, Version, ProjectDetails } from '@/models/speckleModel'
 
-export const mockObjects: Record<string, GeometryObject> = {
-  simple: {
-    id: 'test-id-1',
-    name: 'Simple Object',
-    quantity: {
-      m3: 10,
-      kg: 100
-    },
-    material: {
-      id: 'concrete-id',
-      name: 'Concrete',
-      description: 'Ready-mix concrete',
-      referenceServiceLife: 50,
-      unit: 'm3',
-      quantity: 1,
-      results: {},
-      metaData: null,
-      type: 'product',
-      source: APISource.ECOPortal,
-      emission: {
-        gwp: {
-          a1a3: 100,
-          a4: 10,
-          a5: 0,
-          b1: 0,
-          b2: 0,
-          b3: 0,
-          b4: 0,
-          b5: 0,
-          b6: 0,
-          b7: 0,
-          c1: 0,
-          c2: 0,
-          c3: 0,
-          c4: 5,
-          d: 0
-        }
+export const mockSpeckleObjects: ResponseObject[] = [
+  {
+    id: 'wall-1',
+    data: {
+      id: 'wall-1',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Wall',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Basic Wall 1',
+      category: 'Walls',
+      type: 'Basic Wall',
+      code: 'W1',
+      material: {
+        name: 'Concrete'
       },
-      transport: null,
-      impactData: {
-        epd: {
-          id: 'epd-1',
-          name: 'Concrete EPD',
-          validUntil: '2025-01-01'
-        }
-      }
-    } as Product,
-    parameters: {
-      type: 'wall',
-      nestedValue: 'nestedValue'
-    },
-    simpleParameters: {
-      category: '',
-      type: '',
-      code: '',
-      materialName: '',
-      m: 0,
-      m2: 0,
-      m3: 0
-    },
-  },
-  complex: {
-    id: 'test-id-2',
-    name: 'Complex Object',
-    URI: ['speckle://objects/test'],
-    simpleParameters: {
-      category: '',
-      type: '',
-      code: '',
-      materialName: '',
-      m: 0,
-      m2: 0,
-      m3: 0
-    },
-    quantity: {
-      m2: 50,
-      m3: 25
-    },
-    material: {
-      id: 'assembly-1',
-      guid: 'e96258e3-737c-4701-9280-397ca6723582',
-      name: 'Wall Assembly',
-      description: 'Complex wall assembly',
-      unit: 'm2',
-      quantity: 1,
-      category: 'walls',
-      comment: null,
-      classification: null,
-      results: null,
-      metaData: null,
-      products: {
-        'concrete-1': {
-          id: 'concrete-1',
-          name: 'Concrete',
-          description: 'Structural concrete',
-          referenceServiceLife: 50,
-          unit: 'm3',
-          quantity: 0.2,
-          results: {},
-          metaData: null,
-          type: 'product',
-          source: APISource.ECOPortal,
-          emission: {
-            gwp_total: {
-              a1a3: 200,
-              a4: 20,
-              a5: 0,
-              b1: 0,
-              b2: 0,
-              b3: 0,
-              b4: 0,
-              b5: 0,
-              b6: 0,
-              b7: 0,
-              c1: 0,
-              c2: 0,
-              c3: 0,
-              c4: 10,
-              d: 0
-            }
-          },
-          transport: null,
-          impactData: {
-            epd: {
-              id: 'epd-2',
-              name: 'Concrete EPD',
-              validUntil: '2025-01-01'
-            }
-          }
-        }
-      },
-      emission: {
-        gwp_total: {
-          a1a3: 250,
-          a4: 25,
-          a5: 0,
-          b1: 0,
-          b2: 0,
-          b3: 0,
-          b4: 0,
-          b5: 0,
-          b6: 0,
-          b7: 0,
-          c1: 0,
-          c2: 0,
-          c3: 0,
-          c4: 12,
-          d: 0
-        }
-      }
-    } as Assembly,
-    parameters: {
-      type: 'floor',
-      level: '1',
-      nullValue: null,
-      undefinedValue: null
+      area: 25,
+      volume: 7.5,
+      displayValue: null
     }
   },
-  withCircular: {
-    id: 'test-id-3',
-    name: 'circular',
-    quantity: {
-      m: 5
-    },
-    parameters: {},
-    simpleParameters: {
-      category: '',
-      type: '',
-      code: '',
-      materialName: '',
-      m: 0,
-      m2: 0,
-      m3: 0
-    },
+  {
+    id: 'wall-2',
+    data: {
+      id: 'wall-2',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Wall',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Basic Wall 2',
+      category: 'Walls',
+      type: 'Basic Wall',
+      code: 'W1',
+      material: {
+        name: 'Concrete'
+      },
+      area: 30,
+      volume: 9.0,
+      displayValue: null
+    }
   },
-  empty: {
-    id: 'test-id-6',
-    name: 'Empty',
-    quantity: {},
-    parameters: {},
-    simpleParameters: {
-      category: '',
-      type: '',
-      code: '',
-      materialName: '',
-      m: 0,
-      m2: 0,
-      m3: 0
-    },
+  {
+    id: 'column-1',
+    data: {
+      id: 'column-1',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Column',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Round Column 1',
+      category: 'Columns',
+      type: 'Round Column',
+      code: 'C1',
+      material: {
+        name: 'Concrete'
+      },
+      area: 12,
+      volume: 2.5,
+      displayValue: null
+    }
   },
-  withSpecialChars: {
-    id: 'test-id-4',
-    name: 'special',
-    quantity: {},
-    parameters: {
-      'field.with.dots': 'value',
-      'field-with-dashes': 'value2',
-      'field with spaces': 'value3'
-    },
-    simpleParameters: {
-      category: '',
-      type: '',
-      code: '',
-      materialName: '',
-      m: 0,
-      m2: 0,
-      m3: 0
-    },
+  {
+    id: 'column-2',
+    data: {
+      id: 'column-2',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Column',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Square Column 1',
+      category: 'Columns',
+      type: 'Square Column',
+      code: 'C2',
+      material: {
+        name: 'Concrete'
+      },
+      area: 16,
+      volume: 3.2,
+      displayValue: null
+    }
+  },
+  {
+    id: 'slab-1',
+    data: {
+      id: 'slab-1',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Floor',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Floor Slab 1',
+      category: 'Floors',
+      type: 'Floor Slab',
+      code: 'F1',
+      material: {
+        name: 'Concrete'
+      },
+      area: 100,
+      volume: 20,
+      displayValue: null
+    }
+  },
+  {
+    id: 'slab-2',
+    data: {
+      id: 'slab-2',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Floor',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Floor Slab 2',
+      category: 'Floors',
+      type: 'Floor Slab',
+      code: 'F1',
+      material: {
+        name: 'Concrete'
+      },
+      area: 120,
+      volume: 24,
+      displayValue: null
+    }
+  },
+  {
+    id: 'beam-1',
+    data: {
+      id: 'beam-1',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Beam',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Concrete Beam 1',
+      category: 'Beams',
+      type: 'Rectangular Beam',
+      code: 'B1',
+      material: {
+        name: 'Concrete'
+      },
+      area: 8,
+      volume: 1.8,
+      displayValue: null
+    }
+  },
+  {
+    id: 'beam-2',
+    data: {
+      id: 'beam-2',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Beam',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Steel Beam 1',
+      category: 'Beams',
+      type: 'I-Beam',
+      code: 'B2',
+      material: {
+        name: 'Steel'
+      },
+      area: 6,
+      volume: 0.8,
+      displayValue: null
+    }
+  },
+  {
+    id: 'window-1',
+    data: {
+      id: 'window-1',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Window',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Double Pane Window 1',
+      category: 'Windows',
+      type: 'Double Pane',
+      code: 'WIN1',
+      material: {
+        name: 'Glass'
+      },
+      area: 4,
+      volume: 0.12,
+      displayValue: null
+    }
+  },
+  {
+    id: 'door-1',
+    data: {
+      id: 'door-1',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Door',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Entrance Door 1',
+      category: 'Doors',
+      type: 'Entrance Door',
+      code: 'D1',
+      material: {
+        name: 'Wood'
+      },
+      area: 2.4,
+      volume: 0.08,
+      displayValue: null
+    }
+  },
+  {
+    id: 'roof-1',
+    data: {
+      id: 'roof-1',
+      data: [],
+      speckle_type: 'Objects.BuiltElements.Roof',
+      applicationId: "revit",
+      totalChildrenCount: 0,
+      name: 'Flat Roof 1',
+      category: 'Roofs',
+      type: 'Flat Roof',
+      code: 'R1',
+      material: {
+        name: 'EPDM'
+      },
+      area: 150,
+      volume: 15,
+      displayValue: null
+    }
+  }
+]
+
+export const mockSpeckleStream: ResponseObjectStream = {
+  data: {
+    stream: {
+      object: {
+        totalChildrenCount: mockSpeckleObjects.length,
+        elements: {
+          objects: mockSpeckleObjects
+        }
+      }
+    }
   }
 }
 
-export const mockGroup: Group = {
-  id: 'group1',
-  name: 'TestGroup',
-  path: ['root'],
-  elements: [mockObjects.simple, mockObjects.complex]
+export const mockVersion: Version = {
+  authorName: 'Test User',
+  branchName: 'main',
+  createdAt: new Date(),
+  id: 'version-1',
+  message: 'Test Version',
+  referencedObject: 'object-1',
+  sourceApplication: 'Revit'
 }
 
-export const mockInvalidObject: GeometryObject = {
-  id: 'invalid1',
-  parameters: null,
-  name: null,
-  quantity: null,
-  simpleParameters: {
-    category: '',
-    type: '',
-    code: '',
-    materialName: '',
-    m: 0,
-    m2: 0,
-    m3: 0
-  },
+export const mockProjectDetails: ProjectDetails = {
+  stream: {
+    commits: {
+      items: [mockVersion],
+      cursor: new Date(),
+      totalCount: 1
+    },
+    id: 'stream-1',
+    name: 'Test Project',
+    updatedAt: new Date()
+  }
 }
 
-export const mockGroups = {
-  empty: {
-    id: 'empty',
-    name: 'Empty',
-    path: [],
-    elements: []
+export const mockProducts: Product[] = [
+  {
+    id: 'concrete-1',
+    name: 'Ready-mix concrete',
+    description: 'Standard concrete mix',
+    referenceServiceLife: 50,
+    unit: 'm3',
+    quantity: 1,
+    results: {},
+    metaData: null,
+    source: APISource.ECOPortal,
+    lifespan: 50,
+    emission: {
+      gwp: {
+        a1a3: 100,
+        a4: 10,
+        a5: 0,
+        b1: 0,
+        b2: 0,
+        b3: 0,
+        b4: 0,
+        b5: 0,
+        b6: 0,
+        b7: 0,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 5,
+        d: 0
+      }
+    },
+    transport: null,
+    impactData: {
+      epd: {
+        id: 'epd-1',
+        name: 'Concrete EPD',
+        validUntil: '2025-01-01'
+      }
+    }
   },
-  single: {
-    id: 'single',
-    name: 'Single',
-    path: ['root'],
-    elements: [mockObjects.simple]
+  {
+    id: 'steel-1',
+    name: 'Structural Steel',
+    description: 'Steel beam sections',
+    referenceServiceLife: 50,
+    unit: 'm3',
+    quantity: 1,
+    results: {},
+    metaData: null,
+    source: APISource.ECOPortal,
+    lifespan: 50,
+    emission: {
+      gwp: {
+        a1a3: 150,
+        a4: 15,
+        a5: 0,
+        b1: 0,
+        b2: 0,
+        b3: 0,
+        b4: 0,
+        b5: 0,
+        b6: 0,
+        b7: 0,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 7,
+        d: -50
+      }
+    },
+    transport: null,
+    impactData: {
+      epd: {
+        id: 'epd-2',
+        name: 'Steel EPD',
+        validUntil: '2025-01-01'
+      }
+    }
   },
-  mixed: mockGroup
-}
+  {
+    id: 'wood-1',
+    name: 'Structural Timber',
+    description: 'Engineered wood products',
+    referenceServiceLife: 30,
+    unit: 'm2',
+    quantity: 1,
+    results: {},
+    metaData: null,
+    source: APISource.ECOPortal,
+    lifespan: 30,
+    emission: {
+      gwp: {
+        a1a3: 40,
+        a4: 5,
+        a5: 0,
+        b1: -30,
+        b2: 0,
+        b3: 0,
+        b4: 0,
+        b5: 0,
+        b6: 0,
+        b7: 0,
+        c1: 0,
+        c2: 0,
+        c3: 20,
+        c4: 2,
+        d: -15
+      }
+    },
+    transport: null,
+    impactData: {
+      epd: {
+        id: 'epd-3',
+        name: 'Timber EPD',
+        validUntil: '2025-01-01'
+      }
+    }
+  }
+]
 
-export const mockFilterValues = {
-  equals: 'concrete',
-  number: 42,
-  nonExistent: 'missing'
+// Example mapping that maps concrete to walls/columns/slabs and steel to beams
+export const mockMapping: Mapping = {
+  id: 'test-mapping-1',
+  name: 'Basic Structure Mapping',
+  filters: [],
+  steps: [] 
 }

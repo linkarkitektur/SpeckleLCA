@@ -27,10 +27,9 @@ export class EmissionCalculator {
     }
   }
 
-   /**
+  /**
    * Calculate the emissions of the current geo and attach the results to the geo
-   * @param geo
-   * @returns
+   * @returns true if calculation was successful
    */
   calculateEmissions(): Results | boolean {
     // Go through each geometry object and calculate the emissions
@@ -117,40 +116,62 @@ export class EmissionCalculator {
 
     // Get material fraction or default to 100%
     const materialFraction = product.materialFraction ? product.materialFraction / 100 : 1
+    
+    // Calculate number of replacements needed during project lifespan
+    const projectLifespan = this.settingsStore.projectSettings.lifespan
+    const replacements = product.lifespan ? Math.max(0, Math.ceil(projectLifespan / product.lifespan) - 1) : 0
 
-    for (const phase in matEmission) {
-      // Check if the phase is included in the calculation settings, if not skip it
+    // First calculate base emissions for all stages
+    for (const stage in matEmission) {
+      // Check if the stage is included in the calculation settings, if not skip it
       if (this.settingsStore.calculationSettings.includedStages.relevantStages.some(
-        (stage) => phase === stage.stage && stage.included)
+        (relStage) => relStage.stage === stage && relStage.included)
       ){
-        let value = matEmission[phase]
-        if (value === undefined) value = matEmission[phase]
+        let value = matEmission[stage]
+        if (value === undefined) value = matEmission[stage]
         
         // Take the emissions, quantity of the unit and material fraction and multiply them
         if (value !== null && !isNaN(Number(value))) {
           const emissionValue = parseFloat(value as string) * geo.quantity[product.unit] * materialFraction
-  
-          if (!emissions[impactCategory][phase]) {
-            emissions[impactCategory][phase] = 0
+
+          if (!emissions[impactCategory][stage]) {
+            emissions[impactCategory][stage] = 0
           }
   
-          const currentAmount = emissions[impactCategory][phase] || 0
-          emissions[impactCategory][phase] = currentAmount + emissionValue
+          const currentAmount = emissions[impactCategory][stage] || 0
+          emissions[impactCategory][stage] = currentAmount + emissionValue
         }
       }
     }
+
+    // Danish adaptations, replace B4 for now
+    if (replacements > 0 && this.settingsStore.calculationSettings.replaceB4WithProductionStages) {
+      // Determine B4 emission based on setting
+      const b4Emission = (emissions[impactCategory]['a1a3'] || 0) + 
+      (emissions[impactCategory]['a4'] || 0) + 
+      (emissions[impactCategory]['a5'] || 0)
+     
+      if (b4Emission > 0) {
+        const totalB4Emission = b4Emission * replacements
+        if (!emissions[impactCategory]['b4']) {
+          emissions[impactCategory]['b4'] = 0
+        }
+        emissions[impactCategory]['b4'] += totalB4Emission
+      }
+    }
+
     return true
   }
 
   /**
    * Attached emissions to Geo object
-   * @param geo 
-   * @param emissions 
+   * @param emissions The emissions to attach
+   * @param geo The geometry object to attach to
    */
   private addEmissionsToGeo(
     emissions: Emission,
     geo: GeometryObject
-  ) {
+  ): Results {
     const result: Results = {
       id: crypto.randomUUID(),
       date: new Date(),

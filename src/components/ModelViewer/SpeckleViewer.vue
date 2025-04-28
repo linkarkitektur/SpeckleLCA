@@ -88,20 +88,16 @@ const speckleStore = useSpeckleStore()
 const settingsStore = useSettingsStore()
 const navStore = useNavigationStore()
 const serverUrl = settingsStore.keySettings.speckleConfig.serverUrl
-const token = ""
 const resizeObserver = ref<ResizeObserver | null>(null)
 const fadeOut = ref(false)
 const isLoading = ref(true)
 
 speckleStore.setServerUrl(serverUrl)
-speckleStore.setToken(token)
-
 
 // Event handler for Escape key
 const handleEscKey = (e: KeyboardEvent) => {
   if (e.key.toLowerCase() === 'escape') {
     projectStore.clearSelectedGroup()
-    //viewer.getExtension(FilteringExtension).resetFilters()
   }
 }
 

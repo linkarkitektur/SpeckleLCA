@@ -9,7 +9,7 @@ import { DefaultResultList } from '@/models/resultModel'
 import type { GroupedResults } from '@/models/resultModel'
 import type { ChartData, NestedChartData } from '@/models/chartModel'
 import type { GeometryObject, Quantity } from '@/models/geometryModel'
-import type { Emission, LifeCycleStageEmission, MetricUnits } from '@/models/materialModel'
+import { DanishEmissionFactors, type Emission, type EnergyType, type LifeCycleStageEmission, type MetricUnits } from '@/models/materialModel'
 import type { ResultItem, ResultList } from '@/models/resultModel'
 import type { ResultsLog } from '@/models/firebaseModel'
 
@@ -204,12 +204,13 @@ function groupedResultToLCSChartData(groupedResult: GroupedResults, groupedData:
     }
 
     const materialData = groupedData.get(lifeCycleStage)!
+    const lifecycleStage = groupedResult.data.emission[impactCategory][lifeCycleStage]
 
     // Here we only care about stage, since we are splitting data on stage
     if (settingsStore.projectSettings.emissionPerYear)
-      materialData.value += groupedResult.data.emission[impactCategory][lifeCycleStage] / area / lifespan
+      materialData.value += lifecycleStage / area / lifespan
     else
-      materialData.value += groupedResult.data.emission[impactCategory][lifeCycleStage] / area
+      materialData.value += lifecycleStage / area
 
     materialData.ids.push(... groupedResult.data.geoId) 
   }
@@ -262,9 +263,9 @@ export function geometryToNestedChartData(objects: GeometryObject[], chartParame
 }
 
 /**
- * Returns number of total emission in co2 eq for a given emission object with all relevant phases and categories from settings
+ * Returns number of total emission in co2 eq for a given emission object with all relevant stages and categories from settings
  * @param emission Emission object to convert to number
- * @returns Number for category and included phases in settings
+ * @returns Number for category and included stages in settings
  */
 export function emissionToNumber(emission: Emission, perArea: boolean = true): number {
   const settingsStore = useSettingsStore()
@@ -278,26 +279,30 @@ export function emissionToNumber(emission: Emission, perArea: boolean = true): n
 
   // Only go through relevant ImpactCategory
   for (const stage in emission[impactCategory]) {
-    // Find the relevant stage object for the current phase
+    // Find the relevant stage object for the current stage
     const relevantStage = includedStages.relevantStages.find(
       (stageObj) => stageObj.stage === stage
     )
   
     // If the stage exists and is included, add its emission to the total
     if (relevantStage && relevantStage.included) {
+      const stageEmission = emission[impactCategory][stage]
+
       if (perArea) {
-        if (settingsStore.projectSettings.emissionPerYear)
-          total += emission[impactCategory][stage] / area / lifeSpan
-        else
-          total += emission[impactCategory][stage] / area
+        if (settingsStore.projectSettings.emissionPerYear) {
+          total += stageEmission / area / lifeSpan
+        } else {
+          total += stageEmission / area
+        }
       } else {
-        if (settingsStore.projectSettings.emissionPerYear)
-          total += emission[impactCategory][stage] / lifeSpan
-        else
-          total += emission[impactCategory][stage]
+        if (settingsStore.projectSettings.emissionPerYear) {
+          total += stageEmission / lifeSpan
+        } else {
+          total += stageEmission
+        }
       }
     }
-  }  
+  }
 
   return total
 }
@@ -349,9 +354,9 @@ export function addEmissions(a: Emission, b: Emission): Emission {
         result[impactCategory] = {}
       }
 
-      for (const phase in source[impactCategory]) {
-        result[impactCategory][phase] =
-          (result[impactCategory][phase] || 0) + (source[impactCategory][phase] || 0)
+      for (const stage in source[impactCategory]) {
+        result[impactCategory][stage] =
+          (result[impactCategory][stage] || 0) + (source[impactCategory][stage] || 0)
       }
     }
   }
@@ -391,6 +396,13 @@ export class ResultCalculator {
     data: [],
   }))
   
+  // Add special life cycle stages result item
+  private lifeCycleStagesResult: ResultItem = {
+    parameter: 'lifeCycleStages',
+    displayName: 'Life Cycle Stages',
+    data: []
+  }
+  
   // If provided group results based on a chain of parameters, othersie calc for all parameters in provided resultList
   public groupByChain: string[] | null = null
 
@@ -420,10 +432,17 @@ export class ResultCalculator {
 
   // Main function to aggregate emissions
   public aggregate(save: Boolean = true, calcResultList = true): void {
+    // Reset life cycle stages result
+    this.lifeCycleStagesResult.data = []
+    
     this.geos.forEach(geo => {
       if (geo.results) {
-        this.aggregateTotalEmissions(geo.results[geo.results.length - 1].emission)
+        const lastResult = geo.results[geo.results.length - 1]
+        this.aggregateTotalEmissions(lastResult.emission)
         if (calcResultList) {
+          // Always aggregate life cycle stages
+          this.aggregateLifeCycleStagesResult(geo, lastResult.emission)
+          
           if (this.groupByChain && this.groupByChain.length > 0) {
             this.aggregateEmissionsForResultChain(geo)
           } else {
@@ -433,10 +452,48 @@ export class ResultCalculator {
       }
     })
 
+    // Add life cycle stages result to result list if not already present
+    this.calculateEnergyEmissions()
+    if (!this.resultList.some(item => item.parameter === 'lifeCycleStages')) {
+      this.resultList.push(this.lifeCycleStagesResult)
+    }
+
     if (save)
       this.saveResults()
   }
 
+  private aggregateLifeCycleStagesResult(geo: GeometryObject, emission: Emission): void {
+    const settingsStore = useSettingsStore()
+    const impactCategory = settingsStore.calculationSettings.standardImpactCategory
+
+    for (const stage in emission[impactCategory]) {
+      let stageGroup = this.lifeCycleStagesResult.data.find(group => group.parameter === stage)
+
+      if (!stageGroup) {
+        // Create new stage group with initial values
+        stageGroup = {
+          parameter: stage,
+          quantity: geo.quantity || {},
+          data: {
+            emission: {} as Emission,
+            geoId: []
+          }
+        }
+        this.lifeCycleStagesResult.data.push(stageGroup)
+      }
+
+      // Add emissions and quantities using the standard helper functions
+      stageGroup.data.emission = addEmissions(stageGroup.data.emission, {
+        [impactCategory]: { [stage]: emission[impactCategory][stage] }
+      })
+      stageGroup.quantity = addQuantity(stageGroup.quantity, geo.quantity || { m: 0 })
+
+      // Add geoId if not already present
+      if (!stageGroup.data.geoId.includes(geo.id)) {
+        stageGroup.data.geoId.push(geo.id)
+      }
+    }
+  }
 
   // Get the total emission
   private aggregateTotalEmissions(emission: Emission): void {
@@ -444,13 +501,13 @@ export class ResultCalculator {
       if (!this.totalEmission[impactCategory]) {
         this.totalEmission[impactCategory] = {} as LifeCycleStageEmission
       }
-      for (const phase in emission[impactCategory]) {
-        if (!this.totalEmission[impactCategory][phase]) {
-          this.totalEmission[impactCategory][phase] = 0
+      for (const stage in emission[impactCategory]) {
+        if (!this.totalEmission[impactCategory][stage]) {
+          this.totalEmission[impactCategory][stage] = 0
         }
-        const emissionAmount = emission[impactCategory][phase] || 0
-        const currentTotal = this.totalEmission[impactCategory][phase] || 0
-        this.totalEmission[impactCategory][phase] = currentTotal + emissionAmount
+        const emissionAmount = emission[impactCategory][stage] || 0
+        const currentTotal = this.totalEmission[impactCategory][stage] || 0
+        this.totalEmission[impactCategory][stage] = currentTotal + emissionAmount
       }
     }
   }
@@ -498,7 +555,7 @@ export class ResultCalculator {
     if (!grouping) {
       grouping = {
         parameter: paramValue,
-        quantity: geoQuantity,
+        quantity: {},
         data: {
           emission: {} as Emission,
           geoId: []
@@ -546,7 +603,7 @@ export class ResultCalculator {
         if (!groupedResult) {
           groupedResult = {
             parameter: paramValue,
-            quantity: geoQuantity,
+            quantity: {},
             data: {
               emission: {} as Emission,
               geoId: [],
@@ -578,6 +635,80 @@ export class ResultCalculator {
   }
 
   /**
+   * Interpolates emission factor for a specific energy type based on current year
+   */
+  private interpolateEmissionFactor(energyType: EnergyType): number {
+    const currentYear = new Date().getFullYear()
+    const factors = DanishEmissionFactors
+
+    // Find the two closest years
+    let lowerBound = factors[0]
+    let upperBound = factors[factors.length - 1]
+
+    for (let i = 0; i < factors.length - 1; i++) {
+      if (factors[i].year <= currentYear && factors[i + 1].year > currentYear) {
+        lowerBound = factors[i]
+        upperBound = factors[i + 1]
+        break
+      }
+    }
+
+    // If current year is before first year or after last year, use the closest value
+    if (currentYear <= lowerBound.year) return lowerBound.factors[energyType]
+    if (currentYear >= upperBound.year) return upperBound.factors[energyType]
+
+    // Linear interpolation
+    const yearDiff = upperBound.year - lowerBound.year
+    const valueDiff = upperBound.factors[energyType] - lowerBound.factors[energyType]
+    const ratio = (currentYear - lowerBound.year) / yearDiff
+
+    return lowerBound.factors[energyType] + (valueDiff * ratio)
+  }
+
+  /**
+   * Calculate energy consumption emissions
+   */
+  private calculateEnergyEmissions(): void {
+    const settingsStore = useSettingsStore()
+    const settings = settingsStore.projectSettings
+    if (!settings) return 
+
+    const energyType = settings.energyType
+    const consumption = settings.electricityConsumption
+
+    // Skip calculation if either value is null/undefined
+    if (!energyType || consumption === null || consumption === undefined) return 
+
+    const emissionFactor = this.interpolateEmissionFactor(energyType)
+    if (emissionFactor === null || emissionFactor === undefined) return 
+
+    const area = settings.area || 0
+    const totalEmissions = consumption * emissionFactor * area * settings.lifespan // kWh/m²/year * kg CO2/kWh * m² * lifespan = kg CO2/year
+
+    const impactCategory = settingsStore.calculationSettings.standardImpactCategory
+
+    // Add to life cycle stages result
+    const b6Group = this.lifeCycleStagesResult.data.find(group => group.parameter === 'b6')
+    if (!b6Group) {
+      this.lifeCycleStagesResult.data.push({
+        parameter: 'b6',
+        quantity: {},
+        data: {
+          emission: {
+            [impactCategory]: { b6: totalEmissions }
+          },
+          geoId: []
+        }
+      })
+    } else {
+      if (!b6Group.data.emission[impactCategory]) {
+        b6Group.data.emission[impactCategory] = {} as LifeCycleStageEmission
+      }
+      b6Group.data.emission[impactCategory].b6 = totalEmissions
+    }
+  }
+
+  /**
    * Aggregate emissions into a nested ResultItem by life cycle stages.
    */
   private aggregateLifeCycleStages(
@@ -591,7 +722,7 @@ export class ResultCalculator {
     const aggregatedEmission = groupedResult.data.emission
     // Iterate through each impact category in the aggregated emission
     for (const impactCategoryKey in aggregatedEmission) {
-      const categoryEmission = aggregatedEmission[impactCategoryKey]
+      const categoryEmission: LifeCycleStageEmission = aggregatedEmission[impactCategoryKey]
       if (!categoryEmission) continue
 
       // For each life cycle stage in this category

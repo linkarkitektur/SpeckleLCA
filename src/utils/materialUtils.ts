@@ -265,10 +265,10 @@ export function reduceMapping(mapping: Mapping): Mapping {
               quantity: geo.geoObj.quantity,
               parameters: {},  
               simpleParameters: {
-                category: "",
-                type: "",
-                materialName: "",
-                code: "",
+                category: geo.geoObj.simpleParameters.category,
+                type: geo.geoObj.simpleParameters.type,
+                materialName: geo.geoObj.simpleParameters.materialName,
+                code: geo.geoObj.simpleParameters.code,
                 m: 0,
                 m2: 0,
                 m3: 0
