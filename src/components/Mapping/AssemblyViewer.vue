@@ -112,13 +112,16 @@ const normalizeHeight = () => {
     const containerHeight = assemblyViewerRef.value.clientHeight
     const halfContainerHeight = containerHeight / 2
     const totalHeight = localMaterials.value.reduce(
+					// @ts-expect-error issues with anyvalue
       (sum, material) => sum + parseInt(material.metaData.thickness) > 75 ? parseInt(material.metaData.thickness) : 75,
       0
     )
     if (totalHeight > halfContainerHeight) {
       const scale = halfContainerHeight / totalHeight
       localMaterials.value.forEach((material) => {
+							// @ts-expect-error issues with anyvalue
         material.metaData.height = Math.round(
+									// @ts-expect-error issues with anyvalue
           parseInt(material.metaData.thickness) * scale
         ).toString()
       })
@@ -155,8 +158,10 @@ const onDropAtEnd = (event: any) => {
 }
 
 const updateMaterialThickness = ({ appId, thickness }: { appId: string; thickness: number }) => {
+	// @ts-expect-error issues with anyvalue
   const material = localMaterials.value.find((m) => m.metaData.appId === appId)
   if (material) {
+			// @ts-expect-error issues with anyvalue
     material.metaData.thickness = thickness.toString()
     normalizeHeight()
     emit('update:materials', localMaterials.value)
@@ -164,6 +169,7 @@ const updateMaterialThickness = ({ appId, thickness }: { appId: string; thicknes
 }
 
 const updateMaterialPercent = ({ appId, percent }: { appId: string; percent: number }) => {
+	// @ts-expect-error issues with anyvalue
   const material = localMaterials.value.find((material) => material.metaData.appId === appId)
   if (material) {
     material.materialFraction = percent
@@ -172,8 +178,10 @@ const updateMaterialPercent = ({ appId, percent }: { appId: string; percent: num
 }
 
 const updateMaterialColor = ({ appId, color }: { appId: string; color: string }) => {
+	// @ts-expect-error issues with anyvalue
   const material = localMaterials.value.find((m) => m.metaData.appId === appId)
   if (material) {
+			// @ts-expect-error issues with anyvalue
     material.metaData.color = color
     emit('update:materials', localMaterials.value)
   }

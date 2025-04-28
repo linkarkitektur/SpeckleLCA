@@ -13,6 +13,7 @@
       tag="tbody"
       item-key="id"
       :group="{ name: 'materials', pull: 'clone', put: false }"
+      :sort="false"
       :clone="cloneItem"
     >
       <template #item="{ element, index }">
@@ -20,7 +21,7 @@
           class="whitespace-no-wrap w-full flex hover:bg-neutral-200 styled-data text-sm"
           :data-item="JSON.stringify(element)"
           @dragstart="onDragStart($event, element)"
-          @dragend="onDragEnd($event)"
+          @dragend="onDragEnd"
           @dblclick="onDoubleClick(element)"
         >
           <slot name="row-columns" :element="element" :index="index" :emissions="roundedEmissions[index]"></slot>
@@ -56,7 +57,8 @@ const dragOptions = ref({
   group: 'materials',
   disabled: false,
   ghostClass: 'ghost',
-  handle: '.handle'
+  handle: '.handle',
+  sort: false
 })
 
 // Computed
@@ -81,7 +83,7 @@ const onDragStart = (event: DragEvent, item: Product | Assembly) => {
   emit('dragStart', item)
 }
 
-const onDragEnd = (event: DragEvent) => {
+const onDragEnd = () => {
   emit('dragEnd')
 }
 

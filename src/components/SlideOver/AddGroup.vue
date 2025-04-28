@@ -82,7 +82,7 @@
           <div class="mt-2">
             <InputText
               id="quantityTONES"
-              v-model="formData.TONES"
+              v-model="formData.tonnes"
               placeholder="0"
               type="number"
               :disabled="!!linkedGroup"
@@ -266,7 +266,7 @@ const formData = ref({
   M2: 0,
   M3: 0,
   KG: 0,
-  TONES: 0,
+  tonnes: 0,
   PCS: 0,
 })
 
@@ -291,11 +291,11 @@ if (props.editMode && props.customGeoData) {
     type: geo.simpleParameters.type,
     code: geo.simpleParameters.code,
     material: geo.simpleParameters.materialName,
-    M: geo.quantity.m,
-    M2: geo.quantity.m2,
-    M3: geo.quantity.m3,
-    KG: geo.quantity.kg,
-    TONES: geo.quantity.tonnes,
+    M: geo.quantity.m ?? 0,
+    M2: geo.quantity.m2 ?? 0,
+    M3: geo.quantity.m3 ?? 0,
+    KG: geo.quantity.kg ?? 0,
+    tonnes: geo.quantity.tonnes ?? 0,
     PCS: geo.quantity.pcs,
   }
   const tree = projectStore.getGroupTree()
@@ -364,6 +364,7 @@ function resetForm() {
   formData.value.M3 = 0
   formData.value.KG = 0
   formData.value.PCS = 0
+  formData.value.tonnes = 0
 }
 
 /**
@@ -378,6 +379,7 @@ function resetForm() {
     formData.value.M3 = quantities.m3
     formData.value.KG = quantities.kg
     formData.value.PCS = quantities.pcs
+    formData.value.tonnes = quantities.tonnes
   }
 }
 
@@ -399,7 +401,7 @@ const saveData = () => {
       m2: formData.value.M2,
       m3: formData.value.M3,
       kg: formData.value.KG,
-      tonnes: formData.value.TONES,
+      tonnes: formData.value.tonnes,
       pcs: formData.value.PCS,
       l: 0,
     },

@@ -1,6 +1,6 @@
 <template>
   <div 
-    :key="product.metaData.appId"
+    :key="product.metaData.appId as unknown as string"
     class="material-bar flex items-center justify-center flex-none"
   >
     <InputText
@@ -70,16 +70,18 @@ const emit = defineEmits<{
 
 // State
 const showColorPicker = ref(false)
+// @ts-expect-error issues with anyvalue
 const color = ref<ColorInput>(props.product.metaData.color)
 
 // Computed
 const thickness = computed({
   get() {
+			// @ts-expect-error issues with anyvalue
     return parseInt(props.product.metaData.thickness)
   },
   set(value) {
     emit('update:thickness', {
-      appId: props.product.metaData.appId,
+      appId: props.product.metaData.appId as unknown as string,
       thickness: value,
     })
   },
@@ -91,7 +93,7 @@ const percent = computed({
   },
   set(value) {
     emit('update:percent', {
-      appId: props.product.metaData.appId,
+      appId: props.product.metaData.appId  as unknown as string,
       percent: value
     })
   }
@@ -105,7 +107,7 @@ const barStyle = computed(() => {
   } else if (hasHex(color.value)) {
     backgroundColor = color.value.hex
   } else {
-    backgroundColor = props.product.metaData.color
+    backgroundColor = props.product.metaData.color as unknown as string
   }
 
   return {
@@ -128,7 +130,7 @@ function hasHex(c: any): c is { hex: string } {
 watch(
   () => props.product.metaData.color,
   (newColor) => {
-    color.value = newColor
+    color.value = newColor as unknown as ColorInput
   },
   { immediate: true }
 )
@@ -143,11 +145,11 @@ watch(
     } else if (hasHex(newColor)) {
       newHexColor = newColor.hex as string
     } else {
-      newHexColor = props.product.metaData.color
+      newHexColor = props.product.metaData.color as unknown as string
     }
 
     emit('update:color', {
-      appId: props.product.metaData.appId,
+      appId: props.product.metaData.appId as unknown as string,
       color: newHexColor,
     })
   },

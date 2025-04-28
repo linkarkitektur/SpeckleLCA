@@ -176,6 +176,7 @@ export function createGeometryFromProduct(product: Product): GeometryObject {
   }
   
   if (product.metaData.thickness) {
+			// @ts-expect-error anyvalue issues
     quantity.m3 = parseFloat(product.metaData.thickness) / 1000 // unit is in mm
   }
 
@@ -186,8 +187,8 @@ export function createGeometryFromProduct(product: Product): GeometryObject {
     material: product,
     parameters: {
       // Parameters from assembly creatino add more here if we add more to it
-      thickness: product.metaData.thickness ? product.metaData.thickness: "0",
-      color: product.metaData.color ? product.metaData.color: "#ffffff",
+      thickness: (product.metaData.thickness ? product.metaData.thickness: "0") as string,
+      color: (product.metaData.color ? product.metaData.color: "#ffffff") as string,
     },
     simpleParameters: {
       category: "",
@@ -264,10 +265,10 @@ export function reduceMapping(mapping: Mapping): Mapping {
               quantity: geo.geoObj.quantity,
               parameters: {},  
               simpleParameters: {
-                category: "",
-                type: "",
-                materialName: "",
-                code: "",
+                category: geo.geoObj.simpleParameters.category,
+                type: geo.geoObj.simpleParameters.type,
+                materialName: geo.geoObj.simpleParameters.materialName,
+                code: geo.geoObj.simpleParameters.code,
                 m: 0,
                 m2: 0,
                 m3: 0

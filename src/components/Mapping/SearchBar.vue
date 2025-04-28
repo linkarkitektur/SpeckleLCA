@@ -123,6 +123,7 @@ watch(searchQuery, async (newVal) => {
     try {
       manualMode.value = true
       const newMaterial: Product = await getSpecificEPD({ id: newVal })
+					// @ts-expect-error issues with anyvalue
       newMaterial.metaData.materialType = 'ManualEntry'
       materialStore.addMaterial(newMaterial)
       emit('update:data', [newMaterial])

@@ -47,6 +47,26 @@
       </dd>
   </div>
   <div class="flex items-center my-3">
+    <dt class="styled-header w-32">Electricity</dt>
+    <dd class="ml-4 flex-1">
+      <div class="space-y-2">
+        <InputText
+          id="Electricity"
+          v-model="settingsStore.projectSettings.electricityConsumption"
+          placeholder="kWh/m²/year"
+          type="number"
+        />
+        <Dropdown
+          :items="energyTypeOptions"
+          @selectedItem="handleEnergyTypeChange"
+          name="Energy Type"
+          dropdownName="Select energy type"
+          class="w-full"
+        />
+      </div>
+    </dd>
+  </div>
+  <div class="flex items-center my-3">
     <dt class="styled-header w-32">Emissions/Year</dt>
     <dd class="ml-4 flex-1">
       <CheckBox
@@ -57,6 +77,7 @@
       />
     </dd>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -78,6 +99,7 @@ import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 import type { ProjectSettingsLog } from '@/models/firebaseModel'
 import { useFirebaseStore } from '@/stores/firebaseStore'
 import CheckBox from '@/components/Base/CheckBox.vue'
+import { EnergyType } from '@/models/materialModel'
 
 const settingsStore = useSettingsStore()
 const speckleStore = useSpeckleStore()
@@ -143,6 +165,17 @@ const selectProject = () => {
       name: 'Dashboard'
     })
   }
+}
+
+const energyTypeOptions = computed(() => {
+  return Object.values(EnergyType).map(type => ({
+    name: type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+    data: type
+  }))
+})
+
+const handleEnergyTypeChange = (selectedItem: dropdownItem) => {
+  settingsStore.projectSettings.energyType = selectedItem.data as EnergyType
 }
 
 </script>
