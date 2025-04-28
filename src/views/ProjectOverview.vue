@@ -120,7 +120,7 @@ const barData = computed<ChartData[]>(() => {
       graphValue: spent
     },
     {
-      label: "Remaining",
+      label: rem > 0? "Remaining": "Over Budget",
       value: rem,
       ids: [],
       graphValue: rem
@@ -130,8 +130,8 @@ const barData = computed<ChartData[]>(() => {
 
 const barOptions = computed<ChartOptions>(() => {
   if (settingsStore.projectSettings.emissionPerYear)
-    return { unit: "kg CO2/m2/year" }
-  return { unit: "kg CO2/m2" }
+    return { unit: "kg CO₂/m²/year" }
+  return { unit: "kg CO₂/m²" }
 })
 
 // Start background flash and fetch results
