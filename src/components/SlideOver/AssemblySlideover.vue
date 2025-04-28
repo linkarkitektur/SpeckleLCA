@@ -260,7 +260,7 @@ const newAssembly = () => {
 
 const saveAssembly = () => {
   const products: Record<string, Product> = assemblyMaterials.value.reduce((acc, product) => {
-    acc[product.metaData.appId] = product
+    acc[product.metaData.appId as unknown as string] = product
     return acc
   }, {})
 
@@ -285,7 +285,8 @@ const saveAssembly = () => {
     unit: 'm2',
     category: category.value,
     classification: null,
-    results: [],
+    results: null,
+			// @ts-expect-error issues with anyvalue
     metaData: { materialType: materialType.value },
   }
 
@@ -303,7 +304,7 @@ const handleLoadAssembly = (assembly: Assembly) => {
   assemblyName.value = assembly.name
   assemblyDescription.value = assembly.description
   category.value = assembly.category
-  materialType.value = assembly.metaData.materialType
+  materialType.value = assembly.metaData.materialType as unknown as string
   assemblyMaterials.value = Object.values(assembly.products)
   navStore.toggleAssemblyTable()
 }

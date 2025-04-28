@@ -1,5 +1,4 @@
-import type { LifeCycleStage } from "lcax"
-import type { ExtendedImpactCategoryKey } from '@/models/materialModel'
+import type { ImpactCategoryKey, LifeCycleModule } from 'lcax'
 import type { BuildingCodeItem } from '@/models/buildingCodeModel'
 import type { MaterialFilterParam, MaterialSortingParam } from '@/models/materialModel'
 
@@ -21,7 +20,7 @@ export interface KeySettings {
  */
 export interface CalculationSettings {
   includedStages: IncludedStages
-  standardImpactCategory: ExtendedImpactCategoryKey
+  standardImpactCategory: ImpactCategoryKey
   buildingCode: {
     key: string,
     data: BuildingCodeItem[],
@@ -107,7 +106,7 @@ interface MaterialKeys {
 interface IncludedStages {
   relevantStages: Array<{
     included: boolean
-    stage: LifeCycleStage
+    stage: LifeCycleModule
   }>
 }
 
@@ -149,18 +148,18 @@ export const standardKeySettings: KeySettings = {
     measurementId: "G-EKQGVJLEEG"
   },
   speckleConfig: {
-    serverUrl: "https://app.speckle.systems",
-    id: "25477842e5",
-    secret: "c5a683ccc4"
+    serverUrl: import.meta.env.VITE_SPECKLE_SERVER_URL as string,
+    id: import.meta.env.VITE_SPECKLE_ID, //"25477842e5",
+    secret: import.meta.env.VITE_SPECKLE_SECRET, //"c5a683ccc4"
   }
 }
 
 export const standardCalculationSettings: CalculationSettings = {
   includedStages: {
     relevantStages: [
-      { included: true, stage: "a1a3" as LifeCycleStage },
-      { included: true, stage: "a4" as LifeCycleStage },
-      { included: true, stage: "a5" as LifeCycleStage },
+      { included: true, stage: "a1a3" as LifeCycleModule }, // Manufacturing
+      { included: true, stage: "a4" as LifeCycleModule }, // Transport
+      { included: true, stage: "a5" as LifeCycleModule }, // Assembly
     ]
   },
   standardImpactCategory: 'gwp',
