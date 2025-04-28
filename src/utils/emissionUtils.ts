@@ -71,8 +71,7 @@ export class EmissionCalculator {
       }
       
       // Calculate m3 from m2 and thickness for this assembly product
-					// @ts-expect-error issue with anyvalue
-      tempGeo.quantity.m3 = tempGeo.quantity.m2 * (parseFloat(product.metaData.thickness) / 1000)
+      tempGeo.quantity.m3 = tempGeo.quantity.m2 * (parseFloat(String(product.metaData.thickness || 0)) / 1000)
 
       if (product.emission) {
         this.calculateMaterialEmissions(product, emissions, tempGeo)
@@ -128,7 +127,7 @@ export class EmissionCalculator {
         
         // Take the emissions, quantity of the unit and material fraction and multiply them
         if (value !== null && !isNaN(Number(value))) {
-          const emissionValue = parseFloat(value as string) * geo.quantity[product.unit] * materialFraction
+          const emissionValue = value * geo.quantity[product.unit] * materialFraction
   
           if (!emissions[impactCategory][phase]) {
             emissions[impactCategory][phase] = 0
