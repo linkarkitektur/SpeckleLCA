@@ -117,13 +117,13 @@ export function updateProjectGroups() {
 
   //Root for the group, this should not be needed
   groups = [
-    {
-      id: 'test',
-      name: 'root',
-      path: ['root'],
-      elements: geo,
-      color: 'hsl(151, 100%, 50%)'
-    }
+    // {
+    //   id: 'test',
+    //   name: 'root',
+    //   path: ['root'],
+    //   elements: geo,
+    //   color: 'hsl(151, 100%, 50%)'
+    // }
   ]
 	 console.log("updateProjectGroups")
   //Go through each filter and iterate over them
@@ -132,6 +132,7 @@ export function updateProjectGroups() {
     reverseStack = projectStore.filterRegistry.filterList.callStack
 
   reverseStack.forEach((el) => {
+			console.log('REVERSE', el.value, groups)
     if (el.value) {
       groups = projectStore.filterRegistry?.callFilter(
         `${el.name}`,
