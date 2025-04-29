@@ -125,7 +125,7 @@ export function updateProjectGroups() {
       color: 'hsl(151, 100%, 50%)'
     }
   ]
-
+	 console.log("updateProjectGroups")
   //Go through each filter and iterate over them
   let reverseStack: Filter[] = []
   if (projectStore.filterRegistry)

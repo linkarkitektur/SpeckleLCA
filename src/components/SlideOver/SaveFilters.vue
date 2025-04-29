@@ -1,22 +1,19 @@
 <template>
   <div class="space-y-12">
-    <h2 class="styled-header">
-      Save to firebase
-    </h2>
-    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
       <div class="sm:col-span-4">
-        <label 
-          for="name" 
+        <label
+          for="name"
           class="block styled-text normal-case"
         >
           Name
         </label>
         <div class="mt-2">
           <div class="flex">
-            <InputText 
-              id="name" 
+            <InputText
+              id="name"
               v-model="formData.name"
-              placeholder="Filter name" 
+              placeholder="Filter name"
             />
           </div>
         </div>
@@ -29,6 +26,10 @@
       text="Save"
       @on-click="saveData"
     />
+			<ActionButton
+				text="Delete"
+				@on-click="deleteData"
+			/>
   </div>
 </template>
 
@@ -46,7 +47,7 @@ const projectStore = useProjectStore()
 const firebaseStore = useFirebaseStore()
 
 const formData = ref({
-  name: ""
+  name: projectStore.filterRegistry.filterList.name || ""
 })
 
 const saveData = () => {
@@ -60,4 +61,10 @@ const saveData = () => {
   firebaseStore.addFilterList(projectStore.currProject.id, filterList, formData.value.name)
   navStore.toggleSlideover()
 }
+
+const deleteData = () => {
+	console.log('FILTERS', projectStore.filterRegistry.filterList.name)
+	console.log("Delete Data")
+}
+
 </script>
