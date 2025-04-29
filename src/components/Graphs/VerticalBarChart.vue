@@ -80,6 +80,7 @@ const svgHeights = ref<number[]>([])
 const axesSvg = ref<SVGSVGElement | null>(null)
 const xAxis = ref<SVGGElement | null>(null)
 const yAxis = ref<SVGGElement | null>(null)
+const groupIndex = ref(0)
 
 // Check if we have margin settings otherwise use standard
 const margin = props.options?.margin? props.options?.margin : {
@@ -87,13 +88,15 @@ const margin = props.options?.margin? props.options?.margin : {
 }
 
 const sortedData = computed(() => {
+  if (props.options?.sort === false) {
+    return props.data || []
+  }
   return (props.data || []).slice().sort((a, b) => {
     const totalA = d3.sum(a.value, d => Math.abs(d.value))
     const totalB = d3.sum(b.value, d => Math.abs(d.value))
     return totalB - totalA
   })
 })
-
 
 const groupNames = computed(() => sortedData.value.map(d => d.label) || [])
 
@@ -148,6 +151,7 @@ const draw = () => {
 
   barSvgs.value.forEach((svg, index) => {
     if (!svg) return
+    groupIndex.value = index
     const height = calculateGroupHeight(data[index])
     svgHeights.value[index] = height
     if (height > 0)
@@ -256,7 +260,10 @@ const drawBarGroup = (svg: SVGSVGElement, groupData: NestedChartData) => {
     .attr('height', d => Math.abs(yScale(d.end) - yScale(d.start)))
     .attr('class', 'cursor-pointer transition-all duration-200')
     .call(chartBaseStyle)
-    .attr("fill", d => {
+    .attr("fill", (d, i) => {
+      if (props.options?.colors && props.options.colors.length === sortedData.value.length) {
+        return props.options.colors[groupIndex.value]
+      }
       const color = getValueColorFromGradient(d.value, -globalTotal.value/2, globalTotal.value/2)
       const patternOptions: PatternOptions = { size: 8, lineWidth: 3, fill: d.value > 0 }
       const patternId = createDiagonalPattern(graph, `${d.phase}-${Math.random().toString(36)}`, color, patternOptions)
