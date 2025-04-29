@@ -12,6 +12,7 @@ export interface ChartOptionsBase {
   stroke?: string
   strokeWidth?: number
   innerRadius?: number
+  sort?: boolean
 }
 
 /**

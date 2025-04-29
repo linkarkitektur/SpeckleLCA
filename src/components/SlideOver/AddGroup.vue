@@ -214,7 +214,6 @@
   <!-- Drop zone for linking metadata -->
   <div 
     class="sm:col-span-6 my-4 p-4 border-dashed border-2 border-green-600 text-center styled-bread"
-    v-if="linkedGroup" 
     @dragover.prevent
     @drop="handleMetaDrop"
   >
@@ -408,7 +407,7 @@ const saveData = () => {
     parameters: {
       name: formData.value.name,
       type: "Manually added",
-      manualTag: "Manual",
+      manualTag: "true",
       area: formData.value.M2.toString(),
       volume: formData.value.M3.toString(),
       length: formData.value.M.toString()
