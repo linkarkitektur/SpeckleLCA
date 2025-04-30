@@ -132,7 +132,8 @@ export class EmissionCalculator {
         
         // Take the emissions, quantity of the unit and material fraction and multiply them
         if (value !== null && !isNaN(Number(value))) {
-          const emissionValue = parseFloat(value as string) * geo.quantity[product.unit] * materialFraction
+          const quantity = product.unit.includes('pcs') ? 1 : geo.quantity[product.unit]
+          const emissionValue = parseFloat(value as string) * quantity * materialFraction
 
           if (!emissions[impactCategory][stage]) {
             emissions[impactCategory][stage] = 0
