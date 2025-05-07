@@ -34,7 +34,6 @@ firebase.json
 
 # Sentry Config
 .env.sentry-build-plugin
-package-lock.json
 serviceAccountKey.json
 codebase.md
 *.cpuprofile
