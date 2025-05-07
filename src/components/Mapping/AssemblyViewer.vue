@@ -128,9 +128,10 @@
 			const containerHeight = assemblyViewerRef.value.clientHeight
 			const halfContainerHeight = containerHeight / 2
 			const totalHeight = localMaterials.value.reduce(
-				// @ts-expect-error issues with anyvalue
 				(sum, material) =>
+					// @ts-expect-error issues with anyvalue
 					sum + parseInt(material.metaData.thickness) > 75
+						// @ts-expect-error issues with anyvalue
 						? parseInt(material.metaData.thickness)
 						: 75,
 				0
@@ -183,8 +184,8 @@
 		appId: string
 		thickness: number
 	}) => {
-		// @ts-expect-error issues with anyvalue
 		const material = localMaterials.value.find(
+			// @ts-expect-error issues with anyvalue
 			(m) => m.metaData.appId === appId
 		)
 		if (material) {
@@ -202,8 +203,8 @@
 		appId: string
 		percent: number
 	}) => {
-		// @ts-expect-error issues with anyvalue
 		const material = localMaterials.value.find(
+			// @ts-expect-error issues with anyvalue
 			(material) => material.metaData.appId === appId
 		)
 		if (material) {
@@ -219,8 +220,8 @@
 		appId: string
 		color: string
 	}) => {
-		// @ts-expect-error issues with anyvalue
 		const material = localMaterials.value.find(
+			// @ts-expect-error issues with anyvalue
 			(m) => m.metaData.appId === appId
 		)
 		if (material) {
