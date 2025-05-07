@@ -654,6 +654,7 @@ function traverseObject(data: any, quantity: Quantity, processed: Set<string>) {
 	if (!data || typeof data !== 'object') return
 
 	for (const [key, value] of Object.entries(data)) {
+		if (key === 'bbox') continue
 		// If the value is an object, traverse it recursively.
 		if (value && typeof value === 'object') {
 			traverseObject(value, quantity, processed)
@@ -726,4 +727,9 @@ export function quantityFromComposite(mat: any): Quantity {
 	}
 
 	return quantity
+}
+
+if (import.meta.env.NODE_ENV == 'TEST') {
+	module.exports.processSimpleObject = processSimpleObject
+	module.exports.processCompositeObject = processCompositeObject
 }

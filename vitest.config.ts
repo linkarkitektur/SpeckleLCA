@@ -12,7 +12,7 @@ export default defineConfig(async () => {
     await viteConfig,
     {
       test: {
-        include: ['src/tests/**/*.{spec,test,ts}'],
+        include: ['src/**/*.{spec,test}.ts'],
         environment: 'happy-dom',
         setupFiles: ['/src/tests/setup/globalSetup.ts'],
         coverage: {
@@ -20,7 +20,10 @@ export default defineConfig(async () => {
           reporter: ['text', 'json', 'html'],
           include: ['src/**/*.ts', 'src/**/*.vue'],
           exclude: ['src/tests/**/*', '**/*.d.ts']
-        }
+        },
+							env: {
+								NODE_ENV: 'TEST'
+							}
       }
     }
   )
