@@ -284,7 +284,6 @@
 
 	// Update store when component unmounts
 	onUnmounted(() => {
-		projectStore.updateRegistryStack('test', callStack.value, customGeoList.value)
 		updateProjectGroups()
 	})
 </script>
