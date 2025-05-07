@@ -179,9 +179,9 @@
 		initializeGroupedBuildingCodes()
 	})
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	watch(
 		() => calculationSettings.value.buildingCode,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		(newVal) => {
 			initializeGroupedBuildingCodes()
 		}

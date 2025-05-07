@@ -131,8 +131,8 @@
 				(sum, material) =>
 					// @ts-expect-error issues with anyvalue
 					sum + parseInt(material.metaData.thickness) > 75
-						// @ts-expect-error issues with anyvalue
-						? parseInt(material.metaData.thickness)
+						? // @ts-expect-error issues with anyvalue
+						  parseInt(material.metaData.thickness)
 						: 75,
 				0
 			)

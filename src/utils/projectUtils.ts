@@ -232,9 +232,10 @@ export function updateGroupColors(
  * @param colorRange optional number of steps of colors in the gradient
  * @returns gradient groups with increments for results
  */
-// eslint-disable-next-line
+
 export function setResultsColorGroup(
 	objects: GeometryObject[] = null,
+	// eslint-disable-next-line
 	colorRange: number = 10
 ) {
 	const projectStore = useProjectStore()
