@@ -1,5 +1,5 @@
 import type { 
-	LifeCycleStage, 
+	LifeCycleModule,
 	ImpactCategoryKey, 
 	Assembly as LcaxAssembly,
 	Product as LcaxProduct 
@@ -15,14 +15,69 @@ export enum APISource {
   Boverket,
 }
 
+export enum EnergyType {
+  Electricity = 'electricity',
+  DistrictHeating = 'district_heating',
+  GasPipeline = 'gas_pipeline'
+}
+
+export interface EmissionFactorRecord {
+  year: number
+  factors: {
+    [key in EnergyType]: number
+  }
+}
+
+export const DanishEmissionFactors: EmissionFactorRecord[] = [
+  {
+    year: 2023,
+    factors: {
+      [EnergyType.Electricity]: 0.187,
+      [EnergyType.DistrictHeating]: 0.105,
+      [EnergyType.GasPipeline]: 0.225
+    }
+  },
+  {
+    year: 2025,
+    factors: {
+      [EnergyType.Electricity]: 0.135,
+      [EnergyType.DistrictHeating]: 0.0878,
+      [EnergyType.GasPipeline]: 0.189
+    }
+  },
+  {
+    year: 2030,
+    factors: {
+      [EnergyType.Electricity]: 0.0470,
+      [EnergyType.DistrictHeating]: 0.0713,
+      [EnergyType.GasPipeline]: 0.105
+    }
+  },
+  {
+    year: 2035,
+    factors: {
+      [EnergyType.Electricity]: 0.0414,
+      [EnergyType.DistrictHeating]: 0.0688,
+      [EnergyType.GasPipeline]: 0.105
+    }
+  },
+  {
+    year: 2040,
+    factors: {
+      [EnergyType.Electricity]: 0.0403,
+      [EnergyType.DistrictHeating]: 0.0680,
+      [EnergyType.GasPipeline]: 0.105
+    }
+  }
+]
 
 export type Emission = Partial<{
-	[impactCategory in ExtendedImpactCategoryKey]: 
+	[impactCategory in ImpactCategoryKey]:
 		LifeCycleStageEmission
 }>
 
 export type LifeCycleStageEmission = {
-	[lifecycleStage in LifeCycleStage]: number
+	[lifecycleStage in LifeCycleModule]: number
 }
 
 /**
@@ -32,6 +87,7 @@ export interface Product extends LcaxProduct {
   emission: Emission
   materialFraction?: number
   source: APISource
+  lifespan?: number  // Danish B4 lifespan in years
 }
 
 /**
@@ -40,6 +96,7 @@ export interface Product extends LcaxProduct {
 export interface Assembly extends Omit<LcaxAssembly, 'products'> {
 	products: Record<string, Product>
 	emission: Emission
+	category: string
 }
 
 /**
@@ -97,19 +154,18 @@ export interface QuantityConversionSpec {
  * Extended impact categories for application
  * Array of possible impact categories to use, increase as needed
  */
-export type ExtendedImpactCategoryKey = 'gwp_total' | 'gwp_fossil' | 'gwp_biogenic' | 'gwp_LULUC' | ImpactCategoryKey
-export const extendedImpactCategoryKeys: readonly ExtendedImpactCategoryKey[] = [
+//export type ExtendedImpactCategoryKey = 'gwp_total' | 'gwp_fossil' | 'gwp_biogenic' | 'gwp_LULUC' | ImpactCategoryKey
+export const extendedImpactCategoryKeys = [
   'gwp',
-  'gwp_total',
-  'gwp_fossil',
-  'gwp_biogenic',
-  'gwp_LULUC',
+  'gwp_fos',
+  'gwp_bio',
+  'gwp_lul',
   'odp',
   'ap',
   'pocp',
 ] as const
 
-export const LifeCycleStages: readonly LifeCycleStage[] = [
+export const LifeCycleStages: readonly LifeCycleModule[] = [
   'a1a3',
   'a4',
   'a5',

@@ -1,9 +1,8 @@
-import type { LifeCycleStage } from "lcax"
-import type { ExtendedImpactCategoryKey } from '@/models/materialModel'
+import type { ImpactCategoryKey, LifeCycleModule } from 'lcax'
 import type { BuildingCodeItem } from '@/models/buildingCodeModel'
 import type { MaterialFilterParam, MaterialSortingParam } from '@/models/materialModel'
 
-import { APISource } from '@/models/materialModel'
+import { APISource, EnergyType } from '@/models/materialModel'
 import { BSAB96 } from '@/models/buildingCodeModel'
 
 /**
@@ -21,11 +20,13 @@ export interface KeySettings {
  */
 export interface CalculationSettings {
   includedStages: IncludedStages
-  standardImpactCategory: ExtendedImpactCategoryKey
+  standardImpactCategory: ImpactCategoryKey
   buildingCode: {
     key: string,
     data: BuildingCodeItem[],
   }
+  // Controls whether B4 is calculated from A1-A3, A4, A5 or from EPD
+  replaceB4WithProductionStages: boolean
 }
 
 /**
@@ -57,6 +58,8 @@ export interface ProjectSettings {
   threshold: number
   lifespan: number
   emissionPerYear: boolean
+  electricityConsumption: number | null // kWh/m²/year
+  energyType: EnergyType | null
 }
 
 
@@ -103,7 +106,7 @@ interface MaterialKeys {
 interface IncludedStages {
   relevantStages: Array<{
     included: boolean
-    stage: LifeCycleStage
+    stage: LifeCycleModule
   }>
 }
 
@@ -114,7 +117,9 @@ export const standardProjectSettings: ProjectSettings = {
   area: 100,
   threshold: 300,
   lifespan: 50,
-  emissionPerYear: false
+  emissionPerYear: false,
+  electricityConsumption: null,
+  energyType: null
 }
 
 /**
@@ -152,18 +157,17 @@ export const standardKeySettings: KeySettings = {
 export const standardCalculationSettings: CalculationSettings = {
   includedStages: {
     relevantStages: [
-      { included: true, stage: "a1a3" as LifeCycleStage }, // Manufacturing
-      { included: true, stage: "a4" as LifeCycleStage }, // Transport
-      { included: true, stage: "a5" as LifeCycleStage }, // Assembly
-      { included: true, stage: "b1" as LifeCycleStage }, // Use
-      { included: true, stage: "c1" as LifeCycleStage }, // End of life
+      { included: true, stage: "a1a3" as LifeCycleModule }, // Manufacturing
+      { included: true, stage: "a4" as LifeCycleModule }, // Transport
+      { included: true, stage: "a5" as LifeCycleModule }, // Assembly
     ]
   },
   standardImpactCategory: 'gwp',
   buildingCode: {
     key: 'BSAB96',
     data: BSAB96
-  }
+  },
+  replaceB4WithProductionStages: false
 }
 
 export const standardMaterialSettings: MaterialSettings = {

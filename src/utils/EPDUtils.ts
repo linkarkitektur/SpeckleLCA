@@ -9,10 +9,10 @@ import { APISource } from '@/models/materialModel'
 import type { RevaluData, RevaluCollection, RevaluSingleCollection } from '@/models/revaluModel'
 import type { Product, Emission, LifeCycleStageEmission, Assembly } from '@/models/materialModel'
 import type { BoverketData } from '@/models/boverketModel'
-
-//import { convertIlcd } from 'epdx'
+import type { MetaData, Unit } from 'lcax'
 
 const MAX_EPD_COUNT = 15
+
 // Ilcd reference to GWP total
 const GWP_REF_OBJECT_ID = '6a37f984-a4b3-458a-a20a-64418c145fa2'
 
@@ -247,12 +247,12 @@ export const extractBoverketData = (data: BoverketData) => {
     referenceServiceLife: extractFirstNumber(data.RefServiceLifeNormal),
     impactData: null,
     quantity: 1,
-    unit: convertedUnit.denominator,
+    unit: convertedUnit.denominator as Unit,
     transport: null,
     results: null,
     emission: productEmission,
     source: APISource.Boverket,
-    metaData: { materialType: data.Categories[0].Text }
+    metaData: { materialType: data.Categories[0].Text} as unknown as MetaData,
   }
 
   return product
@@ -330,7 +330,7 @@ export const extractILCDData = (data: any) => {
     unit,
     transport: null,
     results: null,
-    metaData,
+    metaData: metaData as unknown as MetaData,
     emission,
     source: APISource.ECOPortal,
   }
@@ -346,7 +346,7 @@ export const extractRevaluData = (response: { body: RevaluData }, collection: st
   const data = response.body
   const emission: Emission = {
     gwp: data.gwp,
-    gwp_fossil: data.gwp_fossil,
+    gwp_fos: data.gwp_fossil,
     //gwp_biogenic: data.gwp_biogenic,
     //gwp_luluc: data.gwp_luluc,
     fw: data.fw,
@@ -361,12 +361,12 @@ export const extractRevaluData = (response: { body: RevaluData }, collection: st
     referenceServiceLife: 50,
     impactData: null,
     quantity: 1,
-    unit: data.declared_unit,
+    unit: data.declared_unit as Unit,
     transport: null,
     results: null,
     emission,
     source: APISource.Revalu,
-    metaData: { Collection: collection },
+    metaData: { Collection: collection } as unknown as MetaData,
   }
   return product
 }

@@ -33,7 +33,7 @@
         <!-- Right Side Info -->
         <div class="flex flex-col items-end h-full pr-2 pt-6 pb-3 styled-data">
           <div class="text-sm leading-none pt-1 truncate max-w-40" :title="rightInfo">
-            {{ rightInfo }}m<sup>2</sup>
+            {{ rightInfo }}
           </div>
         </div>
       </section>
@@ -190,7 +190,7 @@ const rightInfo = computed(() => {
   switch (activePage.value) {
     case "Filtering": return inGroups.value.objects.length + " Elements"
     case "Mapping": return getMappedMaterial(inGroups.value.objects).name
-    case "Results": return totalArea.value
+    case "Results": return totalArea.value + "m²"
     case "Benchmark": return null
     default: return "dummy"
   } 

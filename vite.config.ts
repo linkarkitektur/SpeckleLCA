@@ -2,7 +2,7 @@
  * Configuration file for Vite.
  * @see {@link https://vitejs.dev/config/}
  */
-
+import wasm from "vite-plugin-wasm"
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
@@ -13,6 +13,7 @@ export default defineConfig({
 	 * Plugins used by Vite.
 	 */
 	plugins: [
+		wasm(),
 		vue(),
 		//sentryVitePlugin({
 		//	org: 'link-io',

@@ -112,29 +112,46 @@ export async function speckleFetch(
 ) {
 	const settingsStore = useSettingsStore()
 	const token = localStorage.getItem(TOKEN)
-	if (token)
-		try {
-			const res = await fetch(`${settingsStore.keySettings.speckleConfig.serverUrl}/graphql`, {
-				method: 'POST',
-				headers: {
-					Authorization: 'Bearer ' + token,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					query: query,
-					variables: vars || null
-				})
+
+	if (!token) {
+		console.error('No authentication token found')
+		return Promise.reject('You are not logged in. Please log in to continue.')
+	}
+
+	if (!settingsStore.keySettings.speckleConfig.serverUrl) {
+		console.error('No Speckle server URL configured')
+		return Promise.reject('Speckle server URL is not configured. Please check your settings.')
+	}
+
+	try {
+		const res = await fetch(`${settingsStore.keySettings.speckleConfig.serverUrl}/graphql`, {
+			method: 'POST',
+			headers: {
+				Authorization: 'Bearer ' + token,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				query: query,
+				variables: vars || null
 			})
-			const data = await res.json()
-			return data
-		} catch (err) {
-			const msg = 'API call failed!'
+		})
 
-			console.error(msg, err)
-
-			return Promise.reject(msg)
+		if (!res.ok) {
+			throw new Error(`HTTP error! status: ${res.status}`)
 		}
-	else return Promise.reject('You are not logged in. (Token does not exist.)')
+
+		const data = await res.json()
+		
+		if (data.errors) {
+			const errorMessage = data.errors.map((e: any) => e.message).join(', ')
+			throw new Error(`GraphQL Error: ${errorMessage}`)
+		}
+
+		return data
+	} catch (err: any) {
+		console.error('API call failed:', err.message || err)
+		throw err
+	}
 }
 
 // Fetch the current user data using the userInfoQuery

@@ -23,7 +23,7 @@
       </div>
 
       <div class="col-span-2 row-span-2 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling">
-        <h2 class="styled-header pb-2">Emissions by code</h2>
+        <h2 class="styled-header pb-2">Emissions by material category</h2>
         <div class="flex-1 aspect-square">
           <GraphContainer
             graph="VerticalBarChart"
@@ -33,11 +33,11 @@
       </div>
 
       <div class="col-span-2 row-span-2 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling">
-        <h2 class="styled-header pb-2">Emissions by material category</h2>
+        <h2 class="styled-header pb-2">Emissions by phase</h2>
         <div class="flex-1 aspect-square">
           <GraphContainer
             graph="PieChart"
-            :result-item="materialTypeResults"
+            :result-item="cycleResults"
           />
         </div>
       </div>
@@ -60,8 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue'
-import { dummyData, dummyFlatData } from '@/config/chartDataConfig'
+import { computed, ref, onMounted } from 'vue'
 import type { ChartData, ChartOptions } from '@/models/chartModel'
 
 // Component imports
@@ -90,13 +89,13 @@ const backgroundVisible = ref(false)
 const resultLog = ref<ResultsLog>()
 
 const nameParameter = ref<string>('material.name')
-const speckleParameter = ref<string>('simpleParameters.code')
-const materialTypeParameter = ref<string>('material.metaData.materialType')
+const materialParameter = ref<string>('material.metaData.materialType')
+const cycleParameter = ref<string>('lifeCycleStages')
 
 // Computed 
 const hotSpotResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === nameParameter.value))
-const categoryResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === speckleParameter.value))
-const materialTypeResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === materialTypeParameter.value))
+const categoryResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === materialParameter.value))
+const cycleResults = computed(() => resultLog.value?.resultList.find(res => res.parameter === cycleParameter.value))
 
 const remaining = computed(() => roundNumber(settingsStore.projectSettings.threshold - emissionSqmName.value, 2))
 
@@ -121,7 +120,7 @@ const barData = computed<ChartData[]>(() => {
       graphValue: spent
     },
     {
-      label: "Remaining",
+      label: rem > 0? "Remaining": "Over Budget",
       value: rem,
       ids: [],
       graphValue: rem
@@ -131,8 +130,8 @@ const barData = computed<ChartData[]>(() => {
 
 const barOptions = computed<ChartOptions>(() => {
   if (settingsStore.projectSettings.emissionPerYear)
-    return { unit: "kg CO2/m2/year" }
-  return { unit: "kg CO2/m2" }
+    return { unit: "kg CO₂/m²/year" }
+  return { unit: "kg CO₂/m²" }
 })
 
 // Start background flash and fetch results
