@@ -99,7 +99,7 @@
 
 			return {
 				features,
-				appScreenshotUrl: appScreenshot,
+				appScreenshotUrl: appScreenshot
 			}
 		}
 	})

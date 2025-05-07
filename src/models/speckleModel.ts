@@ -114,17 +114,16 @@ export interface ResponseObject {
  * Response from speckle graphql API when getting projects and latest Model
  */
 export interface ModelResponseObject {
-  data: {
-    project: {
-      models: {
-        items: {
-          id: string;
-        }[]
-      }
-    }
-  }
+	data: {
+		project: {
+			models: {
+				items: {
+					id: string
+				}[]
+			}
+		}
+	}
 }
-
 
 /**
  * Object to use in updating viewer stat bubbles.
@@ -158,6 +157,6 @@ export interface SunLightConfiguration extends LightConfiguration {
  * Speckle viewer ColorGroups for setUserObjectColors
  */
 export interface ColorGroup {
-	objectIds: string[],
+	objectIds: string[]
 	color: string
 }

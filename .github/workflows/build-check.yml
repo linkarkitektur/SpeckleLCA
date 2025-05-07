@@ -21,7 +21,13 @@ jobs:
 
       # Install dependencies
       - name: Install dependencies
-        run: npm i
+        run: npm ci
+
+      - name: Run Lint
+        run: npm run lint:check
+
+      - name: Check Formatting
+        run: npm run format:check
 
       # Build the project
       - name: Build project

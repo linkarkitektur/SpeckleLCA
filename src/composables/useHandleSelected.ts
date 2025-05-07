@@ -10,40 +10,44 @@ import type { ResultList } from '@/models/resultModel'
 import { updateProjectGroups } from '@/utils/projectUtils'
 
 export function useHandleSelected() {
-  const navStore = useNavigationStore()
-  const projectStore = useProjectStore()
-  const resultStore = useResultStore()
+	const navStore = useNavigationStore()
+	const projectStore = useProjectStore()
+	const resultStore = useResultStore()
 
-  const handleSelected = (item: any) => {
-    try {
-      switch (navStore.activePage) {
-        case 'Filtering': {
-          const filterList = JSON.parse(item.data) as FilterList
-          projectStore.updateRegistryStack(filterList.name, filterList.callStack, filterList.customGeo)
-          
-          updateProjectGroups()
-          break
-        } 
-        case 'Mapping': {
-          const mapping = JSON.parse(item.data) as Mapping
-          updateMapping(mapping)
-          break
-        }
-        case 'Results': {
-          const resultList = JSON.parse(item.data) as ResultList
-          resultStore.setResultList(resultList)
-          break
-        }
-        case 'Benchmark':
-          //projectStore.updateResultState(item)
-          break
-        default:
-          throw new Error(`Unsupported active page: ${navStore.activePage}`)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
+	const handleSelected = (item: any) => {
+		try {
+			switch (navStore.activePage) {
+				case 'Filtering': {
+					const filterList = JSON.parse(item.data) as FilterList
+					projectStore.updateRegistryStack(
+						filterList.name,
+						filterList.callStack,
+						filterList.customGeo
+					)
 
-  return { handleSelected }
+					updateProjectGroups()
+					break
+				}
+				case 'Mapping': {
+					const mapping = JSON.parse(item.data) as Mapping
+					updateMapping(mapping)
+					break
+				}
+				case 'Results': {
+					const resultList = JSON.parse(item.data) as ResultList
+					resultStore.setResultList(resultList)
+					break
+				}
+				case 'Benchmark':
+					//projectStore.updateResultState(item)
+					break
+				default:
+					throw new Error(`Unsupported active page: ${navStore.activePage}`)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	return { handleSelected }
 }

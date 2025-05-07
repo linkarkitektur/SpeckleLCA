@@ -136,7 +136,9 @@
 								d.value,
 								0,
 								Math.max(
-									...groupData.map((d) => d.value).filter((value) => !isNaN(value))
+									...groupData
+										.map((d) => d.value)
+										.filter((value) => !isNaN(value))
 								)
 						  )
 				)
@@ -170,20 +172,25 @@
 
 			// Text mouseover join
 			const addTextWithTooltip = (
-				textElement: d3.Selection<SVGTextElement, ChartData, SVGGElement, unknown>
+				textElement: d3.Selection<
+					SVGTextElement,
+					ChartData,
+					SVGGElement,
+					unknown
+				>
 			) => {
 				textElement
+					// eslint-disable-next-line
 					.on('mouseover', function (this: SVGTextElement, event, d) {
 						d3.select(this).style('font-weight', 'normal')
-						d3
-							.select(this.parentNode!.querySelector<SVGRectElement>('rect'))
+						d3.select(this.parentNode!.querySelector<SVGRectElement>('rect'))
 							.style('stroke', 'black')
 							.style('opacity', 1)
 					})
+					// eslint-disable-next-line
 					.on('mouseleave', function (this: SVGTextElement, event, d) {
 						d3.select(this).style('font-weight', 'normal')
-						d3
-							.select(this.parentNode!.querySelector<SVGRectElement>('rect'))
+						d3.select(this.parentNode!.querySelector<SVGRectElement>('rect'))
 							.style('stroke', 'none')
 							.style('opacity', 0.8)
 					})
@@ -316,7 +323,8 @@
 				.attr(
 					'x',
 					(d) =>
-						xScale.value(d.cumulative as number) + xScale.value(Math.abs(d.value)) / 2
+						xScale.value(d.cumulative as number) +
+						xScale.value(Math.abs(d.value)) / 2
 				)
 				.attr('y', margin.bottom)
 				.style('fill', (d, i) => chroma(colors.value[i]).darken(2))

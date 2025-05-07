@@ -1,391 +1,418 @@
 <template>
-  <div ref="container" class="relative w-full h-full">
-    <!-- Clipped circle container -->
-    <div :style="circleStyle" class="absolute styled-element hoverable-styling rounded-full overflow-hidden">
-      <svg ref="svg" class="w-full h-full"></svg>
-    </div>
-    <!-- Tooltip -->
-    <div 
-      ref="tooltip" 
-      class="styled-element hoverable-xs absolute z-50 p-2 bg-neutral-100 opacity-0 pointer-events-none transition-opacity duration-200"
-    />
-  </div>
+	<div ref="container" class="relative w-full h-full">
+		<!-- Clipped circle container -->
+		<div
+			:style="circleStyle"
+			class="absolute styled-element hoverable-styling rounded-full overflow-hidden"
+		>
+			<svg ref="svg" class="w-full h-full"></svg>
+		</div>
+		<!-- Tooltip -->
+		<div
+			ref="tooltip"
+			class="styled-element hoverable-xs absolute z-50 p-2 bg-neutral-100 opacity-0 pointer-events-none transition-opacity duration-200"
+		/>
+	</div>
 </template>
 
 <script setup lang="ts">
-import * as d3 from 'd3'
-import { ref, reactive, onMounted, watch, onBeforeUnmount, nextTick, type PropType, render } from 'vue'
+	import * as d3 from 'd3'
+	import { ref, onMounted, watch, onBeforeUnmount, nextTick } from 'vue'
 
-import { getValueColorFromGradient } from '@/utils/colorUtils'
-import { 
-  aggregateCenter, 
-  spanPercentCenter,
-  parameterCenter,
-  updateSelectedObjects,
-  createTooltip,
-  createMouseEventHandlers,
-  createBaseChart,
-  createDiagonalPattern,
-  chartBaseStyle,
-} from '@/utils/chartUtils'
+	import { getValueColorFromGradient } from '@/utils/colorUtils'
+	import {
+		aggregateCenter,
+		spanPercentCenter,
+		parameterCenter,
+		updateSelectedObjects,
+		createTooltip,
+		createMouseEventHandlers,
+		createDiagonalPattern,
+		chartBaseStyle
+	} from '@/utils/chartUtils'
 
-import { truncateText } from '@/utils/stringUtils'
-import { roundNumber } from '@/utils/mathUtils'
-import type { ChartData, ChartOptions, PatternOptions } from '@/models/chartModel'
-import { useResultStore } from '@/stores/resultStore'
-import { useProjectStore } from '@/stores/projectStore'
+	import { truncateText } from '@/utils/stringUtils'
+	import { roundNumber } from '@/utils/mathUtils'
+	import type {
+		ChartData,
+		ChartOptions,
+		PatternOptions
+	} from '@/models/chartModel'
+	import { useResultStore } from '@/stores/resultStore'
+	import { useProjectStore } from '@/stores/projectStore'
 
-// Props
-interface Props {
-  data?: ChartData[]
-  options?: ChartOptions
-}
+	// Props
+	interface Props {
+		data?: ChartData[]
+		options?: ChartOptions
+	}
 
-const props = withDefaults(defineProps<Props>(), {
-  data: () => [],
-  options: () => ({})
-})
+	const props = withDefaults(defineProps<Props>(), {
+		data: () => [],
+		options: () => ({})
+	})
 
-// Store
-const resultStore = useResultStore()
+	// Store
+	const resultStore = useResultStore()
 
-// Refs
-const svg = ref<SVGSVGElement | null>(null)
-const tooltip = ref<HTMLDivElement | null>(null)
-const container = ref<HTMLDivElement | null>(null)
-const circleStyle = ref({})
+	// Refs
+	const svg = ref<SVGSVGElement | null>(null)
+	const tooltip = ref<HTMLDivElement | null>(null)
+	const container = ref<HTMLDivElement | null>(null)
+	const circleStyle = ref({})
 
-//Clear so we dont get overlaps
-const clearSVG = () => {
-  if (svg.value) {
-    // Clear all children of the SVG element
-    while (svg.value.firstChild) {
-      svg.value.removeChild(svg.value.firstChild)
-    }
-  }
-}
+	//Clear so we dont get overlaps
+	const clearSVG = () => {
+		if (svg.value) {
+			// Clear all children of the SVG element
+			while (svg.value.firstChild) {
+				svg.value.removeChild(svg.value.firstChild)
+			}
+		}
+	}
 
-// Dynamic div size to smallest dimension
-const updateCircleSize = () => {
-  if (container.value) {
-    const containerWidth = container.value.clientWidth
-    const containerHeight = container.value.clientHeight
-    // Use the minimum dimension to ensure the circle fits within the container
-    const size = Math.min(containerWidth, containerHeight)
-    circleStyle.value = {
-      width: `${size}px`,
-      height: `${size}px`,
-      // Center the circle within the container
-      top: `${(containerHeight - size) / 2}px`,
-      left: `${(containerWidth - size) / 2}px`,
-    }
-  }
-}
+	// Dynamic div size to smallest dimension
+	const updateCircleSize = () => {
+		if (container.value) {
+			const containerWidth = container.value.clientWidth
+			const containerHeight = container.value.clientHeight
+			// Use the minimum dimension to ensure the circle fits within the container
+			const size = Math.min(containerWidth, containerHeight)
+			circleStyle.value = {
+				width: `${size}px`,
+				height: `${size}px`,
+				// Center the circle within the container
+				top: `${(containerHeight - size) / 2}px`,
+				left: `${(containerWidth - size) / 2}px`
+			}
+		}
+	}
 
+	//Draw the chart
+	const draw = () => {
+		clearSVG()
 
-//Draw the chart
-const draw = () => {   
-  clearSVG()
+		//When spreading the options it will overwrite the width and height if provided
+		const options: ChartOptions = {
+			width: svg.value ? svg.value.clientWidth : 0,
+			height: svg.value ? svg.value.clientHeight : 0,
+			...props.options
+		}
 
-  //When spreading the options it will overwrite the width and height if provided
-  const options: ChartOptions = { 
-    width: svg.value ? svg.value.clientWidth : 0, 
-    height: svg.value ? svg.value.clientHeight : 0, 
-    ...props.options 
-  }
+		const data: ChartData[] = props.data
 
-  const data: ChartData[] = props.data
+		const { drawChart } = SelectablePieChart(data, options)
+		if (svg.value && tooltip.value && container.value) {
+			drawChart(svg.value, tooltip.value, container.value)
+		}
+	}
 
-  const { drawChart } = SelectablePieChart(data, options)
-  if (svg.value && tooltip.value && container.value) {
-    drawChart(svg.value, tooltip.value, container.value)
-  }
-}
+	const onKeydown = (event: KeyboardEvent) => {
+		if (event.key === 'Escape') {
+			resultStore.setReloadData(true)
+			draw()
+		}
+	}
 
-const onKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Escape') {
-    resultStore.setReloadData(true)
-    draw()
-  }
-}
+	onMounted(async () => {
+		await nextTick() // ensure the container is rendered
+		updateCircleSize()
 
-onMounted(async () => {
-  await nextTick() // ensure the container is rendered
-  updateCircleSize()
+		if (!svg.value) {
+			console.warn('SVG element not found')
+			return
+		}
 
-  if (!svg.value) {
-    console.warn('SVG element not found')
-    return
-  }
+		draw()
 
-  draw()
-  
-  // Create ResizeObserver
-  const resizeObserver = new ResizeObserver(() => {
-    updateCircleSize()
-    draw()
-  })
-  
-  if (svg.value) {
-    resizeObserver.observe(svg.value)
-    console.log('Observer attached to SVG')
-  }
+		// Create ResizeObserver
+		const resizeObserver = new ResizeObserver(() => {
+			updateCircleSize()
+			draw()
+		})
 
-  document.addEventListener('keydown', onKeydown)
-})
+		if (svg.value) {
+			resizeObserver.observe(svg.value)
+			console.log('Observer attached to SVG')
+		}
 
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', onKeydown)
-})
+		document.addEventListener('keydown', onKeydown)
+	})
 
-//Watch for props changes
-watch(
-  () => props.data,
-  () => {
-    if (resultStore.reloadChartData)
-      draw()
-  }
-)
+	onBeforeUnmount(() => {
+		document.removeEventListener('keydown', onKeydown)
+	})
 
-function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
-  const resultStore = useResultStore()
-  const projectStore = useProjectStore()
-  // Setup options and default settings
-  const width = ref(options.width || 400)
-  const height = ref(options.height || 400)
+	//Watch for props changes
+	watch(
+		() => props.data,
+		() => {
+			if (resultStore.reloadChartData) draw()
+		}
+	)
 
-  const total = ref(d3.sum(data, d => d.value))
-  const groupData = ref(groupDataFunc(data, total, options))
+	function SelectablePieChart(data: ChartData[], options: ChartOptions = {}) {
+		const resultStore = useResultStore()
+		const projectStore = useProjectStore()
+		// Setup options and default settings
+		const width = ref(options.width || 400)
+		const height = ref(options.height || 400)
 
-  const w = width.value
-  const h = height.value 
+		const total = ref(d3.sum(data, (d) => d.value))
+		const groupData = ref(groupDataFunc(data, total, options))
 
-  //Graphic settings
-  const innerRadius = options.innerRadius || 40 // Set this bigger than 0 for a donut chart
-  const outerRadius = Math.min(w, h) / 2
-  const labelRadius = (innerRadius * 0.2 + outerRadius * 0.6)
+		const w = width.value
+		const h = height.value
 
-  const stroke = options.stroke || innerRadius > 0 ? "none" : "white" 
-  const padAngle = stroke === "none" ? 1 / outerRadius : 0.02
-  const maxTextLength = 12
+		//Graphic settings
+		const innerRadius = options.innerRadius || 40 // Set this bigger than 0 for a donut chart
+		const outerRadius = Math.min(w, h) / 2
+		const labelRadius = innerRadius * 0.2 + outerRadius * 0.6
 
-  const unit = options.unit || 'kg CO2e'
-  const colors = ref(options.colors || 
-    groupData.value.map(d => 
-      getValueColorFromGradient(d.value, 0, Math.max(...groupData.value.map(d => d.value).filter(value => !isNaN(value)))
-    ))
-  )
+		const stroke = options.stroke || innerRadius > 0 ? 'none' : 'white'
+		const padAngle = stroke === 'none' ? 1 / outerRadius : 0.02
+		const maxTextLength = 12
 
-  const drawChart = (svg: SVGSVGElement, tooltipElement: HTMLDivElement, containerElement: HTMLDivElement) => {
-    if (!svg || !tooltipElement || !containerElement) return
-    const graph: d3.Selection<SVGElement, any, any, any> = d3.select(svg)
+		const unit = options.unit || 'kg CO2e'
+		const colors = ref(
+			options.colors ||
+				groupData.value.map((d) =>
+					getValueColorFromGradient(
+						d.value,
+						0,
+						Math.max(
+							...groupData.value
+								.map((d) => d.value)
+								.filter((value) => !isNaN(value))
+						)
+					)
+				)
+		)
 
-    // Double click checks
-    let clickTimeout = null
+		const drawChart = (
+			svg: SVGSVGElement,
+			tooltipElement: HTMLDivElement,
+			containerElement: HTMLDivElement
+		) => {
+			if (!svg || !tooltipElement || !containerElement) return
+			const graph: d3.Selection<SVGElement, any, any, any> = d3.select(svg)
 
-    // Create tooltips
-    const tooltipDiv = createTooltip(tooltipElement)
-    
-    // Mouse event handlers
-    const { mouseover, mousemove, mouseleave } = createMouseEventHandlers(tooltipDiv, containerElement)
+			// Double click checks
+			let clickTimeout = null
 
-    const arcs = d3.pie()
-      .padAngle(padAngle)
-      .sort(null)
-      .value(d => Math.abs(d.graphValue))(groupData.value.map(d => ({ ...d })))
-    
-    const arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius)
-    // Negative Offset Deprecated
-    // Negative values are drawn with a thicker stroke and a dashed line so we have to offset it slightly to compensate
-    // const arcNegative = d3.arc().innerRadius(innerRadius + (strokeWidth*3/2)).outerRadius(outerRadius - (strokeWidth*3/2))
-    const arcLabel = d3.arc().innerRadius(labelRadius).outerRadius(labelRadius)
+			// Create tooltips
+			const tooltipDiv = createTooltip(tooltipElement)
 
-    // Graph join
-    const join = graph.append("g")
-      .attr("transform", `translate(${w / 2},${h / 2})`)
-      .selectAll('g')
-      .data(arcs)
-      .join('g')
-      .attr("class", "arc")
+			// Mouse event handlers
+			const { mouseover, mousemove, mouseleave } = createMouseEventHandlers(
+				tooltipDiv,
+				containerElement
+			)
 
-    // Add the arcs
-    join.append("path") 
-      .call(chartBaseStyle)
-      .attr("d", d => arc(d))
-      // Different fill on negative values
-      .attr("fill", function(d, i) {
-        const patternOptions: PatternOptions = {
-          size: 8,
-          lineWidth: 3,
-          fill: d.data.value > 0
-        }
-        const patternId = createDiagonalPattern(graph, d.data.label, colors.value[i], patternOptions)
+			const arcs = d3
+				.pie()
+				.padAngle(padAngle)
+				.sort(null)
+				.value((d) => Math.abs(d.graphValue))(
+				groupData.value.map((d) => ({ ...d }))
+			)
 
-        return `url(#${patternId})`
-      })
+			const arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius)
+			// Negative Offset Deprecated
+			// Negative values are drawn with a thicker stroke and a dashed line so we have to offset it slightly to compensate
+			// const arcNegative = d3.arc().innerRadius(innerRadius + (strokeWidth*3/2)).outerRadius(outerRadius - (strokeWidth*3/2))
+			const arcLabel = d3
+				.arc()
+				.innerRadius(labelRadius)
+				.outerRadius(labelRadius)
 
-      .on("mouseover", function(event, d) {
-        mouseover(event, d.data)
-      })
-      .on("mousemove", function(event, d) {
-        mousemove(event, d.data)
-      })
-      .on("mouseleave", function(event, d) {
-        mouseleave(event, d.data)
-      })
-      // Double click event check, grey out if single but send it to selectedObjects for viewer
-      .on("click", function(event, d) {
-        if (clickTimeout) {
-          // A second click occurred within the timer: it's a double click
-          clearTimeout(clickTimeout)
-          clickTimeout = null
-          resultStore.setReloadData(true)
+			// Graph join
+			const join = graph
+				.append('g')
+				.attr('transform', `translate(${w / 2},${h / 2})`)
+				.selectAll('g')
+				.data(arcs)
+				.join('g')
+				.attr('class', 'arc')
 
-          updateSelectedObjects(d.data.ids)
-        } else {
-          clickTimeout = setTimeout(() => {
-            clickTimeout = null
+			// Add the arcs
+			join
+				.append('path')
+				.call(chartBaseStyle)
+				.attr('d', (d) => arc(d))
+				// Different fill on negative values
+				.attr('fill', function (d, i) {
+					const patternOptions: PatternOptions = {
+						size: 8,
+						lineWidth: 3,
+						fill: d.data.value > 0
+					}
+					const patternId = createDiagonalPattern(
+						graph,
+						d.data.label,
+						colors.value[i],
+						patternOptions
+					)
 
-            resultStore.setReloadData(false)
-            projectStore.setHighlightedLabel(d.data.label)
+					return `url(#${patternId})`
+				})
 
-            total.value = d.data.value
-            renderCenter()
-            
-            updateSelectedObjects(d.data.ids)
-          }, 300)
-        }
-      })
+				.on('mouseover', function (event, d) {
+					mouseover(event, d.data)
+				})
+				.on('mousemove', function (event, d) {
+					mousemove(event, d.data)
+				})
+				.on('mouseleave', function (event, d) {
+					mouseleave(event, d.data)
+				})
+				// Double click event check, grey out if single but send it to selectedObjects for viewer
+				.on('click', function (event, d) {
+					if (clickTimeout) {
+						// A second click occurred within the timer: it's a double click
+						clearTimeout(clickTimeout)
+						clickTimeout = null
+						resultStore.setReloadData(true)
 
-    // Add the value texts
-    join.append("text")
-      .attr("transform", d => `translate(${arcLabel.centroid(d)})`)
-      .attr("class", "styled-data z-50 pointer-events-none text-xs")
-      .attr("cursor", "pointer")
-      .attr("text-anchor", "middle")
-      .each(function(d) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const self = d3.select(this)
-        const lines = `${truncateText(d.data.label, maxTextLength)} \n ${roundNumber(d.data.value, 1)}`.split(/\n/)
-        const isLargeArc = (d.endAngle - d.startAngle) > 0.5
-        const isSmallArc = (d.endAngle - d.startAngle) < 0.5
-        const adjustedLines = isLargeArc ? lines : lines.slice(0, 1)
-        
-        adjustedLines.forEach((line, i) => {
-          if (!isSmallArc) {
-            self.append("tspan")
-              .attr("x", 0)
-              .attr("y", `${i * 1.1}em`)
-              .attr("class", i == 0 ? "styled-header" : "styled-data")
-              .text(line)
-          }
-        })
-      })
+						updateSelectedObjects(d.data.ids)
+					} else {
+						clickTimeout = setTimeout(() => {
+							clickTimeout = null
 
-    // Add center text, can render different center based on options
-    const renderCenter = () => {
-      //Clear text
-      const selection = graph.selectAll('.center-text')
-      selection.remove()
+							resultStore.setReloadData(false)
+							projectStore.setHighlightedLabel(d.data.label)
 
-      let centerElement
-      switch (true) {
-        case options.aggregate !== undefined:
-          centerElement = aggregateCenter(
-            graph, 
-            total.value, 
-            w, 
-            h, 
-            unit
-          )
-          break
-        case options.spanPercent !== undefined:
-          centerElement = spanPercentCenter(
-            graph, 
-            options.spanPercent, 
-            groupData.value.map(data => data.value / data.ids.length), 
-            groupData.value.map( data => data.graphValue), 
-            w, 
-            h
-          )
-          break
-        case options.parameterValue !== undefined:
-          centerElement = parameterCenter(
-            graph, 
-            options.parameterValue, 
-            total.value, 
-            w, 
-            h
-          )
-          break
-        default:
-          centerElement = aggregateCenter(
-            graph, 
-            total.value, 
-            w, 
-            h, 
-            unit
-          )
-          break
-      }
-    }
+							total.value = d.data.value
+							renderCenter()
 
-    renderCenter()
+							updateSelectedObjects(d.data.ids)
+						}, 300)
+					}
+				})
 
-    // Watch to see if highlightedLabel changes then change opacity of arcs
-    // TODO move this to common place with dataTable, and other graphs
-    watch(() => projectStore.highlightedLabel, (newLabel) => {
-      graph.selectAll('.arc path')
-        .transition()
-        .duration(200)
-        .style('opacity', arcData => {
-          if (arcData.data.label === newLabel) {
-            //TODO This should not be under opacity, this checks if we should recalc the center
-            total.value = arcData.data.value
-            renderCenter()
-            return 1
-          } else {
-            return 0.1
-          }
-      })
-        
-    })
+			// Add the value texts
+			join
+				.append('text')
+				.attr('transform', (d) => `translate(${arcLabel.centroid(d)})`)
+				.attr('class', 'styled-data z-50 pointer-events-none text-xs')
+				.attr('cursor', 'pointer')
+				.attr('text-anchor', 'middle')
+				.each(function (d) {
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-ignore
+					const self = d3.select(this)
+					const lines = `${truncateText(
+						d.data.label,
+						maxTextLength
+					)} \n ${roundNumber(d.data.value, 1)}`.split(/\n/)
+					const isLargeArc = d.endAngle - d.startAngle > 0.5
+					const isSmallArc = d.endAngle - d.startAngle < 0.5
+					const adjustedLines = isLargeArc ? lines : lines.slice(0, 1)
 
-    watch(
-      () => total.value,
-      () => {
-        renderCenter()
-      }
-    )
+					adjustedLines.forEach((line, i) => {
+						if (!isSmallArc) {
+							self
+								.append('tspan')
+								.attr('x', 0)
+								.attr('y', `${i * 1.1}em`)
+								.attr('class', i == 0 ? 'styled-header' : 'styled-data')
+								.text(line)
+						}
+					})
+				})
 
-  }
-  return { drawChart }
-}
+			// Add center text, can render different center based on options
+			const renderCenter = () => {
+				//Clear text
+				const selection = graph.selectAll('.center-text')
+				selection.remove()
 
-// Format the data (instead of using d3.stack()) and filter out 0 values:
-function groupDataFunc(data: ChartData[], total: { value: number }, options: ChartOptions = {}) {
-  let cumulative = 0
-  let percent = 0
-  const _data: ChartData[] = data.map(d => {
-    // Check if we have another value we want to use for graphs size
-    let graphValue = d.graphValue ?? d.value
-    cumulative += Math.abs(d.value)
-    if (total.value > 0) {
-      percent = (d.value / total.value) * 100
-    }
-    const tooltipContent = d.label + ": " + roundNumber(d.value, 3) + " " + options.unit
-    return {
-      value: d.value,
-      cumulative: cumulative - Math.abs(d.value),
-      label: d.label,
-      ids: d.ids,
-      percent: percent,
-      graphValue: graphValue,
-      tooltipContent: tooltipContent
-    }
-  }).filter(d => d.value != 0)
-  return _data
-}
+				switch (true) {
+					case options.aggregate !== undefined:
+						aggregateCenter(graph, total.value, w, h, unit)
+						break
+					case options.spanPercent !== undefined:
+						spanPercentCenter(
+							graph,
+							options.spanPercent,
+							groupData.value.map((data) => data.value / data.ids.length),
+							groupData.value.map((data) => data.graphValue),
+							w,
+							h
+						)
+						break
+					case options.parameterValue !== undefined:
+						parameterCenter(graph, options.parameterValue, total.value, w, h)
+						break
+					default:
+						aggregateCenter(graph, total.value, w, h, unit)
+						break
+				}
+			}
 
+			renderCenter()
+
+			// Watch to see if highlightedLabel changes then change opacity of arcs
+			// TODO move this to common place with dataTable, and other graphs
+			watch(
+				() => projectStore.highlightedLabel,
+				(newLabel) => {
+					graph
+						.selectAll('.arc path')
+						.transition()
+						.duration(200)
+						.style('opacity', (arcData) => {
+							if (arcData.data.label === newLabel) {
+								//TODO This should not be under opacity, this checks if we should recalc the center
+								total.value = arcData.data.value
+								renderCenter()
+								return 1
+							} else {
+								return 0.1
+							}
+						})
+				}
+			)
+
+			watch(
+				() => total.value,
+				() => {
+					renderCenter()
+				}
+			)
+		}
+		return { drawChart }
+	}
+
+	// Format the data (instead of using d3.stack()) and filter out 0 values:
+	function groupDataFunc(
+		data: ChartData[],
+		total: { value: number },
+		options: ChartOptions = {}
+	) {
+		let cumulative = 0
+		let percent = 0
+		const _data: ChartData[] = data
+			.map((d) => {
+				// Check if we have another value we want to use for graphs size
+				let graphValue = d.graphValue ?? d.value
+				cumulative += Math.abs(d.value)
+				if (total.value > 0) {
+					percent = (d.value / total.value) * 100
+				}
+				const tooltipContent =
+					d.label + ': ' + roundNumber(d.value, 3) + ' ' + options.unit
+				return {
+					value: d.value,
+					cumulative: cumulative - Math.abs(d.value),
+					label: d.label,
+					ids: d.ids,
+					percent: percent,
+					graphValue: graphValue,
+					tooltipContent: tooltipContent
+				}
+			})
+			.filter((d) => d.value != 0)
+		return _data
+	}
 </script>
