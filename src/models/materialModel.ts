@@ -1,79 +1,78 @@
-import type { 
+import type {
 	LifeCycleModule,
-	ImpactCategoryKey, 
+	ImpactCategoryKey,
 	Assembly as LcaxAssembly,
-	Product as LcaxProduct 
+	Product as LcaxProduct
 } from 'lcax'
 import type { FilterList } from '@/models/filterModel'
 
 // Material and Assembly interfaces
 export enum APISource {
-  LCAbyg,
-  Organisation,
-  Revalu,
-  ECOPortal,
-  Boverket,
+	LCAbyg,
+	Organisation,
+	Revalu,
+	ECOPortal,
+	Boverket
 }
 
 export enum EnergyType {
-  Electricity = 'electricity',
-  DistrictHeating = 'district_heating',
-  GasPipeline = 'gas_pipeline'
+	Electricity = 'electricity',
+	DistrictHeating = 'district_heating',
+	GasPipeline = 'gas_pipeline'
 }
 
 export interface EmissionFactorRecord {
-  year: number
-  factors: {
-    [key in EnergyType]: number
-  }
+	year: number
+	factors: {
+		[key in EnergyType]: number
+	}
 }
 
 export const DanishEmissionFactors: EmissionFactorRecord[] = [
-  {
-    year: 2023,
-    factors: {
-      [EnergyType.Electricity]: 0.187,
-      [EnergyType.DistrictHeating]: 0.105,
-      [EnergyType.GasPipeline]: 0.225
-    }
-  },
-  {
-    year: 2025,
-    factors: {
-      [EnergyType.Electricity]: 0.135,
-      [EnergyType.DistrictHeating]: 0.0878,
-      [EnergyType.GasPipeline]: 0.189
-    }
-  },
-  {
-    year: 2030,
-    factors: {
-      [EnergyType.Electricity]: 0.0470,
-      [EnergyType.DistrictHeating]: 0.0713,
-      [EnergyType.GasPipeline]: 0.105
-    }
-  },
-  {
-    year: 2035,
-    factors: {
-      [EnergyType.Electricity]: 0.0414,
-      [EnergyType.DistrictHeating]: 0.0688,
-      [EnergyType.GasPipeline]: 0.105
-    }
-  },
-  {
-    year: 2040,
-    factors: {
-      [EnergyType.Electricity]: 0.0403,
-      [EnergyType.DistrictHeating]: 0.0680,
-      [EnergyType.GasPipeline]: 0.105
-    }
-  }
+	{
+		year: 2023,
+		factors: {
+			[EnergyType.Electricity]: 0.187,
+			[EnergyType.DistrictHeating]: 0.105,
+			[EnergyType.GasPipeline]: 0.225
+		}
+	},
+	{
+		year: 2025,
+		factors: {
+			[EnergyType.Electricity]: 0.135,
+			[EnergyType.DistrictHeating]: 0.0878,
+			[EnergyType.GasPipeline]: 0.189
+		}
+	},
+	{
+		year: 2030,
+		factors: {
+			[EnergyType.Electricity]: 0.047,
+			[EnergyType.DistrictHeating]: 0.0713,
+			[EnergyType.GasPipeline]: 0.105
+		}
+	},
+	{
+		year: 2035,
+		factors: {
+			[EnergyType.Electricity]: 0.0414,
+			[EnergyType.DistrictHeating]: 0.0688,
+			[EnergyType.GasPipeline]: 0.105
+		}
+	},
+	{
+		year: 2040,
+		factors: {
+			[EnergyType.Electricity]: 0.0403,
+			[EnergyType.DistrictHeating]: 0.068,
+			[EnergyType.GasPipeline]: 0.105
+		}
+	}
 ]
 
 export type Emission = Partial<{
-	[impactCategory in ImpactCategoryKey]:
-		LifeCycleStageEmission
+	[impactCategory in ImpactCategoryKey]: LifeCycleStageEmission
 }>
 
 export type LifeCycleStageEmission = {
@@ -84,10 +83,10 @@ export type LifeCycleStageEmission = {
  * Product interface, extends LcaxProduct and adds emission data
  */
 export interface Product extends LcaxProduct {
-  emission: Emission
-  materialFraction?: number
-  source: APISource
-  lifespan?: number  // Danish B4 lifespan in years
+	emission: Emission
+	materialFraction?: number
+	source: APISource
+	lifespan?: number // Danish B4 lifespan in years
 }
 
 /**
@@ -113,9 +112,9 @@ export interface MappingStep {
  * Keeps a list of all filters so we dont have to cross reference with relationships
  */
 export interface Mapping {
-  id: string
-  name: string
-	filters: FilterList[]  
+	id: string
+	name: string
+	filters: FilterList[]
 	steps: MappingStep[]
 }
 
@@ -123,9 +122,9 @@ export interface Mapping {
  * Filter parameters for material and assembly list.
  */
 export interface MaterialFilterParam {
-	displayName: string,
-	paramName: string,
-  selected?: boolean
+	displayName: string
+	paramName: string
+	selected?: boolean
 }
 
 /**
@@ -134,20 +133,20 @@ export interface MaterialFilterParam {
 export interface MaterialSortingParam {
 	filterName: string
 	displayName: string
-  selected?: boolean
+	selected?: boolean
 }
 
 /**
  * Units for materials and assemblies.
  */
-export type MetricUnits = "m" | "m2" | "m3" | "pcs" | "kg" | "l" | "tonnes"
+export type MetricUnits = 'm' | 'm2' | 'm3' | 'pcs' | 'kg' | 'l' | 'tonnes'
 
 /**
  * Quantity conversions specification
  */
 export interface QuantityConversionSpec {
-  metric: MetricUnits
-  mmConversion: number
+	metric: MetricUnits
+	mmConversion: number
 }
 
 /**
@@ -156,28 +155,28 @@ export interface QuantityConversionSpec {
  */
 //export type ExtendedImpactCategoryKey = 'gwp_total' | 'gwp_fossil' | 'gwp_biogenic' | 'gwp_LULUC' | ImpactCategoryKey
 export const extendedImpactCategoryKeys = [
-  'gwp',
-  'gwp_fos',
-  'gwp_bio',
-  'gwp_lul',
-  'odp',
-  'ap',
-  'pocp',
+	'gwp',
+	'gwp_fos',
+	'gwp_bio',
+	'gwp_lul',
+	'odp',
+	'ap',
+	'pocp'
 ] as const
 
 export const LifeCycleStages: readonly LifeCycleModule[] = [
-  'a1a3',
-  'a4',
-  'a5',
-  'b1',
-  'b2',
-  'b3',
-  'b4',
-  'b5',
-  'b6',
-  'c1',
-  'c2',
-  'c3',
-  'c4',
-  'd',
+	'a1a3',
+	'a4',
+	'a5',
+	'b1',
+	'b2',
+	'b3',
+	'b4',
+	'b5',
+	'b6',
+	'c1',
+	'c2',
+	'c3',
+	'c4',
+	'd'
 ] as const

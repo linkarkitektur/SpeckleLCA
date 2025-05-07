@@ -1,30 +1,30 @@
 <template>
-  <button
-    type="button"
-    :aria-label="ariaLabel"
-    class="relative flex items-center justify-center whitespace-nowrap p-2 h-8 text-sm styled-element hoverable-sm pressable"
-    @click="$emit('onClick')"
-    :style="{ backgroundColor: navStore.activeColor }"
-  >
-    <span class="flex items-center gap-2">
-      <p>{{ text }}</p>
-      <component :is="icon" class="h-5 w-5" />
-    </span>
-  </button>
+	<button
+		type="button"
+		:aria-label="ariaLabel"
+		class="relative flex items-center justify-center whitespace-nowrap p-2 h-8 text-sm styled-element hoverable-sm pressable"
+		@click="$emit('onClick')"
+		:style="{ backgroundColor: navStore.activeColor }"
+	>
+		<span class="flex items-center gap-2">
+			<p>{{ text }}</p>
+			<component :is="icon" class="h-5 w-5" />
+		</span>
+	</button>
 </template>
 
 <script setup lang="ts">
-import { useNavigationStore } from '@/stores/navigationStore'
+	import { useNavigationStore } from '@/stores/navigationStore'
 
-const navStore = useNavigationStore()
+	const navStore = useNavigationStore()
 
-defineProps<{
-  text: string
-  icon?: any
-  ariaLabel?: string
-}>()
+	defineProps<{
+		text: string
+		icon?: any
+		ariaLabel?: string
+	}>()
 
-defineEmits<{
-  onClick: []
-}>()
+	defineEmits<{
+		onClick: []
+	}>()
 </script>

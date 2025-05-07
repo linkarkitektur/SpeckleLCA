@@ -14,7 +14,6 @@ import { createNestedObject } from '@/utils/projectUtils'
 import { collectParameterPaths, collectParameters } from '@/utils/dataUtils'
 import type { ProjectId } from '@/models/speckleModel'
 
-
 /**
  * Defines the project store, which contains the current project and its geometry and results.
  * TODO: Restructure this and create a seperate speckleViewer store
@@ -29,7 +28,7 @@ export const useProjectStore = defineStore({
 			selectedGroup: null as NestedGroup | null, // NestedGroup that is currently selected
 			selectedObjects: [] as GeometryObject[], // GeometryObjects that are currently selected
 			highlightedLabel: null as string | null, // Label that is currently highlighted
-			hiddenObjects: [] as GeometryObject[], // GeometryObjects that are currently hidden
+			hiddenObjects: [] as GeometryObject[] // GeometryObjects that are currently hidden
 		}
 	},
 	actions: {
@@ -104,7 +103,7 @@ export const useProjectStore = defineStore({
 
 		/**
 		 * Updates the current project with a new id and name if we have no project we create a empty one and populate
-		 * @param projectId 
+		 * @param projectId
 		 */
 		updateProjectInformation(projectId: ProjectId) {
 			if (!this.currProject) {
@@ -133,7 +132,11 @@ export const useProjectStore = defineStore({
 		 * names and values
 		 * @param callStack list of Filters
 		 */
-		updateRegistryStack(name: string, callStack: Filter[], customGeo: CustomGeo[]) {
+		updateRegistryStack(
+			name: string,
+			callStack: Filter[],
+			customGeo: CustomGeo[]
+		) {
 			if (this.filterRegistry)
 				this.filterRegistry.filterList = {
 					id: crypto.randomUUID(),
@@ -145,14 +148,13 @@ export const useProjectStore = defineStore({
 
 		/**
 		 * Add step to callstack to add custom geometry with its bindings
-		 * @param geo 
+		 * @param geo
 		 */
 		addCustomGeoToStack(geo: CustomGeo) {
 			if (this.filterRegistry)
-				if(this.filterRegistry.filterList.customGeo)
+				if (this.filterRegistry.filterList.customGeo)
 					this.filterRegistry.filterList.customGeo.push(geo)
-				else
-					this.filterRegistry.filterList.customGeo = [geo]
+				else this.filterRegistry.filterList.customGeo = [geo]
 		},
 
 		/**
@@ -162,13 +164,13 @@ export const useProjectStore = defineStore({
 			if (!this.filterRegistry?.filterList.customGeo) return
 
 			const index = this.filterRegistry.filterList.customGeo.findIndex(
-				item => item.geoObj.id === geo.geoObj.id
+				(item) => item.geoObj.id === geo.geoObj.id
 			)
 
 			if (index === -1) return
 
 			this.filterRegistry.filterList.customGeo.splice(index, 1)
-			
+
 			// Also remove the geometry from our current project
 			this.removeGeometry(geo.geoObj.id)
 		},
@@ -219,14 +221,16 @@ export const useProjectStore = defineStore({
 						// We add quanity manually
 						Object.keys(geo.quantity).forEach((key) => {
 							const quantityKey = key as keyof typeof geo.quantity
-							if (geo.quantity[quantityKey] !== 0 && geo.quantity[quantityKey] !== null) {
+							if (
+								geo.quantity[quantityKey] !== 0 &&
+								geo.quantity[quantityKey] !== null
+							) {
 								parameterSet.add(key)
 								geo.parameters[key] =
 									geo.quantity[key as keyof typeof geo.quantity].toString()
 							}
 						})
 					}
-					
 				})
 				return Array.from(parameterSet)
 			} else {
@@ -240,7 +244,7 @@ export const useProjectStore = defineStore({
 		 */
 		addGeometry(geometryObject: GeometryObject) {
 			this.currProject?.geometry.push(geometryObject)
-		},	
+		},
 
 		/**
 		 * Removes a geometry object from the current project.
@@ -283,10 +287,10 @@ export const useProjectStore = defineStore({
 
 		/**
 		 * Returns nested group
-		 * @param id 
-		 * @returns 
+		 * @param id
+		 * @returns
 		 */
-		getGroupById(id: string): Group | null{
+		getGroupById(id: string): Group | null {
 			if (this.projectGroups) {
 				return this.projectGroups.find((group) => group.id === id)
 			} else {
@@ -296,7 +300,7 @@ export const useProjectStore = defineStore({
 
 		/**
 		 * Returns a group from a path
-		 * @param path 
+		 * @param path
 		 * @returns Group | null
 		 */
 		getGroupByPath(path: string[]): Group | null {
@@ -304,19 +308,21 @@ export const useProjectStore = defineStore({
 				return null
 			}
 
-			return this.projectGroups.find((group) => {
-				// Check if the group's path includes all elements of the input path in order
-				let currentIndex = 0
-				for (const pathSegment of path) {
-					// Find the next occurrence of the current path segment
-					const segmentIndex = group.path.indexOf(pathSegment, currentIndex)
-					if (segmentIndex === -1) {
-						return false
+			return (
+				this.projectGroups.find((group) => {
+					// Check if the group's path includes all elements of the input path in order
+					let currentIndex = 0
+					for (const pathSegment of path) {
+						// Find the next occurrence of the current path segment
+						const segmentIndex = group.path.indexOf(pathSegment, currentIndex)
+						if (segmentIndex === -1) {
+							return false
+						}
+						currentIndex = segmentIndex + 1
 					}
-					currentIndex = segmentIndex + 1
-				}
-				return true
-			}) || null
+					return true
+				}) || null
+			)
 		},
 
 		/**
@@ -375,7 +381,7 @@ export const useProjectStore = defineStore({
 			if (this.selectedGroup === null) return
 
 			const group = this.selectedGroup
-			group.objects.forEach(element => {
+			group.objects.forEach((element) => {
 				this.selectedObjects?.push(element)
 			})
 		},
@@ -395,8 +401,8 @@ export const useProjectStore = defineStore({
 		setObjectsByURI(uri: string[]) {
 			const objects = this.currProject.geometry
 			const foundObjects = objects?.filter((obj) => {
-        return Array.isArray(obj.URI) && obj.URI.some((u) => uri.includes(u))
-    })
+				return Array.isArray(obj.URI) && obj.URI.some((u) => uri.includes(u))
+			})
 			this.selectedObjects = foundObjects
 		},
 
@@ -430,7 +436,7 @@ export const useProjectStore = defineStore({
 
 		/**
 		 * returns only the URI of the selected objects in the project
-		 * @returns 
+		 * @returns
 		 */
 		getSelectedObjectsURI(): string[] {
 			if (this.selectedObjects) {
@@ -450,7 +456,9 @@ export const useProjectStore = defineStore({
 				// Creating the nested object
 				const nestedObject = createNestedObject(data)
 				// Sorting the nested object by the number of objects in each group
-				nestedObject.children.sort((a, b) => b.objects.length - a.objects.length)
+				nestedObject.children.sort(
+					(a, b) => b.objects.length - a.objects.length
+				)
 				return nestedObject
 			} else {
 				const msg =
@@ -488,7 +496,7 @@ export const useProjectStore = defineStore({
 		 */
 		searchTree(node: NestedGroup, id: string): NestedGroup | null {
 			if (node.id === id) return node
-			
+
 			if (node.children) {
 				for (const child of node.children) {
 					const found = this.searchTree(child, id)
@@ -504,16 +512,16 @@ export const useProjectStore = defineStore({
 		 */
 		updateCustomGeo(updatedGeo: CustomGeo) {
 			if (!this.filterRegistry?.filterList.customGeo) return
-			
+
 			const index = this.filterRegistry.filterList.customGeo.findIndex(
-				geo => geo.geoObj.id === updatedGeo.geoObj.id
+				(geo) => geo.geoObj.id === updatedGeo.geoObj.id
 			)
-			
+
 			if (index === -1) return
-			
+
 			// Update the custom geo in the filter registry
 			this.filterRegistry.filterList.customGeo[index] = updatedGeo
-			
+
 			// Also update the geometry in the project
 			this.updateGeometry(updatedGeo.geoObj, updatedGeo.geoObj.id)
 		}
