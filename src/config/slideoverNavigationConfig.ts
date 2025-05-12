@@ -24,7 +24,7 @@ export const sidebarButtons: NavigationButtonConfig[] = [
     showOn: ['Filtering']
   },
   {
-    text: 'Save Filter',
+    text: 'New Filter',
     icon: DocumentCheckIcon,
     action: 'toggleSlideover',
     showOn: ['Filtering']

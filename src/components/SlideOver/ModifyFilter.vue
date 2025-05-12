@@ -1,6 +1,6 @@
 <template>
 	<div class="relative flex-1 px-4 mt-4">
-		<SaveFilters />
+		<SaveFilters :modify="true" />
 		<h3 class="font-semibold mb-2 mt-8">Filter Groups</h3>
 
 		<Draggable

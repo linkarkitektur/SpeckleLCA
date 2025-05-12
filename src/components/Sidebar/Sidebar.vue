@@ -75,9 +75,3 @@ watch(
   { immediate: true }
 )
 </script>
-
-<style scoped>
-.ghost {
-  opacity: 0.5;
-}
-</style>

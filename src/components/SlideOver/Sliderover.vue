@@ -83,7 +83,7 @@ const slideoverConfig = computed((): SlideoverConfig => {
         component: ModifyFilter,
         width: 'w-1/3'
       }
-    case "Save Filter":
+    case "New Filter":
       return {
         component: SaveFilters,
         width: 'w-1/4'
