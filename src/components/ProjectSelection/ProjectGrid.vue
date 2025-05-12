@@ -10,8 +10,11 @@
 			}"
 		></div>
 
+		<LoadingCubes v-if="loading" />
+
 		<!-- Main content -->
 		<ul
+			v-if="!loading"
 			role="list"
 			class="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative"
 			:class="{ 'z-20': !backgroundVisible }"
@@ -84,6 +87,7 @@
 	import { useNavigationStore } from '@/stores/navigationStore'
 	import { useProjectStore } from '@/stores/projectStore'
 	import { roundNumber } from '@/utils/mathUtils'
+	import LoadingCubes from '@/components/LoadingCubes/LoadingCubes.vue'
 
 	/**
 	 * Component for displaying a grid of projects.
@@ -96,6 +100,8 @@
 
 	const selectedProjectId = ref('')
 	const selectedProjectName = ref('')
+
+	const loading = ref(false)
 
 	// Transition state
 	const activeColor = ref('')
@@ -223,7 +229,11 @@
 		}, 100)
 	}
 
-	onMounted(speckleStore.updateProjects)
+	onMounted(() => {
+		loading.value = true
+		speckleStore.updateProjects()
+		loading.value = false
+	})
 
 	watch(
 		() => speckleStore.allProjects,

@@ -16,10 +16,12 @@ import type {
 } from '@/models/geometryModel'
 import type { QuantityConversionSpec } from '@/models/materialModel'
 
-import { selectedObjectsQuery } from '@/graphql/speckleQueries'
+import {
+	latestProjectsQuery,
+	selectedObjectsQuery
+} from '@/graphql/speckleQueries'
 import { speckleSelection } from '@/graphql/speckleVariables'
 import {
-	latestStreamsQuery,
 	projectVersionsQuery,
 	streamObjectQuery,
 	streamSearchQuery,
@@ -197,7 +199,7 @@ export function getObject(streamId: string, objectId: string) {
 
 // Get the latest projects
 export function getProjectsData() {
-	return speckleFetch(latestStreamsQuery)
+	return speckleFetch(latestProjectsQuery)
 }
 
 // Get the latest model for a specific project

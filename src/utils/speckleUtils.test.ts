@@ -198,7 +198,8 @@ describe('processCompositeObject', () => {
 								totalChildrenCount: 0
 							},
 							smoothness: 50,
-							speckle_type: 'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
+							speckle_type:
+								'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
 							transparency: 0,
 							applicationId: 'ef57b02a-5e81-49e7-93bb-ae5f002d921c-000306e1',
 							materialClass: 'Unassigned',
@@ -232,7 +233,8 @@ describe('processCompositeObject', () => {
 								totalChildrenCount: 0
 							},
 							smoothness: 50,
-							speckle_type: 'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
+							speckle_type:
+								'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
 							transparency: 0,
 							applicationId: 'ef57b02a-5e81-49e7-93bb-ae5f002d921c-000306e2',
 							materialClass: 'Unassigned',
@@ -266,7 +268,8 @@ describe('processCompositeObject', () => {
 								totalChildrenCount: 0
 							},
 							smoothness: 50,
-							speckle_type: 'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
+							speckle_type:
+								'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
 							transparency: 0,
 							applicationId: 'ef57b02a-5e81-49e7-93bb-ae5f002d921c-000306e4',
 							materialClass: 'Unassigned',
@@ -300,7 +303,8 @@ describe('processCompositeObject', () => {
 								totalChildrenCount: 0
 							},
 							smoothness: 50,
-							speckle_type: 'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
+							speckle_type:
+								'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
 							transparency: 0,
 							applicationId: 'ef57b02a-5e81-49e7-93bb-ae5f002d921c-000306e5',
 							materialClass: 'Unassigned',
@@ -334,7 +338,8 @@ describe('processCompositeObject', () => {
 								totalChildrenCount: 0
 							},
 							smoothness: 50,
-							speckle_type: 'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
+							speckle_type:
+								'Objects.Other.Material:Objects.Other.Revit.RevitMaterial',
 							transparency: 0,
 							applicationId: 'ef57b02a-5e81-49e7-93bb-ae5f002d921c-000306e6',
 							materialClass: 'Wood',

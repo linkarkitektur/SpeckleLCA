@@ -15,8 +15,7 @@ import type {
 	ServerInfo,
 	User,
 	Version,
-	ColorGroup,
-	ModelResponseObject
+	ColorGroup
 } from '@/models/speckleModel'
 import router from '@/router'
 import { updateGroupColors } from '@/utils/projectUtils'
@@ -28,9 +27,8 @@ import {
 	getProjectsData,
 	getUserData,
 	navigateToAuthPage,
-	speckleLogOut,
-	getLatestModel
-} from '@/utils/speckleUtils' // TODO Is this the right import in the wider structure?
+	speckleLogOut
+} from '@/utils/speckleUtils'
 import { FilteringExtension, Viewer } from '@speckle/viewer'
 import { defineStore } from 'pinia'
 import type { NestedGroup } from '@/models/filterModel'
@@ -209,27 +207,17 @@ export const useSpeckleStore = defineStore({
 		async updateProjects(): Promise<void> {
 			try {
 				const json = await getProjectsData()
-				const data = json.data
+				const projectData = json.data
 
-				const projects: ProjectId[] = []
-
-				for (const el of data.streams.items) {
-					const model: ModelResponseObject = await getLatestModel(el.id)
-					// Check for empty projects with no models or versions
-					if (model.data.project.models.items.length > 0) {
-						const proj: ProjectId = {
-							name: el.name,
-							id: el.id,
-							updatedAt: el.updatedAt,
-							latestModelId: model.data.project.models.items[0].id
-						}
-
-						projects.push(proj)
-					}
-				}
-
-				// Directly assign the array to your state, no $patch needed
-				this.allProjects = projects
+				this.allProjects = projectData.activeUser.projects.items.map(
+					(project) =>
+						({
+							name: project.name,
+							id: project.id,
+							updatedAt: project.updatedAt,
+							latestModelId: project.models.items?.[0]?.id
+						} as ProjectId)
+				)
 			} catch (err: any) {
 				console.warn('Failed updating projects from Speckle')
 			}
