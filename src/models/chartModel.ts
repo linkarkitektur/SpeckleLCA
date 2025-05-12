@@ -2,17 +2,17 @@
  * Standard chart options interface
  */
 export interface ChartOptionsBase {
-  title?: string
-  unit?: string
-  width?: number
-  height?: number
-  barHeight?: number
-  margin?: { top: number, right: number, bottom: number, left: number }
-  colors?: string[] // As hex
-  stroke?: string
-  strokeWidth?: number
-  innerRadius?: number
-  sort?: boolean
+	title?: string
+	unit?: string
+	width?: number
+	height?: number
+	barHeight?: number
+	margin?: { top: number; right: number; bottom: number; left: number }
+	colors?: string[] // As hex
+	stroke?: string
+	strokeWidth?: number
+	innerRadius?: number
+	sort?: boolean
 }
 
 /**
@@ -21,11 +21,20 @@ export interface ChartOptionsBase {
  * @param spanPercent: number[] span to check percent of values within
  * @param parameterValue: Precalculated number of parameter values within objects
  */
-export type ChartOptions = ChartOptionsBase & (
-  | { aggregate?: true; spanPercent?: undefined; parameterValue?: undefined }
-  | { aggregate?: undefined; spanPercent?: number[]; parameterValue?: undefined }
-  | { aggregate?: undefined; spanPercent?: undefined; parameterValue?: number }
-)
+export type ChartOptions = ChartOptionsBase &
+	(
+		| { aggregate?: true; spanPercent?: undefined; parameterValue?: undefined }
+		| {
+				aggregate?: undefined
+				spanPercent?: number[]
+				parameterValue?: undefined
+		  }
+		| {
+				aggregate?: undefined
+				spanPercent?: undefined
+				parameterValue?: number
+		  }
+	)
 
 /**
  * Standard chart data interface
@@ -37,12 +46,12 @@ export type ChartOptions = ChartOptionsBase & (
  * @param percent optional: number
  */
 export interface ChartData {
-  label: string
-  value: number
-  graphValue?: number
-  ids?: string[]
-  cumulative?: number
-  percent?: number
+	label: string
+	value: number
+	graphValue?: number
+	ids?: string[]
+	cumulative?: number
+	percent?: number
 }
 
 /**
@@ -50,17 +59,17 @@ export interface ChartData {
  * For use with nested data sets
  */
 export interface NestedChartData {
-  label: string
-  value: ChartData[]
+	label: string
+	value: ChartData[]
 }
 
 /**
  * Pattern Options for charts diagonal hatching
  */
 export interface PatternOptions {
-  size?: number
-  rotation?: number
-  lineWidth?: number
-  opacity?: number
-  fill?: boolean
+	size?: number
+	rotation?: number
+	lineWidth?: number
+	opacity?: number
+	fill?: boolean
 }

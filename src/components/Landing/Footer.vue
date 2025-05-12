@@ -26,9 +26,7 @@
 					<component :is="item.icon" class="h-6 w-6" aria-hidden="true" />
 				</a>
 				-->
-				<a 
-					class="text-gray-400 hover:text-gray-500"
-					@click=toggleSettings>
+				<a class="text-gray-400 hover:text-gray-500" @click="toggleSettings">
 					Settings
 				</a>
 			</div>
@@ -55,8 +53,7 @@
 		setup() {
 			const navigationStore = useNavigationStore()
 
-			const toggleSettings = () =>
-				navigationStore.toggleSettingsModal()
+			const toggleSettings = () => navigationStore.toggleSettingsModal()
 
 			const navigation = {
 				main: [
@@ -84,7 +81,7 @@
 				]
 			}
 
-			return { 
+			return {
 				navigation,
 				toggleSettings
 			}

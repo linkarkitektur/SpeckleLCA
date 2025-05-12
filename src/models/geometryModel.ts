@@ -22,7 +22,7 @@ export interface GeometryObject {
  * Base quantity object, used for geo, results or materials
  */
 export type Quantity = Partial<{
-  [unit in MetricUnits]: number
+	[unit in MetricUnits]: number
 }>
 
 /**
