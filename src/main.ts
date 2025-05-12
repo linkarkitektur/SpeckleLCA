@@ -24,7 +24,7 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
 const gtag = createGtag({
-  tagId: "G-EKQGVJLEEG"
+	tagId: 'G-EKQGVJLEEG'
 })
 
 app.use(pinia)
@@ -33,11 +33,11 @@ app.use(gtag)
 
 // Integrate vue-gtag with the router to track page views
 router.afterEach((to) => {
-  pageview(to.fullPath)
+	pageview(to.fullPath)
 })
 
 // Create directives
-app.directive('click-outside' ,clickOutsideDirective)
+app.directive('click-outside', clickOutsideDirective)
 
 // Mount the app.
 app.mount('#app')

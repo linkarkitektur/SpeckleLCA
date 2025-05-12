@@ -3,7 +3,6 @@
  * @see {@link https://vitejs.dev/config/}
  */
 import wasm from "vite-plugin-wasm"
-import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
