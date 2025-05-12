@@ -86,8 +86,12 @@
 
 	import GraphContainer from '@/components/Graphs/GraphContainer.vue'
 	import { roundNumber } from '@/utils/mathUtils'
+	import { useSpeckleStore } from '@/stores/speckleStore'
+	import { useRoute } from 'vue-router'
+	import type { ProjectId } from '@/models/speckleModel'
 
 	// stores
+	const speckleStore = useSpeckleStore()
 	const firebaseStore = useFirebaseStore()
 	const projectStore = useProjectStore()
 	const settingsStore = useSettingsStore()
@@ -100,6 +104,8 @@
 	const nameParameter = ref<string>('material.name')
 	const materialParameter = ref<string>('material.metaData.materialType')
 	const cycleParameter = ref<string>('lifeCycleStages')
+
+	const route = useRoute()
 
 	// Computed
 	const hotSpotResults = computed(() =>
@@ -172,9 +178,12 @@
 			}, 150)
 		}, 150)
 
-		const results = await firebaseStore.fetchResults(
-			projectStore.currProject.id
-		)
+		const projectId = route.params.projectId as string
+
+		await speckleStore.updateProjectVersions(projectId, 100, null)
+		await projectStore.updateProjectInformation({ id: projectId } as ProjectId)
+
+		const results = await firebaseStore.fetchResults(projectId)
 		resultLog.value = results[0]
 
 		// Lazyload the latest version in the background

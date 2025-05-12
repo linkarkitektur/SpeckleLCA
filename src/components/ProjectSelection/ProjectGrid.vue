@@ -85,7 +85,6 @@
 	import { ColorManager } from '@/utils/colorUtils'
 	import router from '@/router'
 	import { useNavigationStore } from '@/stores/navigationStore'
-	import { useProjectStore } from '@/stores/projectStore'
 	import { roundNumber } from '@/utils/mathUtils'
 	import LoadingCubes from '@/components/LoadingCubes/LoadingCubes.vue'
 
@@ -96,7 +95,6 @@
 	const firebaseStore = useFirebaseStore()
 	const settingsStore = useSettingsStore()
 	const navStore = useNavigationStore()
-	const projectStore = useProjectStore()
 
 	const selectedProjectId = ref('')
 	const selectedProjectName = ref('')
@@ -212,16 +210,14 @@
 		backgroundVisible.value = true
 
 		// Load data during the flash
-		await speckleStore.updateProjectVersions(project.id, 100, null)
-		await projectStore.updateProjectInformation(project)
 		navStore.setActiveColor(color)
 
 		// Complete transition and navigate
 		setTimeout(() => {
-			navStore.setActivePage('Overview')
 			router.push({
 				name: 'Overview',
 				params: {
+					projectId: project.id,
 					id: project.id,
 					color: color
 				}

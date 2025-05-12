@@ -6,7 +6,6 @@ import Dashboard from '@/views/Dashboard.vue'
 import ProjectSelection from '@/views/ProjectSelection.vue'
 import Benchmark from '@/views/Benchmark.vue'
 import NotFound from '@/views/NotFound.vue'
-import TestZone from '@/views/TestZone.vue'
 import ReportPage from '@/views/ReportPage.vue'
 import ProjectOverview from '@/views/ProjectOverview.vue'
 
@@ -43,12 +42,42 @@ const router = createRouter({
 			}
 		},
 		{
-			path: '/dashboard',
-			name: 'Dashboard',
+			path: '/projects/:projectId/overview',
+			name: 'Overview',
+			component: ProjectOverview,
+			meta: {
+				requiresAuth: true,
+				title: 'Overview',
+				icon: ''
+			}
+		},
+		{
+			path: '/projects/:projectId/filtering',
+			name: 'Filtering',
 			component: Dashboard,
 			meta: {
 				requiresAuth: true,
-				title: 'Dashboard',
+				title: 'Filters',
+				icon: ''
+			}
+		},
+		{
+			path: '/projects/:projectId/mapping',
+			name: 'Mapping',
+			component: Dashboard,
+			meta: {
+				requiresAuth: true,
+				title: 'Mapping',
+				icon: ''
+			}
+		},
+		{
+			path: '/projects/:projectId/results',
+			name: 'Results',
+			component: Dashboard,
+			meta: {
+				requiresAuth: true,
+				title: 'Results',
 				icon: ''
 			}
 		},
@@ -59,17 +88,6 @@ const router = createRouter({
 			meta: {
 				requiresAuth: true,
 				title: 'Project Selection',
-				icon: ''
-			}
-		},
-		{
-			path: '/overview',
-			name: 'Overview',
-			component: ProjectOverview,
-			props: true,
-			meta: {
-				requiresAuth: true,
-				title: 'Project Overview',
 				icon: ''
 			}
 		},
@@ -100,16 +118,6 @@ const router = createRouter({
 			meta: {
 				requiresAuth: false,
 				title: 'Not Found',
-				icon: ''
-			}
-		},
-		{
-			path: '/test',
-			name: 'Test',
-			component: TestZone,
-			meta: {
-				requiresAuth: false,
-				title: 'Test',
 				icon: ''
 			}
 		}

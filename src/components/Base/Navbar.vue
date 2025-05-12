@@ -24,7 +24,7 @@
 								:key="step.name"
 								:class="[
 									'inline-flex px-4 items-center styled-element hoverable-xs font-semibold select-none cursor-pointer transition-colors duration-150 ease-in-out',
-									step.name == navigationStore.activePage
+									step.name == route.name
 										? 'text-white bg-black border-white shadow-white'
 										: 'bg-neutral-100'
 								]"
@@ -121,9 +121,11 @@
 	import router from '@/router'
 
 	import logo from '@/assets/icons/logo.svg'
+	import { useRoute } from 'vue-router'
 
 	const speckleStore = useSpeckleStore()
 	const navigationStore = useNavigationStore()
+	const route = useRoute()
 
 	const handleNavigation = (step: Step) => {
 		navigationStore.setActivePage(step.name as PageType) // Set the active page in the store
@@ -139,12 +141,13 @@
 
 	const steps: Step[] = [
 		{ name: 'Projects', href: '/projects' },
-		{ name: 'Overview', href: '/overview' },
-		{ name: 'Filtering', href: '/dashboard' },
-		{ name: 'Mapping', href: '/dashboard' },
-		{ name: 'Results', href: '/dashboard' },
+		{ name: 'Overview', href: `/projects/${route.params.projectId}/overview` },
+		{
+			name: 'Filtering',
+			href: `/projects/${route.params.projectId}/filtering`
+		},
+		{ name: 'Mapping', href: `/projects/${route.params.projectId}/mapping` },
+		{ name: 'Results', href: `/projects/${route.params.projectId}/results` },
 		{ name: 'Benchmark', href: '/benchmark' }
-		// TODO: Make proper report page
-		// { name: 'Report', href: '/report' },
 	]
 </script>
