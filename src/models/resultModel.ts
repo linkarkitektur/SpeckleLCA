@@ -5,19 +5,19 @@ import type { Quantity } from '@/models/geometryModel'
  * Grouped results interface to store the results grouped by a parameter
  * These are for precalculated aggregated results.
  */
-export interface GroupedResults{
-  parameter: string
-  data: GroupedEmission
-  quantity?: Quantity
-  nested?: GroupedResults[]
+export interface GroupedResults {
+	parameter: string
+	data: GroupedEmission
+	quantity?: Quantity
+	nested?: GroupedResults[]
 }
 
 /**
  * Grouped emission interface to store the emission grouped by a parameter
  */
 interface GroupedEmission {
-  emission: Emission
-  geoId: string[]
+	emission: Emission
+	geoId: string[]
 }
 
 /**
@@ -25,9 +25,9 @@ interface GroupedEmission {
  * It contains the results for each parameter that is grouped on and the result with correlation to ids.
  */
 export interface ResultItem {
-  parameter: string
-  displayName: string
-  data: GroupedResults[]
+	parameter: string
+	displayName: string
+	data: GroupedResults[]
 }
 
 export type ResultList = ResultItem[]
@@ -36,11 +36,19 @@ export type ResultList = ResultItem[]
  * Predefined list of ResultItem objects for default use
  */
 export const DefaultResultList: ResultList = [
-  { parameter: 'parameters.category', displayName: 'Category', data: [] },
-  { parameter: 'material.name', displayName: 'Material', data: [] },
-  { parameter: 'material.metaData.materialType', displayName: 'Material Type', data: [] },
-  { parameter: 'parameters.code', displayName: 'BSAB Codes', data: [] },
-  { parameter: 'parameters.speckle_type', displayName: 'Speckle Type', data: [] },
+	{ parameter: 'parameters.category', displayName: 'Category', data: [] },
+	{ parameter: 'material.name', displayName: 'Material', data: [] },
+	{
+		parameter: 'material.metaData.materialType',
+		displayName: 'Material Type',
+		data: []
+	},
+	{ parameter: 'parameters.code', displayName: 'BSAB Codes', data: [] },
+	{
+		parameter: 'parameters.speckle_type',
+		displayName: 'Speckle Type',
+		data: []
+	}
 ]
 
 /**

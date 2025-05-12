@@ -4,8 +4,16 @@
  * @packageDocumentation
  */
 import type { Project } from '@/models/projectModel'
-import type { ResponseObject, ResponseObjectStream, Version } from '@/models/speckleModel'
-import type { GeometryObject, Quantity, SimpleParameters } from '@/models/geometryModel'
+import type {
+	ResponseObject,
+	ResponseObjectStream,
+	Version
+} from '@/models/speckleModel'
+import type {
+	GeometryObject,
+	Quantity,
+	SimpleParameters
+} from '@/models/geometryModel'
 import type { QuantityConversionSpec } from '@/models/materialModel'
 
 import { selectedObjectsQuery } from '@/graphql/speckleQueries'
@@ -52,9 +60,7 @@ export function navigateToAuthPage() {
 	localStorage.setItem(CHALLENGE, challenge)
 
 	// Send user to auth page.
-	window.location.href = `${settingsStore.keySettings.speckleConfig.serverUrl}/authn/verify/${
-		settingsStore.keySettings.speckleConfig.id
-	}/${challenge}`
+	window.location.href = `${settingsStore.keySettings.speckleConfig.serverUrl}/authn/verify/${settingsStore.keySettings.speckleConfig.id}/${challenge}`
 }
 
 /**
@@ -73,18 +79,21 @@ export function speckleLogOut() {
  */
 export async function exchangeAccessCode(accessCode: string) {
 	const settingsStore = useSettingsStore()
-	const res = await fetch(`${settingsStore.keySettings.speckleConfig.serverUrl}/auth/token/`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			accessCode: accessCode,
-			appId: settingsStore.keySettings.speckleConfig.id,
-			appSecret: settingsStore.keySettings.speckleConfig.secret,
-			challenge: localStorage.getItem(CHALLENGE)
-		})
-	})
+	const res = await fetch(
+		`${settingsStore.keySettings.speckleConfig.serverUrl}/auth/token/`,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				accessCode: accessCode,
+				appId: settingsStore.keySettings.speckleConfig.id,
+				appSecret: settingsStore.keySettings.speckleConfig.secret,
+				challenge: localStorage.getItem(CHALLENGE)
+			})
+		}
+	)
 
 	/**
 	 * Try retrieving the token.
@@ -120,28 +129,33 @@ export async function speckleFetch(
 
 	if (!settingsStore.keySettings.speckleConfig.serverUrl) {
 		console.error('No Speckle server URL configured')
-		return Promise.reject('Speckle server URL is not configured. Please check your settings.')
+		return Promise.reject(
+			'Speckle server URL is not configured. Please check your settings.'
+		)
 	}
 
 	try {
-		const res = await fetch(`${settingsStore.keySettings.speckleConfig.serverUrl}/graphql`, {
-			method: 'POST',
-			headers: {
-				Authorization: 'Bearer ' + token,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				query: query,
-				variables: vars || null
-			})
-		})
+		const res = await fetch(
+			`${settingsStore.keySettings.speckleConfig.serverUrl}/graphql`,
+			{
+				method: 'POST',
+				headers: {
+					Authorization: 'Bearer ' + token,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					query: query,
+					variables: vars || null
+				})
+			}
+		)
 
 		if (!res.ok) {
 			throw new Error(`HTTP error! status: ${res.status}`)
 		}
 
 		const data = await res.json()
-		
+
 		if (data.errors) {
 			const errorMessage = data.errors.map((e: any) => e.message).join(', ')
 			throw new Error(`GraphQL Error: ${errorMessage}`)
@@ -220,39 +234,39 @@ export async function loadProject(reRoute: boolean) {
 	const navStore = useNavigationStore()
 	const projectStore = useProjectStore()
 
-  let version: Version
-	if (reRoute)
-		navStore.toggleLoading()
+	let version: Version
+	if (reRoute) navStore.toggleLoading()
 
-  if (speckleStore.getProjectDetails) {
-    // Try to find the project version in the store.
-    const versionFound =
-      speckleStore.getProjectDetails.stream.commits.items.find(
-        (obj) => obj.id === speckleStore.getSelectedVersion?.id
-      )
+	if (speckleStore.getProjectDetails) {
+		// Try to find the project version in the store.
+		const versionFound =
+			speckleStore.getProjectDetails.stream.commits.items.find(
+				(obj) => obj.id === speckleStore.getSelectedVersion?.id
+			)
 
-    // If the version was found, set the version and update the store.
-    if (versionFound) {
-      version = versionFound
-      speckleStore.setSelectedVersion(version)
-    } else {
-      const latestVersion = speckleStore.getProjectDetails.stream.commits.items[0]
-      speckleStore.setSelectedVersion(latestVersion)
-    }
-  } else {
-    console.error('Project store object is undefined.')
-  }
+		// If the version was found, set the version and update the store.
+		if (versionFound) {
+			version = versionFound
+			speckleStore.setSelectedVersion(version)
+		} else {
+			const latestVersion =
+				speckleStore.getProjectDetails.stream.commits.items[0]
+			speckleStore.setSelectedVersion(latestVersion)
+		}
+	} else {
+		console.error('Project store object is undefined.')
+	}
 
- // Attempt to get project objects from Speckle and then convert them.
-  const objects: ResponseObjectStream = await speckleStore.getObjects()
-  const project: Project | null = convertObjects(objects)
+	// Attempt to get project objects from Speckle and then convert them.
+	const objects: ResponseObjectStream = await speckleStore.getObjects()
+	const project: Project | null = convertObjects(objects)
 
-  // If project is not null, create it in the project store.
-  if (project) {
-    projectStore.createNewProject(project)
-  } else {
-    console.error('Could not create project from Speckle.')
-  }
+	// If project is not null, create it in the project store.
+	if (project) {
+		projectStore.createNewProject(project)
+	} else {
+		console.error('Could not create project from Speckle.')
+	}
 
 	// Switch to dashboard view
 	if (reRoute) {
@@ -268,37 +282,46 @@ interface FilteredObjects {
 
 /**
  * Helper function to convertObjects filters them based on source application and removes extra information.
- * @param objects 
- * @param sourceApplication 
+ * @param objects
+ * @param sourceApplication
  * @returns Filtered and cleaned objects
  */
-function filterObjects(objects: ResponseObject[], sourceApplication: string): FilteredObjects {
-	const materialObjects = objects.filter((obj) =>
-			obj.data.speckle_type.includes('Objects.Other.Material') && 
+function filterObjects(
+	objects: ResponseObject[],
+	sourceApplication: string
+): FilteredObjects {
+	const materialObjects = objects.filter(
+		(obj) =>
+			obj.data.speckle_type.includes('Objects.Other.Material') &&
 			obj.data.speckle_type !== 'Objects.Other.MaterialQuantity'
 	)
 
 	const modelObjects = objects.filter((obj) => {
-			// Remove the displayValue key if it exists as an array
-			if (Array.isArray(obj.data.displayValue)) {
-					delete obj.data.displayValue
-			}
-			// Remove closure
-			if (obj.data.__closure) delete obj.data.__closure
+		// Remove the displayValue key if it exists as an array
+		if (Array.isArray(obj.data.displayValue)) {
+			delete obj.data.displayValue
+		}
+		// Remove closure
+		if (obj.data.__closure) delete obj.data.__closure
 
-			// Remove meshes and lines from Archicad and Revit
-			if ((sourceApplication.includes('Archicad') || sourceApplication.includes('Revit')) &&
-					(obj.data.speckle_type === 'Objects.Geometry.Mesh' ||
-					 obj.data.speckle_type === 'Objects.Geometry.Line' ||
-					 obj.data.speckle_type === 'Objects.BuiltElements.GridLine' ||
-					obj.data.speckle_type ==='Objects.BuiltElements.View')) {
-					return false
-			}
+		// Remove meshes and lines from Archicad and Revit
+		if (
+			(sourceApplication.includes('Archicad') ||
+				sourceApplication.includes('Revit')) &&
+			(obj.data.speckle_type === 'Objects.Geometry.Mesh' ||
+				obj.data.speckle_type === 'Objects.Geometry.Line' ||
+				obj.data.speckle_type === 'Objects.BuiltElements.GridLine' ||
+				obj.data.speckle_type === 'Objects.BuiltElements.View')
+		) {
+			return false
+		}
 
-			// Apply general filtering
-			return obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk' &&
-						 obj.data.speckle_type !== 'Speckle.Core.Models.Collection' &&
-						 !obj.data.speckle_type.includes('Objects.Other.Material')
+		// Apply general filtering
+		return (
+			obj.data.speckle_type !== 'Speckle.Core.Models.DataChunk' &&
+			obj.data.speckle_type !== 'Speckle.Core.Models.Collection' &&
+			!obj.data.speckle_type.includes('Objects.Other.Material')
+		)
 	})
 
 	return { materialObjects, modelObjects }
@@ -363,7 +386,10 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 
 	// Extract and filter objects from the input stream
 	const objects: ResponseObject[] = input.data.stream.object.elements.objects
-	const { materialObjects, modelObjects } = filterObjects(objects, sourceApplication);
+	const { materialObjects, modelObjects } = filterObjects(
+		objects,
+		sourceApplication
+	)
 
 	const projectDetails = speckleStore.getProjectDetails
 	const version = speckleStore.getSelectedVersion
@@ -389,7 +415,7 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 		id: projectDetails.stream.id,
 		description: version.message,
 		geometry: geoObjects
-}
+	}
 }
 
 /**
@@ -403,7 +429,9 @@ function processCompositeObject(
 ) {
 	el.data.materialQuantities.forEach((mat) => {
 		const quantity = quantityFromComposite(mat)
-		const name: string = el.data.name ? el.data.name : getTextAfterLastDot(el.data.speckle_type)
+		const name: string = el.data.name
+			? el.data.name
+			: getTextAfterLastDot(el.data.speckle_type)
 
 		// Calculate area from dimensions if m2 is not available
 		if (!quantity.m2) {
@@ -427,7 +455,13 @@ function processCompositeObject(
 			parameters: parameters,
 			URI: [el.id],
 			subPart: true,
-			simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication, mat)
+			simpleParameters: createSimpleParameters(
+				el,
+				materialObjects,
+				quantity,
+				sourceApplication,
+				mat
+			)
 		}
 
 		geoObjects.push(obj)
@@ -444,7 +478,7 @@ function processSimpleObject(
 	geoObjects: GeometryObject[]
 ) {
 	const quantity = calculateQuantity(el)
-	
+
 	// Calculate area from dimensions if m2 is not available
 	if (!quantity.m2) {
 		const areaFromDimensions = calculateAreaFromDimensions(el.data)
@@ -469,7 +503,12 @@ function processSimpleObject(
 		parameters: parameters,
 		URI: [el.id],
 		subPart: false,
-		simpleParameters: createSimpleParameters(el, materialObjects, quantity, sourceApplication)
+		simpleParameters: createSimpleParameters(
+			el,
+			materialObjects,
+			quantity,
+			sourceApplication
+		)
 	}
 
 	geoObjects.push(obj)
@@ -480,110 +519,124 @@ function processSimpleObject(
  * Add any specific software adaptations here
  */
 export function createSimpleParameters(
-	object: ResponseObject, 
+	object: ResponseObject,
 	materialObjects: ResponseObject[],
-	quantity: Quantity, 
-	sourceApplication: string, 
-	subMember: any = null): SimpleParameters 
-{
+	quantity: Quantity,
+	sourceApplication: string,
+	subMember: any = null
+): SimpleParameters {
 	const settingsStore = useSettingsStore()
-  if (sourceApplication.includes('Revit')) {
+	if (sourceApplication.includes('Revit')) {
 		// Fallback to speckle_type
-		const category = object.data?.category || getTextAfterLastDot(object.data.speckle_type)
-		const type = object.data?.type || ""
+		const category =
+			object.data?.category || getTextAfterLastDot(object.data.speckle_type)
+		const type = object.data?.type || ''
 		// TODO: New building code search, might slow down to much. Needs benchmarking!
 		const buildingCode = settingsStore.calculationSettings.buildingCode
 		const code = iterativeKeySearchIncludes(object, buildingCode.key)
 
 		const materialObject = subMember ? subMember : object.data
-		let materialName = ""
+		let materialName = ''
 		if (materialObject.material) {
 			if (materialObject.material.name) {
 				materialName = materialObject.material.name
 			} else {
-				materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
-			} 
+				materialName = materialObjects.find(
+					(obj) => obj.id === materialObject.material.referencedId
+				).data.name
+			}
 		} else {
-			materialName = ""
+			materialName = ''
 		}
 
 		const m = quantity.m || 0
 		const m2 = quantity.m2 || 0
-		const m3 = quantity.m3 || 0  
+		const m3 = quantity.m3 || 0
 
 		return { category, type, code, materialName, m, m2, m3 }
-	} 
+	}
 	if (sourceApplication.includes('Archicad')) {
 		// Fallback to speckle_type
-		const category = object.data?.elementType || getTextAfterLastDot(object.data.speckle_type)
-		const type = object.data?.compositeName || object.data?.profileName || object.data?.layer
+		const category =
+			object.data?.elementType || getTextAfterLastDot(object.data.speckle_type)
+		const type =
+			object.data?.compositeName ||
+			object.data?.profileName ||
+			object.data?.layer
 		// Find relevant buildingCode, this needs to be adapted
 		const buildingCode = settingsStore.calculationSettings.buildingCode
 		const code = iterativeKeySearchIncludes(object, buildingCode.key)
 
 		const materialObject = subMember ? subMember : object.data
-		let materialName = ""
+		let materialName = ''
 		if (materialObject.material) {
 			if (subMember) {
 				// When subMember exists, try grabbing from material.name
 				if (materialObject.material.name) {
 					materialName = materialObject.material.name
 				} else {
-					materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+					materialName = materialObjects.find(
+						(obj) => obj.id === materialObject.material.referencedId
+					).data.name
 				}
 			} else {
 				// When no subMember, try grabbing from buildingMaterialName
 				if (materialObject.buildingMaterialName) {
 					materialName = materialObject.buildingMaterialName
 				} else {
-					materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
+					materialName = materialObjects.find(
+						(obj) => obj.id === materialObject.material.referencedId
+					).data.name
 				}
 			}
 		} else {
-			materialName = ""
+			materialName = ''
 		}
 
 		const m = quantity.m || 0
 		const m2 = quantity.m2 || 0
-		const m3 = quantity.m3 || 0  
+		const m3 = quantity.m3 || 0
 
 		return { category, type, code, materialName, m, m2, m3 }
 	}
 	// For everything else we expect it to mimic the Revit structure
 	// Fallback to speckle_type
-	const category = object.data?.category || getTextAfterLastDot(object.data.speckle_type)
-	const type = object.data?.type || ""
+	const category =
+		object.data?.category || getTextAfterLastDot(object.data.speckle_type)
+	const type = object.data?.type || ''
 	// TODO: New building code search, might slow down to much. Needs benchmarking!
 	const buildingCode = settingsStore.calculationSettings.buildingCode
 	const code = iterativeKeySearchIncludes(object, buildingCode.key)
 
 	const materialObject = subMember ? subMember : object.data
-	let materialName = ""
+	let materialName = ''
 	if (materialObject.material) {
 		if (materialObject.material.name) {
 			materialName = materialObject.material.name
 		} else {
-			materialName = materialObjects.find((obj) => obj.id === materialObject.material.referencedId).data.name
-		} 
+			materialName = materialObjects.find(
+				(obj) => obj.id === materialObject.material.referencedId
+			).data.name
+		}
 	} else {
-		materialName = ""
+		materialName = ''
 	}
 
 	const m = quantity.m || 0
 	const m2 = quantity.m2 || 0
-	const m3 = quantity.m3 || 0  
+	const m3 = quantity.m3 || 0
 
 	return { category, type, code, materialName, m, m2, m3 }
 }
 
-/** 
+/**
  * Field map for the different units we care about.
  */
 const FIELD_MAP: Record<string, QuantityConversionSpec> = {
 	area: { metric: 'm2', mmConversion: 1_000_000 },
 	surfaceArea: { metric: 'm2', mmConversion: 1_000_000 },
 	volume: { metric: 'm3', mmConversion: 1_000_000_000 },
-	length: { metric: 'm', mmConversion: 1_000 },
+	length: { metric: 'm', mmConversion: 1_000 }
 }
 
 /**
@@ -594,7 +647,12 @@ const FIELD_MAP: Record<string, QuantityConversionSpec> = {
  * @param field The field name (or its value) indicating what is being measured.
  * @param value The raw value to convert and assign.
  */
-function updateQuantityForField(obj: any, quantity: Quantity, field: string, value: any) {
+function updateQuantityForField(
+	obj: any,
+	quantity: Quantity,
+	field: string,
+	value: any
+) {
 	const fieldSpec = FIELD_MAP[field.toLowerCase()]
 	if (!fieldSpec) return
 
@@ -618,9 +676,9 @@ function updateQuantityForField(obj: any, quantity: Quantity, field: string, val
  * @param quantity The quantity object to update.
  */
 function processEntry(
-	obj: any, 
-	key: string, 
-	value: any, 
+	obj: any,
+	key: string,
+	value: any,
 	quantity: Quantity,
 	processed: Set<string>
 ) {
@@ -697,7 +755,7 @@ function extractValue(obj: any, val: any): number {
  */
 export function calculateQuantity(obj: ResponseObject) {
 	const quantity: Quantity = {
-		m2: 0,
+		m2: 0
 	}
 
 	if (!obj.data) return quantity
@@ -717,7 +775,7 @@ export function calculateQuantity(obj: ResponseObject) {
  */
 export function quantityFromComposite(mat: any): Quantity {
 	const quantity: Quantity = {
-		m2: 0,
+		m2: 0
 	}
 
 	const processed = new Set<string>()
