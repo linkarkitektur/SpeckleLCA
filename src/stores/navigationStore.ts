@@ -24,8 +24,7 @@ export const useNavigationStore = defineStore({
 			sideBarShow: true,
 			saveModalOpen: false,
 			assemblyTableShow: false,
-			settingsModalOpen: false,
-
+			settingsModalOpen: false
 		}
 	},
 	actions: {
@@ -39,16 +38,16 @@ export const useNavigationStore = defineStore({
 
 		/**
 		 * Sets the active color
-		 * @param color 
+		 * @param color
 		 */
 		setActiveColor(color: string) {
 			this.activeColor = color
 		},
 
 		/**
-     * Sets the slideover function and opens the slideover
-     * @param func The function to set for the slideover
-     */
+		 * Sets the slideover function and opens the slideover
+		 * @param func The function to set for the slideover
+		 */
 		setSlideoverFunction(func: SlideoverFunction) {
 			this.slideoverFunction = func
 			this.slideoverOpen = true
@@ -124,7 +123,6 @@ export const useNavigationStore = defineStore({
 		toggleAssemblyTable() {
 			this.assemblyTableShow = !this.assemblyTableShow
 		}
-
 	},
 	getters: {
 		getActivePage: (state) => state.activePage,

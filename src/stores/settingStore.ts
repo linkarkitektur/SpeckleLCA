@@ -1,26 +1,26 @@
 import { defineStore } from 'pinia'
 
-import { 
-	standardAppSettings, 
-	standardCalculationSettings, 
+import {
+	standardAppSettings,
+	standardCalculationSettings,
 	standardKeySettings,
 	standardMaterialSettings,
-	standardProjectSettings,
+	standardProjectSettings
 } from '@/models/settingModel'
-import type { 
+import type {
 	AppSettings,
 	CalculationSettings,
 	KeySettings,
 	MaterialSettings,
 	ProjectSettings
- } from '@/models/settingModel'
+} from '@/models/settingModel'
 
 export const useSettingsStore = defineStore({
 	id: 'settingsStore',
 	state: () => {
 		return {
-			projectSettings: standardProjectSettings as ProjectSettings, 
-			appSettings: standardAppSettings as AppSettings, 
+			projectSettings: standardProjectSettings as ProjectSettings,
+			appSettings: standardAppSettings as AppSettings,
 			calculationSettings: standardCalculationSettings as CalculationSettings,
 			keySettings: standardKeySettings as KeySettings,
 			materialSettings: standardMaterialSettings as MaterialSettings
@@ -28,21 +28,21 @@ export const useSettingsStore = defineStore({
 	},
 	// Save the store to local storage so we dont have to create new settings every time
 	persist: {
-    storage: localStorage,
+		storage: localStorage,
 		afterHydrate: (ctx) => {
-      console.log(`just hydrated '${ctx.store.$id}'`)
-    }
+			console.log(`just hydrated '${ctx.store.$id}'`)
+		}
 	},
 	actions: {
 		/**
 		 * Updates projectsettings directly with migration for old settings
-		 * @param projectSettings 
+		 * @param projectSettings
 		 */
 		updateProjectSettings(projectSettings: ProjectSettings) {
 			// Create merged settings with defaults for backward compatibility
 			this.projectSettings = {
 				...standardProjectSettings,
-				...projectSettings,
+				...projectSettings
 			}
 		},
 
@@ -78,7 +78,6 @@ export const useSettingsStore = defineStore({
 			this.materialSettings.APISource = APISource
 		},
 
-		
 		updateGithubApiKey(githubApiKey: KeySettings['githubApiKey']) {
 			this.keySettings.githubApiKey = githubApiKey
 		},
@@ -87,7 +86,9 @@ export const useSettingsStore = defineStore({
 		 * Updates the included stages in the app settings.
 		 * @param includedStages The new included stages.
 		 */
-		updateIncludedStages(includedStages: CalculationSettings['includedStages']) {
+		updateIncludedStages(
+			includedStages: CalculationSettings['includedStages']
+		) {
 			this.calculationSettings.includedStages = {
 				...standardCalculationSettings.includedStages,
 				...includedStages
@@ -98,8 +99,12 @@ export const useSettingsStore = defineStore({
 		 * Updates the standard impact category in the app settings.
 		 * @param standardImpactCategory The new standard impact category.
 		 */
-		updateStandardImpactCategory(standardImpactCategory: CalculationSettings['standardImpactCategory']) {
-			this.calculationSettings.standardImpactCategory = standardImpactCategory || standardCalculationSettings.standardImpactCategory
+		updateStandardImpactCategory(
+			standardImpactCategory: CalculationSettings['standardImpactCategory']
+		) {
+			this.calculationSettings.standardImpactCategory =
+				standardImpactCategory ||
+				standardCalculationSettings.standardImpactCategory
 		},
 
 		/**
@@ -117,7 +122,8 @@ export const useSettingsStore = defineStore({
 		 * Updates whether B4 should be calculated from production stages
 		 */
 		updateReplaceB4Setting(replaceB4: boolean) {
-			this.calculationSettings.replaceB4WithProductionStages = replaceB4 ?? standardCalculationSettings.replaceB4WithProductionStages
+			this.calculationSettings.replaceB4WithProductionStages =
+				replaceB4 ?? standardCalculationSettings.replaceB4WithProductionStages
 		},
 
 		/**
@@ -129,6 +135,6 @@ export const useSettingsStore = defineStore({
 				...standardCalculationSettings,
 				...settings
 			}
-		},
+		}
 	}
 })
