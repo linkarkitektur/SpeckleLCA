@@ -15,8 +15,7 @@ import type {
 	ServerInfo,
 	User,
 	Version,
-	ColorGroup,
-	ModelResponseObject
+	ColorGroup
 } from '@/models/speckleModel'
 import router from '@/router'
 import { updateGroupColors } from '@/utils/projectUtils'
@@ -28,9 +27,8 @@ import {
 	getProjectsData,
 	getUserData,
 	navigateToAuthPage,
-	speckleLogOut,
-	getLatestModel
-} from '@/utils/speckleUtils' // TODO Is this the right import in the wider structure?
+	speckleLogOut
+} from '@/utils/speckleUtils'
 import { FilteringExtension, Viewer } from '@speckle/viewer'
 import { defineStore } from 'pinia'
 import type { NestedGroup } from '@/models/filterModel'
@@ -138,7 +136,7 @@ export const useSpeckleStore = defineStore({
 			hiddenObjects: [] as GeometryObject[],
 
 			/**
-			 * Render mode for the app, true for 3D with materials, false for diagram style 
+			 * Render mode for the app, true for 3D with materials, false for diagram style
 			 */
 			renderMode: true as boolean,
 
@@ -209,32 +207,21 @@ export const useSpeckleStore = defineStore({
 		async updateProjects(): Promise<void> {
 			try {
 				const json = await getProjectsData()
-				const data = json.data
-		
-				const projects: ProjectId[] = []
-		
-				for (const el of data.streams.items) {
-					const model: ModelResponseObject = await getLatestModel(el.id)
-					// Check for empty projects with no models or versions
-					if (model.data.project.models.items.length > 0) {
-						const proj: ProjectId = {
-							name: el.name,
-							id: el.id,
-							updatedAt: el.updatedAt,
-							latestModelId: model.data.project.models.items[0].id
-						}
-			
-						projects.push(proj)
-					}
-				}
-		
-				// Directly assign the array to your state, no $patch needed
-				this.allProjects = projects
+				const projectData = json.data
+
+				this.allProjects = projectData.activeUser.projects.items.map(
+					(project) =>
+						({
+							name: project.name,
+							id: project.id,
+							updatedAt: project.updatedAt,
+							latestModelId: project.models.items?.[0]?.id
+						} as ProjectId)
+				)
 			} catch (err: any) {
-				console.warn("Failed updating projects from Speckle")
+				console.warn('Failed updating projects from Speckle')
 			}
 		},
-		
 
 		/**
 		 * The `updateProjectVersions` action updates the project versions for the specified project.
@@ -381,12 +368,12 @@ export const useSpeckleStore = defineStore({
 
 		/**
 		 * Calculates the group colors for the viewer based on nested groups tree
-		 * @param refTree 
+		 * @param refTree
 		 */
 		calculateGroupColors(tree: NestedGroup[]) {
 			updateGroupColors(tree)
 			const groups = []
-			tree.forEach(element => {
+			tree.forEach((element) => {
 				// Extract the hsl values from the color string using regex
 				const hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/
 				let color
@@ -394,12 +381,14 @@ export const useSpeckleStore = defineStore({
 					color = hslToHex(151, 100, 50)
 				} else {
 					const match = element.color.match(hslRegex)
-					const [, hue, saturation, lightness] = match.map(str => parseInt(str))
+					const [, hue, saturation, lightness] = match.map((str) =>
+						parseInt(str)
+					)
 					color = hslToHex(hue, saturation, lightness)
 				}
 				// Create group object with hex color
 				const group = {
-					objectIds: element.objects.map(obj => obj.URI[0]),
+					objectIds: element.objects.map((obj) => obj.URI[0]),
 					color: color
 				}
 				groups.push(group)
@@ -409,19 +398,21 @@ export const useSpeckleStore = defineStore({
 
 		/**
 		 * Set colorGroups overriding the last, used for coherent colors in graphics and setting the colors in the viewer
-		 * @param colorGroups 
+		 * @param colorGroups
 		 */
 		setColorGroups(colorGroups: ColorGroup[]) {
 			this.colorGroups = colorGroups
 			if (!this.renderMode) {
 				this.viewer?.getExtension(FilteringExtension).resetFilters()
-				this.viewer?.getExtension(FilteringExtension).setUserObjectColors(colorGroups)
+				this.viewer
+					?.getExtension(FilteringExtension)
+					.setUserObjectColors(colorGroups)
 			}
 		},
 
 		/**
 		 * Set token for the current user
-		 * @param token 
+		 * @param token
 		 */
 		setToken(token: string) {
 			this.token = token
@@ -429,7 +420,7 @@ export const useSpeckleStore = defineStore({
 
 		/**
 		 * Set serverUrl for the current user
-		 * @param serverUrl 
+		 * @param serverUrl
 		 */
 		setServerUrl(serverUrl: string) {
 			this.serverUrl = serverUrl
@@ -450,7 +441,7 @@ export const useSpeckleStore = defineStore({
 
 		/**
 		 * Adds a geometry object to the hidden objects in the project.
-		 * @param object 
+		 * @param object
 		 */
 		addHiddenObject(object: GeometryObject) {
 			this.hiddenObjects.push(object)
@@ -458,7 +449,7 @@ export const useSpeckleStore = defineStore({
 
 		/**
 		 * Sets the hidden objects in the project, this is checked when rendering the objects
-		 * @param objects 
+		 * @param objects
 		 */
 		setHiddenObjects(objects: GeometryObject[]) {
 			this.hiddenObjects = objects
@@ -490,39 +481,42 @@ export const useSpeckleStore = defineStore({
 			const filtering = this.viewer?.getExtension(FilteringExtension)
 			filtering.resetFilters()
 			filtering.isolateObjects(objectIds, null, true, false)
-			
+
 			if (objectIds.length > 0 && !this.renderMode) {
 				//Find all color groups relevant for ids
-				const colorMap = new Map();
+				const colorMap = new Map()
 
 				// Create a map from object ID to color
-				this.colorGroups.forEach(group => {
-					group.objectIds.forEach(id => {
+				this.colorGroups.forEach((group) => {
+					group.objectIds.forEach((id) => {
 						colorMap.set(id, group.color)
 					})
 				})
 
-				const relevantColorGroups = objectIds.map(id => ({
-					objectIds: [id],
-					color: colorMap.get(id)
-				})).filter(group => group.color !== undefined)
-				
+				const relevantColorGroups = objectIds
+					.map((id) => ({
+						objectIds: [id],
+						color: colorMap.get(id)
+					}))
+					.filter((group) => group.color !== undefined)
+
 				filtering.setUserObjectColors(relevantColorGroups)
 			} else {
-				if (!this.renderMode)
-					filtering.setUserObjectColors(this.colorGroups)
+				if (!this.renderMode) filtering.setUserObjectColors(this.colorGroups)
 				//if (!this.showHiddenObjects)
-					//this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
+				//this.viewer?.hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
 			}
 		},
 
 		/**
 		 * Hides all unusedObjects in the viewer
-		 * @param objectUrls 
+		 * @param objectUrls
 		 */
 		hideUnusedObjects(objectIds: string[]) {
 			if (!this.showHiddenObjects)
-				this.viewer?.getExtension(FilteringExtension).hideObjects(objectIds, null, false, false)
+				this.viewer
+					?.getExtension(FilteringExtension)
+					.hideObjects(objectIds, null, false, false)
 		},
 
 		/**
@@ -531,8 +525,7 @@ export const useSpeckleStore = defineStore({
 		async resetUnusedObjects() {
 			const filtering = this.viewer?.getExtension(FilteringExtension)
 			filtering.resetFilters()
-			if (!this.renderMode)
-				filtering.setUserObjectColors(this.colorGroups)
+			if (!this.renderMode) filtering.setUserObjectColors(this.colorGroups)
 		},
 
 		/**
@@ -552,7 +545,12 @@ export const useSpeckleStore = defineStore({
 			this.showHiddenObjects = !this.showHiddenObjects
 			this.resetUnusedObjects()
 			if (!this.showHiddenObjects)
-				this.viewer?.getExtension(FilteringExtension).hideObjects(this.hiddenObjects.map(obj => obj.id), null, false, false)
+				this.viewer?.getExtension(FilteringExtension).hideObjects(
+					this.hiddenObjects.map((obj) => obj.id),
+					null,
+					false,
+					false
+				)
 			//This is just to refresh the viewer
 			this.viewer?.resize()
 		}

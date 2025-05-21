@@ -75,6 +75,29 @@ export const latestStreamsQuery = `query {
     }
 }`
 
+/**
+ * @description GraphQL query to fetch the latest projects.
+ */
+export const latestProjectsQuery = `query getProjects {
+  activeUser {
+    id
+    projects {
+      items {
+        id
+        name
+        description
+        updatedAt
+        models(limit: 1) {
+        	items {
+        		id
+        	}        	
+        }
+      }
+      totalCount
+    }
+  }
+}`
+
 export const modelIdQuery = `query($projectId: String!) {
   project(id: $projectId) {
     models {

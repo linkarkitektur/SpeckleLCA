@@ -337,7 +337,11 @@ export const useFirebaseStore = defineStore('firebase', {
 		 * @param projectId projectId which usually is the streamID from speckle
 		 * @param results aggregated results from geometry objects
 		 */
-		async addResultList(projectId: string, resultList: ResultList, name: string) {
+		async addResultList(
+			projectId: string,
+			resultList: ResultList,
+			name: string
+		) {
 			this.loading = true
 			this.error = null
 			try {
@@ -398,7 +402,9 @@ export const useFirebaseStore = defineStore('firebase', {
 				)
 				const querySnapshot = await getDocs(q)
 				if (!querySnapshot.empty) {
-					const results = querySnapshot.docs.map((doc) => doc.data()) as ResultsLog[]
+					const results = querySnapshot.docs.map((doc) =>
+						doc.data()
+					) as ResultsLog[]
 					return results
 				} else {
 					return []

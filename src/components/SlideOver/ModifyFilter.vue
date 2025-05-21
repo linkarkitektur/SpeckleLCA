@@ -91,7 +91,10 @@
 								@change="() => toggleAdvanced(index)"
 							>
 								<template #inactive>
-									<AdjustmentsHorizontalIcon class="h-4 w-4" style="color: black" />
+									<AdjustmentsHorizontalIcon
+										class="h-4 w-4"
+										style="color: black"
+									/>
 								</template>
 								<template #active>
 									<AdjustmentsHorizontalIcon
