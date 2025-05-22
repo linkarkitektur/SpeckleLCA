@@ -119,20 +119,20 @@ export function updateProjectGroups() {
 	//Create geometry objects from the project
 	const geo = projectStore.currProject.geometry
 
-  //Root for the group, this should not be needed
-  groups = [
-    {
-      id: 'test',
-      name: 'root',
-      path: ['root'],
-      elements: geo,
-      color: 'hsl(151, 100%, 50%)'
-    }
-  ]
-  //Go through each filter and iterate over them
-  let reverseStack: Filter[] = []
-  if (projectStore.filterRegistry)
-    reverseStack = projectStore.filterRegistry.filterList.callStack
+	//Root for the group, this should not be needed
+	groups = [
+		{
+			id: 'test',
+			name: 'root',
+			path: ['root'],
+			elements: geo,
+			color: 'hsl(151, 100%, 50%)'
+		}
+	]
+	//Go through each filter and iterate over them
+	let reverseStack: Filter[] = []
+	if (projectStore.filterRegistry)
+		reverseStack = projectStore.filterRegistry.filterList.callStack
 
 	reverseStack.forEach((el) => {
 		if (el.value) {

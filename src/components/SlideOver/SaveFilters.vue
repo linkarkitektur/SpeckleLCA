@@ -5,7 +5,11 @@
 				<label for="name" class="block styled-text normal-case"> Name </label>
 				<div class="mt-2">
 					<div class="flex">
-						<InputText id="name" v-model="formData.name" placeholder="Filter name" />
+						<InputText
+							id="name"
+							v-model="formData.name"
+							placeholder="Filter name"
+						/>
 					</div>
 				</div>
 			</div>
@@ -57,6 +61,7 @@
 			formData.value.name
 		)
 		navStore.toggleSlideover()
+		navStore.refreshDropdown()
 	}
 
 	const deleteData = () => {
@@ -64,6 +69,7 @@
 			projectStore.currProject.id,
 			projectStore.filterRegistry.filterList.name
 		)
-		// TODO - should refresh filter list and reset dashboard
+		navStore.toggleSlideover()
+		navStore.refreshDropdown()
 	}
 </script>

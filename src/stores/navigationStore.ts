@@ -24,7 +24,8 @@ export const useNavigationStore = defineStore({
 			sideBarShow: true,
 			saveModalOpen: false,
 			assemblyTableShow: false,
-			settingsModalOpen: false
+			settingsModalOpen: false,
+			shouldDropdownRefresh: ''
 		}
 	},
 	actions: {
@@ -60,6 +61,10 @@ export const useNavigationStore = defineStore({
 			this.slideoverOpen = !this.slideoverOpen
 		},
 
+		closeSlideover() {
+			this.slideoverOpen = false
+		},
+
 		/**
 		 * Toggle loading state on the app
 		 */
@@ -67,6 +72,9 @@ export const useNavigationStore = defineStore({
 			this.loading = !this.loading
 		},
 
+		refreshDropdown() {
+			this.shouldDropdownRefresh = new Date().toISOString()
+		},
 		/**
 		 * Toggle new group modal interface
 		 */

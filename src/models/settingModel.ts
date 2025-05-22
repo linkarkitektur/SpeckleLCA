@@ -57,6 +57,7 @@ export interface AppSettings {
  * This loads from firebase for the project
  */
 export interface ProjectSettings {
+	color: string
 	area: number
 	threshold: number
 	lifespan: number
@@ -116,6 +117,7 @@ interface IncludedStages {
  * Default settings for all projects, we could make one for each country but not needed I think
  */
 export const standardProjectSettings: ProjectSettings = {
+	color: 'grey',
 	area: 100,
 	threshold: 300,
 	lifespan: 50,

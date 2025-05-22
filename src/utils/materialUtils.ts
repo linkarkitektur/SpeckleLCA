@@ -15,7 +15,7 @@ import { useSettingsStore } from '@/stores/settingStore'
  * Updates from a selected mapping to a new one, with all materials and objectIds
  * @param mapping Mapping object to update towards project and material store
  */
-export function updateMapping(mapping: Mapping) {
+export function updateMapping(name: string, mapping: Mapping) {
 	const projectStore = useProjectStore()
 	const materialStore = useMaterialStore()
 
@@ -55,7 +55,7 @@ export function updateMapping(mapping: Mapping) {
 
 		materialStore.updateMappingMaterial(step.nestedGroupId, step.material)
 	})
-	materialStore.setMapping(mapping)
+	materialStore.setMapping({ name, mapping })
 }
 
 export function clearMapping() {
@@ -86,35 +86,35 @@ export async function mapMaterial(inGroup: NestedGroup) {
 	const currFilterList: FilterList = projectStore.filterRegistry.filterList
 
 	// If no mapping exists, create a new one and then add the step
-	if (materialStore.mapping == null) {
+	if (materialStore.mapping.mapping == null) {
 		const newMapping: Mapping = {
 			id: crypto.randomUUID(),
 			name: 'temp',
 			filters: [currFilterList],
 			steps: []
 		}
-		materialStore.mapping = newMapping
+		materialStore.mapping.mapping = newMapping
 		await Promise.all(
 			inGroup.objects.map((obj) => {
 				obj.material = materialStore.currentMapping
 			})
 		)
-		await materialStore.addStep(
+		materialStore.addStep(
 			inGroup,
 			materialStore.currentMapping,
 			currFilterList.id
 		)
 	} else {
 		// If the filter list is not in the mapping, add it
-		if (!materialStore.mapping.filters.includes(currFilterList)) {
-			materialStore.mapping.filters.push(currFilterList)
+		if (!materialStore.mapping.mapping.filters.includes(currFilterList)) {
+			materialStore.mapping.mapping.filters.push(currFilterList)
 		}
 		await Promise.all(
 			inGroup.objects.map((obj) => {
 				obj.material = materialStore.currentMapping
 			})
 		)
-		await materialStore.addStep(
+		materialStore.addStep(
 			inGroup,
 			materialStore.currentMapping,
 			currFilterList.id

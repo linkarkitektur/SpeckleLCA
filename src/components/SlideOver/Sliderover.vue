@@ -50,7 +50,10 @@
 					<div
 						class="relative flex-1 px-4 pt-4 bg-neutral-100 overflow-auto scrollbar-hide"
 					>
-						<component :is="slideoverConfig.component" />
+						<component
+							:is="slideoverConfig.component"
+							v-bind="slideoverConfig.props"
+						/>
 					</div>
 				</div>
 			</div>
@@ -59,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed } from 'vue'
+	import { computed, watch } from 'vue'
 	import { XMarkIcon } from '@heroicons/vue/24/outline'
 	import { useNavigationStore } from '@/stores/navigationStore'
 
@@ -71,76 +74,81 @@
 	import SaveFilters from '@/components/SlideOver/SaveFilters.vue'
 	import ExportResults from '@/components/SlideOver/ExportResults.vue'
 	import EditGroup from '@/components/SlideOver/AddGroup.vue'
+	import { useRoute } from 'vue-router'
 
 	const navStore = useNavigationStore()
+	const route = useRoute()
 
 	interface SlideoverConfig {
 		component: any
 		width: string
+		props?: Record<string, any>
 	}
 
-const slideoverConfig = computed((): SlideoverConfig => {
-  switch(navStore.slideoverFunction) {
-    case "Edit Filters": 
-      return {
-        component: ModifyFilter,
-        width: 'w-1/3'
-      }
-    case "New Filter":
-      return {
-        component: SaveFilters,
-        width: 'w-1/4'
-      }
-    case "Add Group":
-      return {
-        component: EditGroup,
-        width: 'w-1/3'
-      }
-    case 'Show Materials': 
-      return {
-        component: MaterialSlideover,
-        width: 'w-1/2'
-      }
-    case 'Edit Mapping':
-      return {
-        component: SaveMapping,
-        width: 'w-1/3'
-      }
-    case 'Edit Assemblies':
-      return {
-        component: AssemblySlideover,
-        width: 'w-full'
-      }
-    case 'Save Mapping':
-      return {
-        component: SaveMapping,
-        width: 'w-1/4'
-      }
-    case 'Export Results':
-      return {
-        component: ExportResults,
-        width: 'w-1/4'
-      }
-    case 'Save Results':
-      return {
-        component: SaveResults,
-        width: 'w-1/4'
-      }
-    default:
-      return {
-        component: null,
-        width: 'w-1/3'
-      }
-  }
-})
+	const slideoverConfig = computed((): SlideoverConfig => {
+		switch (navStore.slideoverFunction) {
+			case 'Edit Filters':
+				return {
+					component: ModifyFilter,
+					width: 'w-1/3'
+				}
+			case 'New Filter':
+				return {
+					component: SaveFilters,
+					width: 'w-1/4'
+				}
+			case 'Add Group':
+				return {
+					component: EditGroup,
+					width: 'w-1/3'
+				}
+			case 'Show Materials':
+				return {
+					component: MaterialSlideover,
+					width: 'w-1/2'
+				}
+			case 'Edit Mapping':
+				return {
+					component: SaveMapping,
+					width: 'w-1/4',
+					props: { modify: true }
+				}
+			case 'Edit Assemblies':
+				return {
+					component: AssemblySlideover,
+					width: 'w-full'
+				}
+			case 'New Mapping':
+				return {
+					component: SaveMapping,
+					width: 'w-1/4'
+				}
+			case 'Export Results':
+				return {
+					component: ExportResults,
+					width: 'w-1/4'
+				}
+			case 'Save Results':
+				return {
+					component: SaveResults,
+					width: 'w-1/4'
+				}
+			default:
+				return {
+					component: null,
+					width: 'w-1/3'
+				}
+		}
+	})
 
 	const toggleSlideover = () => {
 		navStore.toggleSlideover()
 	}
-</script>
 
-<style scoped>
-	.pointer-events-auto {
-		pointer-events: auto;
-	}
-</style>
+	watch(
+		() => route.name,
+		() => {
+			navStore.closeSlideover()
+		}
+	)
+</script>

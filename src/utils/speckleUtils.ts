@@ -231,7 +231,10 @@ export async function getObjectParameters(
  * Load selected or most recent version into the project store and navigating to dashboard view
  * @param reRoute If we should reroute to the dashboard page or not, set to false for lazyload
  */
-export async function loadProject(reRoute: boolean) {
+export async function loadProject(
+	reRoute: boolean,
+	modelId: string | undefined = undefined
+) {
 	const speckleStore = useSpeckleStore()
 	const navStore = useNavigationStore()
 	const projectStore = useProjectStore()
@@ -243,9 +246,8 @@ export async function loadProject(reRoute: boolean) {
 		// Try to find the project version in the store.
 		const versionFound =
 			speckleStore.getProjectDetails.stream.commits.items.find(
-				(obj) => obj.id === speckleStore.getSelectedVersion?.id
+				(obj) => obj.id === (speckleStore.getSelectedVersion?.id || modelId)
 			)
-
 		// If the version was found, set the version and update the store.
 		if (versionFound) {
 			version = versionFound
@@ -415,7 +417,6 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 	return {
 		name: projectDetails.stream.name,
 		id: projectDetails.stream.id,
-		description: version.message,
 		geometry: geoObjects
 	}
 }

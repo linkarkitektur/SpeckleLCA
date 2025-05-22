@@ -117,10 +117,10 @@
 	import { getMappedMaterial, mapMaterial } from '@/utils/materialUtils'
 
 	import { useProjectStore } from '@/stores/projectStore'
-	import { useNavigationStore } from '@/stores/navigationStore'
 	import { storeToRefs } from 'pinia'
 	import { lightenHSLColor } from '@/utils/colorUtils'
 	import { roundNumber } from '@/utils/mathUtils'
+	import { useRoute } from 'vue-router'
 
 	// Add defineOptions to inherit attrs
 	defineOptions({
@@ -142,7 +142,7 @@
 
 	// Store initialization
 	const projectStore = useProjectStore()
-	const navStore = useNavigationStore()
+
 	// Reactive refs
 	const isExpanded = ref(false)
 	const toggleExpand = () => {
@@ -151,8 +151,8 @@
 	}
 
 	// Store refs
-	const { activePage } = storeToRefs(navStore)
 	const { selectedGroup } = storeToRefs(projectStore)
+	const route = useRoute()
 
 	// Computed properties
 	const inGroups = computed(() => ({
@@ -184,7 +184,7 @@
 	}
 
 	const currGroupTotal = computed(() => {
-		switch (activePage.value) {
+		switch (route.name) {
 			case 'Filtering':
 				return OverviewGroupCard
 			case 'Mapping':
@@ -199,7 +199,7 @@
 	})
 
 	const leftInfo = computed(() => {
-		switch (activePage.value) {
+		switch (route.name) {
 			case 'Filtering':
 				return inGroups.value.objects.length + ' Elements'
 			case 'Mapping':
@@ -214,7 +214,7 @@
 	})
 
 	const rightInfo = computed(() => {
-		switch (activePage.value) {
+		switch (route.name) {
 			case 'Filtering':
 				return inGroups.value.objects.length + ' Elements'
 			case 'Mapping':
@@ -241,7 +241,7 @@
 	// Add drop handler
 	const onDrop = async () => {
 		if (inGroups.value) {
-			mapMaterial(inGroups.value)
+			await mapMaterial(inGroups.value)
 		}
 	}
 

@@ -237,8 +237,7 @@ export const useSpeckleStore = defineStore({
 		): Promise<void> {
 			try {
 				const response = await getProjectVersions(projectId, limit, cursor)
-				const data = response.data
-				const projDet: ProjectDetails = data
+				const projDet: ProjectDetails = response.data
 
 				const selectedProj: ProjectId = {
 					name: projDet.stream.name,

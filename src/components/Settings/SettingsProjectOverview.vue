@@ -97,7 +97,6 @@
 	import router from '@/router'
 
 	import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
-	import type { ProjectSettingsLog } from '@/models/firebaseModel'
 	import { useFirebaseStore } from '@/stores/firebaseStore'
 	import CheckBox from '@/components/Base/CheckBox.vue'
 	import { EnergyType } from '@/models/materialModel'
@@ -112,8 +111,9 @@
 	const changedVersion = ref(false)
 
 	onMounted(async () => {
-		const projectSettingsLog: ProjectSettingsLog =
-			await firebaseStore.fetchProjectSettings(projectStore.currProject.id)
+		const projectSettingsLog = await firebaseStore.fetchProjectSettings(
+			projectStore.currProject?.id
+		)
 		if (projectSettingsLog)
 			settingsStore.updateProjectSettings(projectSettingsLog.settings)
 	})
@@ -156,10 +156,10 @@
 	 */
 	const selectProject = () => {
 		// Save the projectSettings
-		firebaseStore.addProjectSettings(
-			projectStore.currProject.id,
-			settingsStore.projectSettings
-		)
+		firebaseStore.addOrUpdateProjectSettings({
+			projectId: projectStore.currProject.id,
+			settings: settingsStore.projectSettings
+		})
 
 		// If version changed we load it otherwise just route it
 		if (changedVersion.value) {

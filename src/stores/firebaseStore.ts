@@ -181,10 +181,10 @@ export const useFirebaseStore = defineStore('firebase', {
 		},
 
 		/**
-			* Deletes a result from the database
-			* @param projectId projectId which usually is the streamID from Speckle
-			* @param stackName stackName to delete
-			*/
+		 * Deletes a result from the database
+		 * @param projectId projectId which usually is the streamID from Speckle
+		 * @param stackName stackName to delete
+		 */
 		async deleteFilters(projectId: string, stackName: string) {
 			this.loading = true
 			this.error = null
@@ -242,6 +242,7 @@ export const useFirebaseStore = defineStore('firebase', {
 				)
 
 				const mappingLog: MappingLog = {
+					id: crypto.randomUUID(),
 					projectId: projectId,
 					mapping: cleanedMapping,
 					date: new Date(),
@@ -301,9 +302,9 @@ export const useFirebaseStore = defineStore('firebase', {
 		/**
 		 * Deletes a mapping from the database
 		 * @param projectId projectId which usually is the streamID from Speckle
-		 * @param mappingId mappingId to delete
+		 * @param name name of mapping to delete
 		 */
-		async deleteMapping(projectId: string, mappingId: string) {
+		async deleteMapping(projectId: string, name: string) {
 			this.loading = true
 			this.error = null
 
@@ -311,7 +312,7 @@ export const useFirebaseStore = defineStore('firebase', {
 				const q = query(
 					collection(db, 'mappings'),
 					where('projectId', '==', projectId),
-					where('mappingId', '==', mappingId)
+					where('name', '==', name)
 				)
 				const querySnapshot = await getDocs(q)
 				if (!querySnapshot.empty) {
@@ -534,10 +535,14 @@ export const useFirebaseStore = defineStore('firebase', {
 		 * @returns
 		 */
 		async fetchProjectSettings(
-			projectId: string
+			projectId: string | null
 		): Promise<ProjectSettingsLog | null> {
 			this.loading = true
 			this.error = null
+
+			if (!projectId) {
+				return null
+			}
 
 			try {
 				const q = query(
@@ -563,12 +568,34 @@ export const useFirebaseStore = defineStore('firebase', {
 			}
 		},
 
+		async fetchProjectInfo(projectId: string) {
+			const querySnapshot = await getDocs(
+				query(
+					collection(db, 'projectSettings'),
+					where('projectId', '==', projectId)
+				)
+			)
+			if (!querySnapshot.empty) {
+				return querySnapshot.docs[0].data()
+			}
+			return null
+		},
+
 		/**
 		 * Add new projectsettings for id or overwrite existing with the new ones
 		 * @param projectId Id for project
+		 * @param name Name of project
 		 * @param settings settings to update with
 		 */
-		async addProjectSettings(projectId: string, settings: ProjectSettings) {
+		async addOrUpdateProjectSettings({
+			projectId,
+			name,
+			settings
+		}: {
+			projectId: string
+			name?: string | null
+			settings: Partial<ProjectSettings>
+		}) {
 			this.loading = true
 			this.error = null
 			try {
@@ -580,18 +607,28 @@ export const useFirebaseStore = defineStore('firebase', {
 					)
 				)
 
-				const settingsLog: ProjectSettingsLog = {
-					projectId: projectId,
-					settings: settings,
-					date: new Date()
-				}
-
 				// We overwrite it if we found one or add a new
 				if (!querySnapshot.empty) {
-					const docRef = querySnapshot.docs[0].ref
-					await setDoc(docRef, settingsLog)
+					const document = querySnapshot.docs[0]
+					const newData = { ...document.data() }
+					if (name !== undefined) {
+						newData.name = name
+					}
+					if (settings !== undefined) {
+						Object.entries(settings).forEach(([key, value]) => {
+							if (value !== undefined) {
+								newData.settings[key] = value
+							}
+						})
+					}
+					await setDoc(document.ref, newData)
 				} else {
-					await addDoc(collection(db, 'projectSettings'), settingsLog)
+					await addDoc(collection(db, 'projectSettings'), {
+						projectId: projectId,
+						name: name,
+						date: new Date(),
+						settings: settings
+					})
 				}
 			} catch (error: any) {
 				this.error = error.message

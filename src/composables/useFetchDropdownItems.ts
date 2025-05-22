@@ -1,19 +1,19 @@
-import { ref, computed } from 'vue'
-import { useNavigationStore } from '@/stores/navigationStore'
+import { computed, ref } from 'vue'
 import { useFirebaseStore } from '@/stores/firebaseStore'
 import { useSpeckleStore } from '@/stores/speckleStore'
 
-import type { MappingLog, ResultsLog, FilterLog } from '@/models/firebaseModel'
+import type { FilterLog, MappingLog, ResultsLog } from '@/models/firebaseModel'
 import type { dropdownItem } from '@/components/Base/Dropdown.vue'
+import { useRoute } from 'vue-router'
 
 export function useFetchDropdownItems() {
-	const navStore = useNavigationStore()
 	const firebaseStore = useFirebaseStore()
 	const speckleStore = useSpeckleStore()
+	const route = useRoute()
 
 	const dropdownItems = ref<dropdownItem[]>([])
 	const dropdownName = computed(() => {
-		switch (navStore.activePage) {
+		switch (route.name) {
 			case 'Filtering':
 				return 'Filter Groups'
 			case 'Mapping':
@@ -28,7 +28,7 @@ export function useFetchDropdownItems() {
 	})
 
 	const fetchDropdownItems = async () => {
-		switch (navStore.activePage) {
+		switch (route.name) {
 			case 'Filtering': {
 				//Clear dropdownItems
 				dropdownItems.value = []

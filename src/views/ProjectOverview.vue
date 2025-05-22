@@ -13,7 +13,7 @@
 			'opacity-100 transition-opacity duration-50': contentVisible
 		}"
 	>
-		<Navbar />
+		<Navbar v-if="speckleStore.getProjectDetails?.stream" />
 		<div
 			class="grid grid-cols-5 grid-rows-4 gap-10 h-[calc(100vh-5rem)] overflow-hidden p-4"
 		>
@@ -181,7 +181,8 @@
 		const projectId = route.params.projectId as string
 
 		await speckleStore.updateProjectVersions(projectId, 100, null)
-		await projectStore.updateProjectInformation({ id: projectId } as ProjectId)
+		const projectData = await firebaseStore.fetchProjectInfo(projectId)
+		projectStore.updateProjectInformation(projectData as ProjectId)
 
 		const results = await firebaseStore.fetchResults(projectId)
 		resultLog.value = results[0]

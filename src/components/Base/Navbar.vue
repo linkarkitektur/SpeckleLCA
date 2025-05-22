@@ -115,7 +115,7 @@
 		MenuItem,
 		MenuItems
 	} from '@headlessui/vue'
-	import type { Step, PageType } from '@/models/pageModel'
+	import type { PageType, Step } from '@/models/pageModel'
 	import { useSpeckleStore } from '@/stores/speckleStore'
 	import { useNavigationStore } from '@/stores/navigationStore'
 	import router from '@/router'
@@ -139,15 +139,25 @@
 		navigationStore.toggleSettingsModal()
 	}
 
+	const modelId =
+		route.params.modelId ||
+		speckleStore.getProjectDetails?.stream.commits.items[0].id
+
 	const steps: Step[] = [
 		{ name: 'Projects', href: '/projects' },
 		{ name: 'Overview', href: `/projects/${route.params.projectId}/overview` },
 		{
 			name: 'Filtering',
-			href: `/projects/${route.params.projectId}/filtering`
+			href: `/projects/${route.params.projectId}/models/${modelId}/filtering`
 		},
-		{ name: 'Mapping', href: `/projects/${route.params.projectId}/mapping` },
-		{ name: 'Results', href: `/projects/${route.params.projectId}/results` },
+		{
+			name: 'Mapping',
+			href: `/projects/${route.params.projectId}/models/${modelId}/mapping`
+		},
+		{
+			name: 'Results',
+			href: `/projects/${route.params.projectId}/models/${modelId}/results`
+		},
 		{ name: 'Benchmark', href: '/benchmark' }
 	]
 </script>

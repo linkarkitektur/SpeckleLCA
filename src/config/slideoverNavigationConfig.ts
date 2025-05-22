@@ -52,7 +52,7 @@ export const sidebarButtons: NavigationButtonConfig[] = [
 		showOn: ['Mapping']
 	},
 	{
-		text: 'Save Mapping',
+		text: 'New Mapping',
 		icon: DocumentCheckIcon,
 		action: 'toggleSlideover',
 		showOn: ['Mapping']

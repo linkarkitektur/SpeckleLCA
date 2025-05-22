@@ -6,12 +6,7 @@ import type { Results } from '@/models/resultModel'
  */
 export interface Project {
 	name: string
-	description: string
 	id: string
 	geometry: GeometryObject[]
-	sqm?: number
-	projectType?: string
-	softwareSource?: string
-	location?: string
 	results?: Results[]
 }

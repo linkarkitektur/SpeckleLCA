@@ -52,7 +52,7 @@ const router = createRouter({
 			}
 		},
 		{
-			path: '/projects/:projectId/filtering',
+			path: '/projects/:projectId/models/:modelId/filtering',
 			name: 'Filtering',
 			component: Dashboard,
 			meta: {
@@ -62,7 +62,7 @@ const router = createRouter({
 			}
 		},
 		{
-			path: '/projects/:projectId/mapping',
+			path: '/projects/:projectId/models/:modelId/mapping',
 			name: 'Mapping',
 			component: Dashboard,
 			meta: {
@@ -72,7 +72,7 @@ const router = createRouter({
 			}
 		},
 		{
-			path: '/projects/:projectId/results',
+			path: '/projects/:projectId/models/:modelId/results',
 			name: 'Results',
 			component: Dashboard,
 			meta: {

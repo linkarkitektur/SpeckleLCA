@@ -133,7 +133,9 @@
 			<h3 class="font-semibold mb-2">Custom Geometries</h3>
 			<div v-for="customGeo in customGeoList" :key="customGeo.geoObj.id">
 				<!-- Container -->
-				<div class="styled-element hoverable-sm p-4 justify-between items-center">
+				<div
+					class="styled-element hoverable-sm p-4 justify-between items-center"
+				>
 					<!-- Show AddGroup when editing -->
 					<AddGroup
 						v-if="editGeo === customGeo.geoObj.id"
