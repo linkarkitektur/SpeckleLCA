@@ -182,7 +182,7 @@ describe('Full Workflow Test', () => {
 
 		// 4. Create mapping steps and apply them
 		const mockMapping = setupMapping()
-		updateMapping(mockMapping)
+		updateMapping('test', mockMapping)
 
 		// 5. Calculate emissions
 		const calculator = new EmissionCalculator()
@@ -263,7 +263,7 @@ describe('Full Workflow Test', () => {
 
 		// 4. Create and apply mapping
 		const mockMapping = setupMapping()
-		updateMapping(mockMapping)
+		updateMapping('test', mockMapping)
 
 		// 5. Calculate emissions
 		const calculator = new EmissionCalculator()
@@ -330,7 +330,7 @@ describe('Full Workflow Test', () => {
 
 		// 4. Create and apply mapping
 		const mockMapping = setupMapping()
-		updateMapping(mockMapping)
+		updateMapping('test', mockMapping)
 
 		// 5. Calculate emissions
 		const calculator = new EmissionCalculator()
@@ -427,7 +427,7 @@ describe('Full Workflow Test', () => {
 
 		// 4. Map materials
 		const mockMapping = setupMapping()
-		updateMapping(mockMapping)
+		updateMapping('test', mockMapping)
 
 		// 5. Calculate emissions
 		const calculator = new EmissionCalculator()

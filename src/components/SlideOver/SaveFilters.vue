@@ -1,7 +1,6 @@
 <template>
 	<div class="space-y-12">
-		<h2 class="styled-header">Save to firebase</h2>
-		<div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+		<div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 			<div class="sm:col-span-4">
 				<label for="name" class="block styled-text normal-case"> Name </label>
 				<div class="mt-2">
@@ -19,6 +18,7 @@
 
 	<div class="mt-6 flex items-center justify-start gap-x-6">
 		<ActionButton text="Save" @on-click="saveData" />
+		<ActionButton text="Delete" v-if="props.modify" @on-click="deleteData" />
 	</div>
 </template>
 
@@ -31,21 +31,29 @@
 	import InputText from '@/components/Base/InputText.vue'
 	import ActionButton from '@/components/Base/ActionButton.vue'
 
+	const props = defineProps({
+		modify: { type: Boolean, default: false }
+	})
+
 	const navStore = useNavigationStore()
 	const projectStore = useProjectStore()
 	const firebaseStore = useFirebaseStore()
 
 	const formData = ref({
-		name: ''
+		name: props.modify ? projectStore.filterRegistry.filterList.name : ''
 	})
 
 	const saveData = () => {
-		const filters: Filter[] = projectStore.getRegistryStack()
+		let filters: Filter[] = []
+		if (props.modify) {
+			filters = projectStore.getRegistryStack()
+		}
+
 		const filterList: FilterList = {
 			id: crypto.randomUUID(),
 			name: formData.value.name,
 			callStack: filters,
-			customGeo: projectStore.filterRegistry.filterList.customGeo
+			customGeo: projectStore.filterRegistry.filterList.customGeo || []
 		}
 		firebaseStore.addFilterList(
 			projectStore.currProject.id,
@@ -53,5 +61,15 @@
 			formData.value.name
 		)
 		navStore.toggleSlideover()
+		navStore.refreshDropdown()
+	}
+
+	const deleteData = () => {
+		firebaseStore.deleteFilters(
+			projectStore.currProject.id,
+			projectStore.filterRegistry.filterList.name
+		)
+		navStore.toggleSlideover()
+		navStore.refreshDropdown()
 	}
 </script>

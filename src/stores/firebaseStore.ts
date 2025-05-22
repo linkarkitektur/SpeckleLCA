@@ -1,26 +1,26 @@
 import { defineStore } from 'pinia'
 import { db } from '@/firebase'
-import type { FilterRegistry, FilterList } from '@/models/filterModel'
+import type { FilterList, FilterRegistry } from '@/models/filterModel'
 import {
-	collection,
 	addDoc,
-	setDoc,
-	query,
-	where,
-	orderBy,
-	limit,
+	collection,
 	getDocs,
+	limit,
+	orderBy,
+	query,
+	setDoc,
+	where,
 	writeBatch
 } from 'firebase/firestore'
-import type { Mapping, Assembly } from '@/models/materialModel'
+import type { Assembly, Mapping } from '@/models/materialModel'
 import type { ResultList } from '@/models/resultModel'
 import type {
-	FilterLog,
-	MappingLog,
-	ResultsLog,
 	AssemblyList,
 	CalculationSettingsLog,
-	ProjectSettingsLog
+	FilterLog,
+	MappingLog,
+	ProjectSettingsLog,
+	ResultsLog
 } from '@/models/firebaseModel'
 
 import { deepToRaw, removeUndefinedFields } from '@/utils/dataUtils'
@@ -80,7 +80,6 @@ export const useFirebaseStore = defineStore('firebase', {
 			try {
 				// Convert name to lowercase for case-insensitive comparison
 				const nameLower = stackName.toLowerCase()
-
 				// Get all filters for the project
 				const projectQuery = query(
 					collection(db, 'projectFilters'),
@@ -88,6 +87,7 @@ export const useFirebaseStore = defineStore('firebase', {
 				)
 				const projectSnapshot = await getDocs(projectQuery)
 
+				// TODO - find filter name
 				// Check for existing filter with same name (case-insensitive)
 				const existingDoc = projectSnapshot.docs.find(
 					(doc) => doc.data().stackName.toLowerCase() === nameLower
@@ -108,6 +108,7 @@ export const useFirebaseStore = defineStore('firebase', {
 					await addDoc(collection(db, 'projectFilters'), newStack)
 				}
 			} catch (error: any) {
+				console.error(error)
 				this.error = error.message
 			} finally {
 				this.loading = false
@@ -180,6 +181,38 @@ export const useFirebaseStore = defineStore('firebase', {
 		},
 
 		/**
+		 * Deletes a result from the database
+		 * @param projectId projectId which usually is the streamID from Speckle
+		 * @param stackName stackName to delete
+		 */
+		async deleteFilters(projectId: string, stackName: string) {
+			this.loading = true
+			this.error = null
+
+			try {
+				const q = query(
+					collection(db, 'projectFilters'),
+					where('projectId', '==', projectId),
+					where('stackName', '==', stackName)
+				)
+				const querySnapshot = await getDocs(q)
+				if (!querySnapshot.empty) {
+					const batch = writeBatch(db)
+					querySnapshot.forEach((doc) => {
+						batch.delete(doc.ref)
+					})
+					await batch.commit()
+				} else {
+					this.error = 'No matching document found'
+				}
+			} catch (error: any) {
+				this.error = error.message
+			} finally {
+				this.loading = false
+			}
+		},
+
+		/**
 		 * Adds mapping to the firebase DB to save the current mapping progress
 		 * If a mapping with the same name exists (case-insensitive), it will be overwritten
 		 * @param projectId projectId which usually is the streamID from speckle
@@ -209,6 +242,7 @@ export const useFirebaseStore = defineStore('firebase', {
 				)
 
 				const mappingLog: MappingLog = {
+					id: crypto.randomUUID(),
 					projectId: projectId,
 					mapping: cleanedMapping,
 					date: new Date(),
@@ -268,9 +302,9 @@ export const useFirebaseStore = defineStore('firebase', {
 		/**
 		 * Deletes a mapping from the database
 		 * @param projectId projectId which usually is the streamID from Speckle
-		 * @param mappingId mappingId to delete
+		 * @param name name of mapping to delete
 		 */
-		async deleteMapping(projectId: string, mappingId: string) {
+		async deleteMapping(projectId: string, name: string) {
 			this.loading = true
 			this.error = null
 
@@ -278,7 +312,7 @@ export const useFirebaseStore = defineStore('firebase', {
 				const q = query(
 					collection(db, 'mappings'),
 					where('projectId', '==', projectId),
-					where('mappingId', '==', mappingId)
+					where('name', '==', name)
 				)
 				const querySnapshot = await getDocs(q)
 				if (!querySnapshot.empty) {
@@ -501,10 +535,14 @@ export const useFirebaseStore = defineStore('firebase', {
 		 * @returns
 		 */
 		async fetchProjectSettings(
-			projectId: string
+			projectId: string | null
 		): Promise<ProjectSettingsLog | null> {
 			this.loading = true
 			this.error = null
+
+			if (!projectId) {
+				return null
+			}
 
 			try {
 				const q = query(
@@ -530,12 +568,34 @@ export const useFirebaseStore = defineStore('firebase', {
 			}
 		},
 
+		async fetchProjectInfo(projectId: string) {
+			const querySnapshot = await getDocs(
+				query(
+					collection(db, 'projectSettings'),
+					where('projectId', '==', projectId)
+				)
+			)
+			if (!querySnapshot.empty) {
+				return querySnapshot.docs[0].data()
+			}
+			return null
+		},
+
 		/**
 		 * Add new projectsettings for id or overwrite existing with the new ones
 		 * @param projectId Id for project
+		 * @param name Name of project
 		 * @param settings settings to update with
 		 */
-		async addProjectSettings(projectId: string, settings: ProjectSettings) {
+		async addOrUpdateProjectSettings({
+			projectId,
+			name,
+			settings
+		}: {
+			projectId: string
+			name?: string | null
+			settings: Partial<ProjectSettings>
+		}) {
 			this.loading = true
 			this.error = null
 			try {
@@ -547,18 +607,28 @@ export const useFirebaseStore = defineStore('firebase', {
 					)
 				)
 
-				const settingsLog: ProjectSettingsLog = {
-					projectId: projectId,
-					settings: settings,
-					date: new Date()
-				}
-
 				// We overwrite it if we found one or add a new
 				if (!querySnapshot.empty) {
-					const docRef = querySnapshot.docs[0].ref
-					await setDoc(docRef, settingsLog)
+					const document = querySnapshot.docs[0]
+					const newData = { ...document.data() }
+					if (name !== undefined) {
+						newData.name = name
+					}
+					if (settings !== undefined) {
+						Object.entries(settings).forEach(([key, value]) => {
+							if (value !== undefined) {
+								newData.settings[key] = value
+							}
+						})
+					}
+					await setDoc(document.ref, newData)
 				} else {
-					await addDoc(collection(db, 'projectSettings'), settingsLog)
+					await addDoc(collection(db, 'projectSettings'), {
+						projectId: projectId,
+						name: name,
+						date: new Date(),
+						settings: settings
+					})
 				}
 			} catch (error: any) {
 				this.error = error.message

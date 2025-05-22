@@ -1,5 +1,8 @@
 <template>
-	<div class="relative flex-1 px-4">
+	<div class="relative flex-1 px-4 mt-4">
+		<SaveFilters :modify="true" />
+		<h3 class="font-semibold mb-2 mt-8">Filter Groups</h3>
+
 		<Draggable
 			v-if="callStack"
 			:list="callStack"
@@ -196,6 +199,7 @@
 	import type { SimpleParameters } from '@/models/geometryModel'
 	import type { dropdownItem } from '@/components/Base/Dropdown.vue'
 	import type { CustomGeo } from '@/models/filterModel'
+	import SaveFilters from '@/components/SlideOver/SaveFilters.vue'
 
 	// Store initialization
 	const projectStore = useProjectStore()
@@ -285,11 +289,6 @@
 
 	// Update store when component unmounts
 	onUnmounted(() => {
-		projectStore.updateRegistryStack(
-			'test',
-			callStack.value,
-			customGeoList.value
-		)
 		updateProjectGroups()
 	})
 </script>

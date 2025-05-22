@@ -14,6 +14,7 @@ export interface FilterLog {
 }
 
 export interface MappingLog {
+	id: string
 	projectId: string
 	name: string
 	mapping: Mapping

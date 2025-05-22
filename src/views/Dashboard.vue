@@ -6,15 +6,15 @@
 
 	<!-- App area -->
 	<div class="flex">
-		<Navbar />
-		<Sidebar />
+		<Navbar v-if="speckleStore.getProjectDetails?.stream" />
+		<Sidebar v-if="speckleStore.selectedProject" />
 		<div
 			class="absolute inset-y-16 w-full h-[calc(100vh-4rem)] overflow-auto"
 			id="renderParent"
+			v-if="speckleStore.selectedProject && speckleStore.selectedVersion"
 		>
 			<Suspense>
 				<SpeckleViewer />
-
 				<template #fallback> Loading... </template>
 			</Suspense>
 		</div>
@@ -60,10 +60,8 @@
 	const projectStore = useProjectStore()
 	const speckleStore = useSpeckleStore()
 
-	// Preload all needed resources
-	preloadDashboardData()
-
 	onMounted(async () => {
+		await preloadDashboardData()
 		// Wait for DOM updates and Suspense to resolve if needed
 		await nextTick()
 		// When all elements have loaded, explicitly set loading to false

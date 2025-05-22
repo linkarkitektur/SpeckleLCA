@@ -1,8 +1,8 @@
 import {
-	type Mapping,
+	APISource,
 	type Assembly,
-	type Product,
-	APISource
+	type Mapping,
+	type Product
 } from '@/models/materialModel'
 import { defineStore } from 'pinia'
 import materialList from '@/tests/objects/materialList.json'
@@ -18,7 +18,10 @@ export const useMaterialStore = defineStore({
 		EPDMode: true,
 		EPDList: [] as Product[],
 		assemblyList: [] as Assembly[],
-		mapping: null as Mapping | null
+		mapping: { name: '', mapping: null } as {
+			name: string
+			mapping: Mapping | null
+		}
 	}),
 	actions: {
 		/**
@@ -126,8 +129,8 @@ export const useMaterialStore = defineStore({
 		/**
 		 * Set Mapping for saving and reloading from firebase
 		 */
-		setMapping(mapping: Mapping) {
-			this.mapping = mapping
+		setMapping(props: { name: string; mapping: Mapping }) {
+			this.mapping = props
 		},
 
 		/**
@@ -136,19 +139,22 @@ export const useMaterialStore = defineStore({
 		 * @param material EPD or Assembly cannot be null
 		 */
 		updateMappingMaterial(nestedGroupId: string, material: Product | Assembly) {
-			if (!this.mapping) {
+			if (!this.mapping?.mapping) {
 				this.mapping = {
-					id: crypto.randomUUID(),
-					name: 'temp',
-					filters: [],
-					steps: []
+					...this.mapping,
+					mapping: {
+						id: crypto.randomUUID(),
+						name: 'temp',
+						filters: [],
+						steps: []
+					}
 				}
 			}
-			const index = this.mapping.steps.findIndex(
+			const index = this.mapping.mapping.steps.findIndex(
 				(step) => step.nestedGroupId === nestedGroupId
 			)
 			if (index !== -1) {
-				this.mapping.steps[index].material = material
+				this.mapping.mapping.steps[index].material = material
 			}
 		},
 
@@ -157,11 +163,11 @@ export const useMaterialStore = defineStore({
 		 * @param nestedGroupId nested Group Id
 		 */
 		removeMappingMaterial(nestedGroupId: string) {
-			const index = this.mapping.steps.findIndex(
+			const index = this.mapping.mapping.steps.findIndex(
 				(mat) => mat.nestedGroupId === nestedGroupId
 			)
 			if (index !== -1) {
-				this.mapping.steps.splice(index, 1)
+				this.mapping.mapping.steps.splice(index, 1)
 			}
 		},
 
@@ -176,7 +182,7 @@ export const useMaterialStore = defineStore({
 			material: Product | Assembly,
 			filterId: string
 		) {
-			this.mapping?.steps.push({
+			this.mapping?.mapping.steps.push({
 				filterId: filterId,
 				nestedGroupId: nestedGroup.id,
 				material

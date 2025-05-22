@@ -24,7 +24,7 @@
 				:key="project.name"
 				class="col-span-1 flex flex-col styled-element hoverable pressable cursor-pointer"
 				:style="{ backgroundColor: projectColors[index] }"
-				@click="startTransition(project, projectColors[index])"
+				@click="onProjectClick(project, projectColors[index])"
 			>
 				<!-- Project Iterator. -->
 				<div class="flex flex-1 flex-col p-8 min-h-40">
@@ -84,7 +84,6 @@
 	import { emissionToNumber, getResultLogEmissions } from '@/utils/resultUtils'
 	import { ColorManager } from '@/utils/colorUtils'
 	import router from '@/router'
-	import { useNavigationStore } from '@/stores/navigationStore'
 	import { roundNumber } from '@/utils/mathUtils'
 	import LoadingCubes from '@/components/LoadingCubes/LoadingCubes.vue'
 
@@ -94,10 +93,6 @@
 	const speckleStore = useSpeckleStore()
 	const firebaseStore = useFirebaseStore()
 	const settingsStore = useSettingsStore()
-	const navStore = useNavigationStore()
-
-	const selectedProjectId = ref('')
-	const selectedProjectName = ref('')
 
 	const loading = ref(false)
 
@@ -201,28 +196,13 @@
 	}
 
 	// Updated transition function
-	const startTransition = async (project: ProjectId, color: string) => {
-		activeColor.value = color
-		selectedProjectId.value = project.id
-		selectedProjectName.value = project.name
-
-		// Start flash sequence
-		backgroundVisible.value = true
-
-		// Load data during the flash
-		navStore.setActiveColor(color)
-
-		// Complete transition and navigate
-		setTimeout(() => {
-			router.push({
-				name: 'Overview',
-				params: {
-					projectId: project.id,
-					id: project.id,
-					color: color
-				}
-			})
-		}, 100)
+	const onProjectClick = async (project: ProjectId, color: string) => {
+		await firebaseStore.addOrUpdateProjectSettings({
+			projectId: project.id,
+			name: project.name,
+			settings: { color }
+		})
+		await router.push({ name: 'Overview', params: { projectId: project.id } })
 	}
 
 	onMounted(() => {
@@ -238,26 +218,3 @@
 		}
 	)
 </script>
-
-<style scoped>
-	.origin-center {
-		transform-origin: center;
-	}
-
-	/* Flash transition */
-	.flash-enter-active {
-		transition: opacity 0.15s step-end;
-	}
-
-	.flash-enter-from {
-		opacity: 0;
-	}
-
-	.flash-leave-active {
-		transition: opacity 0.15s step-start;
-	}
-
-	.flash-leave-to {
-		opacity: 0;
-	}
-</style>

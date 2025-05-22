@@ -116,10 +116,10 @@
 
 	// Initialize and mount the viewer
 	onMounted(async () => {
+		// await loadProject(false)
 		const renderParent = document.getElementById('renderParent') as HTMLElement
 		const container = document.getElementById('renderer') as HTMLElement
 		window.addEventListener('keydown', handleEscKey)
-		// window.addEventListener('keydown', handleSelectAll)
 
 		viewer = new Viewer(container, DefaultViewerParams)
 		await viewer.init()

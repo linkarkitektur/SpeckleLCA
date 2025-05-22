@@ -9,14 +9,22 @@ import { createStandardFilters } from '@/utils/filterUtils'
 
 import { APISource } from '@/models/materialModel'
 import { FilterRegistry } from '@/models/filterModel'
+import { useRoute } from 'vue-router'
+import type { ProjectId } from '@/models/speckleModel'
+import { useFirebaseStore } from '@/stores/firebaseStore'
+import { useSpeckleStore } from '@/stores/speckleStore'
+import { loadProject } from '@/utils/speckleUtils'
 
 /**
  * Preload data needed for the dashboard view
  */
 export async function preloadDashboardData() {
 	const projectStore = useProjectStore()
+	const firebaseStore = useFirebaseStore()
 	const materialStore = useMaterialStore()
+	const speckleStore = useSpeckleStore()
 	const settingsStore = useSettingsStore()
+	const route = useRoute()
 
 	/**
 	 * Set the standard filters for the project, this is mostly for testing
@@ -29,13 +37,24 @@ export async function preloadDashboardData() {
 		createStandardFilters()
 	}
 
+	if (projectStore.currProject == null) {
+		const projectId = route.params.projectId
+		const modelId = route.params.modelId as string
+		const projectData = await firebaseStore.fetchProjectInfo(
+			projectId as string
+		)
+		projectStore.updateProjectInformation(projectData as ProjectId)
+		await speckleStore.updateProjectVersions(projectId as string, 100, null)
+		await loadProject(false, modelId)
+	}
+
 	try {
-		await setStandardFilters()
+		setStandardFilters()
 
 		if (settingsStore.materialSettings.APISource[APISource.LCAbyg])
 			await materialStore.materialsFromJson()
 
-		getAssemblyList()
+		await getAssemblyList()
 
 		if (settingsStore.materialSettings.APISource[APISource.Revalu])
 			await getRevaluCollections()

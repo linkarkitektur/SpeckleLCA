@@ -1,6 +1,7 @@
 <template>
 	<div class="space-y-12">
-		<h2 class="styled-header">Save to firebase</h2>
+		<h2 class="styled-header" v-if="!props.modify">Save Mapping</h2>
+		<h2 class="styled-header" v-if="props.modify">Edit Mapping</h2>
 		<div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 			<div class="sm:col-span-4">
 				<label for="name" class="block styled-text normal-case"> Name </label>
@@ -19,6 +20,7 @@
 
 	<div class="mt-6 flex items-center justify-start gap-x-6">
 		<ActionButton text="Save" @on-click="saveData" />
+		<ActionButton text="Delete" v-if="props.modify" @on-click="deleteData" />
 	</div>
 </template>
 
@@ -28,7 +30,6 @@
 	import { useNavigationStore } from '@/stores/navigationStore'
 	import { useMaterialStore } from '@/stores/materialStore'
 	import { useFirebaseStore } from '@/stores/firebaseStore'
-	import type { Mapping } from '@/models/materialModel'
 	import InputText from '@/components/Base/InputText.vue'
 	import ActionButton from '@/components/Base/ActionButton.vue'
 	import { reduceMapping } from '@/utils/materialUtils'
@@ -38,18 +39,40 @@
 	const materialStore = useMaterialStore()
 	const firebaseStore = useFirebaseStore()
 
+	const props = defineProps({
+		modify: { type: Boolean, default: false }
+	})
+
 	const formData = ref({
-		name: ''
+		name: props.modify ? materialStore.getCurrentMapping().name : ''
 	})
 
 	const saveData = () => {
-		const mapping: Mapping = materialStore.getCurrentMapping()
+		let mapping = materialStore.getCurrentMapping().mapping
+		if (!mapping) {
+			mapping = {
+				name: '',
+				id: crypto.randomUUID(),
+				filters: [],
+				steps: []
+			}
+		}
 		const reducedMapping = reduceMapping(mapping)
 		firebaseStore.addMapping(
 			projectStore.currProject.id,
 			reducedMapping,
 			formData.value.name
 		)
-		navStore.toggleSlideover()
+		navStore.closeSlideover()
+		navStore.refreshDropdown()
+	}
+
+	const deleteData = () => {
+		firebaseStore.deleteMapping(
+			projectStore.currProject.id,
+			materialStore.getCurrentMapping().name
+		)
+		navStore.closeSlideover()
+		navStore.refreshDropdown()
 	}
 </script>

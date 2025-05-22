@@ -103,19 +103,17 @@ export const useProjectStore = defineStore({
 
 		/**
 		 * Updates the current project with a new id and name if we have no project we create a empty one and populate
-		 * @param projectId
+		 * @param project
 		 */
-		updateProjectInformation(projectId: ProjectId) {
+		updateProjectInformation(project: ProjectId) {
 			if (!this.currProject) {
 				this.currProject = {
-					name: projectId.name,
-					id: projectId.id,
-					description: projectId.name,
+					name: project.name,
+					id: project.id,
 					geometry: []
 				}
 			} else {
-				this.currProject.id = projectId.id
-				this.currProject.name = projectId.name
+				this.currProject.id = project.id
 			}
 		},
 

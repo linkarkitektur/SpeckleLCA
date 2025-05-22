@@ -424,7 +424,9 @@ function getEPDServices(): EPDService[] {
 					services.push(new EcoPortalService())
 					break
 				case APISource.Revalu:
-					services.push(new RevaluService())
+					if (settingsStore.keySettings.materialKeys.revalu) {
+						services.push(new RevaluService())
+					}
 					break
 				case APISource.Boverket:
 					services.push(new BoverketService())

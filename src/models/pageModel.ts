@@ -27,11 +27,11 @@ export interface NavigationButtonConfig {
 
 export type SlideoverFunction =
 	| 'Edit Filters'
-	| 'Save Filter'
+	| 'New Filter'
 	| 'Add Group'
 	| 'Show Materials'
 	| 'Edit Mapping'
 	| 'Edit Assemblies'
-	| 'Save Mapping'
+	| 'New Mapping'
 	| 'Save Results'
 	| 'Export Results'

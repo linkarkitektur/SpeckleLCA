@@ -38,19 +38,21 @@
 	import ActionButton from '@/components/Base/ActionButton.vue'
 
 	import { useNavigationStore } from '@/stores/navigationStore'
+	import { useRoute } from 'vue-router'
 
 	import { useFetchDropdownItems } from '@/composables/useFetchDropdownItems'
 	import { useHandleSelected } from '@/composables/useHandleSelected'
 
-	import type { NavigationButtonConfig } from '@/models/pageModel'
+	import type { NavigationButtonConfig, PageType } from '@/models/pageModel'
 
 	// Store initialization
 	const navStore = useNavigationStore()
+	const route = useRoute()
 
 	// Compute visible buttons for current page
 	const visibleButtons = computed(() =>
 		sidebarButtons.filter((button) =>
-			button.showOn.includes(navStore.activePage)
+			button.showOn.includes(route.name as PageType)
 		)
 	)
 
@@ -72,16 +74,17 @@
 
 	// Watch for page changes to update dropdown items
 	watch(
-		() => navStore.activePage,
+		() => route.name,
+		() => {
+			fetchDropdownItems()
+		},
+		{ immediate: true }
+	)
+	watch(
+		() => navStore.shouldDropdownRefresh,
 		() => {
 			fetchDropdownItems()
 		},
 		{ immediate: true }
 	)
 </script>
-
-<style scoped>
-	.ghost {
-		opacity: 0.5;
-	}
-</style>
