@@ -11,42 +11,59 @@ on:
 
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    # Check out the repository
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      # Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    # Set up Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.11
+      # Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.11
 
-    # Install dependencies
-    - name: Install dependencies
-      run: npm i
+      # Install dependencies
+      - name: Install dependencies
+        run: npm i
 
-    # Build the project
-    - name: Build project
-      run: npm run build
-      env:
-        VITE_SPECKLE_SERVER_URL: "https://app.speckle.systems"
-        VITE_SPECKLE_ID: ${{ secrets.SPECKLE_ID }}
-        VITE_SPECKLE_SECRET: ${{ secrets.SPECKLE_SECRET }}
-        VITE_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-        VITE_FIREBASE_AUTH_DOMAIN: "specklca.firebaseapp.com"
-        VITE_FIREBASE_PROJECT_ID: "specklca"
-        VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
-        VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
-        VITE_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-        VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+      # Build the project
+      - name: Build project
+        run: npm run build
+        env:
+          VITE_SPECKLE_SERVER_URL: "https://app.speckle.systems"
+          VITE_SPECKLE_ID: ${{ secrets.SPECKLE_ID }}
+          VITE_SPECKLE_SECRET: ${{ secrets.SPECKLE_SECRET }}
+          VITE_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: "specklca.firebaseapp.com"
+          VITE_FIREBASE_PROJECT_ID: "specklca"
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
 
-      # Deploy to GitHub Pages
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
+      - name: Upload artifact for deployment job
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: ./dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request'
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
