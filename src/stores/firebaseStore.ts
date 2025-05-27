@@ -87,8 +87,6 @@ export const useFirebaseStore = defineStore('firebase', {
 				)
 				const projectSnapshot = await getDocs(projectQuery)
 
-				// TODO - find filter name
-				// Check for existing filter with same name (case-insensitive)
 				const existingDoc = projectSnapshot.docs.find(
 					(doc) => doc.data().stackName.toLowerCase() === nameLower
 				)
