@@ -34,9 +34,9 @@
 							</a>
 						</div>
 					</div>
-					<div class="absolute inset-y-0 right-0 flex items-center pr-2">
+					<div class="absolute inset-y-0 right-0 flex items-center">
 						<!-- Profile picture and dropdown -->
-						<Menu as="div" class="relative mr-10 mt-2 items-center">
+						<Menu as="div" class="relative mt-2 items-center">
 							<div>
 								<MenuButton
 									class="relative flex styled-element hoverable-sm pressable"
