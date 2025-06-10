@@ -6,7 +6,7 @@
 
 	<!-- App area -->
 	<div class="flex">
-		<Navbar v-if="speckleStore.getProjectDetails?.stream" />
+		<Navbar v-if="speckleStore.getProjectDetails?.project" />
 		<Sidebar v-if="speckleStore.selectedProject" />
 		<div
 			class="absolute inset-y-16 w-full h-[calc(100vh-4rem)] overflow-auto"

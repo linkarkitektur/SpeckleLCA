@@ -237,12 +237,13 @@ export const useSpeckleStore = defineStore({
 		): Promise<void> {
 			try {
 				const response = await getProjectVersions(projectId, limit, cursor)
-				const projDet: ProjectDetails = response.data
+				console.log('REp', response)
+				const projDet = response.data
 
 				const selectedProj: ProjectId = {
-					name: projDet.stream.name,
-					id: projDet.stream.id,
-					updatedAt: projDet.stream.updatedAt
+					name: projDet.project.name,
+					id: projDet.project.id,
+					updatedAt: projDet.project.updatedAt
 				}
 
 				let allModels: string[]
@@ -251,22 +252,24 @@ export const useSpeckleStore = defineStore({
 
 				// Get versions for this project, and store them in an array.
 				if (
-					projDet.stream.commits?.items &&
-					projDet.stream.commits?.items.length > 0
+					projDet.project.models?.items &&
+					projDet.project.models?.items.length > 0
 				) {
-					projDet.stream.commits?.items?.forEach((version) => {
-						allVers.push(version)
+					projDet.project.models?.items?.forEach((model) =>
+						model.versions?.items?.forEach((version) => {
+							allVers.push(version)
 
-						const { branchName } = version
-						if (!modelVers[branchName]) {
-							modelVers[branchName] = []
-						}
-						modelVers[branchName].push(version)
-					})
+							const { branchName } = version
+							if (!modelVers[branchName]) {
+								modelVers[branchName] = []
+							}
+							modelVers[branchName].push(version)
+						})
+					)
 
 					// Get the list of all models if available, returning the branch name.
-					allModels = projDet.stream.commits?.items?.map(function (version) {
-						return version?.branchName
+					allModels = projDet.project.models?.items?.map(function (model) {
+						return model?.name
 					})
 				}
 

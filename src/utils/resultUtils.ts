@@ -100,6 +100,7 @@ export function resultItemToChartData(resultItem: ResultItem): ChartData[] {
 
 	if (!resultItem?.data) return []
 	// Go through each selected object and get aggregated labels and emission data
+	console.log('RESULT ITEM', resultItem.data)
 	for (const groupedResult of resultItem.data) {
 		groupedResultToChartData(groupedResult, groupedData)
 	}
@@ -761,18 +762,22 @@ export class ResultCalculator {
 		const settings = settingsStore.projectSettings
 		if (!settings) return
 
-		const energyType = settings.energyType
-		const consumption = settings.electricityConsumption
-
-		// Skip calculation if either value is null/undefined
-		if (!energyType || consumption === null || consumption === undefined) return
-
-		const emissionFactor = this.interpolateEmissionFactor(energyType)
-		if (emissionFactor === null || emissionFactor === undefined) return
-
 		const area = settings.area || 0
-		const totalEmissions =
-			consumption * emissionFactor * area * settings.lifespan // kWh/m²/year * kg CO2/kWh * m² * lifespan = kg CO2/year
+		let totalEmissions = 0
+
+		for (const energy of ['heating', 'electricity']) {
+			const energyType = settings[energy].energyType
+			const consumption = settings[energy].value
+
+			// Skip calculation if either value is null/undefined
+			if (!energyType || consumption === null || consumption === undefined)
+				return
+
+			const emissionFactor = this.interpolateEmissionFactor(energyType)
+			if (emissionFactor === null || emissionFactor === undefined) return
+			// kWh/m²/year * kg CO2/kWh * m² * lifespan = kg CO2/year
+			totalEmissions += consumption * emissionFactor * area * settings.lifespan
+		}
 
 		const impactCategory =
 			settingsStore.calculationSettings.standardImpactCategory

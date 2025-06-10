@@ -75,14 +75,14 @@
 
 									<!-- Settings -->
 									<MenuItem v-slot="{ active }">
-										<a
-											href="#"
+										<span
+											class="hover:cursor-pointer"
 											:class="[
 												active ? 'bg-gray-100' : '',
 												'block px-4 py-2 text-sm text-gray-700'
 											]"
 											@click="toggleSettingsModal"
-											>Settings</a
+											>Settings</span
 										>
 									</MenuItem>
 
@@ -141,7 +141,7 @@
 
 	const modelId =
 		route.params.modelId ||
-		speckleStore.getProjectDetails?.stream.commits.items[0].id
+		speckleStore.getProjectDetails?.project?.models?.items?.[0]?.id
 
 	const steps: Step[] = [
 		{ name: 'Projects', href: '/projects' },

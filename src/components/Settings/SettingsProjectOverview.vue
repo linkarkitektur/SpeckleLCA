@@ -52,19 +52,55 @@
 			<div class="space-y-2">
 				<InputText
 					id="Electricity"
-					v-model="settingsStore.projectSettings.electricityConsumption"
+					v-model="settingsStore.projectSettings.electricity.value"
 					placeholder="kWh/m²/year"
 					type="number"
 				/>
-				<Dropdown
-					:items="energyTypeOptions"
-					@selectedItem="handleEnergyTypeChange"
-					name="Energy Type"
-					dropdownName="Select energy type"
-					class="w-full"
+			</div>
+		</dd>
+	</div>
+	<div class="flex my-3">
+		<Dropdown
+			:items="energyTypeOptions.filter((elem) => elem.name === 'Electricity')"
+			@selectedItem="(e) => handleEnergyTypeChange(e, 'electricity')"
+			name="Energy Type"
+			:defaultItem="
+				energyTypeOptions.find(
+					({ data }) =>
+						data === settingsStore.projectSettings.electricity.energyType
+				)?.name
+			"
+			dropdownName="Select energy type"
+			class="w-full"
+		/>
+	</div>
+	<div class="flex items-center my-3">
+		<dt class="styled-header w-32">Heating</dt>
+		<dd class="ml-4 flex-1">
+			<div class="space-y-2">
+				<InputText
+					id="Heating"
+					v-model="settingsStore.projectSettings.heating.value"
+					placeholder="kWh/m²/year"
+					type="number"
 				/>
 			</div>
 		</dd>
+	</div>
+	<div class="flex my-3">
+		<Dropdown
+			:items="energyTypeOptions"
+			@selectedItem="(e) => handleEnergyTypeChange(e, 'heating')"
+			name="Heating Type"
+			:defaultItem="
+				energyTypeOptions.find(
+					({ data }) =>
+						data === settingsStore.projectSettings.heating.energyType
+				)?.name
+			"
+			dropdownName="Select heating type"
+			class="w-full"
+		/>
 	</div>
 	<div class="flex items-center my-3">
 		<dt class="styled-header w-32">Emissions/Year</dt>
@@ -82,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed, onMounted, ref } from 'vue'
+	import { computed, onMounted, ref, watch } from 'vue'
 
 	import Dropdown from '@/components/Base/Dropdown.vue'
 	import ActionButton from '@/components/Base/ActionButton.vue'
@@ -95,11 +131,14 @@
 
 	import { loadProject } from '@/utils/speckleUtils'
 	import router from '@/router'
+	import { useRoute } from 'vue-router'
 
 	import type { dropdownItem } from '@/components/Base/DropdownMenuItem.vue'
 	import { useFirebaseStore } from '@/stores/firebaseStore'
 	import CheckBox from '@/components/Base/CheckBox.vue'
 	import { EnergyType } from '@/models/materialModel'
+	import { ResultCalculator } from '@/utils/resultUtils'
+	import { storeToRefs } from 'pinia'
 
 	const settingsStore = useSettingsStore()
 	const speckleStore = useSpeckleStore()
@@ -112,10 +151,11 @@
 
 	onMounted(async () => {
 		const projectSettingsLog = await firebaseStore.fetchProjectSettings(
-			projectStore.currProject?.id
+			route.params.projectId as string
 		)
-		if (projectSettingsLog)
+		if (projectSettingsLog) {
 			settingsStore.updateProjectSettings(projectSettingsLog.settings)
+		}
 	})
 
 	/**
@@ -136,7 +176,7 @@
 		})
 		return versions
 	})
-
+	const route = useRoute()
 	/**
 	 * Sets the selected version from dropdown selected
 	 * @param selectedItem
@@ -157,7 +197,7 @@
 	const selectProject = () => {
 		// Save the projectSettings
 		firebaseStore.addOrUpdateProjectSettings({
-			projectId: projectStore.currProject.id,
+			projectId: route.params.projectId as string,
 			settings: settingsStore.projectSettings
 		})
 
@@ -167,7 +207,8 @@
 		} else {
 			navStore.setActivePage('Filtering')
 			router.push({
-				name: 'Dashboard'
+				name: 'Filtering',
+				params: { projectId: route.params.projectId, modelId: '' }
 			})
 		}
 	}
@@ -182,7 +223,56 @@
 		}))
 	})
 
-	const handleEnergyTypeChange = (selectedItem: dropdownItem) => {
-		settingsStore.projectSettings.energyType = selectedItem.data as EnergyType
+	const handleEnergyTypeChange = (
+		selectedItem: dropdownItem,
+		type: 'heating' | 'electricity' = 'electricity'
+	) => {
+		settingsStore.projectSettings[type].energyType =
+			selectedItem.data as EnergyType
 	}
+
+	const { projectSettings } = storeToRefs(settingsStore)
+	watch(
+		() => projectSettings,
+		async () => {
+			const resCalc = new ResultCalculator()
+			resCalc.aggregate(false, true)
+			const results = await firebaseStore.fetchResults(
+				projectStore.currProject?.id
+			)
+			if (results.length > 0) {
+				const result = results[0]
+				const b6Data = resCalc.resultList
+					.find(({ parameter }) => parameter === 'lifeCycleStages')
+					?.data.find(({ parameter }) => parameter === 'b6')
+				result.resultList = result.resultList.map((res) =>
+					res.parameter !== 'lifeCycleStages'
+						? res
+						: {
+								...res,
+								data: [
+									...res.data.map((_data) =>
+										_data.parameter !== 'b6' ? _data : b6Data
+									)
+								]
+						  }
+				)
+				await firebaseStore.addResultList(
+					route.params.projectId as string,
+					result.resultList,
+					result.name
+				)
+			} else {
+				await firebaseStore.addResultList(
+					route.params.projectId as string,
+					resCalc.resultList,
+					'overview'
+				)
+			}
+			window.location.reload()
+		},
+		{
+			deep: true
+		}
+	)
 </script>

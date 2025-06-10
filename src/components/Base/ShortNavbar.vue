@@ -16,7 +16,7 @@
 			/>
 		</div>
 		<!-- Profile picture and dropdown -->
-		<Menu as="div" class="relative mr-10 mt-2 items-center">
+		<Menu as="div" class="relative mt-2 items-center">
 			<div>
 				<MenuButton class="relative flex styled-element hoverable-sm pressable">
 					<span class="absolute -inset-1.5" />

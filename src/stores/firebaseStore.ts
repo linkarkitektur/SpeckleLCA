@@ -374,6 +374,7 @@ export const useFirebaseStore = defineStore('firebase', {
 					await addDoc(collection(db, 'resultLists'), resultsLog)
 				}
 			} catch (error: any) {
+				console.error(error)
 				this.error = error.message
 			} finally {
 				this.loading = false

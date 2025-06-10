@@ -8,9 +8,9 @@
 				class="inline-flex w-full justify-between px-6 py-1 text-sm truncate max-w-80 styled-element hoverable-sm"
 				:style="{ backgroundColor: navStore.activeColor }"
 			>
-				<div class="flex items-center space-x-2 truncate">
+				<span class="flex items-center space-x-2 truncate">
 					{{ selectedItem }}
-				</div>
+				</span>
 				<ChevronDownIcon class="-mr-1 h-5 w-5 text-black" aria-hidden="true" />
 			</button>
 		</div>
@@ -59,6 +59,7 @@
 	interface Props {
 		items: dropdownItem[]
 		dropdownName?: string
+		defaultItem?: string
 	}
 
 	const navStore = useNavigationStore()
@@ -71,7 +72,7 @@
 		(e: 'selectedItem', item: dropdownItem): void
 	}>()
 
-	const selectedItem = ref(props.dropdownName)
+	const selectedItem = ref(props.defaultItem || props.dropdownName)
 	const isOpen = ref(false)
 	const dropdownButton = ref<HTMLElement | null>(null)
 	const dropdownContent = ref<HTMLElement | null>(null)
