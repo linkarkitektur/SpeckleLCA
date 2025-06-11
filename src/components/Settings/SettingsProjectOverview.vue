@@ -126,7 +126,6 @@
 
 	import { useSettingsStore } from '@/stores/settingStore'
 	import { useSpeckleStore } from '@/stores/speckleStore'
-	import { useNavigationStore } from '@/stores/navigationStore'
 	import { useProjectStore } from '@/stores/projectStore'
 
 	import { loadProject } from '@/utils/speckleUtils'
@@ -142,7 +141,6 @@
 
 	const settingsStore = useSettingsStore()
 	const speckleStore = useSpeckleStore()
-	const navStore = useNavigationStore()
 	const firebaseStore = useFirebaseStore()
 	const projectStore = useProjectStore()
 
@@ -185,7 +183,6 @@
 		const version = speckleStore.getAllVersions?.find(
 			(obj) => obj.id === selectedItem.data
 		)
-
 		// Set that we changed to another version manually so we have to load it
 		changedVersion.value = true
 		if (version) speckleStore.setSelectedVersion(version)
@@ -203,14 +200,11 @@
 
 		// If version changed we load it otherwise just route it
 		if (changedVersion.value) {
-			loadProject(true)
-		} else {
-			navStore.setActivePage('Filtering')
-			router.push({
-				name: 'Filtering',
-				params: { projectId: route.params.projectId, modelId: '' }
-			})
+			loadProject(false)
 		}
+		router.push(
+			`/projects/${route.params.projectId}/models/${speckleStore.selectedVersion.id}/filtering`
+		)
 	}
 
 	const energyTypeOptions = computed(() => {

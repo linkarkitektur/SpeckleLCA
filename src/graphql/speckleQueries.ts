@@ -32,6 +32,7 @@ export const projectVersionsQuery = `
 				name
 				versions {
 					items {
+						id
 						message
 						sourceApplication
 						referencedObject
