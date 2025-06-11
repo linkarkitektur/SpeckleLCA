@@ -62,7 +62,13 @@ export interface ProjectSettings {
 	threshold: number
 	lifespan: number
 	emissionPerYear: boolean
-	electricityConsumption: number | null // kWh/m²/year
+	electricity: EnergyConsumption
+	heating: EnergyConsumption
+}
+
+interface EnergyConsumption {
+	value: number | undefined
+	unit: string // kWh/m²/year
 	energyType: EnergyType | null
 }
 
@@ -122,8 +128,16 @@ export const standardProjectSettings: ProjectSettings = {
 	threshold: 300,
 	lifespan: 50,
 	emissionPerYear: false,
-	electricityConsumption: null,
-	energyType: null
+	electricity: {
+		value: undefined,
+		unit: 'kWh/m²/year',
+		energyType: null
+	},
+	heating: {
+		value: undefined,
+		unit: 'kWh/m²/year',
+		energyType: null
+	}
 }
 
 /**
@@ -153,8 +167,8 @@ export const standardKeySettings: KeySettings = {
 	},
 	speckleConfig: {
 		serverUrl: import.meta.env.VITE_SPECKLE_SERVER_URL as string,
-		id: import.meta.env.VITE_SPECKLE_ID, //"25477842e5",
-		secret: import.meta.env.VITE_SPECKLE_SECRET //"c5a683ccc4"
+		id: import.meta.env.VITE_SPECKLE_ID,
+		secret: import.meta.env.VITE_SPECKLE_SECRET
 	}
 }
 

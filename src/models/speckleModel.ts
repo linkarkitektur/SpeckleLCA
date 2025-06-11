@@ -15,15 +15,30 @@ export interface Version {
  * Represents the details of a Speckle project.
  */
 export interface ProjectDetails {
-	stream: {
-		commits: {
-			items: Version[] // An array of versions of the project.
-			cursor: Date // The date and time of the last version in the array.
-			totalCount: number // The total number of versions in the project.
+	project: {
+		name: string
+		updatedAt: Date
+		id: string
+		models: {
+			totalCount: number
+			items: {
+				id: string
+				name: string
+				versions: {
+					items: {
+						id: string
+						message: string
+						sourceApplication: string
+						referencedObject: string
+						createdAt: Date
+						authorUser: {
+							id: string
+							name: string
+						}
+					}[]
+				}
+			}[]
 		}
-		id: string // The unique identifier of the project.
-		name: string // The name of the project.
-		updatedAt: Date // The date and time when the project was last updated.
 	}
 }
 
@@ -84,7 +99,7 @@ export interface ObjectParameter {
  */
 export interface ResponseObjectStream {
 	data: {
-		stream: {
+		project: {
 			object: {
 				totalChildrenCount: number
 				elements: {

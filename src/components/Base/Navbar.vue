@@ -34,9 +34,9 @@
 							</a>
 						</div>
 					</div>
-					<div class="absolute inset-y-0 right-0 flex items-center pr-2">
+					<div class="absolute inset-y-0 right-0 flex items-center">
 						<!-- Profile picture and dropdown -->
-						<Menu as="div" class="relative mr-10 mt-2 items-center">
+						<Menu as="div" class="relative mt-2 items-center">
 							<div>
 								<MenuButton
 									class="relative flex styled-element hoverable-sm pressable"
@@ -75,14 +75,14 @@
 
 									<!-- Settings -->
 									<MenuItem v-slot="{ active }">
-										<a
-											href="#"
+										<span
+											class="hover:cursor-pointer"
 											:class="[
 												active ? 'bg-gray-100' : '',
 												'block px-4 py-2 text-sm text-gray-700'
 											]"
 											@click="toggleSettingsModal"
-											>Settings</a
+											>Settings</span
 										>
 									</MenuItem>
 
@@ -141,7 +141,7 @@
 
 	const modelId =
 		route.params.modelId ||
-		speckleStore.getProjectDetails?.stream.commits.items[0].id
+		speckleStore.getProjectDetails?.project?.models?.items?.[0]?.id
 
 	const steps: Step[] = [
 		{ name: 'Projects', href: '/projects' },

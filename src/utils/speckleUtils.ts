@@ -18,16 +18,11 @@ import type { QuantityConversionSpec } from '@/models/materialModel'
 
 import {
 	latestProjectsQuery,
+	projectVersionsQuery,
 	selectedObjectsQuery
 } from '@/graphql/speckleQueries'
 import { speckleSelection } from '@/graphql/speckleVariables'
-import {
-	projectVersionsQuery,
-	streamObjectQuery,
-	streamSearchQuery,
-	userInfoQuery,
-	modelIdQuery
-} from '@/graphql/speckleQueries'
+import { userInfoQuery } from '@/graphql/speckleQueries'
 
 import { useSpeckleStore } from '@/stores/speckleStore'
 import { useSettingsStore } from '@/stores/settingStore'
@@ -44,8 +39,6 @@ export const APP_NAME = 'SpeckLCA'
 export const TOKEN = `${APP_NAME}.AuthToken`
 export const REFRESH_TOKEN = `${APP_NAME}.RefreshToken`
 export const CHALLENGE = `${APP_NAME}.Challenge`
-
-// TODO Update all these to Project, Model and Version terminology.
 
 /**
  * Redirects the user to the Speckle authentication page.
@@ -173,12 +166,6 @@ export async function speckleFetch(
 // Fetch the current user data using the userInfoQuery
 export const getUserData = () => speckleFetch(userInfoQuery)
 
-// Fetch for streams matching the specified text using the streamSearchQuery
-export function searchStreams(variables: string) {
-	const vars = { var: variables }
-	speckleFetch(streamSearchQuery, vars)
-}
-
 // Get versions related to a specific project, allows for pagination by passing a cursor
 export function getProjectVersions(
 	projectId: string,
@@ -186,25 +173,15 @@ export function getProjectVersions(
 	cursor: Date | null
 ) {
 	return speckleFetch(projectVersionsQuery, {
-		id: projectId,
+		projectId,
 		cursor,
 		limit: itemsPerPage
 	})
 }
 
-// Get a specific object from a specific stream
-export function getObject(streamId: string, objectId: string) {
-	return speckleFetch(streamObjectQuery, { streamId, objectId })
-}
-
 // Get the latest projects
 export function getProjectsData() {
 	return speckleFetch(latestProjectsQuery)
-}
-
-// Get the latest model for a specific project
-export function getLatestModel(projectId: string) {
-	return speckleFetch(modelIdQuery, { projectId })
 }
 
 /**
@@ -221,7 +198,7 @@ export async function getObjectParameters(
 ) {
 	const selection = speckleSelection(sourceApplication)
 	return await speckleFetch(selectedObjectsQuery, {
-		streamId: streamId,
+		projectId: streamId,
 		objectId: objectId,
 		selection: selection
 	})
@@ -239,13 +216,13 @@ export async function loadProject(
 	const navStore = useNavigationStore()
 	const projectStore = useProjectStore()
 
-	let version: Version
+	let version
 	if (reRoute) navStore.toggleLoading()
 
 	if (speckleStore.getProjectDetails) {
 		// Try to find the project version in the store.
 		const versionFound =
-			speckleStore.getProjectDetails.stream.commits.items.find(
+			speckleStore.getProjectDetails.project.models.items[0]?.versions.items.find(
 				(obj) => obj.id === (speckleStore.getSelectedVersion?.id || modelId)
 			)
 		// If the version was found, set the version and update the store.
@@ -254,8 +231,9 @@ export async function loadProject(
 			speckleStore.setSelectedVersion(version)
 		} else {
 			const latestVersion =
-				speckleStore.getProjectDetails.stream.commits.items[0]
-			speckleStore.setSelectedVersion(latestVersion)
+				speckleStore.getProjectDetails.project.models.items[0]?.versions
+					.items[0]
+			speckleStore.setSelectedVersion(latestVersion as unknown as Version)
 		}
 	} else {
 		console.error('Project store object is undefined.')
@@ -275,7 +253,7 @@ export async function loadProject(
 	// Switch to dashboard view
 	if (reRoute) {
 		navStore.setActivePage('Filtering')
-		router.push('/dashboard')
+		await router.push('/dashboard')
 	}
 }
 
@@ -389,7 +367,7 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 	const sourceApplication = speckleStore.selectedVersion.sourceApplication
 
 	// Extract and filter objects from the input stream
-	const objects: ResponseObject[] = input.data.stream.object.elements.objects
+	const objects: ResponseObject[] = input.data.project.object.elements.objects
 	const { materialObjects, modelObjects } = filterObjects(
 		objects,
 		sourceApplication
@@ -415,8 +393,8 @@ export function convertObjects(input: ResponseObjectStream): Project | null {
 
 	// Create and return the final project
 	return {
-		name: projectDetails.stream.name,
-		id: projectDetails.stream.id,
+		name: projectDetails.project.name,
+		id: projectDetails.project.id,
 		geometry: geoObjects
 	}
 }

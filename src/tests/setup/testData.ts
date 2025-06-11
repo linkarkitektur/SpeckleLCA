@@ -232,7 +232,7 @@ export const mockSpeckleObjects: ResponseObject[] = [
 
 export const mockSpeckleStream: ResponseObjectStream = {
 	data: {
-		stream: {
+		project: {
 			object: {
 				totalChildrenCount: mockSpeckleObjects.length,
 				elements: {
@@ -254,15 +254,29 @@ export const mockVersion: Version = {
 }
 
 export const mockProjectDetails: ProjectDetails = {
-	stream: {
-		commits: {
-			items: [mockVersion],
-			cursor: new Date(),
-			totalCount: 1
-		},
-		id: 'stream-1',
+	project: {
+		id: 'project-1',
 		name: 'Test Project',
-		updatedAt: new Date()
+		updatedAt: new Date(),
+		models: {
+			totalCount: 1,
+			items: [
+				{
+					id: 'model-1',
+					name: 'Test Model',
+					versions: {
+						items: [
+							{
+								message: 'Test Version',
+								referencedObject: 'object-1',
+								sourceApplication: 'Revit'
+							}
+						]
+					}
+				}
+			],
+			cursor: new Date()
+		}
 	}
 }
 

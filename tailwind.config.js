@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  relateive: false,
   content: [
     './index.html',
     './public/**/*.html',
@@ -45,7 +44,7 @@ module.exports = {
   corePlugins: {
     aspectRatio: false,
   },
-  blocklist: [], // ['container', 'collapse']
+  blocklist: [], // ['container', 'collapse'],
   plugins: [
     require('@tailwindcss/forms'),
     require('tailwindcss-bg-patterns'),

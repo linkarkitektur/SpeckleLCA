@@ -1,4 +1,5 @@
 <template>
+	<SettingsModal />
 	<!-- Dot pattern overlay -->
 	<div
 		class="fixed inset-0 w-full h-full pattern-dots pattern-black pattern-bg-transparent pattern-size-4"
@@ -13,12 +14,12 @@
 			'opacity-100 transition-opacity duration-50': contentVisible
 		}"
 	>
-		<Navbar v-if="speckleStore.getProjectDetails?.stream" />
+		<Navbar v-if="speckleStore.getProjectDetails?.project" />
 		<div
-			class="grid grid-cols-5 grid-rows-4 gap-10 h-[calc(100vh-5rem)] overflow-hidden p-4"
+			class="grid grid-cols-12 grid-rows-4 2xl:grid-rows-4 gap-10 2xl:h-[calc(100vh-5rem)] 2xl:overflow-hidden p-4"
 		>
 			<div
-				class="col-span-4 row-span-1 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling"
+				class="col-span-9 2xl:col-span-10 row-span-1 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling"
 			>
 				<h2 class="styled-header pb-2">Project Overview</h2>
 				<div class="flex-1 min-h-[120px]">
@@ -27,7 +28,7 @@
 			</div>
 
 			<div
-				class="col-span-2 row-span-2 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling"
+				class="col-span-9 2xl:col-span-5 row-span-1 2xl:row-span-2 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling"
 			>
 				<h2 class="styled-header pb-2">Emissions by material category</h2>
 				<div class="flex-1 aspect-square">
@@ -39,7 +40,7 @@
 			</div>
 
 			<div
-				class="col-span-2 row-span-2 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling"
+				class="col-span-9 2xl:col-span-5 row-span-1 2xl:row-span-2 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling"
 			>
 				<h2 class="styled-header pb-2">Emissions by phase</h2>
 				<div class="flex-1 aspect-square">
@@ -48,7 +49,7 @@
 			</div>
 
 			<div
-				class="col-span-4 row-span-1 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling"
+				class="col-span-9 2xl:col-span-10 row-span-1 p-4 flex flex-col bg-neutral-100 styled-element hoverable-styling"
 			>
 				<h2 class="styled-header pb-2">Emissions by material</h2>
 				<div class="flex-1">
@@ -60,7 +61,7 @@
 			</div>
 
 			<div
-				class="col-span-1 col-start-5 row-start-1 row-end-5 p-6 flex flex-col bg-neutral-100 styled-element hoverable-styling"
+				class="col-span-3 col-start-10 2xl:col-span-2 2xl:col-start-11 row-start-1 row-span-full p-6 flex flex-col bg-neutral-100 styled-element hoverable-styling"
 			>
 				<SettingsProjectOverview />
 			</div>
@@ -89,6 +90,7 @@
 	import { useSpeckleStore } from '@/stores/speckleStore'
 	import { useRoute } from 'vue-router'
 	import type { ProjectId } from '@/models/speckleModel'
+	import SettingsModal from '@/components/Modals/SettingsModal.vue'
 
 	// stores
 	const speckleStore = useSpeckleStore()
@@ -134,7 +136,7 @@
 	// If we do it per year then we divide with lifespan
 	const emissionSqmName = computed(() => {
 		if (resultLog.value) {
-			return resultLogToAdjustedEmission(resultLog.value, nameParameter.value)
+			return resultLogToAdjustedEmission(resultLog.value, cycleParameter.value)
 		} else {
 			return 0
 		}
@@ -188,6 +190,6 @@
 		resultLog.value = results[0]
 
 		// Lazyload the latest version in the background
-		loadProject(false)
+		await loadProject(false)
 	})
 </script>
