@@ -237,7 +237,6 @@ export const useSpeckleStore = defineStore({
 		): Promise<void> {
 			try {
 				const response = await getProjectVersions(projectId, limit, cursor)
-				console.log('REp', response)
 				const projDet = response.data
 
 				const selectedProj: ProjectId = {

@@ -100,7 +100,6 @@ export function resultItemToChartData(resultItem: ResultItem): ChartData[] {
 
 	if (!resultItem?.data) return []
 	// Go through each selected object and get aggregated labels and emission data
-	console.log('RESULT ITEM', resultItem.data)
 	for (const groupedResult of resultItem.data) {
 		groupedResultToChartData(groupedResult, groupedData)
 	}
