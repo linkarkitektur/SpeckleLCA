@@ -68,6 +68,25 @@ export const latestProjectsQuery = `query getProjects {
       }
       totalCount
     }
+    workspaces {
+    	items {
+    		id
+				projects {
+					items {
+						id
+						name
+						description
+						updatedAt
+						models(limit: 1) {
+							items {
+								id
+							}        	
+						}
+					}
+					totalCount
+				}
+			}
+    }
   }
 }`
 

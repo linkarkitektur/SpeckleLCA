@@ -147,7 +147,11 @@
 			`${serverUrl}/streams/${speckleStore.selectedProject.id}/objects/${speckleStore.selectedVersion.referencedObject}`
 		)
 		for (const url of urls) {
-			const loader = new SpeckleLoader(viewer.getWorldTree(), url, '')
+			const loader = new SpeckleLoader(
+				viewer.getWorldTree(),
+				url,
+				speckleStore.token
+			)
 			await viewer.loadObject(loader, true)
 		}
 

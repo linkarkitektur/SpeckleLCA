@@ -27,7 +27,8 @@ import {
 	getProjectsData,
 	getUserData,
 	navigateToAuthPage,
-	speckleLogOut
+	speckleLogOut,
+	TOKEN
 } from '@/utils/speckleUtils'
 import { FilteringExtension, Viewer } from '@speckle/viewer'
 import { defineStore } from 'pinia'
@@ -121,11 +122,6 @@ export const useSpeckleStore = defineStore({
 			colorGroups: [] as ColorGroup[],
 
 			/**
-			 * Token for the current user
-			 */
-			token: null as string | null,
-
-			/**
 			 * Server URL for the current user
 			 */
 			serverUrl: null as string | null,
@@ -206,10 +202,9 @@ export const useSpeckleStore = defineStore({
 		 */
 		async updateProjects(): Promise<void> {
 			try {
-				const json = await getProjectsData()
-				const projectData = json.data
+				const projects = await getProjectsData()
 
-				this.allProjects = projectData.activeUser.projects.items.map(
+				this.allProjects = projects.map(
 					(project) =>
 						({
 							name: project.name,
@@ -409,14 +404,6 @@ export const useSpeckleStore = defineStore({
 					?.getExtension(FilteringExtension)
 					.setUserObjectColors(colorGroups)
 			}
-		},
-
-		/**
-		 * Set token for the current user
-		 * @param token
-		 */
-		setToken(token: string) {
-			this.token = token
 		},
 
 		/**
@@ -630,6 +617,8 @@ export const useSpeckleStore = defineStore({
 		 * Returns the currently selected color groups
 		 * @returns {ColorGroup[]}
 		 */
-		getColorGroups: (state): ColorGroup[] => state.colorGroups
+		getColorGroups: (state): ColorGroup[] => state.colorGroups,
+
+		token: () => localStorage.getItem(TOKEN)
 	}
 })
