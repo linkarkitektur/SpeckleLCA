@@ -54,20 +54,6 @@ export const projectVersionsQuery = `
 export const latestProjectsQuery = `query getProjects {
   activeUser {
     id
-    projects {
-      items {
-        id
-        name
-        description
-        updatedAt
-        models(limit: 1) {
-        	items {
-        		id
-        	}        	
-        }
-      }
-      totalCount
-    }
     workspaces {
     	items {
     		id
