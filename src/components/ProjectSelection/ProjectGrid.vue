@@ -11,7 +11,12 @@
 		></div>
 
 		<LoadingCubes v-if="loading" />
-
+		<input
+			type="text"
+			placeholder="Search Projects"
+			class="styled-element mb-4 relative"
+			v-model="searchQuery"
+		/>
 		<!-- Main content -->
 		<ul
 			v-if="!loading"
@@ -27,17 +32,15 @@
 				@click="onProjectClick(project, projectColors[index])"
 			>
 				<!-- Project Iterator. -->
-				<div class="flex flex-1 flex-col p-8 min-h-40">
-					<button>
-						<dd class="">{{ project.name }}</dd>
-						<dd class="mt-3">
-							<span
-								class="p-1 inline-flex items-center styled-element hoverable-sm bg-white styled-data text-sm"
-							>
-								{{ formatDate(project.updatedAt) }}
-							</span>
-						</dd>
-					</button>
+				<div class="flex flex-1 flex-col p-8 min-h-40 items-center">
+					<div class="">{{ project.name }}</div>
+					<div class="mt-3">
+						<span
+							class="p-1 inline-flex items-center styled-element hoverable-sm bg-white styled-data text-sm"
+						>
+							{{ formatDate(project.updatedAt) }}
+						</span>
+					</div>
 				</div>
 
 				<!-- Stats. -->
@@ -102,6 +105,7 @@
 	const backgroundVisible = ref(false)
 
 	const projectsData = ref([])
+	const searchQuery = ref('')
 
 	// Add new loading state tracking
 	const loadingResults = ref(new Set())
@@ -178,7 +182,15 @@
 		})
 	}
 
-	const projects = computed(() => projectsData.value)
+	const projects = computed(() =>
+		projectsData.value
+			.filter((project) =>
+				project.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+			)
+			.toSorted((a, b) => {
+				return new Date(a).getTime() - new Date(b).getTime()
+			})
+	)
 
 	const projectColors = computed(() => {
 		const clrManager = new ColorManager()
