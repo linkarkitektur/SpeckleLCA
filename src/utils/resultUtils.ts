@@ -10,7 +10,8 @@ import type { GroupedResults } from '@/models/resultModel'
 import type { ChartData, NestedChartData } from '@/models/chartModel'
 import type { GeometryObject, Quantity } from '@/models/geometryModel'
 import {
-	DanishEmissionFactors,
+	DanishEmissionFactors2020,
+	DanishEmissionFactors2025,
 	type Emission,
 	type EnergyType,
 	type LifeCycleStageEmission,
@@ -726,7 +727,12 @@ export class ResultCalculator {
 	 */
 	private interpolateEmissionFactor(energyType: EnergyType): number {
 		const currentYear = new Date().getFullYear()
-		const factors = DanishEmissionFactors
+		const settingsStore = useSettingsStore()
+		const emissionFactors = settingsStore.calculationSettings.emissionFactors
+		const factors =
+			emissionFactors === 'DanishEmissionFactors2025'
+				? DanishEmissionFactors2025
+				: DanishEmissionFactors2020
 
 		// Find the two closest years
 		let lowerBound = factors[0]
