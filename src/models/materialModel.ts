@@ -28,7 +28,7 @@ export interface EmissionFactorRecord {
 	}
 }
 
-export const DanishEmissionFactors: EmissionFactorRecord[] = [
+export const DanishEmissionFactors2020: EmissionFactorRecord[] = [
 	{
 		year: 2023,
 		factors: {
@@ -67,6 +67,49 @@ export const DanishEmissionFactors: EmissionFactorRecord[] = [
 			[EnergyType.Electricity]: 0.0403,
 			[EnergyType.DistrictHeating]: 0.068,
 			[EnergyType.GasPipeline]: 0.105
+		}
+	}
+]
+
+export const DanishEmissionFactors2025: EmissionFactorRecord[] = [
+	{
+		year: 2025,
+		factors: {
+			[EnergyType.Electricity]: 0.0801,
+			[EnergyType.DistrictHeating]: 0.0418,
+			[EnergyType.GasPipeline]: 0.151
+		}
+	},
+	{
+		year: 2030,
+		factors: {
+			[EnergyType.Electricity]: 0.0325,
+			[EnergyType.DistrictHeating]: 0.0181,
+			[EnergyType.GasPipeline]: 0.0557
+		}
+	},
+	{
+		year: 2035,
+		factors: {
+			[EnergyType.Electricity]: 0.0291,
+			[EnergyType.DistrictHeating]: 0.014,
+			[EnergyType.GasPipeline]: 0.0554
+		}
+	},
+	{
+		year: 2040,
+		factors: {
+			[EnergyType.Electricity]: 0.0285,
+			[EnergyType.DistrictHeating]: 0.0134,
+			[EnergyType.GasPipeline]: 0.554
+		}
+	},
+	{
+		year: 2050,
+		factors: {
+			[EnergyType.Electricity]: 0.0248,
+			[EnergyType.DistrictHeating]: 0.0132,
+			[EnergyType.GasPipeline]: 0.0551
 		}
 	}
 ]

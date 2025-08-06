@@ -53,6 +53,16 @@
 				</dd>
 			</div>
 		</dl>
+		<p class="mt-4 styled-text">Select Emission Factors</p>
+		<dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+			<Dropdown
+				:items="emissionFactors"
+				name="emissionFactors"
+				:selectedItem="selectedEmissionFactor"
+				dropdownName="emissionFactors"
+				@selectedItem="handleEmissionChange"
+			/>
+		</dd>
 	</div>
 </template>
 
@@ -96,11 +106,21 @@
 	const savedSettings: dropdownItem[] = []
 	let projectId = projectStore.currProject?.id || 'generic'
 
+	const emissionFactors = ref([
+		{ name: 'Table 8.1 - v2025', value: 'DanishEmissionFactors2025' },
+		{ name: 'Table 8.1 - v2020', value: 'DanishEmissionFactors2020' }
+	])
+	const selectedEmissionFactor = ref({
+		name: 'Table 8.1 - v2025',
+		value: 'DanishEmissionFactors2025'
+	})
+
 	const currentSetting = reactive<CalculationSettingsLog>({
 		name: 'Pick your settings',
 		projectId: projectId,
 		date: new Date(),
 		settings: {
+			emissionFactors: 'DanishEmissionFactors2025',
 			standardImpactCategory: impactCategory.value,
 			includedStages: includedStages.value,
 			buildingCode: buildingCode.value,
@@ -108,9 +128,16 @@
 		}
 	})
 
+	const handleEmissionChange = (selectedItem: {
+		name: string
+		value: string
+	}) => {
+		selectedEmissionFactor.value = selectedItem
+		currentSetting.settings.emissionFactors = selectedItem.value
+	}
+
 	const handleSelectedItem = async (selectedItem: dropdownItem) => {
 		const data = JSON.parse(selectedItem.data) as CalculationSettings
-
 		currentSetting.name = selectedItem.name
 
 		// Merge with standard settings to ensure no undefined values
@@ -135,7 +162,8 @@
 			includedStages: mergedSettings.includedStages,
 			buildingCode: mergedSettings.buildingCode,
 			replaceB4WithProductionStages:
-				mergedSettings.replaceB4WithProductionStages
+				mergedSettings.replaceB4WithProductionStages,
+			emissionFactors: mergedSettings.emissionFactors
 		}
 	}
 
@@ -161,7 +189,8 @@
 			standardImpactCategory: impactCategory.value,
 			includedStages: includedStages.value,
 			buildingCode: buildingCode.value,
-			replaceB4WithProductionStages: replaceB4Setting.value
+			replaceB4WithProductionStages: replaceB4Setting.value,
+			emissionFactors: selectedEmissionFactor.value.value
 		}
 
 		currentSetting.settings = settings

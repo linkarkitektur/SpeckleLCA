@@ -30,6 +30,7 @@ export interface CalculationSettings {
 	}
 	// Controls whether B4 is calculated from A1-A3, A4, A5 or from EPD
 	replaceB4WithProductionStages: boolean
+	emissionFactors: string
 }
 
 /**
@@ -185,7 +186,8 @@ export const standardCalculationSettings: CalculationSettings = {
 		key: 'BSAB96',
 		data: BSAB96
 	},
-	replaceB4WithProductionStages: false
+	replaceB4WithProductionStages: false,
+	emissionFactors: 'DanishEmissionFactors2025'
 }
 
 export const standardMaterialSettings: MaterialSettings = {
