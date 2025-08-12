@@ -115,6 +115,15 @@
 			/>
 		</dd>
 	</div>
+	<div class="flex items-center my-3">
+		<dd class="flex-1">
+			<ActionButton
+				text="Save Changes"
+				@onClick="saveProjectSettings"
+				class="mb-6 w-full"
+			/>
+		</dd>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -156,6 +165,13 @@
 		}
 	})
 
+	const saveProjectSettings = async () => {
+		await firebaseStore.addOrUpdateProjectSettings({
+			projectId: route.params.projectId as string,
+			settings: settingsStore.projectSettings
+		})
+		window.location.reload()
+	}
 	/**
 	 *  Return the extracted names from all available versions of the project to be used in dropdown
 	 */
@@ -234,7 +250,7 @@
 			const results = await firebaseStore.fetchResults(
 				projectStore.currProject?.id
 			)
-			if (results.length > 0) {
+			if (results?.length > 0) {
 				const result = results[0]
 				const b6Data = resCalc.resultList
 					.find(({ parameter }) => parameter === 'lifeCycleStages')
@@ -263,7 +279,6 @@
 					'overview'
 				)
 			}
-			window.location.reload()
 		},
 		{
 			deep: true
