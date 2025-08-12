@@ -85,8 +85,7 @@
 				calculator.calculateEmissions()
 
 				const resCalc = new ResultCalculator()
-				resCalc.aggregate()
-
+				resCalc.aggregate(true, true)
 				const resultsColors = setResultsColorGroup()
 				speckleStore.setColorGroups(resultsColors)
 			} else if (newVal === 'Benchmark') {

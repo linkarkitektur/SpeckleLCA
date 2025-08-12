@@ -1,6 +1,6 @@
 <template>
 	<p v-if="totalEmission !== 0" class="text-center">
-		{{ totalEmission }} CO<sup>2</sup>/m<sup>2</sup>
+		{{ totalEmission }} CO<sub>2</sub>/m<sup>2</sup>
 	</p>
 	<p v-else class="text-center">
 		{{ emissionText }}
@@ -52,6 +52,12 @@
 		const totalEmissionNumber = emissionToNumber(aggregatedEmission, false)
 		const emissionPerSQM = totalArea > 0 ? totalEmissionNumber / totalArea : 0
 
+		console.log(
+			'Total emission:',
+			totalEmissionNumber,
+			emissionPerSQM,
+			totalArea
+		)
 		if (emissionPerSQM === 0) emissionText = 'Error calculating emissions'
 
 		return roundNumber(emissionPerSQM, 2)

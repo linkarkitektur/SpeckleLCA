@@ -500,6 +500,8 @@ export class ResultCalculator {
 		// Reset life cycle stages result
 		this.lifeCycleStagesResult.data = []
 
+		this.calculateEnergyEmissions()
+
 		this.geos.forEach((geo) => {
 			if (geo.results) {
 				const lastResult = geo.results[geo.results.length - 1]
@@ -518,7 +520,6 @@ export class ResultCalculator {
 		})
 
 		// Add life cycle stages result to result list if not already present
-		this.calculateEnergyEmissions()
 		if (!this.resultList.some((item) => item.parameter === 'lifeCycleStages')) {
 			this.resultList.push(this.lifeCycleStagesResult)
 		}
@@ -772,7 +773,7 @@ export class ResultCalculator {
 
 		for (const energy of ['heating', 'electricity']) {
 			const energyType = settings[energy].energyType
-			const consumption = settings[energy].value
+			const consumption = Number(settings[energy].value)
 
 			// Skip calculation if either value is null/undefined
 			if (!energyType || consumption === null || consumption === undefined)
