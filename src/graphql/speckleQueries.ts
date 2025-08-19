@@ -51,14 +51,17 @@ export const projectVersionsQuery = `
 /**
  * @description GraphQL query to fetch the latest projects.
  */
-export const latestProjectsQuery = `query getProjects {
+export const latestProjectsQuery = `query getProjects($limit: Int!, $search: String) {
   activeUser {
     id
     workspaces {
     	items {
     		id
-				projects {
+				projects(limit: $limit, filter: { search: $search}) {
 					items {
+						workspace {
+							name
+						}
 						id
 						name
 						description

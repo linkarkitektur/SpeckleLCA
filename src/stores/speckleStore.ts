@@ -200,21 +200,24 @@ export const useSpeckleStore = defineStore({
 		 * Clears the existing projects list and populates it with the updated data.
 		 * @returns A promise that resolves when the projects are successfully updated.
 		 */
-		async updateProjects(): Promise<void> {
+		async updateProjects(limit: number = 25, search?: string) {
 			try {
-				const projects = await getProjectsData()
+				const { projects, totalProjects } = await getProjectsData(limit, search)
 
 				this.allProjects = projects.map(
 					(project) =>
 						({
 							name: project.name,
+							workspace: { name: project.workspace.name },
 							id: project.id,
 							updatedAt: project.updatedAt,
 							latestModelId: project.models.items?.[0]?.id
 						} as ProjectId)
 				)
+				return totalProjects
 			} catch (err: any) {
 				console.warn('Failed updating projects from Speckle')
+				return undefined
 			}
 		},
 
