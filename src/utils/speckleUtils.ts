@@ -180,13 +180,17 @@ export function getProjectVersions(
 }
 
 // Get the latest projects
-export async function getProjectsData() {
-	const { data } = await speckleFetch(latestProjectsQuery)
+export async function getProjectsData(limit: number, search?: string) {
+	const { data } = await speckleFetch(latestProjectsQuery, { limit, search })
 	const projects = []
-	data.activeUser.workspaces.items.forEach((workspace) =>
+	let totalProjects = 0
+	data.activeUser.workspaces.items.forEach((workspace) => {
 		workspace.projects.items.forEach((project) => projects.push(project))
-	)
-	return projects
+		if (workspace.projects.totalCount > totalProjects) {
+			totalProjects = workspace.projects.totalCount
+		}
+	})
+	return { projects, totalProjects }
 }
 
 /**

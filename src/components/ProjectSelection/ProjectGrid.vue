@@ -33,6 +33,7 @@
 			>
 				<!-- Project Iterator. -->
 				<div class="flex flex-1 flex-col p-8 min-h-40 items-center">
+					<div class="text-sm text-gray-500">{{ project.workspace.name }}</div>
 					<div class="">{{ project.name }}</div>
 					<div class="mt-3">
 						<span
@@ -73,6 +74,12 @@
 				</div>
 			</li>
 		</ul>
+		<div
+			class="mt-4 flex justify-center items-center"
+			v-if="!loading && totalProjects > paginationLimit"
+		>
+			<ActionButton text="Load More" @onClick="paginationLimit += 10" />
+		</div>
 	</div>
 </template>
 
@@ -89,6 +96,7 @@
 	import router from '@/router'
 	import { roundNumber } from '@/utils/mathUtils'
 	import LoadingCubes from '@/components/LoadingCubes/LoadingCubes.vue'
+	import ActionButton from '@/components/Base/ActionButton.vue'
 
 	/**
 	 * Component for displaying a grid of projects.
@@ -98,6 +106,8 @@
 	const settingsStore = useSettingsStore()
 
 	const loading = ref(false)
+	const paginationLimit = ref(2)
+	const totalProjects = ref(0)
 
 	// Transition state
 	const activeColor = ref('')
@@ -183,13 +193,9 @@
 	}
 
 	const projects = computed(() =>
-		projectsData.value
-			.filter((project) =>
-				project.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-			)
-			.toSorted((a, b) => {
-				return new Date(a).getTime() - new Date(b).getTime()
-			})
+		projectsData.value.toSorted((a, b) => {
+			return new Date(a).getTime() - new Date(b).getTime()
+		})
 	)
 
 	const projectColors = computed(() => {
@@ -217,9 +223,11 @@
 		await router.push({ name: 'Overview', params: { projectId: project.id } })
 	}
 
-	onMounted(() => {
+	onMounted(async () => {
 		loading.value = true
-		speckleStore.updateProjects()
+		totalProjects.value = await speckleStore.updateProjects(
+			paginationLimit.value
+		)
 		loading.value = false
 	})
 
@@ -229,4 +237,13 @@
 			updateProjects()
 		}
 	)
+
+	watch([paginationLimit, searchQuery], async () => {
+		loading.value = true
+		totalProjects.value = await speckleStore.updateProjects(
+			paginationLimit.value,
+			searchQuery.value.toLowerCase()
+		)
+		loading.value = false
+	})
 </script>
